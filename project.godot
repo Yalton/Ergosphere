@@ -14,6 +14,14 @@ config/name="Ergosphere"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Audio="*res://Autoload/Audio.gd"
+DebugLog="*res://Autoload/DebugLog.gd"
+SettingsManager="*res://Autoload/SettingsManager.gd"
+TransitionManager="*res://Autoload/TransitionManager/transition_manager.gd"
+ButtonSoundManager="*res://Autoload/ButtonSoundManager/ButtonSoundManager.gd"
+
 [dotnet]
 
 project/assembly_name="Ergosphere"

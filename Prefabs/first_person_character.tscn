@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://bgnqxsxljglaq"]
 
-[ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Prefabs/first_person_character.gd" id="1_23jlx"]
+[ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/first_person_character.gd" id="1_23jlx"]
 [ext_resource type="Script" uid="uid://cd6roq0jsnw23" path="res://Subsystems/DynamicFootstepSystem/Scripts/footstep_surface_detector.gd" id="2_bxc72"]
 [ext_resource type="AudioStream" uid="uid://cbi87c5u1uus" path="res://Assets/Audio/footstep00.ogg" id="3_rld0k"]
 [ext_resource type="AudioStream" uid="uid://cdcimqy00gasc" path="res://Assets/Audio/footstep01.ogg" id="4_kkf6j"]
@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://bp7euafbqub45" path="res://Assets/Audio/footstep04.ogg" id="7_jox8g"]
 [ext_resource type="Resource" uid="uid://ca0q2t6w08ubh" path="res://Subsystems/DynamicFootstepSystem/FootstepMaterialLibrary/sample_footstep_material_library.tres" id="8_kkf6j"]
 [ext_resource type="Script" uid="uid://bihy62e0ucg5g" path="res://Prefabs/player_interaction_component.gd" id="9_mepo0"]
-[ext_resource type="Script" uid="uid://n0ptow8dk4sq" path="res://Prefabs/FPCUIController.gd" id="10_slw6b"]
+[ext_resource type="Script" uid="uid://n0ptow8dk4sq" path="res://Scripts/FPCUIController.gd" id="10_slw6b"]
 [ext_resource type="AudioStream" uid="uid://c3int2ewaxmeo" path="res://Assets/Audio/text_click.wav" id="11_jox8g"]
 [ext_resource type="Texture2D" uid="uid://d3f2u2trom3ro" path="res://icon.svg" id="12_c0wcc"]
 
