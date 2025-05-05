@@ -46,6 +46,9 @@ var last_bob_position: float = 0.0
 var played_left_foot: bool = false
 var played_right_foot: bool = false
 
+var is_interacting_with_ui: bool = false
+var input_disabled: bool = false
+
 func _ready() -> void:
 	# Register with debug logger if it exists
 	DebugLogger.register_module(module_name, enable_debug)
@@ -80,11 +83,11 @@ func _ready() -> void:
 		# Force input focus and mouse capture
 		grab_movement_focus()
 	
-	print("FirstPersonController initialized")
+	DebugLogger.info(module_name, "FirstPersonController initialized")
 
 func _input(event: InputEvent) -> void:
 	# Mouse look (camera rotation)
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and !is_interacting_with_ui:
 		# Rotate head (left and right)
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		
@@ -96,6 +99,8 @@ func _input(event: InputEvent) -> void:
 		head.rotation.x = clamp(new_tilt, -vertical_angle_limit, vertical_angle_limit)
 
 func _physics_process(delta: float) -> void:
+	if is_interacting_with_ui:
+		return
 	# Get movement input
 	var input_dir = Vector2.ZERO
 	input_dir.x = Input.get_action_strength("d") - Input.get_action_strength("a")
@@ -104,11 +109,11 @@ func _physics_process(delta: float) -> void:
 	
 	# Debug input values if they're non-zero or we're in debug mode
 	if enable_debug and (input_dir != Vector2.ZERO):
-		print("Movement input: ", input_dir)
-		print("W strength: ", Input.get_action_strength("w"))
-		print("A strength: ", Input.get_action_strength("a"))
-		print("S strength: ", Input.get_action_strength("s"))
-		print("D strength: ", Input.get_action_strength("d"))
+		DebugLogger.debug(module_name, "Movement input: " + str(input_dir))
+		DebugLogger.debug(module_name, "W strength: " + str(Input.get_action_strength("w")))
+		DebugLogger.debug(module_name, "A strength: " + str(Input.get_action_strength("a")))
+		DebugLogger.debug(module_name, "S strength: " + str(Input.get_action_strength("s")))
+		DebugLogger.debug(module_name, "D strength: " + str(Input.get_action_strength("d")))
 	
 	# Create 3D direction vector based on camera orientation
 	var forward = -global_transform.basis.z
@@ -138,7 +143,7 @@ func receive_message(text: String) -> void:
 	if ui_controller:
 		ui_controller.show_message(text)
 	else:
-		print("Warning: No UI controller found to display message: ", text)
+		DebugLogger.warning(module_name, "No UI controller found to display message: " + text)
 
 # Public method to grab focus and enable movement
 func grab_movement_focus() -> void:
@@ -151,7 +156,7 @@ func grab_movement_focus() -> void:
 		set_process_input(true)
 		# Note: CharacterBody3D doesn't have grab_focus, so we just ensure input processing is on
 	
-	print("FPS Controller grabbed movement focus")
+	DebugLogger.debug(module_name, "FPS Controller grabbed movement focus")
 
 # Function to check if something is in front of the player
 func get_look_target() -> Dictionary:
@@ -195,7 +200,7 @@ func update_view_bobbing(delta: float) -> void:
 				played_right_foot = true
 				played_left_foot = false
 				if enable_debug:
-					print("Right footstep at bob cycle: ", bob_cycle)
+					DebugLogger.debug(module_name, "Right footstep at bob cycle: " + str(bob_cycle))
 			
 			# For left foot (at 3PI, 7PI, 11PI, etc.)
 			elif not played_left_foot and last_bob_position > current_bob_pos and is_near_zero(vertical_bob):
@@ -204,7 +209,7 @@ func update_view_bobbing(delta: float) -> void:
 					played_left_foot = true
 					played_right_foot = false
 					if enable_debug:
-						print("Left footstep at bob cycle: ", bob_cycle)
+						DebugLogger.debug(module_name, "Left footstep at bob cycle: " + str(bob_cycle))
 			
 			# Update last position for next frame
 			last_bob_position = current_bob_pos
@@ -222,3 +227,13 @@ func update_view_bobbing(delta: float) -> void:
 # Helper function to check if a value is close to zero
 func is_near_zero(value: float, threshold: float = 0.01) -> bool:
 	return abs(value) < threshold
+
+func start_ui_interaction() -> void:
+	is_interacting_with_ui = true
+	# Additional code to disable movement and show mouse cursor
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+func end_ui_interaction() -> void:
+	is_interacting_with_ui = false
+	# Additional code to re-enable movement and hide mouse cursor
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

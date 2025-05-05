@@ -30,14 +30,14 @@ func interact(_player_interaction_component: PlayerInteractionComponent) -> void
 		open(_player_interaction_component)
 
 func open(_player_interaction_component: PlayerInteractionComponent) -> void:
-	_player_interaction_component.get_parent().toggled_interface.emit(true)
-	_player_interaction_component.get_parent().menu_pressed.connect(close) # Connecting input action menu to close function.
+	#_player_interaction_component.get_parent().toggled_interface.emit(true)
+	#_player_interaction_component.get_parent().menu_pressed.connect(close) # Connecting input action menu to close function.
 	readable_ui.show()
 	has_been_read.emit()
 	is_open = true
 
 func close(_player_interaction_component: PlayerInteractionComponent) -> void:
 	readable_ui.hide()
-	_player_interaction_component.get_parent().menu_pressed.disconnect(close)
+	#_player_interaction_component.get_parent().menu_pressed.disconnect(close)
 	is_open = false
-	_player_interaction_component.get_parent().toggled_interface.emit(false)
+	#_player_interaction_component.get_parent().toggled_interface.emit(false)

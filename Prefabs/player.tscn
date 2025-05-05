@@ -48,6 +48,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.73933, -0.351871)
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
 target_position = Vector3(0, 0, -5)
 
+[node name="Marker3D" type="Marker3D" parent="Head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5815)
+
 [node name="FootstepSurfaceDetector" type="AudioStreamPlayer3D" parent="."]
 volume_db = -20.0
 script = ExtResource("2_bxc72")
@@ -56,9 +59,10 @@ footstep_material_library = ExtResource("8_kkf6j")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 
-[node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("ui_controller")]
+[node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("ui_controller", "carryable_position")]
 script = ExtResource("9_mepo0")
 ui_controller = NodePath("../PlayerUI")
+carryable_position = NodePath("../Head/Camera3D/Marker3D")
 
 [node name="PauseOptions" parent="." instance=ExtResource("12_3c1vh")]
 

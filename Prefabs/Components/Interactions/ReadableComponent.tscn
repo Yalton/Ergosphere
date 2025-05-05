@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://cct0itdltyppg"]
+[gd_scene load_steps=2 format=3 uid="uid://cct0itdltyppg"]
 
 [ext_resource type="Script" uid="uid://jgfihbio0aqp" path="res://Scripts/Interactions/ReadableComponent.gd" id="1_fmq3k"]
-[ext_resource type="Theme" path="res://Theme/Cogito_Theme_A.tres" id="2_raxtt"]
-[ext_resource type="Script" path="res://Subsystems/EasyMenus/Scripts/follow_focus_center.gd" id="3_ktovf"]
 
 [node name="ReadableComponent" type="Node3D"]
 script = ExtResource("1_fmq3k")
@@ -24,7 +22,6 @@ offset_right = 273.0
 offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_raxtt")
 
 [node name="BG" type="Panel" parent="ReadableUi"]
 layout_mode = 1
@@ -58,8 +55,6 @@ theme_override_constants/margin_bottom = 25
 custom_minimum_size = Vector2(450, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-script = ExtResource("3_ktovf")
-transition_time = 0.15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ReadableUi/Bindings/ScrollContainer"]
 layout_mode = 2
