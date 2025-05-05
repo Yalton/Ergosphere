@@ -1,0 +1,81 @@
+[gd_scene load_steps=13 format=3 uid="uid://k0irwx2fqi0x"]
+
+[ext_resource type="PackedScene" uid="uid://bgnqxsxljglaq" path="res://Prefabs/player.tscn" id="1_lb3hh"]
+[ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space.gdshader" id="2_7bhpf"]
+[ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/black_hole.gdshader" id="3_p5khi"]
+[ext_resource type="PackedScene" uid="uid://5s5arswn7wyx" path="res://Prefabs/TestDiagetic.tscn" id="4_tvdgj"]
+[ext_resource type="PackedScene" uid="uid://bnuun0mfxrjpe" path="res://Prefabs/house_door_normal.tscn" id="5_ip5n2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7bhpf"]
+albedo_color = Color(0.165656, 0.165656, 0.165656, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p5khi"]
+shader = ExtResource("2_7bhpf")
+shader_parameter/sky_color = Color(0.01, 0.01, 0.02, 1)
+shader_parameter/star_color_1 = Color(0.8, 0.85, 1, 1)
+shader_parameter/star_color_2 = Color(1, 0.8, 0.7, 1)
+shader_parameter/star_color_3 = Color(0.7, 0.8, 1, 1)
+shader_parameter/star_density = 0.005
+shader_parameter/star_twinkle_speed = 1.0
+shader_parameter/star_size = 0.525
+shader_parameter/galaxy_color_1 = Color(0.2, 0.4, 0.8, 1)
+shader_parameter/galaxy_color_2 = Color(0.8, 0.2, 0.5, 1)
+shader_parameter/galaxy_color_3 = Color(0.2, 0.8, 0.6, 1)
+shader_parameter/galaxy_intensity = 0.422
+shader_parameter/galaxy_size = 0.809
+shader_parameter/galaxy_complexity = 3.0
+shader_parameter/galaxy_distortion = 2.0
+shader_parameter/nebula_density = 0.3
+shader_parameter/nebula_complexity = 5.0
+shader_parameter/nebula_speed = 0.03
+shader_parameter/rotation_speed = 0.02
+
+[sub_resource type="Sky" id="Sky_tvdgj"]
+sky_material = SubResource("ShaderMaterial_p5khi")
+
+[sub_resource type="Environment" id="Environment_ip5n2"]
+background_mode = 2
+sky = SubResource("Sky_tvdgj")
+ssao_enabled = true
+sdfgi_enabled = true
+
+[sub_resource type="Compositor" id="Compositor_7bhpf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tvdgj"]
+render_priority = 0
+shader = ExtResource("3_p5khi")
+shader_parameter/scale = 49.315
+
+[sub_resource type="SphereMesh" id="SphereMesh_ip5n2"]
+material = SubResource("ShaderMaterial_tvdgj")
+flip_faces = true
+
+[node name="Station" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_lb3hh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.728726, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(50, 1, 50)
+material = SubResource("StandardMaterial3D_7bhpf")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ip5n2")
+compositor = SubResource("Compositor_7bhpf")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.999493, 0, -0.0318469, -0.0110796, 0.937531, 0.347725, 0.0298574, 0.347901, -0.937056, 0, 17.5791, -71.7441)
+
+[node name="BlackHole" type="Node3D" parent="."]
+
+[node name="BlackHole" type="MeshInstance3D" parent="BlackHole"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, -100.838)
+mesh = SubResource("SphereMesh_ip5n2")
+skeleton = NodePath("../..")
+
+[node name="DiageticTest" parent="." instance=ExtResource("4_tvdgj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.43906, 3.17914, -15.4477)
+
+[node name="unlocked_door" parent="." instance=ExtResource("5_ip5n2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.6227, 0.5, -12.3113)

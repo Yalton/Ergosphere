@@ -9,7 +9,7 @@ signal menu_requested
 @export var options_menu: Control
 @export var ui_elements_to_hide: Array[Control] = []
 # Reference to the player controller (optional)
-@export var player_controller: FirstPersonController
+@export var player_controller: Player
 
 @onready var resume_button: Button = $HBoxContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/ResumeButton
 @onready var options_button: Button = $HBoxContainer/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/OptionsButton

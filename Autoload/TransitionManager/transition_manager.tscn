@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://csa8e4a2f16v8" path="res://Autoload/TransitionManager/transition_manager.gd" id="1_ckl2g"]
 [ext_resource type="AudioStream" uid="uid://cyb5qjvy3801s" path="res://Assets/Audio/Misc/scene_change.ogg" id="2_yde8v"]
 
-[node name="CanvasLayer" type="Control" node_paths=PackedStringArray("transition_audio")]
+[node name="TransitionManager" type="Control" node_paths=PackedStringArray("transition_audio")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,7 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_ckl2g")
 transition_audio = NodePath("TransitionAudio")
 
-[node name="FadeToBlack" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="."]
 z_index = 5
 layout_mode = 1
 anchors_preset = 15

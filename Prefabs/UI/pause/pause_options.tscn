@@ -1,0 +1,228 @@
+[gd_scene load_steps=2 format=3 uid="uid://brwmucdy87vu3"]
+
+[ext_resource type="Script" uid="uid://bd7kj105s5cuu" path="res://Scripts/ui/Menus/pause.gd" id="1_xcp83"]
+
+[node name="PauseOptions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_xcp83")
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseMenu" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="PauseMenu"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="PauseMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="PauseMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 8.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PauseMenu/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Game Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSplitContainer" type="VSplitContainer" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Resume"
+
+[node name="OptionsButton" type="Button" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Options"
+
+[node name="MainMenuButton" type="Button" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Main Menu"
+
+[node name="Control" type="Control" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.56
+
+[node name="Control2" type="Control" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="Control2" type="Control" parent="PauseMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Control2" type="Control" parent="PauseMenu"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Options" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="Options/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="Options/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 8.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label2" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Audio"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="MasterLabel" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Master"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="MusicLabel" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Music"
+
+[node name="MusicVolumeSlider" type="HSlider" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="SFXLabel" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Sfx"
+
+[node name="SFXVolumeSlider" type="HSlider" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="Label3" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Video"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Quality Lighting"
+
+[node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HighQualityCheckBox" type="CheckBox" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+button_pressed = true
+
+[node name="Control3" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 10.0
+
+[node name="BackButton" type="Button" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Back "
+
+[node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.56
+
+[node name="Control2" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="Control2" type="Control" parent="Options/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Control2" type="Control" parent="Options"]
+layout_mode = 2
+size_flags_horizontal = 3

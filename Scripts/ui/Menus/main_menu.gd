@@ -8,7 +8,6 @@ extends Control
 @onready var play_game_button: Button = $HBoxContainer/VBoxContainer/PlayButton
 @onready var options_button: Button = $HBoxContainer/VBoxContainer/OptionsButton
 @onready var quit_button: Button = $HBoxContainer/VBoxContainer/QuitButton
-@onready var score_label: Label = $HBoxContainer/Control/PanelContainer/Label
 
 func _ready() -> void:
 	# Make sure the mouse is visible when entering the main menu
@@ -18,14 +17,14 @@ func _ready() -> void:
 	play_game_button.pressed.connect(_on_play_pressed)
 	options_button.pressed.connect(_on_options_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
-	update_high_score_display()
 	
 	if options_menu:
 		options_menu.hide()
 
 func _on_play_pressed() -> void:
 	print("Play button pressed, starting transition")
-	Audio.play_sound(play_game_audio)
+	if play_game_audio: 
+		Audio.play_sound(play_game_audio)
 	
 	# Use the global transition manager to handle scene transition
 	if TransitionManager:
@@ -47,12 +46,3 @@ func _on_options_pressed() -> void:
 func _on_quit_pressed() -> void:
 	# Quit the game
 	get_tree().quit()
-
-func update_high_score_display() -> void:
-	# Access the singleton and get the high score
-	if HighScoreManager:
-		var score = HighScoreManager.get_high_score()
-		score_label.text = "High Score: " + str(score)
-	else:
-		print("Warning: HighScoreManager singleton not found")
-		score_label.text = "High Score: 0"

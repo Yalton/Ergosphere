@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://blj0fupey43mg"]
+
+[ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/black_hole.gdshader" id="1_c04qv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c04qv"]
+render_priority = 0
+shader = ExtResource("1_c04qv")
+shader_parameter/scale = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_h3ynb"]
+material = SubResource("ShaderMaterial_c04qv")
+
+[sub_resource type="TorusMesh" id="TorusMesh_c04qv"]
+inner_radius = 0.88
+
+[node name="BlackHole" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_h3ynb")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.99719, 0.0749091, 0, -0.0749091, 0.99719, 0, 0, 0)
+mesh = SubResource("TorusMesh_c04qv")

@@ -1,0 +1,90 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1t74h5m0tgox"]
+
+[ext_resource type="Script" uid="uid://d0kmjds2assej" path="res://addons/debug_manager/debug_manager_ui.gd" id="1_34dqr"]
+
+[node name="DebugManagerUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_34dqr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "Debug Manager"
+horizontal_alignment = 1
+
+[node name="GlobalSettings" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/GlobalSettings"]
+layout_mode = 2
+text = "Global Debug:"
+
+[node name="GlobalToggle" type="CheckButton" parent="VBoxContainer/GlobalSettings"]
+layout_mode = 2
+button_pressed = true
+text = "Enabled"
+
+[node name="DeleteModuleFiles" type="Button" parent="VBoxContainer/GlobalSettings"]
+layout_mode = 2
+text = "Delete Module Files"
+
+[node name="ModuleControls" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/ModuleControls"]
+layout_mode = 2
+text = "Module Controls:"
+
+[node name="EnableAllButton" type="Button" parent="VBoxContainer/ModuleControls"]
+layout_mode = 2
+text = "Enable All"
+
+[node name="DisableAllButton" type="Button" parent="VBoxContainer/ModuleControls"]
+layout_mode = 2
+text = "Disable All"
+
+[node name="RefreshButton" type="Button" parent="VBoxContainer/ModuleControls"]
+layout_mode = 2
+text = "Refresh List"
+
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HSplitContainer/PanelContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="ModuleList" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StatusBar" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer/StatusBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Loaded 40 modules"
+
+[node name="Version" type="Label" parent="VBoxContainer/StatusBar"]
+layout_mode = 2
+text = "v1.0"

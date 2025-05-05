@@ -9,7 +9,7 @@ signal fade_from_black_finished
 @export var transition_audio: AudioStreamPlayer
 var module_name: String = "TransitionManager"
 
-@onready var color_rect: ColorRect = $FadeToBlack
+@onready var color_rect: ColorRect = $ColorRect
 
 const FADE_DURATION: float = 1.0 # Each fade direction takes 1 second
 
@@ -17,8 +17,11 @@ func _ready() -> void:
 	# Register with debug logger
 	DebugLogger.register_module(module_name, enable_debug)
 	
-	# Start with transparent black
-	color_rect.color = Color(0, 0, 0, 0)
+	color_rect = $ColorRect
+	if color_rect: 
+		# Start with transparent black
+		color_rect.color = Color(0, 0, 0, 0)
+	
 	hide()
 	# Make sure it covers the whole screen
 
