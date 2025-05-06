@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://chh20j4dixc1b"]
 
-[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/GameObject.gd" id="1_s7441"]
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Prefabs/Components/GameObject.gd" id="1_s7441"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="2_wwjvp"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_tsrvm"]
@@ -9,6 +9,7 @@
 
 [node name="TestCarriable" type="RigidBody3D"]
 script = ExtResource("1_s7441")
+display_name = "test_carriable"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_tsrvm")

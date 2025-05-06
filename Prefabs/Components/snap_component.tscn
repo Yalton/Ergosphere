@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://qbear523loiq"]
+
+[ext_resource type="Script" uid="uid://ckjsvvd3qmvf2" path="res://Scripts/Components/snap_component.gd" id="1_o8311"]
+
+[node name="SnapComponent" type="Node"]
+script = ExtResource("1_o8311")
+target_object_name = "test_carriable"

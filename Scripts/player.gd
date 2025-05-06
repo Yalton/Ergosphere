@@ -30,6 +30,8 @@ var module_name: String = "Player"
 # Force focusing movement
 @export var force_movement_focus: bool = true
 
+@export var PLAYER_PUSH_FORCE : float = 1.3
+
 # Node references
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
@@ -133,7 +135,12 @@ func _physics_process(delta: float) -> void:
 	
 	# Apply movement
 	move_and_slide()
-	
+
+	for col_idx in get_slide_collision_count():
+		var col := get_slide_collision(col_idx)
+		if col.get_collider() is RigidBody3D:
+			col.get_collider().apply_central_impulse(-col.get_normal() * PLAYER_PUSH_FORCE)
+			
 	# Update view bobbing (and footsteps, since they're now integrated)
 	if enable_view_bobbing and camera:
 		update_view_bobbing(delta)

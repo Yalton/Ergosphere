@@ -65,16 +65,17 @@ func _process(_delta: float) -> void:
 func update_interaction() -> void:
 	if ray_cast.is_colliding():
 		var collider = ray_cast.get_collider()
-		if collider.is_in_group("interactable"):
-			# Try to get interaction component
-			var interaction = find_interaction_component(collider)
-			
-			# If we found a valid interaction and it's different from our current one
-			if interaction and current_interactable != interaction:
-				current_interactable = interaction
-				ui_controller.show_interaction(interaction.interaction_text)
-				DebugLogger.debug(module_name, "Found interactable: " + interaction.interaction_text)
-			return
+		if collider: 
+			if collider.is_in_group("interactable"):
+				# Try to get interaction component
+				var interaction = find_interaction_component(collider)
+				
+				# If we found a valid interaction and it's different from our current one
+				if interaction and current_interactable != interaction:
+					current_interactable = interaction
+					ui_controller.show_interaction(interaction.interaction_text)
+					DebugLogger.debug(module_name, "Found interactable: " + interaction.interaction_text)
+				return
 	
 	# Nothing found, clear interaction
 	if current_interactable:

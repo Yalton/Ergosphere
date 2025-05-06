@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://k0irwx2fqi0x"]
+[gd_scene load_steps=14 format=3 uid="uid://k0irwx2fqi0x"]
 
 [ext_resource type="PackedScene" uid="uid://bgnqxsxljglaq" path="res://Prefabs/player.tscn" id="1_lb3hh"]
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space.gdshader" id="2_7bhpf"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/black_hole.gdshader" id="3_p5khi"]
 [ext_resource type="PackedScene" uid="uid://5s5arswn7wyx" path="res://Prefabs/TestDiagetic.tscn" id="4_tvdgj"]
+[ext_resource type="PackedScene" uid="uid://cpt0g3lxl7l8v" path="res://Prefabs/test_snappable.tscn" id="5_0st88"]
+[ext_resource type="PackedScene" uid="uid://chh20j4dixc1b" path="res://Prefabs/test_carriable.tscn" id="6_0st88"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7bhpf"]
 albedo_color = Color(0.165656, 0.165656, 0.165656, 1)
@@ -54,7 +56,7 @@ flip_faces = true
 [node name="Player" parent="." instance=ExtResource("1_lb3hh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.728726, 0)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
+[node name="Floor" type="CSGBox3D" parent="."]
 use_collision = true
 size = Vector3(50, 1, 50)
 material = SubResource("StandardMaterial3D_7bhpf")
@@ -75,3 +77,9 @@ skeleton = NodePath("../..")
 
 [node name="DiageticTest" parent="." instance=ExtResource("4_tvdgj")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -1.43906, 2.78439, -15.4477)
+
+[node name="TestSnappable" parent="." instance=ExtResource("5_0st88")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.418, 1, -12.8119)
+
+[node name="TestCarriable" parent="." instance=ExtResource("6_0st88")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.86007, 1, -12.161)
