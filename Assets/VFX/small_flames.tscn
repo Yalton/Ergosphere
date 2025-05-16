@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bw16ij33r272n"]
 
-[ext_resource type="Material" uid="uid://c71aysyxsuq0t" path="res://addons/cogito/Assets/VFX/Impacts/Materials/Mat_flare00.tres" id="1_q2s6m"]
+[ext_resource type="Material" uid="uid://c71aysyxsuq0t" path="res://Assets/VFX/Impacts/Materials/Mat_flare00.tres" id="1_q2s6m"]
 
 [sub_resource type="Gradient" id="Gradient_y2e31"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)

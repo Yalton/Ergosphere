@@ -39,7 +39,7 @@ void fragment() {
 	vec3 ray_dir = normalize(frag_p - CAMERA_POSITION_WORLD);
 
 	bool hit = hit_sphere(CAMERA_POSITION_WORLD, ray_dir, NODE_POSITION_WORLD, scale * .3);
-	
+
 	vec4 screen_color = texture(screen_tex, SCREEN_UV);
 	vec3 color;
 	if (hit) {
@@ -49,15 +49,15 @@ void fragment() {
 		vec2 bh_p = get_uv_from_world_position(NODE_POSITION_WORLD, PROJECTION_MATRIX, VIEW_MATRIX);
 		vec2 dis_dir = normalize(bh_p - SCREEN_UV) * 0.5;
 		float f =  1.0 - fresnel(0.5, NORMAL, VIEW);
-		
+
 		float fov = atan(-1.0 / PROJECTION_MATRIX[1][1] * 2.0);
 		float dist = distance(CAMERA_POSITION_WORLD, NODE_POSITION_WORLD);
 		float s = (2.0 * dist * tan(fov * 0.5)) / scale;
-		
+
 		vec2 uv = SCREEN_UV + (dis_dir * (f / s));
 		screen_color = texture(screen_tex, uv);
 		color = vec3(screen_color.r, screen_color.g, screen_color.b);
-		
+
 	}
 	ALBEDO = color;
 }

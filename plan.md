@@ -7,8 +7,6 @@
    - Set up basic lighting
 
 2. **Enhance the first-person controller**:
-   - Refine movement and interaction detection
-   - Add ability to bump into physics objects
    - Setup camera settings and field of view
 
 **Days 3-4: Interactive Environment**
@@ -23,10 +21,6 @@
    - Implement switches and triggers
 
 **Days 5-7: Collectibles and Objectives**
-1. **Set up the collectible system**:
-   - Add the CollectibleTracker as an autoload
-   - Place collectible items around the level
-   - Test pickup interactions and feedback
 
 2. **Implement the objective system**:
    - Define primary objectives for the game
@@ -56,3 +50,27 @@
    - Improve feedback for interactions
    - Add ambient audio
    - Polish transitions between areas
+
+
+
+Tasks 
+
+Re-allign Sensor
+Download Data 
+Upload Data 
+Reset Power 
+Swap O2 Filters 
+Sleep at end of day 
+Prepare a meal 
+Drink Alcohol - Staves off insanity 
+
+
+
+Models required 
+
+Space Station
+- Floors 
+- Walls
+- Ceiling 
+- Doors 
+

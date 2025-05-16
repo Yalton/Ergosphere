@@ -179,6 +179,7 @@ open_sound = SubResource("Resource_5bfyb")
 close_sound = SubResource("Resource_gyiqq")
 rattle_sound = SubResource("Resource_ctyhn")
 door_speed = 0.05
+door_type = 1
 
 [node name="Door" type="MeshInstance3D" parent="AnimatedDoor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04651, 1.05, 0.0221004)

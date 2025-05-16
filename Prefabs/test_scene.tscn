@@ -1,0 +1,264 @@
+[gd_scene load_steps=43 format=3 uid="uid://dujqnrmicdqrm"]
+
+[ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space.gdshader" id="1_fhq2j"]
+[ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/black_hole.gdshader" id="2_mq6lw"]
+[ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Textures/VFX_Textures/smoke_04.png" id="3_fwk10"]
+[ext_resource type="PackedScene" uid="uid://bgnqxsxljglaq" path="res://Prefabs/player.tscn" id="4_ibr8b"]
+[ext_resource type="PackedScene" uid="uid://c2y3acul1d2qk" path="res://Prefabs/station_door.tscn" id="5_mq6lw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hqttr"]
+shader = ExtResource("1_fhq2j")
+shader_parameter/sky_color = Color(0.01, 0.01, 0.02, 1)
+shader_parameter/star_color_1 = Color(0.8, 0.85, 1, 1)
+shader_parameter/star_color_2 = Color(1, 0.8, 0.7, 1)
+shader_parameter/star_color_3 = Color(0.7, 0.8, 1, 1)
+shader_parameter/star_density = 0.005
+shader_parameter/star_twinkle_speed = 1.0
+shader_parameter/star_size = 0.525
+shader_parameter/galaxy_color_1 = Color(0.2, 0.4, 0.8, 1)
+shader_parameter/galaxy_color_2 = Color(0.8, 0.2, 0.5, 1)
+shader_parameter/galaxy_color_3 = Color(0.2, 0.8, 0.6, 1)
+shader_parameter/galaxy_intensity = 0.422
+shader_parameter/galaxy_size = 0.809
+shader_parameter/galaxy_complexity = 3.0
+shader_parameter/galaxy_distortion = 2.0
+shader_parameter/nebula_density = 0.3
+shader_parameter/nebula_complexity = 5.0
+shader_parameter/nebula_speed = 0.03
+shader_parameter/rotation_speed = 0.02
+
+[sub_resource type="Sky" id="Sky_tvdgj"]
+sky_material = SubResource("ShaderMaterial_hqttr")
+
+[sub_resource type="Environment" id="Environment_86s6u"]
+background_mode = 2
+sky = SubResource("Sky_tvdgj")
+ambient_light_sky_contribution = 0.0
+reflected_light_source = 1
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+sdfgi_read_sky_light = false
+sdfgi_cascades = 3
+sdfgi_y_scale = 0
+sdfgi_energy = 0.8
+
+[sub_resource type="Compositor" id="Compositor_07rrt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tvdgj"]
+render_priority = 0
+shader = ExtResource("2_mq6lw")
+shader_parameter/scale = 49.315
+
+[sub_resource type="SphereMesh" id="SphereMesh_wd5s5"]
+material = SubResource("ShaderMaterial_tvdgj")
+flip_faces = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7snxj"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+vertex_color_use_as_albedo = true
+point_size = 10.0
+use_particle_trails = true
+
+[sub_resource type="Curve" id="Curve_6g6i4"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1u8uu"]
+curve = SubResource("Curve_6g6i4")
+
+[sub_resource type="Gradient" id="Gradient_gt0w5"]
+offsets = PackedFloat32Array(0, 0.507317, 1)
+colors = PackedColorArray(0, 0.580392, 1, 1, 0, 0.286275, 1, 0.972549, 0, 0, 1, 0.219608)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2i0nm"]
+gradient = SubResource("Gradient_gt0w5")
+
+[sub_resource type="Curve" id="Curve_nl816"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.502164, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_htyva"]
+curve = SubResource("Curve_nl816")
+
+[sub_resource type="Curve" id="Curve_4d2k0"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_gw15a"]
+curve = SubResource("Curve_4d2k0")
+
+[sub_resource type="Curve" id="Curve_ev8k1"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.277056, 1), 0.0, 0.0, 0, 0, Vector2(0.705628, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_0aooy"]
+curve = SubResource("Curve_ev8k1")
+
+[sub_resource type="Curve" id="Curve_n7xs8"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_uyu5l"]
+curve = SubResource("Curve_n7xs8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f2vde"]
+emission_shape_scale = Vector3(1, 0.1, 1)
+emission_shape = 2
+emission_sphere_radius = 34.17
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 9.49949e-08
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -20.0
+radial_accel_max = -10.0
+radial_accel_curve = SubResource("CurveTexture_gw15a")
+tangential_accel_min = -30.0
+tangential_accel_max = -10.0
+tangential_accel_curve = SubResource("CurveTexture_uyu5l")
+attractor_interaction_enabled = false
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_0aooy")
+color_ramp = SubResource("GradientTexture1D_2i0nm")
+alpha_curve = SubResource("CurveTexture_1u8uu")
+emission_curve = SubResource("CurveTexture_htyva")
+
+[sub_resource type="Curve" id="Curve_5uc2i"]
+_data = [Vector2(0.00380228, 0.492834), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_gl5kv"]
+size = 4.0
+sections = 6
+section_length = 0.3
+curve = SubResource("Curve_5uc2i")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xjy32"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("3_fwk10")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_i5wjc"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6ybtn"]
+curve = SubResource("Curve_i5wjc")
+
+[sub_resource type="Gradient" id="Gradient_451gu"]
+offsets = PackedFloat32Array(0, 0.507317, 1)
+colors = PackedColorArray(0, 0.320301, 0.568151, 1, 0.00023791, 0.0853822, 0.37657, 0.972549, 4.09111e-07, 0, 0.289939, 0.219608)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_72dk6"]
+gradient = SubResource("Gradient_451gu")
+
+[sub_resource type="Curve" id="Curve_hxoeo"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.502164, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lhoo0"]
+curve = SubResource("Curve_hxoeo")
+
+[sub_resource type="Curve" id="Curve_fwi0c"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_stv85"]
+curve = SubResource("Curve_fwi0c")
+
+[sub_resource type="Curve" id="Curve_mup3a"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.277056, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_6tkv5"]
+curve = SubResource("Curve_mup3a")
+
+[sub_resource type="Curve" id="Curve_i1dad"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_lvic8"]
+curve = SubResource("Curve_i1dad")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_70hxg"]
+emission_shape_scale = Vector3(1, 0.1, 1)
+emission_shape = 2
+emission_sphere_radius = 34.17
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 9.49949e-08
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -20.0
+radial_accel_max = -10.0
+radial_accel_curve = SubResource("CurveTexture_stv85")
+tangential_accel_min = -30.0
+tangential_accel_max = -10.0
+tangential_accel_curve = SubResource("CurveTexture_lvic8")
+attractor_interaction_enabled = false
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_6tkv5")
+color_ramp = SubResource("GradientTexture1D_72dk6")
+alpha_curve = SubResource("CurveTexture_6ybtn")
+emission_curve = SubResource("CurveTexture_lhoo0")
+
+[sub_resource type="QuadMesh" id="QuadMesh_483da"]
+size = Vector2(10, 10)
+
+[node name="TestScene" type="Node3D"]
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_86s6u")
+compositor = SubResource("Compositor_07rrt")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(-0.999493, -4.93351e-08, -0.0318468, -0.0110796, 0.937531, 0.347725, 0.0298574, 0.347901, -0.937056, 0, 17.5791, -71.7441)
+
+[node name="BlackHole" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -212.121)
+
+[node name="BlackHole" type="MeshInstance3D" parent="Environment/BlackHole"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, -100.838)
+mesh = SubResource("SphereMesh_wd5s5")
+skeleton = NodePath("../../..")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Environment/BlackHole"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.333664, -99.6611)
+material_override = SubResource("StandardMaterial3D_7snxj")
+amount = 100
+lifetime = 2.0
+local_coords = true
+trail_enabled = true
+trail_lifetime = 1.0
+process_material = SubResource("ParticleProcessMaterial_f2vde")
+draw_pass_1 = SubResource("RibbonTrailMesh_gl5kv")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="Environment/BlackHole"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.333664, -99.6611)
+material_override = SubResource("StandardMaterial3D_xjy32")
+amount = 80
+lifetime = 2.0
+local_coords = true
+trail_lifetime = 1.0
+process_material = SubResource("ParticleProcessMaterial_70hxg")
+draw_pass_1 = SubResource("QuadMesh_483da")
+
+[node name="Player" parent="." instance=ExtResource("4_ibr8b")]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0.314715, -3.21379)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(40, 0.5, 40)
+
+[node name="StationDoor" parent="." instance=ExtResource("5_mq6lw")]
+transform = Transform3D(0.96378, 0, -0.266699, 0, 1, 0, 0.266699, 0, 0.96378, 1.18302, 0.611809, 13.6587)

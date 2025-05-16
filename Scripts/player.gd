@@ -109,13 +109,7 @@ func _physics_process(delta: float) -> void:
 	input_dir.y = -(Input.get_action_strength("s") - Input.get_action_strength("w"))  # Inverted Y axis
 	input_dir = input_dir.normalized()
 	
-	# Debug input values if they're non-zero or we're in debug mode
-	if enable_debug and (input_dir != Vector2.ZERO):
-		DebugLogger.debug(module_name, "Movement input: " + str(input_dir))
-		DebugLogger.debug(module_name, "W strength: " + str(Input.get_action_strength("w")))
-		DebugLogger.debug(module_name, "A strength: " + str(Input.get_action_strength("a")))
-		DebugLogger.debug(module_name, "S strength: " + str(Input.get_action_strength("s")))
-		DebugLogger.debug(module_name, "D strength: " + str(Input.get_action_strength("d")))
+
 	
 	# Create 3D direction vector based on camera orientation
 	var forward = -global_transform.basis.z

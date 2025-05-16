@@ -12,6 +12,7 @@ config_version=5
 
 config/name="Ergosphere"
 config/features=PackedStringArray("4.4", "Forward Plus")
+run/max_fps=80
 boot_splash/image="uid://cy1a2f1ctbivh"
 config/icon="uid://cy1a2f1ctbivh"
 
@@ -22,6 +23,12 @@ SettingsManager="*res://Autoload/SettingsManager.gd"
 ButtonSoundManager="*res://Autoload/ButtonSoundManager/ButtonSoundManager.gd"
 DebugLogger="*res://addons/debug_manager/debug_logger.gd"
 TransitionManager="*res://Autoload/TransitionManager/transition_manager.tscn"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/vsync/vsync_mode=0
 
 [dotnet]
 
@@ -73,3 +80,15 @@ menu={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
+
+[layer_names]
+
+3d_physics/layer_1="Environment"
+3d_physics/layer_2="Interactions "
+3d_physics/layer_3="Entities"
+
+[rendering]
+
+global_illumination/sdfgi/probe_ray_count=3
+global_illumination/sdfgi/frames_to_converge=1
+global_illumination/sdfgi/frames_to_update_lights=0
