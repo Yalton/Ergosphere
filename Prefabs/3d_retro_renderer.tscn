@@ -1,0 +1,74 @@
+[gd_scene load_steps=8 format=3 uid="uid://b24lgky4sot6r"]
+
+[ext_resource type="Script" uid="uid://dt8fbwwdkbhww" path="res://Subsystems/ascii_effect_shader.gd" id="1_48o7n"]
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_fnk5m"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("1_48o7n")
+pixel_size = 8.0
+color_depth = 32.0
+use_ascii = true
+green_monitor = true
+dithering = false
+brightness_boost = 0.1
+metadata/_custom_type_script = "uid://dt8fbwwdkbhww"
+
+[sub_resource type="Compositor" id="Compositor_lu4ws"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_fnk5m")])
+
+[sub_resource type="TorusMesh" id="TorusMesh_48o7n"]
+
+[sub_resource type="Animation" id="Animation_fnk5m"]
+resource_name = "new_animation"
+length = 1.5
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewport/MeshInstance3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.430626, 0.0470388, 0.0224812, 0.901024, 1, 1, 0.0275152, 0.901512, -0.430333, -0.0364995)
+
+[sub_resource type="Animation" id="Animation_pw7l2"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewport/MeshInstance3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b8fkf"]
+_data = {
+&"RESET": SubResource("Animation_pw7l2"),
+&"new_animation": SubResource("Animation_fnk5m")
+}
+
+[node name="3D_Retro_Renderer" type="Node3D"]
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(256, 256)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0357862)
+compositor = SubResource("Compositor_lu4ws")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.30268)
+rotation_edit_mode = 1
+mesh = SubResource("TorusMesh_48o7n")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewport"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_b8fkf")
+}
