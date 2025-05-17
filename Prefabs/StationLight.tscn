@@ -100,3 +100,4 @@ light_energy = 2.0
 light_size = 0.25
 distance_fade_enabled = true
 omni_range = 25.0
+omni_attenuation = 0.5
