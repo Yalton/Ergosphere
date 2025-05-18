@@ -23,6 +23,16 @@ compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_fnk5
 
 [sub_resource type="TorusMesh" id="TorusMesh_48o7n"]
 
+[sub_resource type="Animation" id="Animation_pw7l2"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewport/MeshInstance3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+
 [sub_resource type="Animation" id="Animation_fnk5m"]
 resource_name = "new_animation"
 length = 1.5
@@ -34,16 +44,6 @@ tracks/0/path = NodePath("SubViewport/MeshInstance3D")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0.430626, 0.0470388, 0.0224812, 0.901024, 1, 1, 0.0275152, 0.901512, -0.430333, -0.0364995)
-
-[sub_resource type="Animation" id="Animation_pw7l2"]
-length = 0.001
-tracks/0/type = "rotation_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("SubViewport/MeshInstance3D")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b8fkf"]
 _data = {
