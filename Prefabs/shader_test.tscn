@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cxjsifo4te0pp"]
 
-[ext_resource type="Shader" uid="uid://d2202msrah15r" path="res://crt_colorrect.gdshader" id="1_fgfg3"]
+[ext_resource type="Shader" uid="uid://d2202msrah15r" path="res://Assets/Shader/crt_colorrect.gdshader" id="1_fgfg3"]
 [ext_resource type="Script" uid="uid://cqhxddc5upt61" path="res://Scripts/typewriter_effect.gd" id="1_g7a6u"]
 [ext_resource type="Script" uid="uid://0ygsgg3tj8wn" path="res://Scripts/typewriter_demo.gd" id="3_guldx"]
 

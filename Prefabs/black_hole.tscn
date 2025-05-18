@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://blj0fupey43mg"]
 
-[ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/black_hole.gdshader" id="1_c04qv"]
+[ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="1_c04qv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c04qv"]
 render_priority = 0

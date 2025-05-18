@@ -1,0 +1,28 @@
+[gd_resource type="AnimationLibrary" load_steps=3 format=3 uid="uid://b3noefb2fppf8"]
+
+[sub_resource type="Animation" id="Animation_j2bqq"]
+resource_name = "EngineSpinning"
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Engine/SpinningEngineBlades")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.707107, 1.54543e-08, 1.54543e-08, 0.707107, 1, 1, 1.54543e-08, 0.707107, 0.707107, -4.63629e-08)
+
+[sub_resource type="Animation" id="Animation_3kcgm"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Engine/SpinningEngineBlades")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.707107, 0, 0, 0.707107)
+
+[resource]
+_data = {
+&"EngineSpinning": SubResource("Animation_j2bqq"),
+&"RESET": SubResource("Animation_3kcgm")
+}

@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://cncd34dtaufc8"]
+
+[ext_resource type="Script" uid="uid://cq3eskubi2pk3" path="res://Scripts/Interactions/StaticInteractable.gd" id="1_bdy3k"]
+[ext_resource type="PackedScene" uid="uid://cct0itdltyppg" path="res://Prefabs/Components/Interactions/ReadableComponent.tscn" id="2_pgef2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x8dew"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5ibiq"]
+
+[node name="TestReadable" type="StaticBody3D"]
+script = ExtResource("1_bdy3k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_x8dew")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_5ibiq")
+
+[node name="ReadableComponent" parent="." instance=ExtResource("2_pgef2")]
