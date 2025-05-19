@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://qfi7yh56d7i5"]
+
+[resource]
+resource_name = "Window.009"
+transparency = 1
+cull_mode = 2
+albedo_color = Color(0.91, 0.91, 0.91, 0.00784314)
+roughness = 0.0

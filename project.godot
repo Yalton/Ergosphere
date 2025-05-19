@@ -16,6 +16,10 @@ run/max_fps=160
 boot_splash/image="uid://cy1a2f1ctbivh"
 config/icon="uid://cy1a2f1ctbivh"
 
+[audio]
+
+general/text_to_speech=true
+
 [autoload]
 
 Audio="*res://Autoload/Audio.gd"

@@ -1,22 +1,22 @@
 [gd_scene load_steps=8 format=4 uid="uid://xar6k3skfwoc"]
 
-[ext_resource type="Texture2D" uid="uid://ciq1db5baoods" path="res://Assets/Models/Station/Lights/textures/BlackerMetal-Color.png" id="1_hwfrl"]
-[ext_resource type="Texture2D" uid="uid://cd3wl6h5bf3kj" path="res://Assets/Models/Station/Lights/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_6w3ye"]
-[ext_resource type="Texture2D" uid="uid://t1ejhhys70mi" path="res://Assets/Models/Station/Lights/textures/BlackerMetal-Normal.png" id="3_ixu6x"]
+[ext_resource type="Texture2D" uid="uid://fn5mn0xkkb8y" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Color.png" id="1_cgbsm"]
+[ext_resource type="Texture2D" uid="uid://cse65y4qixeyq" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_sgr0c"]
+[ext_resource type="Texture2D" uid="uid://1bmer1juvv4a" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Normal.png" id="3_3w6fu"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5dfd0"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e7j7u"]
 resource_name = "BlackerMetal-Dithered"
 cull_mode = 2
-albedo_texture = ExtResource("1_hwfrl")
+albedo_texture = ExtResource("1_cgbsm")
 metallic = 1.0
-metallic_texture = ExtResource("2_6w3ye")
+metallic_texture = ExtResource("2_sgr0c")
 metallic_texture_channel = 2
-roughness_texture = ExtResource("2_6w3ye")
+roughness_texture = ExtResource("2_sgr0c")
 roughness_texture_channel = 1
 normal_enabled = true
-normal_texture = ExtResource("3_ixu6x")
+normal_texture = ExtResource("3_3w6fu")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sthej"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b78xf"]
 resource_name = "Emissive"
 cull_mode = 2
 albedo_color = Color(0.906332, 0.906332, 0.906332, 1)
@@ -25,7 +25,7 @@ emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 5.0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_vraim"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_frqpi"]
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 3.69814, 2),
 "format": 34896613377,
@@ -50,8 +50,8 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_da4rh"]
-resource_name = "lights_Cylinder_038"
+[sub_resource type="ArrayMesh" id="ArrayMesh_5qoqr"]
+resource_name = "ceiling_light_Cylinder_038"
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 3.69814, 2),
 "attribute_data": PackedByteArray("/3/z2gWKtv0xgP//04n//zKYtv1Miv//65f//ziitv1kmP//BqL//z+stv1rov//DKz//3LE89psurb9haz//yW6//9AxP//nrr//3q5ArtJuXm7Ma0Cu0DEjsKeuuy4KcKywyW6uriFrLq4csSm0HLEB8MpwvvP96TKz566wdpAxB/Rermr2Em5NdiBpLLDDKzsuGuijsKBpPvPOKIHwziiptAxravYa6If0QyswdqFrPPaJbrz2v9/RplQlLq4/3+6uLucRpm7nLq4oPPz2lnz//9z5bb9uuX//23b89qf2///QeX//23bN74o4j6Mres3vq3rPoxt2z6MrevDnhj0N76t6ze+///Dnv//N767nEaZDbG6uLucurh3uUaZd7m6uNfjN74J5RjBCeUT2L7vN75t24nSKfiJ0tfj89pJ9VjRvu/z2m3b//8tywXOstQFzm3bBc5yxP//csQFzm3bBc4tywucstQLnG3bC5xyxAXOcsQLnAWKtv3/f7b9BYrz2mKtebsxrQK7s8Hjw7PBys9irTXY96Tjw1CURplqiLq4aohGmTii7dAymLq4OKLAwv9/wMIFirq4BYrz2jKY89r/f+3QBYrz2jKYtv0Firb9Mpjz2jKY89o4orb9Mpi2/Tii89pz5fPaoPO2/XPltv1z5bb9bdu2/XPl89psuvPacsS2/Wy6tv0/rPPabLq2/T+stv1suvPaOKLz2j+stv04orb9P6zz2ijiPowo4je+GPTDnialRpkmpbq4DbFGmSalurgmpUaZaohGmWqIurhQlLq4UJRGmRj0N74Y9MOeDbG6uA2xRplN3tPHbduixk3eWNGN7hjBKfiixo3uE9hJ9dPHLcv//7LU//8tywXOLcv//y3LBc6y1AucstQFzi3LC5wo4je+stT//7LUBc6y1AXOLcsFzoGkssMxrQK7OKK2/TKYtv0xrQK7erkCuz+stv16uQK7KcKywynCssMpwvvPcsS2/Wy6tv0pwvvPermr2G3btv16uavYMa2r2KDztv1z5bb9Ma2r2IGk+88Firb9/3+2/YGk+8+BpLLD"),
@@ -59,7 +59,7 @@ _surfaces = [{
 "index_count": 354,
 "index_data": PackedByteArray("AABeAF8AAABgAF4AEwBhAGIAEwAUAGEAGAAUABMAGABjABQAHQBjABgAHQBkAGMAIQBkAB0AIQAiAGQAKQAiACEAKQBlACIAJgBlACkAJgAeAGUAIwAeACYAIwBmAB4AFQBmACMAFQBhAGYAZwBoAGkAZwAvAGgAagBrAGwAagBtAGsAawBtAG4AbQBqAG8AbwBqAHAAbQBvAHEAcgBzAHQAcgB1AHMAdgB3AHgAdgB5AHcAegB7AHwAegAzAHsANwB9AH4ANwB/AH0AgACBAIIAgAANAIEAgwCEAIUAgwCGAIQAhwCIAIkAhwCKAIgAOgCLAIwAOgA+AIsAjQBBAD8AjQBAAEEAjgBGAEQAjgCPAEYAkACRAJIAkABFAJEAkwAwAC4AkwCUADAAMQCVAJYAMQAyAJUAQgCXAJgAQgBDAJcARwCZAJoARwBIAJkASQCbAJwAnACbAJ0ASQBKAJsAnACdAE0ATABKAEkATQCdAEsATACeAEoATQBLAE8AnwCeAEwATwBLAKAAnwChAJ4ATwCgAFEATgChAJ8AUQCgAFAATgBQAKEAUQBQAE4AogBUAKMAogBTAFQAVgCkAKUAVgBXAKQApgCnAKgApgCpAKcAqgA9ADwAqgA7AD0AqwBVAFIAqwCsAFUArQBbAFgArQBaAFsAXABZAK4AXABdAFkABAAFAAEABAAGAAUAJACvACUAJACwAK8AsQAIALIAsQAJAAgAGQCzABoAGQC0ALMAtQALAAcAtQAMAAsAFgC2ABcAFgC3ALYADgAPAAoADgAQAA8AGwC4ABwAGwC5ALgAugASALsAugARABIAHwC8ACAAHwC9ALwANQA4AL4ANQA5ADgALAC/AC0ALADAAL8AwQA2AMIAwQA0ADYAKgDDACsAKgDEAMMAxQACAMYAxQADAAIAJwDHACgAJwDIAMcA"),
 "lods": [1.04252, PackedByteArray("AAABAAIAAQADAAIAAAAEAAEABAAFAAEABAAGAAUAAAAHAAQABwAIAAQABwAJAAgAAAAKAAcACgALAAcACgAMAAsAAAANAAoADQAOAAoADgAPAAoADgAQAA8ADQARAA4AEQASAA4AEwAUABUAFgATABcAFgAYABMAGAAUABMAGQATABUAGQAVABoAGwAYABwAGwAdABgAHQAUABgAFQAUAB4AHwAdACAAHwAhAB0AIQAUAB0AIQAiABQAFQAeACMAJAAVACMAJAAjACUAIwAeACYAJgAeACIAJwAjACYAJwAmACgAJgAiACkAKQAiACEAKgAmACkAKgApACsALAApACEALAAhAC0ALgAvADAAMQAvAC4AMQAyAC8AMwA0ADUANAA2ADUANwAzADUANwA1ADgANQA5ADgAOgA7ADwAPAA7AD0AOgA+ADsAPwBAAEEAQgBAAD8AQgBDAEAARABFAEYARwBFAEQARwBIAEUASQBKAEsATABKAEkASQBLAE0ATgBKAEwATQBLAE8ATgBQAEoATwBLAFAAUQBQAE4ATwBQAFEAUgBTAFQAUgBUAFUAVgBTAFIAVgBXAFMAWABZAFoAWABaAFsAXABZAFgAXABdAFkA")],
-"material": SubResource("StandardMaterial3D_5dfd0"),
+"material": SubResource("StandardMaterial3D_e7j7u"),
 "name": "BlackerMetal-Dithered",
 "primitive": 3,
 "uv_scale": Vector4(2, 2, 0, 0),
@@ -71,7 +71,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 18,
 "index_data": PackedByteArray("AAABAAIAAAADAAEAAQADAAQAAwAAAAUABQAAAAYAAwAFAAcA"),
-"material": SubResource("StandardMaterial3D_sthej"),
+"material": SubResource("StandardMaterial3D_b78xf"),
 "name": "Emissive",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -79,16 +79,10 @@ _surfaces = [{
 "vertex_data": PackedByteArray("//8AAP9/jMH/fwAAAACMwYHaAAB9JYzBAAAAAP9/jMF9JQAAfSWMwf9/AAD//4zBgdoAAIHajMF9JQAAgdqMwZHbNpKR2zaSkds2kpHbNpKR2zaSkds2kpHbNpKR2zaS")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_vraim")
+shadow_mesh = SubResource("ArrayMesh_frqpi")
 
 [node name="Light_001" type="Node3D"]
 transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="Cylinder_017" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.57328, 0, 0, 0, 0.11099, 0, 0, 0, 0.57328, 0, 0, 0)
-gi_mode = 0
-mesh = SubResource("ArrayMesh_da4rh")
-skeleton = NodePath("")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.3, 0)
@@ -101,3 +95,8 @@ light_size = 0.25
 distance_fade_enabled = true
 omni_range = 25.0
 omni_attenuation = 0.5
+
+[node name="Cylinder_017" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.57328, 0, 0, 0, 0.11099, 0, 0, 0, 0.57328, 0, 0, 0)
+mesh = SubResource("ArrayMesh_5qoqr")
+skeleton = NodePath("")
