@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://hrxued800t7n" path="res://Assets/Models/Station/Door/textures/BlackMetal-Normal.png" id="6_4k4lx"]
 [ext_resource type="Texture2D" uid="uid://crnnj7sttoeya" path="res://Assets/Models/Station/Vers_2/textures/BlackMetal-Normal.png" id="6_yti2x"]
 [ext_resource type="Script" uid="uid://c1cj7xjlkyg1r" path="res://Scripts/Interactions/door_interaction.gd" id="7_66j6v"]
+[ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="7_h70le"]
 [ext_resource type="Script" uid="uid://o01p0hrgpl5b" path="res://Scripts/door.gd" id="7_jrmvj"]
 [ext_resource type="AudioStream" uid="uid://c8le7po8v2ho1" path="res://Assets/Audio/door_open.ogg" id="8_2o2vn"]
 [ext_resource type="AudioStream" uid="uid://bbj6hgax6np26" path="res://Assets/Audio/door_close.ogg" id="9_yti2x"]
@@ -44,14 +45,6 @@ normal_enabled = true
 normal_texture = ExtResource("6_4k4lx")
 uv1_scale = Vector3(5, 5, 1)
 uv1_offset = Vector3(0, -4, 0)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q07le"]
-resource_name = "Emissive"
-cull_mode = 2
-albedo_color = Color(0.906332, 0.906332, 0.906332, 1)
-roughness = 0.5
-emission_enabled = true
-emission = Color(1, 1, 1, 1)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_b6db0"]
 _surfaces = [{
@@ -123,7 +116,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAQAAAAMAAQADAAQABQAGAAcABgAFAAgABgAIAAkACgALAAwACwAKAA0ACwANAA4ADwAQABEAEAAPABIAEAASABMA"),
-"material": SubResource("StandardMaterial3D_q07le"),
+"material": ExtResource("7_h70le"),
 "name": "Emissive",
 "primitive": 3,
 "uv_scale": Vector4(1.362, 0.545309, 0, 0),

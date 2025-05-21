@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://s346w72ridev"]
+[gd_scene load_steps=13 format=4 uid="uid://s346w72ridev"]
 
 [ext_resource type="Texture2D" uid="uid://chpio5g5f6ifx" path="res://Assets/Models/Station/Furniture/Bedroom/textures/GreyPlastic-Color.png" id="1_pl118"]
 [ext_resource type="Texture2D" uid="uid://c7wrphxkychtd" path="res://Assets/Models/Station/Furniture/Bedroom/textures/GreyPlastic-Roughness.png" id="2_3xqhl"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cu46i6aoex3q0" path="res://Assets/Models/Station/Furniture/Bedroom/textures/BlackPlastic-Color.png" id="4_vweq1"]
 [ext_resource type="Texture2D" uid="uid://c0ows0sec3pdj" path="res://Assets/Models/Station/Furniture/Bedroom/textures/BlackPlastic-Roughness.png" id="5_oe4h7"]
 [ext_resource type="Texture2D" uid="uid://bqfvp812ssby8" path="res://Assets/Models/Station/Furniture/Bedroom/textures/BlackPlastic-Normal.png" id="6_7kxpm"]
+[ext_resource type="ArrayOccluder3D" uid="uid://ba7q4k74vqptw" path="res://Assets/Occluders/Furniture/bread_box.occ" id="7_3xqhl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_n136q"]
 size = Vector3(2, 1.5, 1.5)
@@ -104,3 +105,6 @@ shape = SubResource("BoxShape3D_n136q")
 [node name="Breadbox" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_in4vv")
 skeleton = NodePath("")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("7_3xqhl")

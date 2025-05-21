@@ -42,6 +42,10 @@ project/assembly_name="Ergosphere"
 
 enabled=PackedStringArray("res://addons/debug_manager/plugin.cfg")
 
+[global_group]
+
+player=""
+
 [input]
 
 w={
@@ -91,8 +95,13 @@ menu={
 3d_physics/layer_2="Interactions "
 3d_physics/layer_3="Entities"
 
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
 [rendering]
 
 global_illumination/sdfgi/probe_ray_count=3
 global_illumination/sdfgi/frames_to_converge=1
 global_illumination/sdfgi/frames_to_update_lights=0
+occlusion_culling/use_occlusion_culling=true

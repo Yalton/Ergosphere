@@ -18,10 +18,6 @@ signal interaction_changed(available: bool)
 @export var interaction_panel: PanelContainer
 @export var interaction_label: RichTextLabel
 @export var interaction_icon: TextureRect
-#@export var show_key_prompt: bool = true
-#@export var key_prompt_texture: Texture2D
-#@export var key_prompt_label: Label
-#@export var interaction_key: String = "E"  # Default interaction key
 
 # Internal variables for message system
 var is_message_completed: bool = false
@@ -42,16 +38,11 @@ func _ready() -> void:
 		interaction_panel.hide()  # Make sure it's hidden initially
 		interaction_icon.hide()
 		
-	
 	# Create message hide timer
 	message_timer = Timer.new()
 	message_timer.one_shot = true
 	message_timer.timeout.connect(_on_message_timer_timeout)
 	add_child(message_timer)
-	
-	# Configure key prompt if enabled
-	#if show_key_prompt and key_prompt_label:
-		#key_prompt_label.text = interaction_key
 
 #region Message System
 func show_message(message_text: String) -> void:
@@ -97,6 +88,49 @@ func show_message(message_text: String) -> void:
 		message_label.text = message_text
 		message_timer.start(message_display_time)
 	)
+
+# Show a message that stays visible until explicitly hidden
+func show_persistent_message(message_text: String) -> void:
+	# Clear any existing timers and tweens
+	if message_timer.time_left > 0:
+		message_timer.stop()
+	
+	if message_tween and message_tween.is_valid():
+		message_tween.kill()
+	
+	# Show panel and set full text immediately
+	message_panel.show()
+	message_label.text = message_text
+	is_message_completed = true
+	
+	# No timer - message will stay until hide_message() is called
+
+# Show full message with optional auto-hide timer
+func show_full_message(message_text: String, display_time: float = message_display_time) -> void:
+	# Clear any existing timers and tweens
+	if message_timer.time_left > 0:
+		message_timer.stop()
+	
+	if message_tween and message_tween.is_valid():
+		message_tween.kill()
+	
+	# Show panel and set full text immediately
+	message_panel.show()
+	message_label.text = message_text
+	is_message_completed = true
+	
+	# Only start timer if display_time is positive
+	if display_time > 0:
+		message_timer.start(display_time)
+	# Otherwise message will stay until hide_message() is called
+
+# Explicitly hide the message
+func hide_message() -> void:
+	if message_timer.time_left > 0:
+		message_timer.stop()
+	
+	message_panel.hide()
+	message_finished.emit()
 
 func _on_message_timer_timeout() -> void:
 	message_panel.hide()

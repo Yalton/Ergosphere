@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://n1uphhdpr7lm"]
+[gd_scene load_steps=21 format=4 uid="uid://n1uphhdpr7lm"]
 
 [ext_resource type="Texture2D" uid="uid://b8x6tuob44qlj" path="res://Assets/Models/Station/Furniture/Bedroom/textures/BlackerMetal-Color.png" id="1_31sqc"]
 [ext_resource type="Texture2D" uid="uid://bkg0gggpxi7kp" path="res://Assets/Models/Station/Furniture/Bedroom/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_feuek"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dnyj1c153a7ku" path="res://Assets/Models/Station/Furniture/Bedroom/textures/RedPlastic-Color.png" id="10_drvlp"]
 [ext_resource type="Texture2D" uid="uid://bi7nxb6x3nu5y" path="res://Assets/Models/Station/Furniture/Bedroom/textures/RedPlastic-Roughness.png" id="11_dumpe"]
 [ext_resource type="Texture2D" uid="uid://1kvk1p0ls2wa" path="res://Assets/Models/Station/Furniture/Bedroom/textures/RedPlastic-Normal.png" id="12_lyi6g"]
+[ext_resource type="ArrayOccluder3D" uid="uid://dvf8fwn15md8x" path="res://Assets/Occluders/Furniture/oven.occ" id="13_feuek"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fntsm"]
 size = Vector3(4, 2.5, 4)
@@ -180,3 +181,6 @@ shape = SubResource("BoxShape3D_fntsm")
 transform = Transform3D(1, 0, 6.3573e-08, 0, 1.25, 0, -6.3573e-08, 0, 1, 0, 0, 0)
 mesh = SubResource("ArrayMesh_b0ymf")
 skeleton = NodePath("")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("13_feuek")

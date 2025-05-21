@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://cco6qgyibwhbv"]
+[gd_scene load_steps=13 format=4 uid="uid://cco6qgyibwhbv"]
 
 [ext_resource type="Texture2D" uid="uid://cy85h4jhlhh7x" path="res://Assets/Models/Station/Furniture/StorageRoom/textures/GreyPlastic-Color.png" id="1_jm1md"]
 [ext_resource type="Texture2D" uid="uid://8g5hw638kax6" path="res://Assets/Models/Station/Furniture/StorageRoom/textures/GreyPlastic-Roughness.png" id="2_518uq"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://djyr0hk8pkasu" path="res://Assets/Models/Station/Furniture/StorageRoom/textures/BlackPlastic-Color.png" id="4_y2dvo"]
 [ext_resource type="Texture2D" uid="uid://bsb0fhjw14e4i" path="res://Assets/Models/Station/Furniture/StorageRoom/textures/BlackPlastic-Roughness.png" id="5_4lnwg"]
 [ext_resource type="Texture2D" uid="uid://cxxkmcuiaagqe" path="res://Assets/Models/Station/Furniture/StorageRoom/textures/BlackPlastic-Normal.png" id="6_ubpkr"]
+[ext_resource type="ArrayOccluder3D" uid="uid://c777dj8vivfkm" path="res://Assets/Occluders/Furniture/storage_crate.occ" id="7_mhydr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gh43v"]
 resource_name = "GreyPlastic"
@@ -101,3 +102,6 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 shape = SubResource("BoxShape3D_jm1md")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("7_mhydr")

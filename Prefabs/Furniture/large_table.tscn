@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://dcmqisfsn02x8"]
+[gd_scene load_steps=14 format=4 uid="uid://dcmqisfsn02x8"]
 
 [ext_resource type="Texture2D" uid="uid://c8g3wldkm2adm" path="res://Assets/Models/Station/Furniture/ObservationRoom/textures/BlackerMetal-Color.png" id="1_u71kh"]
 [ext_resource type="Texture2D" uid="uid://dbrd7vwdbhp7l" path="res://Assets/Models/Station/Furniture/ObservationRoom/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_d4j6g"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dteq58uw7xp5n" path="res://Assets/Models/Station/Furniture/ObservationRoom/textures/BlackMetal-Color.png" id="4_8edks"]
 [ext_resource type="Texture2D" uid="uid://biatpe8jrhu8h" path="res://Assets/Models/Station/Furniture/ObservationRoom/textures/BlackMetal-Metalness-BlackMetal-Roughness.png" id="5_fpyf5"]
 [ext_resource type="Texture2D" uid="uid://dc4d6ca87fi3i" path="res://Assets/Models/Station/Furniture/ObservationRoom/textures/BlackMetal-Normal.png" id="6_cdeq4"]
+[ext_resource type="ArrayOccluder3D" uid="uid://d3hxvniu3t23u" path="res://Assets/Occluders/Furniture/large_table.occ" id="7_r6n23"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_coymw"]
 resource_name = "BlackerMetal-Dithered"
@@ -110,3 +111,6 @@ shape = SubResource("CylinderShape3D_5sap6")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, -7.10543e-15, 0, 1, 0, 7.10543e-15, 0, 1, 0, 3.10786, 0)
 shape = SubResource("CylinderShape3D_uk1xt")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("7_r6n23")

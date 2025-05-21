@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://cliovg7xr8w0l"]
+[gd_scene load_steps=21 format=4 uid="uid://cliovg7xr8w0l"]
 
 [ext_resource type="Texture2D" uid="uid://b8x6tuob44qlj" path="res://Assets/Models/Station/Furniture/Bedroom/textures/BlackerMetal-Color.png" id="1_h2bo2"]
 [ext_resource type="Texture2D" uid="uid://bkg0gggpxi7kp" path="res://Assets/Models/Station/Furniture/Bedroom/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_roc5j"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dnyj1c153a7ku" path="res://Assets/Models/Station/Furniture/Bedroom/textures/RedPlastic-Color.png" id="10_v87w4"]
 [ext_resource type="Texture2D" uid="uid://bi7nxb6x3nu5y" path="res://Assets/Models/Station/Furniture/Bedroom/textures/RedPlastic-Roughness.png" id="11_lwpmu"]
 [ext_resource type="Texture2D" uid="uid://1kvk1p0ls2wa" path="res://Assets/Models/Station/Furniture/Bedroom/textures/RedPlastic-Normal.png" id="12_m3kbt"]
+[ext_resource type="ArrayOccluder3D" uid="uid://6vdny5xesi0j" path="res://Assets/Occluders/Furniture/dishwasher.occ" id="13_roc5j"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fntsm"]
 resource_name = "BlackerMetal-Dithered"
@@ -184,3 +185,6 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 6.3573e-08, 6.3573e-08, -6.3573e-08, 1, -9.59926e-15, -6.3573e-08, 5.55773e-15, 1, -0.0125198, 1.45415, 0)
 shape = SubResource("BoxShape3D_fntsm")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("13_roc5j")
