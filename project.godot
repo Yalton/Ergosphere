@@ -45,6 +45,7 @@ enabled=PackedStringArray("res://addons/debug_manager/plugin.cfg")
 [global_group]
 
 player=""
+lights=""
 
 [input]
 

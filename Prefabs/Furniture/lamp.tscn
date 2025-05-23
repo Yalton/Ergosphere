@@ -97,7 +97,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.600602, 0)
 mesh = SubResource("ArrayMesh_ncx2l")
 skeleton = NodePath("")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="." groups=["lights"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.81065e-08, 1.52189, 0)
 light_energy = 3.0
 light_size = 0.25

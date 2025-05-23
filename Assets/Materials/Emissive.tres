@@ -3,7 +3,7 @@
 [resource]
 resource_name = "Emissive"
 cull_mode = 2
-albedo_color = Color(0.906332, 0.906332, 0.906332, 1)
+albedo_color = Color(0.91, 0.91, 0.91, 1)
 roughness = 0.5
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
