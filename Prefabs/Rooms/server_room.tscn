@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://4fihfwt1k3ng" path="res://Assets/Audio/Ambience/StationAmbience/ComputerBeeps/ComputerBeep_5.ogg" id="5_0nolt"]
 [ext_resource type="AudioStream" uid="uid://diqgufvxvmp18" path="res://Assets/Audio/Ambience/StationAmbience/ComputerBeeps/ComputerBeep_6.ogg" id="6_axdo8"]
 [ext_resource type="AudioStream" uid="uid://wivlj3sw0kiv" path="res://Assets/Audio/Ambience/StationAmbience/ComputerBeeps/ComputerBeep_7.ogg" id="7_gks4f"]
-[ext_resource type="Script" uid="uid://ckwfwc05hswhu" path="res://Scripts/random_audio_stream_3d.gd" id="8_oovgs"]
+[ext_resource type="Script" uid="uid://ckwfwc05hswhu" path="res://Scripts/Environment/GameObjects/random_audio_stream_3d.gd" id="8_oovgs"]
 [ext_resource type="Texture2D" uid="uid://clqraog8t4202" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/BlackerMetal-Color.png" id="9_s5e43"]
 [ext_resource type="Texture2D" uid="uid://bwi1cjah4xbn2" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="10_mjvoe"]
 [ext_resource type="Texture2D" uid="uid://ddhrrmcfhf46p" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/BlackerMetal-Normal.png" id="11_4slb6"]

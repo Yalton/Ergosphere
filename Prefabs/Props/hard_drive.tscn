@@ -1,6 +1,6 @@
 [gd_scene load_steps=22 format=4 uid="uid://b3d7law7cftrb"]
 
-[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Prefabs/Components/GameObject.gd" id="1_6ygd1"]
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_6ygd1"]
 [ext_resource type="Texture2D" uid="uid://b55cac1uba1uy" path="res://Assets/Models/Station/Props/Drive/textures/GreyPlastic-Color.png" id="1_10up0"]
 [ext_resource type="Texture2D" uid="uid://h2dvqqke8kyj" path="res://Assets/Models/Station/Props/Drive/textures/GreyPlastic-Roughness.png" id="2_5lhvb"]
 [ext_resource type="Texture2D" uid="uid://ckv0u87yjcuss" path="res://Assets/Models/Station/Props/Drive/textures/GreyPlastic-Normal.png" id="3_6ygd1"]

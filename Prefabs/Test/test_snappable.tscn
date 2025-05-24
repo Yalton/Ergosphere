@@ -17,7 +17,8 @@ size = Vector3(1, 2.02722, 1)
 script = ExtResource("1_v826l")
 sphere_mesh = NodePath("Sphere")
 
-[node name="SnapComponent" parent="." instance=ExtResource("2_r2ijt")]
+[node name="SnapComponent" parent="." node_paths=PackedStringArray("area_3d") instance=ExtResource("2_r2ijt")]
+area_3d = NodePath("../SnapArea")
 
 [node name="SnapArea" type="Area3D" parent="."]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://bgnqxsxljglaq"]
 
-[ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/player.gd" id="1_23jlx"]
+[ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="Script" uid="uid://cd6roq0jsnw23" path="res://Subsystems/DynamicFootstepSystem/Scripts/footstep_surface_detector.gd" id="2_bxc72"]
 [ext_resource type="AudioStream" uid="uid://cw2e8sv5oj7bw" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep00.ogg" id="3_rld0k"]
 [ext_resource type="AudioStream" uid="uid://dp305uipdp2ir" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep01.ogg" id="4_kkf6j"]
@@ -8,8 +8,8 @@
 [ext_resource type="AudioStream" uid="uid://d374xus6acenf" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep03.ogg" id="6_slw6b"]
 [ext_resource type="AudioStream" uid="uid://b25sg6gh7sqr4" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep04.ogg" id="7_jox8g"]
 [ext_resource type="Resource" uid="uid://ca0q2t6w08ubh" path="res://Subsystems/DynamicFootstepSystem/FootstepMaterialLibrary/sample_footstep_material_library.tres" id="8_kkf6j"]
-[ext_resource type="Script" uid="uid://bihy62e0ucg5g" path="res://Scripts/Interactions/player_interaction_component.gd" id="9_mepo0"]
-[ext_resource type="Script" uid="uid://n0ptow8dk4sq" path="res://Scripts/FPCUIController.gd" id="10_slw6b"]
+[ext_resource type="Script" uid="uid://bihy62e0ucg5g" path="res://Scripts/Components/player_interaction_component.gd" id="9_mepo0"]
+[ext_resource type="Script" uid="uid://n0ptow8dk4sq" path="res://Scripts/Entities/FPCUIController.gd" id="10_slw6b"]
 [ext_resource type="AudioStream" uid="uid://18pkb8xbgll8" path="res://Assets/Audio/text_click.wav" id="11_jox8g"]
 [ext_resource type="PackedScene" uid="uid://brwmucdy87vu3" path="res://Prefabs/UI/pause/pause_options.tscn" id="12_3c1vh"]
 [ext_resource type="Texture2D" uid="uid://d3f2u2trom3ro" path="res://icon.svg" id="12_c0wcc"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bqp8nl7x2c37m"]
 
-[ext_resource type="Script" uid="uid://7j4lsa2o58gl" path="res://Scripts/Interactions/DualInteraction.gd" id="1_onadr"]
+[ext_resource type="Script" uid="uid://7j4lsa2o58gl" path="res://Scripts/Environment/Interactions/DualInteraction.gd" id="1_onadr"]
 
 [node name="DualInteraction" type="Node3D"]
 script = ExtResource("1_onadr")

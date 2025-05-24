@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://poem1yjtmt3n"]
 
-[ext_resource type="Script" uid="uid://cp6dw8m881wt3" path="res://Scripts/Interactions/HoldInteraction.gd" id="1_lawwc"]
+[ext_resource type="Script" uid="uid://cp6dw8m881wt3" path="res://Scripts/Environment/Interactions/HoldInteraction.gd" id="1_lawwc"]
 
 [node name="HoldInteraction" type="Node3D"]
 script = ExtResource("1_lawwc")

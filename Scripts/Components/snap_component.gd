@@ -5,7 +5,7 @@ signal object_snapped(object_name: String, object_node: Node3D)
 
 @export var target_object_name: String = "" # The display_name of the object we're looking for
 
-@onready var area_3d: Area3D = $"../SnapArea"
+@export var area_3d: Area3D 
 
 # Debug properties
 @export var enable_debug: bool = true
