@@ -27,7 +27,7 @@ SettingsManager="*res://Autoload/SettingsManager.gd"
 ButtonSoundManager="*res://Autoload/ButtonSoundManager/ButtonSoundManager.gd"
 DebugLogger="*res://addons/debug_manager/debug_logger.gd"
 TransitionManager="*res://Autoload/TransitionManager/transition_manager.tscn"
-StateManager="*res://Autoload/StateManager/StateManager.tscn"
+GameManager="*res://Autoload/GameManager/GameManager.tscn"
 
 [display]
 
@@ -42,6 +42,18 @@ project/assembly_name="Ergosphere"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/debug_manager/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://Assets/": "orange",
+"res://Autoload/": "yellow",
+"res://Prefabs/": "teal",
+"res://Scripts/": "blue",
+"res://Subsystems/": "purple",
+"res://addons/": "red",
+"res://docs/": "green"
+}
 
 [global_group]
 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=4 uid="uid://xar6k3skfwoc"]
+[gd_scene load_steps=9 format=4 uid="uid://xar6k3skfwoc"]
 
 [ext_resource type="Texture2D" uid="uid://fn5mn0xkkb8y" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Color.png" id="1_cgbsm"]
 [ext_resource type="Texture2D" uid="uid://cse65y4qixeyq" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_sgr0c"]
 [ext_resource type="Texture2D" uid="uid://1bmer1juvv4a" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Normal.png" id="3_3w6fu"]
+[ext_resource type="ArrayOccluder3D" uid="uid://o4nm72b3axia" path="res://Assets/Occluders/Furniture/StationLight.occ" id="4_sgr0c"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e7j7u"]
 resource_name = "BlackerMetal-Dithered"
@@ -100,3 +101,6 @@ omni_attenuation = 0.5
 transform = Transform3D(0.57328, 0, 0, 0, 0.11099, 0, 0, 0, 0.57328, 0, 0, 0)
 mesh = SubResource("ArrayMesh_5qoqr")
 skeleton = NodePath("")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("4_sgr0c")

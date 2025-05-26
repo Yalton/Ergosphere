@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://djkiu67lvngcg"]
+[gd_scene load_steps=14 format=4 uid="uid://djkiu67lvngcg"]
 
 [ext_resource type="Texture2D" uid="uid://bqtx0vn5bcavd" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Color.png" id="1_i67rt"]
 [ext_resource type="Texture2D" uid="uid://vhb0jbilmqtc" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="2_0kw6q"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bufaftomimpf2" path="res://Assets/Models/Station/Vers_2/textures/BlackMetal-Metalness-BlackMetal-Roughness.png" id="5_5qe0o"]
 [ext_resource type="Texture2D" uid="uid://crnnj7sttoeya" path="res://Assets/Models/Station/Vers_2/textures/BlackMetal-Normal.png" id="6_k05sx"]
 [ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="7_xn25n"]
+[ext_resource type="ArrayOccluder3D" uid="uid://mitn7j4jy678" path="res://Assets/Occluders/Walls/diamond_wall.occ" id="8_0kw6q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7x2my"]
 resource_name = "GreyMetal-Dithered.214"
@@ -127,3 +128,6 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(-1, 3.89414e-07, 0, -3.89414e-07, -1, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_i67rt")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("8_0kw6q")

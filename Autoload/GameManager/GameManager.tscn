@@ -6,7 +6,6 @@
 
 [node name="GameManager" type="Node"]
 script = ExtResource("1_ttbae")
-auto_start_test = true
 
 [node name="EventManager" parent="." instance=ExtResource("2_bax16")]
 
