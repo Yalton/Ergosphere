@@ -64,7 +64,7 @@ roughness = 0.5
 resource_name = "Window"
 transparency = 1
 cull_mode = 2
-albedo_color = Color(0, 0, 0, 0.478431)
+albedo_color = Color(0, 0, 0, 0.913725)
 metallic = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b383r"]

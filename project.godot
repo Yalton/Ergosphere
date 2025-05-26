@@ -27,6 +27,7 @@ SettingsManager="*res://Autoload/SettingsManager.gd"
 ButtonSoundManager="*res://Autoload/ButtonSoundManager/ButtonSoundManager.gd"
 DebugLogger="*res://addons/debug_manager/debug_logger.gd"
 TransitionManager="*res://Autoload/TransitionManager/transition_manager.tscn"
+StateManager="*res://Autoload/StateManager/StateManager.tscn"
 
 [display]
 
@@ -46,6 +47,7 @@ enabled=PackedStringArray("res://addons/debug_manager/plugin.cfg")
 
 player=""
 lights=""
+power_lever=""
 
 [input]
 

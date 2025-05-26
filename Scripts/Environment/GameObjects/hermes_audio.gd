@@ -5,6 +5,7 @@ extends AudioStreamPlayer
 @export var enable_debug: bool = true
 var module_name: String = "HermesAudio"
 
+@export var enabled = true
 ## Sound that plays before any Hermes voice message
 @export var intro_sound: AudioStream
 ## Collection of voice clips available to this Hermes
@@ -49,7 +50,7 @@ func _ready() -> void:
 	finished.connect(_on_voice_finished)
 	
 	# Set up auto-play if configured
-	if auto_play_id and auto_play_delay > 0:
+	if auto_play_id and auto_play_delay > 0 and enabled:
 		DebugLogger.debug(module_name, "Will auto-play voice ID '" + auto_play_id + "' after " + str(auto_play_delay) + " seconds")
 		var timer = get_tree().create_timer(auto_play_delay)
 		timer.timeout.connect(func(): play_voice_by_id(auto_play_id))

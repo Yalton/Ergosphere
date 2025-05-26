@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://eph8nwb45sch"]
+
+[node name="StateAwareComponent" type="Node"]

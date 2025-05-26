@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://do7p1kymeb2fw"]
+[gd_scene load_steps=12 format=4 uid="uid://do7p1kymeb2fw"]
 
 [ext_resource type="Texture2D" uid="uid://cfu1nho4i12lx" path="res://Assets/Models/Station/Furniture/Lamp/textures/BlackerMetal-Color.png" id="1_cppd4"]
 [ext_resource type="Texture2D" uid="uid://b0gm2e3o4ifsu" path="res://Assets/Models/Station/Furniture/Lamp/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_2wfho"]
@@ -90,7 +90,11 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_k2a55")
 
-[node name="Lamp" type="Node3D"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_e1spv"]
+height = 1.71606
+radius = 0.246094
+
+[node name="Lamp" type="StaticBody3D"]
 
 [node name="Cylinder_028" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.600602, 0)
@@ -104,3 +108,7 @@ light_size = 0.25
 distance_fade_enabled = true
 omni_range = 25.0
 omni_attenuation = 0.8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.880584, 0)
+shape = SubResource("CylinderShape3D_e1spv")
