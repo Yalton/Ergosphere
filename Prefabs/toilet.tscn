@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=4 uid="uid://qcjjmv7hbf3i"]
+[gd_scene load_steps=38 format=4 uid="uid://qcjjmv7hbf3i"]
 
 [ext_resource type="Texture2D" uid="uid://djk4r6m8f5wkw" path="res://Assets/Models/Station/Furniture/Outhouse/textures/BlackerMetal-Color.png" id="1_vbp3a"]
 [ext_resource type="Texture2D" uid="uid://c3aggh3carfmp" path="res://Assets/Models/Station/Furniture/Outhouse/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_6e3cr"]
@@ -15,6 +15,12 @@
 [ext_resource type="Texture2D" uid="uid://1bmer1juvv4a" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Normal.png" id="13_ukrw2"]
 [ext_resource type="ArrayOccluder3D" uid="uid://o4nm72b3axia" path="res://Assets/Occluders/Furniture/StationLight.occ" id="14_q6u8w"]
 [ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="14_t4jdi"]
+[ext_resource type="AudioStream" uid="uid://qdnd1gkytak7" path="res://Assets/Audio/Ambience/StationAmbience/Bedroom/plumbing_1.ogg" id="16_mic7i"]
+[ext_resource type="AudioStream" uid="uid://c435kpv7madey" path="res://Assets/Audio/Ambience/StationAmbience/Bedroom/plumbing_2.ogg" id="17_0kgnn"]
+[ext_resource type="AudioStream" uid="uid://ixrd4mi6lvc7" path="res://Assets/Audio/Ambience/StationAmbience/Bedroom/plumbing_3.ogg" id="18_y8j6h"]
+[ext_resource type="AudioStream" uid="uid://bb8u8yckmub08" path="res://Assets/Audio/Ambience/StationAmbience/Bedroom/plumbing_4.ogg" id="19_n35n7"]
+[ext_resource type="AudioStream" uid="uid://ctsrpehf62ylg" path="res://Assets/Audio/Ambience/StationAmbience/Bedroom/plumbing_5.ogg" id="20_6vd1h"]
+[ext_resource type="Script" uid="uid://ckwfwc05hswhu" path="res://Scripts/Environment/GameObjects/random_audio_stream_3d.gd" id="21_gkw7n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ypvhg"]
 resource_name = "BlackerMetal-Dithered"
@@ -295,6 +301,14 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_frqpi")
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_p8e5r"]
+streams_count = 5
+stream_0/stream = ExtResource("16_mic7i")
+stream_1/stream = ExtResource("17_0kgnn")
+stream_2/stream = ExtResource("18_y8j6h")
+stream_3/stream = ExtResource("19_n35n7")
+stream_4/stream = ExtResource("20_6vd1h")
+
 [node name="Toilet" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, -1, 0, 0, 0, 1, 0, 0, 0)
 
@@ -365,3 +379,8 @@ skeleton = NodePath("")
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="Light"]
 occluder = ExtResource("14_q6u8w")
+
+[node name="PlumbingNoises" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamRandomizer_p8e5r")
+script = ExtResource("21_gkw7n")
+max_delay = 40.0

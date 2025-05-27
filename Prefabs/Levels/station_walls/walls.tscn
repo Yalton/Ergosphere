@@ -1,4 +1,4 @@
-[gd_scene load_steps=101 format=4 uid="uid://ebcdmubkup1v"]
+[gd_scene load_steps=100 format=4 uid="uid://ebcdmubkup1v"]
 
 [ext_resource type="Texture2D" uid="uid://bqtx0vn5bcavd" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Color.png" id="1_1nd2m"]
 [ext_resource type="PackedScene" uid="uid://c666mkxecwu22" path="res://Prefabs/Furniture/Airlock/airlock_door.tscn" id="1_y2sej"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://cqr7b34a4kyiq" path="res://Prefabs/Levels/station_walls/main_window_big.tscn" id="7_gkafq"]
 [ext_resource type="PackedScene" uid="uid://cit0fgebimx6k" path="res://Prefabs/Levels/station_walls/power_room_wall.tscn" id="9_3ysso"]
 [ext_resource type="PackedScene" uid="uid://dtmgyknl5usy8" path="res://Prefabs/Levels/station_walls/power_wall.tscn" id="9_74vcw"]
-[ext_resource type="PackedScene" uid="uid://bc74vtur5o21t" path="res://Prefabs/Furniture/StorageRoom/StorageWall.tscn" id="9_mdcmk"]
 [ext_resource type="PackedScene" uid="uid://djkiu67lvngcg" path="res://Prefabs/Levels/station_walls/diamond_wall.tscn" id="10_bikt7"]
 [ext_resource type="PackedScene" uid="uid://c1gvxasnxdeko" path="res://Prefabs/Levels/station_walls/large_wall.tscn" id="11_1nd2m"]
 [ext_resource type="PackedScene" uid="uid://0pkuufx2jsm7" path="res://Prefabs/Levels/station_walls/engine_hole.tscn" id="11_3ysso"]
@@ -1269,15 +1268,6 @@ transform = Transform3D(3.13916e-07, 0, -1, 0, 1, 0, 1, 0, 3.13916e-07, 90, -2, 
 
 [node name="CounterTop" parent="." instance=ExtResource("2_y2sej")]
 transform = Transform3D(-1, -3.89414e-07, 0, 3.89414e-07, -1, 0, 0, 0, 1, 66, -2, -17.0002)
-
-[node name="StorageWall" parent="." instance=ExtResource("9_mdcmk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62, -2, -43)
-
-[node name="StorageWall2" parent="." instance=ExtResource("9_mdcmk")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -79, -2, -30)
-
-[node name="StorageWall3" parent="." instance=ExtResource("9_mdcmk")]
-transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, -62, -2, -17)
 
 [node name="PowerLeverWall" parent="." instance=ExtResource("9_74vcw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -2, -71)

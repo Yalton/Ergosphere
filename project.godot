@@ -60,6 +60,7 @@ folder_colors={
 player=""
 lights=""
 power_lever=""
+storage_wall=""
 
 [input]
 
