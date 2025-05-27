@@ -13,6 +13,7 @@ var state_manager: StateManager
 # Test controls
 @export var test_power_outage_delay: float = 5.0
 @export var test_oxygen_failure_delay: float = 5.0
+@export var test_heatsink_failure_delay: float = 5.0
 @export var auto_start_test: bool = false
 
 func _ready() -> void:
@@ -48,6 +49,10 @@ func _ready() -> void:
 		if test_oxygen_failure_delay > 0:
 			var oxygen_timer = get_tree().create_timer(test_oxygen_failure_delay)
 			oxygen_timer.timeout.connect(_test_oxygen_failure)
+		
+		if test_heatsink_failure_delay > 0:
+			var heatsink_timer = get_tree().create_timer(test_heatsink_failure_delay)
+			heatsink_timer.timeout.connect(_test_heatsink_failure)
 
 func _test_power_outage() -> void:
 	DebugLogger.debug(module_name, "Testing power outage")
@@ -57,6 +62,10 @@ func _test_oxygen_failure() -> void:
 	DebugLogger.debug(module_name, "Testing oxygen failure")
 	trigger_oxygen_failure()
 
+func _test_heatsink_failure() -> void:
+	DebugLogger.debug(module_name, "Testing heatsink failure")
+	trigger_heatsink_failure()
+
 # Public API for triggering events
 func trigger_power_outage() -> void:
 	DebugLogger.debug(module_name, "Triggering power outage")
@@ -65,6 +74,10 @@ func trigger_power_outage() -> void:
 func trigger_oxygen_failure() -> void:
 	DebugLogger.debug(module_name, "Triggering oxygen failure")
 	event_manager.trigger_event("oxygen_failure")
+
+func trigger_heatsink_failure() -> void:
+	DebugLogger.debug(module_name, "Triggering heatsink failure")
+	event_manager.trigger_event("heatsink_failure")
 
 func restore_power() -> void:
 	DebugLogger.debug(module_name, "Restoring power")

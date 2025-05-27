@@ -55,25 +55,24 @@
 
 Tasks 
 
+~~Swap O2 Filters~~
+~~Upload Data~~
+~~Reset Power~~
+~~Reset Capacitor in Turbine~~
+~~Swap Engine Heatsink~~
 
 Download Data
 Re-allign Telescope
-Upload Data
-Reset Power
-
-Swap O2 Filters
 Sleep at end of day
-
-Prepare a meal
+Eat a meal
 Drink Alcohol - Staves off insanity
 
+<!-- Models required -->
 
-
-Models required 
-
+<!-- 
 Space Station
 - Floors 
 - Walls
 - Ceiling 
-- Doors 
+- Doors  -->
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://cn0bpqb4otng3"]
 
-[ext_resource type="Texture2D" uid="uid://dyjjiic3lw3os" path="res://addons/cogito/Assets/VFX/Impacts/Textures/Flare00.PNG" id="1_bbpmh"]
-[ext_resource type="Material" uid="uid://c71aysyxsuq0t" path="res://addons/cogito/Assets/VFX/Impacts/Materials/Mat_flare00.tres" id="2_01gq5"]
+[ext_resource type="Texture2D" uid="uid://dyjjiic3lw3os" path="res://Assets/VFX/Impacts/Textures/Flare00.PNG" id="1_bbpmh"]
+[ext_resource type="Material" uid="uid://c71aysyxsuq0t" path="res://Assets/VFX/Impacts/Materials/Mat_flare00.tres" id="2_01gq5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8dr5u"]
 transparency = 1
