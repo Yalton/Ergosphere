@@ -5,6 +5,9 @@ class_name BaseSnappable
 @export var enable_debug: bool = true
 var module_name: String = "BaseSnappable"
 
+# Snapping control
+@export var can_snap: bool = true
+
 var snap_components: Array[SnapComponent] = []
 
 func _ready() -> void:

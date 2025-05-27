@@ -170,11 +170,11 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_jvj5t")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6j2sj"]
-size = Vector3(0.55, 0.06, 0.5)
+size = Vector3(0.55, 0.087998, 0.5)
 
 [node name="HardDrive" type="RigidBody3D"]
-collision_layer = 7
-collision_mask = 7
+collision_layer = 15
+collision_mask = 15
 script = ExtResource("1_6ygd1")
 display_name = "hard_drive"
 
@@ -184,6 +184,7 @@ mesh = SubResource("ArrayMesh_xvr3s")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00151855, 0)
 shape = SubResource("BoxShape3D_6j2sj")
 
 [node name="CarryableComponent" parent="." instance=ExtResource("14_2a1di")]

@@ -109,6 +109,7 @@ menu={
 3d_physics/layer_1="Environment"
 3d_physics/layer_2="Interactions "
 3d_physics/layer_3="Entities"
+3d_physics/layer_4="Snappable"
 
 [physics]
 

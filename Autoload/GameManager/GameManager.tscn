@@ -1,11 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://d3hcptla36gp3"]
 
 [ext_resource type="Script" uid="uid://brfd0bny5riwc" path="res://Autoload/GameManager/game_manager.gd" id="1_ttbae"]
-[ext_resource type="PackedScene" uid="uid://bk1kuand7o7xa" path="res://Autoload/EventManager/EventManager.tscn" id="2_bax16"]
-[ext_resource type="PackedScene" uid="uid://bt83m4xuehnh8" path="res://Autoload/StateManager/StateManager.tscn" id="3_554py"]
+[ext_resource type="PackedScene" uid="uid://bk1kuand7o7xa" path="res://Autoload/GameManager/EventManager/EventManager.tscn" id="2_bax16"]
+[ext_resource type="PackedScene" uid="uid://bt83m4xuehnh8" path="res://Autoload/GameManager/StateManager/StateManager.tscn" id="3_554py"]
 
 [node name="GameManager" type="Node"]
 script = ExtResource("1_ttbae")
+test_power_outage_delay = 0.0
+auto_start_test = true
 
 [node name="EventManager" parent="." instance=ExtResource("2_bax16")]
 

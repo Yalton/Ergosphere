@@ -32,6 +32,16 @@ func _on_area_entered(area: Area3D) -> void:
 	_check_for_valid_snap(parent)
 
 func _check_for_valid_snap(object: Node) -> void:
+	# Check if parent is BaseSnappable and can snap
+	var parent_snappable = get_parent()
+	if not (parent_snappable is BaseSnappable):
+		DebugLogger.debug(module_name, "Parent is not BaseSnappable")
+		return
+	
+	if not parent_snappable.can_snap:
+		DebugLogger.debug(module_name, "Parent BaseSnappable has can_snap = false")
+		return
+	
 	# Skip if no target name is specified or if it's the wrong object
 	if target_object_name.is_empty():
 		DebugLogger.debug(module_name, "No target object name specified")

@@ -55,14 +55,17 @@
 
 Tasks 
 
-Re-allign Sensor
-Download Data 
-Upload Data 
-Reset Power 
-Swap O2 Filters 
-Sleep at end of day 
-Prepare a meal 
-Drink Alcohol - Staves off insanity 
+
+Download Data
+Re-allign Telescope
+Upload Data
+Reset Power
+
+Swap O2 Filters
+Sleep at end of day
+
+Prepare a meal
+Drink Alcohol - Staves off insanity
 
 
 

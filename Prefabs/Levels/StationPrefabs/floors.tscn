@@ -898,6 +898,7 @@ size = Vector3(50, 0.05, 40)
 
 [node name="Floor" type="StaticBody3D" parent="."]
 transform = Transform3D(-1, -1.50996e-07, -5.37313e-16, 1.50996e-07, -1, -8.74228e-08, 1.26632e-14, -8.74228e-08, 1, -61, 0, 16)
+input_ray_pickable = false
 
 [node name="Floor" type="MeshInstance3D" parent="Floor"]
 transform = Transform3D(2, -6.3573e-08, -4.10504e-16, 1.27146e-07, 1, -2.13163e-14, 0, 0, 0.764, 0, 0, 0)
@@ -913,6 +914,7 @@ shape = SubResource("BoxShape3D_chaya")
 
 [node name="Floor2" type="StaticBody3D" parent="."]
 transform = Transform3D(-1, 0, 3.89414e-07, 0, 1, 0, -3.89414e-07, 0, -1, -25, 0, 16)
+input_ray_pickable = false
 
 [node name="Floor" type="MeshInstance3D" parent="Floor2"]
 transform = Transform3D(4, 0, 5.00222e-12, 0, 4, 0, 2.50111e-12, 0, 8, 0, 0, 0)
@@ -929,6 +931,7 @@ shape = SubResource("BoxShape3D_7phvx")
 
 [node name="Floor3" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -1, 1.50996e-07, 0, -1.50996e-07, -1, -48, 0, -30)
+input_ray_pickable = false
 
 [node name="Floor" type="MeshInstance3D" parent="Floor3"]
 transform = Transform3D(4, 0, 0, 0, 4, 5.10173e-07, 0, -2.54292e-07, 8.025, 0, 0, 0)
@@ -944,6 +947,7 @@ shape = SubResource("BoxShape3D_qk4cg")
 
 [node name="Floor4" type="StaticBody3D" parent="."]
 transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 25, 0, 16)
+input_ray_pickable = false
 
 [node name="Floor" type="MeshInstance3D" parent="Floor4"]
 transform = Transform3D(-3.87433, 3.49691e-07, 0, -3.38705e-07, -4, 0, 0, 0, -8, 0, 0, 0)
@@ -959,6 +963,7 @@ shape = SubResource("BoxShape3D_8xqvp")
 
 [node name="Floor5" type="StaticBody3D" parent="."]
 transform = Transform3D(3.13916e-07, 0, 1, 0, 1, 0, -1, 0, 3.13916e-07, 0, 0, -4)
+input_ray_pickable = false
 
 [node name="Floor" type="MeshInstance3D" parent="Floor5"]
 transform = Transform3D(4.25001, 0, -3.49688e-07, 0, 4, 0, 1.85772e-07, 0, 8, 0, 0, 0)
@@ -974,6 +979,7 @@ shape = SubResource("BoxShape3D_dkvup")
 
 [node name="Floor6" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -30)
+input_ray_pickable = false
 
 [node name="Floor" type="MeshInstance3D" parent="Floor6"]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 8.02454, 0, 0, 0)
@@ -989,6 +995,7 @@ shape = SubResource("BoxShape3D_8sfu7")
 
 [node name="Floor7" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, -52, 0, -30)
+input_ray_pickable = false
 
 [node name="Floor" type="MeshInstance3D" parent="Floor7"]
 transform = Transform3D(2, 0, 0, 0, 1, 6.6791e-08, 0, -8.74228e-08, 0.764, -24, 0, 0)
@@ -1004,6 +1011,7 @@ shape = SubResource("BoxShape3D_2v6dm")
 
 [node name="Floor8" type="StaticBody3D" parent="."]
 transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 60, 0, 16)
+input_ray_pickable = false
 
 [node name="Floor_014" type="MeshInstance3D" parent="Floor8"]
 transform = Transform3D(-2, 8.74228e-08, 0, -1.74846e-07, -1, 0, 0, 0, -0.764218, 0, 0, 0)
@@ -1019,6 +1027,7 @@ shape = SubResource("BoxShape3D_mpxih")
 
 [node name="Floor9" type="StaticBody3D" parent="."]
 transform = Transform3D(1, -1.50996e-07, 1.50996e-07, -1.50996e-07, -1, -2.37869e-20, 1.50996e-07, -2.27997e-14, -1, 51.6756, 0, -30)
+input_ray_pickable = false
 
 [node name="Floor" type="MeshInstance3D" parent="Floor9"]
 transform = Transform3D(2, -1.98952e-13, -5.08584e-08, 3.97904e-13, 1, 7.67939e-15, 1.27146e-07, -9.59924e-15, 0.8, 0, 0, 0)
@@ -1034,6 +1043,7 @@ shape = SubResource("BoxShape3D_j6tbs")
 
 [node name="Floor10" type="StaticBody3D" parent="."]
 transform = Transform3D(4.37114e-08, -6.60023e-15, -1, -1.50996e-07, -1, -6.57625e-21, -1, 1.50996e-07, -4.37114e-08, 0.00500428, 0.00500011, -54)
+input_ray_pickable = false
 
 [node name="Floor" type="MeshInstance3D" parent="Floor10"]
 transform = Transform3D(2, -1.98952e-13, -3.90799e-14, 3.97904e-13, 1, -2.11758e-21, -2.13163e-14, 1.69407e-21, 0.82, 0, 0, 0)
@@ -1049,6 +1059,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -3.62378e-06, 1.04913e-06
 shape = SubResource("BoxShape3D_agof4")
 
 [node name="Floor11" type="StaticBody3D" parent="."]
+input_ray_pickable = false
 
 [node name="Floor" type="MeshInstance3D" parent="Floor11"]
 transform = Transform3D(0.987129, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)

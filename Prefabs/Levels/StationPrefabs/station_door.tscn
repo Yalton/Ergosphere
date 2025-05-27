@@ -15,8 +15,8 @@
 [ext_resource type="Script" uid="uid://c1cj7xjlkyg1r" path="res://Scripts/Environment/Interactions/door_interaction.gd" id="7_66j6v"]
 [ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="7_h70le"]
 [ext_resource type="Script" uid="uid://o01p0hrgpl5b" path="res://Scripts/Environment/GameObjects/door.gd" id="7_jrmvj"]
-[ext_resource type="AudioStream" uid="uid://c8le7po8v2ho1" path="res://Assets/Audio/door_open.ogg" id="8_2o2vn"]
-[ext_resource type="AudioStream" uid="uid://bbj6hgax6np26" path="res://Assets/Audio/door_close.ogg" id="9_yti2x"]
+[ext_resource type="AudioStream" uid="uid://c8le7po8v2ho1" path="res://Assets/Audio/Interactions/Door/station_door_open.ogg" id="8_2o2vn"]
+[ext_resource type="AudioStream" uid="uid://bbj6hgax6np26" path="res://Assets/Audio/Interactions/Door/station_door_close.ogg" id="9_yti2x"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iny2d"]
 resource_name = "GreyMetal-Dithered"

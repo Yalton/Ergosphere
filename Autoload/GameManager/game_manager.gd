@@ -12,6 +12,7 @@ var state_manager: StateManager
 
 # Test controls
 @export var test_power_outage_delay: float = 5.0
+@export var test_oxygen_failure_delay: float = 5.0
 @export var auto_start_test: bool = false
 
 func _ready() -> void:
@@ -38,19 +39,32 @@ func _ready() -> void:
 	
 	DebugLogger.info(module_name, "GameManager initialized")
 	
-	# Test power outage if enabled
-	if auto_start_test and test_power_outage_delay > 0:
-		var timer = get_tree().create_timer(test_power_outage_delay)
-		timer.timeout.connect(_test_power_outage)
+	# Test events if enabled
+	if auto_start_test:
+		if test_power_outage_delay > 0:
+			var power_timer = get_tree().create_timer(test_power_outage_delay)
+			power_timer.timeout.connect(_test_power_outage)
+		
+		if test_oxygen_failure_delay > 0:
+			var oxygen_timer = get_tree().create_timer(test_oxygen_failure_delay)
+			oxygen_timer.timeout.connect(_test_oxygen_failure)
 
 func _test_power_outage() -> void:
 	DebugLogger.debug(module_name, "Testing power outage")
 	trigger_power_outage()
 
+func _test_oxygen_failure() -> void:
+	DebugLogger.debug(module_name, "Testing oxygen failure")
+	trigger_oxygen_failure()
+
 # Public API for triggering events
 func trigger_power_outage() -> void:
 	DebugLogger.debug(module_name, "Triggering power outage")
 	event_manager.trigger_event("power_outage")
+
+func trigger_oxygen_failure() -> void:
+	DebugLogger.debug(module_name, "Triggering oxygen failure")
+	event_manager.trigger_event("oxygen_failure")
 
 func restore_power() -> void:
 	DebugLogger.debug(module_name, "Restoring power")

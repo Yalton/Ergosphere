@@ -14,8 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="12_pxlly"]
 [ext_resource type="Script" uid="uid://cd157bjj6afve" path="res://Scripts/Components/state_aware_component.gd" id="13_mobxi"]
 [ext_resource type="Texture2D" uid="uid://c8tlbkx8wnwug" path="res://Assets/Textures/VFX_Textures/spark_01.png" id="14_mobxi"]
-[ext_resource type="AudioStream" uid="uid://b8tui3hwhaal7" path="res://Assets/Audio/power_lever_adjust.ogg" id="14_qqvp8"]
-[ext_resource type="AudioStream" uid="uid://co20f7u547rk4" path="res://Assets/Audio/lever_powered.ogg" id="15_fx3yp"]
+[ext_resource type="AudioStream" uid="uid://b8tui3hwhaal7" path="res://Assets/Audio/Interactions/PowerLever/power_lever_adjust.ogg" id="14_qqvp8"]
+[ext_resource type="AudioStream" uid="uid://co20f7u547rk4" path="res://Assets/Audio/Interactions/PowerLever/lever_powered.ogg" id="15_fx3yp"]
 [ext_resource type="ArrayOccluder3D" uid="uid://nt2xbsrrs2pf" path="res://Assets/Occluders/Furniture/power_lever.occ" id="17_fx3yp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4vr02"]

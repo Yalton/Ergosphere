@@ -78,9 +78,9 @@ func _physics_process(delta : float) -> void:
 		var distance = direction_vector.length()
 		
 		# If we're too far from carry position, drop the object
-		if distance >= drop_distance:
-			leave()
-			return
+		#if distance >= drop_distance:
+			#leave()
+			#return
 		
 		# Use velocity-based approach for smoother physics
 		var target_velocity = direction_vector * carrying_velocity_multiplier 

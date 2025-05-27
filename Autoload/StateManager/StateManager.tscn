@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bt83m4xuehnh8"]
-
-[ext_resource type="Script" uid="uid://c71wwgs367vgp" path="res://Autoload/StateManager/StateManager.gd" id="1_ijos8"]
-
-[node name="StateManager" type="Node"]
-script = ExtResource("1_ijos8")
