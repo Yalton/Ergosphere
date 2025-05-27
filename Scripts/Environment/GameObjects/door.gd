@@ -17,7 +17,7 @@ enum DoorType {
 @export var is_locked: bool = false
 @export var door_speed: float = 0.1
 @export var door_type: DoorType = DoorType.SWING
-
+@export var audio_player : AudioStreamPlayer3D
 # Swing door properties
 @export_group("Swing Door Properties")
 @export var open_rotation_deg: float = 90.0
@@ -28,7 +28,7 @@ enum DoorType {
 @export var slide_direction: Vector3 = Vector3(1, 0, 0)  # Direction to slide
 @export var slide_distance: float = 2.0  # How far to slide
 
-@onready var audio_player = $"../AudioStreamPlayer3D"
+
 
 # Tracking variables
 var is_moving: bool = false

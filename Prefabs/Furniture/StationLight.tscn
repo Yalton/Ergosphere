@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://fn5mn0xkkb8y" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Color.png" id="1_cgbsm"]
 [ext_resource type="Texture2D" uid="uid://cse65y4qixeyq" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_sgr0c"]
 [ext_resource type="Texture2D" uid="uid://1bmer1juvv4a" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Normal.png" id="3_3w6fu"]
+[ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="4_3w6fu"]
 [ext_resource type="ArrayOccluder3D" uid="uid://o4nm72b3axia" path="res://Assets/Occluders/Furniture/StationLight.occ" id="4_sgr0c"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e7j7u"]
@@ -17,16 +18,7 @@ roughness_texture_channel = 1
 normal_enabled = true
 normal_texture = ExtResource("3_3w6fu")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b78xf"]
-resource_name = "Emissive"
-cull_mode = 2
-albedo_color = Color(0.906332, 0.906332, 0.906332, 1)
-roughness = 0.5
-emission_enabled = true
-emission = Color(1, 1, 1, 1)
-emission_energy_multiplier = 5.0
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_frqpi"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_sgr0c"]
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 3.69814, 2),
 "format": 34896613377,
@@ -72,7 +64,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 18,
 "index_data": PackedByteArray("AAABAAIAAAADAAEAAQADAAQAAwAAAAUABQAAAAYAAwAFAAcA"),
-"material": SubResource("StandardMaterial3D_b78xf"),
+"material": ExtResource("4_3w6fu"),
 "name": "Emissive",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -80,7 +72,7 @@ _surfaces = [{
 "vertex_data": PackedByteArray("//8AAP9/jMH/fwAAAACMwYHaAAB9JYzBAAAAAP9/jMF9JQAAfSWMwf9/AAD//4zBgdoAAIHajMF9JQAAgdqMwZHbNpKR2zaSkds2kpHbNpKR2zaSkds2kpHbNpKR2zaS")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_frqpi")
+shadow_mesh = SubResource("ArrayMesh_sgr0c")
 
 [node name="Light_001" type="Node3D"]
 transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, 0, 0, 0)
@@ -91,7 +83,6 @@ spot_range = 16.0
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." groups=["lights"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.81065e-08, 0.64973, 0)
-light_energy = 2.0
 light_size = 0.25
 distance_fade_enabled = true
 omni_range = 25.0

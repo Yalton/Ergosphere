@@ -175,6 +175,7 @@ size = Vector3(0.55, 0.087998, 0.5)
 [node name="HardDrive" type="RigidBody3D"]
 collision_layer = 15
 collision_mask = 15
+can_sleep = false
 script = ExtResource("1_6ygd1")
 display_name = "hard_drive"
 
