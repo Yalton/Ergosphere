@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cpt0g3lxl7l8v"]
 
-[ext_resource type="Script" uid="uid://2hfxfeqwkiqf" path="res://Scripts/test_snappable.gd" id="1_v826l"]
+[ext_resource type="Script" uid="uid://2hfxfeqwkiqf" path="res://Scripts/Testing/test_snappable.gd" id="1_v826l"]
 [ext_resource type="PackedScene" uid="uid://qbear523loiq" path="res://Prefabs/Components/snap_component.tscn" id="2_r2ijt"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_o2w84"]

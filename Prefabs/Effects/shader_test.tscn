@@ -1,0 +1,80 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxjsifo4te0pp"]
+
+[ext_resource type="Shader" uid="uid://d2202msrah15r" path="res://Assets/Shader/crt_colorrect.gdshader" id="1_fgfg3"]
+[ext_resource type="Script" uid="uid://cqhxddc5upt61" path="res://Scripts/Environment/GameObjects/typewriter_effect.gd" id="1_g7a6u"]
+[ext_resource type="Script" uid="uid://0ygsgg3tj8wn" path="res://Scripts/Environment/GameObjects/typewriter_demo.gd" id="3_guldx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g7a6u"]
+shader = ExtResource("1_fgfg3")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = false
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.03
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 1.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+
+[node name="FauxLogs" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.168627, 0, 0.596078)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -960.0
+offset_top = -357.0
+offset_right = 960.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[center][color=lime]-----------------------------------------------------------------------------------------------------------------------------------------------------[/color][/center]"
+fit_content = true
+script = ExtResource("1_g7a6u")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_g7a6u")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TypewriterDemo" type="Node" parent="." node_paths=PackedStringArray("typewriter")]
+script = ExtResource("3_guldx")
+typewriter = NodePath("../RichTextLabel")

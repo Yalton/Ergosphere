@@ -19,15 +19,13 @@ func _ready():
 func find_interaction_nodes():
 	interaction_nodes = find_children("","InteractionComponent",true) #Grabs all attached interaction components
 
-func find_rigid_body() -> RigidBody3D:
-	var current = self
-	while current:
-		if current is RigidBody3D:
-			return current as RigidBody3D
-		current = current.get_parent()
-	return null
-
-
+#func find_rigid_body() -> RigidBody3D:
+	#var current = self
+	#while current:
+		#if current is RigidBody3D:
+			#return current as RigidBody3D
+		#current = current.get_parent()
+	#return null
 
 func _exit_tree() -> void:
 	object_exits_tree.emit()

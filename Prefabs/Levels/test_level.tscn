@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://oj5ulsk010s8" path="res://Assets/Models/Station/Props/Drive/textures/BlackerMetal-Color.png" id="5_ovot7"]
 [ext_resource type="Texture2D" uid="uid://dij75o3xe074e" path="res://Assets/Models/Station/Props/Drive/textures/BlackerMetal-Normal.png" id="6_45tto"]
 [ext_resource type="PackedScene" uid="uid://clfwtnfkg4g0i" path="res://Prefabs/Props/Monitors/monitor_1.tscn" id="7_wb0bh"]
-[ext_resource type="PackedScene" uid="uid://bgnqxsxljglaq" path="res://Prefabs/player.tscn" id="8_dyfrl"]
+[ext_resource type="PackedScene" uid="uid://bgnqxsxljglaq" path="res://Prefabs/Entities/player.tscn" id="8_dyfrl"]
 [ext_resource type="PackedScene" uid="uid://5s5arswn7wyx" path="res://Prefabs/Test/TestDiagetic.tscn" id="9_840tq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]

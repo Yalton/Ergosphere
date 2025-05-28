@@ -1,5 +1,5 @@
 class_name DiegeticUIBase
-extends StaticBody3D
+extends GameObject
 
 signal object_state_updated(interaction_text: String)
 signal interaction_started
@@ -9,7 +9,7 @@ signal interaction_ended
 @export var interact_sound: AudioStream
 @export var usable_interaction_text: String = "Use UI"
 @export var allows_repeated_interaction: bool = true
-@export var interaction_cooldown_time: float
+@export var interaction_cooldown_time: float = 0.5  # Cooldown after interaction ends
 @export var has_been_used_hint: String
 @export var unusable_interaction_text: String = "UI Locked"
 
@@ -22,9 +22,10 @@ signal interaction_ended
 var has_been_used: bool = false
 var interaction_text: String
 var player_interaction_component: PlayerInteractionComponent
-var interaction_nodes: Array[Node]
+#var interaction_nodes: Array[Node]
 var cooldown: float
 var is_player_interacting: bool = false
+var is_in_cooldown: bool = false  # Track if we're in post-interaction cooldown
 
 # Mouse handling variables
 var pending_mouse_event: InputEvent = null
@@ -35,11 +36,12 @@ var last_mouse_hit: Vector3 = Vector3.ZERO
 var module_name: String = "DiegeticUI"
 
 func _ready() -> void:
-	DebugLogger.register_module(module_name, enable_debug)
 	
-	self.add_to_group("interactable")
-	add_to_group("save_object_state")
-	interaction_nodes = find_children("", "InteractionComponent", true)
+	super._ready()
+	DebugLogger.register_module(module_name, enable_debug)
+	#self.add_to_group("interactable")
+	#add_to_group("save_object_state")
+	#interaction_nodes = find_children("", "InteractionComponent", true)
 	cooldown = 0
 	interaction_text = usable_interaction_text
 	object_state_updated.emit(interaction_text)
@@ -58,6 +60,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if cooldown > 0:
 		cooldown -= delta
+		if cooldown <= 0:
+			is_in_cooldown = false
+			DebugLogger.debug(module_name, "Cooldown expired, UI can be interacted with again")
 	
 	# Process pending mouse event during physics process
 	if pending_mouse_event and is_player_interacting:
@@ -65,6 +70,11 @@ func _physics_process(delta: float) -> void:
 		pending_mouse_event = null
 
 func interact(_player_interaction_component: PlayerInteractionComponent) -> void:
+	# Check if we're in cooldown
+	if is_in_cooldown:
+		DebugLogger.debug(module_name, "UI is in cooldown, ignoring interaction")
+		return
+	
 	if is_player_interacting:
 		DebugLogger.debug(module_name, "Already interacting, ending interaction")
 		end_interaction()
@@ -92,8 +102,6 @@ func start_interaction() -> void:
 		interaction_text = unusable_interaction_text
 		object_state_updated.emit(interaction_text)
 		DebugLogger.debug(module_name, "Interaction used, updated text: " + interaction_text)
-	else:
-		cooldown = interaction_cooldown_time
 	
 	is_player_interacting = true
 	player_interaction_component.diegetic_ui_interaction_started(self)
@@ -217,6 +225,11 @@ func end_interaction() -> void:
 	pending_mouse_event = null
 	last_mouse_hit = Vector3.ZERO
 	
+	# Start the cooldown to prevent immediate re-interaction
+	cooldown = interaction_cooldown_time
+	is_in_cooldown = true
+	DebugLogger.debug(module_name, "Starting cooldown for " + str(interaction_cooldown_time) + " seconds")
+	
 	if player_interaction_component:
 		player_interaction_component.diegetic_ui_interaction_ended()
 	
@@ -239,3 +252,7 @@ func set_state() -> void:
 	else:
 		interaction_text = usable_interaction_text
 	object_state_updated.emit(interaction_text)
+
+# Helper method to check if UI can be interacted with
+func can_interact() -> bool:
+	return not is_in_cooldown and cooldown <= 0 and not is_player_interacting

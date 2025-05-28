@@ -132,6 +132,7 @@ collision_mask = 3
 script = ExtResource("1_54t0p")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Display")
+display_name = "monitor_1"
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
 bones/0/name = "Monitor Stand"
