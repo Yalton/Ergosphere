@@ -1,11 +1,14 @@
-[gd_scene load_steps=14 format=4 uid="uid://clfwtnfkg4g0i"]
+[gd_scene load_steps=22 format=4 uid="uid://clfwtnfkg4g0i"]
 
+[ext_resource type="Script" uid="uid://b7mx0fgepcqww" path="res://Scripts/ui/DiageticUIBase.gd" id="1_54t0p"]
 [ext_resource type="Texture2D" uid="uid://bnm0acu4duroo" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/GreyPlastic-Color.png" id="1_61goh"]
 [ext_resource type="Texture2D" uid="uid://cu1rpgp4qi4bw" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/GreyPlastic-Roughness.png" id="2_xu0m1"]
 [ext_resource type="Texture2D" uid="uid://mcvhotyg64n7" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/GreyPlastic-Normal.png" id="3_xnc50"]
 [ext_resource type="Texture2D" uid="uid://bso2ino6tdh16" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/BlackPlastic-Color.png" id="4_54t0p"]
 [ext_resource type="Texture2D" uid="uid://bisye821wot8g" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/BlackPlastic-Roughness.png" id="5_jmvsn"]
 [ext_resource type="Texture2D" uid="uid://ci6nhaoicibjf" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/BlackPlastic-Normal.png" id="6_loklc"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="7_xnc50"]
+[ext_resource type="PackedScene" uid="uid://b3i5d3w035hp" path="res://Prefabs/Test/test_diagetic_ui.tscn" id="8_54t0p"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cdamu"]
 resource_name = "GreyPlastic"
@@ -77,13 +80,15 @@ bind/1/name = &"Monitor"
 bind/1/bone = -1
 bind/1/pose = Transform3D(1, -3.89414e-07, -3.55272e-15, -1.2671e-14, -1.19209e-07, 1, -3.89414e-07, -1, -1.42109e-14, 4.31628e-09, 4.17233e-09, 0.035)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c51gg"]
-resource_name = "Screen"
-cull_mode = 2
-albedo_color = Color(0, 0, 0, 1)
-roughness = 0.5
+[sub_resource type="ViewportTexture" id="ViewportTexture_jmvsn"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_loklc"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_jmvsn")
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_treef"]
+resource_local_to_scene = true
 resource_name = "monitor_1_Cube_005"
 _surfaces = [{
 "aabb": AABB(-0.129048, 0.0601504, 0.174374, 0.258094, 0.198062, 0.0117784),
@@ -93,7 +98,7 @@ _surfaces = [{
 "index_count": 180,
 "index_data": PackedByteArray("FgACACAAFgABAAIAGAABABYAGAADAAEABAADABgABAAFAAMABgAEABgABgAYACEAIQAYABYAAAAGACEAIQAWACIAIgAWACAAAAAhABkAGQAhACIAFAAAABkAFAAZACMAFQAUACMAFQAjABMAIwAZACQAGQAiACQAEwAjABoAIwAkABoAEwAaABIAJAAiABcAIgAgABcAGgAkACUAJAAXACUAEgAaABsAGgAlABsAEgAbABEADQARABsADQAbACYAJgAbACUADgANACYAHAAlABcAJgAlABwADgAmAB8AHwAmABwAEAAOAB8AEAAfAA8ADwAfAB4AHwAcAB4ADwAeAAwAHAAXACcAHgAcACcAJwAXACAADAAeACgAHgAnACgADAAoAAsAJwAgACkAKAAnACkAKQAgAAIAKQACAAcAKAApAB0ACwAoAB0AHQApAAcACwAdAAgAHQAHAAkACAAdAAkACAAJAAoA"),
 "lods": [0.00126756, PackedByteArray("FgACABcAFgABAAIAGAABABYAGAADAAEABAADABgABAAFAAMABgAEABgABgAYABkAGQAYABYAAAAGABkAFAAAABkAFAAZABMAFQAUABMAGQAWABoAEwAZABoAGgAWABcAEwAaABIAEgAaABsAGgAXABsAEgAbABEADQARABsAHAAbABcADQAbABwAHAAXAB0AHQAXAAIAHQACAAcAHQAHAAkACAAdAAkACAAJAAoACwAdAAgACwAeAB0AHgAcAB0ADAAeAAsADwAeAAwAHwAcAB4ADwAfAB4AHwANABwAEAAfAA8ADgANAB8AEAAOAB8A"), 0.00757149, PackedByteArray("AAABAAIAAwABAAAABAAFAAMABgAEAAMABgADAAAABwAAAAIACAAHAAkACAAJAAoACwAHAAgACwAMAAcADAAAAAcADQAAAAwADgANAAwADwAOAAwAEAAOAA8ADQARAAAAEgAAABEAEwAAABIAFAAAABMAFQAUABMA")],
-"material": SubResource("StandardMaterial3D_c51gg"),
+"material": SubResource("StandardMaterial3D_loklc"),
 "name": "Screen",
 "primitive": 3,
 "skin_data": PackedByteArray("AQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAA"),
@@ -104,9 +109,28 @@ _surfaces = [{
 blend_shape_mode = 0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_61goh"]
-size = Vector3(0.32, 0.309512, 0.388502)
+size = Vector3(0.380537, 0.309512, 0.415931)
 
-[node name="Monitor_1" type="StaticBody3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_54t0p"]
+size = Vector3(10, 7.2, 0.622)
+
+[sub_resource type="QuadMesh" id="QuadMesh_54t0p"]
+size = Vector2(3.8, 2.8)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_loklc"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stgnb"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_loklc")
+
+[node name="Monitor_1" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display")]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_54t0p")
+sub_viewport = NodePath("SubViewport")
+display = NodePath("")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
 bones/0/name = "Monitor Stand"
@@ -125,13 +149,40 @@ bones/1/rotation = Quaternion(0.707107, -3.38169e-08, -5.33851e-08, 0.707107)
 bones/1/scale = Vector3(1, 1, 1)
 
 [node name="Low-Poly Monitor #3a" type="MeshInstance3D" parent="Skeleton3D"]
+transform = Transform3D(14, 0, 0, 0, 14, 0, 0, 0, 14, 0, 0, -2.22817)
 mesh = SubResource("ArrayMesh_hvpe3")
 skin = SubResource("Skin_s2mi2")
 
 [node name="Low-Poly Monitor #3a_001" type="MeshInstance3D" parent="Skeleton3D"]
+visible = false
 mesh = SubResource("ArrayMesh_treef")
 skin = SubResource("Skin_s2mi2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00678711, 0.155244, -0.000748903)
+transform = Transform3D(12.35, 0, 0, 0, 12.35, 0, 0, 0, 12.35, 0.0454953, 2.39366, -1.99694)
 shape = SubResource("BoxShape3D_61goh")
+
+[node name="BasicInteraction" parent="." instance=ExtResource("7_xnc50")]
+script = null
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(640, 472)
+size_2d_override = Vector2i(1920, 1080)
+size_2d_override_stretch = true
+
+[node name="Control" parent="SubViewport" instance=ExtResource("8_54t0p")]
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26998, 0.514963)
+collision_layer = 32
+collision_mask = 32
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.39, 0, 0, 0, 0.39, 0, 0, 0, 0.39, 0.0214791, 0.0178831, -0.075453)
+shape = SubResource("BoxShape3D_54t0p")
+
+[node name="Display" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28306, 0.441931)
+mesh = SubResource("QuadMesh_54t0p")
+surface_material_override/0 = SubResource("StandardMaterial3D_stgnb")

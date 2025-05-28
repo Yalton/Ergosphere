@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://d16ngp5ysvidq"]
+
+[ext_resource type="PackedScene" uid="uid://xar6k3skfwoc" path="res://Prefabs/Furniture/StationLight.tscn" id="1_gi5k1"]
+
+[node name="Lights" type="Node3D"]
+
+[node name="StationLight" parent="." instance=ExtResource("1_gi5k1")]
+transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, 0, 5, -18)
+
+[node name="StationLight2" parent="." instance=ExtResource("1_gi5k1")]
+transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, 0, 5, -44)
+
+[node name="StationLight3" parent="." instance=ExtResource("1_gi5k1")]
+transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, 28, 5, -30)
+
+[node name="StationLight4" parent="." instance=ExtResource("1_gi5k1")]
+transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, -28, 5, -30)
+
+[node name="StationLight5" parent="." instance=ExtResource("1_gi5k1")]
+transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, -65, 5, -30)
+
+[node name="StationLight6" parent="." instance=ExtResource("1_gi5k1")]
+transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, 64, 5, -30)
+
+[node name="StationLight7" parent="." instance=ExtResource("1_gi5k1")]
+transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, 0, 5, -77.3468)
+
+[node name="StationLight8" parent="." instance=ExtResource("1_gi5k1")]
+transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, 41, 5, 16)
+
+[node name="StationLight9" parent="." instance=ExtResource("1_gi5k1")]
+transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, -41, 5, 16)
+
+[node name="StationLight10" parent="." instance=ExtResource("1_gi5k1")]
+transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, -73, 5, 16)
+
+[node name="StationLight11" parent="." instance=ExtResource("1_gi5k1")]
+transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, 74, 5, 16)

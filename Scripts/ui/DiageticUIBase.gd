@@ -26,6 +26,10 @@ var interaction_nodes: Array[Node]
 var cooldown: float
 var is_player_interacting: bool = false
 
+# Mouse handling variables
+var pending_mouse_event: InputEvent = null
+var last_mouse_hit: Vector3 = Vector3.ZERO
+
 # Debug flag
 @export var enable_debug: bool = true
 var module_name: String = "DiegeticUI"
@@ -54,6 +58,11 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if cooldown > 0:
 		cooldown -= delta
+	
+	# Process pending mouse event during physics process
+	if pending_mouse_event and is_player_interacting:
+		process_mouse_raycast(pending_mouse_event)
+		pending_mouse_event = null
 
 func interact(_player_interaction_component: PlayerInteractionComponent) -> void:
 	if is_player_interacting:
@@ -116,21 +125,24 @@ func _input(event: InputEvent) -> void:
 	# Mouse input is only processed when the mouse is in visible mode
 	if Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
 		return
-	
+
 	# Only process mouse events
 	if event is InputEventMouseButton or event is InputEventMouseMotion:
-		handle_mouse(event)
+		# Store the event to be processed during physics process
+		pending_mouse_event = event.duplicate()
 		get_viewport().set_input_as_handled()
 
-# Handle mouse events for the UI
-func handle_mouse(event: InputEvent) -> void:
+# Process mouse raycast during physics process
+func process_mouse_raycast(event: InputEvent) -> void:
 	# Find where the mouse ray intersects with our UI
-	var mouse_pos3D = find_mouse(event.global_position)
+	var mouse_pos3D = find_mouse_physics_safe(event.global_position)
 	
-	if mouse_pos3D == null:
-		# Mouse isn't hitting our UI
-		return
-	
+	if mouse_pos3D != Vector3.ZERO:
+		last_mouse_hit = mouse_pos3D
+		handle_mouse(event, mouse_pos3D)
+
+# Handle mouse events for the UI
+func handle_mouse(event: InputEvent, mouse_pos3D: Vector3) -> void:
 	# Convert to local space relative to the Area3D
 	mouse_pos3D = area_3d.global_transform.affine_inverse() * mouse_pos3D
 	
@@ -171,14 +183,19 @@ func handle_mouse(event: InputEvent) -> void:
 	# Send the event to the viewport
 	sub_viewport.push_input(new_event)
 
-# Find where the mouse ray intersects with our UI using physics raycast
-func find_mouse(pos: Vector2) -> Vector3:
+# Find where the mouse ray intersects with our UI - safe to call during physics process
+func find_mouse_physics_safe(pos: Vector2) -> Vector3:
 	var camera = get_viewport().get_camera_3d()
 	if !camera:
 		DebugLogger.error(module_name, "No camera found in viewport!")
 		return Vector3.ZERO
-		
+	
+	# This should only be called during physics process
 	var space_state = get_world_3d().direct_space_state
+	if !space_state:
+		DebugLogger.error(module_name, "No direct space state available!")
+		return Vector3.ZERO
+		
 	var ray_params = PhysicsRayQueryParameters3D.new()
 	
 	ray_params.from = camera.project_ray_origin(pos)
@@ -197,6 +214,8 @@ func find_mouse(pos: Vector2) -> Vector3:
 func end_interaction() -> void:
 	set_process_input(false)
 	is_player_interacting = false
+	pending_mouse_event = null
+	last_mouse_hit = Vector3.ZERO
 	
 	if player_interaction_component:
 		player_interaction_component.diegetic_ui_interaction_ended()
