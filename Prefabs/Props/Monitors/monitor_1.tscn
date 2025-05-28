@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://clfwtnfkg4g0i"]
+[gd_scene load_steps=23 format=4 uid="uid://clfwtnfkg4g0i"]
 
 [ext_resource type="Script" uid="uid://b7mx0fgepcqww" path="res://Scripts/ui/DiageticUIBase.gd" id="1_54t0p"]
 [ext_resource type="Texture2D" uid="uid://bnm0acu4duroo" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/GreyPlastic-Color.png" id="1_61goh"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://ci6nhaoicibjf" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/BlackPlastic-Normal.png" id="6_loklc"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="7_xnc50"]
 [ext_resource type="PackedScene" uid="uid://b3i5d3w035hp" path="res://Prefabs/Test/test_diagetic_ui.tscn" id="8_54t0p"]
+[ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="9_jmvsn"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cdamu"]
 resource_name = "GreyPlastic"
@@ -112,7 +113,7 @@ blend_shape_mode = 0
 size = Vector3(0.380537, 0.309512, 0.415931)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_54t0p"]
-size = Vector3(10, 7.2, 0.622)
+size = Vector3(3.85, 2.8, 0.2)
 
 [sub_resource type="QuadMesh" id="QuadMesh_54t0p"]
 size = Vector2(3.8, 2.8)
@@ -130,7 +131,7 @@ collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_54t0p")
 sub_viewport = NodePath("SubViewport")
-display = NodePath("")
+display = NodePath("Display")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
 bones/0/name = "Monitor Stand"
@@ -165,24 +166,26 @@ shape = SubResource("BoxShape3D_61goh")
 [node name="BasicInteraction" parent="." instance=ExtResource("7_xnc50")]
 script = null
 
-[node name="SubViewport" type="SubViewport" parent="."]
+[node name="SubViewport" type="SubViewport" parent="." node_paths=PackedStringArray("display_mesh")]
 size = Vector2i(640, 472)
 size_2d_override = Vector2i(1920, 1080)
 size_2d_override_stretch = true
+script = ExtResource("9_jmvsn")
+display_mesh = NodePath("../Display")
 
 [node name="Control" parent="SubViewport" instance=ExtResource("8_54t0p")]
 
 [node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26998, 0.514963)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26998, 0.545306)
 collision_layer = 32
 collision_mask = 32
 input_capture_on_drag = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(0.39, 0, 0, 0, 0.39, 0, 0, 0, 0.39, 0.0214791, 0.0178831, -0.075453)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0214791, 0.0178831, -0.075453)
 shape = SubResource("BoxShape3D_54t0p")
 
 [node name="Display" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28306, 0.441931)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28306, 0.472274)
 mesh = SubResource("QuadMesh_54t0p")
 surface_material_override/0 = SubResource("StandardMaterial3D_stgnb")

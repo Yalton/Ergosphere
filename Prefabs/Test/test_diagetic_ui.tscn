@@ -39,3 +39,10 @@ layout_mode = 2
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 881.0
+offset_top = 48.0
+offset_right = 921.0
+offset_bottom = 88.0
