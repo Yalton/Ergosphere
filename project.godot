@@ -62,6 +62,10 @@ lights=""
 power_lever=""
 storage_wall=""
 
+[gui]
+
+theme/custom_font="uid://l6xcpy145etv"
+
 [input]
 
 w={
