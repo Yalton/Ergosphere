@@ -5,9 +5,11 @@ extends Control
 @export var play_game_audio: AudioStream
 @export_file("*.tscn") var game_scene_path: String
 @export var options_menu: Control
-@onready var play_game_button: Button = $HBoxContainer/VBoxContainer/PlayButton
-@onready var options_button: Button = $HBoxContainer/VBoxContainer/OptionsButton
-@onready var quit_button: Button = $HBoxContainer/VBoxContainer/QuitButton
+
+@export_category("Buttons")
+@export var play_game_button: Button 
+@export var options_button: Button
+@export var quit_button: Button
 
 func _ready() -> void:
 	# Make sure the mouse is visible when entering the main menu

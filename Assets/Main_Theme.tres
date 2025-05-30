@@ -1,8 +1,36 @@
-[gd_resource type="Theme" load_steps=57 format=3 uid="uid://cimnyinlx3f0k"]
+[gd_resource type="Theme" load_steps=88 format=3 uid="uid://cimnyinlx3f0k"]
 
 [ext_resource type="FontFile" uid="uid://th8wmhp0twj5" path="res://Assets/Fonts/Textur/Tektur-Medium.ttf" id="1_2st24"]
+[ext_resource type="Texture2D" uid="uid://ur8c8sq2pfw1" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/checked.svg" id="2_ktr3d"]
 [ext_resource type="FontFile" uid="uid://bt0r501546gs0" path="res://Assets/Fonts/Textur/Tektur-ExtraBold.ttf" id="2_lvqwq"]
+[ext_resource type="Texture2D" uid="uid://4j4tosjta1ic" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/checked_disabled.svg" id="3_78naa"]
 [ext_resource type="FontFile" uid="uid://l6xcpy145etv" path="res://Assets/Fonts/Textur/Tektur-Regular.ttf" id="3_lvqwq"]
+[ext_resource type="Texture2D" uid="uid://bayndwdnmtnt7" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/radio_checked.svg" id="4_oyypr"]
+[ext_resource type="Texture2D" uid="uid://di7anmeakaluc" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/radio_checked_disabled.svg" id="5_fj8yf"]
+[ext_resource type="Texture2D" uid="uid://bg74u6yri54et" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/radio_unchecked.svg" id="6_vreg1"]
+[ext_resource type="Texture2D" uid="uid://cyb8xpyc2dwav" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/radio_unchecked_disabled.svg" id="7_am7qa"]
+[ext_resource type="Texture2D" uid="uid://cm472lonjge42" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/toggle_on.svg" id="8_41or3"]
+[ext_resource type="Texture2D" uid="uid://cjnoq5bkndw22" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/toggle_on_disabled.svg" id="9_2lkaf"]
+[ext_resource type="Texture2D" uid="uid://dw7a5ig8meyjs" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/toggle_on_disabled_mirrored.svg" id="10_s1u6f"]
+[ext_resource type="Texture2D" uid="uid://b08ydaksd7qyp" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/toggle_on_mirrored.svg" id="11_kspiu"]
+[ext_resource type="Texture2D" uid="uid://c8d5tgi0if31t" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/toggle_off.svg" id="12_escj6"]
+[ext_resource type="Texture2D" uid="uid://bl5tvvffv7opo" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/toggle_off_disabled.svg" id="13_7g8v5"]
+[ext_resource type="Texture2D" uid="uid://dippfaces8b6k" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/toggle_off_disabled_mirrored.svg" id="14_nd6no"]
+[ext_resource type="Texture2D" uid="uid://db60vxh7wey5p" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/toggle_off_mirrored.svg" id="15_qerhm"]
+[ext_resource type="Texture2D" uid="uid://cg6bqc68sb626" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/slider_grabber.svg" id="16_pg4nk"]
+[ext_resource type="Texture2D" uid="uid://bbl37ew6q2iit" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/slider_grabber_disabled.svg" id="17_pt0vl"]
+[ext_resource type="Texture2D" uid="uid://caw4qgb5eavod" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/slider_grabber_hl.svg" id="18_q4r50"]
+[ext_resource type="Texture2D" uid="uid://4ibdqpqsj6da" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/option_button_arrow.svg" id="21_tf70k"]
+[ext_resource type="Texture2D" uid="uid://c6oxkoqvk4sq3" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/value_down.svg" id="22_u3hvp"]
+[ext_resource type="Texture2D" uid="uid://djshcx74j065j" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/value_up.svg" id="23_yttux"]
+[ext_resource type="Texture2D" uid="uid://b74innncwcb27" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/arrow_down.svg" id="24_xvfaq"]
+[ext_resource type="Texture2D" uid="uid://bt4k1r4lq2gim" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/arrow_right.svg" id="25_upvpo"]
+[ext_resource type="Texture2D" uid="uid://p7pitgar7lr5" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/arrow_left.svg" id="26_bofg7"]
+[ext_resource type="Texture2D" uid="uid://bpbfpcmd44rul" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/indeterminate.svg" id="27_dah6l"]
+[ext_resource type="Texture2D" uid="uid://c43rquhg6yipu" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/indeterminate_disabled.svg" id="28_5qaqq"]
+[ext_resource type="Texture2D" uid="uid://i3wo0bjlitvt" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/updown.svg" id="29_ggavq"]
+[ext_resource type="Texture2D" uid="uid://dugy5nfoqrsd5" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/close.svg" id="30_0lt18"]
+[ext_resource type="Texture2D" uid="uid://dr8vnaff5gins" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/close_hl.svg" id="31_com3d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tf70k"]
 bg_color = Color(0, 1, 0, 0.360784)
@@ -117,11 +145,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7g8v5"]
-bg_color = Color(0, 1, 0, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+bg_color = Color(0, 1, 0, 0.360784)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qerhm"]
 content_margin_top = 4.0
@@ -171,6 +195,13 @@ corner_radius_bottom_left = 4
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_av6cy"]
 bg_color = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvfaq"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kspiu"]
 bg_color = Color(0, 1, 0, 1)
 
@@ -209,6 +240,20 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yttux"]
+bg_color = Color(0, 1, 0, 0.360784)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y7xjc"]
+bg_color = Color(0, 1, 0, 0.360784)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rm2ek"]
 bg_color = Color(0, 1, 0, 0.360784)
@@ -451,11 +496,28 @@ Button/styles/focus = SubResource("StyleBoxFlat_tf70k")
 Button/styles/hover = SubResource("StyleBoxFlat_2st24")
 Button/styles/normal = SubResource("StyleBoxFlat_lvqwq")
 Button/styles/pressed = SubResource("StyleBoxFlat_0w3y7")
+CheckBox/icons/checked = ExtResource("2_ktr3d")
+CheckBox/icons/checked_disabled = ExtResource("3_78naa")
+CheckBox/icons/radio_checked = ExtResource("4_oyypr")
+CheckBox/icons/radio_checked_disabled = ExtResource("5_fj8yf")
+CheckBox/icons/radio_unchecked = ExtResource("6_vreg1")
+CheckBox/icons/radio_unchecked_disabled = ExtResource("7_am7qa")
+CheckButton/icons/checked = ExtResource("8_41or3")
+CheckButton/icons/checked_disabled = ExtResource("9_2lkaf")
+CheckButton/icons/checked_disabled_mirrored = ExtResource("10_s1u6f")
+CheckButton/icons/checked_mirrored = ExtResource("11_kspiu")
+CheckButton/icons/unchecked = ExtResource("12_escj6")
+CheckButton/icons/unchecked_disabled = ExtResource("13_7g8v5")
+CheckButton/icons/unchecked_disabled_mirrored = ExtResource("14_nd6no")
+CheckButton/icons/unchecked_mirrored = ExtResource("15_qerhm")
 HScrollBar/styles/grabber = SubResource("StyleBoxFlat_fj8yf")
 HScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_vreg1")
 HScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_am7qa")
 HSeparator/constants/separation = 4
 HSeparator/styles/separator = SubResource("StyleBoxLine_2st24")
+HSlider/icons/grabber = ExtResource("16_pg4nk")
+HSlider/icons/grabber_disabled = ExtResource("17_pt0vl")
+HSlider/icons/grabber_highlight = ExtResource("18_q4r50")
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_escj6")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_7g8v5")
 HSlider/styles/slider = SubResource("StyleBoxFlat_qerhm")
@@ -470,12 +532,20 @@ LineEdit/fonts/font = ExtResource("3_lvqwq")
 LineEdit/styles/focus = SubResource("StyleBoxFlat_beem6")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_t5j2p")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_f1xh2")
+OptionButton/icons/arrow = ExtResource("21_tf70k")
 Panel/styles/panel = SubResource("StyleBoxFlat_av6cy")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_xvfaq")
 PopupMenu/colors/font_outline_color = Color(0, 1, 0, 1)
 PopupMenu/colors/font_separator_color = Color(0, 1, 0, 1)
 PopupMenu/constants/outline_size = 1
 PopupMenu/constants/resize_margin = 1
 PopupMenu/fonts/font = ExtResource("3_lvqwq")
+PopupMenu/icons/checked = ExtResource("2_ktr3d")
+PopupMenu/icons/checked_disabled = ExtResource("3_78naa")
+PopupMenu/icons/radio_checked = ExtResource("4_oyypr")
+PopupMenu/icons/radio_checked_disabled = ExtResource("5_fj8yf")
+PopupMenu/icons/submenu = ExtResource("25_upvpo")
+PopupMenu/icons/submenu_mirrored = ExtResource("26_bofg7")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_kspiu")
 PopupMenu/styles/labeled_separator_left = SubResource("StyleBoxLine_escj6")
 PopupMenu/styles/labeled_separator_right = SubResource("StyleBoxLine_7g8v5")
@@ -487,6 +557,16 @@ ProgressBar/constants/outline_size = 1
 ProgressBar/fonts/font = ExtResource("1_2st24")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_3prki")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_dnhlk")
+SpinBox/icons/down = ExtResource("22_u3hvp")
+SpinBox/icons/down_disabled = ExtResource("22_u3hvp")
+SpinBox/icons/down_hover = ExtResource("22_u3hvp")
+SpinBox/icons/down_pressed = ExtResource("22_u3hvp")
+SpinBox/icons/up = ExtResource("23_yttux")
+SpinBox/icons/up_disabled = ExtResource("23_yttux")
+SpinBox/icons/up_hover = ExtResource("23_yttux")
+SpinBox/icons/up_pressed = ExtResource("23_yttux")
+SpinBox/styles/down_background_hovered = SubResource("StyleBoxFlat_yttux")
+SpinBox/styles/up_background_hovered = SubResource("StyleBoxFlat_y7xjc")
 TabBar/colors/font_outline_color = Color(0, 1, 0, 1)
 TabBar/constants/outline_size = 1
 TabBar/styles/button_pressed = SubResource("StyleBoxFlat_rm2ek")
@@ -516,6 +596,15 @@ Tree/colors/title_button_color = Color(1, 1, 1, 1)
 Tree/constants/outline_size = 1
 Tree/fonts/font = ExtResource("3_lvqwq")
 Tree/fonts/title_button_font = ExtResource("2_lvqwq")
+Tree/icons/arrow = ExtResource("24_xvfaq")
+Tree/icons/arrow_collapsed = ExtResource("25_upvpo")
+Tree/icons/arrow_collapsed_mirrored = ExtResource("26_bofg7")
+Tree/icons/checked = ExtResource("2_ktr3d")
+Tree/icons/checked_disabled = ExtResource("3_78naa")
+Tree/icons/indeterminate = ExtResource("27_dah6l")
+Tree/icons/indeterminate_disabled = ExtResource("28_5qaqq")
+Tree/icons/select_arrow = ExtResource("21_tf70k")
+Tree/icons/updown = ExtResource("29_ggavq")
 Tree/styles/button_hover = SubResource("StyleBoxFlat_fopk2")
 Tree/styles/button_pressed = SubResource("StyleBoxFlat_hfg6u")
 Tree/styles/cursor = SubResource("StyleBoxFlat_mdfy7")
@@ -533,7 +622,12 @@ VScrollBar/styles/grabber = SubResource("StyleBoxFlat_41or3")
 VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_2lkaf")
 VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_s1u6f")
 VSeparator/styles/separator = SubResource("StyleBoxLine_5pt2n")
+VSlider/icons/grabber = ExtResource("16_pg4nk")
+VSlider/icons/grabber_disabled = ExtResource("17_pt0vl")
+VSlider/icons/grabber_highlight = ExtResource("18_q4r50")
 VSlider/styles/grabber_area = SubResource("StyleBoxFlat_pg4nk")
 VSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_pt0vl")
 VSlider/styles/slider = SubResource("StyleBoxFlat_q4r50")
 Window/fonts/title_font = ExtResource("3_lvqwq")
+Window/icons/close = ExtResource("30_0lt18")
+Window/icons/close_pressed = ExtResource("31_com3d")
