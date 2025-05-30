@@ -1,12 +1,15 @@
-[gd_scene format=3 uid="uid://b3i5d3w035hp"]
+[gd_scene load_steps=2 format=3 uid="uid://b3i5d3w035hp"]
 
-[node name="Control" type="Control"]
+[ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_mhgne"]
+
+[node name="TestDiageticUI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_mhgne")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -15,30 +18,38 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_mhgne")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_mhgne")
 
 [node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_mhgne")
 theme_override_font_sizes/font_size = 64
 text = "TestButton"
 
 [node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_mhgne")
 theme_override_font_sizes/font_size = 64
 text = "TestButton"
 
 [node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_mhgne")
 theme_override_font_sizes/font_size = 64
 text = "TestButton"
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 2
+theme = ExtResource("1_mhgne")
 
 [node name="Control" type="Control" parent="."]
 anchors_preset = 0
@@ -46,3 +57,4 @@ offset_left = 881.0
 offset_top = 48.0
 offset_right = 921.0
 offset_bottom = 88.0
+theme = ExtResource("1_mhgne")
