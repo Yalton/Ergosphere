@@ -1,39 +1,46 @@
-[gd_scene load_steps=14 format=4 uid="uid://cujjujcpp2c4y"]
+[gd_scene load_steps=22 format=4 uid="uid://ch6mkc1p7hs84"]
 
-[ext_resource type="Texture2D" uid="uid://d30amr513rkr2" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Color.png" id="1_l0qie"]
-[ext_resource type="Texture2D" uid="uid://qejysd14q40x" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Roughness.png" id="2_pjnre"]
-[ext_resource type="Texture2D" uid="uid://d4f4jssc74kra" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Normal.png" id="3_s5ma6"]
-[ext_resource type="Texture2D" uid="uid://dwgo0lfh56oy4" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Color.png" id="4_1hay4"]
-[ext_resource type="Texture2D" uid="uid://cq1v1lwg2hweo" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Roughness.png" id="5_ogpn1"]
-[ext_resource type="Texture2D" uid="uid://pf0o6435nwg1" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Normal.png" id="6_ewdus"]
+[ext_resource type="Texture2D" uid="uid://d30amr513rkr2" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Color.png" id="1_l4gnf"]
+[ext_resource type="Script" uid="uid://dpqlr33j0q3nc" path="res://Scripts/download_monitor.gd" id="1_qfur7"]
+[ext_resource type="Texture2D" uid="uid://qejysd14q40x" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Roughness.png" id="2_7db5l"]
+[ext_resource type="Texture2D" uid="uid://d4f4jssc74kra" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Normal.png" id="3_kdt73"]
+[ext_resource type="Texture2D" uid="uid://dwgo0lfh56oy4" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Color.png" id="4_au0d5"]
+[ext_resource type="Texture2D" uid="uid://cq1v1lwg2hweo" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Roughness.png" id="5_qfur7"]
+[ext_resource type="Texture2D" uid="uid://pf0o6435nwg1" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Normal.png" id="6_coqsn"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="7_au0d5"]
+[ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="8_qfur7"]
+[ext_resource type="PackedScene" uid="uid://cr1bpmb7lgifx" path="res://Prefabs/UI/download_ui.tscn" id="9_au0d5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l0qie"]
+size = Vector3(4.67627, 3.99227, 5.446)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g4m61"]
 resource_name = "GreyPlastic"
 cull_mode = 2
-albedo_texture = ExtResource("1_l0qie")
-metallic_texture = ExtResource("2_pjnre")
+albedo_texture = ExtResource("1_l4gnf")
+metallic_texture = ExtResource("2_7db5l")
 metallic_texture_channel = 2
-roughness_texture = ExtResource("2_pjnre")
+roughness_texture = ExtResource("2_7db5l")
 roughness_texture_channel = 1
 normal_enabled = true
-normal_texture = ExtResource("3_s5ma6")
+normal_texture = ExtResource("3_kdt73")
 uv1_scale = Vector3(4, 4, 1)
 uv1_offset = Vector3(0, -3, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ym7sx"]
 resource_name = "BlackPlastic"
 cull_mode = 2
-albedo_texture = ExtResource("4_1hay4")
-metallic_texture = ExtResource("5_ogpn1")
+albedo_texture = ExtResource("4_au0d5")
+metallic_texture = ExtResource("5_qfur7")
 metallic_texture_channel = 2
-roughness_texture = ExtResource("5_ogpn1")
+roughness_texture = ExtResource("5_qfur7")
 roughness_texture_channel = 1
 normal_enabled = true
-normal_texture = ExtResource("6_ewdus")
+normal_texture = ExtResource("6_coqsn")
 uv1_scale = Vector3(4, 4, 1)
 uv1_offset = Vector3(0, -3, 0)
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_l0qie"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_l4gnf"]
 resource_name = "monitor_2_Cube_111"
 _surfaces = [{
 "aabb": AABB(-0.171001, -3.88785e-08, -0.185, 0.342, 0.30236, 0.3825),
@@ -68,7 +75,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="Skin" id="Skin_pjnre"]
+[sub_resource type="Skin" id="Skin_7db5l"]
 resource_name = "Skin"
 bind_count = 2
 bind/0/name = &"Monitor Stand"
@@ -84,7 +91,7 @@ cull_mode = 2
 albedo_color = Color(0, 0, 0, 1)
 roughness = 0.5
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_s5ma6"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_kdt73"]
 resource_name = "monitor_2_Cube_147"
 _surfaces = [{
 "aabb": AABB(-0.133449, 0.0621988, 0.18032, 0.266896, 0.20482, 0.0123284),
@@ -104,12 +111,34 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_l0qie"]
-size = Vector3(0.32, 0.309512, 0.388502)
+[sub_resource type="BoxShape3D" id="BoxShape3D_exi1t"]
+size = Vector3(3.85, 2.8, 0.2)
 
-[node name="Monitor_2" type="StaticBody3D"]
+[sub_resource type="QuadMesh" id="QuadMesh_1210g"]
+size = Vector2(3.8, 2.8)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_loklc"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rd50w"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_loklc")
+
+[node name="Download_Monitor" type="StaticBody3D" node_paths=PackedStringArray("download_ui_control", "sub_viewport", "display")]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_qfur7")
+download_ui_control = NodePath("SubViewport/DownloadUI")
+sub_viewport = NodePath("SubViewport")
+display = NodePath("Display")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00371356, 2.19273, 0.156631)
+shape = SubResource("BoxShape3D_l0qie")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
+transform = Transform3D(14, 0, 0, 0, 14, 0, 0, 0, 14, 0, 0, 0)
 bones/0/name = "Monitor Stand"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, 2.66092e-07, -2.76737e-08, -2.66092e-07, 1, 5.96046e-08, 2.76738e-08, -5.96046e-08, 1, 0, 0, 0)
@@ -126,13 +155,36 @@ bones/1/rotation = Quaternion(0.707107, -3.38169e-08, -5.33852e-08, 0.707107)
 bones/1/scale = Vector3(1, 1, 1)
 
 [node name="Low-Poly Monitor #3" type="MeshInstance3D" parent="Skeleton3D"]
-mesh = SubResource("ArrayMesh_l0qie")
-skin = SubResource("Skin_pjnre")
+mesh = SubResource("ArrayMesh_l4gnf")
+skin = SubResource("Skin_7db5l")
 
 [node name="Monitor_001" type="MeshInstance3D" parent="Skeleton3D"]
-mesh = SubResource("ArrayMesh_s5ma6")
-skin = SubResource("Skin_pjnre")
+visible = false
+mesh = SubResource("ArrayMesh_kdt73")
+skin = SubResource("Skin_7db5l")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00678711, 0.155244, -0.000748903)
-shape = SubResource("BoxShape3D_l0qie")
+[node name="BasicInteraction" parent="." instance=ExtResource("7_au0d5")]
+script = null
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(640, 472)
+size_2d_override = Vector2i(1920, 1080)
+size_2d_override_stretch = true
+script = ExtResource("8_qfur7")
+
+[node name="DownloadUI" parent="SubViewport" instance=ExtResource("9_au0d5")]
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26998, 2.80685)
+collision_layer = 32
+collision_mask = 32
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0214791, 0.0178831, -0.075453)
+shape = SubResource("BoxShape3D_exi1t")
+
+[node name="Display" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28306, 2.73382)
+mesh = SubResource("QuadMesh_1210g")
+surface_material_override/0 = SubResource("StandardMaterial3D_rd50w")

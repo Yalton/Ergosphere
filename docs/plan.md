@@ -58,13 +58,15 @@ Tasks
 ~~Swap O2 Filters~~
 ~~Upload Data~~
 ~~Reset Power~~
-~~Reset Capacitor in Turbine~~
 ~~Swap Engine Heatsink~~
-
 Download Data
 Re-allign Telescope
-Sleep at end of day
+Close Window Shutters During Radiation
 Eat a meal
+Sleep at end of day
+
+Hide from creature 
+Pray to the Obelisk
 Drink Alcohol - Staves off insanity
 
 <!-- Models required -->

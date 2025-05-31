@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=51 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://clfwtnfkg4g0i" path="res://Prefabs/Props/Monitors/monitor_1.tscn" id="7_wb0bh"]
 [ext_resource type="PackedScene" uid="uid://bgnqxsxljglaq" path="res://Prefabs/Entities/player.tscn" id="8_dyfrl"]
 [ext_resource type="PackedScene" uid="uid://5s5arswn7wyx" path="res://Prefabs/Test/TestDiagetic.tscn" id="9_840tq"]
+[ext_resource type="PackedScene" uid="uid://ch6mkc1p7hs84" path="res://Prefabs/Props/Monitors/download_monitor.tscn" id="10_ovot7"]
+[ext_resource type="PackedScene" uid="uid://dnpaf7qn1mnc7" path="res://Prefabs/Props/desktop_with_hdd.tscn" id="11_45tto"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
 shader = ExtResource("1_iv3f0")
@@ -289,9 +291,16 @@ size = Vector3(75, 0.2, 75)
 material = SubResource("StandardMaterial3D_v7qhq")
 
 [node name="Monitor_1" parent="." instance=ExtResource("7_wb0bh")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 1.11895, -7)
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -12.6293, 1.11895, -7)
 
 [node name="Player" parent="." instance=ExtResource("8_dyfrl")]
 
 [node name="DiageticTest" parent="." instance=ExtResource("9_840tq")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -6, 2, -6)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -15.9445, 2, -6)
+
+[node name="Download_Monitor" parent="." instance=ExtResource("10_ovot7")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 1, -5)
+
+[node name="Desktop_With_HDD" parent="." node_paths=PackedStringArray("download_diegetic_ui") instance=ExtResource("11_45tto")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -5)
+download_diegetic_ui = NodePath("../Download_Monitor")

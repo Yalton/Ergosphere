@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=3 uid="uid://cr1bpmb7lgifx"]
+
+[ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_foh8n"]
+[ext_resource type="Script" uid="uid://bw7vk3iwnsj8p" path="res://Scripts/ui/download_ui.gd" id="2_c1cak"]
+[ext_resource type="Texture2D" uid="uid://dsfxxinovu4ep" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/save.svg" id="2_cvfbq"]
+[ext_resource type="Texture2D" uid="uid://b07y8q0d47hc7" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/save_green.svg" id="3_c1cak"]
+
+[node name="DownloadUI" type="Control" node_paths=PackedStringArray("download_button", "progress_bar", "status_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_foh8n")
+script = ExtResource("2_c1cak")
+download_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/Button")
+progress_bar = NodePath("PanelContainer/MarginContainer/VBoxContainer/AspectRatioContainer/TextureProgressBar")
+status_label = NodePath("PanelContainer/MarginContainer/VBoxContainer/DownloadStatus")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme = ExtResource("1_foh8n")
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 80
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_foh8n")
+
+[node name="Control" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="PanelContainer/MarginContainer/VBoxContainer/AspectRatioContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+fill_mode = 2
+nine_patch_stretch = true
+texture_under = ExtResource("2_cvfbq")
+texture_progress = ExtResource("3_c1cak")
+
+[node name="DownloadStatus" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Download: Not Started"
+horizontal_alignment = 1
+
+[node name="Control3" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Download Data"
+
+[node name="Control2" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
