@@ -1,6 +1,7 @@
-[gd_scene load_steps=26 format=4 uid="uid://qr1n21uuq8fa"]
+[gd_scene load_steps=27 format=4 uid="uid://qr1n21uuq8fa"]
 
 [ext_resource type="Texture2D" uid="uid://mdt1kero5hpi" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Color.png" id="1_hdvgj"]
+[ext_resource type="Script" uid="uid://cgpjv0ht3v1qu" path="res://Scripts/window_lever.gd" id="1_uaw60"]
 [ext_resource type="Texture2D" uid="uid://btfe3nh7er45j" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Roughness.png" id="2_ir62q"]
 [ext_resource type="Texture2D" uid="uid://bi5uhue15pioh" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Normal.png" id="3_uxq5t"]
 [ext_resource type="Texture2D" uid="uid://dgu87woln2sfa" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/BlackerMetal-Color.png" id="4_tp4de"]
@@ -183,7 +184,14 @@ shadow_mesh = SubResource("ArrayMesh_kh7sq")
 [sub_resource type="BoxShape3D" id="BoxShape3D_pbglq"]
 size = Vector3(1, 1.23792, 0.278564)
 
-[node name="window_lever" type="Node3D"]
+[node name="window_lever" type="StaticBody3D" node_paths=PackedStringArray("lever_animation_player")]
+collision_layer = 7
+collision_mask = 7
+script = ExtResource("1_uaw60")
+lever_animation_player = NodePath("AnimationPlayer")
+open_animation = "open_window"
+close_animation = "close_window"
+display_name = "window_lever"
 
 [node name="Cube_342" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.322879, 0, 0, 0, 0.645757, 0, 0, 0, 0.0322879, 3.90582e-06, 0, 0)

@@ -68,7 +68,6 @@ script = ExtResource("1_xcp83")
 main_menu_path = "uid://b2xc4entjfn1n"
 
 [node name="PauseMenu" type="HBoxContainer" parent="."]
-visible = false
 z_index = 5
 layout_mode = 1
 anchors_preset = 15
@@ -133,6 +132,7 @@ vertical_alignment = 1
 z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
 theme = ExtResource("1_r7nho")
 
 [node name="ResumeButton" type="Button" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
@@ -146,6 +146,7 @@ text = "Resume"
 z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
 theme = ExtResource("1_r7nho")
 
 [node name="OptionsButton" type="Button" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
@@ -159,6 +160,21 @@ text = "Options"
 z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+theme = ExtResource("1_r7nho")
+
+[node name="ControlsButton" type="Button" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_r7nho")
+text = "Controls"
+
+[node name="Control5" type="Control" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
 theme = ExtResource("1_r7nho")
 
 [node name="MainMenuButton" type="Button" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
@@ -195,6 +211,7 @@ size_flags_horizontal = 3
 theme = ExtResource("1_r7nho")
 
 [node name="Options" type="HBoxContainer" parent="."]
+visible = false
 z_index = 5
 layout_mode = 1
 anchors_preset = 15

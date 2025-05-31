@@ -14,6 +14,7 @@ func _ready():
 	self.add_to_group("interactable")
 	self.add_to_group("Persist") #Adding object to group for persistence
 	find_interaction_nodes()
+	
 
 
 func find_interaction_nodes():

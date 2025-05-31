@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=4 uid="uid://drurgsm37713k"]
+[gd_scene load_steps=27 format=4 uid="uid://drurgsm37713k"]
 
 [ext_resource type="Texture2D" uid="uid://xm32axj8pi1a" path="res://Assets/Models/Station/WindowShutter/main_shutter/textures/GreyMetal-Color.png" id="1_lfltc"]
 [ext_resource type="Texture2D" uid="uid://dsyyf2uuiux50" path="res://Assets/Models/Station/WindowShutter/main_shutter/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="2_5lwwf"]
 [ext_resource type="Texture2D" uid="uid://byxeqc3nglm8l" path="res://Assets/Models/Station/WindowShutter/main_shutter/textures/GreyMetal-Normal.png" id="3_0l7ad"]
 [ext_resource type="ArrayOccluder3D" uid="uid://cdqc6gshdv1sw" path="res://Assets/Occluders/window_shutter.occ" id="4_5lwwf"]
+[ext_resource type="AudioStream" uid="uid://fdbh3xlmuyxc" path="res://Assets/Audio/Misc/shutter_open.ogg" id="5_0l7ad"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ccuc7"]
 resource_name = "GreyMetal-Dithered"
@@ -604,6 +605,44 @@ tracks/15/keys = {
 "update": 1,
 "values": [true, true, false]
 }
+tracks/16/type = "method"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("ShutterOpen")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oyovd"]
 _data = {
@@ -663,3 +702,8 @@ libraries = {
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("4_5lwwf")
+
+[node name="ShutterOpen" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_0l7ad")
+attenuation_model = 1
+bus = &"Shutters"

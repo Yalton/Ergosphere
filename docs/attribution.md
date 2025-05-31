@@ -3,3 +3,5 @@
 [Bathroom Sound](https://freesound.org/people/snapssound/sounds/700470/)
 
 [Steam Hiss](https://freesound.org/people/jesabat/sounds/119741/)
+
+[Metal Open](https://freesound.org/people/DWOBoyle/sounds/151575/)
