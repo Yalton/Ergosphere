@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=54 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -237,6 +237,9 @@ roughness_texture = ExtResource("5_ovot7")
 normal_enabled = true
 normal_texture = ExtResource("6_45tto")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_o3pct"]
+size = Vector3(1, 0.449707, 4.60693)
+
 [node name="TestLevel" type="Node3D"]
 
 [node name="Environment" type="Node3D" parent="."]
@@ -313,3 +316,10 @@ transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.253533, 1, -4.25703)
 [node name="Telescope" parent="." node_paths=PackedStringArray("diegetic_telescope_ui") instance=ExtResource("13_o3pct")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4, 2, -16)
 diegetic_telescope_ui = NodePath("../Monitor_2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, -0.337124, -5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.275146, 1.80347)
+shape = SubResource("BoxShape3D_o3pct")

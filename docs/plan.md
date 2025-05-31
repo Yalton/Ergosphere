@@ -60,7 +60,7 @@ Tasks
 ~~Reset Power~~
 ~~Swap Engine Heatsink~~
 ~~Download Data~~
-Re-allign Telescope
+~~Re-allign Telescope~~
 Eat a meal
 Sleep at end of day
 
@@ -72,6 +72,71 @@ Read Terminal Entries
 Hide from creature
 Pray to the Obelisk
 Drink Alcohol - Staves off insanity
+
+
+Game against Hermes 
+---
+
+
+## 1. **Pattern Memory** (Simon Says style)
+- 4-9 colored squares that light up in a sequence
+- Player clicks to repeat the pattern
+- Each success adds one more to the sequence
+- After 5-7 correct sequences, "system calibrated"
+- Can't really lose, just resets if wrong
+
+## 2. **Pipe Flow Puzzle** (Super simplified)
+- Grid of pipe pieces that need to be rotated
+- Click to rotate 90 degrees
+- Connect START to END
+- Only like 4x4 grid, very easy solutions
+- "Rerouting coolant flow..."
+
+## 3. **Frequency Matcher**
+- Show a target waveform at top
+- 3-4 sliders that control sine wave properties
+- Click and drag to match the wave
+- When close enough, it snaps to correct
+- "Tuning communication frequency..."
+
+## 4. **Node Connector**
+- Several nodes with numbers (1,2,3 etc)
+- Click and drag to connect matching numbers
+- No crossing lines needed, very simple layouts
+- "Reconnecting neural pathways..."
+
+## 5. **Color Calibration**
+- Grid of squares in slightly different shades
+- Click the one that matches the target color
+- Gets progressively easier (bigger differences)
+- "Calibrating sensor array..."
+
+## 6. **Defragmentation Sim**
+- Grid with colored blocks scattered around
+- Click blocks of same color to group them
+- They automatically snap together
+- "Defragmenting memory cores..."
+
+## 7. **Simple Sokoban** (1-2 moves)
+- Tiny 3x3 or 4x4 grid
+- Click to move a box onto a target
+- Only requires 1-3 moves to solve
+- "Realigning power cells..."
+
+## 8. **Circuit Breaker**
+- Grid of switches, some on, some off
+- Click to toggle, but it affects neighbors
+- Very easy patterns (like all need to be on)
+- "Resetting power grid..."
+
+My personal favorite for your use case would be **Pattern Memory** or **Node Connector** because:
+- Can't fail, just retry
+- Takes 30-60 seconds
+- Clear progress indication
+- Fits the "assist with process errors" theme
+- Easy to implement with just clicks
+- Could add satisfying sound effects
+
 
 <!-- Models required -->
 

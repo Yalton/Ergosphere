@@ -77,7 +77,7 @@ func show_message(message_text: String) -> void:
 					last_typing_position = current_length
 			
 			# Update displayed text
-			message_label.text = message_text.substr(0, current_length),
+			message_label.text = "[outline_size=2][outline_color=00ff00]" + message_text.substr(0, current_length)+ "[/outline_color][/outline_size]",
 		0.0,
 		full_text_length,
 		message_speed * full_text_length
@@ -155,8 +155,7 @@ func show_interaction(text: String, icon: Texture2D = null) -> void:
 	current_interaction_text = text
 	
 	# Update UI elements
-	interaction_label.text = text
-	
+	interaction_label.text = "[center][outline_size=2][outline_color=00ff00]" + text + "[/outline_color][/outline_size][/center]"
 	if interaction_icon and icon:
 		interaction_icon.texture = icon
 		interaction_icon.show()

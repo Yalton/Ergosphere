@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bd7kj105s5cuu" path="res://Scripts/ui/Menus/pause.gd" id="1_xcp83"]
 
 [node name="PauseOptions" type="Control"]
+z_index = 5
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +18,7 @@ script = ExtResource("1_xcp83")
 main_menu_path = "uid://b2xc4entjfn1n"
 
 [node name="PauseMenu" type="HBoxContainer" parent="."]
+z_index = 5
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,42 +28,50 @@ grow_vertical = 2
 theme = ExtResource("1_r7nho")
 
 [node name="Control" type="Control" parent="PauseMenu"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_r7nho")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_r7nho")
 
 [node name="Control" type="Control" parent="PauseMenu/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 
 [node name="PanelContainer" type="PanelContainer" parent="PauseMenu/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
 theme = ExtResource("1_r7nho")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PauseMenu/VBoxContainer/PanelContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 
 [node name="Control" type="Control" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
 theme = ExtResource("1_r7nho")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_r7nho")
 
 [node name="Label" type="Label" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 text = "Game Paused"
@@ -69,62 +79,73 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Control4" type="Control" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 
 [node name="ResumeButton" type="Button" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 text = "Resume"
 
 [node name="Control3" type="Control" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 
 [node name="OptionsButton" type="Button" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 text = "Options"
 
 [node name="Control2" type="Control" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 
 [node name="MainMenuButton" type="Button" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 text = "Main Menu"
 
 [node name="Control" type="Control" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 5.56
 theme = ExtResource("1_r7nho")
 
 [node name="Control2" type="Control" parent="PauseMenu/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
 theme = ExtResource("1_r7nho")
 
 [node name="Control2" type="Control" parent="PauseMenu/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 
 [node name="Control2" type="Control" parent="PauseMenu"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_r7nho")
 
 [node name="Options" type="HBoxContainer" parent="."]
 visible = false
+z_index = 5
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -134,42 +155,50 @@ grow_vertical = 2
 theme = ExtResource("1_r7nho")
 
 [node name="Control" type="Control" parent="Options"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_r7nho")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Options"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_r7nho")
 
 [node name="Control" type="Control" parent="Options/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 
 [node name="PanelContainer" type="PanelContainer" parent="Options/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
 theme = ExtResource("1_r7nho")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Options/VBoxContainer/PanelContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 
 [node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
 theme = ExtResource("1_r7nho")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_r7nho")
 
 [node name="Label" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 text = "Options"
@@ -177,11 +206,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VSplitContainer" type="VSplitContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 
 [node name="Label2" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 text = "Audio"
@@ -189,44 +220,52 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 columns = 2
 
 [node name="MasterLabel" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 text = "Master"
 
 [node name="MasterVolumeSlider" type="HSlider" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 theme = ExtResource("1_r7nho")
 
 [node name="MusicLabel" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 text = "Music"
 
 [node name="MusicVolumeSlider" type="HSlider" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 theme = ExtResource("1_r7nho")
 
 [node name="SFXLabel" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 text = "Sfx"
 
 [node name="SFXVolumeSlider" type="HSlider" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 theme = ExtResource("1_r7nho")
 
 [node name="Label3" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 text = "Video"
@@ -234,54 +273,64 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 
 [node name="Label" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 text = "Quality Lighting"
 
 [node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_r7nho")
 
 [node name="HighQualityCheckBox" type="CheckBox" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
 button_pressed = true
 
 [node name="Control3" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 10.0
 theme = ExtResource("1_r7nho")
 
 [node name="BackButton" type="Button" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 text = "Back "
 
 [node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 theme = ExtResource("1_r7nho")
 
 [node name="Control2" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
 theme = ExtResource("1_r7nho")
 
 [node name="Control2" type="Control" parent="Options/VBoxContainer"]
+z_index = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_r7nho")
 
 [node name="Control2" type="Control" parent="Options"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_r7nho")

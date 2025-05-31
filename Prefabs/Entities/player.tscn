@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bgnqxsxljglaq"]
+[gd_scene load_steps=19 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="Script" uid="uid://cd6roq0jsnw23" path="res://Subsystems/DynamicFootstepSystem/Scripts/footstep_surface_detector.gd" id="2_bxc72"]
@@ -11,8 +11,9 @@
 [ext_resource type="Script" uid="uid://bihy62e0ucg5g" path="res://Scripts/Components/player_interaction_component.gd" id="9_mepo0"]
 [ext_resource type="Script" uid="uid://n0ptow8dk4sq" path="res://Scripts/Entities/FPCUIController.gd" id="10_slw6b"]
 [ext_resource type="AudioStream" uid="uid://18pkb8xbgll8" path="res://Assets/Audio/text_click.wav" id="11_jox8g"]
+[ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="11_qmfn3"]
 [ext_resource type="PackedScene" uid="uid://brwmucdy87vu3" path="res://Prefabs/UI/pause/pause_options.tscn" id="12_3c1vh"]
-[ext_resource type="Texture2D" uid="uid://d3f2u2trom3ro" path="res://icon.svg" id="12_c0wcc"]
+[ext_resource type="Texture2D" uid="uid://c38dqajrkajdn" path="res://Assets/Graphics/InputIcons/PC_Input_Sheet.png" id="14_qmfn3"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_23jlx"]
 
@@ -25,6 +26,10 @@ stream_1/stream = ExtResource("4_kkf6j")
 stream_2/stream = ExtResource("5_mepo0")
 stream_3/stream = ExtResource("6_slw6b")
 stream_4/stream = ExtResource("7_jox8g")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_txu0e"]
+atlas = ExtResource("14_qmfn3")
+region = Rect2(264, 72, 48, 48)
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ui_controller", "footstep_detector") groups=["player"]]
 collision_layer = 5
@@ -70,6 +75,7 @@ ui_controller = NodePath("../PlayerUI")
 carryable_position = NodePath("../Head/Camera3D/Marker3D")
 
 [node name="PauseOptions" parent="." instance=ExtResource("12_3c1vh")]
+visible = false
 
 [node name="PlayerUI" type="Control" parent="." node_paths=PackedStringArray("message_panel", "message_label", "interaction_panel", "interaction_label", "interaction_icon")]
 layout_mode = 3
@@ -79,54 +85,103 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 script = ExtResource("10_slw6b")
 message_panel = NodePath("MessageContainer/VBoxContainer/PanelContainer")
 message_label = NodePath("MessageContainer/VBoxContainer/PanelContainer/HBoxContainer/MessageLabel")
 typing_sound = ExtResource("11_jox8g")
-interaction_panel = NodePath("InteractionContainer/InteractionTexturePanel")
-interaction_label = NodePath("InteractionContainer/InteractionTexturePanel/InteractionText")
-interaction_icon = NodePath("InteractionContainer/TextureRect")
+interaction_panel = NodePath("Interaction Container/HBoxContainer/HBoxContainer/MarginContainer/InteractionTexturePanel")
+interaction_label = NodePath("Interaction Container/HBoxContainer/HBoxContainer/MarginContainer/InteractionTexturePanel/InteractionText")
+interaction_icon = NodePath("Interaction Container/HBoxContainer/HBoxContainer/AspectRatioContainer/InteractionIcon")
 
-[node name="InteractionContainer" type="HBoxContainer" parent="PlayerUI"]
+[node name="Interaction Container" type="VBoxContainer" parent="PlayerUI"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -105.0
-offset_top = -12.0
-offset_right = 71.0
-offset_bottom = 13.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Control" type="Control" parent="PlayerUI/InteractionContainer"]
+[node name="Control2" type="Control" parent="PlayerUI/Interaction Container"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 17.0
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/Interaction Container"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Control2" type="Control" parent="PlayerUI/Interaction Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 5.0
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/Interaction Container/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="PlayerUI/InteractionContainer"]
+[node name="Control" type="Control" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
-texture = ExtResource("12_c0wcc")
+theme = ExtResource("11_qmfn3")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="InteractionIcon" type="TextureRect" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer/AspectRatioContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme = ExtResource("11_qmfn3")
+texture = SubResource("AtlasTexture_txu0e")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="InteractionTexturePanel" type="PanelContainer" parent="PlayerUI/InteractionContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+mouse_filter = 2
+theme_override_constants/margin_top = 10
+
+[node name="InteractionTexturePanel" type="PanelContainer" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.05
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 
-[node name="InteractionText" type="RichTextLabel" parent="PlayerUI/InteractionContainer/InteractionTexturePanel"]
+[node name="InteractionText" type="RichTextLabel" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer/MarginContainer/InteractionTexturePanel"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.43
 mouse_filter = 2
-text = "Open Door"
+theme = ExtResource("11_qmfn3")
+bbcode_enabled = true
+text = "[center][outline_size=2][outline_color=00ff00]Open Door[/outline_color]
+[/outline_size][/center]"
+fit_content = true
+scroll_active = false
+
+[node name="Control" type="Control" parent="PlayerUI/Interaction Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 5.0
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="PlayerUI/Interaction Container"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 17.0
+mouse_filter = 2
 
 [node name="MessageContainer" type="HBoxContainer" parent="PlayerUI"]
 layout_mode = 1
@@ -136,32 +191,38 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 
 [node name="Control" type="Control" parent="PlayerUI/MessageContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/MessageContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 
 [node name="Control2" type="Control" parent="PlayerUI/MessageContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.5
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 
 [node name="PanelContainer" type="PanelContainer" parent="PlayerUI/MessageContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/MessageContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 
 [node name="Control" type="Control" parent="PlayerUI/MessageContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
@@ -169,14 +230,19 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 
 [node name="MessageLabel" type="RichTextLabel" parent="PlayerUI/MessageContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 30.0
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 theme_override_font_sizes/normal_font_size = 24
-text = "Placeholder"
+bbcode_enabled = true
+text = "[outline_size=2][outline_color=00ff00]Placeholder[/outline_color]
+[/outline_size]"
+fit_content = true
 
 [node name="Control2" type="Control" parent="PlayerUI/MessageContainer/VBoxContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
@@ -184,6 +250,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 
 [node name="Control" type="Control" parent="PlayerUI/MessageContainer/VBoxContainer"]
 layout_mode = 2
@@ -191,9 +258,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
 
 [node name="Control2" type="Control" parent="PlayerUI/MessageContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 mouse_filter = 2
+theme = ExtResource("11_qmfn3")
