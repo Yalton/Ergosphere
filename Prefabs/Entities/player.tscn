@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://bgnqxsxljglaq"]
+[gd_scene load_steps=22 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="Script" uid="uid://cd6roq0jsnw23" path="res://Subsystems/DynamicFootstepSystem/Scripts/footstep_surface_detector.gd" id="2_bxc72"]
+[ext_resource type="Script" uid="uid://c2lq0mlp6vmir" path="res://Subsystems/post_process_shader.gd" id="2_mtnbr"]
 [ext_resource type="AudioStream" uid="uid://cw2e8sv5oj7bw" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep00.ogg" id="3_rld0k"]
 [ext_resource type="AudioStream" uid="uid://dp305uipdp2ir" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep01.ogg" id="4_kkf6j"]
 [ext_resource type="AudioStream" uid="uid://bdhmdt44gw7jc" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep02.ogg" id="5_mepo0"]
@@ -18,6 +19,42 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_23jlx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bxc72"]
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_66sxq"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("2_mtnbr")
+shader_code = "// Simple Vignette Effect
+// Darkens the edges of the screen like looking through squinted eyes or binoculars
+
+// Calculate distance from center of screen
+vec2 center = vec2(size) * 0.5;
+vec2 pixel_pos = vec2(uv);
+float distance_from_center = length(pixel_pos - center);
+
+// Normalize the distance (0.0 at center, 1.0 at corners)
+float max_distance = length(center);
+float normalized_distance = distance_from_center / max_distance;
+
+// Create vignette falloff
+float vignette_intensity = 0.95; // How dark the edges get (0.0 = no effect, 1.0 = completely black)
+float vignette_radius = 0.55;    // How far the vignette extends (0.0 = full screen, 1.0 = only corners)
+float vignette_smoothness = 0.4; // How smooth the transition is (lower = sharper edge)
+
+// Calculate vignette factor using smoothstep for smooth falloff
+float vignette = 1.0 - smoothstep(vignette_radius, vignette_radius + vignette_smoothness, normalized_distance);
+vignette = mix(1.0 - vignette_intensity, 1.0, vignette);
+
+// Apply vignette to the color
+color.rgb *= vignette;"
+metadata/_custom_type_script = "uid://c2lq0mlp6vmir"
+
+[sub_resource type="Compositor" id="Compositor_k313v"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_66sxq")])
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c0wcc"]
 streams_count = 5
@@ -52,6 +89,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.73933, -0.351871)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 cull_mask = 524287
+compositor = SubResource("Compositor_k313v")
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
 target_position = Vector3(0, 0, -8)
