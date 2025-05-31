@@ -243,3 +243,6 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pillow"]
 transform = Transform3D(0.999987, 0, 0, 0, 0.999987, 0, 0, 0, 0.999987, -0.00665276, 0.501734, -0.742379)
 shape = SubResource("BoxShape3D_frei3")
+
+[node name="CameraPosition" type="Node3D" parent="."]
+transform = Transform3D(-0.208501, 3.70373e-16, 1.82278e-08, -1.76067e-08, 0.0539641, -0.201397, -4.71769e-09, -0.201397, -0.0539641, 0, 0.625504, -0.834005)

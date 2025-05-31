@@ -52,8 +52,9 @@
    - Polish transitions between areas
 
 
+Add reverb to sounds that are far from player and have a wall in the way
 
-Tasks 
+Tasks
 
 ~~Swap O2 Filters~~
 ~~Upload Data~~
@@ -61,10 +62,11 @@ Tasks
 ~~Swap Engine Heatsink~~
 ~~Download Data~~
 ~~Re-allign Telescope~~
-Eat a meal
-Sleep at end of day
+~~Close Window Shutters During Radiation~~
 
-Close Window Shutters During Radiation
+Sleep at end of day
+Eat a meal
+
 
 Play a game against Hermes
 Read Terminal Entries

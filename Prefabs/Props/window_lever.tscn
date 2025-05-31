@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://qr1n21uuq8fa"]
+[gd_scene load_steps=29 format=4 uid="uid://qr1n21uuq8fa"]
 
 [ext_resource type="Texture2D" uid="uid://mdt1kero5hpi" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Color.png" id="1_hdvgj"]
 [ext_resource type="Script" uid="uid://cgpjv0ht3v1qu" path="res://Scripts/window_lever.gd" id="1_uaw60"]
@@ -13,9 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="10_60vfs"]
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="11_m1w8p"]
 [ext_resource type="Script" uid="uid://cd157bjj6afve" path="res://Scripts/Components/state_aware_component.gd" id="12_gpy4i"]
-[ext_resource type="AnimationLibrary" uid="uid://by6btu8xf6gx8" path="res://Assets/Animations/window_lever.tres" id="13_37fg7"]
 [ext_resource type="AudioStream" uid="uid://b8tui3hwhaal7" path="res://Assets/Audio/Interactions/PowerLever/power_lever_adjust.ogg" id="14_jkfbb"]
-[ext_resource type="ArrayOccluder3D" uid="uid://nt2xbsrrs2pf" path="res://Assets/Occluders/Furniture/power_lever.occ" id="17_e7tk5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4vr02"]
 resource_name = "GreyPlastic"
@@ -184,6 +182,72 @@ shadow_mesh = SubResource("ArrayMesh_kh7sq")
 [sub_resource type="BoxShape3D" id="BoxShape3D_pbglq"]
 size = Vector3(1, 1.23792, 0.278564)
 
+[sub_resource type="Animation" id="Animation_mobxi"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PowerAnchorPoint")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.645608, 0.645608, 0.288426, 0.288426)
+
+[sub_resource type="Animation" id="Animation_pxlly"]
+resource_name = "power_off"
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PowerAnchorPoint")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.255485, 0.255485, 0.659338, 0.659339, 1, 1, -0.645608, 0.645608, 0.288426, 0.288426)
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LeverMove")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_enpyc"]
+resource_name = "power_on"
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PowerAnchorPoint")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.645608, 0.645608, 0.288426, 0.288426, 1, 1, -0.255485, 0.255485, 0.659338, 0.659339)
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LeverMove")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v35e1"]
+resource_local_to_scene = true
+_data = {
+&"RESET": SubResource("Animation_mobxi"),
+&"close_window": SubResource("Animation_pxlly"),
+&"open_window": SubResource("Animation_enpyc")
+}
+
 [node name="window_lever" type="StaticBody3D" node_paths=PackedStringArray("lever_animation_player")]
 collision_layer = 7
 collision_mask = 7
@@ -199,7 +263,7 @@ mesh = SubResource("ArrayMesh_5q5xc")
 skeleton = NodePath("")
 
 [node name="PowerAnchorPoint" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1.31698e-08, -0.0896607, 0, 0.222625, -2.89593e-09, 0.20301, -0.20301, 2.64077e-09, 0.222625, 3.90716e-06, 0, 0.112322)
+transform = Transform3D(-9.25484e-08, -0.0896607, -3.0355e-08, -0.201032, 1.16484e-08, 0.224412, -0.224412, 2.65415e-08, -0.201032, 3.90716e-06, 0, 0.112322)
 rotation_edit_mode = 1
 mesh = SubResource("ArrayMesh_ovp5k")
 skeleton = NodePath("")
@@ -220,11 +284,8 @@ script = ExtResource("12_gpy4i")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-&"": ExtResource("13_37fg7")
+&"": SubResource("AnimationLibrary_v35e1")
 }
 
 [node name="LeverMove" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("14_jkfbb")
-
-[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
-occluder = ExtResource("17_e7tk5")

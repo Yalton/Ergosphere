@@ -1,9 +1,8 @@
-[gd_scene load_steps=27 format=4 uid="uid://drurgsm37713k"]
+[gd_scene load_steps=26 format=4 uid="uid://drurgsm37713k"]
 
 [ext_resource type="Texture2D" uid="uid://xm32axj8pi1a" path="res://Assets/Models/Station/WindowShutter/main_shutter/textures/GreyMetal-Color.png" id="1_lfltc"]
 [ext_resource type="Texture2D" uid="uid://dsyyf2uuiux50" path="res://Assets/Models/Station/WindowShutter/main_shutter/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="2_5lwwf"]
 [ext_resource type="Texture2D" uid="uid://byxeqc3nglm8l" path="res://Assets/Models/Station/WindowShutter/main_shutter/textures/GreyMetal-Normal.png" id="3_0l7ad"]
-[ext_resource type="ArrayOccluder3D" uid="uid://cdqc6gshdv1sw" path="res://Assets/Occluders/window_shutter.occ" id="4_5lwwf"]
 [ext_resource type="AudioStream" uid="uid://fdbh3xlmuyxc" path="res://Assets/Audio/Misc/shutter_open.ogg" id="5_0l7ad"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ccuc7"]
@@ -700,10 +699,8 @@ libraries = {
 &"": SubResource("AnimationLibrary_oyovd")
 }
 
-[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
-occluder = ExtResource("4_5lwwf")
-
 [node name="ShutterOpen" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("5_0l7ad")
 attenuation_model = 1
+volume_db = -15.0
 bus = &"Shutters"
