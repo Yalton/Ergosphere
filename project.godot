@@ -111,6 +111,7 @@ menu={
 
 [layer_names]
 
+3d_render/layer_20="UI_Elements"
 3d_physics/layer_1="Environment"
 3d_physics/layer_2="Interactions "
 3d_physics/layer_3="Entities"

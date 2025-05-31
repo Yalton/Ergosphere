@@ -59,13 +59,17 @@ Tasks
 ~~Upload Data~~
 ~~Reset Power~~
 ~~Swap Engine Heatsink~~
-Download Data
+~~Download Data~~
 Re-allign Telescope
-Close Window Shutters During Radiation
 Eat a meal
 Sleep at end of day
 
-Hide from creature 
+Close Window Shutters During Radiation
+
+Play a game against Hermes
+Read Terminal Entries
+
+Hide from creature
 Pray to the Obelisk
 Drink Alcohol - Staves off insanity
 

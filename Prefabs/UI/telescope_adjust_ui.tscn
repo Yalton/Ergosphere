@@ -1,5 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://b1outtodahk2b"]
+[gd_scene load_steps=14 format=3 uid="uid://b1outtodahk2b"]
 
+[ext_resource type="Script" uid="uid://crp4wy3nlljp5" path="res://Scripts/ui/telescope_controller.gd" id="1_k1e65"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_ykrfc"]
 [ext_resource type="Texture2D" uid="uid://bxfy7beddfb00" path="res://Assets/Graphics/telescope_Crosshair.svg" id="2_gdp5c"]
 [ext_resource type="Script" uid="uid://c16dy1v737jhe" path="res://Scripts/play_on_load.gd" id="3_hejy6"]
@@ -60,13 +61,21 @@ _data = {
 &"spinning": SubResource("Animation_hejy6")
 }
 
-[node name="telescope_adjust_ui" type="Control"]
+[node name="telescope_adjust_ui" type="Control" node_paths=PackedStringArray("x_slider", "y_slider", "telescope_image", "x_position_label", "y_position_label", "status_label", "progress_bar")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_k1e65")
+x_slider = NodePath("PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HScrollBar")
+y_slider = NodePath("PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/VSlider")
+telescope_image = NodePath("BlackHoleImage")
+x_position_label = NodePath("PanelContainer/MarginContainer/HBoxContainer/VboxContainer/x_pos")
+y_position_label = NodePath("PanelContainer/MarginContainer/HBoxContainer/VboxContainer/y_pos")
+status_label = NodePath("PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/TelescopeAlligned")
+progress_bar = NodePath("PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ProgressBar")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -137,6 +146,7 @@ theme = ExtResource("1_ykrfc")
 z_index = 1
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 1.8
 theme = ExtResource("1_ykrfc")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
@@ -156,7 +166,24 @@ theme_override_font_sizes/font_size = 32
 text = "Telescope Misalligned "
 horizontal_alignment = 1
 
-[node name="Control3" type="Control" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
+
+[node name="ProgressBar" type="ProgressBar" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
+
+[node name="Control4" type="Control" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 z_index = 1
 layout_mode = 2
 size_flags_vertical = 3
@@ -166,15 +193,25 @@ theme = ExtResource("1_ykrfc")
 z_index = 1
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.08
 
-[node name="VSlider" type="VSlider" parent="PanelContainer/MarginContainer/HBoxContainer"]
-z_index = 1
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 
+[node name="VSlider" type="VSlider" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.09
+
 [node name="BlackHoleImage" type="AspectRatioContainer" parent="."]
+layout_mode = 1
 offset_right = 256.0
 offset_bottom = 256.0
 size_flags_vertical = 3
@@ -185,11 +222,13 @@ layout_mode = 2
 texture = SubResource("ViewportTexture_ykrfc")
 
 [node name="SubViewport" type="SubViewport" parent="."]
+own_world_3d = true
 transparent_bg = true
 size = Vector2i(256, 256)
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0357862)
+cull_mask = 524288
 compositor = SubResource("Compositor_hejy6")
 fov = 42.2
 
@@ -200,11 +239,13 @@ rotation_edit_mode = 1
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport/BlackHole"]
 transform = Transform3D(0.994564, 5.96046e-08, 0.104128, 0.0810244, 0.628112, -0.773893, -0.0654041, 0.778123, 0.624698, 0, 0, 0)
 rotation_edit_mode = 1
+layers = 524288
 mesh = SubResource("SphereMesh_k1e65")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewport/BlackHole"]
 rotation_edit_mode = 1
+layers = 524288
 mesh = SubResource("TorusMesh_yj15d")
 skeleton = NodePath("../../..")
 
