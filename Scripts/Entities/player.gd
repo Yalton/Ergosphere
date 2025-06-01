@@ -51,6 +51,12 @@ var played_right_foot: bool = false
 var is_interacting_with_ui: bool = false
 var input_disabled: bool = false
 
+# Camera tweening variables
+var camera_tween: Tween = null
+var original_camera_position: Vector3
+var original_camera_rotation: Vector3
+var is_camera_transitioning: bool = false
+
 func _ready() -> void:
 	# Register with debug logger if it exists
 	DebugLogger.register_module(module_name, enable_debug)
@@ -238,3 +244,80 @@ func end_ui_interaction() -> void:
 	is_interacting_with_ui = false
 	# Additional code to re-enable movement and hide mouse cursor
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+######################################
+# Camera code
+######################################
+
+
+
+func move_camera_to_position(target_position: Vector3, target_rotation: Vector3, duration: float = 1.5) -> void:
+	if is_camera_transitioning:
+		DebugLogger.warning(module_name, "Camera is already transitioning")
+		return
+	
+	DebugLogger.debug(module_name, "Moving camera to position")
+	
+	# Store original transform
+	original_camera_position = camera.global_position
+	original_camera_rotation = camera.global_rotation
+	
+	# Disable player controls
+	is_camera_transitioning = true
+	is_interacting_with_ui = true  # This already disables movement in your code
+	
+	# Kill existing tween if any
+	if camera_tween and camera_tween.is_valid():
+		camera_tween.kill()
+	
+	# Create new tween
+	camera_tween = create_tween()
+	camera_tween.set_ease(Tween.EASE_IN_OUT)
+	camera_tween.set_trans(Tween.TRANS_CUBIC)
+	
+	# Tween position and rotation simultaneously
+	camera_tween.set_parallel(true)
+	camera_tween.tween_property(camera, "global_position", target_position, duration)
+	camera_tween.tween_property(camera, "global_rotation", target_rotation, duration)
+	
+	# Connect to completion
+	camera_tween.finished.connect(_on_camera_move_complete)
+
+func restore_camera_position(duration: float = 1.0) -> void:
+	if not is_camera_transitioning:
+		DebugLogger.warning(module_name, "Camera is not transitioning")
+		return
+	
+	DebugLogger.debug(module_name, "Restoring camera position")
+	
+	# Kill existing tween if any
+	if camera_tween and camera_tween.is_valid():
+		camera_tween.kill()
+	
+	# Create restoration tween
+	camera_tween = create_tween()
+	camera_tween.set_ease(Tween.EASE_IN_OUT)
+	camera_tween.set_trans(Tween.TRANS_CUBIC)
+	
+	# Tween back to original position
+	camera_tween.set_parallel(true)
+	camera_tween.tween_property(camera, "global_position", original_camera_position, duration)
+	camera_tween.tween_property(camera, "global_rotation", original_camera_rotation, duration)
+	
+	# Connect to completion
+	camera_tween.finished.connect(_on_camera_restore_complete)
+
+func _on_camera_move_complete() -> void:
+	DebugLogger.debug(module_name, "Camera move complete")
+	# Camera is in position but still transitioning (waiting for restore)
+
+func _on_camera_restore_complete() -> void:
+	DebugLogger.debug(module_name, "Camera restore complete")
+	# Re-enable player controls
+	is_camera_transitioning = false
+	is_interacting_with_ui = false
+	
+	# Clean up tween
+	if camera_tween:
+		camera_tween = null

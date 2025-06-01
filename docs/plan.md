@@ -64,7 +64,7 @@ Tasks
 ~~Re-allign Telescope~~
 ~~Close Window Shutters During Radiation~~
 
-Sleep at end of day
+~~Sleep at end of day~~
 Eat a meal
 
 

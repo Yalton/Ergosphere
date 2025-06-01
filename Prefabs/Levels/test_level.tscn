@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=57 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://c633scl3g5ik0" path="res://Prefabs/telescope.tscn" id="13_o3pct"]
 [ext_resource type="PackedScene" uid="uid://qr1n21uuq8fa" path="res://Prefabs/Props/window_lever.tscn" id="14_gx60g"]
 [ext_resource type="PackedScene" uid="uid://5gar5jvxjk2l" path="res://Prefabs/Levels/Station/Prefabs/window_shutters.tscn" id="14_rbxte"]
+[ext_resource type="PackedScene" uid="uid://cr88bedkk3sbc" path="res://Prefabs/Furniture/Bedroom/bed.tscn" id="16_e7jis"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
 shader = ExtResource("1_iv3f0")
@@ -313,10 +314,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -5)
 download_diegetic_ui = NodePath("../Download_Monitor")
 
 [node name="Monitor_2" parent="." instance=ExtResource("12_fno4d")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.253533, 1, -4.25703)
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 30.0852, 1, -4.25703)
 
 [node name="Telescope" parent="." node_paths=PackedStringArray("diegetic_telescope_ui") instance=ExtResource("13_o3pct")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -4, 2, -16)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -31.0537, 2, -16)
 diegetic_telescope_ui = NodePath("../Monitor_2")
 
 [node name="Huh" type="StaticBody3D" parent="."]
@@ -332,3 +333,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -14)
 [node name="window_lever" parent="." node_paths=PackedStringArray("window_shutters") instance=ExtResource("14_gx60g")]
 transform = Transform3D(-0.0371495, 0, -0.99931, 0, 1, 0, 0.99931, 0, -0.0371495, -23.5507, 1.63417, 0.327374)
 window_shutters = NodePath("../WindowShutters")
+
+[node name="Bed" parent="." instance=ExtResource("16_e7jis")]
+transform = Transform3D(-4.79613, 0, 2.09645e-07, 0, 4.79613, 0, -2.09645e-07, 0, -4.79613, 11, -1, 1)

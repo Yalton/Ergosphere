@@ -263,7 +263,7 @@ mesh = SubResource("ArrayMesh_5q5xc")
 skeleton = NodePath("")
 
 [node name="PowerAnchorPoint" type="MeshInstance3D" parent="."]
-transform = Transform3D(-9.25484e-08, -0.0896607, -3.0355e-08, -0.201032, 1.16484e-08, 0.224412, -0.224412, 2.65415e-08, -0.201032, 3.90716e-06, 0, 0.112322)
+transform = Transform3D(-9.25483e-08, -0.0896607, -3.0355e-08, -0.201032, 1.16484e-08, 0.224412, -0.224412, 2.65415e-08, -0.201032, 3.90716e-06, 0, 0.112322)
 rotation_edit_mode = 1
 mesh = SubResource("ArrayMesh_ovp5k")
 skeleton = NodePath("")
