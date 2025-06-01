@@ -1,14 +1,15 @@
-[gd_scene load_steps=22 format=4 uid="uid://gdcbcwo5q5qo"]
+[gd_scene load_steps=23 format=4 uid="uid://c7n25om7olp7"]
 
-[ext_resource type="Texture2D" uid="uid://be7a8jj6erek0" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Color.png" id="1_sta57"]
-[ext_resource type="Texture2D" uid="uid://bclhu3c4q4mso" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Roughness.png" id="2_8urs4"]
-[ext_resource type="Texture2D" uid="uid://dil6e83a852yl" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Normal.png" id="3_pbora"]
-[ext_resource type="Texture2D" uid="uid://c7w8p31fvy3ml" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/BlackPlastic-Color.png" id="4_ya2h6"]
-[ext_resource type="Texture2D" uid="uid://bhkqxse832awp" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/BlackPlastic-Roughness.png" id="5_p7oi5"]
-[ext_resource type="Texture2D" uid="uid://c2qivsr1p2ibc" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/BlackPlastic-Normal.png" id="6_jpk0g"]
-[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="7_ya2h6"]
-[ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="8_p7oi5"]
-[ext_resource type="PackedScene" uid="uid://bdy6quxbmyj42" path="res://Prefabs/memory_purge_game.tscn" id="9_jpk0g"]
+[ext_resource type="Texture2D" uid="uid://be7a8jj6erek0" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Color.png" id="1_3igau"]
+[ext_resource type="Script" uid="uid://of78jwwcyi1w" path="res://Scripts/memory_block_monitor.gd" id="1_aoay5"]
+[ext_resource type="Texture2D" uid="uid://bclhu3c4q4mso" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Roughness.png" id="2_aoay5"]
+[ext_resource type="Texture2D" uid="uid://dil6e83a852yl" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Normal.png" id="3_0kvyb"]
+[ext_resource type="Texture2D" uid="uid://c7w8p31fvy3ml" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/BlackPlastic-Color.png" id="4_i5rsv"]
+[ext_resource type="Texture2D" uid="uid://bhkqxse832awp" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/BlackPlastic-Roughness.png" id="5_kodtd"]
+[ext_resource type="Texture2D" uid="uid://c2qivsr1p2ibc" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/BlackPlastic-Normal.png" id="6_cmdf0"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="7_5xh7d"]
+[ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="8_enhsa"]
+[ext_resource type="PackedScene" uid="uid://bdy6quxbmyj42" path="res://Prefabs/memory_purge_game.tscn" id="9_14863"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khebe"]
 resource_name = "Screen"
@@ -49,26 +50,26 @@ bind/1/pose = Transform3D(1, -3.89414e-07, 2.63877e-27, -3.50905e-23, -9.0111e-1
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qw8dw"]
 resource_name = "GreyPlastic"
 cull_mode = 2
-albedo_texture = ExtResource("1_sta57")
-metallic_texture = ExtResource("2_8urs4")
+albedo_texture = ExtResource("1_3igau")
+metallic_texture = ExtResource("2_aoay5")
 metallic_texture_channel = 2
-roughness_texture = ExtResource("2_8urs4")
+roughness_texture = ExtResource("2_aoay5")
 roughness_texture_channel = 1
 normal_enabled = true
-normal_texture = ExtResource("3_pbora")
+normal_texture = ExtResource("3_0kvyb")
 uv1_scale = Vector3(4, 4, 1)
 uv1_offset = Vector3(0, -3, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7deqs"]
 resource_name = "BlackPlastic"
 cull_mode = 2
-albedo_texture = ExtResource("4_ya2h6")
-metallic_texture = ExtResource("5_p7oi5")
+albedo_texture = ExtResource("4_i5rsv")
+metallic_texture = ExtResource("5_kodtd")
 metallic_texture_channel = 2
-roughness_texture = ExtResource("5_p7oi5")
+roughness_texture = ExtResource("5_kodtd")
 roughness_texture_channel = 1
 normal_enabled = true
-normal_texture = ExtResource("6_jpk0g")
+normal_texture = ExtResource("6_cmdf0")
 uv1_scale = Vector3(4, 4, 1)
 uv1_offset = Vector3(0, -3, 0)
 
@@ -130,7 +131,7 @@ _surfaces = [{
 blend_shape_mode = 0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sta57"]
-size = Vector3(0.436445, 0.414644, 0.483314)
+size = Vector3(4.36, 3.88262, 4.49752)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jt0dg"]
 size = Vector3(3.85, 2.8, 0.2)
@@ -138,15 +139,20 @@ size = Vector3(3.85, 2.8, 0.2)
 [sub_resource type="QuadMesh" id="QuadMesh_u2o1j"]
 size = Vector2(3.8, 2.8)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_loklc"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_3igau"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jqiap"]
 resource_local_to_scene = true
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_loklc")
+albedo_texture = SubResource("ViewportTexture_3igau")
 
-[node name="monitor_3" type="StaticBody3D"]
+[node name="memory_block_monitor" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display")]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_aoay5")
+sub_viewport = NodePath("SubViewport")
+display = NodePath("Display")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
 transform = Transform3D(9.5, 0, 0, 0, 9.5, 0, 0, 0, 9.5, 0, 0, 0)
@@ -175,19 +181,19 @@ mesh = SubResource("ArrayMesh_tyel1")
 skin = SubResource("Skin_ou3l8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00816521, 0.20781, -0.0481547)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00816521, 2.05379, -0.549724)
 shape = SubResource("BoxShape3D_sta57")
 
-[node name="BasicInteraction" parent="." instance=ExtResource("7_ya2h6")]
+[node name="BasicInteraction" parent="." instance=ExtResource("7_5xh7d")]
 script = null
 
 [node name="SubViewport" type="SubViewport" parent="."]
 size = Vector2i(640, 472)
 size_2d_override = Vector2i(1920, 1080)
 size_2d_override_stretch = true
-script = ExtResource("8_p7oi5")
+script = ExtResource("8_enhsa")
 
-[node name="memory_purge_game" parent="SubViewport" instance=ExtResource("9_jpk0g")]
+[node name="memory_purge_game" parent="SubViewport" instance=ExtResource("9_14863")]
 
 [node name="Area3D" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.42109, 1.7495)

@@ -53,6 +53,7 @@
 
 
 Add reverb to sounds that are far from player and have a wall in the way
+Brainstorm potential mysteries to work into the game 
 
 Tasks
 
@@ -67,11 +68,24 @@ Tasks
 ~~Eat a meal~~
 
 Play a game against Hermes
+- Whackamole
+- Pattern Memory
+  
 Read Terminal Entries
 
 Hide from creature
 Pray to the Obelisk
 Drink Alcohol - Staves off insanity
+
+## Thoughts organized 
+
+Implement a task system/tracking system
+Implement game manager day tracking system
+Integrate task system with game manager
+
+Implement Task UI in Player
+Implment hints for player different than messges - smaller 
+Test Day 1
 
 
 Game against Hermes 
