@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://6c3hcmjw4bys"]
+[gd_scene load_steps=23 format=4 uid="uid://cm4jox387wx1h"]
 
 [ext_resource type="Texture2D" uid="uid://dltvq57p0vbgq" path="res://Assets/Models/Station/Furniture/Microwave/textures/BlackerMetal-Color.png" id="1_6tmqd"]
 [ext_resource type="Texture2D" uid="uid://btv0m3gjrg3id" path="res://Assets/Models/Station/Furniture/Microwave/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_i3cpc"]

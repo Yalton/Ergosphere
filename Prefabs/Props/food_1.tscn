@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=4 uid="uid://bitroo25gr1vc"]
+[gd_scene load_steps=12 format=4 uid="uid://bitroo25gr1vc"]
 
 [ext_resource type="Texture2D" uid="uid://de02ryxkhn28" path="res://Assets/Models/Station/Props/Food/food_1/textures/pocket2_BaseColor.jpg" id="1_hw0ag"]
+[ext_resource type="Script" uid="uid://cslsh7unjircy" path="res://Scripts/food.gd" id="1_j5gt6"]
 [ext_resource type="Texture2D" uid="uid://uenrqbj2sm6t" path="res://Assets/Models/Station/Props/Food/food_1/textures/pocket2_Metallic-pocket2_Roughness.png" id="2_j5gt6"]
 [ext_resource type="Texture2D" uid="uid://cd8da15lopp62" path="res://Assets/Models/Station/Props/Food/food_1/textures/pocket2_Normal.jpg" id="3_gfwfb"]
+[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="5_gfwfb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2a0wl"]
 resource_name = "pocket2"
@@ -85,19 +87,27 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_mgcuk")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rtbb0"]
-size = Vector3(0.355, 0.1, 0.3)
+size = Vector3(0.615, 0.0558594, 0.44)
 
 [node name="food_1" type="StaticBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_j5gt6")
 
-[node name="cap1" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.6201, 0, 0.0699304, 0, 1.6216, 0, -0.0699304, 0, 1.6201, -0.158553, 0.0254376, -0.127881)
+[node name="Meshes" type="Node3D" parent="."]
+
+[node name="cap1" type="MeshInstance3D" parent="Meshes"]
+transform = Transform3D(2.99721, 0, 0.129372, 0, 3, 0, -0.129372, 0, 2.99721, -0.158553, 0.0254376, -0.127881)
 mesh = SubResource("ArrayMesh_kdxui")
 skeleton = NodePath("")
 
-[node name="meal1" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.80365, 0, 0, 0, 1.80365, 0, 0, 0, 1.80365, 0, 0.0225257, 0)
+[node name="meal1" type="MeshInstance3D" parent="Meshes"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.0225257, 0)
 mesh = SubResource("ArrayMesh_jj62s")
 skeleton = NodePath("")
 
+[node name="BasicInteraction" parent="." instance=ExtResource("5_gfwfb")]
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0220703, 0)
 shape = SubResource("BoxShape3D_rtbb0")

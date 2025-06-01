@@ -63,10 +63,8 @@ Tasks
 ~~Download Data~~
 ~~Re-allign Telescope~~
 ~~Close Window Shutters During Radiation~~
-
 ~~Sleep at end of day~~
-Eat a meal
-
+~~Eat a meal~~
 
 Play a game against Hermes
 Read Terminal Entries
