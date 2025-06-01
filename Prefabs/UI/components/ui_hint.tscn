@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://du67esbe2xmup"]
+
+[node name="UI_Hint" type="PanelContainer"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "Placeholder"
+horizontal_alignment = 1

@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=4 uid="uid://bitroo25gr1vc"]
 
 [ext_resource type="Texture2D" uid="uid://de02ryxkhn28" path="res://Assets/Models/Station/Props/Food/food_1/textures/pocket2_BaseColor.jpg" id="1_hw0ag"]
-[ext_resource type="Script" uid="uid://cslsh7unjircy" path="res://Scripts/food.gd" id="1_j5gt6"]
+[ext_resource type="Script" uid="uid://cslsh7unjircy" path="res://Scripts/Environment/GameObjects/food.gd" id="1_j5gt6"]
 [ext_resource type="Texture2D" uid="uid://uenrqbj2sm6t" path="res://Assets/Models/Station/Props/Food/food_1/textures/pocket2_Metallic-pocket2_Roughness.png" id="2_j5gt6"]
 [ext_resource type="Texture2D" uid="uid://cd8da15lopp62" path="res://Assets/Models/Station/Props/Food/food_1/textures/pocket2_Normal.jpg" id="3_gfwfb"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="5_gfwfb"]

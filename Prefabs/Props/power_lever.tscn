@@ -1,6 +1,6 @@
 [gd_scene load_steps=43 format=4 uid="uid://bgmjcis31thqm"]
 
-[ext_resource type="Script" uid="uid://ckag3tkree5w6" path="res://Scripts/Environment/power_lever.gd" id="1_pxlly"]
+[ext_resource type="Script" uid="uid://ckag3tkree5w6" path="res://Scripts/Environment/GameObjects/power_lever.gd" id="1_pxlly"]
 [ext_resource type="Texture2D" uid="uid://mdt1kero5hpi" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Color.png" id="1_xp1vl"]
 [ext_resource type="Texture2D" uid="uid://btfe3nh7er45j" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Roughness.png" id="2_1kif8"]
 [ext_resource type="Texture2D" uid="uid://bi5uhue15pioh" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Normal.png" id="3_opa3s"]

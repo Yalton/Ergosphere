@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cvau8bqlvo3cd"]
 
-[ext_resource type="Script" uid="uid://m7ijsghb4wtf" path="res://Scripts/task_aware_component.gd" id="1_xvs06"]
+[ext_resource type="Script" uid="uid://m7ijsghb4wtf" path="res://Scripts/Components/task_aware_component.gd" id="1_xvs06"]
 
 [node name="TaskAwareComponent" type="Node"]
 script = ExtResource("1_xvs06")

@@ -6,7 +6,7 @@
 [ext_resource type="Shader" uid="uid://sc71vvscj345" path="res://Assets/Shader/vignette.gdshader" id="3_ywv0o"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="4_dpsi4"]
 [ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Textures/VFX_Textures/smoke_04.png" id="5_ywv0o"]
-[ext_resource type="Script" uid="uid://bex3ut4wa5nfy" path="res://Scripts/murder_zone.gd" id="6_w7uhp"]
+[ext_resource type="Script" uid="uid://bex3ut4wa5nfy" path="res://Scripts/Misc/murder_zone.gd" id="6_w7uhp"]
 [ext_resource type="Script" uid="uid://c2lq0mlp6vmir" path="res://Subsystems/post_process_shader.gd" id="7_dpsi4"]
 
 [sub_resource type="Resource" id="Resource_2e3k0"]
@@ -328,6 +328,7 @@ theme = ExtResource("1_8vdy4")
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_8vdy4")
+theme_override_font_sizes/font_size = 32
 text = "Ergosphere"
 horizontal_alignment = 1
 
@@ -365,6 +366,27 @@ size_flags_vertical = 3
 theme = ExtResource("1_8vdy4")
 text = "Options"
 
+[node name="Control5" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Controls" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_8vdy4")
+text = "Controls
+"
+
+[node name="Control6" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Credits" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_8vdy4")
+text = "Credits"
+
 [node name="Control4" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -373,8 +395,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_8vdy4")
-text = "Quit
-"
+text = "Exit"
 
 [node name="Control" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2

@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=4 uid="uid://ch6mkc1p7hs84"]
 
 [ext_resource type="Texture2D" uid="uid://d30amr513rkr2" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Color.png" id="1_l4gnf"]
-[ext_resource type="Script" uid="uid://dpqlr33j0q3nc" path="res://Scripts/download_monitor.gd" id="1_qfur7"]
+[ext_resource type="Script" uid="uid://dpqlr33j0q3nc" path="res://Scripts/Environment/GameObjects/download_monitor.gd" id="1_qfur7"]
 [ext_resource type="Texture2D" uid="uid://qejysd14q40x" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Roughness.png" id="2_7db5l"]
 [ext_resource type="Texture2D" uid="uid://d4f4jssc74kra" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Normal.png" id="3_kdt73"]
 [ext_resource type="Texture2D" uid="uid://dwgo0lfh56oy4" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Color.png" id="4_au0d5"]

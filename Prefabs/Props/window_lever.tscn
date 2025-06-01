@@ -1,7 +1,7 @@
 [gd_scene load_steps=29 format=4 uid="uid://qr1n21uuq8fa"]
 
 [ext_resource type="Texture2D" uid="uid://mdt1kero5hpi" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Color.png" id="1_hdvgj"]
-[ext_resource type="Script" uid="uid://cgpjv0ht3v1qu" path="res://Scripts/window_lever.gd" id="1_uaw60"]
+[ext_resource type="Script" uid="uid://cgpjv0ht3v1qu" path="res://Scripts/Environment/GameObjects/window_lever.gd" id="1_uaw60"]
 [ext_resource type="Texture2D" uid="uid://btfe3nh7er45j" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Roughness.png" id="2_ir62q"]
 [ext_resource type="Texture2D" uid="uid://bi5uhue15pioh" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Normal.png" id="3_uxq5t"]
 [ext_resource type="Texture2D" uid="uid://dgu87woln2sfa" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/BlackerMetal-Color.png" id="4_tp4de"]

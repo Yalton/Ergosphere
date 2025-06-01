@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://c2qivsr1p2ibc" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/BlackPlastic-Normal.png" id="6_jpk0g"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="7_ya2h6"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="8_p7oi5"]
-[ext_resource type="PackedScene" uid="uid://bdy6quxbmyj42" path="res://Prefabs/memory_purge_game.tscn" id="9_jpk0g"]
+[ext_resource type="PackedScene" uid="uid://bdy6quxbmyj42" path="res://Prefabs/UI/memory_purge_game.tscn" id="9_jpk0g"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khebe"]
 resource_name = "Screen"

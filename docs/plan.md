@@ -85,6 +85,7 @@ Integrate task system with game manager
 
 Implement Task UI in Player
 Implment hints for player different than messges - smaller 
+Update UI to add new settings and controls menu, also make options accessible from main menu 
 Test Day 1
 
 

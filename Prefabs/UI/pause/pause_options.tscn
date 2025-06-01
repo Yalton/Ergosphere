@@ -68,6 +68,7 @@ script = ExtResource("1_xcp83")
 main_menu_path = "uid://b2xc4entjfn1n"
 
 [node name="PauseMenu" type="HBoxContainer" parent="."]
+visible = false
 z_index = 5
 layout_mode = 1
 anchors_preset = 15
@@ -124,6 +125,7 @@ theme = ExtResource("1_r7nho")
 z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
+theme_override_font_sizes/font_size = 30
 text = "Game Paused"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -268,6 +270,7 @@ theme = ExtResource("1_r7nho")
 z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
+theme_override_font_sizes/font_size = 30
 text = "Options"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -282,6 +285,7 @@ theme = ExtResource("1_r7nho")
 z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
+theme_override_font_sizes/font_size = 26
 text = "Video"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -394,6 +398,7 @@ theme = ExtResource("1_r7nho")
 z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
+theme_override_font_sizes/font_size = 26
 text = "Audio"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -484,7 +489,6 @@ size_flags_horizontal = 3
 theme = ExtResource("1_r7nho")
 
 [node name="Controls" type="HBoxContainer" parent="."]
-visible = false
 z_index = 5
 layout_mode = 1
 anchors_preset = 15
@@ -541,6 +545,7 @@ theme = ExtResource("1_r7nho")
 z_index = 5
 layout_mode = 2
 theme = ExtResource("1_r7nho")
+theme_override_font_sizes/font_size = 32
 text = "Controls"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -559,6 +564,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 26
 text = "Basic Controls"
 horizontal_alignment = 1
 
@@ -670,6 +676,7 @@ layout_mode = 2
 
 [node name="Label2" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 26
 text = "Carried Object Controls"
 horizontal_alignment = 1
 

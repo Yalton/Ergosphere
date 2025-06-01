@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://5gar5jvxjk2l"]
 
-[ext_resource type="Script" uid="uid://bm3nd4gjtxv5" path="res://Scripts/window_shutters.gd" id="1_52r7d"]
+[ext_resource type="Script" uid="uid://bm3nd4gjtxv5" path="res://Scripts/Environment/window_shutters.gd" id="1_52r7d"]
 [ext_resource type="PackedScene" uid="uid://drurgsm37713k" path="res://Prefabs/window_shutter.tscn" id="1_r68pv"]
 
 [node name="WindowShutters" type="Node3D"]
