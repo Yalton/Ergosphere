@@ -1,6 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://cuykknx82jpa1"]
+[gd_scene load_steps=5 format=3 uid="uid://cuykknx82jpa1"]
 
 [ext_resource type="Script" uid="uid://c88co2uwqhp2x" path="res://Autoload/GameManager/TaskManager/task_manager.gd" id="1_n1gfo"]
+[ext_resource type="Script" uid="uid://8rd0ckvff0d0" path="res://Scripts/Resources/day_config.gd" id="2_ah2t3"]
+[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="3_kcc4n"]
+
+[sub_resource type="Resource" id="Resource_vqck2"]
+script = ExtResource("2_ah2t3")
+day_number = 1
+day_name = ""
+available_tasks = Array[ExtResource("3_kcc4n")]([])
+mandatory_tasks = Array[String]([])
+excluded_tasks = Array[String]([])
+task_count_override = -1
+available_event_ids = Array[String]([])
+guaranteed_events = Array[String]([])
+excluded_events = Array[String]([])
+starting_states = {}
+intro_message = ""
+completion_message = ""
+sets_flags = Array[String]([])
+requires_flags = Array[String]([])
+metadata/_custom_type_script = "uid://8rd0ckvff0d0"
 
 [node name="TaskManager" type="Node"]
 script = ExtResource("1_n1gfo")
+enable_debug = null
+day_configs = Array[ExtResource("2_ah2t3")]([SubResource("Resource_vqck2")])
+sleep_task_id = null

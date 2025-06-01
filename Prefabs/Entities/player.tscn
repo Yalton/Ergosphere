@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bgnqxsxljglaq"]
+[gd_scene load_steps=24 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="Script" uid="uid://cd6roq0jsnw23" path="res://Subsystems/DynamicFootstepSystem/Scripts/footstep_surface_detector.gd" id="2_bxc72"]
@@ -15,6 +15,7 @@
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="11_qmfn3"]
 [ext_resource type="PackedScene" uid="uid://brwmucdy87vu3" path="res://Prefabs/UI/pause/pause_options.tscn" id="12_3c1vh"]
 [ext_resource type="Texture2D" uid="uid://c38dqajrkajdn" path="res://Assets/Graphics/InputIcons/PC_Input_Sheet.png" id="14_qmfn3"]
+[ext_resource type="Script" uid="uid://btbwro37m8imx" path="res://Scripts/task_tree.gd" id="16_iummq"]
 [ext_resource type="PackedScene" uid="uid://du67esbe2xmup" path="res://Prefabs/UI/components/ui_hint.tscn" id="16_mtnbr"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_23jlx"]
@@ -329,6 +330,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("11_qmfn3")
 columns = 2
+script = ExtResource("16_iummq")
 
 [node name="Control2" type="Control" parent="PlayerUI/TaskContainer/VBoxContainer"]
 layout_mode = 2

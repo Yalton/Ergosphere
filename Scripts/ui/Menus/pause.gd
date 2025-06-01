@@ -15,11 +15,12 @@ const MASTER_BUS = 0
 const MUSIC_BUS = 1
 const SFX_BUS = 2
 
-# Reference to UI elements in both menus
+# Reference to UI elements in all menus
 # Pause Menu elements
 @onready var pause_menu = $PauseMenu
 @onready var resume_button = $PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/ResumeButton
 @onready var options_button = $PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/OptionsButton
+@onready var controls_button = $PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/ControlsButton
 @onready var main_menu_button = $PauseMenu/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MainMenuButton
 
 # Options Menu elements
@@ -29,6 +30,10 @@ const SFX_BUS = 2
 @onready var sfx_volume_slider = $Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer/SFXVolumeSlider
 @onready var high_quality_checkbox = $Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/HighQualityCheckBox
 @onready var options_back_button = $Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/BackButton
+
+# Controls Menu elements
+@onready var controls_menu = $Controls
+@onready var controls_back_button = $Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/BackButton
 
 # State tracking
 var is_paused: bool = false
@@ -47,6 +52,7 @@ func _ready() -> void:
 	# Connect pause menu signals
 	resume_button.pressed.connect(_on_resume_pressed)
 	options_button.pressed.connect(_on_options_pressed)
+	controls_button.pressed.connect(_on_controls_pressed)
 	main_menu_button.pressed.connect(_on_menu_pressed)
 	
 	# Connect options menu signals
@@ -56,9 +62,13 @@ func _ready() -> void:
 	high_quality_checkbox.toggled.connect(_on_quality_toggled)
 	options_back_button.pressed.connect(_on_options_back_pressed)
 	
-	# Initially hide both menus
+	# Connect controls menu signals
+	controls_back_button.pressed.connect(_on_controls_back_pressed)
+	
+	# Initially hide all menus
 	pause_menu.hide()
 	options_menu.hide()
+	controls_menu.hide()
 	visible = false
 	
 	# Load current settings
@@ -87,18 +97,17 @@ func pause() -> void:
 	if is_paused:
 		return
 		
-	# Save current mouse mode to restore it later if needed
-	
 	# Release the mouse for menu interaction
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 	# Pause the game
 	get_tree().paused = true
 	
-	# Show pause menu (not options)
+	# Show pause menu (hide others)
 	active_menu = pause_menu
 	pause_menu.show()
 	options_menu.hide()
+	controls_menu.hide()
 	visible = true
 	
 	# Update pause state
@@ -113,9 +122,10 @@ func unpause() -> void:
 	# Unpause the game
 	get_tree().paused = false
 	
-	# Hide both menus
+	# Hide all menus
 	pause_menu.hide()
 	options_menu.hide()
+	controls_menu.hide()
 	visible = false
 	active_menu = null
 	
@@ -138,6 +148,7 @@ func _on_options_pressed() -> void:
 	# Switch from pause menu to options menu
 	pause_menu.hide()
 	options_menu.show()
+	controls_menu.hide()
 	active_menu = options_menu
 	
 	# Refresh settings
@@ -145,6 +156,18 @@ func _on_options_pressed() -> void:
 	
 	# Give focus to the back button for better UI navigation
 	options_back_button.grab_focus()
+
+func _on_controls_pressed() -> void:
+	DebugLogger.debug(module_name, "Showing controls menu")
+	
+	# Switch from pause menu to controls menu
+	pause_menu.hide()
+	options_menu.hide()
+	controls_menu.show()
+	active_menu = controls_menu
+	
+	# Give focus to the back button for better UI navigation
+	controls_back_button.grab_focus()
 
 func _on_menu_pressed() -> void:
 	DebugLogger.debug(module_name, "Returning to main menu")
@@ -196,8 +219,6 @@ func save_settings() -> void:
 # Options Menu Button Handlers
 func _on_master_volume_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(MASTER_BUS, linear_to_db(value / 100))
-	# Play a test sound
-	# Save changes immediately so they persist
 	save_settings()
 
 func _on_music_volume_changed(value: float) -> void:
@@ -206,8 +227,6 @@ func _on_music_volume_changed(value: float) -> void:
 
 func _on_sfx_volume_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(SFX_BUS, linear_to_db(value / 100))
-	# Play a test sound
-
 	save_settings()
 
 func _on_quality_toggled(button_pressed: bool) -> void:
@@ -226,6 +245,17 @@ func _on_options_back_pressed() -> void:
 	save_settings()
 	
 	# Switch back to pause menu
+	options_menu.hide()
+	controls_menu.hide()
+	pause_menu.show()
+	active_menu = pause_menu
+
+# Controls Menu Button Handlers
+func _on_controls_back_pressed() -> void:
+	DebugLogger.debug(module_name, "Returning from controls to pause menu")
+	
+	# Switch back to pause menu
+	controls_menu.hide()
 	options_menu.hide()
 	pause_menu.show()
 	active_menu = pause_menu

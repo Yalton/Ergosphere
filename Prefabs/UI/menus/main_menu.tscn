@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=4 uid="uid://b2xc4entjfn1n"]
+[gd_scene load_steps=67 format=4 uid="uid://b2xc4entjfn1n"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_8vdy4"]
 [ext_resource type="Script" uid="uid://c1caxpjbvsqx7" path="res://Scripts/ui/Menus/main_menu.gd" id="1_ge0kh"]
@@ -14,6 +14,56 @@ metadata/__load_path__ = "res://Assets/Audio/door_opening.wav"
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_llxsi"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_is06q"]
+load_path = "res://.godot/imported/PC_Input_Sheet.png-5fe71aaeccff47400b0fe822292e75f7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ywv0o"]
+atlas = SubResource("CompressedTexture2D_is06q")
+region = Rect2(264, 72, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7uhp"]
+atlas = SubResource("CompressedTexture2D_is06q")
+region = Rect2(328, 72, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_llxsi"]
+atlas = SubResource("CompressedTexture2D_is06q")
+region = Rect2(8, 328, 48, 48)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h8sck"]
+load_path = "res://.godot/imported/PC_Input_Sheet.png-5fe71aaeccff47400b0fe822292e75f7.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yugw6"]
+atlas = SubResource("CompressedTexture2D_h8sck")
+region = Rect2(648, 136, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vh14q"]
+atlas = SubResource("CompressedTexture2D_h8sck")
+region = Rect2(8, 72, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2nbgu"]
+atlas = SubResource("CompressedTexture2D_h8sck")
+region = Rect2(392, 136, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wray"]
+atlas = SubResource("CompressedTexture2D_h8sck")
+region = Rect2(200, 72, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1reyj"]
+atlas = SubResource("CompressedTexture2D_h8sck")
+region = Rect2(520, 456, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0uqtj"]
+atlas = SubResource("CompressedTexture2D_h8sck")
+region = Rect2(648, 456, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxepb"]
+atlas = SubResource("CompressedTexture2D_h8sck")
+region = Rect2(584, 456, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxiac"]
+atlas = SubResource("CompressedTexture2D_h8sck")
+region = Rect2(712, 456, 48, 48)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ywv0o"]
 shader = ExtResource("3_ywv0o")
@@ -273,7 +323,7 @@ metadata/_custom_type_script = "uid://c2lq0mlp6vmir"
 [sub_resource type="Compositor" id="Compositor_w7uhp"]
 compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_ywv0o")])
 
-[node name="MainMenu" type="Control" node_paths=PackedStringArray("play_game_button", "options_button", "quit_button")]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("play_game_button", "options_button", "controls_button", "quit_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -284,9 +334,10 @@ theme = ExtResource("1_8vdy4")
 script = ExtResource("1_ge0kh")
 play_game_audio = SubResource("Resource_2e3k0")
 game_scene_path = "uid://k0irwx2fqi0x"
-play_game_button = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/PlayButton")
-options_button = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/OptionsButton")
-quit_button = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/QuitButton")
+play_game_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/PlayButton")
+options_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/OptionsButton")
+controls_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/Controls")
+quit_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/QuitButton")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -298,7 +349,7 @@ grow_vertical = 2
 mouse_filter = 2
 texture = SubResource("ViewportTexture_llxsi")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="MainMenu" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -307,24 +358,24 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_8vdy4")
 
-[node name="Control2" type="Control" parent="HBoxContainer"]
+[node name="Control2" type="Control" parent="MainMenu"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_8vdy4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_8vdy4")
 
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="MainMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.6
 theme = ExtResource("1_8vdy4")
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MainMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_8vdy4")
@@ -332,88 +383,659 @@ theme_override_font_sizes/font_size = 32
 text = "Ergosphere"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="MainMenu/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 theme = ExtResource("1_8vdy4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Control2" type="Control" parent="MainMenu/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PlayButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+[node name="PlayButton" type="Button" parent="MainMenu/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_8vdy4")
 text = "Play"
 
-[node name="Control3" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Control3" type="Control" parent="MainMenu/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="OptionsButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+[node name="OptionsButton" type="Button" parent="MainMenu/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_8vdy4")
 text = "Options"
 
-[node name="Control5" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Control5" type="Control" parent="MainMenu/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Controls" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+[node name="Controls" type="Button" parent="MainMenu/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_8vdy4")
 text = "Controls
 "
 
-[node name="Control6" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Control6" type="Control" parent="MainMenu/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Credits" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+[node name="Credits" type="Button" parent="MainMenu/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_8vdy4")
 text = "Credits"
 
-[node name="Control4" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Control4" type="Control" parent="MainMenu/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="QuitButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+[node name="QuitButton" type="Button" parent="MainMenu/VBoxContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_8vdy4")
 text = "Exit"
 
-[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="MainMenu/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Control2" type="Control" parent="MainMenu/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 theme = ExtResource("1_8vdy4")
 
-[node name="Control2" type="Control" parent="HBoxContainer/VBoxContainer"]
+[node name="Control2" type="Control" parent="MainMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_8vdy4")
 
-[node name="Control" type="Control" parent="HBoxContainer"]
+[node name="Control" type="Control" parent="MainMenu"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Options" type="HBoxContainer" parent="."]
+visible = false
+z_index = 5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_8vdy4")
+
+[node name="Control" type="Control" parent="Options"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Control" type="Control" parent="Options/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="PanelContainer" type="PanelContainer" parent="Options/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 8.0
+theme = ExtResource("1_8vdy4")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options/VBoxContainer/PanelContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+
+[node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+theme = ExtResource("1_8vdy4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Label" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+theme_override_font_sizes/font_size = 30
+text = "Options"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSplitContainer" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Label3" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+theme_override_font_sizes/font_size = 26
+text = "Video"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+
+[node name="Label" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+text = "Vsync Enabled"
+
+[node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="HighQualityCheckBox" type="CheckBox" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+button_pressed = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+
+[node name="Label" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+text = "Quality Lighting"
+
+[node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="HighQualityCheckBox" type="CheckBox" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+button_pressed = true
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+
+[node name="Label" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer4"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+text = "Fullscreen Option"
+
+[node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer4"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Menu" type="MenuButton" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer4"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+button_pressed = true
+text = "Resolution Placeholder"
+item_count = 1
+popup/item_0/id = 0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+
+[node name="Label" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+text = "Resolution"
+
+[node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Menu" type="MenuButton" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+button_pressed = true
+text = "Resolution Placeholder"
+item_count = 1
+popup/item_0/id = 0
+
+[node name="VSplitContainer2" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Label2" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+theme_override_font_sizes/font_size = 26
+text = "Audio"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+columns = 2
+
+[node name="MasterLabel" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+text = "Master"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+theme = ExtResource("1_8vdy4")
+
+[node name="MusicLabel" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+text = "Music"
+
+[node name="MusicVolumeSlider" type="HSlider" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+theme = ExtResource("1_8vdy4")
+
+[node name="SFXLabel" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+text = "Sfx"
+
+[node name="SFXVolumeSlider" type="HSlider" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+theme = ExtResource("1_8vdy4")
+
+[node name="Control3" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 10.0
+theme = ExtResource("1_8vdy4")
+
+[node name="BackButton" type="Button" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_8vdy4")
+text = "Back "
+
+[node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+theme = ExtResource("1_8vdy4")
+
+[node name="Control2" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+theme = ExtResource("1_8vdy4")
+
+[node name="Control2" type="Control" parent="Options/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Control2" type="Control" parent="Options"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Controls" type="HBoxContainer" parent="."]
+visible = false
+z_index = 5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_8vdy4")
+
+[node name="Control" type="Control" parent="Controls"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Control" type="Control" parent="Controls/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="PanelContainer" type="PanelContainer" parent="Controls/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 8.0
+theme = ExtResource("1_8vdy4")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Controls/VBoxContainer/PanelContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+
+[node name="Control" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+theme = ExtResource("1_8vdy4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Label" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_8vdy4")
+theme_override_font_sizes/font_size = 32
+text = "Controls"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="MarginContainer" type="VBoxContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator4" type="HSeparator" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Basic Controls"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 3
+
+[node name="TextureRect" type="TextureRect" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_ywv0o")
+
+[node name="Control" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Interact"
+
+[node name="TextureRect2" type="TextureRect" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_w7uhp")
+
+[node name="Control3" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Flashlight"
+
+[node name="TextureRect3" type="TextureRect" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_llxsi")
+
+[node name="Control4" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label3" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Pause "
+
+[node name="GridContainer2" type="GridContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 5
+
+[node name="Control5" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2/AspectRatioContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_yugw6")
+
+[node name="Control4" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control6" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label3" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2/AspectRatioContainer2"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_vh14q")
+
+[node name="AspectRatioContainer3" type="AspectRatioContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+
+[node name="TextureRect5" type="TextureRect" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2/AspectRatioContainer3"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_2nbgu")
+
+[node name="AspectRatioContainer4" type="AspectRatioContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+
+[node name="TextureRect6" type="TextureRect" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2/AspectRatioContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("AtlasTexture_4wray")
+
+[node name="Control8" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label4" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer2"]
+layout_mode = 2
+text = "Move"
+
+[node name="HSeparator3" type="HSeparator" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Carried Object Controls"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer3" type="GridContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 5
+
+[node name="Control5" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3"]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3/AspectRatioContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_1reyj")
+
+[node name="Control4" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control6" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label3" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3"]
+layout_mode = 2
+
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3"]
+layout_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3/AspectRatioContainer2"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_0uqtj")
+
+[node name="AspectRatioContainer3" type="AspectRatioContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3"]
+layout_mode = 2
+
+[node name="TextureRect5" type="TextureRect" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3/AspectRatioContainer3"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_wxepb")
+
+[node name="AspectRatioContainer4" type="AspectRatioContainer" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3"]
+layout_mode = 2
+
+[node name="TextureRect6" type="TextureRect" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3/AspectRatioContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("AtlasTexture_fxiac")
+
+[node name="Control8" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label4" type="Label" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/MarginContainer/GridContainer3"]
+layout_mode = 2
+text = "Rotate Object"
+
+[node name="Control3" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 10.0
+theme = ExtResource("1_8vdy4")
+
+[node name="BackButton" type="Button" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" groups=["sound_buttons"]]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_8vdy4")
+text = "Back "
+
+[node name="Control" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+theme = ExtResource("1_8vdy4")
+
+[node name="Control2" type="Control" parent="Controls/VBoxContainer/PanelContainer/HBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+theme = ExtResource("1_8vdy4")
+
+[node name="Control2" type="Control" parent="Controls/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_8vdy4")
+
+[node name="Control2" type="Control" parent="Controls"]
+z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_8vdy4")

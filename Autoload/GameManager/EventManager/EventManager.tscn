@@ -8,7 +8,6 @@
 
 [node name="EventManager" type="Node"]
 script = ExtResource("1_nnr1m")
-enable_debug = null
 
 [node name="power_outage" type="Node" parent="."]
 script = ExtResource("2_63hjv")

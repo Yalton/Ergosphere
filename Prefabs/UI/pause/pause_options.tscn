@@ -3,54 +3,54 @@
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_r7nho"]
 [ext_resource type="Script" uid="uid://bd7kj105s5cuu" path="res://Scripts/ui/Menus/pause.gd" id="1_xcp83"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_is06q"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r7nho"]
 load_path = "res://.godot/imported/PC_Input_Sheet.png-5fe71aaeccff47400b0fe822292e75f7.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h8sck"]
-atlas = SubResource("CompressedTexture2D_is06q")
+atlas = SubResource("CompressedTexture2D_r7nho")
 region = Rect2(264, 72, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gndox"]
-atlas = SubResource("CompressedTexture2D_is06q")
+atlas = SubResource("CompressedTexture2D_r7nho")
 region = Rect2(328, 72, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r7nho"]
-atlas = SubResource("CompressedTexture2D_is06q")
+atlas = SubResource("CompressedTexture2D_r7nho")
 region = Rect2(8, 328, 48, 48)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h8sck"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_is06q"]
 load_path = "res://.godot/imported/PC_Input_Sheet.png-5fe71aaeccff47400b0fe822292e75f7.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_smh0n"]
-atlas = SubResource("CompressedTexture2D_h8sck")
+atlas = SubResource("CompressedTexture2D_is06q")
 region = Rect2(648, 136, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xmute"]
-atlas = SubResource("CompressedTexture2D_h8sck")
+atlas = SubResource("CompressedTexture2D_is06q")
 region = Rect2(8, 72, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eebew"]
-atlas = SubResource("CompressedTexture2D_h8sck")
+atlas = SubResource("CompressedTexture2D_is06q")
 region = Rect2(392, 136, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dlr6r"]
-atlas = SubResource("CompressedTexture2D_h8sck")
+atlas = SubResource("CompressedTexture2D_is06q")
 region = Rect2(200, 72, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2qsgn"]
-atlas = SubResource("CompressedTexture2D_h8sck")
+atlas = SubResource("CompressedTexture2D_is06q")
 region = Rect2(520, 456, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gvkn7"]
-atlas = SubResource("CompressedTexture2D_h8sck")
+atlas = SubResource("CompressedTexture2D_is06q")
 region = Rect2(648, 456, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i68r1"]
-atlas = SubResource("CompressedTexture2D_h8sck")
+atlas = SubResource("CompressedTexture2D_is06q")
 region = Rect2(584, 456, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_25ya6"]
-atlas = SubResource("CompressedTexture2D_h8sck")
+atlas = SubResource("CompressedTexture2D_is06q")
 region = Rect2(712, 456, 48, 48)
 
 [node name="PauseOptions" type="Control"]

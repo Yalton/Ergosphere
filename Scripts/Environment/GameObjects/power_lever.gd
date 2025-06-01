@@ -15,6 +15,7 @@ var module_name: String = "PowerLever"
 # Internal state
 var is_powered: bool = true
 var is_interacting: bool = false
+var task_aware_component: TaskAwareComponent
 
 func _ready() -> void:
 	super._ready()  # Call GameObject's _ready()
@@ -24,6 +25,12 @@ func _ready() -> void:
 	# Set display name if not already set
 	if display_name.is_empty():
 		display_name = "Power Lever"
+	
+	# Find task aware component
+	task_aware_component = get_node_or_null("TaskAwareComponent")
+	
+	# Add to power_levers group for task system
+	add_to_group("power_levers")
 	
 	DebugLogger.debug(module_name, "Power lever initialized")
 
@@ -37,16 +44,23 @@ func set_power_state(powered: bool) -> void:
 		elif not powered and lever_animation_player.has_animation(power_off_animation):
 			lever_animation_player.play(power_off_animation)
 	
-	# Update interaction text via signal
-	if is_powered:
-		object_state_updated.emit("Power is already on")
-	else:
-		object_state_updated.emit("Pull lever to restore power")
+	# Let task component handle interaction text
+	if not task_aware_component:
+		# Fallback if no task component
+		if is_powered:
+			object_state_updated.emit("Power is already on")
+		else:
+			object_state_updated.emit("Pull lever to restore power")
 	
 	DebugLogger.debug(module_name, "Power state set to: " + str(powered))
 
 func interact(player_interaction: PlayerInteractionComponent) -> void:
 	if is_interacting:
+		return
+	
+	# Let task component check if we can interact
+	if task_aware_component and not task_aware_component.is_task_available:
+		DebugLogger.debug(module_name, "Task component blocking interaction")
 		return
 		
 	if is_powered:
@@ -81,8 +95,7 @@ func _restore_power() -> void:
 	is_powered = true
 	is_interacting = false
 	
-	# Update interaction text
-	object_state_updated.emit("Power is already on")
+	# The task component will handle updating interaction text
 	
 	# Emit signal
 	power_restored.emit()
