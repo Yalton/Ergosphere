@@ -69,7 +69,7 @@ func _rebuild_tree() -> void:
 	if not GameManager or not GameManager.task_manager:
 		return
 	
-	var has_tasks = false
+	var var_has_tasks = false
 	
 	# Add emergency tasks first
 	var emergency_tasks = GameManager.task_manager.get_active_emergency_tasks()
@@ -81,7 +81,7 @@ func _rebuild_tree() -> void:
 		
 		for task in emergency_tasks:
 			_add_task_item(task, emergency_category)
-			has_tasks = true
+			var_has_tasks = true
 	
 	# Add regular tasks
 	var regular_tasks = GameManager.task_manager.get_current_tasks()
@@ -93,7 +93,7 @@ func _rebuild_tree() -> void:
 		for task in regular_tasks:
 			if not task.is_emergency:
 				_add_task_item(task, tasks_category)
-				has_tasks = true
+				var_has_tasks = true
 	
 	DebugLogger.debug(module_name, "Tree rebuilt with " + str(task_items.size()) + " tasks")
 
@@ -141,7 +141,7 @@ func _update_task_item(task: BaseTask, item: TreeItem) -> void:
 	# Make unavailable tasks unselectable
 	item.set_selectable(0, task.is_available and not task.is_completed)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Update emergency task timers
 	if GameManager and GameManager.task_manager:
 		var emergency_tasks = GameManager.task_manager.get_active_emergency_tasks()
@@ -185,7 +185,7 @@ func hide_tasks() -> void:
 	visibility_state_changed.emit(false)
 
 # Signal handlers
-func _on_task_assigned(task_id: String) -> void:
+func _on_task_assigned(_task_id: String) -> void:
 	_rebuild_tree()
 	_check_visibility()
 
@@ -197,7 +197,7 @@ func _on_task_completed(task_id: String) -> void:
 			_update_task_item(task, task_items[task_id])
 	_check_visibility()
 
-func _on_emergency_task_triggered(task_id: String) -> void:
+func _on_emergency_task_triggered(_task_id: String) -> void:
 	_rebuild_tree()
 	_check_visibility()
 
@@ -206,7 +206,7 @@ func _on_daily_tasks_completed() -> void:
 	DebugLogger.info(module_name, "All daily tasks completed!")
 	_check_visibility()
 
-func _on_day_started(day_number: int) -> void:
+func _on_day_started(_day_number: int) -> void:
 	_rebuild_tree()
 	_check_visibility()
 

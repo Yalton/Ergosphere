@@ -110,11 +110,11 @@ func _calculate_movement_bounds() -> void:
 	
 	DebugLogger.debug(module_name, "Movement bounds: " + str(movement_bounds))
 
-func _on_x_slider_changed(value: float) -> void:
+func _on_x_slider_changed(_value: float) -> void:
 	if not is_aligned:  # Only allow movement if not aligned
 		_update_telescope_position()
 
-func _on_y_slider_changed(value: float) -> void:
+func _on_y_slider_changed(_value: float) -> void:
 	if not is_aligned:  # Only allow movement if not aligned
 		_update_telescope_position()
 

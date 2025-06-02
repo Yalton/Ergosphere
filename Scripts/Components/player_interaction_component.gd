@@ -114,7 +114,7 @@ func send_message(text: String) -> void:
 		ui_controller.show_message(text)
 
 # Helper method used for showing hints to the player
-func send_hint(hint_icon, hint_text: String) -> void:
+func send_hint(_hint_icon, hint_text: String) -> void:
 	# Just relay to send_message
 	send_message(hint_text)
 

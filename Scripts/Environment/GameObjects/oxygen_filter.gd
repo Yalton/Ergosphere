@@ -88,9 +88,9 @@ func trigger_failure() -> void:
 	set_operational_state(false)
 	filter_failed.emit()
 
-func _on_object_snapped(object_name: String, object_node: Node3D) -> void:
+func _on_object_snapped(_object_name: String, _object_node: Node3D) -> void:
 	if not is_operational:
-		DebugLogger.debug(module_name, "Filter replacement started with: " + object_name)
+		DebugLogger.debug(module_name, "Filter replacement started with: " + _object_name)
 		_start_repair_sequence()
 
 func _start_repair_sequence() -> void:

@@ -29,6 +29,11 @@ DebugLogger="*res://addons/debug_manager/debug_logger.gd"
 TransitionManager="*res://Autoload/TransitionManager/transition_manager.tscn"
 GameManager="*res://Autoload/GameManager/GameManager.tscn"
 
+[debug]
+
+gdscript/warnings/unused_signal=0
+gdscript/warnings/integer_division=0
+
 [display]
 
 window/size/viewport_width=1920

@@ -61,7 +61,7 @@ func _ready() -> void:
 		("Swing" if door_type == DoorType.SWING else "Slide") + 
 		", IsOpen=" + str(is_open))
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if is_moving:
 		if door_type == DoorType.SWING:
 			rotation.y = lerp_angle(rotation.y, target_rotation_rad, door_speed)
@@ -76,7 +76,7 @@ func _physics_process(delta: float) -> void:
 				position = target_position
 				DebugLogger.debug(debug_module_name, "Slide door finished moving")
 
-func interact(interactor) -> void:
+func interact(_interactor) -> void:
 	DebugLogger.debug(debug_module_name, "Door interaction: IsLocked=" + str(is_locked) + 
 		", IsOpen=" + str(is_open))
 	

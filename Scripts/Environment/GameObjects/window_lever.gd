@@ -43,7 +43,7 @@ func _ready() -> void:
 	
 	DebugLogger.debug(module_name, "Window shutter lever initialized - shutters start closed")
 
-func interact(player_interaction: PlayerInteractionComponent) -> void:
+func interact(_player_interaction: PlayerInteractionComponent) -> void:
 	if is_interacting or cooldown_timer.time_left > 0:
 		DebugLogger.debug(module_name, "Lever on cooldown or already interacting")
 		return

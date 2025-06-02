@@ -117,7 +117,7 @@ func _update_interaction_state(available: bool, text: String) -> void:
 		if parent_node.has_signal("object_state_updated"):
 			parent_node.object_state_updated.emit(text)
 
-func on_interact(player_interaction: PlayerInteractionComponent) -> void:
+func on_interact(_player_interaction: PlayerInteractionComponent) -> void:
 	if not is_task_available or not current_task:
 		DebugLogger.debug(module_name, "Task interaction blocked - not available")
 		return

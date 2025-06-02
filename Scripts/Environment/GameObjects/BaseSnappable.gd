@@ -33,6 +33,6 @@ func _find_and_connect_snap_components() -> void:
 				DebugLogger.debug(module_name, "Connected to snap component: " + child.name)
 
 # Virtual method to be overridden by child classes
-func _on_object_snapped(object_name: String, object_node: Node3D) -> void:
-	DebugLogger.debug(module_name, "Object snapped: " + object_name + ", but no specific behavior implemented in BaseSnappable")
+func _on_object_snapped(_object_name: String, _object_node: Node3D) -> void:
+	DebugLogger.debug(module_name, "Object snapped: " + _object_name + ", but no specific behavior implemented in BaseSnappable")
 	# This method should be overridden by child classes to implement specific behavior

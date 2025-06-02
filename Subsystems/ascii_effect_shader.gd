@@ -233,7 +233,7 @@ func _render_callback(p_effect_callback_type, p_render_data):
 				rd.compute_list_end()
 
 # When any of our parameters change, mark the shader dirty to propagate changes
-func _set(property, value):
+func _set(property, _value):
 	if property in ["pixel_size", "color_depth", "use_ascii", "green_monitor", "dithering", "brightness_boost"]:
 		mutex.lock()
 		shader_is_dirty = true

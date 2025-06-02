@@ -332,7 +332,7 @@ func _notify_task_aware_components() -> void:
 		if component.has_method("update_task_availability"):
 			component.update_task_availability()
 
-func _on_state_changed(state_name: String, new_value: Variant) -> void:
+func _on_state_changed(_state_name: String, _new_value: Variant) -> void:
 	# Update task availability when game state changes
 	_update_task_availability()
 
@@ -391,7 +391,7 @@ func are_all_tasks_completed() -> bool:
 	return active_emergency_tasks.is_empty()
 
 # Process to update emergency task timers
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	for task in active_emergency_tasks:
 		if task.emergency_time_limit > 0 and emergency_timers.has(task.task_id):
 			var timer = emergency_timers[task.task_id]

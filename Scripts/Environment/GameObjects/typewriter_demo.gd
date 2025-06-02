@@ -194,9 +194,9 @@ func apply_timestamps_to_logs(logs: Array[String]) -> Array[String]:
 		current_time.second
 	]
 	
-	# Apply timestamps to each log
-	for log in logs:
-		var processed_log = log.replace("[TIMESTAMP]", "[" + timestamp + "]")
+	# Apply timestamps to each log_line
+	for log_line in logs:
+		var processed_log = log_line.replace("[TIMESTAMP]", "[" + timestamp + "]")
 		
 		# Handle special case for "YESTERDAY" in narrative logs
 		if "YESTERDAY" in processed_log:

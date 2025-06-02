@@ -48,7 +48,7 @@ func _ready() -> void:
 	
 	DebugLogger.debug(module_name, "StateAwareComponent initialized on " + parent_node.name)
 
-func _on_state_changed(state_name: String, new_value: Variant) -> void:
+func _on_state_changed(state_name: String, _new_value: Variant) -> void:
 	# Check if this state change affects us
 	var affects_us = false
 	

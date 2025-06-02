@@ -135,7 +135,7 @@ func _type_next_character() -> void:
 	# If we're starting a new line, prepare it with full BBCode
 	if _current_letter_index == 0:
 		# Create a formatted version with BBCode at the beginning and end
-		var formatted_line = "[center][color=#" + text_color.to_html(false) + "]" + current_raw_line + "[/color][/center]"
+		var _formatted_line = "[center][color=#" + text_color.to_html(false) + "]" + current_raw_line + "[/color][/center]"
 		
 		# If this isn't the first line, add a newline before it
 		if _typed_lines_count > 0:

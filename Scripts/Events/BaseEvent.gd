@@ -55,14 +55,14 @@ func end_event(state_manager: StateManager) -> void:
 	is_active = false
 
 # Virtual methods to be overridden by specific events
-func _on_start(state_manager: StateManager) -> void:
+func _on_start(_state_manager: StateManager) -> void:
 	pass
 
 func _on_reverse(state_manager: StateManager) -> void:
 	# Default behavior is to call end
 	_on_end(state_manager)
 
-func _on_end(state_manager: StateManager) -> void:
+func _on_end(_state_manager: StateManager) -> void:
 	pass
 
 # Helper to get event duration

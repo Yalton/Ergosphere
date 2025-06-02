@@ -68,14 +68,14 @@ func _on_rotate_carried_object(supplied_rotation: Vector3) -> void:
 	if is_being_carried:
 		desired_rotation += supplied_rotation
 		
-func _physics_process(delta : float) -> void:
+func _physics_process(_delta : float) -> void:
 	if is_being_carried:
 		# Get the target position from the carryable_position node
 		carry_position = player_interaction_component.get_interaction_raycast_tip(carry_distance_offset)
 		
 		# Calculate vector to desired position
 		var direction_vector = carry_position - parent_object.global_position
-		var distance = direction_vector.length()
+		var _distance = direction_vector.length()
 		
 		# If we're too far from carry position, drop the object
 		#if distance >= drop_distance:

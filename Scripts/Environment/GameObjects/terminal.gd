@@ -16,6 +16,6 @@ func _ready() -> void:
 	DebugLogger.debug(module_name, "TestSnappable initialized")
 
 # Override the parent method to implement specific behavior
-func _on_object_snapped(object_name: String, object_node: Node3D) -> void:
-	DebugLogger.debug(module_name, "Object snapped to TestSnappable: " + object_name)
+func _on_object_snapped(_object_name: String, _object_node: Node3D) -> void:
+	DebugLogger.debug(module_name, "Object snapped to TestSnappable: " + _object_name)
 	animation_player.play("drive_insert")

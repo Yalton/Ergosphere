@@ -50,7 +50,7 @@ func _on_start(state_manager: StateManager) -> void:
 	
 	DebugLogger.info(module_name, "Oxygen failure event started - filter: " + failed_filter.name)
 
-func _on_reverse(state_manager: StateManager) -> void:
+func _on_reverse(_state_manager: StateManager) -> void:
 	# This event can't be directly reversed - it requires player action
 	DebugLogger.warning(module_name, "Oxygen failure cannot be reversed - requires filter replacement")
 
