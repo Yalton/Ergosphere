@@ -24,6 +24,12 @@ signal interaction_changed(available: bool)
 @export var task_tree_ui: Tree  # Reference to the TaskTreeUI node
 @export var task_panel: PanelContainer  # Optional container for the task tree
 
+# Hint system references
+@export_group("Hint System")
+@export var hint_container: HBoxContainer  # The HintContainer in your scene
+@export var hint_scene: PackedScene  # Scene with HintUI script
+@export var enable_debug: bool = false
+
 # Internal variables for message system
 var is_message_completed: bool = false
 var message_tween: Tween
@@ -34,7 +40,14 @@ var last_typing_position: int = 0
 var current_interaction_text: String = ""
 var is_interaction_available: bool = false
 
+# Internal variables for hint system
+var active_hints: Array = []
+var module_name: String = "FPCUIController"
+
 func _ready() -> void:
+	# Register debug logger
+	DebugLogger.register_module(module_name, enable_debug)
+	
 	# Setup initial state
 	message_label.text = ""
 	message_panel.hide()
@@ -57,6 +70,10 @@ func _ready() -> void:
 	# Hide task panel initially if it exists
 	if task_panel:
 		task_panel.hide()
+	
+	# Hide hint container initially
+	if hint_container:
+		hint_container.hide()
 
 #region Message System
 func show_message(message_text: String) -> void:
@@ -197,6 +214,61 @@ func get_current_interaction_text() -> String:
 	return current_interaction_text
 #endregion
 
+#region Hint System
+
+func show_hint(hint_text: String) -> void:
+	if not hint_container or not hint_scene:
+		DebugLogger.error(module_name, "Hint system not configured properly")
+		return
+	
+	# Create new hint instance
+	var hint_instance = hint_scene.instantiate()
+	if not hint_instance:
+		DebugLogger.error(module_name, "Failed to instantiate hint scene")
+		return
+	
+	# Set the text
+	hint_instance.set_hint_text(hint_text)
+	
+	# Add to container
+	var vbox = hint_container.get_child(0)  # Assuming VBoxContainer is first child
+	if vbox and vbox is VBoxContainer:
+		vbox.add_child(hint_instance)
+		active_hints.append(hint_instance)
+		
+		# Show container if it's hidden
+		if not hint_container.visible:
+			hint_container.show()
+		
+		# Connect to removal signal
+		hint_instance.tree_exiting.connect(_on_hint_removed.bind(hint_instance))
+		
+		DebugLogger.debug(module_name, "Showed hint: " + hint_text)
+	else:
+		DebugLogger.error(module_name, "VBoxContainer not found in hint_container")
+		hint_instance.queue_free()
+
+func _on_hint_removed(hint_instance) -> void:
+	active_hints.erase(hint_instance)
+	
+	# Hide container if no more hints
+	if active_hints.is_empty() and hint_container:
+		hint_container.hide()
+		DebugLogger.debug(module_name, "All hints removed, hiding container")
+
+func clear_all_hints() -> void:
+	for hint in active_hints:
+		if is_instance_valid(hint):
+			hint.queue_free()
+	active_hints.clear()
+	
+	if hint_container:
+		hint_container.hide()
+	
+	DebugLogger.debug(module_name, "All hints cleared")
+
+#endregion
+
 #region Task System Integration
 
 # Show the task UI
@@ -241,3 +313,6 @@ func test_message(text: String = "This is a test message") -> void:
 
 func test_interaction(text: String = "Test Interaction") -> void:
 	show_interaction(text)
+
+func test_hint(text: String = "This is a test hint") -> void:
+	show_hint(text)

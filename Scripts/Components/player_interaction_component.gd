@@ -115,8 +115,9 @@ func send_message(text: String) -> void:
 
 # Helper method used for showing hints to the player
 func send_hint(_hint_icon, hint_text: String) -> void:
-	# Just relay to send_message
-	send_message(hint_text)
+	if ui_controller:
+		ui_controller.show_hint(hint_text)
+	
 
 # Functions for CarryableComponent compatibility
 func start_carrying(_carried_object) -> void:

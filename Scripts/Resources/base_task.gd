@@ -3,6 +3,7 @@ extends Resource
 class_name BaseTask
 
 # Task properties
+## Description 
 @export var task_id: String = ""
 @export var task_name: String = "Unnamed Task"
 @export var task_description: String = ""
