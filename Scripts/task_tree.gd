@@ -1,6 +1,8 @@
 # TaskTreeUI.gd
 extends Tree
 
+signal visibility_state_changed(should_show: bool)
+
 @export var enable_debug: bool = true
 var module_name: String = "TaskTreeUI"
 
@@ -8,6 +10,8 @@ var module_name: String = "TaskTreeUI"
 @export var hide_root_item: bool = true
 @export var show_task_descriptions: bool = false
 @export var show_emergency_timer: bool = true
+@export var auto_hide_when_empty: bool = true
+@export var auto_hide_when_complete: bool = true
 
 # Styling
 @export var completed_color: Color = Color(0.5, 0.5, 0.5)
@@ -46,19 +50,21 @@ func _ready() -> void:
 		GameManager.task_manager.emergency_task_triggered.connect(_on_emergency_task_triggered)
 		GameManager.task_manager.daily_tasks_completed.connect(_on_daily_tasks_completed)
 		GameManager.task_manager.day_started.connect(_on_day_started)
-	
-	# Initial update
-	_rebuild_tree()
-	
-	# Hide if no tasks
-	#visible = get_root().get_child_count() > 0 or not hide_root_item
+		
+		# Check initial state
+		_rebuild_tree()
+		_check_visibility()
 	
 	DebugLogger.debug(module_name, "Task Tree UI initialized")
 
 func _rebuild_tree() -> void:
 	# Clear existing items
 	self.clear()
-	#task_items.clear()
+	task_items.clear()
+	
+	# Recreate root
+	root_item = create_item()
+	root_item.set_text(0, "Tasks")
 	
 	if not GameManager or not GameManager.task_manager:
 		return
@@ -89,10 +95,7 @@ func _rebuild_tree() -> void:
 				_add_task_item(task, tasks_category)
 				has_tasks = true
 	
-	# Show/hide based on whether we have tasks
-	visible = has_tasks
-	
-	DebugLogger.debug(module_name, "Tree rebuilt with tasks: " + str(has_tasks))
+	DebugLogger.debug(module_name, "Tree rebuilt with " + str(task_items.size()) + " tasks")
 
 func _add_task_item(task: BaseTask, parent: TreeItem) -> void:
 	var item = create_item(parent)
@@ -128,8 +131,6 @@ func _update_task_item(task: BaseTask, item: TreeItem) -> void:
 	# Set color based on state
 	if task.is_completed:
 		item.set_custom_color(0, completed_color)
-		# Strike through effect
-		#item.set_custom_font(0, preload("res://fonts/strikethrough_font.tres") if has_theme_font("strikethrough") else null)
 	elif task.is_emergency:
 		item.set_custom_color(0, emergency_color)
 	elif not task.is_available:
@@ -148,8 +149,45 @@ func _process(delta: float) -> void:
 			if task_items.has(task.task_id):
 				_update_task_item(task, task_items[task.task_id])
 
+func _check_visibility() -> void:
+	if not GameManager or not GameManager.task_manager:
+		set_should_show(false)
+		return
+	
+	var should_show = true
+	
+	# Check if we should auto-hide when empty
+	if auto_hide_when_empty and not GameManager.task_manager.has_active_tasks():
+		should_show = false
+		DebugLogger.debug(module_name, "Auto-hiding: no active tasks")
+	
+	# Check if we should auto-hide when all complete
+	elif auto_hide_when_complete and GameManager.task_manager.are_all_tasks_completed():
+		should_show = false
+		DebugLogger.debug(module_name, "Auto-hiding: all tasks completed")
+	
+	set_should_show(should_show)
+
+func set_should_show(should_show: bool) -> void:
+	if visible != should_show:
+		visible = should_show
+		visibility_state_changed.emit(should_show)
+		DebugLogger.debug(module_name, "Visibility changed to: " + str(should_show))
+
+# Public method to manually show/hide
+func show_tasks() -> void:
+	visible = true
+	_rebuild_tree()
+	visibility_state_changed.emit(true)
+
+func hide_tasks() -> void:
+	visible = false
+	visibility_state_changed.emit(false)
+
+# Signal handlers
 func _on_task_assigned(task_id: String) -> void:
 	_rebuild_tree()
+	_check_visibility()
 
 func _on_task_completed(task_id: String) -> void:
 	# Just update the specific task
@@ -157,16 +195,20 @@ func _on_task_completed(task_id: String) -> void:
 		var task = GameManager.task_manager._get_task_by_id(task_id)
 		if task and task_items.has(task_id):
 			_update_task_item(task, task_items[task_id])
+	_check_visibility()
 
 func _on_emergency_task_triggered(task_id: String) -> void:
 	_rebuild_tree()
+	_check_visibility()
 
 func _on_daily_tasks_completed() -> void:
 	# Could show a completion message or effect
 	DebugLogger.info(module_name, "All daily tasks completed!")
+	_check_visibility()
 
 func _on_day_started(day_number: int) -> void:
 	_rebuild_tree()
+	_check_visibility()
 
 # Public method to get selected task
 func get_selected_task() -> BaseTask:

@@ -80,17 +80,17 @@ Drink Alcohol - Staves off insanity
 ## Thoughts organized
 
 ~~Implement a task system/tracking system~~
-Simplify task resources
 Implement game manager day tracking system
-~~Integrate task system with game manager~~
-
+Simplify task resources
 Game Crashes when tasks are set in inspector
 Implement Tree into PlayerUI Controller
 Implement Task UI in Player
-Implment hints for player different than messges - smaller
-~~Update UI to add new settings and controls menu, also make options accessible from main menu~~
-Test Day 1
 
+
+Implment hints for player different than messges - smaller
+Fix Warnings
+Place Monitors in scene
+Test Day 1
 
 Game against Hermes 
 ---

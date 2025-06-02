@@ -144,21 +144,31 @@ func _assign_tasks_from_config(config: DayConfigResource) -> void:
 		DebugLogger.debug(module_name, "Added sleep task as final task")
 
 func _assign_random_tasks() -> void:
+	# CRITICAL FIX: Check if we have any default tasks
+	if default_available_tasks.is_empty():
+		DebugLogger.error(module_name, "No default tasks available! Cannot assign tasks.")
+		return
+		
 	var available_pool = default_available_tasks.duplicate()
 	available_pool.shuffle()
 	
+	# Calculate actual tasks to assign (don't exceed pool size)
+	var tasks_to_assign = min(default_tasks_per_day - 1, available_pool.size())
+	
 	# Assign tasks (leaving room for sleep task)
-	for i in range(min(default_tasks_per_day - 1, available_pool.size())):
+	for i in range(tasks_to_assign):
 		var task = available_pool[i]
 		if not task.is_emergency and task.task_id != sleep_task_id:
 			todays_tasks.append(task)
 			task_assigned.emit(task.task_id)
 			DebugLogger.debug(module_name, "Assigned task: " + task.task_name)
 	
-	# Add sleep task
+	# Add sleep task if available
 	var sleep_task = _find_task_in_pool(sleep_task_id, default_available_tasks)
 	if sleep_task:
 		todays_tasks.append(sleep_task)
+	else:
+		DebugLogger.warning(module_name, "No sleep task found in default tasks")
 
 func _find_task_in_pool(task_id: String, pool: Array[BaseTask]) -> BaseTask:
 	for task in pool:
@@ -358,6 +368,27 @@ func is_task_available(task_id: String) -> bool:
 
 func is_task_completed(task_id: String) -> bool:
 	return task_id in completed_tasks
+
+# NEW: Check if we have any active tasks (for UI visibility)
+func has_active_tasks() -> bool:
+	# Check if we have any non-completed tasks
+	for task in todays_tasks:
+		if not task.is_completed:
+			return true
+	
+	# Check emergency tasks
+	return active_emergency_tasks.size() > 0
+
+# NEW: Check if all daily tasks are completed
+func are_all_tasks_completed() -> bool:
+	if todays_tasks.is_empty():
+		return false
+		
+	for task in todays_tasks:
+		if not task.is_completed:
+			return false
+	
+	return active_emergency_tasks.is_empty()
 
 # Process to update emergency task timers
 func _process(delta: float) -> void:
