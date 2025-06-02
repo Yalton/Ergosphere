@@ -51,14 +51,14 @@ func _ready() -> void:
 	_rebuild_tree()
 	
 	# Hide if no tasks
-	visible = get_root().get_child_count() > 0 or not hide_root_item
+	#visible = get_root().get_child_count() > 0 or not hide_root_item
 	
 	DebugLogger.debug(module_name, "Task Tree UI initialized")
 
 func _rebuild_tree() -> void:
 	# Clear existing items
-	root_item.free_children()
-	task_items.clear()
+	self.clear()
+	#task_items.clear()
 	
 	if not GameManager or not GameManager.task_manager:
 		return

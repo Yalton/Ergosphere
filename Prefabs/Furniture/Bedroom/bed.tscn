@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://cr88bedkk3sbc"]
+[gd_scene load_steps=28 format=4 uid="uid://cr88bedkk3sbc"]
 
 [ext_resource type="Texture2D" uid="uid://b8x6tuob44qlj" path="res://Assets/Models/Station/Furniture/Bedroom/textures/BlackerMetal-Color.png" id="1_bbjsk"]
 [ext_resource type="Script" uid="uid://cdhpms0b6gdve" path="res://Prefabs/Furniture/Bedroom/bed.gd" id="1_i2l80"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://c7wrphxkychtd" path="res://Assets/Models/Station/Furniture/Bedroom/textures/GreyPlastic-Roughness.png" id="8_ks0rt"]
 [ext_resource type="Texture2D" uid="uid://c6mgn7v1io7qh" path="res://Assets/Models/Station/Furniture/Bedroom/textures/GreyPlastic-Normal.png" id="9_tne07"]
 [ext_resource type="Texture2D" uid="uid://berot2lbes1dv" path="res://Assets/Models/Station/Furniture/Bedroom/textures/Cloth-Color.png" id="10_c7xfb"]
+[ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="11_4cdr0"]
 [ext_resource type="Texture2D" uid="uid://ddxtylvmigtk7" path="res://Assets/Models/Station/Furniture/Bedroom/textures/Cloth-Roughness.png" id="11_iiana"]
 [ext_resource type="Texture2D" uid="uid://dtr4mh4yx74yg" path="res://Assets/Models/Station/Furniture/Bedroom/textures/Cloth-Normal.png" id="12_cl13t"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="14_a51al"]
@@ -218,18 +219,20 @@ shadow_mesh = SubResource("ArrayMesh_3m8lc")
 [sub_resource type="BoxShape3D" id="BoxShape3D_frei3"]
 size = Vector3(0.694702, 0.0809326, 0.369141)
 
-[node name="Bed" type="StaticBody3D" node_paths=PackedStringArray("camera_sleep_position")]
+[node name="Bed" type="StaticBody3D"]
 transform = Transform3D(0, 0, -4.79613, 0, 4.79613, 0, 4.79613, 0, 0, 0, 0, 0)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_i2l80")
-camera_sleep_position = NodePath("CameraPosition")
 display_name = "bed"
 
 [node name="Cube_311" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.208501, 0, 0, 0, 0.208501, 0, 0, 0, 0.156376, 0, 0, 0)
 mesh = SubResource("ArrayMesh_fykms")
 skeleton = NodePath("")
+
+[node name="TaskAwareComponent" parent="." instance=ExtResource("11_4cdr0")]
+associated_task_id = "sleep"
 
 [node name="Plane_014" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.882254, 0, 0, 0, 0.208501, 0, 0, 0, 1.00172, 0, 0.458003, 0.256185)

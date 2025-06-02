@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://chqdixp3k58yg"]
+[gd_scene load_steps=24 format=4 uid="uid://chqdixp3k58yg"]
 
 [ext_resource type="Script" uid="uid://dfw7sryh2lg4d" path="res://Scripts/Environment/GameObjects/telescope_monitor.gd" id="1_86hom"]
 [ext_resource type="Texture2D" uid="uid://bnm0acu4duroo" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/GreyPlastic-Color.png" id="2_1as24"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bso2ino6tdh16" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/BlackPlastic-Color.png" id="5_ocyyd"]
 [ext_resource type="Texture2D" uid="uid://bisye821wot8g" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/BlackPlastic-Roughness.png" id="6_wvixc"]
 [ext_resource type="Texture2D" uid="uid://ci6nhaoicibjf" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/BlackPlastic-Normal.png" id="7_w5ejq"]
+[ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="8_1as24"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="8_lku5o"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="9_56nk0"]
 [ext_resource type="PackedScene" uid="uid://b1outtodahk2b" path="res://Prefabs/UI/telescope_adjust_ui.tscn" id="10_1as24"]
@@ -159,6 +160,9 @@ skin = SubResource("Skin_s2mi2")
 visible = false
 mesh = SubResource("ArrayMesh_treef")
 skin = SubResource("Skin_s2mi2")
+
+[node name="TaskAwareComponent" parent="." instance=ExtResource("8_1as24")]
+associated_task_id = "telescope_allign"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(12.35, 0, 0, 0, 12.35, 0, 0, 0, 12.35, 0.0454953, 2.39366, -1.99694)

@@ -5,11 +5,18 @@ signal download_completed
 
 @export var download_ui_control: Control  # Assign the UI control with DownloadUIControl.gd
 
+var task_aware_component: TaskAwareComponent
 
 func _ready() -> void:
 	super._ready()
 	module_name = "DownloadDiegeticUI"
 	DebugLogger.register_module(module_name, enable_debug)
+	
+	# Find task aware component
+	task_aware_component = get_node_or_null("TaskAwareComponent")
+	
+	# Add to download_terminals group for task system
+	add_to_group("download_terminals")
 	
 	# Connect to the UI control's signal
 	if download_ui_control:
@@ -25,6 +32,10 @@ func _ready() -> void:
 
 func _on_ui_download_completed() -> void:
 	DebugLogger.debug(module_name, "UI download completed - relaying signal")
+	
+	# Complete the task if we have a task component
+	if task_aware_component:
+		task_aware_component.complete_task()
 	
 	# Relay the signal to external listeners (like the server)
 	download_completed.emit()

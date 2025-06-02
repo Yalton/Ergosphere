@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://c7n25om7olp7"]
+[gd_scene load_steps=24 format=4 uid="uid://c7n25om7olp7"]
 
 [ext_resource type="Texture2D" uid="uid://be7a8jj6erek0" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Color.png" id="1_3igau"]
 [ext_resource type="Script" uid="uid://of78jwwcyi1w" path="res://Scripts/Environment/GameObjects/memory_block_monitor.gd" id="1_aoay5"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bhkqxse832awp" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/BlackPlastic-Roughness.png" id="5_kodtd"]
 [ext_resource type="Texture2D" uid="uid://c2qivsr1p2ibc" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/BlackPlastic-Normal.png" id="6_cmdf0"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="7_5xh7d"]
+[ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="8_0kvyb"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="8_enhsa"]
 [ext_resource type="PackedScene" uid="uid://bdy6quxbmyj42" path="res://Prefabs/UI/memory_purge_game.tscn" id="9_14863"]
 
@@ -179,6 +180,9 @@ skin = SubResource("Skin_ou3l8")
 [node name="ViewSonic 17GS Dirty Mesh" type="MeshInstance3D" parent="Skeleton3D"]
 mesh = SubResource("ArrayMesh_tyel1")
 skin = SubResource("Skin_ou3l8")
+
+[node name="TaskAwareComponent" parent="." instance=ExtResource("8_0kvyb")]
+associated_task_id = "defragment_memory"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00816521, 2.05379, -0.549724)

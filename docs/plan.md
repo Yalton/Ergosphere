@@ -77,15 +77,18 @@ Hide from creature
 Pray to the Obelisk
 Drink Alcohol - Staves off insanity
 
-## Thoughts organized 
+## Thoughts organized
 
-Implement a task system/tracking system
+~~Implement a task system/tracking system~~
+Simplify task resources
 Implement game manager day tracking system
-Integrate task system with game manager
+~~Integrate task system with game manager~~
 
+Game Crashes when tasks are set in inspector
+Implement Tree into PlayerUI Controller
 Implement Task UI in Player
-Implment hints for player different than messges - smaller 
-Update UI to add new settings and controls menu, also make options accessible from main menu 
+Implment hints for player different than messges - smaller
+~~Update UI to add new settings and controls menu, also make options accessible from main menu~~
 Test Day 1
 
 

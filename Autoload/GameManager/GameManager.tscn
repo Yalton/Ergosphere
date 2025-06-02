@@ -16,4 +16,3 @@ auto_start_test = true
 [node name="StateManager" parent="." instance=ExtResource("3_554py")]
 
 [node name="TaskManager" parent="." instance=ExtResource("4_554py")]
-available_tasks = null

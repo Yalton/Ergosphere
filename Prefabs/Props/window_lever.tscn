@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://qr1n21uuq8fa"]
+[gd_scene load_steps=30 format=4 uid="uid://qr1n21uuq8fa"]
 
 [ext_resource type="Texture2D" uid="uid://mdt1kero5hpi" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Color.png" id="1_hdvgj"]
 [ext_resource type="Script" uid="uid://cgpjv0ht3v1qu" path="res://Scripts/Environment/GameObjects/window_lever.gd" id="1_uaw60"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bi5uhue15pioh" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Normal.png" id="3_uxq5t"]
 [ext_resource type="Texture2D" uid="uid://dgu87woln2sfa" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/BlackerMetal-Color.png" id="4_tp4de"]
 [ext_resource type="Texture2D" uid="uid://cxdmrm556d7qj" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="5_4yj7c"]
+[ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="5_rytq7"]
 [ext_resource type="Texture2D" uid="uid://bryxxyjbuuelt" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/BlackerMetal-Normal.png" id="6_foorh"]
 [ext_resource type="Texture2D" uid="uid://g6ll1fvkww7p" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/RedPlastic-Color.png" id="7_l35ct"]
 [ext_resource type="Texture2D" uid="uid://r7iwrp8vrv" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/RedPlastic-Roughness.png" id="8_6f6ay"]
@@ -261,6 +262,9 @@ display_name = "window_lever"
 transform = Transform3D(0.322879, 0, 0, 0, 0.645757, 0, 0, 0, 0.0322879, 3.90582e-06, 0, 0)
 mesh = SubResource("ArrayMesh_5q5xc")
 skeleton = NodePath("")
+
+[node name="TaskAwareComponent" parent="." instance=ExtResource("5_rytq7")]
+associated_task_id = "shutters"
 
 [node name="PowerAnchorPoint" type="MeshInstance3D" parent="."]
 transform = Transform3D(-9.25483e-08, -0.0896607, -3.0355e-08, -0.201032, 1.16484e-08, 0.224412, -0.224412, 2.65415e-08, -0.201032, 3.90716e-06, 0, 0.112322)
