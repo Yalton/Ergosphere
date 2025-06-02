@@ -308,26 +308,29 @@ mouse_filter = 2
 theme = ExtResource("11_qmfn3")
 
 [node name="TaskContainer" type="HBoxContainer" parent="PlayerUI"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Control" type="Control" parent="PlayerUI/TaskContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.5
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/TaskContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="Tree" type="Tree" parent="PlayerUI/TaskContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 theme = ExtResource("11_qmfn3")
 columns = 2
 script = ExtResource("16_iummq")
@@ -337,6 +340,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
+mouse_filter = 2
 
 [node name="HintContainer" type="HBoxContainer" parent="PlayerUI"]
 visible = false
@@ -346,21 +350,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/HintContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="UI_Hint" parent="PlayerUI/HintContainer/VBoxContainer" instance=ExtResource("16_mtnbr")]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Control2" type="Control" parent="PlayerUI/HintContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
+mouse_filter = 2
 
 [node name="Control" type="Control" parent="PlayerUI/HintContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.5
+mouse_filter = 2

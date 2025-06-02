@@ -19,6 +19,11 @@ signal interaction_changed(available: bool)
 @export var interaction_label: RichTextLabel
 @export var interaction_icon: TextureRect
 
+# Task UI references
+@export_group("Task System")
+@export var task_tree_ui: Tree  # Reference to the TaskTreeUI node
+@export var task_panel: PanelContainer  # Optional container for the task tree
+
 # Internal variables for message system
 var is_message_completed: bool = false
 var message_tween: Tween
@@ -43,6 +48,15 @@ func _ready() -> void:
 	message_timer.one_shot = true
 	message_timer.timeout.connect(_on_message_timer_timeout)
 	add_child(message_timer)
+	
+	# Connect to task tree UI if available
+	if task_tree_ui:
+		if task_tree_ui.has_signal("visibility_state_changed"):
+			task_tree_ui.visibility_state_changed.connect(_on_task_visibility_changed)
+			
+	# Hide task panel initially if it exists
+	if task_panel:
+		task_panel.hide()
 
 #region Message System
 func show_message(message_text: String) -> void:
@@ -106,7 +120,7 @@ func show_persistent_message(message_text: String) -> void:
 	# No timer - message will stay until hide_message() is called
 
 # Show full message with optional auto-hide timer
-func show_full_message(message_text: String, display_time: float = message_display_time) -> void:
+func show_full_message(message_text: String, display_time: float = -1.0) -> void:
 	# Clear any existing timers and tweens
 	if message_timer.time_left > 0:
 		message_timer.stop()
@@ -181,6 +195,44 @@ func is_interaction_showing() -> bool:
 
 func get_current_interaction_text() -> String:
 	return current_interaction_text
+#endregion
+
+#region Task System Integration
+
+# Show the task UI
+func show_task_ui() -> void:
+	if task_tree_ui:
+		task_tree_ui.show_tasks()
+	if task_panel:
+		task_panel.show()
+
+# Hide the task UI
+func hide_task_ui() -> void:
+	if task_tree_ui:
+		task_tree_ui.hide_tasks()
+	if task_panel:
+		task_panel.hide()
+
+# Toggle task UI visibility
+func toggle_task_ui() -> void:
+	if task_tree_ui:
+		if task_tree_ui.visible:
+			hide_task_ui()
+		else:
+			show_task_ui()
+
+# Called when task tree visibility changes
+func _on_task_visibility_changed(should_show: bool) -> void:
+	# Update task panel visibility if we have one
+	if task_panel:
+		task_panel.visible = should_show
+
+# Get task UI visibility state
+func is_task_ui_visible() -> bool:
+	if task_tree_ui:
+		return task_tree_ui.visible
+	return false
+
 #endregion
 
 # Useful for debugging or testing
