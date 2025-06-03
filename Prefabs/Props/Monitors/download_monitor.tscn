@@ -1,8 +1,10 @@
-[gd_scene load_steps=22 format=4 uid="uid://ch6mkc1p7hs84"]
+[gd_scene load_steps=24 format=4 uid="uid://ch6mkc1p7hs84"]
 
 [ext_resource type="Texture2D" uid="uid://d30amr513rkr2" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Color.png" id="1_l4gnf"]
 [ext_resource type="Script" uid="uid://dpqlr33j0q3nc" path="res://Scripts/Environment/GameObjects/download_monitor.gd" id="1_qfur7"]
 [ext_resource type="Texture2D" uid="uid://qejysd14q40x" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Roughness.png" id="2_7db5l"]
+[ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="2_exi1t"]
+[ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="3_1210g"]
 [ext_resource type="Texture2D" uid="uid://d4f4jssc74kra" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Normal.png" id="3_kdt73"]
 [ext_resource type="Texture2D" uid="uid://dwgo0lfh56oy4" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Color.png" id="4_au0d5"]
 [ext_resource type="Texture2D" uid="uid://cq1v1lwg2hweo" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Roughness.png" id="5_qfur7"]
@@ -125,17 +127,26 @@ resource_local_to_scene = true
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_qfur7")
 
-[node name="Download_Monitor" type="StaticBody3D" node_paths=PackedStringArray("download_ui_control", "sub_viewport", "display")]
+[node name="Download_Monitor" type="StaticBody3D" node_paths=PackedStringArray("download_ui_control", "sub_viewport", "display", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_qfur7")
 download_ui_control = NodePath("SubViewport/DownloadUI")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Display")
+task_aware_component = NodePath("TaskAwareComponent")
+state_aware_component = NodePath("StateAwareComponent")
+display_name = "download_monitor"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00371356, 2.19273, 0.156631)
 shape = SubResource("BoxShape3D_l0qie")
+
+[node name="TaskAwareComponent" parent="." instance=ExtResource("2_exi1t")]
+associated_task_id = "download_data"
+show_task_in_interaction_text = false
+
+[node name="StateAwareComponent" parent="." instance=ExtResource("3_1210g")]
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
 transform = Transform3D(14, 0, 0, 0, 14, 0, 0, 0, 14, 0, 0, 0)

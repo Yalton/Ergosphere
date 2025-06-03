@@ -7,7 +7,7 @@ signal telescope_aligned()
 
 @export var telescope_ui_control: Control  # Assign the TelescopeController node
 
-var task_aware_component: TaskAwareComponent
+#var task_aware_component: TaskAwareComponent
 var alignment_completed: bool = false
 
 func _ready() -> void:
@@ -16,11 +16,12 @@ func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Find task aware component
-	task_aware_component = get_node_or_null("TaskAwareComponent")
+	#task_aware_component = get_node_or_null("TaskAwareComponent")
 	
 	# Add to telescope_terminals group for task system
 	add_to_group("telescope_terminals")
 	
+	telescope_ui_control.telescope_alligned.connect(_on_telescope_aligned)
 	# Connect to the telescope controller's signal
 	if telescope_ui_control:
 		if telescope_ui_control.has_signal("telescope_position_changed"):
@@ -34,7 +35,7 @@ func _ready() -> void:
 	DebugLogger.debug(module_name, "Telescope Diegetic UI initialized")
 
 func _on_telescope_position_changed(x_normalized: float, y_normalized: float) -> void:
-	DebugLogger.debug(module_name, "Telescope position changed - X: %.2f, Y: %.2f" % [x_normalized, y_normalized])
+	#DebugLogger.debug(module_name, "Telescope position changed - X: %.2f, Y: %.2f" % [x_normalized, y_normalized])
 	
 	# Relay the signal to external listeners (like the physical telescope)
 	telescope_adjusted.emit(x_normalized, y_normalized)

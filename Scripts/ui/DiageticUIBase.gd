@@ -1,5 +1,5 @@
 class_name DiegeticUIBase
-extends GameObject
+extends AwareGameObject
 
 signal object_state_updated(interaction_text: String)
 signal interaction_started
@@ -22,26 +22,24 @@ signal interaction_ended
 var has_been_used: bool = false
 var interaction_text: String
 var player_interaction_component: PlayerInteractionComponent
-#var interaction_nodes: Array[Node]
 var cooldown: float
 var is_player_interacting: bool = false
 var is_in_cooldown: bool = false  # Track if we're in post-interaction cooldown
+var is_disabled: bool = false  # New: Track if UI is disabled
+var original_material: Material  # Store original material
 
 # Mouse handling variables
 var pending_mouse_event: InputEvent = null
 var last_mouse_hit: Vector3 = Vector3.ZERO
 
-# Debug flag
-@export var enable_debug: bool = true
-var module_name: String = "DiegeticUI"
+
 
 func _ready() -> void:
 	
 	super._ready()
+	module_name = "DiegeticUI"
 	DebugLogger.register_module(module_name, enable_debug)
-	#self.add_to_group("interactable")
-	#add_to_group("save_object_state")
-	#interaction_nodes = find_children("", "InteractionComponent", true)
+	
 	cooldown = 0
 	interaction_text = usable_interaction_text
 	object_state_updated.emit(interaction_text)
@@ -52,8 +50,14 @@ func _ready() -> void:
 	else:
 		DebugLogger.error(module_name, "No SubViewport assigned!")
 	
-	if !area_3d:
+	if not area_3d:
 		DebugLogger.error(module_name, "No Area3D found as child!")
+	
+	# Store original material if display exists
+	if display and display.get_surface_override_material_count() > 0:
+		original_material = display.get_surface_override_material(0)
+	elif display and display.mesh:
+		original_material = display.material_override
 	
 	DebugLogger.debug(module_name, "Diegetic UI initialized with text: " + interaction_text)
 
@@ -70,6 +74,11 @@ func _physics_process(delta: float) -> void:
 		pending_mouse_event = null
 
 func interact(_player_interaction_component: PlayerInteractionComponent) -> void:
+	# Check if UI is disabled
+	if is_disabled:
+		DebugLogger.debug(module_name, "UI is disabled, ignoring interaction")
+		return
+		
 	# Check if we're in cooldown
 	if is_in_cooldown:
 		DebugLogger.debug(module_name, "UI is in cooldown, ignoring interaction")
@@ -255,4 +264,53 @@ func set_state() -> void:
 
 # Helper method to check if UI can be interacted with
 func can_interact() -> bool:
-	return not is_in_cooldown and cooldown <= 0 and not is_player_interacting
+	return not is_disabled and not is_in_cooldown and cooldown <= 0 and not is_player_interacting
+
+# NEW: Disable/enable the UI
+func set_ui_enabled(enabled: bool) -> void:
+	is_disabled = not enabled
+	
+	if is_disabled:
+		black_out_display()
+		# End any current interaction
+		if is_player_interacting:
+			end_interaction()
+		interaction_text = unusable_interaction_text
+	else:
+		restore_display()
+		interaction_text = usable_interaction_text
+	
+	object_state_updated.emit(interaction_text)
+	DebugLogger.debug(module_name, "UI enabled state changed to: " + str(enabled))
+
+# NEW: Black out the display
+func black_out_display() -> void:
+	if not display:
+		DebugLogger.warning(module_name, "No display mesh assigned")
+		return
+	
+	# Create a black material
+	var black_material = StandardMaterial3D.new()
+	black_material.albedo_color = Color.BLACK
+	black_material.emission_enabled = false
+	
+	# Apply to the display
+	display.material_override = black_material
+	
+	DebugLogger.debug(module_name, "Display blacked out")
+
+# NEW: Restore the display to normal
+func restore_display() -> void:
+	if not display:
+		DebugLogger.warning(module_name, "No display mesh assigned")
+		return
+	
+	# Restore original material or create white material
+	if original_material:
+		display.material_override = original_material
+	else:
+		var white_material = StandardMaterial3D.new()
+		white_material.albedo_color = Color.WHITE
+		display.material_override = white_material
+	
+	DebugLogger.debug(module_name, "Display restored")

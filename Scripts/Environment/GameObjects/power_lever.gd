@@ -4,7 +4,6 @@ extends GameObject
 signal power_restored
 signal object_state_updated(interaction_text: String)
 
-@export var enable_debug: bool = true
 var module_name: String = "PowerLever"
 
 @export_group("Lever Settings")

@@ -7,7 +7,6 @@ signal memory_purge_completed
 
 @onready var memory_game: MemoryPurgeGame = $SubViewport/memory_purge_game
 
-var task_aware_component: TaskAwareComponent
 
 func _ready() -> void:
 	super._ready()

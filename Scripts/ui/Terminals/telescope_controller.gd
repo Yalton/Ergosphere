@@ -3,7 +3,7 @@ extends Control
 
 # Signal emitted when telescope position changes
 signal telescope_position_changed(x_normalized: float, y_normalized: float)
-
+signal telescope_alligned()
 @export var x_slider: HSlider
 @export var y_slider: VSlider
 @export var telescope_image: Control  # The image/element to move around
@@ -221,6 +221,7 @@ func _complete_calibration() -> void:
 		y_slider.modulate.a = 0.5  # Make it look disabled
 	
 	DebugLogger.info(module_name, "Telescope calibration complete!")
+	telescope_alligned.emit()
 
 # Call this if screen size changes
 func _on_screen_resized() -> void:

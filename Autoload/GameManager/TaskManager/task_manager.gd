@@ -258,6 +258,14 @@ func complete_task(task_id: String) -> void:
 	if not task_id in all_completed_tasks:
 		all_completed_tasks.append(task_id)
 	
+	# Special handling for secret tasks
+	if task.is_secret:
+		DebugLogger.info(module_name, "Secret task completed: " + task.task_name)
+		# Show notification
+		_show_secret_completed_message(task)
+		# Task will now appear in UI since it's completed
+		task_assigned.emit(task_id)  # Notify UI to update
+	
 	# Remove from emergency tasks if applicable
 	if task in active_emergency_tasks:
 		active_emergency_tasks.erase(task)
@@ -279,6 +287,17 @@ func complete_task(task_id: String) -> void:
 	
 	DebugLogger.info(module_name, "Task completed: " + task.task_name)
 
+# Show message when secret is completed
+func _show_secret_completed_message(task: BaseTask) -> void:
+	var message = "Secret discovered: " + task.task_name + "!"
+	
+	# Find player and show message
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() > 0:
+		var player = players[0]
+		if player.has_method("receive_message"):
+			player.receive_message(message)
+			
 func _on_day_completed() -> void:
 	DebugLogger.info(module_name, "Day " + str(current_day) + " completed!")
 	
@@ -295,6 +314,38 @@ func _on_day_completed() -> void:
 	
 	daily_tasks_completed.emit()
 
+# Add new method for getting visible tasks (excluding uncompleted secrets)
+func get_visible_tasks() -> Array[BaseTask]:
+	var visible_tasks: Array[BaseTask] = []
+	
+	for task in todays_tasks:
+		# Only include non-secret tasks or completed secret tasks
+		if not task.is_secret or task.is_completed:
+			visible_tasks.append(task)
+	
+	return visible_tasks
+
+# Get count of secret tasks (completed and uncompleted)
+func get_secret_task_count() -> Dictionary:
+	var total_secrets = 0
+	var completed_secrets = 0
+	
+	for task in todays_tasks:
+		if task.is_secret:
+			total_secrets += 1
+			if task.is_completed:
+				completed_secrets += 1
+	
+	return {
+		"total": total_secrets,
+		"completed": completed_secrets,
+		"remaining": total_secrets - completed_secrets
+	}
+
+# Check if a task exists (including secrets)
+func has_task(task_id: String) -> bool:
+	return _get_task_by_id(task_id) != null
+	
 func _show_day_message(message: String) -> void:
 	# Find player and show message
 	var players = get_tree().get_nodes_in_group("player")
@@ -356,8 +407,17 @@ func _get_task_by_id(task_id: String) -> BaseTask:
 	# Check default pool
 	return _find_task_in_pool(task_id, default_available_tasks)
 
+# Update get_current_tasks to exclude uncompleted secrets
 func get_current_tasks() -> Array[BaseTask]:
-	return todays_tasks
+	var visible_tasks: Array[BaseTask] = []
+	
+	for task in todays_tasks:
+		# Only include non-secret tasks or completed secret tasks
+		if not task.is_secret or task.is_completed:
+			visible_tasks.append(task)
+	
+	return visible_tasks
+
 
 func get_active_emergency_tasks() -> Array[BaseTask]:
 	return active_emergency_tasks

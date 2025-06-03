@@ -16,6 +16,9 @@ class_name BaseTask
 ## If true, this task is an emergency that blocks normal tasks and may have a time limit
 @export var is_emergency: bool = false
 
+## If true, this task is an emergency that blocks normal tasks and may have a time limit
+@export var is_secret: bool = false
+
 ## Time limit in seconds for emergency tasks. 0 = no time limit. Task fails if timer expires.
 @export var emergency_time_limit: float = 0.0
 

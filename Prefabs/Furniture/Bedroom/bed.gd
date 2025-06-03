@@ -4,7 +4,6 @@ extends GameObject
 signal object_state_updated(interaction_text: String)
 signal player_went_to_sleep
 
-@export var enable_debug: bool = true
 var module_name: String = "Bed"
 
 @export_group("Sleep Settings")

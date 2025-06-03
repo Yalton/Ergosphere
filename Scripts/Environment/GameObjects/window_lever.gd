@@ -4,7 +4,6 @@ extends GameObject
 signal shutters_toggled(open_state: bool)
 signal object_state_updated(interaction_text: String)
 
-@export var enable_debug: bool = true
 var module_name: String = "WindowShutterLever"
 
 @export_group("Lever Settings")

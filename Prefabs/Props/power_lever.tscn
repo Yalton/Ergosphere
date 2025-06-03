@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://bgmjcis31thqm"]
+[gd_scene load_steps=43 format=4 uid="uid://bgmjcis31thqm"]
 
 [ext_resource type="Script" uid="uid://ckag3tkree5w6" path="res://Scripts/Environment/GameObjects/power_lever.gd" id="1_pxlly"]
 [ext_resource type="Texture2D" uid="uid://mdt1kero5hpi" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Color.png" id="1_xp1vl"]
@@ -13,7 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://ouox6kfpbwcq" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/RedPlastic-Normal.png" id="9_fx3yp"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="11_opa3s"]
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="12_pxlly"]
-[ext_resource type="Script" uid="uid://cd157bjj6afve" path="res://Scripts/Components/state_aware_component.gd" id="13_mobxi"]
 [ext_resource type="Texture2D" uid="uid://c8tlbkx8wnwug" path="res://Assets/Textures/VFX_Textures/spark_01.png" id="14_mobxi"]
 [ext_resource type="AudioStream" uid="uid://b8tui3hwhaal7" path="res://Assets/Audio/Interactions/PowerLever/power_lever_adjust.ogg" id="14_qqvp8"]
 [ext_resource type="AudioStream" uid="uid://co20f7u547rk4" path="res://Assets/Audio/Interactions/PowerLever/lever_powered.ogg" id="15_fx3yp"]
@@ -321,7 +320,6 @@ lever_animation_player = NodePath("AnimationPlayer")
 associated_task_id = "power_on"
 
 [node name="StateAwareComponent" parent="." instance=ExtResource("12_pxlly")]
-script = ExtResource("13_mobxi")
 
 [node name="Cube_342" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.322879, 0, 0, 0, 0.645757, 0, 0, 0, 0.0322879, 3.90582e-06, 0, 0)

@@ -5,6 +5,7 @@ signal object_exits_tree()
 
 ## Name that will displayed when interacting. Leave blank to hide
 @export var display_name : String
+@export var enable_debug: bool = true
 
 var interaction_nodes : Array[Node]
 var properties : int

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseTask" load_steps=2 format=3 uid="uid://b5n6e78wex8px"]
+
+[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_45rbe"]
+
+[resource]
+script = ExtResource("1_45rbe")
+task_id = "download_data"
+task_name = "Download Data"
+task_description = ""
+is_emergency = false
+is_secret = false
+emergency_time_limit = 0.0
+dependent_on_tasks = Array[String](["allign_telescope"])
+required_states = {}
+blocked_by_states = {}
+related_object_groups = Array[String]([])
+metadata/_custom_type_script = "uid://bxrho0i2t1mql"

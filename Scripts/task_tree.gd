@@ -97,12 +97,12 @@ func _rebuild_tree() -> void:
 				has_tasks = true
 	
 	# Optional: Show hint about secrets
-	if GameManager.task_manager.has_unrevealed_secrets():
-		var secrets_hint = create_item(root_item)
-		secrets_hint.set_text(0, "??? Hidden secrets remain ???")
-		secrets_hint.set_custom_color(0, Color(0.7, 0.7, 1.0))  # Purplish hint color
-		secrets_hint.set_custom_font_size(0, 12)
-		secrets_hint.set_selectable(0, false)
+	#if GameManager.task_manager.has_unrevealed_secrets():
+		#var secrets_hint = create_item(root_item)
+		#secrets_hint.set_text(0, "??? Hidden secrets remain ???")
+		#secrets_hint.set_custom_color(0, Color(0.7, 0.7, 1.0))  # Purplish hint color
+		#secrets_hint.set_custom_font_size(0, 12)
+		#secrets_hint.set_selectable(0, false)
 	
 	DebugLogger.debug(module_name, "Tree rebuilt with " + str(task_items.size()) + " visible tasks")
 

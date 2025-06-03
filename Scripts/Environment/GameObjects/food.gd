@@ -10,7 +10,6 @@ signal object_state_updated(interaction_text: String)
 @export var consume_message: String = "You eat the food"
 @export var nutrition_value: float = 50.0  # For future hunger system
 
-@export var enable_debug: bool = true
 var module_name: String = "Food"
 
 func _ready() -> void:

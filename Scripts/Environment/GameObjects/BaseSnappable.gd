@@ -1,9 +1,8 @@
-extends GameObject
+extends AwareGameObject
 class_name BaseSnappable
 
 # Debug properties
-@export var enable_debug: bool = true
-var module_name: String = "BaseSnappable"
+
 
 # Snapping control
 @export var can_snap: bool = true
@@ -13,7 +12,7 @@ var snap_components: Array[SnapComponent] = []
 func _ready() -> void:
 	# Call parent _ready
 	super._ready()
-	
+	module_name = "BaseSnappable"
 	# Register with debug logger
 	DebugLogger.register_module(module_name, enable_debug)
 	

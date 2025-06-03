@@ -9,19 +9,23 @@ signal task_availability_changed(is_available: bool)
 var module_name: String = "TaskAwareComponent"
 
 @export_group("Task Settings")
+## The ID of the task this component is associated with
 @export var associated_task_id: String = ""
-@export var complete_on_interact: bool = true
+## Whether to show task name in interaction text
 @export var show_task_in_interaction_text: bool = true
 
 @export_group("UI Settings")
+## Text shown when task is available. Use {task_name} to insert task name
 @export var task_available_text: String = "Complete Task: {task_name}"
+## Text shown when task is unavailable. Use {task_name} to insert task name
 @export var task_unavailable_text: String = "Task Unavailable: {task_name}"
+## Text shown when task is already completed
 @export var task_completed_text: String = "Task Already Completed"
+## Prefix added to emergency tasks
 @export var emergency_prefix: String = "[EMERGENCY] "
 
 var parent_node: Node
 var interaction_component: InteractionComponent
-var state_aware_component: StateAwareComponent
 var current_task: BaseTask = null
 var is_task_available: bool = false
 
@@ -31,49 +35,33 @@ func _ready() -> void:
 	parent_node = get_parent()
 	
 	# Find interaction component
-	for child in parent_node.get_children():
-		if child is InteractionComponent:
-			interaction_component = child
-		elif child is StateAwareComponent:
-			state_aware_component = child
-	
-	if not interaction_component:
-		DebugLogger.error(module_name, "No InteractionComponent found on parent")
-		return
+	#for child in parent_node.get_children():
+		#if child is InteractionComponent:
+			#interaction_component = child
+			#break
+	#
+	#if not interaction_component:
+		#DebugLogger.error(module_name, "No InteractionComponent found on parent")
+		#return
 	
 	# Add to task_aware group
 	add_to_group("task_aware")
 	
-	# Connect to parent's interact signal if it's a GameObject
-	if parent_node is GameObject and parent_node.has_signal("object_state_updated"):
-		# We'll update interaction text through this
-		pass
-	
+	GameManager.task_manager.task_completed.connect(_on_any_task_complete)
 	# Initial update
 	update_task_availability()
 	
 	DebugLogger.debug(module_name, "TaskAwareComponent initialized for task: " + associated_task_id)
 
 func update_task_availability() -> void:
-	if not GameManager or not GameManager.has_node("TaskManager"):
+	if not GameManager or not GameManager.task_manager:
 		DebugLogger.warning(module_name, "No TaskManager found")
 		return
 	
-	var task_manager = GameManager.get_node("TaskManager")
+	var task_manager = GameManager.task_manager
 	
-	# Check if this task exists and is available
-	current_task = null
-	for task in task_manager.get_current_tasks():
-		if task.task_id == associated_task_id:
-			current_task = task
-			break
-	
-	# Also check emergency tasks
-	if not current_task:
-		for task in task_manager.get_active_emergency_tasks():
-			if task.task_id == associated_task_id:
-				current_task = task
-				break
+	# Find our specific task
+	current_task = task_manager._get_task_by_id(associated_task_id)
 	
 	# Determine availability
 	var was_available = is_task_available
@@ -101,7 +89,7 @@ func update_task_availability() -> void:
 	if was_available != is_task_available:
 		task_availability_changed.emit(is_task_available)
 	
-	DebugLogger.debug(module_name, "Task availability updated: " + str(is_task_available))
+	DebugLogger.debug(module_name, "Task availability for "+str(associated_task_id)+ " updated: " + str(is_task_available))
 
 func _format_task_text(template: String) -> String:
 	if current_task and show_task_in_interaction_text:
@@ -117,14 +105,7 @@ func _update_interaction_state(available: bool, text: String) -> void:
 		if parent_node.has_signal("object_state_updated"):
 			parent_node.object_state_updated.emit(text)
 
-func on_interact(_player_interaction: PlayerInteractionComponent) -> void:
-	if not is_task_available or not current_task:
-		DebugLogger.debug(module_name, "Task interaction blocked - not available")
-		return
-	
-	if complete_on_interact:
-		complete_task()
-
+# Call this from the parent when task should be completed
 func complete_task() -> void:
 	if not associated_task_id:
 		DebugLogger.error(module_name, "No task ID associated with this component")
@@ -145,14 +126,12 @@ func complete_task() -> void:
 	
 	DebugLogger.info(module_name, "Task completed at object: " + associated_task_id)
 
-# Helper to check if any emergency tasks are active
-func has_active_emergency_tasks() -> bool:
-	if not GameManager or not GameManager.has_node("TaskManager"):
-		return false
-	
-	var task_manager = GameManager.get_node("TaskManager")
-	return task_manager.get_active_emergency_tasks().size() > 0
 
-# Connect this to parent's interact method
-func _on_parent_interact(player_interaction: PlayerInteractionComponent) -> void:
-	on_interact(player_interaction)
+func _on_any_task_complete(_task_id):
+	DebugLogger.debug(module_name, "TaskAware component detected task completion for id " + str(_task_id) + " updating task availability...")
+
+	update_task_availability()
+
+# Check if our task is available for completion
+func can_complete_task() -> bool:
+	return is_task_available and current_task != null
