@@ -76,10 +76,11 @@ func _physics_process(_delta: float) -> void:
 				position = target_position
 				DebugLogger.debug(debug_module_name, "Slide door finished moving")
 
-func interact(_interactor) -> void:
+func interact(_interactor: PlayerInteractionComponent) -> void:
 	DebugLogger.debug(debug_module_name, "Door interaction: IsLocked=" + str(is_locked) + 
 		", IsOpen=" + str(is_open))
-	
+	_interactor.send_hint(null, "Door Opened")
+
 	if is_locked:
 		if audio_player and rattle_sound:
 			audio_player.stream = rattle_sound

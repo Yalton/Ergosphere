@@ -57,6 +57,7 @@ func _ready() -> void:
 	
 	DebugLogger.debug(module_name, "Task Tree UI initialized")
 
+# Update _rebuild_tree to use visible tasks only
 func _rebuild_tree() -> void:
 	# Clear existing items
 	self.clear()
@@ -69,7 +70,7 @@ func _rebuild_tree() -> void:
 	if not GameManager or not GameManager.task_manager:
 		return
 	
-	var var_has_tasks = false
+	var has_tasks = false
 	
 	# Add emergency tasks first
 	var emergency_tasks = GameManager.task_manager.get_active_emergency_tasks()
@@ -81,21 +82,30 @@ func _rebuild_tree() -> void:
 		
 		for task in emergency_tasks:
 			_add_task_item(task, emergency_category)
-			var_has_tasks = true
+			has_tasks = true
 	
-	# Add regular tasks
-	var regular_tasks = GameManager.task_manager.get_current_tasks()
-	if regular_tasks.size() > 0:
+	# Add regular VISIBLE tasks only
+	var visible_tasks = GameManager.task_manager.get_visible_tasks()
+	if visible_tasks.size() > 0:
 		var tasks_category = create_item(root_item)
 		tasks_category.set_text(0, "Daily Tasks")
 		tasks_category.set_custom_font_size(0, 14)
 		
-		for task in regular_tasks:
+		for task in visible_tasks:
 			if not task.is_emergency:
 				_add_task_item(task, tasks_category)
-				var_has_tasks = true
+				has_tasks = true
 	
-	DebugLogger.debug(module_name, "Tree rebuilt with " + str(task_items.size()) + " tasks")
+	# Optional: Show hint about secrets
+	if GameManager.task_manager.has_unrevealed_secrets():
+		var secrets_hint = create_item(root_item)
+		secrets_hint.set_text(0, "??? Hidden secrets remain ???")
+		secrets_hint.set_custom_color(0, Color(0.7, 0.7, 1.0))  # Purplish hint color
+		secrets_hint.set_custom_font_size(0, 12)
+		secrets_hint.set_selectable(0, false)
+	
+	DebugLogger.debug(module_name, "Tree rebuilt with " + str(task_items.size()) + " visible tasks")
+
 
 func _add_task_item(task: BaseTask, parent: TreeItem) -> void:
 	var item = create_item(parent)
