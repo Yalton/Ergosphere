@@ -17,6 +17,7 @@ var task_manager: TaskManager
 @export var test_heatsink_failure_delay: float = 5.0
 @export var auto_start_test: bool = false
 @export var auto_start_day: bool = true
+@export var alarm_audio: AudioStream
 
 func _ready() -> void:
 	# Set up singleton
@@ -87,18 +88,24 @@ func _test_heatsink_failure() -> void:
 func trigger_power_outage() -> void:
 	DebugLogger.debug(module_name, "Triggering power outage")
 	event_manager.trigger_event("power_outage")
+	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
+	get_player().interaction_component.send_hint(null, "WARNING: Power Outage has occured")
 	# Power outage creates an emergency task
 	task_manager.trigger_emergency_task("restore_power")
 
 func trigger_oxygen_failure() -> void:
 	DebugLogger.debug(module_name, "Triggering oxygen failure")
 	event_manager.trigger_event("oxygen_failure")
+	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
+	get_player().interaction_component.send_hint(null, "WARNING: Oxygen Generator has failed")
 	# Oxygen failure creates an emergency task
 	task_manager.trigger_emergency_task("replace_oxygen_filter")
 
 func trigger_heatsink_failure() -> void:
 	DebugLogger.debug(module_name, "Triggering heatsink failure")
 	event_manager.trigger_event("heatsink_failure")
+	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
+	get_player().interaction_component.send_hint(null, "WARNING: Engine Heatsink Failure")
 	# Heatsink failure creates an emergency task
 	task_manager.trigger_emergency_task("replace_heatsink")
 
@@ -162,3 +169,15 @@ func get_todays_tasks() -> Array:
 
 func get_active_emergency_tasks() -> Array:
 	return task_manager.get_active_emergency_tasks()
+
+
+func get_player() -> Player: 
+	
+	# Find player and show message
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() > 0:
+		var player = players[0]
+		return player
+	
+	return null
+			

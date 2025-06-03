@@ -79,14 +79,14 @@ Drink Alcohol - Staves off insanity
 
 ## Thoughts organized
 
-Fix Warnings
 Simplify task resources
+Make failing emergency tasks have consequences
+Fix Task tree, messages are cut off 
+Make Settings work
 
-Implment hints for player different than messges - smaller
-Place Monitors in scene
 Test Day 1
-
 Game against Hermes 
+
 ---
 
 

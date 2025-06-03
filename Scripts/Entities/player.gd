@@ -3,6 +3,7 @@ class_name Player
 extends CharacterBody3D
 
 @export var ui_controller: FPCUIController
+@export var interaction_component: PlayerInteractionComponent
 
 # Movement parameters
 @export var walk_speed: float = 5.0

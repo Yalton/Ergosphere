@@ -1,0 +1,166 @@
+[gd_scene load_steps=14 format=3 uid="uid://cu42hwow1osw3"]
+
+[ext_resource type="Script" uid="uid://2l0akaa65hvj" path="res://Scripts/player_checker.gd" id="1_5sa87"]
+[ext_resource type="Script" uid="uid://c1ssxbfel34j0" path="res://Scripts/player_detection.gd" id="1_dixaf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yd4kv"]
+size = Vector3(32, 10, 24)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1bgo0"]
+size = Vector3(32, 10, 24)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7he61"]
+size = Vector3(40, 10, 24)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_422sy"]
+size = Vector3(32, 10, 26)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q2yek"]
+size = Vector3(48, 10, 26)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fhyap"]
+size = Vector3(50, 10, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kbwor"]
+size = Vector3(32, 10, 16)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bchad"]
+size = Vector3(32, 10, 16)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e6bw2"]
+size = Vector3(50, 10, 16)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8vh36"]
+size = Vector3(40, 10, 16)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ygysd"]
+size = Vector3(40, 10, 16)
+
+[node name="PlayerDetection" type="Node3D"]
+script = ExtResource("1_dixaf")
+
+[node name="server_room" type="Area3D" parent="."]
+transform = Transform3D(-1, -1.50996e-07, -5.37313e-16, 1.50996e-07, -1, -8.74228e-08, 1.26632e-14, -8.74228e-08, 1, -61, 0, 16)
+collision_layer = 4
+collision_mask = 4
+input_ray_pickable = false
+script = ExtResource("1_5sa87")
+room_id = "server_room"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="server_room"]
+transform = Transform3D(1, -1.10705e-21, 0, -1.10705e-21, 1, 0, 0, 0, 1, 12, -4, 0)
+shape = SubResource("BoxShape3D_yd4kv")
+
+[node name="stor_room" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 1.50996e-07, 0, -1.50996e-07, -1, -48, 0, -30)
+collision_layer = 4
+collision_mask = 4
+input_ray_pickable = false
+script = ExtResource("1_5sa87")
+room_id = "stor_room"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="stor_room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -4, 0)
+shape = SubResource("BoxShape3D_1bgo0")
+
+[node name="oxy_room" type="Area3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 60, 0, 16)
+collision_layer = 4
+collision_mask = 4
+input_ray_pickable = false
+script = ExtResource("1_5sa87")
+room_id = "oxy_room"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="oxy_room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, -4, 0)
+shape = SubResource("BoxShape3D_7he61")
+
+[node name="hab_room" type="Area3D" parent="."]
+transform = Transform3D(1, -1.50996e-07, 1.50996e-07, -1.50996e-07, -1, -2.37869e-20, 1.50996e-07, -2.27997e-14, -1, 51.6756, 0, -30)
+collision_layer = 4
+collision_mask = 4
+input_ray_pickable = false
+script = ExtResource("1_5sa87")
+room_id = "hab_room"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hab_room"]
+transform = Transform3D(1, -3.44266e-21, 0, -3.44267e-21, 1, 0, 0, 0, 1, 12, -4, 1.90735e-06)
+shape = SubResource("BoxShape3D_422sy")
+
+[node name="eng_rooom" type="Area3D" parent="."]
+transform = Transform3D(4.37114e-08, -6.60023e-15, -1, -1.50996e-07, -1, -6.57625e-21, -1, 1.50996e-07, -4.37114e-08, 0.00500428, 0.00500011, -54)
+collision_layer = 4
+collision_mask = 4
+input_ray_pickable = false
+script = ExtResource("1_5sa87")
+room_id = "eng_rooom"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="eng_rooom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -4, 1.04913e-06)
+shape = SubResource("BoxShape3D_q2yek")
+
+[node name="obs_room" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 4
+input_ray_pickable = false
+script = ExtResource("1_5sa87")
+room_id = "obs_room"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="obs_room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 16)
+shape = SubResource("BoxShape3D_fhyap")
+
+[node name="Hallway5" type="Area3D" parent="."]
+transform = Transform3D(-1, 0, 3.89414e-07, 0, 1, 0, -3.89414e-07, 0, -1, -25, 0, 16)
+visible = false
+collision_layer = 4
+collision_mask = 4
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hallway5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 4, -5.72205e-06)
+shape = SubResource("BoxShape3D_kbwor")
+
+[node name="Hallway4" type="Area3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 25, 0, 16)
+visible = false
+collision_layer = 4
+collision_mask = 4
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hallway4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 0)
+shape = SubResource("BoxShape3D_bchad")
+
+[node name="Hallway3" type="Area3D" parent="."]
+transform = Transform3D(3.13916e-07, 0, 1, 0, 1, 0, -1, 0, 3.13916e-07, 0, 0, -4)
+visible = false
+collision_layer = 4
+collision_mask = 4
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hallway3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 4, -7.84791e-06)
+shape = SubResource("BoxShape3D_e6bw2")
+
+[node name="Hallway2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -30)
+visible = false
+collision_layer = 4
+collision_mask = 4
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hallway2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 4, 0)
+shape = SubResource("BoxShape3D_8vh36")
+
+[node name="Hallway" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, -52, 0, -30)
+visible = false
+collision_layer = 4
+collision_mask = 4
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hallway"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, -4, 0)
+shape = SubResource("BoxShape3D_ygysd")

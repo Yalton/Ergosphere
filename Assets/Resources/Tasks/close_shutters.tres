@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseTask" load_steps=2 format=3 uid="uid://ptpc1c1ijsx0"]
+
+[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_t2vf5"]
+
+[resource]
+script = ExtResource("1_t2vf5")
+task_id = "close_shutters"
+task_name = "Close Station Shutters"
+task_description = ""
+is_emergency = true
+is_secret = false
+emergency_time_limit = 120.0
+dependent_on_tasks = Array[String]([])
+required_states = {}
+blocked_by_states = {}
+related_object_groups = Array[String]([])
+metadata/_custom_type_script = "uid://bxrho0i2t1mql"

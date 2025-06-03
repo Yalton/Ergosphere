@@ -16,6 +16,8 @@ var module_name: String = "HermesAudio"
 @export var auto_play_id: String = "start"
 ## If true, will automatically display subtitles
 @export var enable_subtitles: bool = true
+## Can this voice line be said more than once?
+@export var is_repeatable: bool = true
 ## How long subtitles should remain displayed after their end time (in seconds)
 @export var subtitle_overlap: float = 0.2
 

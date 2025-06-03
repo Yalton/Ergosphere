@@ -1,21 +1,19 @@
 # Bed.gd
-extends GameObject
+extends AwareGameObject
 
 signal object_state_updated(interaction_text: String)
 signal player_went_to_sleep
 
-var module_name: String = "Bed"
 
 @export_group("Sleep Settings")
 @export var sleep_animation_player: AnimationPlayer
 @export var sleep_animation: String = "sleep"
 @export var sleep_sound: AudioStream
 
-var task_aware_component: TaskAwareComponent
 
 func _ready() -> void:
 	super._ready()
-	
+	module_name = "Bed"
 	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Set display name

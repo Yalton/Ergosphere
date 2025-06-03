@@ -98,7 +98,9 @@ func _complete_repair() -> void:
 	
 	# Inform event system
 	heatsink_fixed.emit()
-	
+	if task_aware_component: 
+		task_aware_component.complete_task()
+		
 	# Inform GameManager if available
 	if GameManager and GameManager.state_manager:
 		GameManager.state_manager.set_state("engine_heatsink_operational", true)

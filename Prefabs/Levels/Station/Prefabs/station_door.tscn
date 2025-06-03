@@ -1,5 +1,6 @@
-[gd_scene load_steps=29 format=4 uid="uid://c2y3acul1d2qk"]
+[gd_scene load_steps=30 format=4 uid="uid://c2y3acul1d2qk"]
 
+[ext_resource type="Script" uid="uid://tcwh10agwbjb" path="res://Prefabs/Levels/Station/Prefabs/door_wrapper.gd" id="1_cv0it"]
 [ext_resource type="Texture2D" uid="uid://ba4cwh6hw0jwo" path="res://Assets/Models/Station/Door/textures/GreyMetal-Color.png" id="1_hebx7"]
 [ext_resource type="Texture2D" uid="uid://bqtx0vn5bcavd" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Color.png" id="1_rp03u"]
 [ext_resource type="Texture2D" uid="uid://vhb0jbilmqtc" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="2_66j6v"]
@@ -219,8 +220,10 @@ shadow_mesh = SubResource("ArrayMesh_8t8i5")
 [sub_resource type="BoxShape3D" id="BoxShape3D_rp03u"]
 size = Vector3(4, 6, 3)
 
-[node name="StationDoor" type="Node3D"]
+[node name="StationDoor" type="Node3D" node_paths=PackedStringArray("door")]
 transform = Transform3D(-7.15256e-07, 0, 1, 0, 1, 0, -1, 0, -7.15256e-07, 0, 0, 0)
+script = ExtResource("1_cv0it")
+door = NodePath("AnimatedDoor")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.47431e-06, 5.55968, -2.06124)

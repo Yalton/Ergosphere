@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=10 format=3 uid="uid://74gvcrqrrv0e"]
+
+[ext_resource type="AudioStream" uid="uid://co8vrnhyouoaq" path="res://Assets/Audio/HermesLines/intro.ogg" id="1_lluwp"]
+[ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/HermesClip.gd" id="2_x5dfo"]
+[ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/HermesSubtitleLine.gd" id="3_yfyur"]
+
+[sub_resource type="Resource" id="Resource_ll1vh"]
+script = ExtResource("3_yfyur")
+start_time = 0.0
+end_time = 4.5
+text = "????: Welcome to Thoth observatory station, I am Hermes"
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[sub_resource type="Resource" id="Resource_bx5w4"]
+script = ExtResource("3_yfyur")
+start_time = 4.8
+end_time = 9.0
+text = "Hermes: the coordinator intelligence for this installation."
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[sub_resource type="Resource" id="Resource_6g48e"]
+script = ExtResource("3_yfyur")
+start_time = 9.3
+end_time = 20.8
+text = "Hermes: You have been selected to be my steward in compliance with Policy 735.4 subsection 6 of the Machine Intelligence Act."
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[sub_resource type="Resource" id="Resource_hxxxg"]
+script = ExtResource("3_yfyur")
+start_time = 21.2
+end_time = 33.0
+text = "Hermes: We are tasked with maintaining this installation, gathering data from the Sejanus Singularity, and reporting this data back to our superiors."
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[sub_resource type="Resource" id="Resource_twxqx"]
+script = ExtResource("3_yfyur")
+start_time = 33.3
+end_time = 44.5
+text = "Hermes: I will perform maintenance of this Stations digital subsystems, and you will perform all other tasks required to complete our mission here."
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[sub_resource type="Resource" id="Resource_ydn7e"]
+script = ExtResource("3_yfyur")
+start_time = 44.6
+end_time = 53.5
+text = "Hermes: Please now commence in a self-guided tour of the station to familiarize yourself with your new workplace and residence."
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[resource]
+script = ExtResource("2_x5dfo")
+id = "start"
+audio_stream = ExtResource("1_lluwp")
+description = ""
+subtitle_lines = Array[ExtResource("3_yfyur")]([SubResource("Resource_ll1vh"), SubResource("Resource_bx5w4"), SubResource("Resource_6g48e"), SubResource("Resource_hxxxg"), SubResource("Resource_twxqx"), SubResource("Resource_ydn7e")])
+metadata/_custom_type_script = "uid://cf7k18yawj5tw"

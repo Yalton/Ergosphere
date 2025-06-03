@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cuykknx82jpa1"]
+[gd_scene load_steps=15 format=3 uid="uid://cuykknx82jpa1"]
 
 [ext_resource type="Script" uid="uid://c88co2uwqhp2x" path="res://Autoload/GameManager/TaskManager/task_manager.gd" id="1_n1gfo"]
 [ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="2_1hfug"]
@@ -6,6 +6,12 @@
 [ext_resource type="Resource" uid="uid://b3e3r71bovmko" path="res://Assets/Resources/Tasks/allign_telescope.tres" id="3_ah2t3"]
 [ext_resource type="Resource" uid="uid://b5n6e78wex8px" path="res://Assets/Resources/Tasks/download_data.tres" id="4_kcc4n"]
 [ext_resource type="Resource" uid="uid://di2dxy6htbc2t" path="res://Assets/Resources/Tasks/upload_data.tres" id="6_y1vve"]
+[ext_resource type="Resource" uid="uid://bssb4fc08w08x" path="res://Assets/Resources/Tasks/sleep.tres" id="7_y1vve"]
+[ext_resource type="Resource" uid="uid://ptpc1c1ijsx0" path="res://Assets/Resources/Tasks/close_shutters.tres" id="8_6km11"]
+[ext_resource type="Resource" uid="uid://b7xee3kljnbkl" path="res://Assets/Resources/Tasks/open_shutters.tres" id="9_d82dc"]
+[ext_resource type="Resource" uid="uid://cc42ahwhvl4xr" path="res://Assets/Resources/Tasks/restore_power.tres" id="10_ysnsx"]
+[ext_resource type="Resource" uid="uid://wx35acaqwm1s" path="res://Assets/Resources/Tasks/defragment_memory.tres" id="11_mchnp"]
+[ext_resource type="Resource" uid="uid://bhs0warum3527" path="res://Assets/Resources/Tasks/replace_heatsink.tres" id="12_d82dc"]
 
 [sub_resource type="Resource" id="Resource_1ry61"]
 script = ExtResource("2_yrm2m")
@@ -43,4 +49,4 @@ metadata/_custom_type_script = "uid://bxrho0i2t1mql"
 script = ExtResource("1_n1gfo")
 day_configs = Array[ExtResource("2_yrm2m")]([SubResource("Resource_1ry61")])
 default_tasks_per_day = 4
-default_available_tasks = Array[ExtResource("2_1hfug")]([SubResource("Resource_ah2t3")])
+default_available_tasks = Array[ExtResource("2_1hfug")]([SubResource("Resource_ah2t3"), ExtResource("7_y1vve"), ExtResource("8_6km11"), ExtResource("9_d82dc"), ExtResource("10_ysnsx"), ExtResource("11_mchnp"), ExtResource("12_d82dc")])
