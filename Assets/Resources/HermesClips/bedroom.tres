@@ -27,7 +27,7 @@ metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [resource]
 script = ExtResource("2_6ipes")
-id = "bedroom"
+id = "hab_room"
 audio_stream = ExtResource("1_wl24u")
 description = ""
 subtitle_lines = Array[ExtResource("3_x1di0")]([SubResource("Resource_v76w8"), SubResource("Resource_cwak2"), SubResource("Resource_hsqbr")])

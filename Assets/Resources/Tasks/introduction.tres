@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseTask" load_steps=2 format=3 uid="uid://bgt6nrm5tdq3w"]
+
+[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_c1xpn"]
+
+[resource]
+script = ExtResource("1_c1xpn")
+task_id = "introduction"
+task_name = "Tour the Station"
+task_description = ""
+is_emergency = false
+is_secret = false
+emergency_time_limit = 0.0
+dependent_on_tasks = Array[String]([])
+required_states = {}
+blocked_by_states = {}
+related_object_groups = Array[String]([])
+metadata/_custom_type_script = "uid://bxrho0i2t1mql"

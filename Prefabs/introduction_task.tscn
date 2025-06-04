@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlbx25j0jodmy"]
+
+[ext_resource type="Script" uid="uid://bcwghvtglm3xn" path="res://Scripts/introduction_task.gd" id="1_k37ix"]
+[ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="2_g8i0x"]
+
+[node name="IntroductionTask" type="Node" node_paths=PackedStringArray("task_aware_component")]
+script = ExtResource("1_k37ix")
+task_aware_component = NodePath("TaskAwareComponent")
+required_rooms = Array[String](["server_room", "stor_room", "hab_room", "eng_room", "obs_room"])
+
+[node name="TaskAwareComponent" parent="." instance=ExtResource("2_g8i0x")]
+associated_task_id = "introduction"
+show_task_in_interaction_text = false

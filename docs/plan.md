@@ -79,15 +79,14 @@ Drink Alcohol - Staves off insanity
 
 ## Thoughts organized
 
-Make Settings work
-Fix Task tree, messages are cut off
 Implement introduction task
 
 Simplify task resources
 Make failing emergency tasks have consequences
 
 Test Day 1
-Game against Hermes 
+Game against Hermes
+Reset Game state in between sleep mode
 
 ---
 

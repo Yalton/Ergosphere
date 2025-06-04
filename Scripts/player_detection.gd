@@ -1,4 +1,7 @@
 extends Node3D
+class_name PlayerDetection
+
+signal player_in_room(room_id)
 
 ## Debug settings
 @export var enable_debug: bool = true
@@ -18,4 +21,5 @@ func _on_player_in_room(room_id: String):
 	if current_room == room_id: 
 		return
 	current_room = room_id
+	player_in_room.emit(room_id)
 	DebugLogger.debug(module_name, "Player is is " + str(current_room) + " room id was " + str(room_id))
