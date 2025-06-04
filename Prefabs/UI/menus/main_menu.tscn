@@ -1,8 +1,9 @@
-[gd_scene load_steps=67 format=4 uid="uid://b2xc4entjfn1n"]
+[gd_scene load_steps=68 format=4 uid="uid://b2xc4entjfn1n"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_8vdy4"]
 [ext_resource type="Script" uid="uid://c1caxpjbvsqx7" path="res://Scripts/ui/Menus/main_menu.gd" id="1_ge0kh"]
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space/Space.gdshader" id="3_04s5d"]
+[ext_resource type="Script" uid="uid://2hpysr5j0634" path="res://Scripts/ui/options_ui_control.gd" id="3_w7uhp"]
 [ext_resource type="Shader" uid="uid://sc71vvscj345" path="res://Assets/Shader/vignette.gdshader" id="3_ywv0o"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="4_dpsi4"]
 [ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Textures/VFX_Textures/smoke_04.png" id="5_ywv0o"]
@@ -469,7 +470,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_8vdy4")
 
-[node name="Options" type="HBoxContainer" parent="."]
+[node name="Options" type="HBoxContainer" parent="." node_paths=PackedStringArray("master_volume_slider", "music_volume_slider", "sfx_volume_slider", "high_quality_checkbox", "vsync_checkbox", "quality_lighting_checkbox", "fullscreen_menu_button", "resolution_menu_button", "back_button")]
 visible = false
 z_index = 5
 layout_mode = 1
@@ -479,6 +480,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_8vdy4")
+script = ExtResource("3_w7uhp")
+enable_debug = true
+master_volume_slider = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer/MasterVolumeSlider")
+music_volume_slider = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer/MusicVolumeSlider")
+sfx_volume_slider = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer/SFXVolumeSlider")
+high_quality_checkbox = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/HighQualityCheckBox")
+vsync_checkbox = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer3/VsyncCheck")
+quality_lighting_checkbox = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/HighQualityCheckBox")
+fullscreen_menu_button = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer4/FullscreenMenu")
+resolution_menu_button = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/Menu")
+back_button = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/BackButton")
 
 [node name="Control" type="Control" parent="Options"]
 z_index = 5
@@ -564,7 +576,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_8vdy4")
 
-[node name="HighQualityCheckBox" type="CheckBox" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
+[node name="VsyncCheck" type="CheckBox" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer3"]
 z_index = 5
 layout_mode = 2
 theme = ExtResource("1_8vdy4")
@@ -610,14 +622,19 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_8vdy4")
 
-[node name="Menu" type="MenuButton" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer4"]
+[node name="FullscreenMenu" type="MenuButton" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer4"]
 z_index = 5
 layout_mode = 2
 theme = ExtResource("1_8vdy4")
 button_pressed = true
 text = "Resolution Placeholder"
-item_count = 1
+item_count = 3
+popup/item_0/text = "Windowed"
 popup/item_0/id = 0
+popup/item_1/text = "Borderless"
+popup/item_1/id = 1
+popup/item_2/text = "Fullscreen"
+popup/item_2/id = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
 z_index = 5
@@ -642,8 +659,19 @@ layout_mode = 2
 theme = ExtResource("1_8vdy4")
 button_pressed = true
 text = "Resolution Placeholder"
-item_count = 1
+item_count = 6
+popup/item_0/text = "1280x720"
 popup/item_0/id = 0
+popup/item_1/text = "1366x768"
+popup/item_1/id = 1
+popup/item_2/text = "1600x900"
+popup/item_2/id = 2
+popup/item_3/text = "1920x1080"
+popup/item_3/id = 3
+popup/item_4/text = "2560x1440"
+popup/item_4/id = 4
+popup/item_5/text = "3840x2160"
+popup/item_5/id = 5
 
 [node name="VSplitContainer2" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
 z_index = 5
