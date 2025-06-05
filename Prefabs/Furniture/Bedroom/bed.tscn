@@ -229,6 +229,9 @@ task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
 display_name = "bed"
 
+[node name="BasicInteraction" parent="." instance=ExtResource("14_a51al")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
 [node name="Cube_311" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.208501, 0, 0, 0, 0.208501, 0, 0, 0, 0.156376, 0, 0, 0)
 mesh = SubResource("ArrayMesh_fykms")
@@ -247,8 +250,6 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21817, 0)
 shape = SubResource("BoxShape3D_bbjsk")
-
-[node name="BasicInteraction" parent="." instance=ExtResource("14_a51al")]
 
 [node name="Pillow" type="StaticBody3D" parent="."]
 

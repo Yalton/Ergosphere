@@ -310,7 +310,10 @@ func complete_task(task_id: String) -> void:
 	_update_task_availability()
 	
 	# Check if all daily tasks are complete
-	_check_daily_completion()
+	#_check_daily_completion()
+	
+	var completion_timer = get_tree().create_timer(1.0)
+	completion_timer.timeout.connect(_check_daily_completion)
 	
 	DebugLogger.info(module_name, "Task completed: " + task.task_name)
 

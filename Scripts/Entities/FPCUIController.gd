@@ -76,7 +76,7 @@ func _ready() -> void:
 		hint_container.hide()
 
 #region Message System
-func show_message(message_text: String) -> void:
+func show_message(speaker_name: String, message_text: String) -> void:
 	# Clear any existing timers and tweens
 	if message_timer.time_left > 0:
 		message_timer.stop()
@@ -108,7 +108,7 @@ func show_message(message_text: String) -> void:
 					last_typing_position = current_length
 			
 			# Update displayed text
-			message_label.text = "[outline_size=2][outline_color=00ff00]" + message_text.substr(0, current_length)+ "[/outline_color][/outline_size]",
+			message_label.text = "[outline_size=2][outline_color=00ff00]" + speaker_name + " "  + message_text.substr(0, current_length)+ "[/outline_color][/outline_size]",
 		0.0,
 		full_text_length,
 		message_speed * full_text_length
@@ -121,7 +121,7 @@ func show_message(message_text: String) -> void:
 	)
 
 # Show a message that stays visible until explicitly hidden
-func show_persistent_message(message_text: String) -> void:
+func show_persistent_message(speaker_name: String, message_text: String) -> void:
 	# Clear any existing timers and tweens
 	if message_timer.time_left > 0:
 		message_timer.stop()
@@ -131,13 +131,13 @@ func show_persistent_message(message_text: String) -> void:
 	
 	# Show panel and set full text immediately
 	message_panel.show()
-	message_label.text = message_text
+	message_label.text = "[outline_size=2][outline_color=00ff00]" + speaker_name + " "  + message_text + "[/outline_color][/outline_size]"
 	is_message_completed = true
 	
 	# No timer - message will stay until hide_message() is called
 
 # Show full message with optional auto-hide timer
-func show_full_message(message_text: String, display_time: float = -1.0) -> void:
+func show_full_message(speaker_name: String, message_text: String, display_time: float = -1.0) -> void:
 	# Clear any existing timers and tweens
 	if message_timer.time_left > 0:
 		message_timer.stop()
@@ -147,7 +147,7 @@ func show_full_message(message_text: String, display_time: float = -1.0) -> void
 	
 	# Show panel and set full text immediately
 	message_panel.show()
-	message_label.text = message_text
+	message_label.text = "[outline_size=2][outline_color=00ff00]" + speaker_name + " "  + message_text + "[/outline_color][/outline_size]"
 	is_message_completed = true
 	
 	# Only start timer if display_time is positive
@@ -309,7 +309,7 @@ func is_task_ui_visible() -> bool:
 
 # Useful for debugging or testing
 func test_message(text: String = "This is a test message") -> void:
-	show_message(text)
+	show_message("test", text)
 
 func test_interaction(text: String = "Test Interaction") -> void:
 	show_interaction(text)

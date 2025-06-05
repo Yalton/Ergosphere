@@ -30,7 +30,7 @@ var subtitle_timer: Timer
 var player_ui_controller = null
 var current_subtitle: String = ""
 var last_subtitle_end_time: float = 0.0
-
+var speaker_name : String = "[Hermes]:"
 func _ready() -> void:
 	# Register with debug logger
 	DebugLogger.register_module(module_name, enable_debug)
@@ -138,14 +138,14 @@ func _update_subtitles() -> void:
 		if subtitle_text:
 			# Show new subtitle without auto-hiding
 			if player_ui_controller.has_method("show_persistent_message"):
-				player_ui_controller.show_persistent_message(subtitle_text)
+				player_ui_controller.show_persistent_message(speaker_name, subtitle_text)
 				DebugLogger.debug(module_name, "Showing persistent subtitle: " + subtitle_text)
 			# Fall back to show_full_message with no auto-hide time
 			elif player_ui_controller.has_method("show_full_message"):
-				player_ui_controller.show_full_message(subtitle_text, -1) # -1 means don't auto-hide
+				player_ui_controller.show_full_message(speaker_name, subtitle_text, -1) # -1 means don't auto-hide
 				DebugLogger.debug(module_name, "Showing full subtitle: " + subtitle_text)
 			else:
-				player_ui_controller.show_message(subtitle_text)
+				player_ui_controller.show_message(speaker_name, subtitle_text)
 				DebugLogger.debug(module_name, "Showing subtitle: " + subtitle_text)
 		else:
 			# No current subtitle active, check if we need to hide

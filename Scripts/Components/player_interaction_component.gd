@@ -103,15 +103,16 @@ func find_interaction_component(node) -> Node:
 	
 	# Check for a dedicated interaction component
 	for child in node.get_children():
-		if child.has_method("get_interaction_text") or child.get("interaction_text") != null and child is not TaskAwareComponent and child is not StateAwareComponent:
-			return child
+		if child.has_method("get_interaction_text") or child.get("interaction_text") != null:
+			if child is not TaskAwareComponent and child is not StateAwareComponent: 
+				return child
 	
 	return null
 
 # Helper method to send messages from gameplay
-func send_message(text: String) -> void:
+func send_message(speaker_name: String, text: String) -> void:
 	if ui_controller:
-		ui_controller.show_message(text)
+		ui_controller.show_message(speaker_name, text)
 
 # Helper method used for showing hints to the player
 func send_hint(_hint_icon, hint_text: String) -> void:

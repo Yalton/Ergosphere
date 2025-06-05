@@ -33,7 +33,7 @@ func interact(player_interaction: PlayerInteractionComponent) -> void:
 		Audio.play_sound_3d(consume_sound).global_position = global_position
 	
 	# Send message to player
-	player_interaction.send_message(consume_message)
+	player_interaction.send_hint(null, consume_message)
 	
 	# Emit consumed signal (for hunger system later)
 	consumed.emit()

@@ -8,42 +8,42 @@
 script = ExtResource("3_yfyur")
 start_time = 0.0
 end_time = 4.5
-text = "????: Welcome to Thoth observatory station, I am Hermes"
+text = "Welcome to Thoth observatory station, I am Hermes"
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [sub_resource type="Resource" id="Resource_bx5w4"]
 script = ExtResource("3_yfyur")
 start_time = 4.8
 end_time = 9.0
-text = "Hermes: the coordinator intelligence for this installation."
+text = "the coordinator intelligence for this installation."
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [sub_resource type="Resource" id="Resource_6g48e"]
 script = ExtResource("3_yfyur")
 start_time = 9.3
 end_time = 20.8
-text = "Hermes: You have been selected to be my steward in compliance with Policy 735.4 subsection 6 of the Machine Intelligence Act."
+text = "You have been selected to be my steward in compliance with Policy 735.4 subsection 6 of the Machine Intelligence Act."
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [sub_resource type="Resource" id="Resource_hxxxg"]
 script = ExtResource("3_yfyur")
 start_time = 21.2
 end_time = 33.0
-text = "Hermes: We are tasked with maintaining this installation, gathering data from the Sejanus Singularity, and reporting this data back to our superiors."
+text = "We are tasked with maintaining this installation, gathering data from the Sejanus Singularity, and reporting this data back to our superiors."
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [sub_resource type="Resource" id="Resource_twxqx"]
 script = ExtResource("3_yfyur")
 start_time = 33.3
 end_time = 44.5
-text = "Hermes: I will perform maintenance of this Stations digital subsystems, and you will perform all other tasks required to complete our mission here."
+text = "I will perform maintenance of this Stations digital subsystems, and you will perform all other tasks required to complete our mission here."
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [sub_resource type="Resource" id="Resource_ydn7e"]
 script = ExtResource("3_yfyur")
 start_time = 44.6
 end_time = 53.5
-text = "Hermes: Please now commence in a self-guided tour of the station to familiarize yourself with your new workplace and residence."
+text = "Please now commence in a self-guided tour of the station to familiarize yourself with your new workplace and residence."
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [resource]

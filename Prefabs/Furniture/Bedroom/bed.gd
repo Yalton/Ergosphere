@@ -31,7 +31,7 @@ func _ready() -> void:
 func interact(player_interaction: PlayerInteractionComponent) -> void:
 	# Check if we can sleep (all other tasks done)
 	if task_aware_component and not task_aware_component.is_task_available:
-		player_interaction.send_message("You must complete all tasks before sleeping")
+		player_interaction.send_hint(null, "You must complete all tasks before sleeping")
 		return
 	
 	DebugLogger.info(module_name, "Player going to sleep")

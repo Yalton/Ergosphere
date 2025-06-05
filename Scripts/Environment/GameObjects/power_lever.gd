@@ -62,7 +62,7 @@ func interact(player_interaction: PlayerInteractionComponent) -> void:
 		
 	if is_powered:
 		# Power is already on
-		player_interaction.send_message("Power is already on")
+		player_interaction.send_hint(null, "Power is already on")
 		return
 	
 	is_interacting = true

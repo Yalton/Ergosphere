@@ -79,12 +79,19 @@ Drink Alcohol - Staves off insanity
 
 ## Thoughts organized
 
-Implement introduction task
-
 
 Reset Game state in between sleep mode
+
+Play certain voice lines during task completion or Events, these voicelines should not be repeatable
+
+Add SFX to Hint Notif 
+
+Add Hint Notif when Task is complete
+
 Test Day 1
-Fix Power outage
+
+Produce Demo
+
 Clean up code
 
 Game against Hermes

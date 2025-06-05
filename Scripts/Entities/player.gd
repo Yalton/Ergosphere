@@ -149,7 +149,7 @@ func _physics_process(delta: float) -> void:
 # Add this function to receive messages from other scripts
 func receive_message(text: String) -> void:
 	if ui_controller:
-		ui_controller.show_message(text)
+		ui_controller.show_message("Placeholder", text)
 	else:
 		DebugLogger.warning(module_name, "No UI controller found to display message: " + text)
 
