@@ -31,6 +31,8 @@ var player_ui_controller = null
 var current_subtitle: String = ""
 var last_subtitle_end_time: float = 0.0
 var speaker_name : String = "[Hermes]:"
+var played_voice_ids: Array[String] = []  # Track voice clips that have been played
+
 func _ready() -> void:
 	# Register with debug logger
 	DebugLogger.register_module(module_name, enable_debug)
@@ -47,7 +49,12 @@ func _ready() -> void:
 	subtitle_timer.one_shot = false
 	subtitle_timer.timeout.connect(_update_subtitles)
 	add_child(subtitle_timer)
-	
+
+	# Connect to task completion signal
+	if GameManager and GameManager.task_manager:
+		GameManager.task_manager.task_completed.connect(_on_task_completed)
+		DebugLogger.debug(module_name, "Connected to TaskManager task_completed signal")
+		
 	# Connect our own finished signal
 	finished.connect(_on_voice_finished)
 	
@@ -81,6 +88,13 @@ func play_voice_by_id(id: String) -> bool:
 		DebugLogger.error(module_name, "Voice clip with ID '" + id + "' not found")
 		return false
 	
+	# Check if we've already played this and if it's repeatable
+	if id in played_voice_ids and not voice_clip.is_repeatable:
+		DebugLogger.debug(module_name, "Voice clip already played and not repeatable: " + id)
+		return false
+	
+	played_voice_ids.append(id)
+
 	DebugLogger.debug(module_name, "Playing voice ID: " + id + " - " + voice_clip.description)
 	
 	# Start the sequence with intro sound
@@ -205,3 +219,26 @@ func stop_voice() -> void:
 	last_subtitle_end_time = 0.0
 	
 	DebugLogger.debug(module_name, "Voice playback stopped")
+
+
+func _on_task_completed(task_id: String) -> void:
+	# Look for a voice clip with matching ID
+	var voice_clip = find_voice_clip(task_id)
+	if not voice_clip:
+		DebugLogger.debug(module_name, "No voice clip found for completed task: " + task_id)
+		return
+	
+	var success = play_voice_by_id(task_id)
+	#
+	## Check if we've already played this and if it's repeatable
+	#if task_id in played_voice_ids and not is_repeatable:
+		#DebugLogger.debug(module_name, "Voice clip already played and not repeatable: " + task_id)
+		#return
+	#
+	## Play the voice clip
+	#
+	#
+	## Track that we've played it
+	#if success and task_id not in played_voice_ids:
+		#played_voice_ids.append(task_id)
+		#DebugLogger.info(module_name, "Playing voice for completed task: " + task_id)

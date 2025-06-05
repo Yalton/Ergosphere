@@ -9,7 +9,7 @@ extends Resource
 @export_multiline var description: String = ""
 ## Array of subtitle lines for this voice clip
 @export var subtitle_lines: Array[HermesSubtitleLine] = []
-
+@export var is_repeatable: bool 
 func _init(p_id: String = "", p_audio_stream: AudioStream = null, p_description: String = "") -> void:
 	id = p_id
 	audio_stream = p_audio_stream

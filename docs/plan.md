@@ -82,11 +82,11 @@ Drink Alcohol - Staves off insanity
 
 Reset Game state in between sleep mode
 
-Play certain voice lines during task completion or Events, these voicelines should not be repeatable
-
-Add SFX to Hint Notif 
+Add SFX to Hint Notif
 
 Add Hint Notif when Task is complete
+
+Fix Power switch flipping twice
 
 Test Day 1
 

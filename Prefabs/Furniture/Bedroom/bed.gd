@@ -1,14 +1,19 @@
-# Bed.gd
+# bed.gd
 extends AwareGameObject
 
+signal sleep_initiated
 signal object_state_updated(interaction_text: String)
-signal player_went_to_sleep
 
-
-@export_group("Sleep Settings")
-@export var sleep_animation_player: AnimationPlayer
-@export var sleep_animation: String = "sleep"
+@export_group("Bed Settings")
+## Camera position when player is looking at the bed
+@export var camera_position: Node3D
+## Camera rotation when player is looking at the bed  
+@export var camera_rotation: Vector3 = Vector3.ZERO
+## Duration of camera transition to bed
+@export var camera_transition_duration: float = 1.5
+## Sleep sound effect
 @export var sleep_sound: AudioStream
+
 
 
 func _ready() -> void:
@@ -16,51 +21,89 @@ func _ready() -> void:
 	module_name = "Bed"
 	DebugLogger.register_module(module_name, enable_debug)
 	
-	# Set display name
+	# Set display name if not already set
 	if display_name.is_empty():
 		display_name = "Bed"
 	
 	# Find task aware component
 	task_aware_component = get_node_or_null("TaskAwareComponent")
 	
-	# Add to bed group for task system
-	add_to_group("bed")
+	# Add to beds group for task system
+	add_to_group("beds")
+	
+	# Set interaction text
+	object_state_updated.emit("Sleep")
 	
 	DebugLogger.debug(module_name, "Bed initialized")
 
 func interact(player_interaction: PlayerInteractionComponent) -> void:
-	# Check if we can sleep (all other tasks done)
+	# Check if sleep task is available
 	if task_aware_component and not task_aware_component.is_task_available:
-		player_interaction.send_hint(null, "You must complete all tasks before sleeping")
+		DebugLogger.debug(module_name, "Sleep task not available")
 		return
 	
-	DebugLogger.info(module_name, "Player going to sleep")
+	DebugLogger.info(module_name, "Player initiating sleep")
 	
 	# Play sleep sound
 	if sleep_sound:
-		Audio.play_sound_3d(sleep_sound).global_position = global_position
+		Audio.play_sound(sleep_sound)
 	
-	# Play animation if available
-	if sleep_animation_player and sleep_animation_player.has_animation(sleep_animation):
-		sleep_animation_player.play(sleep_animation)
-		
-		# Wait for animation
-		if not sleep_animation_player.is_connected("animation_finished", _on_sleep_animation_finished):
-			sleep_animation_player.animation_finished.connect(_on_sleep_animation_finished)
+	# Get player reference
+	var player = player_interaction.get_parent()
+	if not player:
+		DebugLogger.error(module_name, "Could not find player")
+		return
+	
+	# Move camera to bed view
+	if camera_position:
+		player.move_camera_to_position(
+			camera_position.global_position,
+			camera_rotation,
+			camera_transition_duration
+		)
 	else:
-		# No animation, complete immediately
-		_complete_sleep()
+		DebugLogger.warning(module_name, "No camera position set for bed")
+	
+	# Wait for camera transition
+	await get_tree().create_timer(camera_transition_duration).timeout
+	
+	# Start fade to black and reset
+	_initiate_sleep_sequence(player)
 
-func _on_sleep_animation_finished(anim_name: String) -> void:
-	if anim_name == sleep_animation:
-		_complete_sleep()
-
-func _complete_sleep() -> void:
+func _initiate_sleep_sequence(player: Player) -> void:
+	# Fade to black
+	if TransitionManager:
+		await TransitionManager.fade_to_black()
+		
+		# Reset the level during black screen
+		_reset_day()
+		
+		# Small delay to ensure reset is complete
+		await get_tree().create_timer(0.5).timeout
+		
+		# Restore camera
+		player.restore_camera_position(1.0)
+		
+		# Fade back in
+		await TransitionManager.fade_from_black()
+	else:
+		DebugLogger.error(module_name, "TransitionManager not found")
+		# Fallback - just reset and restore camera
+		_reset_day()
+		player.restore_camera_position(1.0)
+	
 	# Complete the sleep task
 	if task_aware_component:
 		task_aware_component.complete_task()
 	
-	# Emit signal
-	player_went_to_sleep.emit()
+	sleep_initiated.emit()
+	DebugLogger.info(module_name, "Sleep sequence completed")
+
+func _reset_day() -> void:
+	DebugLogger.debug(module_name, "Resetting day")
 	
-	DebugLogger.info(module_name, "Sleep completed - day ended")
+	if GameManager:
+		# Start new day - this will reset tasks and events
+		GameManager.start_new_day()
+	else:
+		DebugLogger.error(module_name, "GameManager not found - cannot reset day")

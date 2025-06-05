@@ -126,7 +126,6 @@ func complete_task() -> void:
 	
 	DebugLogger.info(module_name, "Task completed at object: " + associated_task_id)
 
-
 func _on_any_task_complete(_task_id):
 	DebugLogger.debug(module_name, "TaskAware component detected task completion for id " + str(_task_id) + " updating task availability...")
 
