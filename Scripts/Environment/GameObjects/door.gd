@@ -28,7 +28,8 @@ enum DoorType {
 @export var slide_direction: Vector3 = Vector3(1, 0, 0)  # Direction to slide
 @export var slide_distance: float = 2.0  # How far to slide
 
-
+## If true, door will reset to closed state when day resets
+@export var reset_on_new_day: bool = true
 
 # Tracking variables
 var is_moving: bool = false
@@ -57,6 +58,11 @@ func _ready() -> void:
 			position = initial_position + slide_direction.normalized() * slide_distance
 		target_position = position
 	
+	# Connect to GameManager's day_reset signal
+	if reset_on_new_day and GameManager:
+		GameManager.day_reset.connect(_on_day_reset)
+		DebugLogger.debug(debug_module_name, "Connected to day_reset signal")
+	
 	DebugLogger.debug(debug_module_name, "Door initialized: Type=" + 
 		("Swing" if door_type == DoorType.SWING else "Slide") + 
 		", IsOpen=" + str(is_open))
@@ -79,7 +85,6 @@ func _physics_process(_delta: float) -> void:
 func interact(_interactor: PlayerInteractionComponent) -> void:
 	DebugLogger.debug(debug_module_name, "Door interaction: IsLocked=" + str(is_locked) + 
 		", IsOpen=" + str(is_open))
-	_interactor.send_hint(null, "Door Opened")
 
 	if is_locked:
 		if audio_player and rattle_sound:
@@ -133,3 +138,21 @@ func lock() -> void:
 	is_locked = true
 	lock_state_changed.emit(true)
 	DebugLogger.debug(debug_module_name, "Door locked")
+
+func _on_day_reset() -> void:
+	if not reset_on_new_day:
+		return
+		
+	DebugLogger.debug(debug_module_name, "Day reset signal received - closing door")
+	
+	# Force close the door without sound
+	if door_type == DoorType.SWING:
+		rotation.y = deg_to_rad(closed_rotation_deg)
+		target_rotation_rad = rotation.y
+	else:  # SLIDE
+		position = initial_position
+		target_position = position
+	
+	is_moving = false
+	is_open = false
+	door_state_changed.emit(false)

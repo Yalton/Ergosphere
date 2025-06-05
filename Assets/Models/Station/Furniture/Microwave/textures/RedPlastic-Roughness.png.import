@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dx50c8fdbnlen"
 path.s3tc="res://.godot/imported/RedPlastic-Roughness.png-6036855d20987ba374a330e9a0f6557f.s3tc.ctex"
+path.etc2="res://.godot/imported/RedPlastic-Roughness.png-6036855d20987ba374a330e9a0f6557f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Microwave/textures/RedPlastic-Roughness.png"
-dest_files=["res://.godot/imported/RedPlastic-Roughness.png-6036855d20987ba374a330e9a0f6557f.s3tc.ctex"]
+dest_files=["res://.godot/imported/RedPlastic-Roughness.png-6036855d20987ba374a330e9a0f6557f.s3tc.ctex", "res://.godot/imported/RedPlastic-Roughness.png-6036855d20987ba374a330e9a0f6557f.etc2.ctex"]
 
 [params]
 

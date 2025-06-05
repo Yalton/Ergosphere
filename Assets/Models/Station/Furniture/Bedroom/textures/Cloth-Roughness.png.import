@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ddxtylvmigtk7"
 path.s3tc="res://.godot/imported/Cloth-Roughness.png-6df5b34e7913025b69cdfc7b69b824f1.s3tc.ctex"
+path.etc2="res://.godot/imported/Cloth-Roughness.png-6df5b34e7913025b69cdfc7b69b824f1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Bedroom/textures/Cloth-Roughness.png"
-dest_files=["res://.godot/imported/Cloth-Roughness.png-6df5b34e7913025b69cdfc7b69b824f1.s3tc.ctex"]
+dest_files=["res://.godot/imported/Cloth-Roughness.png-6df5b34e7913025b69cdfc7b69b824f1.s3tc.ctex", "res://.godot/imported/Cloth-Roughness.png-6df5b34e7913025b69cdfc7b69b824f1.etc2.ctex"]
 
 [params]
 

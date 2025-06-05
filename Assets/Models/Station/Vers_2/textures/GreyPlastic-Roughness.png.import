@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cqcqsw6opjiu"
 path.s3tc="res://.godot/imported/GreyPlastic-Roughness.png-ce9d8e518f3c8d8bf0790a28e1003e43.s3tc.ctex"
+path.etc2="res://.godot/imported/GreyPlastic-Roughness.png-ce9d8e518f3c8d8bf0790a28e1003e43.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Vers_2/textures/GreyPlastic-Roughness.png"
-dest_files=["res://.godot/imported/GreyPlastic-Roughness.png-ce9d8e518f3c8d8bf0790a28e1003e43.s3tc.ctex"]
+dest_files=["res://.godot/imported/GreyPlastic-Roughness.png-ce9d8e518f3c8d8bf0790a28e1003e43.s3tc.ctex", "res://.godot/imported/GreyPlastic-Roughness.png-ce9d8e518f3c8d8bf0790a28e1003e43.etc2.ctex"]
 
 [params]
 

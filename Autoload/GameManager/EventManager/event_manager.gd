@@ -21,6 +21,11 @@ var task_manager: TaskManager
 
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
+	
+	# Connect to GameManager's day_reset signal
+	if GameManager:
+		GameManager.day_reset.connect(_on_day_reset)
+		DebugLogger.debug(module_name, "Connected to day_reset signal")
 
 func initialize(_state_manager: StateManager) -> void:
 	state_manager = _state_manager
@@ -149,3 +154,17 @@ func get_active_events() -> Array[BaseEvent]:
 	for event in active_events.values():
 		events.append(event)
 	return events
+
+func _on_day_reset() -> void:
+	DebugLogger.info(module_name, "Day reset signal received - cancelling all active events")
+	
+	# End all active events
+	var events_to_end = active_events.keys().duplicate()
+	for event_id in events_to_end:
+		DebugLogger.debug(module_name, "Ending event due to day reset: " + event_id)
+		end_event(event_id)
+	
+	# Clear available event IDs
+	available_event_ids.clear()
+	
+	DebugLogger.info(module_name, "All events cancelled for day reset")

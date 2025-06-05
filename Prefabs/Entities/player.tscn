@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bgnqxsxljglaq"]
+[gd_scene load_steps=25 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="Script" uid="uid://cd6roq0jsnw23" path="res://Subsystems/DynamicFootstepSystem/Scripts/footstep_surface_detector.gd" id="2_bxc72"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://b25sg6gh7sqr4" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep04.ogg" id="7_jox8g"]
 [ext_resource type="Resource" uid="uid://ca0q2t6w08ubh" path="res://Subsystems/DynamicFootstepSystem/FootstepMaterialLibrary/sample_footstep_material_library.tres" id="8_kkf6j"]
 [ext_resource type="Script" uid="uid://bihy62e0ucg5g" path="res://Scripts/Components/player_interaction_component.gd" id="9_mepo0"]
+[ext_resource type="AudioStream" uid="uid://dqgogmv3dh7c0" path="res://Assets/Audio/UI/shop_open_close.ogg" id="10_66sxq"]
 [ext_resource type="Script" uid="uid://n0ptow8dk4sq" path="res://Scripts/Entities/FPCUIController.gd" id="10_slw6b"]
 [ext_resource type="AudioStream" uid="uid://18pkb8xbgll8" path="res://Assets/Audio/text_click.wav" id="11_jox8g"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="11_qmfn3"]
@@ -110,6 +111,9 @@ footstep_material_library = ExtResource("8_kkf6j")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 
+[node name="HintReceived" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("10_66sxq")
+
 [node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("ui_controller", "carryable_position")]
 script = ExtResource("9_mepo0")
 ui_controller = NodePath("../PlayerUI")
@@ -118,7 +122,7 @@ carryable_position = NodePath("../Head/Camera3D/Marker3D")
 [node name="PauseOptions" parent="." instance=ExtResource("12_3c1vh")]
 visible = false
 
-[node name="PlayerUI" type="Control" parent="." node_paths=PackedStringArray("message_panel", "message_label", "interaction_panel", "interaction_label", "interaction_icon", "task_tree_ui", "hint_container")]
+[node name="PlayerUI" type="Control" parent="." node_paths=PackedStringArray("message_panel", "message_label", "interaction_panel", "interaction_label", "interaction_icon", "task_tree_ui", "hint_container", "hint_audio")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -137,6 +141,7 @@ interaction_icon = NodePath("Interaction Container/HBoxContainer/HBoxContainer/A
 task_tree_ui = NodePath("TaskContainer/VBoxContainer/Tree")
 hint_container = NodePath("HintContainer")
 hint_scene = ExtResource("16_mtnbr")
+hint_audio = NodePath("../HintReceived")
 
 [node name="Interaction Container" type="VBoxContainer" parent="PlayerUI"]
 layout_mode = 1

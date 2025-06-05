@@ -52,4 +52,5 @@ id = "start"
 audio_stream = ExtResource("1_lluwp")
 description = ""
 subtitle_lines = Array[ExtResource("3_yfyur")]([SubResource("Resource_ll1vh"), SubResource("Resource_bx5w4"), SubResource("Resource_6g48e"), SubResource("Resource_hxxxg"), SubResource("Resource_twxqx"), SubResource("Resource_ydn7e")])
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

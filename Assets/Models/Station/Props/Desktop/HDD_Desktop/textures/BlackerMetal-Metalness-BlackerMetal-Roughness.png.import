@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ca15nirrrj7as"
 path.s3tc="res://.godot/imported/BlackerMetal-Metalness-BlackerMetal-Roughness.png-55a04a62af93edad51ad83f32bbb46df.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackerMetal-Metalness-BlackerMetal-Roughness.png-55a04a62af93edad51ad83f32bbb46df.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Props/Desktop/HDD_Desktop/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png"
-dest_files=["res://.godot/imported/BlackerMetal-Metalness-BlackerMetal-Roughness.png-55a04a62af93edad51ad83f32bbb46df.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackerMetal-Metalness-BlackerMetal-Roughness.png-55a04a62af93edad51ad83f32bbb46df.s3tc.ctex", "res://.godot/imported/BlackerMetal-Metalness-BlackerMetal-Roughness.png-55a04a62af93edad51ad83f32bbb46df.etc2.ctex"]
 
 [params]
 

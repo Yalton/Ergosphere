@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cqadfehfh52mf"
 path.s3tc="res://.godot/imported/Pipe-Color.png-6ca9810a665f0bb7931f86a83d73469b.s3tc.ctex"
+path.etc2="res://.godot/imported/Pipe-Color.png-6ca9810a665f0bb7931f86a83d73469b.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Engine/textures/Pipe-Color.png"
-dest_files=["res://.godot/imported/Pipe-Color.png-6ca9810a665f0bb7931f86a83d73469b.s3tc.ctex"]
+dest_files=["res://.godot/imported/Pipe-Color.png-6ca9810a665f0bb7931f86a83d73469b.s3tc.ctex", "res://.godot/imported/Pipe-Color.png-6ca9810a665f0bb7931f86a83d73469b.etc2.ctex"]
 
 [params]
 

@@ -231,7 +231,6 @@ state_aware_component = NodePath("StateAwareComponent")
 display_name = "bed"
 
 [node name="BasicInteraction" parent="." instance=ExtResource("14_a51al")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Cube_311" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.208501, 0, 0, 0, 0.208501, 0, 0, 0, 0.156376, 0, 0, 0)

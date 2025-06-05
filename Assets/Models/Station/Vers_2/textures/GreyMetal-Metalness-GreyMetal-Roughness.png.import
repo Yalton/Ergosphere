@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://vhb0jbilmqtc"
 path.s3tc="res://.godot/imported/GreyMetal-Metalness-GreyMetal-Roughness.png-4710640791961db9a39e43db4bc5ae85.s3tc.ctex"
+path.etc2="res://.godot/imported/GreyMetal-Metalness-GreyMetal-Roughness.png-4710640791961db9a39e43db4bc5ae85.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Metalness-GreyMetal-Roughness.png"
-dest_files=["res://.godot/imported/GreyMetal-Metalness-GreyMetal-Roughness.png-4710640791961db9a39e43db4bc5ae85.s3tc.ctex"]
+dest_files=["res://.godot/imported/GreyMetal-Metalness-GreyMetal-Roughness.png-4710640791961db9a39e43db4bc5ae85.s3tc.ctex", "res://.godot/imported/GreyMetal-Metalness-GreyMetal-Roughness.png-4710640791961db9a39e43db4bc5ae85.etc2.ctex"]
 
 [params]
 

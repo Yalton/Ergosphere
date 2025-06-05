@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ce6lv51e75tvq"
 path.s3tc="res://.godot/imported/GreyPlastic-Color.png-bb14bdc620bf67d79ece4d9fb41d95ab.s3tc.ctex"
+path.etc2="res://.godot/imported/GreyPlastic-Color.png-bb14bdc620bf67d79ece4d9fb41d95ab.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/GreyPlastic-Color.png"
-dest_files=["res://.godot/imported/GreyPlastic-Color.png-bb14bdc620bf67d79ece4d9fb41d95ab.s3tc.ctex"]
+dest_files=["res://.godot/imported/GreyPlastic-Color.png-bb14bdc620bf67d79ece4d9fb41d95ab.s3tc.ctex", "res://.godot/imported/GreyPlastic-Color.png-bb14bdc620bf67d79ece4d9fb41d95ab.etc2.ctex"]
 
 [params]
 

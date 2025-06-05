@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c200ky2w2o36i"
 path.s3tc="res://.godot/imported/BlackPlastic-Normal.png-b0abf296c4764fd2a276b65f1f398ef1.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackPlastic-Normal.png-b0abf296c4764fd2a276b65f1f398ef1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/BlackPlastic-Normal.png"
-dest_files=["res://.godot/imported/BlackPlastic-Normal.png-b0abf296c4764fd2a276b65f1f398ef1.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackPlastic-Normal.png-b0abf296c4764fd2a276b65f1f398ef1.s3tc.ctex", "res://.godot/imported/BlackPlastic-Normal.png-b0abf296c4764fd2a276b65f1f398ef1.etc2.ctex"]
 
 [params]
 

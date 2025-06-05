@@ -13,8 +13,9 @@ metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [resource]
 script = ExtResource("2_hxqc8")
-id = "data_upload"
+id = "upload_data"
 audio_stream = ExtResource("1_1l6pn")
 description = ""
 subtitle_lines = Array[ExtResource("3_rawly")]([SubResource("Resource_sebrp")])
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

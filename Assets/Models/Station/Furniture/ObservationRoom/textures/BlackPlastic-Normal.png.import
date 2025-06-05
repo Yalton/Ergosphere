@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dguyb5t6om51p"
 path.s3tc="res://.godot/imported/BlackPlastic-Normal.png-3cd9dbc41d453b2dd5aad2cc29370534.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackPlastic-Normal.png-3cd9dbc41d453b2dd5aad2cc29370534.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/ObservationRoom/textures/BlackPlastic-Normal.png"
-dest_files=["res://.godot/imported/BlackPlastic-Normal.png-3cd9dbc41d453b2dd5aad2cc29370534.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackPlastic-Normal.png-3cd9dbc41d453b2dd5aad2cc29370534.s3tc.ctex", "res://.godot/imported/BlackPlastic-Normal.png-3cd9dbc41d453b2dd5aad2cc29370534.etc2.ctex"]
 
 [params]
 

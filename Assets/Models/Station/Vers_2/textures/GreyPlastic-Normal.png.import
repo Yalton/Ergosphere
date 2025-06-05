@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://by77in3fd03uw"
 path.s3tc="res://.godot/imported/GreyPlastic-Normal.png-9f770951241b8e507762f8530f95e79b.s3tc.ctex"
+path.etc2="res://.godot/imported/GreyPlastic-Normal.png-9f770951241b8e507762f8530f95e79b.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Vers_2/textures/GreyPlastic-Normal.png"
-dest_files=["res://.godot/imported/GreyPlastic-Normal.png-9f770951241b8e507762f8530f95e79b.s3tc.ctex"]
+dest_files=["res://.godot/imported/GreyPlastic-Normal.png-9f770951241b8e507762f8530f95e79b.s3tc.ctex", "res://.godot/imported/GreyPlastic-Normal.png-9f770951241b8e507762f8530f95e79b.etc2.ctex"]
 
 [params]
 

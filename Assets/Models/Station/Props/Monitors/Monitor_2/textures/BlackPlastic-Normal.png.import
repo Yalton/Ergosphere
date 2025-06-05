@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://pf0o6435nwg1"
 path.s3tc="res://.godot/imported/BlackPlastic-Normal.png-4039942160975bc12be0c0afcdfa8f7b.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackPlastic-Normal.png-4039942160975bc12be0c0afcdfa8f7b.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Normal.png"
-dest_files=["res://.godot/imported/BlackPlastic-Normal.png-4039942160975bc12be0c0afcdfa8f7b.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackPlastic-Normal.png-4039942160975bc12be0c0afcdfa8f7b.s3tc.ctex", "res://.godot/imported/BlackPlastic-Normal.png-4039942160975bc12be0c0afcdfa8f7b.etc2.ctex"]
 
 [params]
 

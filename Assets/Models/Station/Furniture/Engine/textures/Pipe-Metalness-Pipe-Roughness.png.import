@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://k4p7n11wkryh"
 path.s3tc="res://.godot/imported/Pipe-Metalness-Pipe-Roughness.png-c1f78464c4e92c75e6c88eb16ee26718.s3tc.ctex"
+path.etc2="res://.godot/imported/Pipe-Metalness-Pipe-Roughness.png-c1f78464c4e92c75e6c88eb16ee26718.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Engine/textures/Pipe-Metalness-Pipe-Roughness.png"
-dest_files=["res://.godot/imported/Pipe-Metalness-Pipe-Roughness.png-c1f78464c4e92c75e6c88eb16ee26718.s3tc.ctex"]
+dest_files=["res://.godot/imported/Pipe-Metalness-Pipe-Roughness.png-c1f78464c4e92c75e6c88eb16ee26718.s3tc.ctex", "res://.godot/imported/Pipe-Metalness-Pipe-Roughness.png-c1f78464c4e92c75e6c88eb16ee26718.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bd8bonmrg038f"
 path.s3tc="res://.godot/imported/Ceramic-Color.png-83da1a8fcc69ca725f8921b6f4f5a550.s3tc.ctex"
+path.etc2="res://.godot/imported/Ceramic-Color.png-83da1a8fcc69ca725f8921b6f4f5a550.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Props/CoffeeMug/textures/Ceramic-Color.png"
-dest_files=["res://.godot/imported/Ceramic-Color.png-83da1a8fcc69ca725f8921b6f4f5a550.s3tc.ctex"]
+dest_files=["res://.godot/imported/Ceramic-Color.png-83da1a8fcc69ca725f8921b6f4f5a550.s3tc.ctex", "res://.godot/imported/Ceramic-Color.png-83da1a8fcc69ca725f8921b6f4f5a550.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://de02ryxkhn28"
 path.s3tc="res://.godot/imported/pocket2_BaseColor.jpg-1f538de77bfda57a312f4551453a9d8d.s3tc.ctex"
+path.etc2="res://.godot/imported/pocket2_BaseColor.jpg-1f538de77bfda57a312f4551453a9d8d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Props/Food/textures/pocket2_BaseColor.jpg"
-dest_files=["res://.godot/imported/pocket2_BaseColor.jpg-1f538de77bfda57a312f4551453a9d8d.s3tc.ctex"]
+dest_files=["res://.godot/imported/pocket2_BaseColor.jpg-1f538de77bfda57a312f4551453a9d8d.s3tc.ctex", "res://.godot/imported/pocket2_BaseColor.jpg-1f538de77bfda57a312f4551453a9d8d.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://g6ll1fvkww7p"
 path.s3tc="res://.godot/imported/RedPlastic-Color.png-868a6b2fca3cf694102b547bbf349097.s3tc.ctex"
+path.etc2="res://.godot/imported/RedPlastic-Color.png-868a6b2fca3cf694102b547bbf349097.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/EngineRoom/textures/RedPlastic-Color.png"
-dest_files=["res://.godot/imported/RedPlastic-Color.png-868a6b2fca3cf694102b547bbf349097.s3tc.ctex"]
+dest_files=["res://.godot/imported/RedPlastic-Color.png-868a6b2fca3cf694102b547bbf349097.s3tc.ctex", "res://.godot/imported/RedPlastic-Color.png-868a6b2fca3cf694102b547bbf349097.etc2.ctex"]
 
 [params]
 

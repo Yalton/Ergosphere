@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://1bmer1juvv4a"
 path.s3tc="res://.godot/imported/BlackerMetal-Normal.png-668e6eb2d94d1450895b909723e08f03.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackerMetal-Normal.png-668e6eb2d94d1450895b909723e08f03.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Normal.png"
-dest_files=["res://.godot/imported/BlackerMetal-Normal.png-668e6eb2d94d1450895b909723e08f03.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackerMetal-Normal.png-668e6eb2d94d1450895b909723e08f03.s3tc.ctex", "res://.godot/imported/BlackerMetal-Normal.png-668e6eb2d94d1450895b909723e08f03.etc2.ctex"]
 
 [params]
 

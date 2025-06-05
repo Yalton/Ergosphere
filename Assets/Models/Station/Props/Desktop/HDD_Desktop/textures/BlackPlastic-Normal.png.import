@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://eeqxcu7lkgf8"
 path.s3tc="res://.godot/imported/BlackPlastic-Normal.png-53efd76ced63cd181f150289181be86d.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackPlastic-Normal.png-53efd76ced63cd181f150289181be86d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Props/Desktop/HDD_Desktop/textures/BlackPlastic-Normal.png"
-dest_files=["res://.godot/imported/BlackPlastic-Normal.png-53efd76ced63cd181f150289181be86d.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackPlastic-Normal.png-53efd76ced63cd181f150289181be86d.s3tc.ctex", "res://.godot/imported/BlackPlastic-Normal.png-53efd76ced63cd181f150289181be86d.etc2.ctex"]
 
 [params]
 

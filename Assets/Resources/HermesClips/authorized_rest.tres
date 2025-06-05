@@ -31,4 +31,5 @@ id = "authorized_rest"
 audio_stream = ExtResource("1_1xwrl")
 description = ""
 subtitle_lines = Array[ExtResource("3_r6bm1")]([SubResource("Resource_l5q5g"), SubResource("Resource_1yjgl"), SubResource("Resource_m23ij")])
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

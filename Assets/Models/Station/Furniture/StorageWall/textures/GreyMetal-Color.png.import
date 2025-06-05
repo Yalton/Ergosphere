@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://byk65hmcmwp14"
 path.s3tc="res://.godot/imported/GreyMetal-Color.png-cc372e42678a3f70375ae21a588e47c4.s3tc.ctex"
+path.etc2="res://.godot/imported/GreyMetal-Color.png-cc372e42678a3f70375ae21a588e47c4.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/StorageWall/textures/GreyMetal-Color.png"
-dest_files=["res://.godot/imported/GreyMetal-Color.png-cc372e42678a3f70375ae21a588e47c4.s3tc.ctex"]
+dest_files=["res://.godot/imported/GreyMetal-Color.png-cc372e42678a3f70375ae21a588e47c4.s3tc.ctex", "res://.godot/imported/GreyMetal-Color.png-cc372e42678a3f70375ae21a588e47c4.etc2.ctex"]
 
 [params]
 

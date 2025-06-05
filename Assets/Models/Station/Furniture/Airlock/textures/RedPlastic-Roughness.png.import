@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://db702jwn3kqi2"
 path.s3tc="res://.godot/imported/RedPlastic-Roughness.png-843c1dd32f4700143b1c16f86f55a99d.s3tc.ctex"
+path.etc2="res://.godot/imported/RedPlastic-Roughness.png-843c1dd32f4700143b1c16f86f55a99d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Airlock/textures/RedPlastic-Roughness.png"
-dest_files=["res://.godot/imported/RedPlastic-Roughness.png-843c1dd32f4700143b1c16f86f55a99d.s3tc.ctex"]
+dest_files=["res://.godot/imported/RedPlastic-Roughness.png-843c1dd32f4700143b1c16f86f55a99d.s3tc.ctex", "res://.godot/imported/RedPlastic-Roughness.png-843c1dd32f4700143b1c16f86f55a99d.etc2.ctex"]
 
 [params]
 
@@ -32,4 +33,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

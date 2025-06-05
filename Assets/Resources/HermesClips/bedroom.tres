@@ -31,4 +31,5 @@ id = "hab_room"
 audio_stream = ExtResource("1_wl24u")
 description = ""
 subtitle_lines = Array[ExtResource("3_x1di0")]([SubResource("Resource_v76w8"), SubResource("Resource_cwak2"), SubResource("Resource_hsqbr")])
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

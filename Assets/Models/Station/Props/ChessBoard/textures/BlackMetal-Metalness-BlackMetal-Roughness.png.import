@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://wo6yjxngrooh"
 path.s3tc="res://.godot/imported/BlackMetal-Metalness-BlackMetal-Roughness.png-267e6d2b8bf89bea3893de57e573577f.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackMetal-Metalness-BlackMetal-Roughness.png-267e6d2b8bf89bea3893de57e573577f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Props/ChessBoard/textures/BlackMetal-Metalness-BlackMetal-Roughness.png"
-dest_files=["res://.godot/imported/BlackMetal-Metalness-BlackMetal-Roughness.png-267e6d2b8bf89bea3893de57e573577f.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackMetal-Metalness-BlackMetal-Roughness.png-267e6d2b8bf89bea3893de57e573577f.s3tc.ctex", "res://.godot/imported/BlackMetal-Metalness-BlackMetal-Roughness.png-267e6d2b8bf89bea3893de57e573577f.etc2.ctex"]
 
 [params]
 

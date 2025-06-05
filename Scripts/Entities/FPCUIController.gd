@@ -29,6 +29,7 @@ signal interaction_changed(available: bool)
 @export var hint_container: HBoxContainer  # The HintContainer in your scene
 @export var hint_scene: PackedScene  # Scene with HintUI script
 @export var enable_debug: bool = false
+@export var hint_audio: AudioStreamPlayer3D
 
 # Internal variables for message system
 var is_message_completed: bool = false
@@ -61,7 +62,7 @@ func _ready() -> void:
 	message_timer.one_shot = true
 	message_timer.timeout.connect(_on_message_timer_timeout)
 	add_child(message_timer)
-	
+	GameManager.task_manager.task_completed.connect(_on_task_completed)
 	# Connect to task tree UI if available
 	if task_tree_ui:
 		if task_tree_ui.has_signal("visibility_state_changed"):
@@ -216,7 +217,7 @@ func get_current_interaction_text() -> String:
 
 #region Hint System
 
-func show_hint(hint_text: String) -> void:
+func show_hint(type: String, hint_text: String) -> void:
 	if not hint_container or not hint_scene:
 		DebugLogger.error(module_name, "Hint system not configured properly")
 		return
@@ -227,7 +228,20 @@ func show_hint(hint_text: String) -> void:
 		DebugLogger.error(module_name, "Failed to instantiate hint scene")
 		return
 	
+	match type: 
+		"info": 
+			hint_text = "Info: " + hint_text
+		"warn":
+			hint_text = "Warn: " + hint_text
+		"emerg":
+			hint_text = "Emerg: " + hint_text
+		"cpl":
+			hint_text = "Completed: " + hint_text
+		_:
+			hint_text = hint_text
+	
 	# Set the text
+	hint_audio.play()
 	hint_instance.set_hint_text(hint_text)
 	
 	# Add to container
@@ -268,6 +282,10 @@ func clear_all_hints() -> void:
 	DebugLogger.debug(module_name, "All hints cleared")
 
 #endregion
+
+func _on_task_completed(task_id: String): 
+	var completed_task : BaseTask = GameManager.task_manager._get_task_by_id(task_id)
+	show_hint("cpl", completed_task.task_name)
 
 #region Task System Integration
 
@@ -315,4 +333,4 @@ func test_interaction(text: String = "Test Interaction") -> void:
 	show_interaction(text)
 
 func test_hint(text: String = "This is a test hint") -> void:
-	show_hint(text)
+	show_hint("test", text)

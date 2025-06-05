@@ -13,8 +13,9 @@ metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [resource]
 script = ExtResource("2_oaqqy")
-id = "telescope_adjustment"
+id = "allign_telescope"
 audio_stream = ExtResource("1_x14rr")
 description = ""
 subtitle_lines = Array[ExtResource("3_axipr")]([SubResource("Resource_jmcvm")])
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

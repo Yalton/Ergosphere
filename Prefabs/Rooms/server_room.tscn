@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=4 uid="uid://dbi1i3y27km4s"]
+[gd_scene load_steps=56 format=4 uid="uid://73wlqe7h3skf"]
 
 [ext_resource type="AudioStream" uid="uid://4v0vpdbe36kv" path="res://Assets/Audio/Ambience/StationAmbience/Computers/ComputerBeep_1.ogg" id="1_5rq3j"]
 [ext_resource type="AudioStream" uid="uid://dhlj6vab2kx7" path="res://Assets/Audio/Ambience/StationAmbience/Computers/ComputerBeep_2.ogg" id="2_xqjs5"]

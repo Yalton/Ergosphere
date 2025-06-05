@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bpvgjuau7rgty"
 path.s3tc="res://.godot/imported/BlackPlastic-Roughness.png-5022197c3cf1107376d7200e29615abb.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackPlastic-Roughness.png-5022197c3cf1107376d7200e29615abb.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/BlackPlastic-Roughness.png"
-dest_files=["res://.godot/imported/BlackPlastic-Roughness.png-5022197c3cf1107376d7200e29615abb.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackPlastic-Roughness.png-5022197c3cf1107376d7200e29615abb.s3tc.ctex", "res://.godot/imported/BlackPlastic-Roughness.png-5022197c3cf1107376d7200e29615abb.etc2.ctex"]
 
 [params]
 

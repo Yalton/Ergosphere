@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bi7nxb6x3nu5y"
 path.s3tc="res://.godot/imported/RedPlastic-Roughness.png-dc17495c2ec2192f35ff478e6d9b9e5f.s3tc.ctex"
+path.etc2="res://.godot/imported/RedPlastic-Roughness.png-dc17495c2ec2192f35ff478e6d9b9e5f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Bedroom/textures/RedPlastic-Roughness.png"
-dest_files=["res://.godot/imported/RedPlastic-Roughness.png-dc17495c2ec2192f35ff478e6d9b9e5f.s3tc.ctex"]
+dest_files=["res://.godot/imported/RedPlastic-Roughness.png-dc17495c2ec2192f35ff478e6d9b9e5f.s3tc.ctex", "res://.godot/imported/RedPlastic-Roughness.png-dc17495c2ec2192f35ff478e6d9b9e5f.etc2.ctex"]
 
 [params]
 

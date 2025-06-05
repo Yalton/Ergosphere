@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://djj0weh5ky6m5"
 path.s3tc="res://.godot/imported/WhitePlastic-Color.png-37f5ec4bccad3d23b2d8cd9d0fa3b1a6.s3tc.ctex"
+path.etc2="res://.godot/imported/WhitePlastic-Color.png-37f5ec4bccad3d23b2d8cd9d0fa3b1a6.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/ServerRoom/textures/WhitePlastic-Color.png"
-dest_files=["res://.godot/imported/WhitePlastic-Color.png-37f5ec4bccad3d23b2d8cd9d0fa3b1a6.s3tc.ctex"]
+dest_files=["res://.godot/imported/WhitePlastic-Color.png-37f5ec4bccad3d23b2d8cd9d0fa3b1a6.s3tc.ctex", "res://.godot/imported/WhitePlastic-Color.png-37f5ec4bccad3d23b2d8cd9d0fa3b1a6.etc2.ctex"]
 
 [params]
 

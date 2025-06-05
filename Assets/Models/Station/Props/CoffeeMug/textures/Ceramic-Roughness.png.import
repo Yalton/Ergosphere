@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c7qjj643mek2y"
 path.s3tc="res://.godot/imported/Ceramic-Roughness.png-93e59ef0a7c19b5404e802cd3b11407a.s3tc.ctex"
+path.etc2="res://.godot/imported/Ceramic-Roughness.png-93e59ef0a7c19b5404e802cd3b11407a.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Props/CoffeeMug/textures/Ceramic-Roughness.png"
-dest_files=["res://.godot/imported/Ceramic-Roughness.png-93e59ef0a7c19b5404e802cd3b11407a.s3tc.ctex"]
+dest_files=["res://.godot/imported/Ceramic-Roughness.png-93e59ef0a7c19b5404e802cd3b11407a.s3tc.ctex", "res://.godot/imported/Ceramic-Roughness.png-93e59ef0a7c19b5404e802cd3b11407a.etc2.ctex"]
 
 [params]
 

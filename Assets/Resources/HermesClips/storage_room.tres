@@ -31,4 +31,5 @@ id = "stor_room"
 audio_stream = ExtResource("1_cstly")
 description = ""
 subtitle_lines = Array[ExtResource("3_s1slc")]([SubResource("Resource_qlckk"), SubResource("Resource_x7bpx"), SubResource("Resource_btgkm")])
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

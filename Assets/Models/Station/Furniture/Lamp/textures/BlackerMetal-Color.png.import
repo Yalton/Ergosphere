@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cfu1nho4i12lx"
 path.s3tc="res://.godot/imported/BlackerMetal-Color.png-88b49b8b7eab5fc3d83bf35328ac4803.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackerMetal-Color.png-88b49b8b7eab5fc3d83bf35328ac4803.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Lamp/textures/BlackerMetal-Color.png"
-dest_files=["res://.godot/imported/BlackerMetal-Color.png-88b49b8b7eab5fc3d83bf35328ac4803.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackerMetal-Color.png-88b49b8b7eab5fc3d83bf35328ac4803.s3tc.ctex", "res://.godot/imported/BlackerMetal-Color.png-88b49b8b7eab5fc3d83bf35328ac4803.etc2.ctex"]
 
 [params]
 

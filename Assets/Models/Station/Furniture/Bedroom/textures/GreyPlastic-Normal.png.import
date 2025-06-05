@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c6mgn7v1io7qh"
 path.s3tc="res://.godot/imported/GreyPlastic-Normal.png-cdd0c216f5bb92cbd4cfc3ee7de5a743.s3tc.ctex"
+path.etc2="res://.godot/imported/GreyPlastic-Normal.png-cdd0c216f5bb92cbd4cfc3ee7de5a743.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Bedroom/textures/GreyPlastic-Normal.png"
-dest_files=["res://.godot/imported/GreyPlastic-Normal.png-cdd0c216f5bb92cbd4cfc3ee7de5a743.s3tc.ctex"]
+dest_files=["res://.godot/imported/GreyPlastic-Normal.png-cdd0c216f5bb92cbd4cfc3ee7de5a743.s3tc.ctex", "res://.godot/imported/GreyPlastic-Normal.png-cdd0c216f5bb92cbd4cfc3ee7de5a743.etc2.ctex"]
 
 [params]
 

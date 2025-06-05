@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bifce63xtkuam"
 path.s3tc="res://.godot/imported/BlackPlastic-Color.png-7a0f8b067774722b13383aed53b96b58.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackPlastic-Color.png-7a0f8b067774722b13383aed53b96b58.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Engine/textures/BlackPlastic-Color.png"
-dest_files=["res://.godot/imported/BlackPlastic-Color.png-7a0f8b067774722b13383aed53b96b58.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackPlastic-Color.png-7a0f8b067774722b13383aed53b96b58.s3tc.ctex", "res://.godot/imported/BlackPlastic-Color.png-7a0f8b067774722b13383aed53b96b58.etc2.ctex"]
 
 [params]
 

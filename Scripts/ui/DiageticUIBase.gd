@@ -13,6 +13,9 @@ signal interaction_ended
 @export var has_been_used_hint: String
 @export var unusable_interaction_text: String = "UI Locked"
 
+## If true, UI will reset to initial state when day resets
+@export var reset_on_new_day: bool = true
+
 @export_group("UI Control")
 @export var sub_viewport: SubViewport
 @export var display: MeshInstance3D
@@ -31,8 +34,6 @@ var original_material: Material  # Store original material
 # Mouse handling variables
 var pending_mouse_event: InputEvent = null
 var last_mouse_hit: Vector3 = Vector3.ZERO
-
-
 
 func _ready() -> void:
 	
@@ -58,6 +59,11 @@ func _ready() -> void:
 		original_material = display.get_surface_override_material(0)
 	elif display and display.mesh:
 		original_material = display.material_override
+	
+	# Connect to GameManager's day_reset signal
+	if reset_on_new_day and GameManager:
+		GameManager.day_reset.connect(_on_day_reset)
+		DebugLogger.debug(module_name, "Connected to day_reset signal")
 	
 	DebugLogger.debug(module_name, "Diegetic UI initialized with text: " + interaction_text)
 
@@ -96,7 +102,7 @@ func interact(_player_interaction_component: PlayerInteractionComponent) -> void
 	player_interaction_component = _player_interaction_component
 	if !allows_repeated_interaction and has_been_used:
 		DebugLogger.debug(module_name, "Already used and no repeat allowed")
-		player_interaction_component.send_hint(null, has_been_used_hint)
+		player_interaction_component.send_hint("warn", has_been_used_hint)
 		return
 	
 	DebugLogger.debug(module_name, "Starting interaction")
@@ -314,3 +320,38 @@ func restore_display() -> void:
 		display.material_override = white_material
 	
 	DebugLogger.debug(module_name, "Display restored")
+
+# Handle day reset
+func _on_day_reset() -> void:
+	if not reset_on_new_day:
+		return
+		
+	DebugLogger.info(module_name, "Day reset signal received - resetting UI state")
+	
+	# End any current interaction
+	if is_player_interacting:
+		force_end_interaction()
+	
+	# Reset use state
+	has_been_used = false
+	
+	# Reset cooldowns
+	cooldown = 0
+	is_in_cooldown = false
+	
+	# Re-enable UI if it was disabled
+	if is_disabled:
+		set_ui_enabled(true)
+	
+	# Reset interaction text
+	interaction_text = usable_interaction_text
+	object_state_updated.emit(interaction_text)
+	
+	# Call virtual method for child classes to implement specific reset behavior
+	_on_day_reset_custom()
+	
+	DebugLogger.debug(module_name, "UI state reset completed")
+
+# Virtual method for child classes to override for custom reset behavior
+func _on_day_reset_custom() -> void:
+	pass

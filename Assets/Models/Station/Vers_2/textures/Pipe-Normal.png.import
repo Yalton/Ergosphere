@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://beu31o0bkopng"
 path.s3tc="res://.godot/imported/Pipe-Normal.png-b62ad745d661dd93fcdf826bc56e71ab.s3tc.ctex"
+path.etc2="res://.godot/imported/Pipe-Normal.png-b62ad745d661dd93fcdf826bc56e71ab.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Vers_2/textures/Pipe-Normal.png"
-dest_files=["res://.godot/imported/Pipe-Normal.png-b62ad745d661dd93fcdf826bc56e71ab.s3tc.ctex"]
+dest_files=["res://.godot/imported/Pipe-Normal.png-b62ad745d661dd93fcdf826bc56e71ab.s3tc.ctex", "res://.godot/imported/Pipe-Normal.png-b62ad745d661dd93fcdf826bc56e71ab.etc2.ctex"]
 
 [params]
 

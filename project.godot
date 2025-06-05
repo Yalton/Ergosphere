@@ -11,10 +11,15 @@ config_version=5
 [application]
 
 config/name="Ergosphere"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/description="Does this show up in exports?"
+config/version="0.1"
+run/main_scene="uid://b2xc4entjfn1n"
+config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 run/max_fps=160
 boot_splash/image="uid://cy1a2f1ctbivh"
-config/icon="uid://cy1a2f1ctbivh"
+config/icon="res://Icon.pngs"
+config/macos_native_icon="uid://cn6owvke6ocl1"
+config/windows_native_icon="res://Icon.ico"
 
 [audio]
 
@@ -129,6 +134,7 @@ menu={
 
 [rendering]
 
+textures/vram_compression/import_etc2_astc=true
 global_illumination/sdfgi/probe_ray_count=3
 global_illumination/sdfgi/frames_to_converge=1
 global_illumination/sdfgi/frames_to_update_lights=0

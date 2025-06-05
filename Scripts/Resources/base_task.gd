@@ -46,7 +46,7 @@ class_name BaseTask
 # Task state
 var is_completed: bool = false
 var is_available: bool = false
-var is_revealed: bool = false  # Changed default to false
+var is_revealed: bool = true  # Changed default to false
 var time_remaining: float = 0.0
 var assigned_day: int = -1
 
@@ -55,7 +55,7 @@ var reveal_timer: float = 0.0
 var reveal_conditions_met: bool = false
 
 # Debug
-var enable_debug: bool = true
+var enable_debug: bool = false
 var module_name: String = "BaseTask"
 
 func _init(p_id: String = "", p_name: String = "") -> void:
@@ -129,6 +129,7 @@ func update_reveal_state(state_manager: StateManager, completed_tasks: Array[Str
 		# Reset timer if conditions aren't met
 		reveal_timer = 0.0
 		reveal_conditions_met = false
+	
 
 func can_be_completed(state_manager: StateManager, completed_tasks: Array[String]) -> bool:
 	# Task must be revealed to be completed

@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://1xq4y42qkcur"]
-
-[ext_resource type="Script" uid="uid://1p1ya3xvkr72" path="res://Scripts/Environment/Interactions/PickupComponent.gd" id="1_8qend"]
-
-[node name="PickupComponent" type="Node3D"]
-script = ExtResource("1_8qend")
-input_map_action = "interact"
-interaction_text = "Pick up"

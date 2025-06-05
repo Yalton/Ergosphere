@@ -229,16 +229,3 @@ func _on_task_completed(task_id: String) -> void:
 		return
 	
 	var success = play_voice_by_id(task_id)
-	#
-	## Check if we've already played this and if it's repeatable
-	#if task_id in played_voice_ids and not is_repeatable:
-		#DebugLogger.debug(module_name, "Voice clip already played and not repeatable: " + task_id)
-		#return
-	#
-	## Play the voice clip
-	#
-	#
-	## Track that we've played it
-	#if success and task_id not in played_voice_ids:
-		#played_voice_ids.append(task_id)
-		#DebugLogger.info(module_name, "Playing voice for completed task: " + task_id)

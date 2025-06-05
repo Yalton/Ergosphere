@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://1kvk1p0ls2wa"
 path.s3tc="res://.godot/imported/RedPlastic-Normal.png-25be704ea426f862a414bd9c8a057545.s3tc.ctex"
+path.etc2="res://.godot/imported/RedPlastic-Normal.png-25be704ea426f862a414bd9c8a057545.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Bedroom/textures/RedPlastic-Normal.png"
-dest_files=["res://.godot/imported/RedPlastic-Normal.png-25be704ea426f862a414bd9c8a057545.s3tc.ctex"]
+dest_files=["res://.godot/imported/RedPlastic-Normal.png-25be704ea426f862a414bd9c8a057545.s3tc.ctex", "res://.godot/imported/RedPlastic-Normal.png-25be704ea426f862a414bd9c8a057545.etc2.ctex"]
 
 [params]
 

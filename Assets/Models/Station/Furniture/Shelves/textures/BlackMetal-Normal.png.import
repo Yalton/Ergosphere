@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://clci7g3oxgruv"
 path.s3tc="res://.godot/imported/BlackMetal-Normal.png-2143400eb5a658c6dfb8a263a3dfe8b6.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackMetal-Normal.png-2143400eb5a658c6dfb8a263a3dfe8b6.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Shelves/textures/BlackMetal-Normal.png"
-dest_files=["res://.godot/imported/BlackMetal-Normal.png-2143400eb5a658c6dfb8a263a3dfe8b6.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackMetal-Normal.png-2143400eb5a658c6dfb8a263a3dfe8b6.s3tc.ctex", "res://.godot/imported/BlackMetal-Normal.png-2143400eb5a658c6dfb8a263a3dfe8b6.etc2.ctex"]
 
 [params]
 

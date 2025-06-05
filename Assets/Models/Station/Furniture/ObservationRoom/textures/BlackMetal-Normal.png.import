@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dc4d6ca87fi3i"
 path.s3tc="res://.godot/imported/BlackMetal-Normal.png-dd4864bed5ea23f19a39a6bbc5470bd6.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackMetal-Normal.png-dd4864bed5ea23f19a39a6bbc5470bd6.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/ObservationRoom/textures/BlackMetal-Normal.png"
-dest_files=["res://.godot/imported/BlackMetal-Normal.png-dd4864bed5ea23f19a39a6bbc5470bd6.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackMetal-Normal.png-dd4864bed5ea23f19a39a6bbc5470bd6.s3tc.ctex", "res://.godot/imported/BlackMetal-Normal.png-dd4864bed5ea23f19a39a6bbc5470bd6.etc2.ctex"]
 
 [params]
 

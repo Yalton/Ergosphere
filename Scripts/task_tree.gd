@@ -13,6 +13,9 @@ var module_name: String = "TaskTreeUI"
 @export var auto_hide_when_empty: bool = true
 @export var auto_hide_when_complete: bool = true
 
+## Delay in seconds before rebuilding tree after day reset
+@export var rebuild_delay_after_reset: float = 5.0
+
 # Styling
 @export var completed_color: Color = Color(0.5, 0.5, 0.5)
 @export var emergency_color: Color = Color(1.0, 0.3, 0.3)
@@ -28,6 +31,7 @@ var module_name: String = "TaskTreeUI"
 # Task tracking
 var task_items: Dictionary = {}  # task_id -> TreeItem
 var root_item: TreeItem
+var rebuild_timer: Timer
 
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
@@ -39,9 +43,18 @@ func _ready() -> void:
 	root_item = create_item()
 	root_item.set_text(0, "Tasks")
 	
+	# Create rebuild timer
+	rebuild_timer = Timer.new()
+	rebuild_timer.one_shot = true
+	rebuild_timer.timeout.connect(_on_rebuild_timer_timeout)
+	add_child(rebuild_timer)
+	
 	if not GameManager:
 		DebugLogger.error(module_name, "GameManager not found")
 		return
+	
+	# Connect to GameManager's day_reset signal
+	GameManager.day_reset.connect(_on_day_reset)
 	
 	# Connect to task manager signals
 	if GameManager.task_manager:
@@ -95,14 +108,6 @@ func _rebuild_tree() -> void:
 			if not task.is_emergency:
 				_add_task_item(task, tasks_category)
 				has_tasks = true
-	
-	# Optional: Show hint about secrets
-	#if GameManager.task_manager.has_unrevealed_secrets():
-		#var secrets_hint = create_item(root_item)
-		#secrets_hint.set_text(0, "??? Hidden secrets remain ???")
-		#secrets_hint.set_custom_color(0, Color(0.7, 0.7, 1.0))  # Purplish hint color
-		#secrets_hint.set_custom_font_size(0, 12)
-		#secrets_hint.set_selectable(0, false)
 	
 	DebugLogger.debug(module_name, "Tree rebuilt with " + str(task_items.size()) + " visible tasks")
 
@@ -217,6 +222,25 @@ func _on_daily_tasks_completed() -> void:
 	_check_visibility()
 
 func _on_day_started(_day_number: int) -> void:
+	_rebuild_tree()
+	_check_visibility()
+
+func _on_day_reset() -> void:
+	DebugLogger.info(module_name, "Day reset signal received - clearing task tree")
+	
+	# Clear the tree immediately
+	self.clear()
+	task_items.clear()
+	
+	# Hide the tree
+	hide_tasks()
+	
+	# Start timer to rebuild tree after delay
+	rebuild_timer.start(rebuild_delay_after_reset)
+	DebugLogger.debug(module_name, "Will rebuild tree in " + str(rebuild_delay_after_reset) + " seconds")
+
+func _on_rebuild_timer_timeout() -> void:
+	DebugLogger.debug(module_name, "Rebuild timer expired - rebuilding tree")
 	_rebuild_tree()
 	_check_visibility()
 

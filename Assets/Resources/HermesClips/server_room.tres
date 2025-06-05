@@ -31,4 +31,5 @@ id = "server_room"
 audio_stream = ExtResource("1_kiwdm")
 description = ""
 subtitle_lines = Array[ExtResource("3_kx6d4")]([SubResource("Resource_a5mbb"), SubResource("Resource_dbnho"), SubResource("Resource_iksob")])
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

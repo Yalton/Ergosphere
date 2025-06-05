@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dltvq57p0vbgq"
 path.s3tc="res://.godot/imported/BlackerMetal-Color.png-1f6cc5f166123b72ae70731eb7b218df.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackerMetal-Color.png-1f6cc5f166123b72ae70731eb7b218df.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/Microwave/textures/BlackerMetal-Color.png"
-dest_files=["res://.godot/imported/BlackerMetal-Color.png-1f6cc5f166123b72ae70731eb7b218df.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackerMetal-Color.png-1f6cc5f166123b72ae70731eb7b218df.s3tc.ctex", "res://.godot/imported/BlackerMetal-Color.png-1f6cc5f166123b72ae70731eb7b218df.etc2.ctex"]
 
 [params]
 

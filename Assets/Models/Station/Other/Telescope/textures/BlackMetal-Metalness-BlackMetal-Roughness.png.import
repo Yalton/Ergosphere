@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c3rsoehfcacsh"
 path.s3tc="res://.godot/imported/BlackMetal-Metalness-BlackMetal-Roughness.png-0e85bf9f2bc1038865880c22dec1d227.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackMetal-Metalness-BlackMetal-Roughness.png-0e85bf9f2bc1038865880c22dec1d227.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Other/Telescope/textures/BlackMetal-Metalness-BlackMetal-Roughness.png"
-dest_files=["res://.godot/imported/BlackMetal-Metalness-BlackMetal-Roughness.png-0e85bf9f2bc1038865880c22dec1d227.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackMetal-Metalness-BlackMetal-Roughness.png-0e85bf9f2bc1038865880c22dec1d227.s3tc.ctex", "res://.godot/imported/BlackMetal-Metalness-BlackMetal-Roughness.png-0e85bf9f2bc1038865880c22dec1d227.etc2.ctex"]
 
 [params]
 

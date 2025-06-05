@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bisye821wot8g"
 path.s3tc="res://.godot/imported/BlackPlastic-Roughness.png-64f2962c001ad93a788fac27ce553ff1.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackPlastic-Roughness.png-64f2962c001ad93a788fac27ce553ff1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/BlackPlastic-Roughness.png"
-dest_files=["res://.godot/imported/BlackPlastic-Roughness.png-64f2962c001ad93a788fac27ce553ff1.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackPlastic-Roughness.png-64f2962c001ad93a788fac27ce553ff1.s3tc.ctex", "res://.godot/imported/BlackPlastic-Roughness.png-64f2962c001ad93a788fac27ce553ff1.etc2.ctex"]
 
 [params]
 

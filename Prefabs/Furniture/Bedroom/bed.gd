@@ -38,6 +38,7 @@ func _ready() -> void:
 
 func interact(player_interaction: PlayerInteractionComponent) -> void:
 	# Check if sleep task is available
+	task_aware_component.update_task_availability()
 	if task_aware_component and not task_aware_component.is_task_available:
 		DebugLogger.debug(module_name, "Sleep task not available")
 		return
@@ -101,9 +102,4 @@ func _initiate_sleep_sequence(player: Player) -> void:
 
 func _reset_day() -> void:
 	DebugLogger.debug(module_name, "Resetting day")
-	
-	if GameManager:
-		# Start new day - this will reset tasks and events
-		GameManager.start_new_day()
-	else:
-		DebugLogger.error(module_name, "GameManager not found - cannot reset day")
+	GameManager.start_new_day()

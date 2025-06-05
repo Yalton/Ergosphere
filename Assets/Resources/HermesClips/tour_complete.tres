@@ -38,4 +38,5 @@ id = "tour_complete"
 audio_stream = ExtResource("1_2k5nm")
 description = ""
 subtitle_lines = Array[ExtResource("3_tmwmk")]([SubResource("Resource_a8h8x"), SubResource("Resource_26skk"), SubResource("Resource_bo5ne"), SubResource("Resource_jx7m5")])
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

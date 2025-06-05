@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b5k13iurq6brf"
 path.s3tc="res://.godot/imported/GreyMetal-Metalness-GreyMetal-Roughness.png-81c930011ea0963c6453054987af5cdb.s3tc.ctex"
+path.etc2="res://.godot/imported/GreyMetal-Metalness-GreyMetal-Roughness.png-81c930011ea0963c6453054987af5cdb.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Door/textures/GreyMetal-Metalness-GreyMetal-Roughness.png"
-dest_files=["res://.godot/imported/GreyMetal-Metalness-GreyMetal-Roughness.png-81c930011ea0963c6453054987af5cdb.s3tc.ctex"]
+dest_files=["res://.godot/imported/GreyMetal-Metalness-GreyMetal-Roughness.png-81c930011ea0963c6453054987af5cdb.s3tc.ctex", "res://.godot/imported/GreyMetal-Metalness-GreyMetal-Roughness.png-81c930011ea0963c6453054987af5cdb.etc2.ctex"]
 
 [params]
 

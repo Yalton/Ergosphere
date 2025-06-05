@@ -562,6 +562,8 @@ func _process(delta: float) -> void:
 		var was_revealed = task.is_revealed
 		task.update_reveal_state(state_manager, completed_tasks, delta)
 		
+		task.is_available = task.is_revealed
+		
 		# Emit signals when reveal state changes
 		if task.is_revealed and not was_revealed:
 			task_revealed.emit(task.task_id)

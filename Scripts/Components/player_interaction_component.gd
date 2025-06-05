@@ -115,9 +115,9 @@ func send_message(speaker_name: String, text: String) -> void:
 		ui_controller.show_message(speaker_name, text)
 
 # Helper method used for showing hints to the player
-func send_hint(_hint_icon, hint_text: String) -> void:
+func send_hint(type: String, hint_text: String) -> void:
 	if ui_controller:
-		ui_controller.show_hint(hint_text)
+		ui_controller.show_hint(type,hint_text)
 	
 
 # Functions for CarryableComponent compatibility

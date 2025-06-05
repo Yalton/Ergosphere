@@ -82,11 +82,7 @@ Drink Alcohol - Staves off insanity
 
 Reset Game state in between sleep mode
 
-Add SFX to Hint Notif
-
-Add Hint Notif when Task is complete
-
-Fix Power switch flipping twice
+~~Fix Power switch flipping twice~~
 
 Test Day 1
 
@@ -171,3 +167,30 @@ Space Station
 - Ceiling 
 - Doors  -->
 
+
+Intro Cutscene
+
+The year is 2125, humanity has achieved interstellar colonization, in desperation to escape their failing bio-sphere humans spread themselves too thin.
+
+Communication across the vast cosmic distances proved to be a challenge, outpost after outpost keep vanishing leaving only a few pleading final words arriving years after disaster
+
+In order to survive, mankind must develop better communication methods, they must learn to bend space time to their whime. Thus they started covering the only known natural phenemenon which does the same
+
+Black holes
+
+They began searching for the holy grail, a stable microsingularity, and with time it was found. SJ-1765 or the Sejanus Singularity was a perfect canditate for research.
+
+The Thoth Observatory station was constructed in stable orbit, and researchers have been sent one after another to gather data from this miraculous stellar object.
+
+The fact that few of them return upon their rotation coming to its end is irrelevant; what mankind stands to gain from this research is too great.
+
+Your rotation begins now.
+
+
+
+The cosmos is unforgiving to those lost within it 
+
+
+EncryptionKey 
+
+651a9f4efa9704561dc8770630ea9de91868846847222dc13a521d64cf5ed009

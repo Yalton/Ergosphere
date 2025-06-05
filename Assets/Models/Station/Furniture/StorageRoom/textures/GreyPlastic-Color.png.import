@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cy85h4jhlhh7x"
 path.s3tc="res://.godot/imported/GreyPlastic-Color.png-45ab61b797b13796f87362ace86ecd3e.s3tc.ctex"
+path.etc2="res://.godot/imported/GreyPlastic-Color.png-45ab61b797b13796f87362ace86ecd3e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Furniture/StorageRoom/textures/GreyPlastic-Color.png"
-dest_files=["res://.godot/imported/GreyPlastic-Color.png-45ab61b797b13796f87362ace86ecd3e.s3tc.ctex"]
+dest_files=["res://.godot/imported/GreyPlastic-Color.png-45ab61b797b13796f87362ace86ecd3e.s3tc.ctex", "res://.godot/imported/GreyPlastic-Color.png-45ab61b797b13796f87362ace86ecd3e.etc2.ctex"]
 
 [params]
 

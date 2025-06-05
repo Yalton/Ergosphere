@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://uenrqbj2sm6t"
 path.s3tc="res://.godot/imported/pocket2_Metallic-pocket2_Roughness.png-f3362fb3a700e63a1438ddd3086cec00.s3tc.ctex"
+path.etc2="res://.godot/imported/pocket2_Metallic-pocket2_Roughness.png-f3362fb3a700e63a1438ddd3086cec00.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Props/Food/textures/pocket2_Metallic-pocket2_Roughness.png"
-dest_files=["res://.godot/imported/pocket2_Metallic-pocket2_Roughness.png-f3362fb3a700e63a1438ddd3086cec00.s3tc.ctex"]
+dest_files=["res://.godot/imported/pocket2_Metallic-pocket2_Roughness.png-f3362fb3a700e63a1438ddd3086cec00.s3tc.ctex", "res://.godot/imported/pocket2_Metallic-pocket2_Roughness.png-f3362fb3a700e63a1438ddd3086cec00.etc2.ctex"]
 
 [params]
 

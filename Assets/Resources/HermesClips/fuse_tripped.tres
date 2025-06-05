@@ -31,4 +31,5 @@ id = "fuse_tripped"
 audio_stream = ExtResource("1_r22p3")
 description = ""
 subtitle_lines = Array[ExtResource("3_gwfpy")]([SubResource("Resource_8gcmh"), SubResource("Resource_l3ydd"), SubResource("Resource_f5y1v")])
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

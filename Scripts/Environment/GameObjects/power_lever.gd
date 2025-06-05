@@ -36,9 +36,9 @@ func set_power_state(powered: bool) -> void:
 	
 	# Play appropriate animation
 	if lever_animation_player:
-		if powered and lever_animation_player.has_animation(power_on_animation):
-			lever_animation_player.play(power_on_animation)
-		elif not powered and lever_animation_player.has_animation(power_off_animation):
+		#if powered and lever_animation_player.has_animation(power_on_animation):
+			#lever_animation_player.play(power_on_animation)
+		if not powered and lever_animation_player.has_animation(power_off_animation):
 			lever_animation_player.play(power_off_animation)
 	
 	# Let task component handle interaction text
@@ -62,7 +62,7 @@ func interact(player_interaction: PlayerInteractionComponent) -> void:
 		
 	if is_powered:
 		# Power is already on
-		player_interaction.send_hint(null, "Power is already on")
+		player_interaction.send_hint("", "Power is already on")
 		return
 	
 	is_interacting = true

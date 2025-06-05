@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bawv2rukpmcib"
 path.s3tc="res://.godot/imported/BlackMetal-Color.png-4eb2faf8761fb146a013eac5e96f7004.s3tc.ctex"
+path.etc2="res://.godot/imported/BlackMetal-Color.png-4eb2faf8761fb146a013eac5e96f7004.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Door/textures/BlackMetal-Color.png"
-dest_files=["res://.godot/imported/BlackMetal-Color.png-4eb2faf8761fb146a013eac5e96f7004.s3tc.ctex"]
+dest_files=["res://.godot/imported/BlackMetal-Color.png-4eb2faf8761fb146a013eac5e96f7004.s3tc.ctex", "res://.godot/imported/BlackMetal-Color.png-4eb2faf8761fb146a013eac5e96f7004.etc2.ctex"]
 
 [params]
 

@@ -56,7 +56,7 @@ func carry(_player_interaction_component:PlayerInteractionComponent) -> void:
 	
 	# Simplified check for wielding
 	if player_interaction_component.is_wielding and not is_carryable_while_wielding:
-		player_interaction_component.send_hint(null, "Can't carry an object while wielding.")
+		player_interaction_component.send_hint("", "Can't carry an object while wielding.")
 		return
 
 	if is_being_carried:

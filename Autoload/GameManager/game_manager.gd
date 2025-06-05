@@ -2,6 +2,7 @@
 extends Node
 
 # Singleton reference
+signal day_reset  # New signal for resetting things when starting a new day
 
 @export var enable_debug: bool = true
 var module_name: String = "GameManager"
@@ -89,7 +90,7 @@ func trigger_power_outage() -> void:
 	DebugLogger.debug(module_name, "Triggering power outage")
 	event_manager.trigger_event("power_outage")
 	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
-	get_player().interaction_component.send_hint(null, "WARNING: Power Outage has occured")
+	get_player().interaction_component.send_hint("", "WARNING: Power Outage has occured")
 	# Power outage creates an emergency task
 	task_manager.trigger_emergency_task("restore_power")
 
@@ -97,7 +98,7 @@ func trigger_oxygen_failure() -> void:
 	DebugLogger.debug(module_name, "Triggering oxygen failure")
 	event_manager.trigger_event("oxygen_failure")
 	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
-	get_player().interaction_component.send_hint(null, "WARNING: Oxygen Generator has failed")
+	get_player().interaction_component.send_hint("", "WARNING: Oxygen Generator has failed")
 	# Oxygen failure creates an emergency task
 	task_manager.trigger_emergency_task("replace_oxygen_filter")
 
@@ -105,7 +106,7 @@ func trigger_heatsink_failure() -> void:
 	DebugLogger.debug(module_name, "Triggering heatsink failure")
 	event_manager.trigger_event("heatsink_failure")
 	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
-	get_player().interaction_component.send_hint(null, "WARNING: Engine Heatsink Failure")
+	get_player().interaction_component.send_hint("", "WARNING: Engine Heatsink Failure")
 	# Heatsink failure creates an emergency task
 	task_manager.trigger_emergency_task("replace_heatsink")
 
@@ -135,6 +136,12 @@ func on_task_completed_at_object(task_id: String) -> void:
 # Task system integration
 func start_new_day() -> void:
 	DebugLogger.info(module_name, "Starting new day")
+	
+	# Don't emit day_reset on day 1
+	if task_manager.current_day > 1:
+		DebugLogger.info(module_name, "Emitting day_reset signal")
+		day_reset.emit()
+	
 	task_manager.start_new_day()
 
 func _on_daily_tasks_completed() -> void:
@@ -180,4 +187,3 @@ func get_player() -> Player:
 		return player
 	
 	return null
-			

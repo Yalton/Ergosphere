@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bqtx0vn5bcavd"
 path.s3tc="res://.godot/imported/GreyMetal-Color.png-66d7d902d41f156dcbde9587dfd59852.s3tc.ctex"
+path.etc2="res://.godot/imported/GreyMetal-Color.png-66d7d902d41f156dcbde9587dfd59852.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Color.png"
-dest_files=["res://.godot/imported/GreyMetal-Color.png-66d7d902d41f156dcbde9587dfd59852.s3tc.ctex"]
+dest_files=["res://.godot/imported/GreyMetal-Color.png-66d7d902d41f156dcbde9587dfd59852.s3tc.ctex", "res://.godot/imported/GreyMetal-Color.png-66d7d902d41f156dcbde9587dfd59852.etc2.ctex"]
 
 [params]
 
