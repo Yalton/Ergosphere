@@ -103,7 +103,7 @@ func find_interaction_component(node) -> Node:
 	
 	# Check for a dedicated interaction component
 	for child in node.get_children():
-		if child.has_method("get_interaction_text") or child.get("interaction_text") != null:
+		if child.has_method("get_interaction_text") or child.get("interaction_text") != null and child is not TaskAwareComponent and child is not StateAwareComponent:
 			return child
 	
 	return null

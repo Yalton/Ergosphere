@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_4odke")
-task_id = "power_on"
+task_id = "restore_power"
 task_name = "Restore Power"
 task_description = ""
 is_emergency = true
@@ -13,5 +13,7 @@ emergency_time_limit = 120.0
 dependent_on_tasks = Array[String]([])
 required_states = {}
 blocked_by_states = {}
+revealed_under = {}
+reveal_delay = 1.0
 related_object_groups = Array[String]([])
 metadata/_custom_type_script = "uid://bxrho0i2t1mql"

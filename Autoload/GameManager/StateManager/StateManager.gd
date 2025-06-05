@@ -12,9 +12,9 @@ var states: Dictionary = {
 	"power": "on",
 	"emergency_mode": false,
 	"lockdown": false,
-	"player_has_keycard": false,
 	"main_door_open": false,
-	"engine_heatsink_operational": true
+	"engine_heatsink_operational": true,
+	"all_daily_tasks_complete": false,
 }
 
 func _ready() -> void:

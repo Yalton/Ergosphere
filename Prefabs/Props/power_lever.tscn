@@ -309,15 +309,19 @@ turbulence_noise_scale = 6.313
 [sub_resource type="QuadMesh" id="QuadMesh_enpyc"]
 size = Vector2(0.2, 0.3)
 
-[node name="PowerLever" type="StaticBody3D" node_paths=PackedStringArray("lever_animation_player") groups=["power_lever"]]
-transform = Transform3D(0, 0, 1.54857, 0, 1.54857, 0, -1.54857, 0, 0, 0, 0, 0)
+[node name="PowerLever" type="StaticBody3D" node_paths=PackedStringArray("lever_animation_player", "task_aware_component", "state_aware_component") groups=["power_lever"]]
+transform = Transform3D(-6.76901e-08, 0, 1.54857, 0, 1.54857, 0, -1.54857, 0, -6.76901e-08, 0, 0, 0)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_pxlly")
 lever_animation_player = NodePath("AnimationPlayer")
+task_aware_component = NodePath("TaskAwareComponent")
+state_aware_component = NodePath("StateAwareComponent")
+
+[node name="BasicInteraction" parent="." instance=ExtResource("11_opa3s")]
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("2_eckd2")]
-associated_task_id = "power_on"
+associated_task_id = "restore_power"
 
 [node name="StateAwareComponent" parent="." instance=ExtResource("12_pxlly")]
 
@@ -340,8 +344,6 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.000793459, -0.00476073)
 shape = SubResource("BoxShape3D_xp1vl")
-
-[node name="BasicInteraction" parent="." instance=ExtResource("11_opa3s")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

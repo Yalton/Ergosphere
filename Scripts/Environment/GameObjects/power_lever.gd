@@ -1,10 +1,9 @@
 # PowerLever.gd
-extends GameObject
+extends AwareGameObject
 
 signal power_restored
 signal object_state_updated(interaction_text: String)
 
-var module_name: String = "PowerLever"
 
 @export_group("Lever Settings")
 @export var lever_animation_player: AnimationPlayer
@@ -14,11 +13,10 @@ var module_name: String = "PowerLever"
 # Internal state
 var is_powered: bool = true
 var is_interacting: bool = false
-var task_aware_component: TaskAwareComponent
 
 func _ready() -> void:
 	super._ready()  # Call GameObject's _ready()
-	
+	module_name = "PowerLever"
 	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Set display name if not already set

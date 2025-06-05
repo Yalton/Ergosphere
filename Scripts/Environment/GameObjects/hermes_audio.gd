@@ -72,8 +72,8 @@ func _find_player_ui_controller() -> void:
 
 func play_voice_by_id(id: String) -> bool:
 	if is_playing_sequence:
-		DebugLogger.warning(module_name, "Tried to play voice ID '" + id + "' but already playing a sequence")
-		return false
+		DebugLogger.warning(module_name, "Interrupting current voice to play ID '" + id + "'")
+		stop_voice()
 	
 	# Find the voice clip with the given ID
 	var voice_clip = find_voice_clip(id)

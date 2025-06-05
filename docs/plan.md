@@ -81,13 +81,17 @@ Drink Alcohol - Staves off insanity
 
 Implement introduction task
 
-Simplify task resources
-Make failing emergency tasks have consequences
 
-Test Day 1
-Game against Hermes
 Reset Game state in between sleep mode
+Test Day 1
+Fix Power outage
+Clean up code
 
+Game against Hermes
+
+Simplify task resources
+
+Make failing emergency tasks have consequences
 ---
 
 

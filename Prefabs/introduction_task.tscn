@@ -6,6 +6,7 @@
 [node name="IntroductionTask" type="Node" node_paths=PackedStringArray("task_aware_component")]
 script = ExtResource("1_k37ix")
 task_aware_component = NodePath("TaskAwareComponent")
+follow_up_task_ids = Array[String](["allign_telescope", "download_data", "upload_data"])
 required_rooms = Array[String](["server_room", "stor_room", "hab_room", "eng_room", "obs_room"])
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("2_g8i0x")]

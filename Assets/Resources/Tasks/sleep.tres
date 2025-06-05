@@ -8,10 +8,16 @@ task_id = "sleep"
 task_name = "Go to Sleep"
 task_description = ""
 is_emergency = false
-is_secret = false
+is_secret = true
 emergency_time_limit = 0.0
 dependent_on_tasks = Array[String]([])
 required_states = {}
-blocked_by_states = {}
+blocked_by_states = {
+"all_daily_tasks_complete": false
+}
+revealed_under = {
+"all_daily_tasks_complete": true
+}
+reveal_delay = 5.0
 related_object_groups = Array[String]([])
 metadata/_custom_type_script = "uid://bxrho0i2t1mql"

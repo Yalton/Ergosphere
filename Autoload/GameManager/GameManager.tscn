@@ -10,6 +10,7 @@
 script = ExtResource("1_ttbae")
 test_power_outage_delay = 0.0
 test_oxygen_failure_delay = 0.0
+test_heatsink_failure_delay = 0.0
 auto_start_test = true
 alarm_audio = ExtResource("2_52hc4")
 
