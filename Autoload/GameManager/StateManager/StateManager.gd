@@ -7,8 +7,8 @@ signal state_changed(state_name: String, new_value: Variant)
 @export var enable_debug: bool = true
 var module_name: String = "StateManager"
 
-# Game states
-var states: Dictionary = {
+# Default game states
+const DEFAULT_STATES = {
 	"power": "on",
 	"emergency_mode": false,
 	"lockdown": false,
@@ -17,11 +17,17 @@ var states: Dictionary = {
 	"all_daily_tasks_complete": false,
 }
 
+# Game states
+var states: Dictionary = {}
+
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 
 func initialize() -> void:
-	DebugLogger.info(module_name, "StateManager initialized with states: " + str(states.keys()))
+	# Reset to default states
+	states = DEFAULT_STATES.duplicate()
+	
+	DebugLogger.info(module_name, "StateManager initialized and reset with states: " + str(states.keys()))
 
 func set_state(state_name: String, value: Variant) -> void:
 	if not states.has(state_name):

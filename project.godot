@@ -17,7 +17,7 @@ run/main_scene="uid://b2xc4entjfn1n"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 run/max_fps=160
 boot_splash/image="uid://cy1a2f1ctbivh"
-config/icon="res://Icon.pngs"
+config/icon="uid://cn6owvke6ocl1"
 config/macos_native_icon="uid://cn6owvke6ocl1"
 config/windows_native_icon="res://Icon.ico"
 
@@ -43,6 +43,7 @@ gdscript/warnings/integer_division=0
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/stretch/mode="viewport"
 window/vsync/vsync_mode=0
 
 [dotnet]

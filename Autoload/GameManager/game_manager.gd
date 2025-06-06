@@ -3,6 +3,7 @@ extends Node
 
 # Singleton reference
 signal day_reset  # New signal for resetting things when starting a new day
+signal game_started  # New signal for when the game actually starts
 
 @export var enable_debug: bool = true
 var module_name: String = "GameManager"
@@ -19,6 +20,8 @@ var task_manager: TaskManager
 @export var auto_start_test: bool = false
 @export var auto_start_day: bool = true
 @export var alarm_audio: AudioStream
+
+var is_initialized: bool = false
 
 func _ready() -> void:
 	# Set up singleton
@@ -43,16 +46,35 @@ func _ready() -> void:
 		DebugLogger.error(module_name, "TaskManager not found!")
 		return
 	
-	# Initialize managers
+	# Connect task manager signals (only once)
+	if not task_manager.daily_tasks_completed.is_connected(_on_daily_tasks_completed):
+		task_manager.daily_tasks_completed.connect(_on_daily_tasks_completed)
+		task_manager.emergency_task_failed.connect(_on_emergency_task_failed)
+	
+	DebugLogger.info(module_name, "GameManager ready, waiting for game start")
+	
+	# Auto-start the game if this is the first load
+	# This ensures the game works even if start_game() isn't called from menu
+	if auto_start_day:
+		var auto_start_timer = get_tree().create_timer(0.1)
+		auto_start_timer.timeout.connect(func(): 
+			if not is_initialized:
+				DebugLogger.info(module_name, "Auto-starting game")
+				start_game()
+		)
+
+# This should be called when the game actually starts (from main menu or elsewhere)
+func start_game() -> void:
+	DebugLogger.info(module_name, "Starting game - initializing all systems")
+	
+	# Initialize managers (which will also reset them)
 	event_manager.initialize(state_manager)
 	state_manager.initialize()
 	task_manager.initialize(state_manager, event_manager)
 	
-	# Connect task manager signals
-	task_manager.daily_tasks_completed.connect(_on_daily_tasks_completed)
-	task_manager.emergency_task_failed.connect(_on_emergency_task_failed)
+	is_initialized = true
 	
-	DebugLogger.info(module_name, "GameManager initialized")
+	DebugLogger.info(module_name, "All systems initialized and reset")
 	
 	# Start first day if enabled
 	if auto_start_day:
@@ -61,17 +83,22 @@ func _ready() -> void:
 	
 	# Test events if enabled
 	if auto_start_test:
-		if test_power_outage_delay > 0:
-			var power_timer = get_tree().create_timer(test_power_outage_delay)
-			power_timer.timeout.connect(_test_power_outage)
-		
-		if test_oxygen_failure_delay > 0:
-			var oxygen_timer = get_tree().create_timer(test_oxygen_failure_delay)
-			oxygen_timer.timeout.connect(_test_oxygen_failure)
-		
-		if test_heatsink_failure_delay > 0:
-			var heatsink_timer = get_tree().create_timer(test_heatsink_failure_delay)
-			heatsink_timer.timeout.connect(_test_heatsink_failure)
+		_setup_test_events()
+	
+	game_started.emit()
+
+func _setup_test_events() -> void:
+	if test_power_outage_delay > 0:
+		var power_timer = get_tree().create_timer(test_power_outage_delay)
+		power_timer.timeout.connect(_test_power_outage)
+	
+	if test_oxygen_failure_delay > 0:
+		var oxygen_timer = get_tree().create_timer(test_oxygen_failure_delay)
+		oxygen_timer.timeout.connect(_test_oxygen_failure)
+	
+	if test_heatsink_failure_delay > 0:
+		var heatsink_timer = get_tree().create_timer(test_heatsink_failure_delay)
+		heatsink_timer.timeout.connect(_test_heatsink_failure)
 
 func _test_power_outage() -> void:
 	DebugLogger.debug(module_name, "Testing power outage")
@@ -87,6 +114,10 @@ func _test_heatsink_failure() -> void:
 
 # Public API for triggering events
 func trigger_power_outage() -> void:
+	if not is_initialized:
+		DebugLogger.warning(module_name, "Cannot trigger events before game start")
+		return
+		
 	DebugLogger.debug(module_name, "Triggering power outage")
 	event_manager.trigger_event("power_outage")
 	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
@@ -95,6 +126,10 @@ func trigger_power_outage() -> void:
 	task_manager.trigger_emergency_task("restore_power")
 
 func trigger_oxygen_failure() -> void:
+	if not is_initialized:
+		DebugLogger.warning(module_name, "Cannot trigger events before game start")
+		return
+		
 	DebugLogger.debug(module_name, "Triggering oxygen failure")
 	event_manager.trigger_event("oxygen_failure")
 	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
@@ -103,6 +138,10 @@ func trigger_oxygen_failure() -> void:
 	task_manager.trigger_emergency_task("replace_oxygen_filter")
 
 func trigger_heatsink_failure() -> void:
+	if not is_initialized:
+		DebugLogger.warning(module_name, "Cannot trigger events before game start")
+		return
+		
 	DebugLogger.debug(module_name, "Triggering heatsink failure")
 	event_manager.trigger_event("heatsink_failure")
 	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
@@ -169,17 +208,15 @@ func is_power_on() -> bool:
 
 # Helper methods for UI or other systems
 func get_current_day() -> int:
-	return task_manager.current_day
+	return task_manager.current_day if task_manager else 0
 
 func get_todays_tasks() -> Array:
-	return task_manager.get_current_tasks()
+	return task_manager.get_current_tasks() if task_manager else []
 
 func get_active_emergency_tasks() -> Array:
-	return task_manager.get_active_emergency_tasks()
-
+	return task_manager.get_active_emergency_tasks() if task_manager else []
 
 func get_player() -> Player: 
-	
 	# Find player and show message
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:

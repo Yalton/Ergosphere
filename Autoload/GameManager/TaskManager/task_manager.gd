@@ -46,10 +46,44 @@ func initialize(_state_manager: StateManager, _event_manager: EventManager) -> v
 	state_manager = _state_manager
 	event_manager = _event_manager
 	
-	# Connect to state changes to update task availability
-	state_manager.state_changed.connect(_on_state_changed)
+	# Reset everything first
+	_reset_task_system()
 	
-	DebugLogger.info(module_name, "TaskManager initialized with " + str(day_configs.size()) + " day configs")
+	# Connect to state changes to update task availability
+	if not state_manager.state_changed.is_connected(_on_state_changed):
+		state_manager.state_changed.connect(_on_state_changed)
+	
+	DebugLogger.info(module_name, "TaskManager initialized and reset with " + str(day_configs.size()) + " day configs")
+
+func _reset_task_system() -> void:
+	# Clean up any emergency timers
+	for timer_id in emergency_timers:
+		if is_instance_valid(emergency_timers[timer_id]):
+			emergency_timers[timer_id].queue_free()
+	emergency_timers.clear()
+	
+	# Reset all tracking variables
+	current_day = 0
+	current_day_config = null
+	todays_tasks.clear()
+	completed_tasks.clear()
+	all_completed_tasks.clear()
+	active_emergency_tasks.clear()
+	story_flags.clear()
+	
+	# Reset task states
+	for task in default_available_tasks:
+		if task:
+			task.reset()
+	
+	# Reset day configs' tasks
+	for config in day_configs:
+		if config:
+			for task in config.available_tasks:
+				if task:
+					task.reset()
+	
+	DebugLogger.debug(module_name, "Task system reset")
 
 func start_new_day() -> void:
 	current_day += 1

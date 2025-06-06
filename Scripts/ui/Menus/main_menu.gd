@@ -55,18 +55,17 @@ func _ready() -> void:
 
 # Main Menu Button Handlers
 func _on_play_pressed() -> void:
-	DebugLogger.debug(module_name, "Play button pressed, starting transition")
+	DebugLogger.debug(module_name, "Play button pressed, starting game")
 	if play_game_audio: 
 		Audio.play_sound(play_game_audio)
 	
+	# Start the game properly through GameManager if it exists
+	if GameManager and GameManager.has_method("start_game"):
+		GameManager.start_game()
+	
 	# Use the global transition manager to handle scene transition
-	if TransitionManager:
-		TransitionManager.transition_to_scene(game_scene_path)
-	else:
-		# Fallback to direct scene change if transition manager is not available
-		DebugLogger.warning(module_name, "GlobalTransitionManager not found, using direct scene change")
-		get_tree().change_scene_to_file(game_scene_path)
-		queue_free()
+	TransitionManager.transition_to_scene(game_scene_path)
+
 
 func _on_options_pressed() -> void:
 	DebugLogger.debug(module_name, "Options button pressed - showing options menu")

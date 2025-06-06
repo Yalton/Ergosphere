@@ -13,7 +13,7 @@ class_name CarryableComponent
 ## Sets how fast the carriable is being pulled towards the carrying position. The lower, the "floatier" it will feel.
 @export var carrying_velocity_multiplier : float = 10
 ## Sets how far away the carried object needs to be from the carry_position before it gets dropped.
-@export var drop_distance : float = 1.5
+@export var drop_distance : float = 3.5
 
 @onready var audio_stream_player_3d : AudioStreamPlayer3D = $AudioStreamPlayer3D
 @onready var camera : Camera3D = get_viewport().get_camera_3d()
@@ -62,6 +62,13 @@ func carry(_player_interaction_component:PlayerInteractionComponent) -> void:
 	if is_being_carried:
 		leave()
 	else:
+		# Check if player is already carrying something
+		if player_interaction_component.carried_object != null:
+			# Force drop the current object
+			player_interaction_component.carried_object.leave()
+			# Small delay to ensure clean drop
+			await get_tree().create_timer(0.1).timeout
+		
 		hold()
 
 func _on_rotate_carried_object(supplied_rotation: Vector3) -> void:
@@ -75,12 +82,12 @@ func _physics_process(_delta : float) -> void:
 		
 		# Calculate vector to desired position
 		var direction_vector = carry_position - parent_object.global_position
-		var _distance = direction_vector.length()
+		var distance = direction_vector.length()
 		
 		# If we're too far from carry position, drop the object
-		#if distance >= drop_distance:
-			#leave()
-			#return
+		if distance >= drop_distance:
+			leave()
+			return
 		
 		# Use velocity-based approach for smoother physics
 		var target_velocity = direction_vector * carrying_velocity_multiplier 

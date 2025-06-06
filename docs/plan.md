@@ -80,13 +80,7 @@ Drink Alcohol - Staves off insanity
 ## Thoughts organized
 
 
-Reset Game state in between sleep mode
 
-~~Fix Power switch flipping twice~~
-
-Test Day 1
-
-Produce Demo
 
 Clean up code
 
@@ -186,10 +180,7 @@ The fact that few of them return upon their rotation coming to its end is irrele
 
 Your rotation begins now.
 
-
-
-The cosmos is unforgiving to those lost within it 
-
+The cosmos is unforgiving to those lost within it
 
 EncryptionKey 
 

@@ -30,10 +30,13 @@ func _ready() -> void:
 func initialize(_state_manager: StateManager) -> void:
 	state_manager = _state_manager
 	
+	# Reset everything first
+	_reset_event_system()
+	
 	# Find task manager
 	if GameManager:
 		task_manager = GameManager.task_manager
-		if task_manager:
+		if task_manager and not task_manager.task_completed.is_connected(_on_task_completed):
 			task_manager.task_completed.connect(_on_task_completed)
 	
 	# Find all event nodes
@@ -41,7 +44,24 @@ func initialize(_state_manager: StateManager) -> void:
 		if child is BaseEvent:
 			DebugLogger.debug(module_name, "Found event: " + child.name)
 	
-	DebugLogger.info(module_name, "EventManager initialized with " + str(get_child_count()) + " events")
+	DebugLogger.info(module_name, "EventManager initialized and reset with " + str(get_child_count()) + " events")
+
+func _reset_event_system() -> void:
+	# End all active events properly
+	for event_id in active_events.keys():
+		var event = active_events[event_id]
+		if event and is_instance_valid(event):
+			event.is_active = false
+			# Reset any event-specific state
+			if event.has_method("_on_end"):
+				event._on_end(state_manager)
+	
+	# Clear all tracking
+	active_events.clear()
+	available_event_ids.clear()
+	current_day_config = null
+	
+	DebugLogger.debug(module_name, "Event system reset")
 
 func set_day_events(day_config: DayConfigResource) -> void:
 	current_day_config = day_config
