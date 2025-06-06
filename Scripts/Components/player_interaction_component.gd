@@ -82,6 +82,8 @@ func update_interaction() -> void:
 		ui_controller.hide_interaction()
 		current_interactable = null
 		DebugLogger.debug(module_name, "No interactable in view, clearing prompt")
+	else: 
+		ui_controller.hide_interaction()
 
 func interact_with_current() -> void:
 	if current_interactable:

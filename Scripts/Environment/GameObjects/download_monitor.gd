@@ -43,7 +43,7 @@ func _on_task_completed(task_id: String) -> void:
 func _check_availability() -> void:
 	# Only enable if telescope alignment is complete
 	if GameManager and GameManager.task_manager:
-		var telescope_aligned = GameManager.task_manager.is_task_completed("align_telescope")
+		var telescope_aligned = GameManager.task_manager.is_task_completed("allign_telescope")
 		set_ui_enabled(telescope_aligned)
 		
 		DebugLogger.debug(module_name, "Checked availability - telescope aligned: " + str(telescope_aligned))
@@ -59,4 +59,5 @@ func _on_ui_download_completed() -> void:
 	download_completed.emit()
 
 func _on_availability_change(available: bool): 
+	DebugLogger.debug(module_name, "Received _on_availability_change, valye was " + str(available))
 	set_ui_enabled(available)
