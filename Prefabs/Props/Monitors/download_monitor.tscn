@@ -131,12 +131,12 @@ albedo_texture = SubResource("ViewportTexture_qfur7")
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_qfur7")
-display_name = "download_monitor"
 download_ui_control = NodePath("SubViewport/DownloadUI")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Display")
 task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
+display_name = "download_monitor"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00371356, 2.19273, 0.156631)

@@ -1,0 +1,476 @@
+[gd_scene load_steps=51 format=3 uid="uid://clxm8wr14hmqn"]
+
+[ext_resource type="Script" uid="uid://b5bajhm2tjhb0" path="res://PolyBlocks/EffectBlocks/scenes/other/camera_controller.gd" id="1_5w2uq"]
+[ext_resource type="PackedScene" uid="uid://ce0l7sdpyg8kw" path="res://PolyBlocks/EffectBlocks/assets/smoke/smoke_big.tscn" id="2_o8v0n"]
+[ext_resource type="PackedScene" uid="uid://cg8asq50oc2m1" path="res://PolyBlocks/EffectBlocks/assets/smoke/smoke_small.tscn" id="3_vbkai"]
+[ext_resource type="PackedScene" uid="uid://c20c16eqqr7kn" path="res://PolyBlocks/EffectBlocks/assets/fire/fire_big.tscn" id="4_4f7no"]
+[ext_resource type="PackedScene" uid="uid://c54o67tient15" path="res://PolyBlocks/EffectBlocks/assets/fire/fire_small.tscn" id="5_dxisn"]
+[ext_resource type="PackedScene" uid="uid://ba6pjbml0igrx" path="res://PolyBlocks/EffectBlocks/assets/other/dust.tscn" id="7_o6puj"]
+[ext_resource type="PackedScene" uid="uid://bqhd6yuojmms5" path="res://PolyBlocks/EffectBlocks/assets/fire/fire_magic.tscn" id="8_fo5lj"]
+[ext_resource type="PackedScene" uid="uid://dftx2rlgbrpiq" path="res://PolyBlocks/EffectBlocks/assets/other/fireflies.tscn" id="8_ii6xi"]
+[ext_resource type="PackedScene" uid="uid://csnc6bd8emf5v" path="res://PolyBlocks/EffectBlocks/assets/other/sparkles.tscn" id="8_jv3eh"]
+[ext_resource type="PackedScene" uid="uid://d0cieuooqjktr" path="res://PolyBlocks/EffectBlocks/assets/smoke/smoke_toxic.tscn" id="9_4o4rv"]
+[ext_resource type="ArrayMesh" uid="uid://dvtakusqvh0em" path="res://PolyBlocks/EffectBlocks/source_files/meshes/tree.mesh" id="9_csmcg"]
+[ext_resource type="PackedScene" uid="uid://dyhj7hi0s188j" path="res://PolyBlocks/EffectBlocks/scenes/other/water_showcase.tscn" id="9_ejq7u"]
+[ext_resource type="Shader" uid="uid://bunrcvdle3dcm" path="res://PolyBlocks/EffectBlocks/source_files/shaders/vegetation.gdshader" id="10_5p4rr"]
+[ext_resource type="Texture2D" uid="uid://cue203ti8uyi2" path="res://PolyBlocks/EffectBlocks/source_files/textures/EffectsBlocks_tree_leaves.png" id="11_0jou8"]
+[ext_resource type="ArrayMesh" uid="uid://b2ug0foj4qt16" path="res://PolyBlocks/EffectBlocks/source_files/meshes/bush.mesh" id="12_ts2e8"]
+[ext_resource type="Shader" uid="uid://p6q4ufs6dryx" path="res://PolyBlocks/EffectBlocks/source_files/shaders/vegetation_sway.gdshader" id="13_wc8lg"]
+[ext_resource type="PackedScene" uid="uid://2y25hpxtk3ow" path="res://PolyBlocks/EffectBlocks/assets/other/falling_leaves.tscn" id="13_xl1jw"]
+[ext_resource type="PackedScene" uid="uid://uch8qkb3b6nc" path="res://PolyBlocks/EffectBlocks/assets/other/god_rays.tscn" id="14_grsck"]
+[ext_resource type="PackedScene" uid="uid://c76ggriths1rd" path="res://PolyBlocks/EffectBlocks/assets/explosions/explosion_small.tscn" id="15_38gx3"]
+[ext_resource type="PackedScene" uid="uid://ddl2u52th0ebh" path="res://PolyBlocks/EffectBlocks/assets/explosions/explosion_big.tscn" id="16_7xmyb"]
+[ext_resource type="Script" uid="uid://b4ymsoh5bknid" path="res://PolyBlocks/EffectBlocks/source_files/scripts/tree_night.gd" id="16_s4bid"]
+[ext_resource type="PackedScene" uid="uid://djq2vibkd0x0f" path="res://PolyBlocks/EffectBlocks/scenes/other/weapon_showcase.tscn" id="17_ufpls"]
+[ext_resource type="PackedScene" uid="uid://c203vjusolwn" path="res://PolyBlocks/EffectBlocks/scenes/other/decal_showcase.tscn" id="19_kaygh"]
+[ext_resource type="PackedScene" uid="uid://dejbkt1bojau7" path="res://PolyBlocks/EffectBlocks/assets/explosions/electric_explosion.tscn" id="21_1jimv"]
+[ext_resource type="PackedScene" uid="uid://bmbfy6dvumvvn" path="res://PolyBlocks/EffectBlocks/assets/other/shockwave.tscn" id="21_m3dms"]
+[ext_resource type="PackedScene" uid="uid://duaipbproqly5" path="res://PolyBlocks/EffectBlocks/scenes/other/shader_showcase.tscn" id="22_ws25h"]
+[ext_resource type="PackedScene" uid="uid://d37vvymt438q7" path="res://PolyBlocks/EffectBlocks/scenes/other/splashes_showcase.tscn" id="24_83iev"]
+[ext_resource type="PackedScene" uid="uid://dkir186rogtp6" path="res://PolyBlocks/EffectBlocks/assets/other/fireworks.tscn" id="25_qe711"]
+[ext_resource type="PackedScene" uid="uid://c6go864c63tgt" path="res://PolyBlocks/EffectBlocks/assets/other/flying_birds.tscn" id="26_xs3ne"]
+[ext_resource type="PackedScene" uid="uid://bwt5gp78i8a5i" path="res://PolyBlocks/EffectBlocks/scenes/other/impacts_showcase.tscn" id="29_wbdmy"]
+[ext_resource type="PackedScene" uid="uid://dcf7u51hv4s6e" path="res://PolyBlocks/EffectBlocks/source_files/meshes/Human.glb" id="30_2bla7"]
+[ext_resource type="PackedScene" uid="uid://c8fqeutjlidfw" path="res://PolyBlocks/EffectBlocks/assets/other/rain.tscn" id="31_3l2fu"]
+[ext_resource type="PackedScene" uid="uid://dr62sfawl8e0l" path="res://PolyBlocks/EffectBlocks/scenes/other/lootdrop_showcase.tscn" id="32_qooi6"]
+[ext_resource type="PackedScene" uid="uid://dl1n86vlgnb34" path="res://PolyBlocks/EffectBlocks/assets/energy/laser.tscn" id="33_rd6tc"]
+[ext_resource type="PackedScene" uid="uid://ctibbel8uhnrc" path="res://PolyBlocks/EffectBlocks/assets/fire/fireballs.tscn" id="34_crjyb"]
+[ext_resource type="Material" uid="uid://xc5q70j03k65" path="res://PolyBlocks/EffectBlocks/source_files/materials/black80.material" id="35_mafiq"]
+
+[sub_resource type="GDScript" id="GDScript_mtwyy"]
+script/source = "extends Node3D
+
+@onready var world_environment = $WorldEnvironment
+
+func _ready():
+	world_environment.environment.volumetric_fog_enabled = true
+
+func _process(_delta):
+	if Input.is_action_just_pressed(\"f\"):
+		toggle_fog()
+
+func toggle_fog():
+	world_environment.environment.volumetric_fog_enabled = !world_environment.environment.volumetric_fog_enabled
+"
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l1btb"]
+
+[sub_resource type="Sky" id="Sky_b1a3c"]
+sky_material = SubResource("ProceduralSkyMaterial_l1btb")
+
+[sub_resource type="Environment" id="Environment_e5xq8"]
+background_mode = 2
+sky = SubResource("Sky_b1a3c")
+tonemap_mode = 2
+glow_enabled = true
+fog_light_color = Color(0.0860433, 0.265962, 0.285408, 1)
+fog_light_energy = 0.52
+volumetric_fog_albedo = Color(0.343116, 0.421279, 0.435641, 1)
+volumetric_fog_emission_energy = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tboqf"]
+albedo_color = Color(0.130772, 0.130772, 0.130772, 1)
+metallic_specular = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lac8k"]
+material = SubResource("StandardMaterial3D_tboqf")
+size = Vector2(50, 20)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ajdeb"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ryosw"]
+noise = SubResource("FastNoiseLite_ajdeb")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4hj4w"]
+render_priority = 0
+shader = ExtResource("10_5p4rr")
+shader_parameter/windSpeed = 0.5
+shader_parameter/windStrength = 0.1
+shader_parameter/windNoise = SubResource("NoiseTexture2D_ryosw")
+shader_parameter/albedo = ExtResource("11_0jou8")
+shader_parameter/nightColor = Color(0.1, 0.2, 0.4, 1)
+shader_parameter/nightTime = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j3o8p"]
+render_priority = 0
+shader = ExtResource("13_wc8lg")
+shader_parameter/windSpeed = 1.0
+shader_parameter/albedo = ExtResource("11_0jou8")
+shader_parameter/nightColor = Color(0.1, 0.2, 0.4, 1)
+shader_parameter/nightTime = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kk76e"]
+render_priority = 0
+shader = ExtResource("10_5p4rr")
+shader_parameter/windSpeed = 0.5
+shader_parameter/windStrength = 0.1
+shader_parameter/windNoise = SubResource("NoiseTexture2D_ryosw")
+shader_parameter/albedo = ExtResource("11_0jou8")
+shader_parameter/nightColor = Color(0.1, 0.2, 0.4, 1)
+shader_parameter/nightTime = 0.9
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fdraa"]
+render_priority = 0
+shader = ExtResource("13_wc8lg")
+shader_parameter/windSpeed = 1.0
+shader_parameter/albedo = ExtResource("11_0jou8")
+shader_parameter/nightColor = Color(0.1, 0.2, 0.4, 1)
+shader_parameter/nightTime = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gjckl"]
+shading_mode = 0
+albedo_color = Color(0.321728, 0.321728, 0.321728, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ycgfs"]
+material = ExtResource("35_mafiq")
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="World" type="Node3D"]
+script = SubResource("GDScript_mtwyy")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.94409, 0.215206, -0.249759, 0, 0.757565, 0.65276, 0.329687, -0.616264, 0.71521, 5.702, 6.516, 5.778)
+size = 8.0
+script = ExtResource("1_5w2uq")
+move_speed = 2.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_e5xq8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(0.0761314, -0.491635, 0.867467, 0.209486, 0.858461, 0.468146, -0.974843, 0.146082, 0.168347, 0, 8.27038, 0)
+shadow_enabled = true
+
+[node name="Ground" type="Node3D" parent="WorldEnvironment"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 0, 0.7)
+mesh = SubResource("PlaneMesh_lac8k")
+
+[node name="TextLabels" type="Node3D" parent="."]
+
+[node name="Label3D" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 9, 0.2, -5)
+text = "dust"
+font_size = 64
+
+[node name="Label3D18" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 4, 0.2, -6)
+text = "falling leaves"
+font_size = 64
+
+[node name="Label3D7" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 18, 0.2, -5)
+text = "fireflies
+"
+font_size = 64
+
+[node name="Label3D2" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 2, 0.2, 0)
+text = "small fire
+"
+font_size = 64
+
+[node name="Label3D26" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.2, 0)
+text = "fireballs
+"
+font_size = 64
+
+[node name="Label3D22" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 13, 0.2, 7.7)
+modulate = Color(0.657295, 0.509663, 0.908122, 1)
+text = "IMPACTS"
+font_size = 64
+
+[node name="Label3D19" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.2, 7)
+text = "EFFECTBLOCKS PREVIEW
+----------------------------------------------
+Godot effects/ vfx/ shaders collection
+© BUKKBEEK | PolyBlocks
+
+movement >> WASD
+up/down >> Q & E
+fog toggle>> f
+exit >> Esc
+"
+font_size = 64
+horizontal_alignment = 0
+
+[node name="Label3D8" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 8, 0.2, -4)
+modulate = Color(0.417044, 0.51975, 0.416738, 1)
+text = "vegetation shaders (with day-night effect)
+"
+font_size = 64
+
+[node name="Label3D9" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 13, 0.2, -7)
+text = "god rays
+"
+font_size = 64
+
+[node name="Label3D17" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1, 0.2, -3)
+text = "soaring birds
+"
+font_size = 64
+
+[node name="Label3D4" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 6, 0.2, 0)
+text = "small
+smoke
+"
+font_size = 64
+
+[node name="Label3D5" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 8, 0.2, 0)
+text = "big smoke
+"
+font_size = 64
+
+[node name="Label3D13" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10, 0.2, 0)
+text = "magic
+flame
+"
+font_size = 64
+
+[node name="Label3D21" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10, 0.2, -8.4)
+text = "human reference
+(1.8 m)
+"
+font_size = 64
+
+[node name="Label3D14" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 12, 0.2, 0)
+text = "toxic
+smoke"
+font_size = 64
+
+[node name="Label3D23" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 13, 0.2, 7)
+text = "impacts + dust + sparkles + stardust"
+font_size = 64
+
+[node name="Label3D24" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 9.7, 0.2, 4.8)
+modulate = Color(0.2, 1, 0.603922, 1)
+text = "GROUND EFFECTS/ LOOT DROPS"
+font_size = 64
+
+[node name="Label3D20" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 20.6, 0.2, 4.6)
+text = "sparkles"
+font_size = 64
+
+[node name="Label3D16" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 23.6, 0.2, -7)
+text = "fireworks"
+font_size = 64
+
+[node name="Label3D28" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 24.2, 0.2, -3)
+text = "rain"
+font_size = 64
+
+[node name="Label3D3" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 4, 0.2, 0)
+text = "big fire
+"
+font_size = 64
+
+[node name="Label3D10" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 23.5, 0.2, 0.7)
+text = "small explosion
+"
+font_size = 64
+
+[node name="Label3D12" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 27.5, 0.2, 0.7)
+text = "big explosion
+"
+font_size = 64
+
+[node name="Label3D27" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 31.2, 0.2, 0.7)
+text = "electric explosion
+"
+font_size = 64
+
+[node name="Label3D11" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 25.6, 0.2, -1.4)
+modulate = Color(1, 0.611765, 0.313726, 1)
+text = "EXPLOSIONS 
+"
+font_size = 64
+
+[node name="Label3D15" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 40.854, 1.5, -3.066)
+text = "shockwave"
+font_size = 64
+
+[node name="Label3D25" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 44.854, 0.3, -3.066)
+text = "laser"
+font_size = 64
+
+[node name="Label3D6" type="Label3D" parent="TextLabels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 38, 0.00104988, 6)
+text = "dynamic water 
+(waves/ ripples/ foam)
+"
+font_size = 64
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -177.0
+offset_top = -154.0
+offset_right = -20.0
+offset_bottom = -27.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "movement >> WASD
+up/down >> Q & E
+fog toggle>> f
+exit >> Esc
+© BUKKBEEK | PolyBlocks"
+
+[node name="effects" type="Node3D" parent="."]
+
+[node name="SmokeBig" parent="effects" instance=ExtResource("2_o8v0n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, -1)
+visibility_aabb = AABB(-4, -4.7323, -4, 8, 8, 8)
+
+[node name="SmokeSmall" parent="effects" instance=ExtResource("3_vbkai")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.176133, -1)
+
+[node name="FireBig" parent="effects" instance=ExtResource("4_4f7no")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.542032, -1)
+
+[node name="FireSmall" parent="effects" instance=ExtResource("5_dxisn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.449114, -1)
+
+[node name="Other" type="Node3D" parent="effects"]
+
+[node name="Dust" parent="effects/Other" instance=ExtResource("7_o6puj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4, -5)
+
+[node name="Fireflies" parent="effects/Other" instance=ExtResource("8_ii6xi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 4, -5)
+
+[node name="Sparkles" parent="effects/Other" instance=ExtResource("8_jv3eh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.6, 1, 4.2)
+
+[node name="FireMagic" parent="effects" instance=ExtResource("8_fo5lj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.310824, -1)
+
+[node name="SmokeToxic" parent="effects" instance=ExtResource("9_4o4rv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.207483, -1)
+
+[node name="Vegetation" type="Node3D" parent="."]
+
+[node name="Tree" type="MeshInstance3D" parent="Vegetation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -7)
+mesh = ExtResource("9_csmcg")
+surface_material_override/1 = SubResource("ShaderMaterial_4hj4w")
+
+[node name="FallingLeaves" parent="Vegetation/Tree" instance=ExtResource("13_xl1jw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.94282, 6.1074, 0)
+
+[node name="Bush" type="MeshInstance3D" parent="Vegetation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -6)
+mesh = ExtResource("12_ts2e8")
+surface_material_override/0 = SubResource("ShaderMaterial_j3o8p")
+
+[node name="Tree_night" type="MeshInstance3D" parent="Vegetation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -7)
+mesh = ExtResource("9_csmcg")
+surface_material_override/1 = SubResource("ShaderMaterial_kk76e")
+script = ExtResource("16_s4bid")
+day_duration = 2.0
+night_duration = 2.0
+
+[node name="FallingLeaves2" parent="Vegetation/Tree_night" instance=ExtResource("13_xl1jw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9428, 6.1074, 0)
+
+[node name="Bush_night" type="MeshInstance3D" parent="Vegetation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -6)
+mesh = ExtResource("12_ts2e8")
+surface_material_override/0 = SubResource("ShaderMaterial_fdraa")
+
+[node name="GodRays" parent="Vegetation" instance=ExtResource("14_grsck")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9517, 7, -8.0912)
+
+[node name="Explosions" type="Node3D" parent="."]
+
+[node name="ExplosionSmall" parent="Explosions" instance=ExtResource("15_38gx3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.5, 1, -0.3)
+auto_animate = true
+cooldown = 3.0
+
+[node name="ExplosionBig" parent="Explosions" instance=ExtResource("16_7xmyb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, 1, -0.3)
+auto_animate = true
+cooldown = 3.0
+
+[node name="ElectricExplosion" parent="Explosions" instance=ExtResource("21_1jimv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 1, -0.3)
+auto_animate = true
+cooldown = 3.0
+
+[node name="WeaponShowcase" parent="." instance=ExtResource("17_ufpls")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5512, 0.773159, 4.48889)
+
+[node name="DecalShowcase" parent="." instance=ExtResource("19_kaygh")]
+transform = Transform3D(-8.74228e-08, 0, -2, 0, 2, 0, 2, 0, -8.74228e-08, 35, 0.304838, -6)
+
+[node name="WaterShowcase" parent="." instance=ExtResource("9_ejq7u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 0.2, 3)
+
+[node name="Shockwave" parent="." instance=ExtResource("21_m3dms")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 40.6028, 0.590186, -5)
+
+[node name="ShaderShowcase" parent="." instance=ExtResource("22_ws25h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7, 0.3, -3)
+
+[node name="SplashesShowcase" parent="." instance=ExtResource("24_83iev")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.6, 0.1, 6.7)
+
+[node name="Fireworks" parent="." instance=ExtResource("25_qe711")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.6398, 9.53674e-07, -7.95842)
+
+[node name="FlyingBirds" parent="." instance=ExtResource("26_xs3ne")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -4)
+
+[node name="ImpactsShowcase" parent="." instance=ExtResource("29_wbdmy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.4, 6.7)
+
+[node name="Human" parent="." instance=ExtResource("30_2bla7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -9)
+
+[node name="Human" parent="Human" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_gjckl")
+
+[node name="Rain" parent="." instance=ExtResource("31_3l2fu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.9765, 0.200001, -4.32264)
+
+[node name="LootdropShowcase" parent="." instance=ExtResource("32_qooi6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.3, 0, 3.8)
+
+[node name="Laser" parent="." instance=ExtResource("33_rd6tc")]
+transform = Transform3D(-4.37114e-08, 1, 5.96046e-08, 0, -5.96046e-08, 1, 1, 4.37114e-08, 2.6054e-15, 45, 1, -4)
+
+[node name="Fireballs" parent="." instance=ExtResource("34_crjyb")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fireballs"]
+mesh = SubResource("BoxMesh_ycgfs")
+
+[editable path="Human"]

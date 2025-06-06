@@ -6,19 +6,15 @@
 They dont like Hermes voice
 
 - Add more rigidbodies
-  
-~~Epilepsey on egnine blade~~
+
 
 
 # Level Design/Geometry
 
 Improve the lighting
+- Maybe done
 
 - Too Dark, make everything lighter or blacken certain parts
-
-Outside was too barren, could easily tell it was spinning sphere with texture
-
-- Improve look of black hole
 
 Too clean too static - add some moving parts and some decals
 

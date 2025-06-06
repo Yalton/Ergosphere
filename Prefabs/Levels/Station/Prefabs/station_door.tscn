@@ -253,13 +253,13 @@ collision_layer = 6
 collision_mask = 6
 sync_to_physics = false
 script = ExtResource("9_oy0ii")
+detection_area = NodePath("../Area3D")
 open_sound = ExtResource("8_2o2vn")
 close_sound = ExtResource("9_yti2x")
 door_type = 1
+audio_player = NodePath("../AudioStreamPlayer3D")
 slide_direction = Vector3(0, 1, 0)
 slide_distance = 6.0
-detection_area = NodePath("../Area3D")
-audio_player = NodePath("../AudioStreamPlayer3D")
 
 [node name="Door" type="MeshInstance3D" parent="AnimatedDoor"]
 mesh = SubResource("ArrayMesh_w6o0u")
