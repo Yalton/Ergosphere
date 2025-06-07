@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bgnqxsxljglaq"]
+[gd_scene load_steps=25 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="Script" uid="uid://cd6roq0jsnw23" path="res://Subsystems/DynamicFootstepSystem/Scripts/footstep_surface_detector.gd" id="2_bxc72"]
@@ -22,9 +22,6 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_23jlx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bxc72"]
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_66sxq"]
-dof_blur_near_enabled = true
 
 [sub_resource type="CompositorEffect" id="CompositorEffect_66sxq"]
 resource_local_to_scene = false
@@ -96,7 +93,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.73933, -0.351871)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 cull_mask = 524287
-attributes = SubResource("CameraAttributesPractical_66sxq")
 compositor = SubResource("Compositor_k313v")
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]

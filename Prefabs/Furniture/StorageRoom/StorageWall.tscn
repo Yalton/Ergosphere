@@ -150,15 +150,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 3.99995, 2.01878)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.97595, 2.01878)
 
 [node name="StorageContainer6" parent="Cube_305" instance=ExtResource("7_smqay")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.97595, 2.01878)
-
-[node name="StorageContainer7" parent="Cube_305" instance=ExtResource("7_smqay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9956, 1.97595, 2.01878)
 
-[node name="StorageContainer8" parent="Cube_305" instance=ExtResource("7_smqay")]
+[node name="StorageContainer7" parent="Cube_305" instance=ExtResource("7_smqay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9956, 1.97595, 2.01878)
 
-[node name="StorageContainer9" parent="Cube_305" instance=ExtResource("7_smqay")]
+[node name="StorageContainer8" parent="Cube_305" instance=ExtResource("7_smqay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.97595, 2.01878)
 
 [node name="Display" type="MeshInstance3D" parent="."]

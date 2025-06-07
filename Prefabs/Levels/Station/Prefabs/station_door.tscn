@@ -138,6 +138,7 @@ viewport_path = NodePath("Entrance")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cv0it"]
 resource_local_to_scene = true
+shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_xq16v")
 
 [sub_resource type="QuadMesh" id="QuadMesh_2purk"]
@@ -150,6 +151,7 @@ viewport_path = NodePath("Exit")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2purk"]
 resource_local_to_scene = true
+shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_cv0it")
 
 [sub_resource type="QuadMesh" id="QuadMesh_yv6g6"]
