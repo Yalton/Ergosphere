@@ -1,6 +1,6 @@
 # CommonUtils.gd
 extends Node
-class_name CommonUtils
+
 
 ## Common utility functions to reduce code duplication
 

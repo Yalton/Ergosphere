@@ -89,6 +89,7 @@ Game against Hermes
 Simplify task resources
 
 Make failing emergency tasks have consequences
+
 ---
 
 

@@ -33,6 +33,7 @@ ButtonSoundManager="*res://Autoload/ButtonSoundManager/ButtonSoundManager.gd"
 DebugLogger="*res://addons/debug_manager/debug_logger.gd"
 TransitionManager="*res://Autoload/TransitionManager/transition_manager.tscn"
 GameManager="*res://Autoload/GameManager/GameManager.tscn"
+CommonUtils="*res://Autoload/Utilities.gd"
 
 [debug]
 

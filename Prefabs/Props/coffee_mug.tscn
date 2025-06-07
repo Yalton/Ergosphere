@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cabf6yaqip2ct"]
+
+[ext_resource type="PackedScene" uid="uid://cf72ucel8x55f" path="res://Assets/Models/Station/Props/CoffeeMug/coffee_mug.gltf" id="1_r04j7"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_eg2t4"]
+height = 0.28
+radius = 0.18
+
+[node name="CoffeeMug" type="RigidBody3D"]
+
+[node name="coffee_mug" parent="." instance=ExtResource("1_r04j7")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.160372, 0)
+shape = SubResource("CylinderShape3D_eg2t4")
