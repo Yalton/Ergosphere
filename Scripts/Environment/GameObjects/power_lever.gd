@@ -2,7 +2,7 @@
 extends AwareGameObject
 
 signal power_restored
-signal object_state_updated(interaction_text: String)
+#signal object_state_updated(interaction_text: String)
 
 
 @export_group("Lever Settings")

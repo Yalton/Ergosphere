@@ -71,13 +71,14 @@ stream_4/stream = ExtResource("7_jox8g")
 atlas = ExtResource("14_qmfn3")
 region = Rect2(264, 72, 48, 48)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ui_controller", "interaction_component", "footstep_detector") groups=["player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ui_controller", "interaction_component", "footstep_detector", "flashlight_spot") groups=["player"]]
 collision_layer = 5
 collision_mask = 5
 script = ExtResource("1_23jlx")
 ui_controller = NodePath("PlayerUI")
 interaction_component = NodePath("PlayerInteractionComponent")
 footstep_detector = NodePath("FootstepSurfaceDetector")
+flashlight_spot = NodePath("Head/Camera3D/SpotLight3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -102,6 +103,16 @@ collide_with_areas = true
 
 [node name="Marker3D" type="Marker3D" parent="Head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5815)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.2, 0)
+light_energy = 4.0
+light_indirect_energy = 2.0
+light_cull_mask = 4294443007
+shadow_enabled = true
+spot_range = 18.0
+spot_attenuation = 0.5
+spot_angle = 20.3058
 
 [node name="FootstepSurfaceDetector" type="AudioStreamPlayer3D" parent="."]
 volume_db = -20.0

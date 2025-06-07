@@ -3,6 +3,7 @@ extends GameObject
 class_name AwareGameObject
 
 var module_name: String = "AwareGameObject"
+signal object_state_updated(interaction_text: String)
 
 # References to awareness components
 @export var task_aware_component: TaskAwareComponent

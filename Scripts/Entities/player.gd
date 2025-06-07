@@ -24,6 +24,7 @@ extends CharacterBody3D
 @export var mouse_sensitivity: float = 0.002
 @export var vertical_angle_limit: float = 1.0  # About 60 degrees up/down
 
+
 # Debug options
 @export var enable_debug: bool = true
 var module_name: String = "Player"
@@ -32,6 +33,14 @@ var module_name: String = "Player"
 @export var force_movement_focus: bool = true
 
 @export var PLAYER_PUSH_FORCE : float = 1.3
+
+# Flashlight settings
+@export_group("Flashlight")
+## The spotlight node that acts as the flashlight
+@export var flashlight_spot: SpotLight3D
+## Sound played when turning flashlight on/off
+@export var flashlight_click_sound: AudioStream
+
 
 # Node references
 @onready var head: Node3D = $Head
@@ -58,6 +67,10 @@ var original_camera_position: Vector3
 var original_camera_rotation: Vector3
 var is_camera_transitioning: bool = false
 
+# Flashlight state
+var flashlight_on: bool = false
+var flashlight_audio: AudioStreamPlayer3D
+
 func _ready() -> void:
 	# Register with debug logger if it exists
 	DebugLogger.register_module(module_name, enable_debug)
@@ -69,6 +82,17 @@ func _ready() -> void:
 	if camera:
 		bob_base_height = camera.position.y
 		last_bob_position = bob_base_height
+		
+	# Setup flashlight audio
+	flashlight_audio = AudioStreamPlayer3D.new()
+	flashlight_audio.name = "FlashlightAudio"
+	flashlight_audio.bus = "SFX"
+	add_child(flashlight_audio)
+	
+	# Initialize flashlight state
+	if flashlight_spot:
+		flashlight_spot.visible = false
+		flashlight_on = false
 		
 	# Debug input map state
 	if enable_debug:
@@ -95,6 +119,12 @@ func _ready() -> void:
 	DebugLogger.info(module_name, "FirstPersonController initialized")
 
 func _input(event: InputEvent) -> void:
+	# Handle flashlight toggle
+	if event.is_action_pressed("f"):
+		toggle_flashlight()
+		get_viewport().set_input_as_handled()
+		return
+	
 	# Mouse look (camera rotation)
 	if event is InputEventMouseMotion and !is_interacting_with_ui:
 		# Rotate head (left and right)
@@ -106,6 +136,21 @@ func _input(event: InputEvent) -> void:
 		
 		# Clamp vertical rotation
 		head.rotation.x = clamp(new_tilt, -vertical_angle_limit, vertical_angle_limit)
+
+func toggle_flashlight() -> void:
+	if not flashlight_spot:
+		DebugLogger.warning(module_name, "No flashlight SpotLight3D assigned")
+		return
+	
+	flashlight_on = !flashlight_on
+	flashlight_spot.visible = flashlight_on
+	
+	# Play click sound
+	if flashlight_click_sound and flashlight_audio:
+		flashlight_audio.stream = flashlight_click_sound
+		flashlight_audio.play()
+	
+	DebugLogger.debug(module_name, "Flashlight " + ("on" if flashlight_on else "off"))
 
 func _physics_process(delta: float) -> void:
 	if is_interacting_with_ui:

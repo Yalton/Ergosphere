@@ -1,7 +1,7 @@
 class_name DiegeticUIBase
 extends AwareGameObject
 
-signal object_state_updated(interaction_text: String)
+#signal object_state_updated(interaction_text: String)
 signal interaction_started
 signal interaction_ended
 

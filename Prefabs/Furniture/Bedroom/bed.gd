@@ -2,7 +2,7 @@
 extends AwareGameObject
 
 signal sleep_initiated
-signal object_state_updated(interaction_text: String)
+#signal object_state_updated(interaction_text: String)
 
 @export_group("Bed Settings")
 ## Camera position when player is looking at the bed

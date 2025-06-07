@@ -1,8 +1,8 @@
-extends GameObject
+extends AwareGameObject
 class_name Food
 
 signal consumed
-signal object_state_updated(interaction_text: String)
+#signal object_state_updated(interaction_text: String)
 
 @export_group("Food Settings")
 @export var food_name: String = "Food"
@@ -10,10 +10,10 @@ signal object_state_updated(interaction_text: String)
 @export var consume_message: String = "You eat the food"
 @export var nutrition_value: float = 50.0  # For future hunger system
 
-var module_name: String = "Food"
 
 func _ready() -> void:
 	super._ready()
+	module_name = "Food"
 	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Set display name

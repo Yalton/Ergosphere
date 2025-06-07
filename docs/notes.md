@@ -7,20 +7,13 @@ They dont like Hermes voice
 
 - Add more rigidbodies
 
-
-
 # Level Design/Geometry
 
-Add Labels to door
 
 Too clean too static - add some moving parts and some decals
 
-- Make OxygenGens rotate
 - Animate servers a bit
-- Make Storage Openable
-- Emmisive textures flicker 
-
-Add Label to Storage
+- Emmisive textures flicker
 
 ~~Improve the lighting~~
 - Too Dark, make everything lighter or blacken certain parts
