@@ -11,19 +11,20 @@ They dont like Hermes voice
 
 # Level Design/Geometry
 
-Improve the lighting
-- Maybe done
-
-- Too Dark, make everything lighter or blacken certain parts
+Add Labels to door
 
 Too clean too static - add some moving parts and some decals
 
 - Make OxygenGens rotate
 - Animate servers a bit
 - Make Storage Openable
+- Emmisive textures flicker 
 
-Add Labels to door
 Add Label to Storage
+
+~~Improve the lighting~~
+- Too Dark, make everything lighter or blacken certain parts
+- Maybe done
 
 Make allign telescope more obvious
 

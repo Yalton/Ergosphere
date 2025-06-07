@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://qr1n21uuq8fa" path="res://Prefabs/Props/window_lever.tscn" id="14_gx60g"]
 [ext_resource type="PackedScene" uid="uid://5gar5jvxjk2l" path="res://Prefabs/Levels/Station/Prefabs/window_shutters.tscn" id="14_rbxte"]
 [ext_resource type="PackedScene" uid="uid://cr88bedkk3sbc" path="res://Prefabs/Furniture/Bedroom/bed.tscn" id="16_e7jis"]
-[ext_resource type="PackedScene" uid="uid://c7n25om7olp7" path="res://Prefabs/Props/Monitors/memory_block_monitor.tscn" id="17_02mtw"]
+[ext_resource type="PackedScene" uid="uid://bc74vtur5o21t" path="res://Prefabs/Furniture/StorageRoom/StorageWall.tscn" id="17_02mtw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
 shader = ExtResource("1_iv3f0")
@@ -338,5 +338,5 @@ window_shutters = NodePath("../WindowShutters")
 [node name="Bed" parent="." instance=ExtResource("16_e7jis")]
 transform = Transform3D(-4.79613, 0, 2.09645e-07, 0, 4.79613, 0, -2.09645e-07, 0, -4.79613, 11, -1, 1)
 
-[node name="memory_block_monitor" parent="." instance=ExtResource("17_02mtw")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -1, 1, -9)
+[node name="StorageWall" parent="." instance=ExtResource("17_02mtw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -19)

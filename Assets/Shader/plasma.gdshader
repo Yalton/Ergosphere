@@ -35,13 +35,13 @@ float getPlasmaX(float y, float verticalFade, float offset) {
 void fragment() {
     vec2 uv = UV;
     vec2 space = (UV - vec2(0.5)) * 2.0 * scale;
-    
+
     float horizontalFade = 1.0 - (cos(uv.x * 6.28) * 0.5 + 0.5);
     float verticalFade = 1.0 - (cos(uv.y * 6.28) * 0.5 + 0.5);
-    
+
     float time = reverse_direction ? -TIME : TIME;
     vec4 lines = vec4(0);
-    
+
     for (int l = 0; l < lines_per_group; l++) {
         float normalizedLineIndex = float(l) / float(lines_per_group);
         float offsetTime = time * offset_speed * overall_speed;
@@ -51,15 +51,15 @@ void fragment() {
         float offset = random(offsetPosition + offsetTime * (1.0 + normalizedLineIndex)) * mix(min_offset_spread, max_offset_spread, verticalFade);
         float linePosition = getPlasmaX(space.y, verticalFade, offset);
         float line = drawSmoothLine(linePosition, halfWidth, space.x) / 2.0 + drawCrispLine(linePosition, halfWidth * 0.15, space.x);
-        
+
         float circleY = mod(float(l) + time * line_speed * overall_speed, 25.0) - 12.0;
         vec2 circlePosition = vec2(getPlasmaX(circleY, verticalFade, offset), circleY);
         float circle = drawCircle(circlePosition, 0.01, space) * 4.0;
-        
+
         line = line + circle;
         lines += line * line_color * rand;
     }
-    
+
     ALBEDO = lines.rgb;
     ALPHA = lines.a;
     EMISSION = lines.rgb * emission_strength;
