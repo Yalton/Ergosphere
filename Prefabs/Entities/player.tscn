@@ -24,7 +24,6 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bxc72"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_66sxq"]
-auto_exposure_enabled = true
 dof_blur_near_enabled = true
 
 [sub_resource type="CompositorEffect" id="CompositorEffect_66sxq"]

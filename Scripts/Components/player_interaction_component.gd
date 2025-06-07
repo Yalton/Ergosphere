@@ -98,7 +98,7 @@ func interact_with_current() -> void:
 			DebugLogger.debug(module_name, "Calling interact on component")
 			current_interactable.interact(self)
 
-func find_interaction_component(node) -> InteractionComponent:
+func find_interaction_component(node) -> Node:
 	# First check if the node itself has interaction text
 	if node.has_method("get_interaction_text") or node.get("interaction_text") != null:
 		return node
