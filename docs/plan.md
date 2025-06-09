@@ -85,8 +85,6 @@ Clean up code
 Simplify task resources
 
 ----
-Sleep camera tween needs fixing
-
 Impact sounds on props
 
 Sounds coming through walls should be muted
