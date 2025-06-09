@@ -84,9 +84,19 @@ Clean up code
 
 Simplify task resources
 
-Impact sounds on props 
+----
+Sleep camera tween needs fixing
+
+Impact sounds on props
+
+Sounds coming through walls should be muted
+----
+
+
+Using toilet is brown note
 
 Add Typable terminal
+
 
 Make failing emergency tasks have consequences
 

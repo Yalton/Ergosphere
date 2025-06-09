@@ -341,7 +341,7 @@ transform = Transform3D(-0.0371495, 0, -0.99931, 0, 1, 0, 0.99931, 0, -0.0371495
 window_shutters = NodePath("../WindowShutters")
 
 [node name="Bed" parent="." instance=ExtResource("16_e7jis")]
-transform = Transform3D(-4.79613, 0, 2.09645e-07, 0, 4.79613, 0, -2.09645e-07, 0, -4.79613, 11, -1, 1)
+transform = Transform3D(5.11591e-13, 0, -4.79613, 0, 4.79613, 0, 4.79613, 0, 5.11591e-13, 11, -1, 1)
 
 [node name="StorageWall" parent="." instance=ExtResource("17_02mtw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -19)

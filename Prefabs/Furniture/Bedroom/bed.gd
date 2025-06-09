@@ -38,7 +38,8 @@ func _ready() -> void:
 
 func interact(player_interaction: PlayerInteractionComponent) -> void:
 	# Check if sleep task is available
-	task_aware_component.update_task_availability()
+	if task_aware_component: 
+		task_aware_component.update_task_availability()
 	if task_aware_component and not task_aware_component.is_task_available:
 		DebugLogger.debug(module_name, "Sleep task not available")
 		return
@@ -50,7 +51,7 @@ func interact(player_interaction: PlayerInteractionComponent) -> void:
 		Audio.play_sound(sleep_sound)
 	
 	# Get player reference
-	var player = player_interaction.get_parent()
+	var player : Player = player_interaction.get_parent()
 	if not player:
 		DebugLogger.error(module_name, "Could not find player")
 		return
@@ -59,7 +60,7 @@ func interact(player_interaction: PlayerInteractionComponent) -> void:
 	if camera_position:
 		player.move_camera_to_position(
 			camera_position.global_position,
-			camera_rotation,
+			camera_position.rotation,
 			camera_transition_duration
 		)
 	else:

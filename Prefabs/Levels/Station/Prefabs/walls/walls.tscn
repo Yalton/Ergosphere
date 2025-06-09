@@ -1,4 +1,4 @@
-[gd_scene load_steps=109 format=4 uid="uid://ebcdmubkup1v"]
+[gd_scene load_steps=111 format=4 uid="uid://ebcdmubkup1v"]
 
 [ext_resource type="Texture2D" uid="uid://bqtx0vn5bcavd" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Color.png" id="1_1nd2m"]
 [ext_resource type="PackedScene" uid="uid://c666mkxecwu22" path="res://Prefabs/Furniture/Airlock/airlock_door.tscn" id="1_y2sej"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://b65om1xneamrg" path="res://Prefabs/Levels/Station/Prefabs/corner_piece.tscn" id="11_shegq"]
 [ext_resource type="PackedScene" uid="uid://ckox6b5goeg7t" path="res://Prefabs/Levels/Station/Prefabs/walls/deco_wall.tscn" id="12_jsiy1"]
 [ext_resource type="PackedScene" uid="uid://l365plwhy5j3" path="res://Prefabs/Levels/Station/Prefabs/alt_corner_piece.tscn" id="12_shegq"]
+[ext_resource type="Texture2D" uid="uid://c3rma3tbmt52b" path="res://Assets/Graphics/Decals/coffe-stain.png" id="13_g0wc8"]
 [ext_resource type="PackedScene" uid="uid://c8cvp1fyqnbwd" path="res://Prefabs/Levels/Station/Prefabs/walls/observatory_countertop.tscn" id="13_gkafq"]
 [ext_resource type="Texture2D" uid="uid://x5em7ov5ugjv" path="res://Assets/Graphics/Decals/Scratch/scratch_2.png" id="13_l4ytj"]
 [ext_resource type="PackedScene" uid="uid://dk8m64n5mwmsl" path="res://Prefabs/Levels/Station/Prefabs/walls/alt_deco_wall.tscn" id="13_p6oy1"]
@@ -27,6 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://dacxvckc7pa24" path="res://Prefabs/Levels/Station/Prefabs/walls/counter_wall.tscn" id="19_q2pf8"]
 [ext_resource type="PackedScene" uid="uid://m713b2lgjoyd" path="res://Prefabs/Levels/Station/Prefabs/walls/flat_wall.tscn" id="20_57vb2"]
 [ext_resource type="PackedScene" uid="uid://c3fheu67ego5" path="res://Prefabs/Levels/Station/Prefabs/walls/large_counter_wall.tscn" id="20_tl707"]
+[ext_resource type="Texture2D" uid="uid://bn541ptx7loju" path="res://Assets/Graphics/Decals/blood_splatter.png" id="26_be4mx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xg5pj"]
 resource_name = "GreyMetal-Dithered.144"
@@ -1541,6 +1543,12 @@ transform = Transform3D(-4.37114e-08, 0, 0.999999, 0, 1, 0, -0.999999, 0, -4.371
 [node name="LargeWall16" parent="LargeWalls" instance=ExtResource("11_1nd2m")]
 transform = Transform3D(-4.37114e-08, 0, -0.999999, 0, 1, 0, 0.999999, 0, -4.37114e-08, -35, -2, -24)
 
+[node name="Decal" type="Decal" parent="LargeWalls"]
+transform = Transform3D(-4.37114e-08, -2.11758e-22, 0.999999, -0.866024, -0.5, -3.78552e-08, 0.499999, -0.866025, 2.18557e-08, 36, 2, -36)
+size = Vector3(2, 6, 6)
+texture_albedo = ExtResource("26_be4mx")
+modulate = Color(0.29219, 0.29219, 0.29219, 1)
+
 [node name="LargeWall17" parent="LargeWalls" instance=ExtResource("11_1nd2m")]
 transform = Transform3D(-4.37114e-08, 0, 0.999999, 0, 1, 0, -0.999999, 0, -4.37114e-08, 36, -2, -36)
 
@@ -1961,9 +1969,10 @@ size = Vector3(2, 8, 8)
 texture_albedo = ExtResource("14_thtk0")
 
 [node name="Decal8" type="Decal" parent="Decals"]
-transform = Transform3D(-4.37114e-08, 0, -0.999999, -0.258819, 0.965926, 1.13133e-08, 0.965925, 0.258819, -4.2222e-08, -37, 1, -24)
+transform = Transform3D(-0.25, 0.933013, -0.258819, -0.0669873, 0.25, 0.965925, 0.965925, 0.258819, -4.22972e-08, -35, 2, -24)
 size = Vector3(2, 6, 6)
-texture_albedo = ExtResource("14_7lqf0")
+texture_albedo = ExtResource("13_g0wc8")
+modulate = Color(0, 0, 0, 1)
 
 [node name="Decal" type="Decal" parent="Decals"]
 transform = Transform3D(-0.0669873, 0.25, -0.965924, -0.25, 0.933013, 0.258819, 0.965925, 0.258819, -4.22219e-08, 34, 1, -24)
@@ -1971,9 +1980,10 @@ size = Vector3(2, 6, 6)
 texture_albedo = ExtResource("15_thtk0")
 
 [node name="Decal12" type="Decal" parent="Decals"]
-transform = Transform3D(-0.965925, -0.258819, -8.44438e-08, -0.258819, 0.965926, -2.26267e-08, 8.74227e-08, 0, -0.999999, -6, 1, -42)
+transform = Transform3D(-0.965925, -0.258819, -8.44438e-08, -0.258819, 0.965926, -2.26267e-08, 8.74227e-08, 0, -0.999999, -6, 1, -38)
 size = Vector3(2, 6, 6)
-texture_albedo = ExtResource("15_thtk0")
+texture_albedo = ExtResource("26_be4mx")
+modulate = Color(0.216667, 1, 0, 1)
 
 [node name="Decal2" type="Decal" parent="Decals"]
 transform = Transform3D(-4.37113e-08, -1, 0, 0.999999, -4.37114e-08, 0, 0, 0, 0.999999, 6, 1, -42)
@@ -2006,9 +2016,10 @@ size = Vector3(3, 8, 8)
 texture_albedo = ExtResource("13_l4ytj")
 
 [node name="Decal10" type="Decal" parent="Decals"]
-transform = Transform3D(-4.37113e-08, 1.77636e-15, 0.999999, -0.258819, 0.965926, -1.13133e-08, -0.965925, -0.258819, -4.22219e-08, 43, 2, 10)
+transform = Transform3D(0.129409, -0.482963, 0.866024, -0.224144, 0.836516, 0.499999, -0.965925, -0.258819, -4.22219e-08, 44, 2, 10)
 size = Vector3(2, 8, 8)
-texture_albedo = ExtResource("14_7lqf0")
+texture_albedo = ExtResource("13_g0wc8")
+modulate = Color(0, 0.533333, 1, 1)
 
 [node name="Decal4" type="Decal" parent="Decals"]
 transform = Transform3D(-4.37113e-08, 1.77636e-15, 0.999999, 0.5, 0.866025, 2.18557e-08, -0.866024, 0.499999, -3.78551e-08, -47, 2, 10)
