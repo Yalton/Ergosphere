@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwn1wtqypemwp"]
+
+[ext_resource type="PackedScene" uid="uid://cac1kv2eko26o" path="res://Assets/Models/Station/Props/measuring_tape/measuring_tape.gltf" id="1_8hmxc"]
+[ext_resource type="ArrayOccluder3D" uid="uid://bdflq3tjq8r5v" path="res://Assets/Occluders/Props/measuring_tape.occ" id="2_rfefa"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rfefa"]
+size = Vector3(0.14, 0.3, 0.34)
+
+[node name="measuring_tape" type="RigidBody3D"]
+
+[node name="measuring_tape" parent="." instance=ExtResource("1_8hmxc")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.162753, 0)
+shape = SubResource("BoxShape3D_rfefa")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("2_rfefa")

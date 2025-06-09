@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bawvyf2m65vnk"]
+
+[ext_resource type="PackedScene" uid="uid://co2kxnw4r4amx" path="res://Assets/Models/Station/Props/toolbox/Toolbox.gltf" id="1_vic4l"]
+[ext_resource type="ArrayOccluder3D" uid="uid://b27yvf5creytx" path="res://Assets/Occluders/Props/toolbox.occ" id="2_f100d"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f100d"]
+size = Vector3(1.8, 1.2, 1.11)
+
+[node name="toolbox" type="RigidBody3D"]
+
+[node name="Toolbox" parent="." instance=ExtResource("1_vic4l")]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.618785, 0)
+shape = SubResource("BoxShape3D_f100d")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("2_f100d")

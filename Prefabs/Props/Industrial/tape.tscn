@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcaolvvqugklg"]
+
+[ext_resource type="PackedScene" uid="uid://hhpw0ijq80g6" path="res://Assets/Models/Station/Props/tape/tape.gltf" id="1_qf1mw"]
+[ext_resource type="ArrayOccluder3D" uid="uid://br57jw10qxieq" path="res://Assets/Occluders/Props/tape.occ" id="2_waevo"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_waevo"]
+height = 0.075
+radius = 0.195
+
+[node name="tape" type="RigidBody3D"]
+
+[node name="tape" parent="." instance=ExtResource("1_qf1mw")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0421678, 0)
+shape = SubResource("CylinderShape3D_waevo")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("2_waevo")

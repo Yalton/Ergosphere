@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://fgp838ui4wg7"]
+
+[ext_resource type="PackedScene" uid="uid://v618xcixdkhf" path="res://Assets/Models/Station/Props/headphones/headphones.gltf" id="1_wa7in"]
+[ext_resource type="ArrayOccluder3D" uid="uid://6ff5hnmtqhjn" path="res://Assets/Occluders/Props/headphones.occ" id="2_csyu1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_csyu1"]
+size = Vector3(0.87, 0.225, 0.93)
+
+[node name="headphones" type="RigidBody3D"]
+
+[node name="headphones" parent="." instance=ExtResource("1_wa7in")]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.284099, 0.130115, 0)
+shape = SubResource("BoxShape3D_csyu1")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("2_csyu1")

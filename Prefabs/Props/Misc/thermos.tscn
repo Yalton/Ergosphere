@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bycorf7qnnybe"]
+
+[ext_resource type="PackedScene" uid="uid://b4x8aorgen0vi" path="res://Assets/Models/Station/Props/Thermos/thermos.gltf" id="1_wdga8"]
+[ext_resource type="ArrayOccluder3D" uid="uid://dg3e0e0emytt8" path="res://Assets/Occluders/Props/thermos.occ" id="2_r0lyw"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_r0lyw"]
+height = 0.88
+radius = 0.144
+
+[node name="thermos" type="RigidBody3D"]
+
+[node name="thermos" parent="." instance=ExtResource("1_wdga8")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.448745, 0)
+shape = SubResource("CylinderShape3D_r0lyw")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("2_r0lyw")

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmr1x31d3yw7q"]
+
+[ext_resource type="PackedScene" uid="uid://bf3h36banwg4c" path="res://Assets/Models/Station/Props/ashtray/ashtray.gltf" id="1_qfdit"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_21yu0"]
+height = 0.12
+radius = 0.3
+
+[node name="ashtray" type="RigidBody3D"]
+
+[node name="ashtray" parent="." instance=ExtResource("1_qfdit")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0613818, 0)
+shape = SubResource("CylinderShape3D_21yu0")

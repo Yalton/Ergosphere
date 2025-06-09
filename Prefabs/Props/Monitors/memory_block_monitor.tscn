@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://c7n25om7olp7"]
+[gd_scene load_steps=25 format=4 uid="uid://c7n25om7olp7"]
 
 [ext_resource type="Texture2D" uid="uid://be7a8jj6erek0" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Color.png" id="1_3igau"]
 [ext_resource type="Script" uid="uid://of78jwwcyi1w" path="res://Scripts/Environment/GameObjects/memory_block_monitor.gd" id="1_aoay5"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="8_0kvyb"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="8_enhsa"]
 [ext_resource type="PackedScene" uid="uid://bdy6quxbmyj42" path="res://Prefabs/UI/memory_purge_game.tscn" id="9_14863"]
+[ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="9_i5rsv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khebe"]
 resource_name = "Screen"
@@ -184,6 +185,8 @@ skin = SubResource("Skin_ou3l8")
 [node name="TaskAwareComponent" parent="." instance=ExtResource("8_0kvyb")]
 associated_task_id = "defragment_memory"
 
+[node name="StateAwareComponent" parent="." instance=ExtResource("9_i5rsv")]
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00816521, 2.05379, -0.549724)
 shape = SubResource("BoxShape3D_sta57")
@@ -191,11 +194,12 @@ shape = SubResource("BoxShape3D_sta57")
 [node name="BasicInteraction" parent="." instance=ExtResource("7_5xh7d")]
 script = null
 
-[node name="SubViewport" type="SubViewport" parent="."]
+[node name="SubViewport" type="SubViewport" parent="." node_paths=PackedStringArray("display_mesh")]
 size = Vector2i(640, 472)
 size_2d_override = Vector2i(1920, 1080)
 size_2d_override_stretch = true
 script = ExtResource("8_enhsa")
+display_mesh = NodePath("../Display")
 
 [node name="memory_purge_game" parent="SubViewport" instance=ExtResource("9_14863")]
 

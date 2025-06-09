@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsdl3algkhg1f"]
+
+[ext_resource type="PackedScene" uid="uid://byyes5yi5bobf" path="res://Assets/Models/Station/Props/Wrenches/wrench_2/wrench_2.gltf" id="1_v5cnt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_43see"]
+size = Vector3(0.235, 0.07, 0.83)
+
+[node name="wrench_2" type="RigidBody3D"]
+
+[node name="wrench_2" parent="." instance=ExtResource("1_v5cnt")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0188355, 0)
+shape = SubResource("BoxShape3D_43see")

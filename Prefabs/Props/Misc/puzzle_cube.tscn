@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://v273p56g7y0u"]
+
+[ext_resource type="PackedScene" uid="uid://cf1v6wxmxtoe5" path="res://Assets/Models/Station/Props/PuzzleCube/puzzle_cube.gltf" id="1_2jrfn"]
+[ext_resource type="ArrayOccluder3D" uid="uid://f3frfhc3afut" path="res://Assets/Occluders/Props/puzzle_cube.occ" id="2_n6og4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n6og4"]
+size = Vector3(0.24, 0.24, 0.24)
+
+[node name="puzzle_cube" type="RigidBody3D"]
+
+[node name="puzzle_cube" parent="." instance=ExtResource("1_2jrfn")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.119462, 0)
+shape = SubResource("BoxShape3D_n6og4")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("2_n6og4")

@@ -1,9 +1,8 @@
 # GameManager.gd
 extends Node
 
-# Singleton reference
-signal day_reset  # New signal for resetting things when starting a new day
-signal game_started  # New signal for when the game actually starts
+signal day_reset
+signal game_started
 
 @export var enable_debug: bool = true
 var module_name: String = "GameManager"
@@ -24,9 +23,6 @@ var task_manager: TaskManager
 var is_initialized: bool = false
 
 func _ready() -> void:
-	# Set up singleton
-	
-	# Register with debug logger
 	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Find managers
@@ -46,28 +42,22 @@ func _ready() -> void:
 		DebugLogger.error(module_name, "TaskManager not found!")
 		return
 	
-	# Connect task manager signals (only once)
-	if not task_manager.daily_tasks_completed.is_connected(_on_daily_tasks_completed):
-		task_manager.daily_tasks_completed.connect(_on_daily_tasks_completed)
-		task_manager.emergency_task_failed.connect(_on_emergency_task_failed)
+	# Connect task manager signals using CommonUtils
+	CommonUtils.connect_signal_safe(task_manager, "daily_tasks_completed", self, "_on_daily_tasks_completed")
+	CommonUtils.connect_signal_safe(task_manager, "emergency_task_failed", self, "_on_emergency_task_failed")
 	
 	DebugLogger.info(module_name, "GameManager ready, waiting for game start")
 	
-	# Auto-start the game if this is the first load
-	# This ensures the game works even if start_game() isn't called from menu
 	if auto_start_day:
-		var auto_start_timer = get_tree().create_timer(0.1)
-		auto_start_timer.timeout.connect(func(): 
+		CommonUtils.create_one_shot_timer(self, 0.1, func(): 
 			if not is_initialized:
 				DebugLogger.info(module_name, "Auto-starting game")
 				start_game()
 		)
 
-# This should be called when the game actually starts (from main menu or elsewhere)
 func start_game() -> void:
 	DebugLogger.info(module_name, "Starting game - initializing all systems")
 	
-	# Initialize managers (which will also reset them)
 	event_manager.initialize(state_manager)
 	state_manager.initialize()
 	task_manager.initialize(state_manager, event_manager)
@@ -76,12 +66,9 @@ func start_game() -> void:
 	
 	DebugLogger.info(module_name, "All systems initialized and reset")
 	
-	# Start first day if enabled
 	if auto_start_day:
-		var start_timer = get_tree().create_timer(1.0)
-		start_timer.timeout.connect(start_new_day)
+		CommonUtils.create_one_shot_timer(self, 1.0, start_new_day)
 	
-	# Test events if enabled
 	if auto_start_test:
 		_setup_test_events()
 	
@@ -89,16 +76,13 @@ func start_game() -> void:
 
 func _setup_test_events() -> void:
 	if test_power_outage_delay > 0:
-		var power_timer = get_tree().create_timer(test_power_outage_delay)
-		power_timer.timeout.connect(_test_power_outage)
+		CommonUtils.create_one_shot_timer(self, test_power_outage_delay, _test_power_outage)
 	
 	if test_oxygen_failure_delay > 0:
-		var oxygen_timer = get_tree().create_timer(test_oxygen_failure_delay)
-		oxygen_timer.timeout.connect(_test_oxygen_failure)
+		CommonUtils.create_one_shot_timer(self, test_oxygen_failure_delay, _test_oxygen_failure)
 	
 	if test_heatsink_failure_delay > 0:
-		var heatsink_timer = get_tree().create_timer(test_heatsink_failure_delay)
-		heatsink_timer.timeout.connect(_test_heatsink_failure)
+		CommonUtils.create_one_shot_timer(self, test_heatsink_failure_delay, _test_heatsink_failure)
 
 func _test_power_outage() -> void:
 	DebugLogger.debug(module_name, "Testing power outage")
@@ -112,7 +96,6 @@ func _test_heatsink_failure() -> void:
 	DebugLogger.debug(module_name, "Testing heatsink failure")
 	trigger_heatsink_failure()
 
-# Public API for triggering events
 func trigger_power_outage() -> void:
 	if not is_initialized:
 		DebugLogger.warning(module_name, "Cannot trigger events before game start")
@@ -121,8 +104,12 @@ func trigger_power_outage() -> void:
 	DebugLogger.debug(module_name, "Triggering power outage")
 	event_manager.trigger_event("power_outage")
 	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
-	get_player().interaction_component.send_hint("", "WARNING: Power Outage has occured")
-	# Power outage creates an emergency task
+	
+	# Use CommonUtils to get player and send message
+	var player = CommonUtils.get_player()
+	if player and player.interaction_component:
+		player.interaction_component.send_hint("", "WARNING: Power Outage has occured")
+	
 	task_manager.trigger_emergency_task("restore_power")
 
 func trigger_oxygen_failure() -> void:
@@ -133,8 +120,11 @@ func trigger_oxygen_failure() -> void:
 	DebugLogger.debug(module_name, "Triggering oxygen failure")
 	event_manager.trigger_event("oxygen_failure")
 	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
-	get_player().interaction_component.send_hint("", "WARNING: Oxygen Generator has failed")
-	# Oxygen failure creates an emergency task
+	
+	var player = CommonUtils.get_player()
+	if player and player.interaction_component:
+		player.interaction_component.send_hint("", "WARNING: Oxygen Generator has failed")
+		
 	task_manager.trigger_emergency_task("replace_oxygen_filter")
 
 func trigger_heatsink_failure() -> void:
@@ -145,25 +135,24 @@ func trigger_heatsink_failure() -> void:
 	DebugLogger.debug(module_name, "Triggering heatsink failure")
 	event_manager.trigger_event("heatsink_failure")
 	Audio.play_sound(alarm_audio, true, 1.0,  -5.0,  "SFX")
-	get_player().interaction_component.send_hint("", "WARNING: Engine Heatsink Failure")
-	# Heatsink failure creates an emergency task
+	
+	var player = CommonUtils.get_player()
+	if player and player.interaction_component:
+		player.interaction_component.send_hint("", "WARNING: Engine Heatsink Failure")
+		
 	task_manager.trigger_emergency_task("replace_heatsink")
 
 func restore_power() -> void:
 	DebugLogger.debug(module_name, "Restoring power")
 	event_manager.reverse_event("power_outage")
-	# Complete the emergency task
 	task_manager.complete_task("restore_power")
 
-# Called by interactables or other systems
 func on_power_lever_interacted() -> void:
 	restore_power()
 
-# Called when a task is completed at an object
 func on_task_completed_at_object(task_id: String) -> void:
 	DebugLogger.debug(module_name, "Task completed at object: " + task_id)
 	
-	# Special handling for certain tasks
 	match task_id:
 		"restore_power":
 			event_manager.reverse_event("power_outage")
@@ -172,11 +161,9 @@ func on_task_completed_at_object(task_id: String) -> void:
 		"replace_heatsink":
 			event_manager.end_event("heatsink_failure")
 
-# Task system integration
 func start_new_day() -> void:
 	DebugLogger.info(module_name, "Starting new day")
 	
-	# Don't emit day_reset on day 1
 	if task_manager.current_day > 1:
 		DebugLogger.info(module_name, "Emitting day_reset signal")
 		day_reset.emit()
@@ -185,28 +172,15 @@ func start_new_day() -> void:
 
 func _on_daily_tasks_completed() -> void:
 	DebugLogger.info(module_name, "All daily tasks completed!")
-	# You can add day transition logic here
-	# For example: fade to black, show day complete screen, etc.
 
 func _on_emergency_task_failed(task_id: String) -> void:
 	DebugLogger.warning(module_name, "Emergency task failed: " + task_id)
-	# Handle failure consequences
-	match task_id:
-		"restore_power":
-			# Maybe damage equipment or reduce morale
-			pass
-		"replace_oxygen_filter":
-			# Maybe damage health
-			pass
-		"replace_heatsink":
-			# Maybe cause explosion
-			pass
+	# Handle failure consequences based on task_id
 
-# Get current game state
+# Simplified helper methods using CommonUtils
 func is_power_on() -> bool:
-	return state_manager.get_state("power") == "on"
+	return CommonUtils.check_game_state("power", "on")
 
-# Helper methods for UI or other systems
 func get_current_day() -> int:
 	return task_manager.current_day if task_manager else 0
 
@@ -216,11 +190,4 @@ func get_todays_tasks() -> Array:
 func get_active_emergency_tasks() -> Array:
 	return task_manager.get_active_emergency_tasks() if task_manager else []
 
-func get_player() -> Player: 
-	# Find player and show message
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		var player = players[0]
-		return player
-	
-	return null
+# Remove get_player() - use CommonUtils.get_player() instead

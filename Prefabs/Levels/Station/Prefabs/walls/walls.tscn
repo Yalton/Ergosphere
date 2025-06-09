@@ -1,4 +1,4 @@
-[gd_scene load_steps=100 format=4 uid="uid://ebcdmubkup1v"]
+[gd_scene load_steps=107 format=4 uid="uid://ebcdmubkup1v"]
 
 [ext_resource type="Texture2D" uid="uid://bqtx0vn5bcavd" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Color.png" id="1_1nd2m"]
 [ext_resource type="PackedScene" uid="uid://c666mkxecwu22" path="res://Prefabs/Furniture/Airlock/airlock_door.tscn" id="1_y2sej"]
@@ -17,7 +17,14 @@
 [ext_resource type="PackedScene" uid="uid://ckox6b5goeg7t" path="res://Prefabs/Levels/Station/Prefabs/walls/deco_wall.tscn" id="12_jsiy1"]
 [ext_resource type="PackedScene" uid="uid://l365plwhy5j3" path="res://Prefabs/Levels/Station/Prefabs/alt_corner_piece.tscn" id="12_shegq"]
 [ext_resource type="PackedScene" uid="uid://c8cvp1fyqnbwd" path="res://Prefabs/Levels/Station/Prefabs/walls/observatory_countertop.tscn" id="13_gkafq"]
+[ext_resource type="Texture2D" uid="uid://x5em7ov5ugjv" path="res://Assets/Graphics/Decals/Scratch/scratch_2.png" id="13_l4ytj"]
 [ext_resource type="PackedScene" uid="uid://dk8m64n5mwmsl" path="res://Prefabs/Levels/Station/Prefabs/walls/alt_deco_wall.tscn" id="13_p6oy1"]
+[ext_resource type="Texture2D" uid="uid://6q7otux16g5s" path="res://Assets/Graphics/Decals/Scratch/scratch_4.png" id="14_7lqf0"]
+[ext_resource type="Texture2D" uid="uid://brid3qbe3s5yj" path="res://Assets/Graphics/Decals/Scratch/scratch_5.png" id="14_thtk0"]
+[ext_resource type="Texture2D" uid="uid://cfmxy60ytqi1r" path="res://Assets/Graphics/Decals/Scratch/scratch.png" id="15_thtk0"]
+[ext_resource type="PackedScene" uid="uid://dacxvckc7pa24" path="res://Prefabs/Levels/Station/Prefabs/walls/counter_wall.tscn" id="19_q2pf8"]
+[ext_resource type="PackedScene" uid="uid://m713b2lgjoyd" path="res://Prefabs/Levels/Station/Prefabs/walls/flat_wall.tscn" id="20_57vb2"]
+[ext_resource type="PackedScene" uid="uid://c3fheu67ego5" path="res://Prefabs/Levels/Station/Prefabs/walls/large_counter_wall.tscn" id="20_tl707"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xg5pj"]
 resource_name = "GreyMetal-Dithered.144"
@@ -1471,10 +1478,10 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 67, -2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67, -2, 29)
 
 [node name="DiamondWall7" parent="DiamondWalls" instance=ExtResource("10_bikt7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67, -2, 29)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, -2, 29)
 
 [node name="DiamondWall8" parent="DiamondWalls" instance=ExtResource("10_bikt7")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -67, -2, 3)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -59, -2, 3)
 
 [node name="DiamondWall9" parent="DiamondWalls" instance=ExtResource("10_bikt7")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6, -2, -36)
@@ -1556,26 +1563,8 @@ transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 6, -2, -14)
 [node name="LargeWall24" parent="LargeWalls" instance=ExtResource("11_1nd2m")]
 transform = Transform3D(-0.999999, 0, -8.74227e-08, 0, 1, 0, 8.74227e-08, 0, -0.999999, -6, -2, -14)
 
-[node name="LargeWall25" parent="LargeWalls" instance=ExtResource("11_1nd2m")]
-transform = Transform3D(-0.999999, 0, -8.74227e-08, 0, 1, 0, 8.74227e-08, 0, -0.999999, -90, -2, 12)
-
-[node name="LargeWall26" parent="LargeWalls" instance=ExtResource("11_1nd2m")]
-transform = Transform3D(-0.999999, 0, -8.74227e-08, 0, 1, 0, 8.74227e-08, 0, -0.999999, -90, -2, 20)
-
-[node name="LargeWall27" parent="LargeWalls" instance=ExtResource("11_1nd2m")]
-transform = Transform3D(-4.37113e-08, 0, -0.999999, 0, 1, 0, 0.999999, 0, -4.37113e-08, -85, -2, 29)
-
-[node name="LargeWall28" parent="LargeWalls" instance=ExtResource("11_1nd2m")]
-transform = Transform3D(-4.37113e-08, 0, -0.999999, 0, 1, 0, 0.999999, 0, -4.37113e-08, -61, -2, 29)
-
-[node name="LargeWall29" parent="LargeWalls" instance=ExtResource("11_1nd2m")]
-transform = Transform3D(-4.37113e-08, 0, 0.999999, 0, 1, 0, -0.999999, 0, -4.37113e-08, -85, -2, 3)
-
 [node name="LargeWall30" parent="LargeWalls" instance=ExtResource("11_1nd2m")]
 transform = Transform3D(-4.37113e-08, 0, 0.999999, 0, 1, 0, -0.999999, 0, -4.37113e-08, -73, -2, 3)
-
-[node name="LargeWall31" parent="LargeWalls" instance=ExtResource("11_1nd2m")]
-transform = Transform3D(-4.37113e-08, 0, 0.999999, 0, 1, 0, -0.999999, 0, -4.37113e-08, -61, -2, 3)
 
 [node name="LargeWall32" parent="LargeWalls" instance=ExtResource("11_1nd2m")]
 transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, -56, -2, 8)
@@ -1760,12 +1749,6 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -79, -
 [node name="AltDecoWall22" parent="AltDecoWall" instance=ExtResource("13_p6oy1")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -79, -2, -20)
 
-[node name="AltDecoWall23" parent="AltDecoWall" instance=ExtResource("13_p6oy1")]
-transform = Transform3D(-1, 0, -8.74227e-08, 0, 1, 0, 8.74227e-08, 0, -1, -52.1429, -2, -43)
-
-[node name="AltDecoWall24" parent="AltDecoWall" instance=ExtResource("13_p6oy1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52, -2, -17)
-
 [node name="AltDecoWall25" parent="AltDecoWall" instance=ExtResource("13_p6oy1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41, -2, -24)
 
@@ -1776,10 +1759,10 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -90, -
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -90, -2, 26)
 
 [node name="AltDecoWall28" parent="AltDecoWall" instance=ExtResource("13_p6oy1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -79, -2, 29)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -87, -2, 29)
 
 [node name="AltDecoWall29" parent="AltDecoWall" instance=ExtResource("13_p6oy1")]
-transform = Transform3D(-1, 0, 8.74227e-08, 0, 1, 0, -8.74227e-08, 0, -1, -79, -2, 3)
+transform = Transform3D(-1, 0, 8.74227e-08, 0, 1, 0, -8.74227e-08, 0, -1, -87, -2, 3)
 
 [node name="AltDecoWall30" parent="AltDecoWall" instance=ExtResource("13_p6oy1")]
 transform = Transform3D(-1, 0, 8.74227e-08, 0, 1, 0, -8.74227e-08, 0, -1, -41, -2, -36)
@@ -1932,3 +1915,105 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 8, 16)
 mesh = SubResource("ArrayMesh_amcw8")
 skeleton = NodePath("")
+
+[node name="SpecialWalls" type="Node3D" parent="."]
+
+[node name="CounterWall" parent="SpecialWalls" instance=ExtResource("19_q2pf8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.1429, -2, -43)
+
+[node name="large_counter_wall" parent="SpecialWalls" instance=ExtResource("20_tl707")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90, -2, 16)
+
+[node name="CounterWall2" parent="SpecialWalls" instance=ExtResource("19_q2pf8")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -52, -2, -17)
+
+[node name="flat_wall" parent="SpecialWalls" instance=ExtResource("20_57vb2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -83, -2, 29)
+
+[node name="flat_wall3" parent="SpecialWalls" instance=ExtResource("20_57vb2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -79, -2, 29)
+
+[node name="flat_wall2" parent="SpecialWalls" instance=ExtResource("20_57vb2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63, -2, 29)
+
+[node name="flat_wall4" parent="SpecialWalls" instance=ExtResource("20_57vb2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67, -2, 29)
+
+[node name="flat_wall5" parent="SpecialWalls" instance=ExtResource("20_57vb2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -83, -2, 3)
+
+[node name="flat_wall6" parent="SpecialWalls" instance=ExtResource("20_57vb2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -79, -2, 3)
+
+[node name="flat_wall7" parent="SpecialWalls" instance=ExtResource("20_57vb2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63, -2, 3)
+
+[node name="flat_wall8" parent="SpecialWalls" instance=ExtResource("20_57vb2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67, -2, 3)
+
+[node name="Decals" type="Node3D" parent="."]
+
+[node name="Decal9" type="Decal" parent="Decals"]
+transform = Transform3D(-4.37114e-08, 0, 1, -0.258819, 0.965926, -1.13133e-08, -0.965926, -0.258819, -4.2222e-08, -18, 1, -36)
+size = Vector3(2, 8, 8)
+texture_albedo = ExtResource("14_thtk0")
+
+[node name="Decal8" type="Decal" parent="Decals"]
+transform = Transform3D(-4.37114e-08, 0, -0.999999, -0.258819, 0.965926, 1.13133e-08, 0.965925, 0.258819, -4.2222e-08, -37, 1, -24)
+size = Vector3(2, 6, 6)
+texture_albedo = ExtResource("14_7lqf0")
+
+[node name="Decal" type="Decal" parent="Decals"]
+transform = Transform3D(-0.0669873, 0.25, -0.965924, -0.25, 0.933013, 0.258819, 0.965925, 0.258819, -4.22219e-08, 34, 1, -24)
+size = Vector3(2, 6, 6)
+texture_albedo = ExtResource("15_thtk0")
+
+[node name="Decal12" type="Decal" parent="Decals"]
+transform = Transform3D(-0.965925, -0.258819, -8.44438e-08, -0.258819, 0.965926, -2.26267e-08, 8.74227e-08, 0, -0.999999, -6, 1, -42)
+size = Vector3(2, 6, 6)
+texture_albedo = ExtResource("15_thtk0")
+
+[node name="Decal2" type="Decal" parent="Decals"]
+transform = Transform3D(-4.37113e-08, -1, 0, 0.999999, -4.37114e-08, 0, 0, 0, 0.999999, 6, 1, -42)
+size = Vector3(4, 2, 4)
+texture_albedo = ExtResource("13_l4ytj")
+
+[node name="Decal3" type="Decal" parent="Decals"]
+transform = Transform3D(-4.37113e-08, -1, 0, -0.499999, 2.18557e-08, -0.866024, 0.866024, -3.78552e-08, -0.5, -6, 1, -14)
+size = Vector3(4, 2, 4)
+texture_albedo = ExtResource("13_l4ytj")
+
+[node name="Decal5" type="Decal" parent="Decals"]
+transform = Transform3D(0.866024, 0.499999, 0, -0.5, 0.866025, 0, 0, 0, 0.999999, 25, 2, 24)
+size = Vector3(2, 5, 6)
+texture_albedo = ExtResource("14_thtk0")
+
+[node name="Decal6" type="Decal" parent="Decals"]
+transform = Transform3D(-3.78551e-08, -2.18557e-08, 0.999999, -0.999999, 3.8743e-07, -3.78551e-08, 5.96046e-07, -1, -2.18557e-08, 16, 2, -36)
+size = Vector3(2, 5, 6)
+texture_albedo = ExtResource("14_thtk0")
+
+[node name="Decal7" type="Decal" parent="Decals"]
+transform = Transform3D(-4.37113e-08, -8.88178e-16, 0.999999, 0.258819, 0.965926, 1.13133e-08, -0.965925, 0.258819, -4.22219e-08, -12, 2, -5)
+size = Vector3(2, 8, 8)
+texture_albedo = ExtResource("13_l4ytj")
+
+[node name="Decal11" type="Decal" parent="Decals"]
+transform = Transform3D(-0.965925, -0.258819, -8.44438e-08, -0.258819, 0.965926, -2.26267e-08, 8.74227e-08, 0, -0.999999, -26, 1.80647, 28)
+size = Vector3(3, 8, 8)
+texture_albedo = ExtResource("13_l4ytj")
+
+[node name="Decal10" type="Decal" parent="Decals"]
+transform = Transform3D(-4.37113e-08, 1.77636e-15, 0.999999, -0.258819, 0.965926, -1.13133e-08, -0.965925, -0.258819, -4.22219e-08, 43, 2, 10)
+size = Vector3(2, 8, 8)
+texture_albedo = ExtResource("14_7lqf0")
+
+[node name="Decal4" type="Decal" parent="Decals"]
+transform = Transform3D(-4.37113e-08, 1.77636e-15, 0.999999, 0.5, 0.866025, 2.18557e-08, -0.866024, 0.499999, -3.78551e-08, -47, 2, 10)
+size = Vector3(2, 4, 4)
+texture_albedo = ExtResource("14_7lqf0")
+
+[node name="Decal13" type="Decal" parent="Decals"]
+transform = Transform3D(-4.37113e-08, 1.77636e-15, 0.999999, 0.5, 0.866025, 2.18557e-08, -0.866024, 0.499999, -3.78551e-08, 16, 2, -5)
+size = Vector3(2, 4, 4)
+texture_albedo = ExtResource("14_7lqf0")

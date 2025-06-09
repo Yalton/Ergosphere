@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=4 uid="uid://m713b2lgjoyd"]
+
+[ext_resource type="Texture2D" uid="uid://chhwgsufnhwp1" path="res://Assets/Models/Station/SpecialWalls/flat_wall/textures/GreyMetal-Color.png" id="1_7ofh0"]
+[ext_resource type="Texture2D" uid="uid://c8l541rr2rhtv" path="res://Assets/Models/Station/SpecialWalls/flat_wall/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="2_y82t1"]
+[ext_resource type="Texture2D" uid="uid://cbrsgbp4e3bad" path="res://Assets/Models/Station/SpecialWalls/flat_wall/textures/GreyMetal-Normal.png" id="3_03e5k"]
+[ext_resource type="ArrayOccluder3D" uid="uid://cl12bav0rbhat" path="res://Assets/Occluders/Walls/flat_wall.occ" id="4_y82t1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cy35q"]
+resource_name = "GreyMetal-Dithered.023"
+cull_mode = 2
+albedo_texture = ExtResource("1_7ofh0")
+metallic = 1.0
+metallic_texture = ExtResource("2_y82t1")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_y82t1")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_03e5k")
+uv1_scale = Vector3(5, 5, 1)
+uv1_offset = Vector3(0, -4, 0)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_fwgm4"]
+_surfaces = [{
+"aabb": AABB(-2, 0, -1, 4, 8, 2),
+"format": 34896613377,
+"index_count": 60,
+"index_data": PackedByteArray("AAABAAIAAAADAAEACAACAAEAAwAIAAEACQAAAAIAAwAAAAkACAAKAAIACQACAAoAAwALAAgAAwAJAAsABwAIAAsABwALAAkABwAEAAgABwAJAAUABQAEAAcACQAKAAYACQAGAAUACAAGAAoABQAGAAQACAAEAAYA"),
+"lods": [1e-10, PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIAAwAAAAUABAAGAAIABQACAAYABQAGAAQAAwAHAAQABQAEAAcAAwAFAAcA")],
+"name": "GreyMetal-Dithered.023",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray("AAAAAP//AAAAAP//AAAAAAAA/////wAAAAAAAAAAAAD/////AAAAAP//AAD//wAA////////AAD//wAAAAAAAP9///8AAAAA/38AAP//AAD/f/////8AAP9/AAAAAAAA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_jdxq4"]
+resource_name = "flat_wall_Cube_408"
+_surfaces = [{
+"aabb": AABB(-2, 0, -1, 4, 8, 2),
+"attribute_data": PackedByteArray("VNWqqqnq//9U1f//qeqqqv9/qqqpqv///3///6mqqqqpqqqqVJX/f6mq/39Ulaqq//+qqqnq//+p6qqq/////6mqqqpU1f//qqr//1TVqqpUlaqq/3//f1SV/3//f6qq/39UlVSVVJWpqlSVVJVUlVSVqqpUlf///7////+/qqo="),
+"format": 34896613399,
+"index_count": 60,
+"index_data": PackedByteArray("AAABAAIAAAADAAEAFgAYABUAFgAZABgAFAAYABkAFAAXABgAGgALABsAGgAIAAsAGgAbAAkAGgAJAAoAHAAFAB0AHAAHAAUAHAAdAAYAHAAGAAQADAANAA4ADAAPAA0AEwAeAB8AEwARAB4AEAAfAB4AEAAeABIA"),
+"lods": [1e-10, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA")],
+"material": SubResource("StandardMaterial3D_cy35q"),
+"name": "GreyMetal-Dithered.023",
+"primitive": 3,
+"uv_scale": Vector4(2, 2, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("AAAAAP////8AAP//AAD//wAA////////AAAAAAAA/////wAA/////wAA//////////////////8AAAAA//////////8AAFTVAAD/////VNUAAP//AABU1f///////1TV//8AAP//////////AAD/////AAAAAP////////////8AAAAAAAD///////8AAP//AAD//wAA/////wAAAAD//wAAAAAAAFTV//8AAP//VNX//wAAAABU1QAAAAD//1TV/38AAP//VNX/fwAAAABU1f9///8AAFTV/3//////VNX/fwAA//////9//////////3///wAA////fwAAAAD///8//3//P/9//z//f/8//3//f/9//3//f/9//3//f/9/VNWqKlTVqipU1aoqVNWqKv+//3//v/9//7//f/+//3////9/////f////3////9/VFVUVVRVVFVUVVRVVFVUVVRVVFVUVVRVVNWqKlTVqir/f/9//3//f////3////9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_fwgm4")
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_tcxf2"]
+data = PackedVector3Array(-2, 0, 1, -2, 8, -1, -2, 8, 1, -2, 0, 1, -2, 0, -1, -2, 8, -1, 2, 0, -1, 0, 0, 1, 2, 0, 1, 2, 0, -1, 0, 0, -1, 0, 0, 1, -2, 0, -1, 0, 0, 1, 0, 0, -1, -2, 0, -1, -2, 0, 1, 0, 0, 1, 0, 8, -1, 2, 8, 1, 0, 8, 1, 0, 8, -1, 2, 8, -1, 2, 8, 1, 0, 8, -1, 0, 8, 1, -2, 8, 1, 0, 8, -1, -2, 8, 1, -2, 8, -1, 0, 0, 1, -2, 8, 1, 0, 8, 1, 0, 0, 1, -2, 0, 1, -2, 8, 1, 0, 0, 1, 0, 8, 1, 2, 8, 1, 0, 0, 1, 2, 8, 1, 2, 0, 1, 2, 0, 1, 2, 8, -1, 2, 0, -1, 2, 0, 1, 2, 8, 1, 2, 8, -1, 2, 0, -1, 0, 8, -1, 0, 0, -1, 2, 0, -1, 2, 8, -1, 0, 8, -1, -2, 0, -1, 0, 0, -1, 0, 8, -1, -2, 0, -1, 0, 8, -1, -2, 8, -1)
+
+[node name="flat_wall" type="StaticBody3D"]
+
+[node name="Cube_227" type="MeshInstance3D" parent="."]
+mesh = SubResource("ArrayMesh_jdxq4")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConcavePolygonShape3D_tcxf2")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("4_y82t1")

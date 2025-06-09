@@ -37,7 +37,8 @@ var event_manager: EventManager
 
 # Emergency task timers
 var emergency_timers: Dictionary = {}  # task_id -> Timer
-
+var task_aware_cache: Array[Node] = []
+var cache_timer: float = 0.0
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 	set_process(true)  # Enable _process for reveal system
@@ -352,23 +353,19 @@ func complete_task(task_id: String) -> void:
 	DebugLogger.info(module_name, "Task completed: " + task.task_name)
 
 func _check_daily_completion() -> void:
-	# Don't mark complete if there are active emergencies
 	if active_emergency_tasks.size() > 0:
 		state_manager.set_state("all_daily_tasks_complete", false)
 		return
 		
-	# Check if all non-sleep tasks are complete
 	var all_complete = true
 	for task in todays_tasks:
-		# Skip sleep task and secrets in this check
 		if task.task_id == sleep_task_id or task.is_secret:
 			continue
 		if not task.is_completed:
 			all_complete = false
 			break
 	
-	# Update state
-	var was_complete = state_manager.get_state("all_daily_tasks_complete")
+	var was_complete = CommonUtils.check_game_state("all_daily_tasks_complete", true)
 	state_manager.set_state("all_daily_tasks_complete", all_complete)
 	
 	if all_complete and not was_complete:
@@ -377,25 +374,17 @@ func _check_daily_completion() -> void:
 # Show message when secret is completed
 func _show_secret_completed_message(task: BaseTask) -> void:
 	var message = "Secret discovered: " + task.task_name + "!"
-	
-	# Find player and show message
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		var player = players[0]
-		if player.has_method("receive_message"):
-			player.receive_message(message)
+	CommonUtils.send_player_hint(message, "")
 			
 func _on_day_completed() -> void:
 	DebugLogger.info(module_name, "Day " + str(current_day) + " completed!")
 	
-	# Set story flags if configured
 	if current_day_config:
 		for flag in current_day_config.sets_flags:
 			if not flag in story_flags:
 				story_flags.append(flag)
 				DebugLogger.debug(module_name, "Set story flag: " + flag)
 		
-		# Show completion message
 		if current_day_config.completion_message:
 			_show_day_message(current_day_config.completion_message)
 	
@@ -433,12 +422,8 @@ func has_task(task_id: String) -> bool:
 	return _get_task_by_id(task_id) != null
 	
 func _show_day_message(message: String) -> void:
-	# Find player and show message
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		var player = players[0]
-		if player.has_method("receive_message"):
-			player.receive_message(message)
+	CommonUtils.send_player_hint(message, "")
+
 
 func _update_task_availability() -> void:
 	# Check if any emergency tasks are active
@@ -463,10 +448,11 @@ func _update_task_availability() -> void:
 	_notify_task_aware_components()
 
 func _notify_task_aware_components() -> void:
-	# Find all task-aware components and update them
-	var task_aware_components = get_tree().get_nodes_in_group("task_aware")
-	for component in task_aware_components:
-		if component.has_method("update_task_availability"):
+	# Use cached components if available
+	var components = task_aware_cache if task_aware_cache.size() > 0 else get_tree().get_nodes_in_group("task_aware")
+	
+	for component in components:
+		if component and is_instance_valid(component) and component.has_method("update_task_availability"):
 			component.update_task_availability()
 
 func _on_state_changed(_state_name: String, _new_value: Variant) -> void:
@@ -598,11 +584,20 @@ func _process(delta: float) -> void:
 		
 		task.is_available = task.is_revealed
 		
-		# Emit signals when reveal state changes
 		if task.is_revealed and not was_revealed:
 			task_revealed.emit(task.task_id)
-			task_assigned.emit(task.task_id)  # Also emit assigned for UI update
+			task_assigned.emit(task.task_id)
 			DebugLogger.info(module_name, "Task revealed: " + task.task_name)
 		elif not task.is_revealed and was_revealed:
 			task_hidden.emit(task.task_id)
 			DebugLogger.info(module_name, "Task hidden: " + task.task_name)
+	
+	# Update cache periodically (every 2 seconds)
+	cache_timer += delta
+	if cache_timer > 2.0:
+		cache_timer = 0.0
+		_update_task_aware_cache()
+
+
+func _update_task_aware_cache() -> void:
+	task_aware_cache = get_tree().get_nodes_in_group("task_aware")

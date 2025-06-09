@@ -177,11 +177,12 @@ skin = SubResource("Skin_7db5l")
 [node name="BasicInteraction" parent="." instance=ExtResource("7_au0d5")]
 script = null
 
-[node name="SubViewport" type="SubViewport" parent="."]
+[node name="SubViewport" type="SubViewport" parent="." node_paths=PackedStringArray("display_mesh")]
 size = Vector2i(640, 472)
 size_2d_override = Vector2i(1920, 1080)
 size_2d_override_stretch = true
 script = ExtResource("8_qfur7")
+display_mesh = NodePath("../Display")
 
 [node name="DownloadUI" parent="SubViewport" instance=ExtResource("9_au0d5")]
 
