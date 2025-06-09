@@ -80,15 +80,23 @@ Drink Alcohol - Staves off insanity
 ## Thoughts organized
 
 
-
-
 Clean up code
-
-Game against Hermes
 
 Simplify task resources
 
+
+Sleep task visual when tasks need completion
+
+Make props carriable
+
+Add dev console
+
+Game against Hermes
+
+Add Typable terminal 
+
 Make failing emergency tasks have consequences
+
 
 ---
 

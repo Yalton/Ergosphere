@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cuykknx82jpa1"]
+[gd_scene load_steps=18 format=3 uid="uid://cuykknx82jpa1"]
 
 [ext_resource type="Script" uid="uid://c88co2uwqhp2x" path="res://Autoload/GameManager/TaskManager/task_manager.gd" id="1_n1gfo"]
 [ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="2_1hfug"]
@@ -32,6 +32,40 @@ sets_flags = Array[String]([])
 requires_flags = Array[String]([])
 metadata/_custom_type_script = "uid://8rd0ckvff0d0"
 
+[sub_resource type="Resource" id="Resource_ysnsx"]
+script = ExtResource("2_1hfug")
+task_id = "consume_anus"
+task_name = "consume_anus"
+task_description = ""
+is_emergency = false
+is_secret = false
+emergency_time_limit = 0.0
+dependent_on_tasks = Array[String]([])
+required_states = {}
+blocked_by_states = {}
+revealed_under = {}
+reveal_delay = 1.0
+related_object_groups = Array[String]([])
+metadata/_custom_type_script = "uid://bxrho0i2t1mql"
+
+[sub_resource type="Resource" id="Resource_mchnp"]
+script = ExtResource("2_yrm2m")
+day_number = 2
+day_name = ""
+available_tasks = Array[ExtResource("2_1hfug")]([SubResource("Resource_ysnsx")])
+mandatory_tasks = Array[String](["consume_anus"])
+excluded_tasks = Array[String]([])
+task_count_override = -1
+available_event_ids = Array[String]([])
+guaranteed_events = Array[String]([])
+excluded_events = Array[String]([])
+starting_states = {}
+intro_message = ""
+completion_message = ""
+sets_flags = Array[String]([])
+requires_flags = Array[String]([])
+metadata/_custom_type_script = "uid://8rd0ckvff0d0"
+
 [sub_resource type="Resource" id="Resource_ah2t3"]
 script = ExtResource("2_1hfug")
 task_id = "consume_anus"
@@ -50,6 +84,6 @@ metadata/_custom_type_script = "uid://bxrho0i2t1mql"
 
 [node name="TaskManager" type="Node"]
 script = ExtResource("1_n1gfo")
-day_configs = Array[ExtResource("2_yrm2m")]([SubResource("Resource_1ry61")])
+day_configs = Array[ExtResource("2_yrm2m")]([SubResource("Resource_1ry61"), SubResource("Resource_mchnp")])
 default_tasks_per_day = 4
 default_available_tasks = Array[ExtResource("2_1hfug")]([SubResource("Resource_ah2t3"), ExtResource("7_y1vve"), ExtResource("8_6km11"), ExtResource("9_d82dc"), ExtResource("10_ysnsx"), ExtResource("11_mchnp"), ExtResource("12_d82dc"), ExtResource("4_r81fx"), ExtResource("3_ah2t3"), ExtResource("4_kcc4n"), ExtResource("6_y1vve")])

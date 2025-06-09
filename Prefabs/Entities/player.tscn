@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bgnqxsxljglaq"]
+[gd_scene load_steps=26 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="Script" uid="uid://cd6roq0jsnw23" path="res://Subsystems/DynamicFootstepSystem/Scripts/footstep_surface_detector.gd" id="2_bxc72"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://c38dqajrkajdn" path="res://Assets/Graphics/InputIcons/PC_Input_Sheet.png" id="14_qmfn3"]
 [ext_resource type="Script" uid="uid://btbwro37m8imx" path="res://Scripts/task_tree.gd" id="16_iummq"]
 [ext_resource type="PackedScene" uid="uid://du67esbe2xmup" path="res://Prefabs/UI/components/ui_hint.tscn" id="16_mtnbr"]
+[ext_resource type="PackedScene" uid="uid://dxkxj4kk30o5b" path="res://Prefabs/UI/dev_terminal.tscn" id="18_k313v"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_23jlx"]
 
@@ -327,6 +328,15 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 mouse_filter = 2
 theme = ExtResource("11_qmfn3")
+
+[node name="DevTerminal" parent="PlayerUI" instance=ExtResource("18_k313v")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="TaskContainer" type="HBoxContainer" parent="PlayerUI"]
 layout_mode = 1
