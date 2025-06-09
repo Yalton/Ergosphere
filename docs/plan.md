@@ -88,12 +88,13 @@ Simplify task resources
 Impact sounds on props
 
 Sounds coming through walls should be muted
+
+Add Typable terminal
 ----
 
 
 Using toilet is brown note
 
-Add Typable terminal
 
 
 Make failing emergency tasks have consequences

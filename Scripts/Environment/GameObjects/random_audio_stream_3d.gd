@@ -1,13 +1,22 @@
-extends AudioStreamPlayer3D
+extends SimpleAudioOcclusion
+
+## Minimum delay between random sounds in seconds
 @export var min_delay: float = 10.0
+
+## Maximum delay between random sounds in seconds
 @export var max_delay: float = 50.0
+
+## Enable debug logging for this module
 @export var enable_debug: bool = false
 
-var module_name: String = "PausableRandomAudio"
-var timer: Timer
+var p_timer: Timer
 var is_paused: bool = false
 
 func _ready() -> void:
+	# Call parent ready first to setup occlusion
+	module_name = "PausableRandomAudio"
+
+	super._ready()
 	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Check if we have a parent that's an AudioStreamRandomizer
@@ -16,15 +25,15 @@ func _ready() -> void:
 		return
 	
 	# Create a timer for the delay
-	timer = Timer.new()
-	timer.one_shot = true
-	timer.timeout.connect(_on_timer_timeout)
-	add_child(timer)
+	p_timer = Timer.new()
+	p_timer.one_shot = true
+	p_timer.timeout.connect(_on_timer_timeout)
+	add_child(p_timer)
 	
 	# Start the first timer
 	start_random_timer()
 	
-	DebugLogger.debug(module_name, "PausableRandomAudio initialized")
+	DebugLogger.debug(module_name, "PausableRandomAudioOccluded initialized")
 
 func start_random_timer() -> void:
 	if is_paused:
@@ -33,7 +42,7 @@ func start_random_timer() -> void:
 	# Generate a random delay between min and max
 	var delay = randf_range(min_delay, max_delay)
 	DebugLogger.debug(module_name, "Setting timer for " + str(delay) + " seconds")
-	timer.start(delay)
+	p_timer.start(delay)
 
 func _on_timer_timeout() -> void:
 	if is_paused:
@@ -48,7 +57,7 @@ func _on_timer_timeout() -> void:
 
 func pause_audio() -> void:
 	is_paused = true
-	timer.stop()
+	p_timer.stop()
 	stop()  # Stop current playback if any
 	DebugLogger.debug(module_name, "Audio paused")
 
