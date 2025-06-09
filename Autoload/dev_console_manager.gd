@@ -1,5 +1,4 @@
 extends Node
-class_name DevConsoleManager
 
 ## Singleton that manages dev console commands and processing
 ## Access via DevConsoleManager in your code
@@ -140,7 +139,7 @@ func _cmd_clear(args: Array) -> void:
 
 func _cmd_exit(args: Array) -> void:
 	if dev_console_ui:
-		dev_console_ui.hide_ui()
+		dev_console_ui.hide_console()
 
 func _cmd_echo(args: Array) -> void:
 	if args.is_empty():

@@ -84,19 +84,15 @@ Clean up code
 
 Simplify task resources
 
-
-Sleep task visual when tasks need completion
+Add dev console
 
 Make props carriable
 
-Add dev console
-
-Game against Hermes
-
-Add Typable terminal 
+Add Typable terminal
 
 Make failing emergency tasks have consequences
 
+Game against Hermes
 
 ---
 

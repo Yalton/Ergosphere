@@ -60,6 +60,7 @@ var played_right_foot: bool = false
 
 var is_interacting_with_ui: bool = false
 var input_disabled: bool = false
+var can_control: bool = true
 
 # Camera tweening variables
 var camera_tween: Tween = null
@@ -126,7 +127,7 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	# Mouse look (camera rotation)
-	if event is InputEventMouseMotion and !is_interacting_with_ui:
+	if event is InputEventMouseMotion and !is_interacting_with_ui and can_control:
 		# Rotate head (left and right)
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		
@@ -153,7 +154,7 @@ func toggle_flashlight() -> void:
 	DebugLogger.debug(module_name, "Flashlight " + ("on" if flashlight_on else "off"))
 
 func _physics_process(delta: float) -> void:
-	if is_interacting_with_ui:
+	if is_interacting_with_ui or !can_control:
 		return
 	# Get movement input
 	var input_dir = Vector2.ZERO
@@ -311,7 +312,7 @@ func move_camera_to_position(target_position: Vector3, target_rotation: Vector3,
 	
 	# Disable player controls
 	is_camera_transitioning = true
-	is_interacting_with_ui = true  # This already disables movement in your code
+	can_control = false  # This already disables movement in your code
 	
 	# Kill existing tween if any
 	if camera_tween and camera_tween.is_valid():
@@ -362,7 +363,7 @@ func _on_camera_restore_complete() -> void:
 	DebugLogger.debug(module_name, "Camera restore complete")
 	# Re-enable player controls
 	is_camera_transitioning = false
-	is_interacting_with_ui = false
+	can_control = true
 	
 	# Clean up tween
 	if camera_tween:

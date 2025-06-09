@@ -31,6 +31,10 @@ signal interaction_changed(available: bool)
 @export var enable_debug: bool = false
 @export var hint_audio: AudioStreamPlayer3D
 
+@export_group("Dev Console")
+@export var dev_console_ui: DevConsoleUI  # Reference to the DevConsoleUI node
+
+
 # Internal variables for message system
 var is_message_completed: bool = false
 var message_tween: Tween
@@ -62,12 +66,18 @@ func _ready() -> void:
 	message_timer.one_shot = true
 	message_timer.timeout.connect(_on_message_timer_timeout)
 	add_child(message_timer)
+	
+		# Setup dev console if available
+	if dev_console_ui:
+		DevConsoleManager.set_console_ui(dev_console_ui)
+		DebugLogger.debug(module_name, "Dev console UI connected")
+		
 	GameManager.task_manager.task_completed.connect(_on_task_completed)
 	# Connect to task tree UI if available
 	if task_tree_ui:
 		if task_tree_ui.has_signal("visibility_state_changed"):
 			task_tree_ui.visibility_state_changed.connect(_on_task_visibility_changed)
-			
+	
 	# Hide task panel initially if it exists
 	if task_panel:
 		task_panel.hide()
@@ -323,6 +333,29 @@ func is_task_ui_visible() -> bool:
 		return task_tree_ui.visible
 	return false
 
+func toggle_dev_console() -> void:
+	if dev_console_ui:
+		dev_console_ui.toggle_ui()
+	else:
+		DebugLogger.warning(module_name, "No dev console UI assigned")
+
+func show_dev_console() -> void:
+	if dev_console_ui:
+		dev_console_ui.show_ui()
+	else:
+		DebugLogger.warning(module_name, "No dev console UI assigned")
+
+func hide_dev_console() -> void:
+	if dev_console_ui:
+		dev_console_ui.hide_ui()
+	else:
+		DebugLogger.warning(module_name, "No dev console UI assigned")
+
+func is_dev_console_visible() -> bool:
+	if dev_console_ui:
+		return dev_console_ui.visible
+	return false
+	
 #endregion
 
 # Useful for debugging or testing
