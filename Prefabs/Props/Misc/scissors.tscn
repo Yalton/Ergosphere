@@ -1,12 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqyamicijcr2s"]
+[gd_scene load_steps=6 format=3 uid="uid://dqyamicijcr2s"]
 
 [ext_resource type="PackedScene" uid="uid://vm5wdhbrtdqn" path="res://Assets/Models/Station/Props/scissors/scissors.gltf" id="1_3sid8"]
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_w8ghe"]
 [ext_resource type="ArrayOccluder3D" uid="uid://rn6bs8rjdbgb" path="res://Assets/Occluders/Props/scissors.occ" id="2_i1dbh"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_lg6wj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i1dbh"]
 size = Vector3(0.3, 0.04, 0.872168)
 
 [node name="scissors" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_w8ghe")
+display_name = "Scissors"
 
 [node name="scissors" parent="." instance=ExtResource("1_3sid8")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
@@ -14,6 +20,8 @@ transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0459967)
 shape = SubResource("BoxShape3D_i1dbh")
+
+[node name="CarryableComponent" parent="." instance=ExtResource("3_lg6wj")]
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("2_i1dbh")

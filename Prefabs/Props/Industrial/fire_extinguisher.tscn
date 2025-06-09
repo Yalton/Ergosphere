@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=4 uid="uid://gnd4fi0eu2wk"]
+[gd_scene load_steps=20 format=4 uid="uid://gnd4fi0eu2wk"]
 
 [ext_resource type="Texture2D" uid="uid://etgskl57oj0l" path="res://Assets/Models/Station/Props/fire_extinguisher/textures/GreyMetal-Color.png" id="1_8lkuq"]
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_r5qmy"]
 [ext_resource type="Texture2D" uid="uid://dyo8u7u12n8h" path="res://Assets/Models/Station/Props/fire_extinguisher/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="2_rfmt0"]
 [ext_resource type="Texture2D" uid="uid://kl00ampgl6o0" path="res://Assets/Models/Station/Props/fire_extinguisher/textures/GreyMetal-Normal.png" id="3_jpwuf"]
 [ext_resource type="Texture2D" uid="uid://cljc1oubra330" path="res://Assets/Models/Station/Props/fire_extinguisher/textures/BlackerMetal-Color.png" id="4_adark"]
@@ -10,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dsl03kru3s5o8" path="res://Assets/Models/Station/Props/fire_extinguisher/textures/Pipe-Metalness-Pipe-Roughness.png" id="8_digop"]
 [ext_resource type="Texture2D" uid="uid://bwfghl6pocsu" path="res://Assets/Models/Station/Props/fire_extinguisher/textures/Pipe-Normal.png" id="9_3ccgx"]
 [ext_resource type="ArrayOccluder3D" uid="uid://jupvu0ikuxnx" path="res://Assets/Occluders/Props/fire_extinguisher.occ" id="10_rfmt0"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="11_1wkgi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iy67u"]
 resource_name = "GreyMetal-Dithered"
@@ -253,19 +255,25 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_qsdxh")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_0bxks"]
-height = 3.6
-radius = 0.54
+height = 1.8
+radius = 0.27
 
 [node name="Fire_Extinguisher" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_r5qmy")
+display_name = "Fire Extinguisher"
 
 [node name="FE" type="MeshInstance3D" parent="."]
-transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 mesh = SubResource("ArrayMesh_6htg8")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.84449, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.868443, 0)
 shape = SubResource("CylinderShape3D_0bxks")
+
+[node name="CarryableComponent" parent="." instance=ExtResource("11_1wkgi")]
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("10_rfmt0")

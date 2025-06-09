@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://ckox6b5goeg7t"]
+[gd_scene load_steps=15 format=4 uid="uid://ckox6b5goeg7t"]
 
 [ext_resource type="Texture2D" uid="uid://bqtx0vn5bcavd" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Color.png" id="1_6m4ye"]
 [ext_resource type="Texture2D" uid="uid://vhb0jbilmqtc" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="2_rqpbw"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://crnnj7sttoeya" path="res://Assets/Models/Station/Vers_2/textures/BlackMetal-Normal.png" id="6_dxhub"]
 [ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="7_pj3k4"]
 [ext_resource type="ArrayOccluder3D" uid="uid://bggkfgpw48i41" path="res://Assets/Occluders/Walls/deco_wall.occ" id="8_rqpbw"]
+[ext_resource type="PackedScene" uid="uid://dqh4q3kcgwhm2" path="res://Prefabs/electric_shock.tscn" id="8_w42ho"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nn8md"]
 resource_name = "GreyMetal-Dithered.171"
@@ -126,6 +127,9 @@ data = PackedVector3Array(2, -6.0001, 0, 2, -8, 1, 2, -8, -1, 2, -6.0001, 0, 2, 
 transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("ArrayMesh_0smi7")
 skeleton = NodePath("")
+
+[node name="ElectricShock" parent="." instance=ExtResource("8_w42ho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -1)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(-1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, 0, 0, 0)

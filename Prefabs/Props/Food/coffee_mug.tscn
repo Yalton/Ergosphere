@@ -1,19 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://cabf6yaqip2ct"]
+[gd_scene load_steps=6 format=3 uid="uid://cabf6yaqip2ct"]
 
 [ext_resource type="PackedScene" uid="uid://cf72ucel8x55f" path="res://Assets/Models/Station/Props/CoffeeMug/coffee_mug.gltf" id="1_r04j7"]
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_y3dy1"]
 [ext_resource type="ArrayOccluder3D" uid="uid://jas1ms6caje5" path="res://Assets/Occluders/Props/coffee_mug.occ" id="2_eg2t4"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_k6hwo"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_eg2t4"]
 height = 0.28
 radius = 0.18
 
 [node name="CoffeeMug" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_y3dy1")
+display_name = "Mug"
 
 [node name="coffee_mug" parent="." instance=ExtResource("1_r04j7")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.160372, 0)
 shape = SubResource("CylinderShape3D_eg2t4")
+
+[node name="CarryableComponent" parent="." instance=ExtResource("3_k6hwo")]
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("2_eg2t4")

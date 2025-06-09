@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddtdkqbggs7hx"]
+
+[ext_resource type="Texture2D" uid="uid://y0b6agy8j0mo" path="res://Assets/Graphics/Decals/poster_6.png" id="1_0ik6v"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_g45ar"]
+size = Vector2(0.9, 1.2)
+
+[node name="poster_6" type="MeshInstance3D"]
+mesh = SubResource("QuadMesh_g45ar")
+
+[node name="Decal" type="Decal" parent="."]
+transform = Transform3D(0.00127406, 4.37114e-08, 0.999999, 0.999999, -5.56912e-11, -0.00127406, 0, 1, -4.37114e-08, 0, 0, 0)
+size = Vector3(1.2, 0.01, 0.9)
+texture_albedo = ExtResource("1_0ik6v")

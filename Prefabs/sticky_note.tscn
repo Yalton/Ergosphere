@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://ijtesma70ft1"]
+
+[ext_resource type="Texture2D" uid="uid://bmeodae7wnp8c" path="res://Assets/Graphics/Decals/StickyNote.png" id="1_3oyu8"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_3501p"]
+
+[node name="StickyNote" type="MeshInstance3D"]
+mesh = SubResource("QuadMesh_3501p")
+
+[node name="Decal" type="Decal" parent="."]
+size = Vector3(1, 1, 0.01)
+texture_albedo = ExtResource("1_3oyu8")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.00866604)
+visible = false
+double_sided = false
+fixed_size = true
+text = "Penis Mode is engaged
+"
+font_size = 20
+autowrap_mode = 2
+width = 200.0

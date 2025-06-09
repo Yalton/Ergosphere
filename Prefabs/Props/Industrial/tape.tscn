@@ -1,13 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://dcaolvvqugklg"]
+[gd_scene load_steps=6 format=3 uid="uid://dcaolvvqugklg"]
 
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_nego1"]
 [ext_resource type="PackedScene" uid="uid://hhpw0ijq80g6" path="res://Assets/Models/Station/Props/tape/tape.gltf" id="1_qf1mw"]
 [ext_resource type="ArrayOccluder3D" uid="uid://br57jw10qxieq" path="res://Assets/Occluders/Props/tape.occ" id="2_waevo"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="4_2qw5h"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_waevo"]
 height = 0.075
 radius = 0.195
 
 [node name="tape" type="RigidBody3D"]
+script = ExtResource("1_nego1")
+display_name = "Tape"
 
 [node name="tape" parent="." instance=ExtResource("1_qf1mw")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
@@ -18,3 +22,5 @@ shape = SubResource("CylinderShape3D_waevo")
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("2_waevo")
+
+[node name="CarryableComponent" parent="." instance=ExtResource("4_2qw5h")]

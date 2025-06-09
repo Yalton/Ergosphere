@@ -1,13 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://m3w5u6lp1e1l"]
+[gd_scene load_steps=5 format=3 uid="uid://m3w5u6lp1e1l"]
 
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_fqqjs"]
 [ext_resource type="PackedScene" uid="uid://drsmbx5ptlsi4" path="res://Assets/Models/Station/Props/Wrenches/wrench_1/wrench_1.gltf" id="1_oqcfh"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_2gkcb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_oqcfh"]
 size = Vector3(0.435, 0.035, 0.13)
 
 [node name="wrench_1" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_fqqjs")
+display_name = "Wrench"
 
 [node name="wrench_1" parent="." instance=ExtResource("1_oqcfh")]
+
+[node name="CarryableComponent" parent="." instance=ExtResource("3_2gkcb")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0139249, 0)

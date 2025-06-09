@@ -1,13 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://du1y8vp63k4sb"]
+[gd_scene load_steps=5 format=3 uid="uid://du1y8vp63k4sb"]
 
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_ads4i"]
 [ext_resource type="PackedScene" uid="uid://fekp85k4yyxf" path="res://Assets/Models/Station/Props/walkie_talkie/walkie_talkie.gltf" id="1_vb0ni"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_3srcc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_csmwl"]
 size = Vector3(0.12, 0.12, 0.085)
 
 [node name="walkie_talkie" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_ads4i")
+display_name = "Walkie talkie"
 
 [node name="walkie_talkie" parent="." instance=ExtResource("1_vb0ni")]
+
+[node name="CarryableComponent" parent="." instance=ExtResource("3_3srcc")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.062145, 0)

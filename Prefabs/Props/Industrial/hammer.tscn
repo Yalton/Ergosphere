@@ -1,15 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://w3254k8qn61q"]
+[gd_scene load_steps=6 format=3 uid="uid://w3254k8qn61q"]
 
 [ext_resource type="PackedScene" uid="uid://dfmvnk6o6l4t3" path="res://Assets/Models/Station/Props/hammer/hammer.gltf" id="1_e0xq4"]
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_sqb2j"]
 [ext_resource type="ArrayOccluder3D" uid="uid://cwo0c6084oykc" path="res://Assets/Occluders/Props/hammer.occ" id="2_kl48v"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_0nrx4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kl48v"]
 radius = 0.171
 
 [node name="Hammer" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_sqb2j")
+display_name = "Hammer"
 
 [node name="hammer" parent="." instance=ExtResource("1_e0xq4")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0)
+
+[node name="CarryableComponent" parent="." instance=ExtResource("3_0nrx4")]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.517117, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.517117, 0, 0)

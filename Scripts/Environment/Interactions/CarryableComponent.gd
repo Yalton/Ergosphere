@@ -25,10 +25,10 @@ var carry_position : Vector3 #Position the carriable "floats towards".
 var desired_rotation: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
-	parent_object = get_parent()
+	parent_object  = get_parent()
 	
 	# Set initial interaction text
-	interaction_text = "Pick up " + parent_object.name
+	interaction_text = "Pick up " + parent_object.display_name
 	
 	# Connect to body entered signal if available (for collision detection)
 	if parent_object.has_signal("body_entered"):
@@ -36,7 +36,7 @@ func _ready() -> void:
 	
 	# Warn if not attached to a proper physics object
 	if not (parent_object is RigidBody3D):
-		push_warning(parent_object.name + ": CarriableComponent works best when attached to a RigidBody3D.")
+		push_warning(parent_object.display_name + ": CarriableComponent works best when attached to a RigidBody3D.")
 	
 	# Ensure we have the audio player component
 	if not has_node("AudioStreamPlayer3D"):
@@ -138,7 +138,7 @@ func hold() -> void:
 	
 	# Update state
 	is_being_carried = true
-	interaction_text = "Drop " + parent_object.name
+	interaction_text = "Drop " + parent_object.display_name
 
 func leave() -> void:
 	# Restore physics properties
@@ -166,7 +166,7 @@ func leave() -> void:
 	
 	# Update state
 	is_being_carried = false
-	interaction_text = "Pick up " + parent_object.name
+	interaction_text = "Pick up " + parent_object.display_name
 
 func throw(power : float) -> void:
 	leave()

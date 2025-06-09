@@ -1,12 +1,14 @@
-[gd_scene load_steps=13 format=4 uid="uid://cjdxehd70jmdl"]
+[gd_scene load_steps=15 format=4 uid="uid://cjdxehd70jmdl"]
 
 [ext_resource type="Texture2D" uid="uid://c6iarq7mpo81k" path="res://Assets/Models/Station/Props/dumbell/textures/BlackMetal-Color.png" id="1_7rih2"]
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_ocavn"]
 [ext_resource type="Texture2D" uid="uid://dg2v1kh5np3nq" path="res://Assets/Models/Station/Props/dumbell/textures/BlackMetal-Metalness-BlackMetal-Roughness.png" id="2_48twt"]
 [ext_resource type="Texture2D" uid="uid://b5bd0xcsms0xg" path="res://Assets/Models/Station/Props/dumbell/textures/BlackMetal-Normal.png" id="3_1v77d"]
 [ext_resource type="Texture2D" uid="uid://ck1jx5owfeo2s" path="res://Assets/Models/Station/Props/dumbell/textures/BlackPlastic-Color.png" id="4_dlvqn"]
 [ext_resource type="Texture2D" uid="uid://ymp3e0ubwyfl" path="res://Assets/Models/Station/Props/dumbell/textures/BlackPlastic-Roughness.png" id="5_yb2a4"]
 [ext_resource type="Texture2D" uid="uid://ld4agisevnn1" path="res://Assets/Models/Station/Props/dumbell/textures/BlackPlastic-Normal.png" id="6_lsnoc"]
 [ext_resource type="ArrayOccluder3D" uid="uid://c0sms6sin5s7" path="res://Assets/Occluders/Props/dumbell.occ" id="7_48twt"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="8_tmkax"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fyylt"]
 resource_name = "BlackMetal-Dithered"
@@ -98,6 +100,10 @@ height = 1.8
 radius = 0.4
 
 [node name="Dumbell" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_ocavn")
+display_name = "Dumbell"
 
 [node name="dumbell" type="MeshInstance3D" parent="."]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
@@ -107,6 +113,8 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.344202, 0)
 shape = SubResource("CylinderShape3D_4umrm")
+
+[node name="CarryableComponent" parent="." instance=ExtResource("8_tmkax")]
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("7_48twt")

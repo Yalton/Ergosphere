@@ -144,7 +144,6 @@ auto_animate = true
 
 [node name="LightningBall" parent="." instance=ExtResource("6_n0205")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.8, 2)
-explosiveness = 1.0
 
 [node name="Labels" type="Node3D" parent="."]
 

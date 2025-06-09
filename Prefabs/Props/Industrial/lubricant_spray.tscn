@@ -1,13 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://cf07wlbahuu54"]
+[gd_scene load_steps=6 format=3 uid="uid://cf07wlbahuu54"]
 
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_f7jee"]
 [ext_resource type="PackedScene" uid="uid://d1odicyoh7dds" path="res://Assets/Models/Station/Props/lubricant_spray/lubricant_spray.gltf" id="1_t6vcp"]
 [ext_resource type="ArrayOccluder3D" uid="uid://b3pbgl7mj4jed" path="res://Assets/Occluders/Props/lubricant_spray.occ" id="2_g3rhn"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_hd8va"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_g3rhn"]
 height = 0.9
 radius = 0.21
 
 [node name="lubricant_spray" type="RigidBody3D"]
+script = ExtResource("1_f7jee")
+display_name = "Lubricant Spray"
 
 [node name="lubricant_spray" parent="." instance=ExtResource("1_t6vcp")]
 transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
@@ -15,6 +19,8 @@ transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.450048, 0)
 shape = SubResource("CylinderShape3D_g3rhn")
+
+[node name="CarryableComponent" parent="." instance=ExtResource("3_hd8va")]
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("2_g3rhn")

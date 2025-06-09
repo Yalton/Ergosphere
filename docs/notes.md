@@ -24,68 +24,100 @@ Text should be centered and very easily readable on the UI
 Make the text bigger - all of it
 
 
-# Station Props List
+# Simple Station Props for Easy Modeling
 
-## Personal Items
-- **Books/Magazines** - Technical manuals, sci-fi novels, old worn paperbacks
-- **Playing cards** - Scattered deck, solitaire setup
-- **Dice set** - For downtime games
-- **Photos/Postcards** - Taped to walls or on desks, showing Earth/family
-- **Personal terminal/tablet** - With screen showing emails, games, or video calls
-- **Headphones/earbuds** - Hanging off chairs or tables
-- **Water bottles/thermos** - Reusable containers with station logos
+## Basic Geometric Props
 
-## Work Equipment
-- **Clipboards** - With checklists, inspection forms
-- **Tool boxes** - Open/closed, various sizes
-- **Spare parts bins** - Labeled containers with bolts, wires, components
-- **Fire extinguisher** - Wall-mounted or loose
-- **First aid kit** - Open with bandages visible
-- **Flashlights** - Emergency lights, work lights
-- **Duct tape rolls** - The universal fix-it solution
+### Cylinders
+- **Cans** - Soda, energy drinks, spray paint, air freshener
+- **Batteries** - Various sizes (AA, D-cell)
+- **Rolls** - Paper towels, toilet paper, tape rolls
+- **Thermos/bottles** - Simple cylinder with cap
+- **Fire extinguisher** - Cylinder with nozzle
+- **Oxygen canisters** - Small emergency air
+- **Pipe sections** - Spare parts
 
-## Recreation/Exercise
-- **Dumbbells/resistance bands** - Small exercise equipment
-- **Stress ball** - On desks or tables
-- **Dart board** - Makeshift entertainment
-- **Musical instrument** - Harmonica, small keyboard, ukulele
-- **Puzzle cube** - Half-solved on a table
+### Boxes/Rectangles
+- **Cardboard boxes** - Various sizes, some open
+- **Storage crates** - Plastic or metal
+- **Books** - Just rectangles with simple textures
+- **Tablets/datapads** - Flat rectangles
+- **Clipboards** - Rectangle with clip
+- **Food packages** - Cereal boxes, MREs
+- **Tissue box** - Rectangle with opening
 
-## Food/Dining
-- **Food trays** - With half-eaten meals
-- **Snack wrappers** - Protein bars, candy
-- **Condiment packets** - Hot sauce, salt, sugar
-- **Instant noodle cups** - Empty or full
-- **Fruit** - Artificial/preserved apples, oranges
+### Spheres/Simple Shapes
+- **Balls** - Tennis ball, stress ball, ping pong
+- **Light bulbs** - Sphere with base
+- **Oranges/apples** - Just textured spheres
+- **Pills/vitamins** - Bottle of spheres
+- **Marbles** - In a jar or scattered
 
-## Hygiene/Personal Care
-- **Towels** - Hanging to dry
-- **Soap dispensers** - Industrial looking
-- **Toothbrush holder** - With multiple brushes
-- **Shaving kit** - Mirror, razor, cream
-- **Laundry bag** - Hanging on hook
+### Flat/2D-ish Props
+- **Papers** - Scattered documents, reports
+- **Photos** - Just planes with textures
+- **Playing cards** - Thin rectangles
+- **Coasters** - Circles or squares
+- **Mouse pad** - Rectangle with slight thickness
+- **Sticky notes** - Small squares
+- **Folders** - Flat with slight thickness
 
-## Office/Documentation
-- **Sticky notes** - On monitors, walls, equipment
-- **Pens/pencils** - In cups, scattered around
-- **Binders** - Station procedures, maintenance logs
-- **Cork board** - With schedules, notices, photos
-- **Calendar** - Wall or desk, with days crossed off
+## Combination of Simple Shapes
 
-## Maintenance/Repair
-- **Oil cans** - For machinery
-- **Rags/shop towels** - Clean or stained
-- **Electrical tape** - Various colors
-- **Cable ties/zip ties** - Bundles lying around
-- **WD-40 equivalent** - Space lubricant cans
-- **Measuring tape** - Retracted or extended
+### Easy Combinations
+- **Wrench** - Rectangle handle + hexagon head
+- **Hammer** - Cylinder handle + box head
+- **Screwdriver** - Cylinder handle + cylinder tip
+- **Mug** - Cylinder + handle (torus)
+- **Bucket** - Tapered cylinder
+- **Traffic cone** - Tapered cylinder (space safety)
+- **Hard hat** - Half sphere with brim
 
-## Miscellaneous
-- **Plant** - Small potted plant (shows hope/life)
-- **Lucky charm/mascot** - Small figurine, bobblehead
-- **Gloves** - Work gloves left on surfaces
-- **Safety goggles** - Hanging on pegs
-- **Trash bin** - Overflowing with crumpled papers
-- **Coat/jacket** - Draped over chair
-- **Boots** - By doors or under desks
-- **Clock** - Analog or digital, showing different time zones
+### Super Basic Electronics
+- **Radio** - Box with cylinder antenna
+- **Calculator** - Flat box with button texture
+- **Remote control** - Rounded rectangle
+- **USB drives** - Small rectangles
+- **Power banks** - Rounded rectangles
+- **Walkie-talkie** - Box with antenna
+
+### Simple Containers
+- **Jar** - Cylinder with lid
+- **Pill bottle** - Small cylinder with cap
+- **Toolbox** - Box with handle
+- **Lunch box** - Rectangle with handle
+- **Ice chest/cooler** - Box with lid
+- **Waste basket** - Tapered cylinder
+- **Storage bin** - Box with optional lid
+
+## One-Piece Props (No Moving Parts)
+
+### Static Items
+- **Soap bar** - Rounded rectangle
+- **Sponge** - Rectangle with texture
+- **Eraser** - Small rectangle
+- **Chalk** - Small cylinder
+- **Crayons** - Tapered cylinders
+- **Candles** - Cylinder with wick
+- **Ice pack** - Flat rectangle
+
+### Decor/Personal
+- **Picture frame** - Rectangle with center cut
+- **Mirror** - Rectangle with reflective material
+- **Clock** - Circle with hands texture
+- **Ashtray** - Shallow cylinder
+- **Paperweight** - Any simple shape
+- **Bookend** - L-shaped piece
+- **Door stop** - Wedge shape
+
+## Texture-Dependent Props (Shape is dead simple)
+
+### Just Needs Good Textures
+- **Patches/badges** - Flat circles/rectangles
+- **Stickers** - Flat shapes
+- **Money/credits** - Flat rectangles
+- **ID badges** - Rectangle with lanyard
+- **Maps** - Rolled cylinder or flat
+- **Posters** - Rolled or flat planes
+- **Rugs/mats** - Flat rectangles
+- **Towels** - Flat or draped planes

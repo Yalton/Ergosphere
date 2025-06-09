@@ -1,17 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://cvcddggpjxifk"]
+[gd_scene load_steps=6 format=3 uid="uid://cvcddggpjxifk"]
 
 [ext_resource type="PackedScene" uid="uid://pjbcru42uljw" path="res://Assets/Models/Station/Props/tablet/tablet.gltf" id="1_co1uk"]
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_p1fn5"]
 [ext_resource type="ArrayOccluder3D" uid="uid://0yp524f5ch8f" path="res://Assets/Occluders/Props/tablet.occ" id="2_lgbmd"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_bgn8t"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lgbmd"]
 size = Vector3(0.61, 0.06, 0.87)
 
 [node name="tablet" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_p1fn5")
+display_name = "Tablet"
 
 [node name="tablet" parent="." instance=ExtResource("1_co1uk")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_lgbmd")
+
+[node name="CarryableComponent" parent="." instance=ExtResource("3_bgn8t")]
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("2_lgbmd")

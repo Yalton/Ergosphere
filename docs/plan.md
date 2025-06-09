@@ -84,9 +84,7 @@ Clean up code
 
 Simplify task resources
 
-Add dev console
-
-Make props carriable
+Impact sounds on props 
 
 Add Typable terminal
 

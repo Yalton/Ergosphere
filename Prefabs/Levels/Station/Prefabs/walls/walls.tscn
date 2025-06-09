@@ -1,4 +1,4 @@
-[gd_scene load_steps=107 format=4 uid="uid://ebcdmubkup1v"]
+[gd_scene load_steps=109 format=4 uid="uid://ebcdmubkup1v"]
 
 [ext_resource type="Texture2D" uid="uid://bqtx0vn5bcavd" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Color.png" id="1_1nd2m"]
 [ext_resource type="PackedScene" uid="uid://c666mkxecwu22" path="res://Prefabs/Furniture/Airlock/airlock_door.tscn" id="1_y2sej"]
@@ -19,7 +19,9 @@
 [ext_resource type="PackedScene" uid="uid://c8cvp1fyqnbwd" path="res://Prefabs/Levels/Station/Prefabs/walls/observatory_countertop.tscn" id="13_gkafq"]
 [ext_resource type="Texture2D" uid="uid://x5em7ov5ugjv" path="res://Assets/Graphics/Decals/Scratch/scratch_2.png" id="13_l4ytj"]
 [ext_resource type="PackedScene" uid="uid://dk8m64n5mwmsl" path="res://Prefabs/Levels/Station/Prefabs/walls/alt_deco_wall.tscn" id="13_p6oy1"]
+[ext_resource type="Texture2D" uid="uid://vt4bhujmjaqo" path="res://Assets/Graphics/Decals/Scratch/scratch_6.png" id="13_singa"]
 [ext_resource type="Texture2D" uid="uid://6q7otux16g5s" path="res://Assets/Graphics/Decals/Scratch/scratch_4.png" id="14_7lqf0"]
+[ext_resource type="Texture2D" uid="uid://bljoxfkbn7gc2" path="res://Assets/Graphics/Decals/Scratch/scratch_7.png" id="14_aorln"]
 [ext_resource type="Texture2D" uid="uid://brid3qbe3s5yj" path="res://Assets/Graphics/Decals/Scratch/scratch_5.png" id="14_thtk0"]
 [ext_resource type="Texture2D" uid="uid://cfmxy60ytqi1r" path="res://Assets/Graphics/Decals/Scratch/scratch.png" id="15_thtk0"]
 [ext_resource type="PackedScene" uid="uid://dacxvckc7pa24" path="res://Prefabs/Levels/Station/Prefabs/walls/counter_wall.tscn" id="19_q2pf8"]
@@ -2017,3 +2019,38 @@ texture_albedo = ExtResource("14_7lqf0")
 transform = Transform3D(-4.37113e-08, 1.77636e-15, 0.999999, 0.5, 0.866025, 2.18557e-08, -0.866024, 0.499999, -3.78551e-08, 16, 2, -5)
 size = Vector3(2, 4, 4)
 texture_albedo = ExtResource("14_7lqf0")
+
+[node name="Decal14" type="Decal" parent="Decals"]
+transform = Transform3D(-0.965926, -3.76145e-07, 0.258819, -0.129409, -0.866025, -0.482963, 0.224144, -0.5, 0.836516, 64, 1, -21.0002)
+size = Vector3(8, 8, 2)
+texture_albedo = ExtResource("13_singa")
+
+[node name="Decal15" type="Decal" parent="Decals"]
+transform = Transform3D(-0.0669874, 0.25, -0.965926, -0.25, 0.933013, 0.258819, 0.965926, 0.258819, -5.11838e-08, -17, 0, -24)
+size = Vector3(2, 8, 8)
+texture_albedo = ExtResource("13_singa")
+
+[node name="Decal16" type="Decal" parent="Decals"]
+transform = Transform3D(0.0669872, -0.25, 0.965925, -0.25, 0.933013, 0.258819, -0.965925, -0.258819, -4.2222e-08, -35, 1, -36)
+size = Vector3(2, 8, 8)
+texture_albedo = ExtResource("14_aorln")
+
+[node name="Decal17" type="Decal" parent="Decals"]
+transform = Transform3D(0.965925, 0.25, 0.0669872, -0.258819, 0.933013, 0.25, 0, -0.258819, 0.965925, 6, 1, -14)
+size = Vector3(2, 8, 8)
+texture_albedo = ExtResource("14_aorln")
+
+[node name="Decal18" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 19, 0, -24)
+size = Vector3(8, 8, 2)
+texture_albedo = ExtResource("14_aorln")
+
+[node name="Decal19" type="Decal" parent="Decals"]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, -89, 1, 16)
+size = Vector3(2, 8, 8)
+texture_albedo = ExtResource("14_aorln")
+
+[node name="Decal20" type="Decal" parent="Decals"]
+transform = Transform3D(0.866025, -0.5, 0, 0.482963, 0.836516, 0.258819, -0.12941, -0.224144, 0.965926, -89, 1, 20)
+size = Vector3(2, 8, 8)
+texture_albedo = ExtResource("13_singa")

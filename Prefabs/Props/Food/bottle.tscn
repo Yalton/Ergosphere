@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://dtqy8ug1cskku"]
+[gd_scene load_steps=7 format=4 uid="uid://dtqy8ug1cskku"]
 
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_aysg5"]
 [ext_resource type="Material" uid="uid://qfi7yh56d7i5" path="res://Assets/Materials/Window.tres" id="1_lfl5x"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_p3htm"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_tv4t1"]
 _surfaces = [{
@@ -41,11 +43,17 @@ height = 0.656
 radius = 0.16
 
 [node name="bottle" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_aysg5")
+display_name = "Bottle"
 
 [node name="Bottle" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, -0.000223992, 0, 1, 0, 0.000223992, 0, 1, 0, 0, 0)
 mesh = SubResource("ArrayMesh_sjngg")
 skeleton = NodePath("")
+
+[node name="CarryableComponent" parent="." instance=ExtResource("3_p3htm")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.377016, 0)
