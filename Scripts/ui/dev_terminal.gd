@@ -162,7 +162,7 @@ func add_line(text: String, use_bbcode: bool = true) -> void:
 	# Scroll to bottom
 	if scroll_container:
 		await get_tree().process_frame
-		scroll_container.scroll_vertical = scroll_container.get_v_scroll_bar().max_value
+		scroll_container.scroll_vertical = int(scroll_container.get_v_scroll_bar().max_value)
 
 func add_system_message(text: String) -> void:
 	add_line("[color=#%s]%s[/color]" % [system_color.to_html(), text])

@@ -65,7 +65,7 @@ func _on_state_changed(state_name: String, _new_value: Variant) -> void:
 		_check_state_requirements()
 
 func _check_state_requirements() -> void:
-	var can_interact = true
+	var can_interact_local = true
 	var reason = interaction_text_normal
 	
 	if not GameManager or not GameManager.state_manager:
@@ -76,17 +76,17 @@ func _check_state_requirements() -> void:
 	
 	# Check power requirement
 	if requires_power and not state_manager.is_power_on():
-		can_interact = false
+		can_interact_local = false
 		reason = interaction_text_no_power
 	
 	# Check lockdown requirement
 	elif requires_no_lockdown and state_manager.is_lockdown():
-		can_interact = false
+		can_interact_local = false
 		reason = interaction_text_lockdown
 	
 	# Check emergency mode requirement
 	elif requires_emergency_mode and not state_manager.is_emergency_mode():
-		can_interact = false
+		can_interact_local = false
 		reason = interaction_text_emergency_only
 	
 	# Check custom requirements
@@ -96,7 +96,7 @@ func _check_state_requirements() -> void:
 			var current_value = state_manager.get_state(state_name)
 			
 			if current_value != required_value:
-				can_interact = false
+				can_interact_local = false
 				if interaction_text_custom.has(state_name):
 					reason = interaction_text_custom[state_name]
 				else:
@@ -105,21 +105,21 @@ func _check_state_requirements() -> void:
 	
 	# Update interaction component if we have one
 	if interaction_component:
-		interaction_component.is_disabled = not can_interact
+		interaction_component.is_disabled = not can_interact_local
 		interaction_component.interaction_text = reason
 	
 	# Notify parent if state changed
-	if can_interact != current_can_interact or reason != current_reason:
-		current_can_interact = can_interact
+	if can_interact_local != current_can_interact or reason != current_reason:
+		current_can_interact = can_interact_local
 		current_reason = reason
 		
-		state_requirements_changed.emit(can_interact, reason)
+		state_requirements_changed.emit(can_interact_local, reason)
 		
 		# Call parent method if it exists
 		if parent_node.has_method("_on_state_requirements_changed"):
-			parent_node._on_state_requirements_changed(can_interact, reason)
+			parent_node._on_state_requirements_changed(can_interact_local, reason)
 		
-		DebugLogger.debug(module_name, "State requirements changed - Can interact: " + str(can_interact) + ", Reason: " + reason)
+		DebugLogger.debug(module_name, "State requirements changed - Can interact: " + str(can_interact_local) + ", Reason: " + reason)
 
 # Public method to check if requirements are met
 func can_interact() -> bool:

@@ -47,24 +47,24 @@ func _register_default_commands() -> void:
 	
 	DebugLogger.debug(module_name, "Default commands registered")
 
-func register_command(name: String, method: Callable, description: String = "") -> void:
-	commands[name.to_lower()] = {
+func register_command(cmd_name: String, method: Callable, description: String = "") -> void:
+	commands[cmd_name.to_lower()] = {
 		"method": method,
 		"description": description
 	}
-	DebugLogger.debug(module_name, "Registered command: " + name)
+	DebugLogger.debug(module_name, "Registered command: " + cmd_name)
 
 func register_alias(alias: String, command: String) -> void:
 	command_aliases[alias.to_lower()] = command.to_lower()
 	DebugLogger.debug(module_name, "Registered alias: %s -> %s" % [alias, command])
 
-func unregister_command(name: String) -> void:
-	commands.erase(name.to_lower())
+func unregister_command(cmd_name: String) -> void:
+	commands.erase(cmd_name.to_lower())
 	# Remove any aliases pointing to this command
 	for alias in command_aliases:
-		if command_aliases[alias] == name.to_lower():
+		if command_aliases[alias] == cmd_name.to_lower():
 			command_aliases.erase(alias)
-	DebugLogger.debug(module_name, "Unregistered command: " + name)
+	DebugLogger.debug(module_name, "Unregistered command: " + cmd_name)
 
 func process_command(input: String) -> void:
 	var parts = input.strip_edges().split(" ", false)

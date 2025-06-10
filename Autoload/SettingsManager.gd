@@ -251,7 +251,7 @@ func get_resolution_index(resolution: Vector2i) -> int:
 	return 3 # Default to 1920x1080
 
 ## Check if Hermes voice is muted
-static func get_hermes_muted() -> bool:
+func get_hermes_muted() -> bool:
 	var config = ConfigFile.new()
 	var err = config.load("user://settings.cfg")
 	if err != OK:
@@ -259,7 +259,7 @@ static func get_hermes_muted() -> bool:
 	return config.get_value("audio", "hermes_muted", false)
 
 ## Set Hermes mute state by controlling the bus volume
-static func set_hermes_muted(muted: bool) -> void:
+func set_hermes_muted(muted: bool) -> void:
 	# Mute/unmute the HermesAudio bus
 	if muted:
 		AudioServer.set_bus_mute(HERMES_BUS, true)
@@ -274,7 +274,7 @@ static func set_hermes_muted(muted: bool) -> void:
 	DebugLogger.debug("SettingsManager", "Hermes mute set to: " + str(muted))
 
 ## Apply Hermes mute setting on startup
-static func apply_hermes_mute_setting() -> void:
+func apply_hermes_mute_setting() -> void:
 	var muted = get_hermes_muted()
 	AudioServer.set_bus_mute(HERMES_BUS, muted)
 	DebugLogger.debug("SettingsManager", "Applied Hermes mute setting: " + str(muted))

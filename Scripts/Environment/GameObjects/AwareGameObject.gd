@@ -23,20 +23,20 @@ func _ready() -> void:
 
 # Check if this object can be interacted with
 func can_interact() -> bool:
-	var can_interact = true
+	var interaction_allowed = true
 	
 	# Check task requirements
 	if task_aware_component and not task_aware_component.is_task_available:
-		can_interact = false
+		interaction_allowed = false
 		DebugLogger.debug(module_name, "Blocked by task requirements")
 	
 	# Check state requirements
 	if state_aware_component and not state_aware_component.can_interact():
-		can_interact = false
+		interaction_allowed = false
 		DebugLogger.debug(module_name, "Blocked by state requirements")
 	
-	return can_interact
-
+	return interaction_allowed
+	
 # Get the reason why interaction is blocked
 func get_block_reason() -> String:
 	if task_aware_component and not task_aware_component.is_task_available:

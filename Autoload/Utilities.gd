@@ -5,7 +5,6 @@ extends Node
 
 # Cached references for performance
 static var _player_cache: Player = null
-static var _cache_timer: float = 0.0
 
 # Common state constants
 const STATE_POWER = "power"
@@ -17,7 +16,7 @@ const STATE_ALL_DAILY_TASKS_COMPLETE = "all_daily_tasks_complete"
 const STATE_OXYGEN_SYSTEM_OPERATIONAL = "oxygen_system_operational"
 
 # Timer creation helper
-static func create_one_shot_timer(parent: Node, duration: float, callback: Callable) -> Timer:
+func create_one_shot_timer(parent: Node, duration: float, callback: Callable) -> Timer:
 	var timer = Timer.new()
 	timer.wait_time = duration
 	timer.one_shot = true
@@ -118,7 +117,7 @@ static func send_player_hint(title: String = "", text: String = "") -> bool:
 	return false
 
 # Safe signal connection
-static func connect_signal_safe(source: Object, signal_name: String, target: Object, method: String) -> bool:
+func connect_signal_safe(source: Object, signal_name: String, target: Object, method: String) -> bool:
 	if not source or not is_instance_valid(source):
 		return false
 		
