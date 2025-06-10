@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d3hcptla36gp3"]
+[gd_scene load_steps=8 format=3 uid="uid://d3hcptla36gp3"]
 
 [ext_resource type="Script" uid="uid://brfd0bny5riwc" path="res://Autoload/GameManager/game_manager.gd" id="1_ttbae"]
 [ext_resource type="AudioStream" uid="uid://chnfaq63v5hia" path="res://Assets/Audio/Alarm/Alarm.ogg" id="2_52hc4"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bt83m4xuehnh8" path="res://Autoload/GameManager/StateManager/StateManager.tscn" id="3_554py"]
 [ext_resource type="PackedScene" uid="uid://cuykknx82jpa1" path="res://Autoload/GameManager/TaskManager/TaskManager.tscn" id="4_554py"]
 [ext_resource type="PackedScene" uid="uid://d03sh0ygt4cwo" path="res://Autoload/GameManager/storage_manager.tscn" id="6_k5xqi"]
+[ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="8_tpof5"]
 
 [node name="GameManager" type="Node"]
 script = ExtResource("1_ttbae")
@@ -22,3 +23,5 @@ alarm_audio = ExtResource("2_52hc4")
 [node name="TaskManager" parent="." instance=ExtResource("4_554py")]
 
 [node name="StorageManager" parent="." instance=ExtResource("6_k5xqi")]
+current_requisition = 5000
+shop_catalog = Array[ExtResource("8_tpof5")]([null])

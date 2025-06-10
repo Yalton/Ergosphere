@@ -165,6 +165,7 @@ uv1_scale = Vector3(4, 4, 1)
 uv1_offset = Vector3(0, -3, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3c1nw"]
+resource_local_to_scene = true
 resource_name = "Emissive_green"
 cull_mode = 2
 albedo_color = Color(0.906332, 0.906332, 0.906332, 1)
@@ -209,6 +210,7 @@ _surfaces = [{
 blend_shape_mode = 0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_08plb"]
+resource_local_to_scene = true
 resource_name = "StorageWall_Cube_419"
 _surfaces = [{
 "aabb": AABB(-1.88, -0.982563, -0.349329, 3.76, 1.76, 0.338146),
@@ -325,7 +327,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.865456, -0.0889326)
 shape = SubResource("BoxShape3D_fahvj")
 
 [node name="SpawnLocation" type="Node3D" parent="StorageContainerBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0653541, 0.00787067)
 
 [node name="BackWall" type="CollisionShape3D" parent="StorageContainerBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.015245, -0.934747)

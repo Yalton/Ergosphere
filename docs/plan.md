@@ -94,6 +94,8 @@ Plan Out Day 2
 
 Make more events
 
+Fix Brown note
+
 Game against Hermes
 
 Make failing emergency tasks have consequences

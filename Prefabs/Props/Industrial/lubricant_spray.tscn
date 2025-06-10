@@ -13,6 +13,8 @@ height = 0.9
 radius = 0.21
 
 [node name="lubricant_spray" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_f7jee")
 display_name = "Lubricant Spray"
 

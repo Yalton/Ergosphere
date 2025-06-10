@@ -17,8 +17,8 @@ class_name ShopItem
 ## Delivery time in seconds
 @export var delivery_time: float = 30.0
 
-## Category for shop organization
-@export var category: String = "Equipment"
+## Category for shop organization (General or Replacement Parts)
+@export_enum("General", "Replacement Parts") var category: String = "General"
 
 ## Path to the scene that will be instantiated
 @export_file("*.tscn") var scene_path: String = ""
