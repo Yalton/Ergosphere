@@ -156,13 +156,16 @@ func toggle_flashlight() -> void:
 func _physics_process(delta: float) -> void:
 	if is_interacting_with_ui or !can_control:
 		return
+		
+	# Apply gravity
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+	
 	# Get movement input
 	var input_dir = Vector2.ZERO
 	input_dir.x = Input.get_action_strength("d") - Input.get_action_strength("a")
 	input_dir.y = -(Input.get_action_strength("s") - Input.get_action_strength("w"))  # Inverted Y axis
 	input_dir = input_dir.normalized()
-	
-
 	
 	# Create 3D direction vector based on camera orientation
 	var forward = -global_transform.basis.z
