@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://by2hsp05eaksf"]
+
+[ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_udowa"]
+[ext_resource type="Script" uid="uid://chhu2luhb1jgt" path="res://Scripts/ui/note.gd" id="1_xmqat"]
+[ext_resource type="Texture2D" uid="uid://c38dqajrkajdn" path="res://Assets/Graphics/InputIcons/PC_Input_Sheet.png" id="3_po474"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udowa"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[node name="Note" type="PanelContainer"]
+z_index = 5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+theme = ExtResource("1_udowa")
+theme_override_styles/panel = SubResource("StyleBoxFlat_udowa")
+script = ExtResource("1_xmqat")
+notes_texture = ExtResource("3_po474")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_udowa")
+
+[node name="TextureRect" type="TextureRect" parent="AspectRatioContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_udowa")

@@ -1,0 +1,127 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcatrxvp6r3ff"]
+
+[ext_resource type="PackedScene" uid="uid://da50kw4yql76w" path="res://Prefabs/UI/lanes_controller.tscn" id="1_n4kk0"]
+[ext_resource type="Script" uid="uid://cp7kq5qnumldv" path="res://Scripts/ui/rythm_game_ui.gd" id="1_tc83c"]
+[ext_resource type="PackedScene" uid="uid://biyuybe5jmg3p" path="res://Prefabs/UI/lane.tscn" id="2_w3fai"]
+[ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="3_em8t4"]
+
+[node name="RythmGameUI" type="Control" node_paths=PackedStringArray("lane_controller", "status_label", "level_progress_bar", "hit_percentage_bar")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tc83c")
+lane_controller = NodePath("LanesController")
+status_label = NodePath("MarginContainer/VBoxContainer/VBoxContainer/StatusLabel")
+level_progress_bar = NodePath("MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2/ProgressBar")
+hit_percentage_bar = NodePath("MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer/ProgressBar")
+
+[node name="LanesController" parent="." node_paths=PackedStringArray("lanes") instance=ExtResource("1_n4kk0")]
+lanes = [NodePath("../MarginContainer/VBoxContainer/LanesContainer/Lane"), NodePath("../MarginContainer/VBoxContainer/LanesContainer/Lane2"), NodePath("../MarginContainer/VBoxContainer/LanesContainer/Lane3"), NodePath("../MarginContainer/VBoxContainer/LanesContainer/Lane4")]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_em8t4")
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("3_em8t4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_em8t4")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_em8t4")
+theme_override_font_sizes/font_size = 32
+text = "Trial Of Will"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_em8t4")
+theme_override_font_sizes/font_size = 32
+text = "Level Complete"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_em8t4")
+
+[node name="Control3" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Hit %"
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme = ExtResource("3_em8t4")
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Level %"
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme = ExtResource("3_em8t4")
+
+[node name="Control2" type="Control" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LanesContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("3_em8t4")
+
+[node name="Lane" parent="MarginContainer/VBoxContainer/LanesContainer" instance=ExtResource("2_w3fai")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Lane2" parent="MarginContainer/VBoxContainer/LanesContainer" instance=ExtResource("2_w3fai")]
+layout_mode = 2
+size_flags_horizontal = 3
+lane_index = 1
+
+[node name="Lane3" parent="MarginContainer/VBoxContainer/LanesContainer" instance=ExtResource("2_w3fai")]
+layout_mode = 2
+size_flags_horizontal = 3
+lane_index = 2
+
+[node name="Lane4" parent="MarginContainer/VBoxContainer/LanesContainer" instance=ExtResource("2_w3fai")]
+layout_mode = 2
+size_flags_horizontal = 3
+lane_index = 3

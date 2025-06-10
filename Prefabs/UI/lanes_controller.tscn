@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://da50kw4yql76w"]
+
+[ext_resource type="Script" uid="uid://chmgb017umk1c" path="res://Scripts/ui/lanes_controller.gd" id="1_7yj87"]
+
+[node name="LanesController" type="Node"]
+script = ExtResource("1_7yj87")

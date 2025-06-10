@@ -80,28 +80,21 @@ Drink Alcohol - Staves off insanity
 ## Thoughts organized
 
 
-Clean up code
-
-Simplify task resources
-
-----
 Impact sounds on props
-
-Add Typable terminal
-----
-
-
-Add Storage room Item shop
-
-
 
 Using toilet is brown note
 
+Fix Hermes Voice
 
+Add Storage room Item shop
 
 Make failing emergency tasks have consequences
 
 Game against Hermes
+
+Clean up code
+
+Simplify task resources
 
 ---
 

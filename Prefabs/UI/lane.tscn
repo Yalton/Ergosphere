@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://biyuybe5jmg3p"]
+
+[ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_q7h6f"]
+[ext_resource type="Script" uid="uid://dh6xyycgfep8l" path="res://Scripts/ui/lane.gd" id="2_hiokm"]
+[ext_resource type="PackedScene" uid="uid://by2hsp05eaksf" path="res://Prefabs/UI/note.tscn" id="3_hiokm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8l54"]
+bg_color = Color(0, 0, 0, 0.486275)
+
+[node name="Lane" type="PanelContainer" node_paths=PackedStringArray("hit_zone_panel")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_q7h6f")
+theme_override_styles/panel = SubResource("StyleBoxFlat_w8l54")
+script = ExtResource("2_hiokm")
+note_scene = ExtResource("3_hiokm")
+hit_zone_panel = NodePath("VBoxContainer/PanelContainer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme = ExtResource("1_q7h6f")
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+theme = ExtResource("1_q7h6f")
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_q7h6f")
+
+[node name="Control2" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+theme = ExtResource("1_q7h6f")

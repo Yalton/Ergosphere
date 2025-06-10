@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://gnd4fi0eu2wk"]
+[gd_scene load_steps=22 format=4 uid="uid://gnd4fi0eu2wk"]
 
 [ext_resource type="Texture2D" uid="uid://etgskl57oj0l" path="res://Assets/Models/Station/Props/fire_extinguisher/textures/GreyMetal-Color.png" id="1_8lkuq"]
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_r5qmy"]
@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://bwfghl6pocsu" path="res://Assets/Models/Station/Props/fire_extinguisher/textures/Pipe-Normal.png" id="9_3ccgx"]
 [ext_resource type="ArrayOccluder3D" uid="uid://jupvu0ikuxnx" path="res://Assets/Occluders/Props/fire_extinguisher.occ" id="10_rfmt0"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="11_1wkgi"]
+[ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="11_vyevo"]
+[ext_resource type="AudioStream" uid="uid://covkbvmtwuisb" path="res://Assets/Audio/Character/Nice-cock.ogg" id="12_jr255"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iy67u"]
 resource_name = "GreyMetal-Dithered"
@@ -268,6 +270,9 @@ display_name = "Fire Extinguisher"
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 mesh = SubResource("ArrayMesh_6htg8")
 skeleton = NodePath("")
+
+[node name="ImpactSounds" parent="." instance=ExtResource("11_vyevo")]
+impact_sounds = Array[AudioStream]([ExtResource("12_jr255")])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.868443, 0)
