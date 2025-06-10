@@ -466,7 +466,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_86c1k")
 
-[node name="Options" type="HBoxContainer" parent="." node_paths=PackedStringArray("master_volume_slider", "music_volume_slider", "sfx_volume_slider", "high_quality_checkbox", "vsync_checkbox", "quality_lighting_checkbox", "fullscreen_menu_button", "resolution_menu_button", "back_button")]
+[node name="Options" type="HBoxContainer" parent="." node_paths=PackedStringArray("master_volume_slider", "music_volume_slider", "sfx_volume_slider", "hermes_mute", "high_quality_checkbox", "vsync_checkbox", "quality_lighting_checkbox", "fullscreen_menu_button", "resolution_menu_button", "back_button")]
 visible = false
 z_index = 5
 layout_mode = 1
@@ -481,6 +481,7 @@ enable_debug = true
 master_volume_slider = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer/MasterVolumeSlider")
 music_volume_slider = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer/MusicVolumeSlider")
 sfx_volume_slider = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/GridContainer/SFXVolumeSlider")
+hermes_mute = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer5/MuteHermes")
 high_quality_checkbox = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/HighQualityCheckBox")
 vsync_checkbox = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer3/VsyncCheck")
 quality_lighting_checkbox = NodePath("VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/HighQualityCheckBox")
@@ -683,6 +684,29 @@ theme_override_font_sizes/font_size = 26
 text = "Audio"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_86c1k")
+
+[node name="Label" type="Label" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer5"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_86c1k")
+text = "Mute Hermes"
+
+[node name="Control" type="Control" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer5"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_86c1k")
+
+[node name="MuteHermes" type="CheckBox" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer5"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_86c1k")
+button_pressed = true
 
 [node name="GridContainer" type="GridContainer" parent="Options/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer"]
 z_index = 5

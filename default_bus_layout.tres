@@ -1,4 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=8 format=3 uid="uid://cxgofjiteje00"]
+[gd_resource type="AudioBusLayout" load_steps=7 format=3 uid="uid://cxgofjiteje00"]
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_j3pel"]
 resource_name = "Reverb"
@@ -17,9 +17,6 @@ resource_name = "LowPassFilter"
 
 [sub_resource type="AudioEffectPhaser" id="AudioEffectPhaser_j3pel"]
 resource_name = "Phaser"
-
-[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_n8wo2"]
-resource_name = "Reverb"
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_g28q7"]
 resource_name = "Reverb"
@@ -60,8 +57,6 @@ bus/4/effect/1/effect = SubResource("AudioEffectLowPassFilter_g28q7")
 bus/4/effect/1/enabled = true
 bus/4/effect/2/effect = SubResource("AudioEffectPhaser_j3pel")
 bus/4/effect/2/enabled = true
-bus/4/effect/3/effect = SubResource("AudioEffectReverb_n8wo2")
-bus/4/effect/3/enabled = true
 bus/5/name = &"Ambience"
 bus/5/solo = false
 bus/5/mute = false

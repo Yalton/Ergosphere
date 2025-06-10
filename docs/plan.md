@@ -79,9 +79,10 @@ Drink Alcohol - Staves off insanity
 
 ## Thoughts organized
 
-Fix Warnings
 
-Create new demo
+Still too dark
+
+Hermes voice still terrible
 
 ---
 

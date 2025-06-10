@@ -63,13 +63,13 @@ func _ready() -> void:
 	# Create multiple audio players for overlapping sounds
 	for i in audio_player_count:
 		var player = AudioStreamPlayer.new()
-		player.bus = "Voice"  # Assuming you have a Voice audio bus
+		player.bus = "HermesAudio"  # Assuming you have a Voice audio bus
 		add_child(player)
 		audio_players.append(player)
 	
 	# Create notification player
 	notification_player = AudioStreamPlayer.new()
-	notification_player.bus = "Voice"
+	notification_player.bus = "SFX"
 	add_child(notification_player)
 	
 	# Create timer for sequence updates
