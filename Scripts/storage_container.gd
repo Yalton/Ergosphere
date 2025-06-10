@@ -91,20 +91,32 @@ func set_locked(locked: bool) -> void:
 	# Update emissive material
 	if emissive_mesh:
 		if locked:
-			# Make it black - create a duplicate material and set emission to black
+			# Disable emission completely when locked
 			if original_emissive_material:
-				var black_material = original_emissive_material.duplicate()
-				if black_material.has_method("set_emission"):
-					black_material.set_emission(Color.BLACK)
-				elif black_material.has_method("set_albedo"):
-					black_material.set_albedo(Color.BLACK)
-				emissive_mesh.material_override = black_material
+				var dark_material = original_emissive_material.duplicate()
+				if dark_material is StandardMaterial3D:
+					dark_material.emission_enabled = false
+					dark_material.emission = Color.BLACK
+					dark_material.emission_energy_multiplier = 0.0
+				emissive_mesh.material_override = dark_material
+			else:
+				# Create a basic dark material
+				var dark_material = StandardMaterial3D.new()
+				dark_material.albedo_color = Color(0.1, 0.1, 0.1)
+				dark_material.emission_enabled = false
+				emissive_mesh.material_override = dark_material
 		else:
-			# Restore original green material
+			# Restore original green emissive material
 			if original_emissive_material:
 				emissive_mesh.material_override = original_emissive_material
 			else:
-				emissive_mesh.material_override = null
+				# Create default green emissive if no original
+				var green_material = StandardMaterial3D.new()
+				green_material.albedo_color = Color(0.2, 0.8, 0.2)
+				green_material.emission_enabled = true
+				green_material.emission = Color(0.2, 1.0, 0.2)
+				green_material.emission_energy_multiplier = 2.0
+				emissive_mesh.material_override = green_material
 	
 	DebugLogger.debug(module_name, "Container " + ("locked" if locked else "unlocked"))
 

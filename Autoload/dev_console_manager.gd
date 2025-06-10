@@ -1,6 +1,6 @@
 extends Node
 
-## Singleton that manages dev console commands and processing
+## Singleton that manages dev console commands and processing with permission system
 ## Access via DevConsoleManager in your code
 
 signal command_processed(command: String, args: Array)
@@ -10,6 +10,7 @@ var commands: Dictionary = {}
 var command_aliases: Dictionary = {}
 var dev_console_ui: DevConsoleUI = null
 var module_name: String = "DevConsoleManager"
+var is_admin: bool = false
 
 func _ready() -> void:
 	# Register with DebugLogger
@@ -21,50 +22,68 @@ func _ready() -> void:
 	# Register default commands
 	_register_default_commands()
 	
+	# Register game commands
+	_register_game_commands()
+	
 	DebugLogger.info(module_name, "Dev Console Manager initialized")
 
-func set_console_ui(console_ui: DevConsoleUI) -> void:
+func set_console_ui(console_ui: DevConsoleUI, admin_mode: bool = false) -> void:
 	dev_console_ui = console_ui
-	DebugLogger.debug(module_name, "Console UI reference set")
+	is_admin = admin_mode
+	DebugLogger.debug(module_name, "Console UI reference set. Admin mode: " + str(is_admin))
 
 func _register_default_commands() -> void:
 	# Help command
-	register_command("help", _cmd_help, "Shows available commands")
+	register_command("help", _cmd_help, "Shows available commands", false)
 	
 	# Clear command
-	register_command("clear", _cmd_clear, "Clears the console")
+	register_command("clear", _cmd_clear, "Clears the console", false)
 	register_alias("cls", "clear")
 	
 	# Exit command
-	register_command("exit", _cmd_exit, "Closes the console")
+	register_command("exit", _cmd_exit, "Closes the console", false)
 	register_alias("quit", "exit")
 	
 	# Echo command
-	register_command("echo", _cmd_echo, "Prints text to console")
+	register_command("echo", _cmd_echo, "Prints text to console", false)
 	
 	# List commands
-	register_command("list", _cmd_list, "Lists all available commands")
+	register_command("list", _cmd_list, "Lists all available commands", false)
 	
 	DebugLogger.debug(module_name, "Default commands registered")
 
-func register_command(cmd_name: String, method: Callable, description: String = "") -> void:
-	commands[cmd_name.to_lower()] = {
+func _register_game_commands() -> void:
+	# Admin-only commands
+	register_command("trigger_event", _cmd_trigger_event, "Triggers a game event by ID", true)
+	register_command("assign_task", _cmd_assign_task, "Assigns a task by ID", true)
+	register_command("complete_task", _cmd_complete_task, "Force completes a task by ID", true)
+	register_command("next_day", _cmd_next_day, "Instantly starts the next day", true)
+	
+	# User-accessible commands
+	register_command("status", _cmd_status, "Shows current game status", false)
+	register_command("tasks", _cmd_tasks, "Lists current active tasks", false)
+	
+	DebugLogger.debug(module_name, "Game commands registered")
+
+func register_command(name: String, method: Callable, description: String = "", admin_only: bool = false) -> void:
+	commands[name.to_lower()] = {
 		"method": method,
-		"description": description
+		"description": description,
+		"admin_only": admin_only
 	}
-	DebugLogger.debug(module_name, "Registered command: " + cmd_name)
+	DebugLogger.debug(module_name, "Registered command: " + name + " (admin_only: " + str(admin_only) + ")")
 
 func register_alias(alias: String, command: String) -> void:
 	command_aliases[alias.to_lower()] = command.to_lower()
 	DebugLogger.debug(module_name, "Registered alias: %s -> %s" % [alias, command])
 
-func unregister_command(cmd_name: String) -> void:
-	commands.erase(cmd_name.to_lower())
+func unregister_command(name: String) -> void:
+	commands.erase(name.to_lower())
 	# Remove any aliases pointing to this command
 	for alias in command_aliases:
-		if command_aliases[alias] == cmd_name.to_lower():
+		if command_aliases[alias] == name.to_lower():
 			command_aliases.erase(alias)
-	DebugLogger.debug(module_name, "Unregistered command: " + cmd_name)
+	DebugLogger.debug(module_name, "Unregistered command: " + name)
 
 func process_command(input: String) -> void:
 	var parts = input.strip_edges().split(" ", false)
@@ -81,6 +100,12 @@ func process_command(input: String) -> void:
 	# Execute command
 	if command in commands:
 		var cmd_data = commands[command]
+		
+		# Check permissions
+		if cmd_data["admin_only"] and not is_admin:
+			output_error("Permission denied. Admin access required.")
+			return
+		
 		DebugLogger.debug(module_name, "Executing command: %s with args: %s" % [command, args])
 		cmd_data["method"].call(args)
 		command_processed.emit(command, args)
@@ -122,11 +147,17 @@ func _cmd_help(args: Array) -> void:
 	sorted_commands.sort()
 	
 	for cmd in sorted_commands:
-		var desc = commands[cmd]["description"]
+		var cmd_data = commands[cmd]
+		# Skip admin commands if not admin
+		if cmd_data["admin_only"] and not is_admin:
+			continue
+			
+		var desc = cmd_data["description"]
+		var admin_tag = " [ADMIN]" if cmd_data["admin_only"] else ""
 		if desc:
-			output("  %s - %s" % [cmd, desc])
+			output("  %s%s - %s" % [cmd, admin_tag, desc])
 		else:
-			output("  %s" % cmd)
+			output("  %s%s" % [cmd, admin_tag])
 	
 	if not command_aliases.is_empty():
 		output_system("\nAliases:")
@@ -150,4 +181,89 @@ func _cmd_echo(args: Array) -> void:
 func _cmd_list(args: Array) -> void:
 	var sorted_commands = commands.keys()
 	sorted_commands.sort()
-	output_system("Commands: " + ", ".join(sorted_commands))
+	
+	var available_commands = []
+	for cmd in sorted_commands:
+		if not commands[cmd]["admin_only"] or is_admin:
+			available_commands.append(cmd)
+	
+	output_system("Commands: " + ", ".join(available_commands))
+
+# Game command implementations
+func _cmd_trigger_event(args: Array) -> void:
+	if args.is_empty():
+		output_error("Usage: trigger_event <event_id>")
+		return
+	
+	var event_id = args[0]
+	GameManager.event_manager.trigger_event(event_id)
+
+func _cmd_assign_task(args: Array) -> void:
+	if args.is_empty():
+		output_error("Usage: assign_task <task_id>")
+		return
+	
+	var task_id = args[0]
+	
+	if GameManager.task_manager:
+		var task = GameManager.task_manager._get_task_by_id(task_id)
+		if task:
+			GameManager.task_manager.assign_task(task)
+			output_system("Task '%s' assigned successfully" % task_id)
+		else:
+			output_error("Task '%s' not found" % task_id)
+	else:
+		output_error("Task manager not available")
+
+func _cmd_complete_task(args: Array) -> void:
+	if args.is_empty():
+		output_error("Usage: complete_task <task_id>")
+		return
+	
+	var task_id = args[0]
+	
+	if GameManager.task_manager:
+		var task = GameManager.task_manager._get_task_by_id(task_id)
+		if task:
+			task.complete()
+			output_system("Task '%s' force completed" % task_id)
+		else:
+			output_error("Task '%s' not found" % task_id)
+	else:
+		output_error("Task manager not available")
+
+func _cmd_next_day(args: Array) -> void:
+	if GameManager.time_manager:
+		GameManager.time_manager.start_next_day()
+		output_system("Started next day")
+	else:
+		output_error("Time manager not available")
+
+func _cmd_status(args: Array) -> void:
+	output_system("=== Game Status ===")
+	# Task status
+	if GameManager.task_manager:
+		var active_tasks = GameManager.task_manager.get_active_tasks()
+		output("Active tasks: %d" % active_tasks.size())
+	
+	# Player status
+	if GameManager.player:
+		output("Player position: %s" % str(GameManager.player.global_position))
+
+func _cmd_tasks(args: Array) -> void:
+	if not GameManager.task_manager:
+		output_error("Task manager not available")
+		return
+	
+	var active_tasks = GameManager.task_manager.get_active_tasks()
+	
+	if active_tasks.is_empty():
+		output_system("No active tasks")
+		return
+	
+	output_system("=== Active Tasks ===")
+	for task in active_tasks:
+		var status = "In Progress" if not task.is_completed else "Completed"
+		output("[%s] %s - %s" % [task.task_id, task.task_name, status])
+		if task.task_description:
+			output("  Description: %s" % task.task_description)

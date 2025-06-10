@@ -81,16 +81,22 @@ Drink Alcohol - Staves off insanity
 
 
 Still too dark
+- Maybe this works 
 
 Hermes voice still terrible
+- Got VoiceActor
 
 ---
 
 Add Storage room Item shop
 
-Make failing emergency tasks have consequences
+Plan Out Day 2
+
+Make more events
 
 Game against Hermes
+
+Make failing emergency tasks have consequences
 
 Clean up code
 

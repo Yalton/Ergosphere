@@ -127,10 +127,10 @@ size = Vector3(16, 2, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_40y1u"]
 size = Vector3(0.3, 4, 4)
 
-[node name="StorageWall" type="StaticBody3D"]
+[node name="StorageWall" type="StaticBody3D" node_paths=PackedStringArray("containers")]
 script = ExtResource("1_5jewd")
 enable_debug = null
-container_label_text = null
+containers = [NodePath("Cube_305/StorageContainer"), NodePath("Cube_305/StorageContainer2"), NodePath("Cube_305/StorageContainer3"), NodePath("Cube_305/StorageContainer4"), NodePath("Cube_305/StorageContainer5"), NodePath("Cube_305/StorageContainer6"), NodePath("Cube_305/StorageContainer7"), NodePath("Cube_305/StorageContainer8")]
 
 [node name="Cube_305" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_47o12")

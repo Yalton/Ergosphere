@@ -109,7 +109,7 @@ func _on_input_submitted(text: String) -> void:
 	# Display the command in console
 	add_line("> " + text)
 	
-	DevConsoleManager.set_console_ui(self)
+	DevConsoleManager.set_console_ui(self, true)
 	
 	# Process the command
 	DevConsoleManager.process_command(text)

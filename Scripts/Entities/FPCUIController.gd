@@ -69,7 +69,7 @@ func _ready() -> void:
 	
 		# Setup dev console if available
 	if dev_console_ui:
-		DevConsoleManager.set_console_ui(dev_console_ui)
+		DevConsoleManager.set_console_ui(dev_console_ui, true)
 		DebugLogger.debug(module_name, "Dev console UI connected")
 		
 	GameManager.task_manager.task_completed.connect(_on_task_completed)
