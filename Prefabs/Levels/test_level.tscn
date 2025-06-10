@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=61 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://bc74vtur5o21t" path="res://Prefabs/Furniture/StorageRoom/StorageWall.tscn" id="17_02mtw"]
 [ext_resource type="PackedScene" uid="uid://chh20j4dixc1b" path="res://Prefabs/Test/test_carriable.tscn" id="18_f5voq"]
 [ext_resource type="PackedScene" uid="uid://gnd4fi0eu2wk" path="res://Prefabs/Props/Industrial/fire_extinguisher.tscn" id="19_8jsly"]
+[ext_resource type="PackedScene" uid="uid://drwsvyp7ojuf2" path="res://Prefabs/Test/test_text_input.tscn" id="20_3ndhy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
 shader = ExtResource("1_iv3f0")
@@ -351,3 +352,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -10)
 
 [node name="Fire_Extinguisher" parent="." instance=ExtResource("19_8jsly")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 5, -9)
+
+[node name="test_text_input" parent="." instance=ExtResource("20_3ndhy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -1, -7)

@@ -87,10 +87,12 @@ Simplify task resources
 ----
 Impact sounds on props
 
-Sounds coming through walls should be muted
-
 Add Typable terminal
 ----
+
+
+Add Storage room Item shop
+
 
 
 Using toilet is brown note
