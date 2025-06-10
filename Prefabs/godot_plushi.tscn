@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ds7ixk6l2mkqn"]
+
+[ext_resource type="PackedScene" uid="uid://cm5jan00lq551" path="res://Assets/Models/Station/Props/godot_plushie/godot_plushie.gltf" id="1_4ha3a"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0nw6t"]
+radius = 0.1
+
+[node name="GodotPlushi" type="RigidBody3D"]
+
+[node name="godot_plushie" parent="." instance=ExtResource("1_4ha3a")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0684235, 0)
+shape = SubResource("SphereShape3D_0nw6t")
