@@ -6,6 +6,7 @@
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="3_em8t4"]
 
 [node name="RythmGameUI" type="Control" node_paths=PackedStringArray("lane_controller", "status_label", "level_progress_bar", "hit_percentage_bar")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
