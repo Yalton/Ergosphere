@@ -1,6 +1,6 @@
 [gd_scene load_steps=29 format=4 uid="uid://bvfpw6v5h8lci"]
 
-[ext_resource type="Script" uid="uid://b5q0gsvfkto05" path="res://Scripts/storage_container.gd" id="1_f48e7"]
+[ext_resource type="Script" uid="uid://csxoxafjbvrn7" path="res://Scripts/storage_container.gd" id="1_f48e7"]
 [ext_resource type="Texture2D" uid="uid://dl3678u6pyas6" path="res://Assets/Models/Station/Furniture/StorageWall/textures/GreyPlastic-Color.png" id="1_qju3s"]
 [ext_resource type="Texture2D" uid="uid://cd8hal3wxpnly" path="res://Assets/Models/Station/Furniture/StorageWall/textures/GreyPlastic-Roughness.png" id="2_fahvj"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="2_gs511"]
@@ -267,8 +267,10 @@ size = Vector3(3.75, 1.8, 0.05)
 [sub_resource type="BoxShape3D" id="BoxShape3D_fsrny"]
 size = Vector3(4, 2, 2)
 
-[node name="StorageContainer" type="Node3D" node_paths=PackedStringArray("animation_player")]
+[node name="StorageContainer" type="Node3D" node_paths=PackedStringArray("item_spawn_point", "emissive_mesh", "animation_player")]
 script = ExtResource("1_f48e7")
+item_spawn_point = NodePath("StorageContainerBody/SpawnLocation")
+emissive_mesh = NodePath("StorageContainerBody/Door/Cube_362")
 animation_player = NodePath("AnimationPlayer")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("8_3c1nw")]

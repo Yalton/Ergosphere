@@ -11,6 +11,7 @@ var module_name: String = "OptionsUIControl"
 @export var master_volume_slider: HSlider
 @export var music_volume_slider: HSlider
 @export var sfx_volume_slider: HSlider
+@export var hermes_mute: CheckBox
 
 # Graphics checkbox
 @export var high_quality_checkbox: CheckBox
@@ -45,6 +46,10 @@ func _ready() -> void:
 	if high_quality_checkbox:
 		high_quality_checkbox.toggled.connect(_on_quality_toggled)
 		DebugLogger.debug(module_name, "Connected high quality checkbox")
+	# Connect Hermes mute checkbox
+	if hermes_mute:
+		hermes_mute.toggled.connect(_on_hermes_mute_toggled)
+		DebugLogger.debug(module_name, "Connected Hermes mute checkbox")
 	
 	# Connect video settings
 	if vsync_checkbox:
@@ -94,6 +99,10 @@ func refresh_settings() -> void:
 		sfx_volume_slider.value = db_to_linear(AudioServer.get_bus_volume_db(SettingsManager.SFX_BUS)) * 100
 		DebugLogger.debug(module_name, "SFX volume: " + str(sfx_volume_slider.value))
 	
+	if hermes_mute:
+		hermes_mute.button_pressed = SettingsManager.get_hermes_muted()
+		DebugLogger.debug(module_name, "Hermes muted: " + str(hermes_mute.button_pressed))
+		
 	# Load graphics and video settings from config
 	var config = ConfigFile.new()
 	var err = config.load("user://settings.cfg")
@@ -148,6 +157,8 @@ func _apply_default_settings() -> void:
 		fullscreen_menu_button.text = "Windowed"
 	if resolution_menu_button:
 		resolution_menu_button.text = "1920x1080"
+	if hermes_mute:
+		hermes_mute.button_pressed = false  # Default to not muted
 
 func save_current_settings() -> void:
 	DebugLogger.debug(module_name, "Saving all current settings")
@@ -163,7 +174,10 @@ func save_current_settings() -> void:
 		config.set_value("audio", "music_volume", music_volume_slider.value)
 	if sfx_volume_slider:
 		config.set_value("audio", "sfx_volume", sfx_volume_slider.value)
-	
+	# Save Hermes mute
+	if hermes_mute:
+		config.set_value("audio", "hermes_muted", hermes_mute.button_pressed)
+		
 	# Save graphics
 	if high_quality_checkbox:
 		config.set_value("graphics", "high_quality", high_quality_checkbox.button_pressed)
@@ -254,3 +268,10 @@ func _on_resolution_selected(id: int) -> void:
 func _on_back_button_pressed() -> void:
 	DebugLogger.debug(module_name, "Back button pressed")
 	back_pressed.emit()
+
+## Hermes mute handler
+func _on_hermes_mute_toggled(button_pressed: bool) -> void:
+	DebugLogger.debug(module_name, "Hermes mute toggled to: " + str(button_pressed))
+	SettingsManager.set_hermes_muted(button_pressed)
+	save_current_settings()
+	

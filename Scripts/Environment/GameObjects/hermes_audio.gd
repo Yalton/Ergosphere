@@ -1,13 +1,11 @@
 class_name HermesAudio
-extends AudioStreamPlayer
+extends HermesPhonemePlayer
 
-## Debug settings
-@export var enable_debug: bool = true
-var module_name: String = "HermesAudio"
+## Main Hermes audio controller that plays phoneme sequences instead of voice files
+## Handles subtitle timing and phoneme audio synchronization
 
+## Enable or disable this Hermes instance
 @export var enabled = true
-## Sound that plays before any Hermes voice message
-@export var intro_sound: AudioStream
 ## Collection of voice clips available to this Hermes
 @export var voice_clips: Array[HermesVoiceClip] = []
 ## Delay in seconds before playing the intro ID on level start
@@ -16,47 +14,33 @@ var module_name: String = "HermesAudio"
 @export var auto_play_id: String = "start"
 ## If true, will automatically display subtitles
 @export var enable_subtitles: bool = true
-## Can this voice line be said more than once?
-@export var is_repeatable: bool = true
-## How long subtitles should remain displayed after their end time (in seconds)
-@export var subtitle_overlap: float = 0.2
+## Name displayed before subtitles
+@export var speaker_name: String = "[Hermes]:"
 
-# Internal references
-var intro_player: AudioStreamPlayer
-var is_playing_sequence: bool = false
+# Internal state
 var queued_voice_clip: HermesVoiceClip = null
 var current_voice_clip: HermesVoiceClip = null
-var subtitle_timer: Timer
 var player_ui_controller = null
 var current_subtitle: String = ""
-var last_subtitle_end_time: float = 0.0
-var speaker_name : String = "[Hermes]:"
-var played_voice_ids: Array[String] = []  # Track voice clips that have been played
+var played_voice_ids: Array[String] = []
+var current_subtitle_index: int = 0
+var subtitle_timer: Timer
 
 func _ready() -> void:
-	# Register with debug logger
+	super._ready()
+	module_name = "HermesAudio"
 	DebugLogger.register_module(module_name, enable_debug)
-	
-	# Create intro sound player
-	intro_player = AudioStreamPlayer.new()
-	intro_player.bus = bus  # Use same bus as this player
-	intro_player.finished.connect(_on_intro_finished)
-	add_child(intro_player)
 	
 	# Create subtitle timer
 	subtitle_timer = Timer.new()
-	subtitle_timer.wait_time = 0.1  # Check subtitle updates 10 times per second
-	subtitle_timer.one_shot = false
-	subtitle_timer.timeout.connect(_update_subtitles)
+	subtitle_timer.one_shot = true
+	subtitle_timer.timeout.connect(_on_subtitle_line_finished)
 	add_child(subtitle_timer)
-
+	
 	# Connect to task completion signal
 	if GameManager and GameManager.task_manager:
 		GameManager.task_manager.task_completed.connect(_on_task_completed)
 		DebugLogger.debug(module_name, "Connected to TaskManager task_completed signal")
-		
-	# Connect our own finished signal
-	finished.connect(_on_voice_finished)
 	
 	# Set up auto-play if configured
 	if auto_play_id and auto_play_delay > 0 and enabled:
@@ -97,90 +81,117 @@ func play_voice_by_id(id: String) -> bool:
 		return false
 	
 	played_voice_ids.append(id)
-
 	DebugLogger.debug(module_name, "Playing voice ID: " + id + " - " + voice_clip.description)
 	
-	# Start the sequence with intro sound
-	is_playing_sequence = true
-	queued_voice_clip = voice_clip
-	
-	if intro_sound:
-		intro_player.stream = intro_sound
-		intro_player.play()
-		DebugLogger.debug(module_name, "Playing intro sound")
-	else:
-		# No intro sound, play voice directly
-		_play_voice_clip(voice_clip)
-	
+	_play_voice_clip(voice_clip)
 	return true
 
-func _on_intro_finished() -> void:
-	if queued_voice_clip:
-		_play_voice_clip(queued_voice_clip)
-
 func _play_voice_clip(voice_clip: HermesVoiceClip) -> void:
-	stream = voice_clip.audio_stream
 	current_voice_clip = voice_clip
-	play()
+	current_subtitle_index = 0
+	is_playing_sequence = true
 	
-	# Start subtitle timer if we have subtitles and UI controller
+	# Start subtitle management if we have subtitles and UI controller
 	if enable_subtitles and voice_clip.subtitle_lines.size() > 0:
-		# Try to find UI controller if we don't have one
 		if not player_ui_controller:
 			_find_player_ui_controller()
 			
 		if player_ui_controller:
-			subtitle_timer.start()
 			current_subtitle = ""
-			last_subtitle_end_time = 0.0
-			# Show initial subtitle if there's one at the beginning
-			_update_subtitles()
+			_start_next_subtitle_line()
 		else:
 			DebugLogger.warning(module_name, "Cannot show subtitles - UI controller not found")
+			# Still play phonemes even without UI
+			_play_phonemes_without_subtitles()
+	else:
+		# No subtitles, create a basic line based on the description
+		_play_phonemes_without_subtitles()
 	
 	DebugLogger.debug(module_name, "Playing voice clip: " + voice_clip.id)
 
-func _update_subtitles() -> void:
-	if not current_voice_clip or not player_ui_controller:
+func _play_phonemes_without_subtitles() -> void:
+	# Create a dummy subtitle line for phoneme timing
+	var dummy_line = HermesSubtitleLine.new()
+	dummy_line.start_time = 0.0
+	dummy_line.end_time = 2.0  # Default 2 second duration
+	dummy_line.text = current_voice_clip.description if current_voice_clip else "..."
+	
+	# Play with notification since this is the start
+	play_phoneme_sequence(dummy_line, true)
+	
+	# Schedule finish (with notification delay)
+	var total_time = dummy_line.end_time
+	if notification_sound:
+		total_time += 0.5  # Account for notification delay
+	var timer = get_tree().create_timer(total_time)
+	timer.timeout.connect(_finish_voice_sequence)
+
+func _start_next_subtitle_line() -> void:
+	if current_subtitle_index >= current_voice_clip.subtitle_lines.size():
+		# All subtitle lines processed
+		_finish_voice_sequence()
 		return
 	
-	# Get current playback position
-	var current_time = get_playback_position()
+	var subtitle_line = current_voice_clip.subtitle_lines[current_subtitle_index]
+	current_subtitle = subtitle_line.text
 	
-	# Find active subtitle for current time
-	var subtitle_text = current_voice_clip.get_active_subtitle(current_time)
+	# Only play notification on the very first line
+	var with_notification = (current_subtitle_index == 0)
 	
-	# Handle subtitle changes
-	if subtitle_text != current_subtitle:
-		if subtitle_text:
-			# Show new subtitle without auto-hiding
-			if player_ui_controller.has_method("show_persistent_message"):
-				player_ui_controller.show_persistent_message(speaker_name, subtitle_text)
-				DebugLogger.debug(module_name, "Showing persistent subtitle: " + subtitle_text)
-			# Fall back to show_full_message with no auto-hide time
-			elif player_ui_controller.has_method("show_full_message"):
-				player_ui_controller.show_full_message(speaker_name, subtitle_text, -1) # -1 means don't auto-hide
-				DebugLogger.debug(module_name, "Showing full subtitle: " + subtitle_text)
-			else:
-				player_ui_controller.show_message(speaker_name, subtitle_text)
-				DebugLogger.debug(module_name, "Showing subtitle: " + subtitle_text)
-		else:
-			# No current subtitle active, check if we need to hide
-			if current_subtitle != "" and player_ui_controller.has_method("hide_message"):
-				player_ui_controller.hide_message()
-				DebugLogger.debug(module_name, "Hiding subtitle")
-		
-		current_subtitle = subtitle_text
-		
-		# Store end time for current subtitle
-		if subtitle_text:
-			for line in current_voice_clip.subtitle_lines:
-				if line.text == subtitle_text:
-					last_subtitle_end_time = line.end_time
-					break
+	# Delay subtitle display if notification is playing
+	if with_notification and notification_sound:
+		DebugLogger.debug(module_name, "Delaying subtitle for notification")
+		var delay_timer = get_tree().create_timer(0.5)
+		delay_timer.timeout.connect(func(): _show_subtitle_and_play_phonemes(subtitle_line, with_notification))
+	else:
+		_show_subtitle_and_play_phonemes(subtitle_line, with_notification)
 
-func _on_voice_finished() -> void:
+func _show_subtitle_and_play_phonemes(subtitle_line: HermesSubtitleLine, with_notification: bool) -> void:
+	# Show the subtitle
+	if player_ui_controller:
+		if player_ui_controller.has_method("show_persistent_message"):
+			player_ui_controller.show_persistent_message(speaker_name, subtitle_line.text)
+		elif player_ui_controller.has_method("show_full_message"):
+			player_ui_controller.show_full_message(speaker_name, subtitle_line.text, -1)
+		else:
+			player_ui_controller.show_message(speaker_name, subtitle_line.text)
+		
+		DebugLogger.debug(module_name, "Showing subtitle: " + subtitle_line.text)
+	
+	# Play phonemes for this subtitle line
+	play_phoneme_sequence(subtitle_line, with_notification)
+	
+	# Schedule next subtitle line
+	var line_duration = subtitle_line.end_time - subtitle_line.start_time
+	# Add notification delay only for first line
+	if with_notification and notification_sound:
+		line_duration += 0.5  # Account for notification delay
+	subtitle_timer.wait_time = line_duration
+	subtitle_timer.start()
+
+func _on_subtitle_line_finished() -> void:
+	# Stop any remaining phonemes from previous line
+	stop_sequence()
+	
+	# Hide current subtitle
+	if player_ui_controller and player_ui_controller.has_method("hide_message") and current_subtitle != "":
+		player_ui_controller.hide_message()
+		DebugLogger.debug(module_name, "Hiding subtitle")
+	
+	current_subtitle_index += 1
+	
+	# Small gap between subtitle lines for natural pacing
+	var gap_timer = get_tree().create_timer(0.1)
+	gap_timer.timeout.connect(_start_next_subtitle_line)
+
+func _finish_voice_sequence() -> void:
 	DebugLogger.debug(module_name, "Voice sequence completed")
+	
+	# Stop phoneme player
+	stop_sequence()
+	
+	# Stop subtitle timer
+	subtitle_timer.stop()
 	
 	# Hide any remaining subtitle
 	if player_ui_controller and player_ui_controller.has_method("hide_message") and current_subtitle != "":
@@ -188,13 +199,9 @@ func _on_voice_finished() -> void:
 		DebugLogger.debug(module_name, "Hiding final subtitle")
 	
 	is_playing_sequence = false
-	queued_voice_clip = null
 	current_voice_clip = null
-	
-	# Stop subtitle timer
-	subtitle_timer.stop()
 	current_subtitle = ""
-	last_subtitle_end_time = 0.0
+	current_subtitle_index = 0
 
 func find_voice_clip(id: String) -> HermesVoiceClip:
 	for clip in voice_clips:
@@ -203,11 +210,11 @@ func find_voice_clip(id: String) -> HermesVoiceClip:
 	return null
 
 func stop_voice() -> void:
-	if intro_player.playing:
-		intro_player.stop()
+	# Stop phoneme sequence
+	stop_sequence()
 	
-	if playing:
-		stop()
+	# Stop subtitle timer
+	subtitle_timer.stop()
 	
 	# Hide any displayed subtitle
 	if player_ui_controller and player_ui_controller.has_method("hide_message") and current_subtitle != "":
@@ -215,14 +222,11 @@ func stop_voice() -> void:
 		DebugLogger.debug(module_name, "Hiding subtitle on stop")
 	
 	is_playing_sequence = false
-	queued_voice_clip = null
 	current_voice_clip = null
-	subtitle_timer.stop()
 	current_subtitle = ""
-	last_subtitle_end_time = 0.0
+	current_subtitle_index = 0
 	
 	DebugLogger.debug(module_name, "Voice playback stopped")
-
 
 func _on_task_completed(task_id: String) -> void:
 	# Look for a voice clip with matching ID
@@ -232,3 +236,4 @@ func _on_task_completed(task_id: String) -> void:
 		return
 	
 	var success = play_voice_by_id(task_id)
+	DebugLogger.debug(module_name, "Task completed trigger - playing voice: " + task_id + " (success: " + str(success) + ")")

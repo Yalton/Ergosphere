@@ -9,6 +9,7 @@ var module_name: String = "SettingsManager"
 const MASTER_BUS = 0
 const MUSIC_BUS = 1
 const SFX_BUS = 2
+const HERMES_BUS: int = 4  # Or whatever index your HermesAudio bus is
 
 # Default settings
 const DEFAULT_HIGH_QUALITY = true
@@ -21,6 +22,8 @@ const DEFAULT_VSYNC = true
 const DEFAULT_QUALITY_LIGHTING = true
 const DEFAULT_FULLSCREEN_MODE = 0 # Windowed
 const DEFAULT_RESOLUTION = Vector2i(1920, 1080)
+
+var is_hermes_muted: bool = false
 
 # Available resolutions
 var resolutions: Array = [
@@ -246,3 +249,32 @@ func get_resolution_index(resolution: Vector2i) -> int:
 		if resolutions[i] == resolution:
 			return i
 	return 3 # Default to 1920x1080
+
+## Check if Hermes voice is muted
+static func get_hermes_muted() -> bool:
+	var config = ConfigFile.new()
+	var err = config.load("user://settings.cfg")
+	if err != OK:
+		return false  # Default to not muted
+	return config.get_value("audio", "hermes_muted", false)
+
+## Set Hermes mute state by controlling the bus volume
+static func set_hermes_muted(muted: bool) -> void:
+	# Mute/unmute the HermesAudio bus
+	if muted:
+		AudioServer.set_bus_mute(HERMES_BUS, true)
+	else:
+		AudioServer.set_bus_mute(HERMES_BUS, false)
+	
+	# Save the setting
+	var config = ConfigFile.new()
+	config.load("user://settings.cfg")  # Load existing settings
+	config.set_value("audio", "hermes_muted", muted)
+	config.save("user://settings.cfg")
+	DebugLogger.debug("SettingsManager", "Hermes mute set to: " + str(muted))
+
+## Apply Hermes mute setting on startup
+static func apply_hermes_mute_setting() -> void:
+	var muted = get_hermes_muted()
+	AudioServer.set_bus_mute(HERMES_BUS, muted)
+	DebugLogger.debug("SettingsManager", "Applied Hermes mute setting: " + str(muted))

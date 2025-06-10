@@ -70,11 +70,11 @@ func _ready() -> void:
 func _start_introduction() -> void:
 	DebugLogger.info(module_name, "Starting introduction sequence")
 	
-	# Play the initial intro message
-	if hermes_audio:
-		hermes_audio.play_voice_by_id("start")
-	else:
-		DebugLogger.error(module_name, "Cannot play intro - no HermesAudio!")
+	## Play the initial intro message
+	#if hermes_audio:
+		#hermes_audio.play_voice_by_id("start")
+	#else:
+		#DebugLogger.error(module_name, "Cannot play intro - no HermesAudio!")
 
 func _on_player_in_room(room_id: String) -> void:
 	# Skip if intro is already complete

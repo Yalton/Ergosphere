@@ -1,6 +1,5 @@
-[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=7 format=3 uid="uid://ipi0wqmhy0gw"]
+[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=6 format=3 uid="uid://ipi0wqmhy0gw"]
 
-[ext_resource type="AudioStream" uid="uid://w8gjgbeyff15" path="res://Assets/Audio/HermesLines/storage_room.ogg" id="1_cstly"]
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/HermesClip.gd" id="2_qhnuo"]
 [ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/HermesSubtitleLine.gd" id="3_s1slc"]
 
@@ -28,7 +27,6 @@ metadata/_custom_type_script = "uid://dqnus1usgcowd"
 [resource]
 script = ExtResource("2_qhnuo")
 id = "stor_room"
-audio_stream = ExtResource("1_cstly")
 description = ""
 subtitle_lines = Array[ExtResource("3_s1slc")]([SubResource("Resource_qlckk"), SubResource("Resource_x7bpx"), SubResource("Resource_btgkm")])
 is_repeatable = false

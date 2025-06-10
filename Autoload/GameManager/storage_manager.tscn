@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d03sh0ygt4cwo"]
+
+[ext_resource type="Script" uid="uid://4sb8y82ssx35" path="res://Autoload/StorageManager.gd" id="1_x85x1"]
+
+[node name="StorageManager" type="Node"]
+script = ExtResource("1_x85x1")

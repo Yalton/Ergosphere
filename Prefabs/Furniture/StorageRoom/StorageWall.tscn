@@ -129,6 +129,8 @@ size = Vector3(0.3, 4, 4)
 
 [node name="StorageWall" type="StaticBody3D"]
 script = ExtResource("1_5jewd")
+enable_debug = null
+container_label_text = null
 
 [node name="Cube_305" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_47o12")
