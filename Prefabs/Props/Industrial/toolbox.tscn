@@ -1,14 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://bawvyf2m65vnk"]
+[gd_scene load_steps=11 format=3 uid="uid://bawvyf2m65vnk"]
 
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_inbu3"]
 [ext_resource type="PackedScene" uid="uid://co2kxnw4r4amx" path="res://Assets/Models/Station/Props/toolbox/Toolbox.gltf" id="1_vic4l"]
 [ext_resource type="ArrayOccluder3D" uid="uid://b27yvf5creytx" path="res://Assets/Occluders/Props/toolbox.occ" id="2_f100d"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_alria"]
+[ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_rd007"]
+[ext_resource type="AudioStream" uid="uid://5kvvmsy1r178" path="res://Assets/Audio/Impacts/HardHollow/hard_hollow_1.ogg" id="6_jodf6"]
+[ext_resource type="AudioStream" uid="uid://dsys4mrt4fb1b" path="res://Assets/Audio/Impacts/HardHollow/hard_hollow_2.ogg" id="7_3yyka"]
+[ext_resource type="AudioStream" uid="uid://dns050f6y7l4l" path="res://Assets/Audio/Impacts/HardHollow/hard_hollow_3.ogg" id="8_4syxd"]
+[ext_resource type="AudioStream" uid="uid://dqrgv8xt1nsej" path="res://Assets/Audio/Impacts/HardHollow/hard_hollow_4.ogg" id="9_ls6nw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f100d"]
 size = Vector3(1.8, 1.2, 1.11)
 
 [node name="toolbox" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_inbu3")
 display_name = "Toolbox"
 
@@ -23,3 +30,7 @@ shape = SubResource("BoxShape3D_f100d")
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("2_f100d")
+
+[node name="ImpactSounds" parent="." instance=ExtResource("5_rd007")]
+impact_sounds = Array[AudioStream]([ExtResource("6_jodf6"), ExtResource("7_3yyka"), ExtResource("8_4syxd"), ExtResource("9_ls6nw")])
+min_volume_db = -8.0

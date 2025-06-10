@@ -80,10 +80,6 @@ Drink Alcohol - Staves off insanity
 ## Thoughts organized
 
 
-Impact sounds on props
-
-Using toilet is brown note
-
 Fix Hermes Voice
 
 Add Storage room Item shop

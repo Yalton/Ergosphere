@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://b3d7law7cftrb"]
+[gd_scene load_steps=25 format=4 uid="uid://b3d7law7cftrb"]
 
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_6ygd1"]
 [ext_resource type="Texture2D" uid="uid://b55cac1uba1uy" path="res://Assets/Models/Station/Props/Drive/textures/GreyPlastic-Color.png" id="1_10up0"]
@@ -14,6 +14,9 @@
 [ext_resource type="Texture2D" uid="uid://d3occfdvdey4c" path="res://Assets/Models/Station/Props/Drive/textures/Pipe-Metalness-Pipe-Roughness.png" id="11_abcpm"]
 [ext_resource type="Texture2D" uid="uid://bn6n46p30lmno" path="res://Assets/Models/Station/Props/Drive/textures/Pipe-Normal.png" id="12_35mk8"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="14_2a1di"]
+[ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="15_j5f2o"]
+[ext_resource type="AudioStream" uid="uid://cg5phwrprhtn6" path="res://Assets/Audio/Impacts/Metal/metal_1.ogg" id="16_ncv0u"]
+[ext_resource type="AudioStream" uid="uid://bhuh44fjonvjm" path="res://Assets/Audio/Impacts/Metal/metal_2.ogg" id="17_s2hem"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_udtgt"]
 resource_name = "GreyPlastic"
@@ -190,3 +193,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00151855, 0)
 shape = SubResource("BoxShape3D_6j2sj")
 
 [node name="CarryableComponent" parent="." instance=ExtResource("14_2a1di")]
+
+[node name="ImpactSounds" parent="." instance=ExtResource("15_j5f2o")]
+impact_sounds = Array[AudioStream]([ExtResource("16_ncv0u"), ExtResource("17_s2hem")])
+min_volume_db = -10.0

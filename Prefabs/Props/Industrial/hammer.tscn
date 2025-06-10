@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://w3254k8qn61q"]
+[gd_scene load_steps=9 format=3 uid="uid://w3254k8qn61q"]
 
 [ext_resource type="PackedScene" uid="uid://dfmvnk6o6l4t3" path="res://Assets/Models/Station/Props/hammer/hammer.gltf" id="1_e0xq4"]
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_sqb2j"]
 [ext_resource type="ArrayOccluder3D" uid="uid://cwo0c6084oykc" path="res://Assets/Occluders/Props/hammer.occ" id="2_kl48v"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_0nrx4"]
+[ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_xer4w"]
+[ext_resource type="AudioStream" uid="uid://bhuh44fjonvjm" path="res://Assets/Audio/Impacts/Metal/metal_2.ogg" id="6_fm2s8"]
+[ext_resource type="AudioStream" uid="uid://b8f6bh105c5uw" path="res://Assets/Audio/Impacts/Metal/metal_3.ogg" id="7_wxhwc"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kl48v"]
 radius = 0.171
@@ -26,3 +29,7 @@ shape = SubResource("CapsuleShape3D_kl48v")
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("2_kl48v")
+
+[node name="ImpactSounds" parent="." instance=ExtResource("5_xer4w")]
+impact_sounds = Array[AudioStream]([ExtResource("6_fm2s8"), ExtResource("7_wxhwc")])
+min_volume_db = -8.0

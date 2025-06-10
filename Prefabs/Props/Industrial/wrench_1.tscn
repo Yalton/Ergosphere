@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://m3w5u6lp1e1l"]
+[gd_scene load_steps=8 format=3 uid="uid://m3w5u6lp1e1l"]
 
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_fqqjs"]
 [ext_resource type="PackedScene" uid="uid://drsmbx5ptlsi4" path="res://Assets/Models/Station/Props/Wrenches/wrench_1/wrench_1.gltf" id="1_oqcfh"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_2gkcb"]
+[ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="4_qh8yp"]
+[ext_resource type="AudioStream" uid="uid://bhuh44fjonvjm" path="res://Assets/Audio/Impacts/Metal/metal_2.ogg" id="5_scoy3"]
+[ext_resource type="AudioStream" uid="uid://b8f6bh105c5uw" path="res://Assets/Audio/Impacts/Metal/metal_3.ogg" id="6_qrap5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_oqcfh"]
 size = Vector3(0.435, 0.035, 0.13)
@@ -20,3 +23,7 @@ display_name = "Wrench"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0139249, 0)
 shape = SubResource("BoxShape3D_oqcfh")
+
+[node name="ImpactSounds" parent="." instance=ExtResource("4_qh8yp")]
+impact_sounds = Array[AudioStream]([ExtResource("5_scoy3"), ExtResource("6_qrap5")])
+min_volume_db = -10.0

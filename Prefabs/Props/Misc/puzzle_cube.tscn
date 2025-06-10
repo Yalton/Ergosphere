@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://v273p56g7y0u"]
+[gd_scene load_steps=9 format=3 uid="uid://v273p56g7y0u"]
 
 [ext_resource type="PackedScene" uid="uid://cf1v6wxmxtoe5" path="res://Assets/Models/Station/Props/PuzzleCube/puzzle_cube.gltf" id="1_2jrfn"]
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_trr0i"]
 [ext_resource type="ArrayOccluder3D" uid="uid://f3frfhc3afut" path="res://Assets/Occluders/Props/puzzle_cube.occ" id="2_n6og4"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_l2inw"]
+[ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_hxfex"]
+[ext_resource type="AudioStream" uid="uid://b58b3rkx2glvd" path="res://Assets/Audio/Impacts/wood_1.ogg" id="6_rq461"]
+[ext_resource type="AudioStream" uid="uid://hdxekf2cf55s" path="res://Assets/Audio/Impacts/wood_2.ogg" id="7_mvo8k"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_n6og4"]
 size = Vector3(0.24, 0.24, 0.24)
@@ -25,3 +28,7 @@ shape = SubResource("BoxShape3D_n6og4")
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("2_n6og4")
+
+[node name="ImpactSounds" parent="." instance=ExtResource("5_hxfex")]
+impact_sounds = Array[AudioStream]([ExtResource("6_rq461"), ExtResource("7_mvo8k")])
+min_volume_db = -12.0

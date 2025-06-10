@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://cjdxehd70jmdl"]
+[gd_scene load_steps=19 format=4 uid="uid://cjdxehd70jmdl"]
 
 [ext_resource type="Texture2D" uid="uid://c6iarq7mpo81k" path="res://Assets/Models/Station/Props/dumbell/textures/BlackMetal-Color.png" id="1_7rih2"]
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_ocavn"]
@@ -9,6 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://ld4agisevnn1" path="res://Assets/Models/Station/Props/dumbell/textures/BlackPlastic-Normal.png" id="6_lsnoc"]
 [ext_resource type="ArrayOccluder3D" uid="uid://c0sms6sin5s7" path="res://Assets/Occluders/Props/dumbell.occ" id="7_48twt"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="8_tmkax"]
+[ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="10_pu5c3"]
+[ext_resource type="AudioStream" uid="uid://bhuh44fjonvjm" path="res://Assets/Audio/Impacts/Metal/metal_2.ogg" id="11_v4b3b"]
+[ext_resource type="AudioStream" uid="uid://b8f6bh105c5uw" path="res://Assets/Audio/Impacts/Metal/metal_3.ogg" id="12_jp5lu"]
+[ext_resource type="AudioStream" uid="uid://dqcstsks2fuuj" path="res://Assets/Audio/Impacts/Metal/metal_deep_1.ogg" id="13_nescu"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fyylt"]
 resource_name = "BlackMetal-Dithered"
@@ -118,3 +122,7 @@ shape = SubResource("CylinderShape3D_4umrm")
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("7_48twt")
+
+[node name="ImpactSounds" parent="." instance=ExtResource("10_pu5c3")]
+impact_sounds = Array[AudioStream]([ExtResource("11_v4b3b"), ExtResource("12_jp5lu"), ExtResource("13_nescu")])
+min_volume_db = -6.0

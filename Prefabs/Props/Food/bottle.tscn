@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=4 uid="uid://dtqy8ug1cskku"]
+[gd_scene load_steps=10 format=4 uid="uid://dtqy8ug1cskku"]
 
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/GameObject.gd" id="1_aysg5"]
 [ext_resource type="Material" uid="uid://qfi7yh56d7i5" path="res://Assets/Materials/Window.tres" id="1_lfl5x"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_p3htm"]
+[ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="4_5nb7n"]
+[ext_resource type="AudioStream" uid="uid://bhuh44fjonvjm" path="res://Assets/Audio/Impacts/Metal/metal_2.ogg" id="5_jetg7"]
+[ext_resource type="AudioStream" uid="uid://b8f6bh105c5uw" path="res://Assets/Audio/Impacts/Metal/metal_3.ogg" id="6_m26l3"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_tv4t1"]
 _surfaces = [{
@@ -58,3 +61,7 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.377016, 0)
 shape = SubResource("CylinderShape3D_480yt")
+
+[node name="ImpactSounds" parent="." instance=ExtResource("4_5nb7n")]
+impact_sounds = Array[AudioStream]([ExtResource("5_jetg7"), ExtResource("6_m26l3")])
+min_volume_db = -10.0

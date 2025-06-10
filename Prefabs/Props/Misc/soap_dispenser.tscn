@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyvvlff5r5767"]
+[gd_scene load_steps=7 format=3 uid="uid://dyvvlff5r5767"]
 
 [ext_resource type="PackedScene" uid="uid://5374vb08vc47" path="res://Assets/Models/Station/Props/soap_dispenser/soap.gltf" id="1_xhx1q"]
 [ext_resource type="ArrayOccluder3D" uid="uid://d1iefrwu2lqe8" path="res://Assets/Occluders/Props/soap_dispenser.occ" id="2_paev5"]
+[ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="3_lejdl"]
+[ext_resource type="AudioStream" uid="uid://b58b3rkx2glvd" path="res://Assets/Audio/Impacts/wood_1.ogg" id="4_ogfnh"]
+[ext_resource type="AudioStream" uid="uid://hdxekf2cf55s" path="res://Assets/Audio/Impacts/wood_2.ogg" id="5_rto1p"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_paev5"]
 height = 0.9
@@ -18,3 +21,7 @@ shape = SubResource("CylinderShape3D_paev5")
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("2_paev5")
+
+[node name="ImpactSounds" parent="." instance=ExtResource("3_lejdl")]
+impact_sounds = Array[AudioStream]([ExtResource("4_ogfnh"), ExtResource("5_rto1p")])
+min_volume_db = -10.0
