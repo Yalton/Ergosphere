@@ -79,8 +79,15 @@ Drink Alcohol - Staves off insanity
 
 ## Thoughts organized
 
-
 Fix Hermes Voice
+
+- Build it out of random Sam Phonemes
+
+Fix Warnings
+
+Create new demo
+
+Give player actual gravity
 
 Add Storage room Item shop
 

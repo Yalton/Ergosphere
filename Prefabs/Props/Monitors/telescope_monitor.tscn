@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://chqdixp3k58yg"]
+[gd_scene load_steps=26 format=4 uid="uid://chqdixp3k58yg"]
 
 [ext_resource type="Script" uid="uid://dfw7sryh2lg4d" path="res://Scripts/Environment/GameObjects/telescope_monitor.gd" id="1_86hom"]
 [ext_resource type="Texture2D" uid="uid://bnm0acu4duroo" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/GreyPlastic-Color.png" id="2_1as24"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="9_1fmvh"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="9_56nk0"]
 [ext_resource type="PackedScene" uid="uid://b1outtodahk2b" path="res://Prefabs/UI/telescope_adjust_ui.tscn" id="10_1as24"]
+[ext_resource type="ArrayOccluder3D" uid="uid://bnlncdi6cfyvc" path="res://Assets/Occluders/Props/Monitors/telescope_monitor.occ" id="13_143ql"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cdamu"]
 resource_name = "GreyPlastic"
@@ -200,3 +201,6 @@ shape = SubResource("BoxShape3D_54t0p")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28306, 0.472274)
 mesh = SubResource("QuadMesh_54t0p")
 surface_material_override/0 = SubResource("StandardMaterial3D_stgnb")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("13_143ql")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://c7n25om7olp7"]
+[gd_scene load_steps=26 format=4 uid="uid://c7n25om7olp7"]
 
 [ext_resource type="Texture2D" uid="uid://be7a8jj6erek0" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Color.png" id="1_3igau"]
 [ext_resource type="Script" uid="uid://of78jwwcyi1w" path="res://Scripts/Environment/GameObjects/memory_block_monitor.gd" id="1_aoay5"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="8_enhsa"]
 [ext_resource type="PackedScene" uid="uid://bdy6quxbmyj42" path="res://Prefabs/UI/memory_purge_game.tscn" id="9_14863"]
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="9_i5rsv"]
+[ext_resource type="ArrayOccluder3D" uid="uid://c8qoceconqnna" path="res://Assets/Occluders/Props/Monitors/memory_block_monitor.occ" id="13_kodtd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khebe"]
 resource_name = "Screen"
@@ -217,3 +218,6 @@ shape = SubResource("BoxShape3D_jt0dg")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.43417, 1.67647)
 mesh = SubResource("QuadMesh_u2o1j")
 surface_material_override/0 = SubResource("StandardMaterial3D_jqiap")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("13_kodtd")

@@ -78,6 +78,9 @@ func _find_player_ui_controller() -> void:
 			DebugLogger.debug(module_name, "Found player UI controller")
 
 func play_voice_by_id(id: String) -> bool:
+	if !enabled: 
+		return false
+	
 	if is_playing_sequence:
 		DebugLogger.warning(module_name, "Interrupting current voice to play ID '" + id + "'")
 		stop_voice()

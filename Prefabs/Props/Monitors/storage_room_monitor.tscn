@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://7cx4x08bnh2o"]
+[gd_scene load_steps=26 format=4 uid="uid://7cx4x08bnh2o"]
 
 [ext_resource type="Texture2D" uid="uid://cd7fw3herjnag" path="res://Assets/Models/Station/Props/Monitors/SquareMonitor/textures/GreyPlastic-Color.png" id="1_ufi6w"]
 [ext_resource type="Texture2D" uid="uid://bebpfdmfq188m" path="res://Assets/Models/Station/Props/Monitors/SquareMonitor/textures/GreyPlastic-Roughness.png" id="2_gk3iu"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://vrjj6glrveox" path="res://Assets/Models/Station/Props/Monitors/SquareMonitor/textures/BlackerMetal-Normal.png" id="9_3sxeh"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="10_j141i"]
 [ext_resource type="PackedScene" uid="uid://cr1bpmb7lgifx" path="res://Prefabs/UI/download_ui.tscn" id="11_ysran"]
+[ext_resource type="ArrayOccluder3D" uid="uid://bhlbs6oq2ptew" path="res://Assets/Occluders/Props/Monitors/storage_room_monitor.occ" id="12_gk3iu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m2b70"]
 size = Vector3(0.255, 0.216523, 0.402853)
@@ -225,3 +226,12 @@ shape = SubResource("BoxShape3D_h1h2p")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3468, 3.90274)
 mesh = SubResource("QuadMesh_fkaaa")
 surface_material_override/0 = SubResource("StandardMaterial3D_fnjiy")
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.12208, 4.36445)
+light_color = Color(0.763004, 1, 0.748038, 1)
+light_energy = 0.3
+omni_range = 3.0
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("12_gk3iu")

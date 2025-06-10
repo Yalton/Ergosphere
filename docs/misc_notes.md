@@ -10,6 +10,9 @@ Speed: 120
 
 https://www.tetyys.com/SAPI4/
 
+Voice: Mike
+Pitch: 70
+Speed: 180
 
 
 
