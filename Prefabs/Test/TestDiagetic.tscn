@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=4 uid="uid://5s5arswn7wyx"]
 
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="1_3r3e4"]
-[ext_resource type="Script" uid="uid://b7mx0fgepcqww" path="res://Scripts/ui/DiageticUIBase.gd" id="1_hs622"]
+[ext_resource type="Script" uid="uid://b7mx0fgepcqww" path="res://Scripts/UI/DiageticUI/DiageticUIBase.gd" id="1_hs622"]
 [ext_resource type="PackedScene" uid="uid://b3i5d3w035hp" path="res://Prefabs/Test/test_diagetic_ui.tscn" id="2_3r3e4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8q6jj"]

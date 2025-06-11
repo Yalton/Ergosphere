@@ -1,8 +1,8 @@
 [gd_scene load_steps=17 format=3 uid="uid://brwmucdy87vu3"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_r7nho"]
-[ext_resource type="Script" uid="uid://bd7kj105s5cuu" path="res://Scripts/ui/Menus/pause.gd" id="1_xcp83"]
-[ext_resource type="Script" uid="uid://2hpysr5j0634" path="res://Scripts/ui/options_ui_control.gd" id="3_is06q"]
+[ext_resource type="Script" uid="uid://bd7kj105s5cuu" path="res://Scripts/UI/Menus/pause.gd" id="1_xcp83"]
+[ext_resource type="Script" uid="uid://2hpysr5j0634" path="res://Scripts/UI/options_ui_control.gd" id="3_is06q"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r7nho"]
 load_path = "res://.godot/imported/PC_Input_Sheet.png-5fe71aaeccff47400b0fe822292e75f7.ctex"

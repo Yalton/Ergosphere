@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://djydb2snakutu" path="res://Scripts/Environment/Interactions/DiageticTextInput.gd" id="1_yaupi"]
 [ext_resource type="AudioStream" uid="uid://18pkb8xbgll8" path="res://Assets/Audio/text_click.wav" id="2_nybip"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="2_qqudf"]
-[ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Prefabs/UI/sview_diag_aspect_matcher.gd" id="3_nybip"]
-[ext_resource type="PackedScene" uid="uid://8qgxvpq582wy" path="res://Prefabs/UI/terminal_ui.tscn" id="4_yaupi"]
+[ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Scripts/UI/sview_diag_aspect_matcher.gd" id="3_nybip"]
+[ext_resource type="PackedScene" uid="uid://8qgxvpq582wy" path="res://Prefabs/UI/DiageticUI/terminal_ui.tscn" id="4_yaupi"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j76yy"]
 size = Vector3(0.380537, 0.309512, 0.415931)

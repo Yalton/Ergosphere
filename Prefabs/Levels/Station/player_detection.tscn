@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://cu42hwow1osw3"]
 
-[ext_resource type="Script" uid="uid://2l0akaa65hvj" path="res://Scripts/player_checker.gd" id="1_5sa87"]
-[ext_resource type="Script" uid="uid://c1ssxbfel34j0" path="res://Scripts/player_detection.gd" id="1_dixaf"]
+[ext_resource type="Script" uid="uid://2l0akaa65hvj" path="res://Scripts/Components/Player/player_checker.gd" id="1_5sa87"]
+[ext_resource type="Script" uid="uid://c1ssxbfel34j0" path="res://Scripts/Components/Player/player_detection.gd" id="1_dixaf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yd4kv"]
 size = Vector3(32, 10, 24)

@@ -86,14 +86,8 @@ Still too dark
 Hermes voice still terrible
 - Got VoiceActor
 
----
-
 Fix Brown note
-- Notes teleport around
-
----
-
-Plan Out days
+- Notes still teleport around but I cannot be fucked 
 
 
 Make more events

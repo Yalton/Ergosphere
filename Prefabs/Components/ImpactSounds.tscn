@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bf5nnwarq1u0l"]
 
-[ext_resource type="Script" uid="uid://b7a6jox3yothh" path="res://Prefabs/Components/impact_sounds.gd" id="1_hk5me"]
+[ext_resource type="Script" uid="uid://b7a6jox3yothh" path="res://Scripts/Components/impact_sounds.gd" id="1_hk5me"]
 
 [node name="ImpactSounds" type="Node"]
 script = ExtResource("1_hk5me")

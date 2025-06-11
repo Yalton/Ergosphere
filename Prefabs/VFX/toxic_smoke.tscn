@@ -1,0 +1,58 @@
+[gd_scene load_steps=11 format=3 uid="uid://d3f6k4hvokewd"]
+
+[ext_resource type="Texture2D" uid="uid://ceyj80gwg6mj8" path="res://Assets/Textures/VFX_Textures/smoke_05.png" id="1_1rwm6"]
+
+[sub_resource type="Gradient" id="Gradient_nvob2"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5sdyl"]
+gradient = SubResource("Gradient_nvob2")
+
+[sub_resource type="Curve" id="Curve_0v55r"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(0.587329, 0.501806), -3.14482, -3.14482, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_ej557"]
+curve = SubResource("Curve_0v55r")
+
+[sub_resource type="Curve" id="Curve_jrevx"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_u8oav"]
+curve = SubResource("Curve_jrevx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2g6uy"]
+emission_shape = 1
+emission_sphere_radius = 0.2
+angle_max = 90.0
+spread = 0.0
+gravity = Vector3(0, 4, 0)
+scale_min = 0.25
+scale_max = 0.25
+scale_curve = SubResource("CurveTexture_ej557")
+color = Color(0.829666, 0.27, 1, 1)
+color_ramp = SubResource("GradientTexture1D_5sdyl")
+hue_variation_min = -0.1
+hue_variation_max = 0.1
+turbulence_enabled = true
+turbulence_noise_strength = 0.5
+turbulence_noise_scale = 5.0
+turbulence_influence_over_life = SubResource("CurveTexture_u8oav")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qdqlf"]
+transparency = 1
+albedo_color = Color(0.616618, 0.00273652, 0.876739, 1)
+albedo_texture = ExtResource("1_1rwm6")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_3v6c8"]
+material = SubResource("StandardMaterial3D_qdqlf")
+
+[node name="ToxicSmoke" type="Node3D"]
+
+[node name="SmokeToxic" type="GPUParticles3D" parent="."]
+amount = 64
+lifetime = 2.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_2g6uy")
+draw_pass_1 = SubResource("QuadMesh_3v6c8")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=111 format=4 uid="uid://ebcdmubkup1v"]
 
 [ext_resource type="Texture2D" uid="uid://bqtx0vn5bcavd" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Color.png" id="1_1nd2m"]
-[ext_resource type="PackedScene" uid="uid://c666mkxecwu22" path="res://Prefabs/Furniture/Airlock/airlock_door.tscn" id="1_y2sej"]
+[ext_resource type="PackedScene" uid="uid://c666mkxecwu22" path="res://Prefabs/Environment/Furniture/Airlock/airlock_door.tscn" id="1_y2sej"]
 [ext_resource type="Texture2D" uid="uid://vhb0jbilmqtc" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="2_mdcmk"]
 [ext_resource type="PackedScene" uid="uid://cy75wbe7n5du1" path="res://Prefabs/Levels/Station/Prefabs/walls/counter_top.tscn" id="2_y2sej"]
 [ext_resource type="Texture2D" uid="uid://bhp30e6ife5ua" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Normal.png" id="3_74vcw"]

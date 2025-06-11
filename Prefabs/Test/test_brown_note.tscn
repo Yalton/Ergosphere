@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bllspm5ews8r5"]
 
-[ext_resource type="Script" uid="uid://d2ce41r63fb5x" path="res://Scripts/test_brown_note.gd" id="1_nnh7x"]
-[ext_resource type="PackedScene" uid="uid://bcatrxvp6r3ff" path="res://Prefabs/UI/rythm_game_ui.tscn" id="2_p2w6i"]
+[ext_resource type="Script" uid="uid://d2ce41r63fb5x" path="res://Scripts/Testing/test_brown_note.gd" id="1_nnh7x"]
+[ext_resource type="PackedScene" uid="uid://bcatrxvp6r3ff" path="res://Prefabs/UI/RhythmGame/rythm_game_ui.tscn" id="2_p2w6i"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="3_o8us5"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_gp2ow"]

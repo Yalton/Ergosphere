@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=4 uid="uid://bnuun0mfxrjpe"]
 
-[ext_resource type="Script" uid="uid://o01p0hrgpl5b" path="res://Scripts/Environment/GameObjects/door.gd" id="4_abpxv"]
+[ext_resource type="Script" uid="uid://o01p0hrgpl5b" path="res://Scripts/Environment/GameObjects/Furniture/door.gd" id="4_abpxv"]
 [ext_resource type="Script" uid="uid://c1cj7xjlkyg1r" path="res://Scripts/Environment/Interactions/door_interaction.gd" id="8_a066n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gg3uo"]

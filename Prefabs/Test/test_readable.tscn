@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cncd34dtaufc8"]
 
-[ext_resource type="Script" uid="uid://cq3eskubi2pk3" path="res://Scripts/Environment/GameObjects/StaticInteractable.gd" id="1_bdy3k"]
+[ext_resource type="Script" uid="uid://cq3eskubi2pk3" path="res://Scripts/Environment/GameObjects/Abstract/StaticInteractable.gd" id="1_bdy3k"]
 [ext_resource type="PackedScene" uid="uid://cct0itdltyppg" path="res://Prefabs/Components/Interactions/ReadableComponent.tscn" id="2_pgef2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x8dew"]

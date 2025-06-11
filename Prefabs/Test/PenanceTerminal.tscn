@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=4 uid="uid://ddphamc4nh6aq"]
 
-[ext_resource type="Script" uid="uid://b7mx0fgepcqww" path="res://Scripts/ui/DiageticUIBase.gd" id="1_hoget"]
+[ext_resource type="Script" uid="uid://b7mx0fgepcqww" path="res://Scripts/UI/DiageticUI/DiageticUIBase.gd" id="1_hoget"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="1_onpdp"]
 [ext_resource type="PackedScene" uid="uid://cn237e2pvfrnw" path="res://Prefabs/Test/PenanceTerminal_UI.tscn" id="3_lrbsb"]
 

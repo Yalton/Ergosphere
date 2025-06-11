@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://biyuybe5jmg3p"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_q7h6f"]
-[ext_resource type="Script" uid="uid://dh6xyycgfep8l" path="res://Scripts/ui/lane.gd" id="2_hiokm"]
-[ext_resource type="PackedScene" uid="uid://by2hsp05eaksf" path="res://Prefabs/UI/note.tscn" id="3_hiokm"]
+[ext_resource type="Script" uid="uid://dh6xyycgfep8l" path="res://Scripts/UI/RhythmGame/lane.gd" id="2_hiokm"]
+[ext_resource type="PackedScene" uid="uid://by2hsp05eaksf" path="res://Prefabs/UI/RhythmGame/note.tscn" id="3_hiokm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8l54"]
 bg_color = Color(0, 0, 0, 0.486275)

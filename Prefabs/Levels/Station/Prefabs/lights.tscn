@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d16ngp5ysvidq"]
 
-[ext_resource type="PackedScene" uid="uid://xar6k3skfwoc" path="res://Prefabs/Furniture/StationLight.tscn" id="1_gi5k1"]
+[ext_resource type="PackedScene" uid="uid://xar6k3skfwoc" path="res://Prefabs/Environment/Furniture/StationLight.tscn" id="1_gi5k1"]
 
 [node name="Lights" type="Node3D"]
 

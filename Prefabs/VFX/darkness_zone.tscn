@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://ckubjtb8o1h1"]
+
+[node name="DarknessZone" type="OmniLight3D"]
+light_negative = true
+omni_range = 10.0

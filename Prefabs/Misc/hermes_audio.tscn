@@ -1,0 +1,24 @@
+[gd_scene load_steps=15 format=3 uid="uid://d0yo51l4xadp1"]
+
+[ext_resource type="Script" uid="uid://d0qnax700j221" path="res://Scripts/Environment/Hermes/hermes_audio.gd" id="1_6aqtr"]
+[ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/HermesClip.gd" id="3_qula0"]
+[ext_resource type="Resource" uid="uid://74gvcrqrrv0e" path="res://Assets/Resources/HermesClips/start.tres" id="4_rc4kc"]
+[ext_resource type="Resource" uid="uid://ipi0wqmhy0gw" path="res://Assets/Resources/HermesClips/storage_room.tres" id="5_8q7kn"]
+[ext_resource type="Resource" uid="uid://by03754j5t8m3" path="res://Assets/Resources/HermesClips/obs_room.tres" id="6_uojuc"]
+[ext_resource type="Resource" uid="uid://c3tk6iqs5sqhm" path="res://Assets/Resources/HermesClips/bedroom.tres" id="7_cr0m2"]
+[ext_resource type="Resource" uid="uid://copmv3fxhjek1" path="res://Assets/Resources/HermesClips/server_room.tres" id="8_6sgju"]
+[ext_resource type="Resource" uid="uid://5estkpurb6ga" path="res://Assets/Resources/HermesClips/engine_room.tres" id="9_ghmj8"]
+[ext_resource type="Resource" uid="uid://cqp2vyungxbob" path="res://Assets/Resources/HermesClips/tour_complete.tres" id="10_w6x6i"]
+[ext_resource type="Resource" uid="uid://rt00rc2e3c0f" path="res://Assets/Resources/HermesClips/telescope_adjustment.tres" id="11_dg0c8"]
+[ext_resource type="Resource" uid="uid://bj4458uh4s023" path="res://Assets/Resources/HermesClips/data_upload.tres" id="12_a6enq"]
+[ext_resource type="Resource" uid="uid://dnr8op5128cd8" path="res://Assets/Resources/HermesClips/authorized_rest.tres" id="13_dkuhe"]
+[ext_resource type="Resource" uid="uid://c4a7n55ih7p1a" path="res://Assets/Resources/HermesClips/fuse_tripped.tres" id="14_wuprw"]
+[ext_resource type="AudioStream" uid="uid://cldijwedf6y0t" path="res://Assets/Audio/HermesLines/Hermes_Intro.ogg" id="30_5nu0m"]
+
+[node name="HermesAudio" type="AudioStreamPlayer"]
+volume_db = -1.0
+bus = &"HermesAudio"
+script = ExtResource("1_6aqtr")
+voice_clips = Array[ExtResource("3_qula0")]([ExtResource("4_rc4kc"), ExtResource("5_8q7kn"), ExtResource("6_uojuc"), ExtResource("7_cr0m2"), ExtResource("8_6sgju"), ExtResource("9_ghmj8"), ExtResource("10_w6x6i"), ExtResource("11_dg0c8"), ExtResource("12_a6enq"), ExtResource("13_dkuhe"), ExtResource("14_wuprw")])
+auto_play_delay = 5.0
+notification_sound = ExtResource("30_5nu0m")

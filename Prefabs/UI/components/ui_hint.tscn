@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://du67esbe2xmup"]
 
-[ext_resource type="Script" uid="uid://dcdt6shuwkbv5" path="res://Scripts/ui/ui_hint.gd" id="1_kvhyc"]
+[ext_resource type="Script" uid="uid://dcdt6shuwkbv5" path="res://Scripts/UI/ui_hint.gd" id="1_kvhyc"]
 
 [node name="UI_Hint" type="PanelContainer" node_paths=PackedStringArray("hint_label")]
 script = ExtResource("1_kvhyc")

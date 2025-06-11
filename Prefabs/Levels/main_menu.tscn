@@ -1,8 +1,8 @@
 [gd_scene load_steps=66 format=4 uid="uid://b2xc4entjfn1n"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_86c1k"]
-[ext_resource type="Script" uid="uid://c1caxpjbvsqx7" path="res://Scripts/ui/Menus/main_menu.gd" id="2_qgifm"]
-[ext_resource type="Script" uid="uid://2hpysr5j0634" path="res://Scripts/ui/options_ui_control.gd" id="3_11euj"]
+[ext_resource type="Script" uid="uid://c1caxpjbvsqx7" path="res://Scripts/UI/Menus/main_menu.gd" id="2_qgifm"]
+[ext_resource type="Script" uid="uid://2hpysr5j0634" path="res://Scripts/UI/options_ui_control.gd" id="3_11euj"]
 [ext_resource type="Shader" uid="uid://sc71vvscj345" path="res://Assets/Shader/vignette.gdshader" id="4_bpjv4"]
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space/Space.gdshader" id="5_oo8h8"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="6_2hlap"]

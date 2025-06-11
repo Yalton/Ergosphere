@@ -8,14 +8,14 @@
 [ext_resource type="Texture2D" uid="uid://dij75o3xe074e" path="res://Assets/Models/Station/Props/Drive/textures/BlackerMetal-Normal.png" id="6_45tto"]
 [ext_resource type="PackedScene" uid="uid://bgnqxsxljglaq" path="res://Prefabs/Entities/player.tscn" id="8_dyfrl"]
 [ext_resource type="PackedScene" uid="uid://5s5arswn7wyx" path="res://Prefabs/Test/TestDiagetic.tscn" id="9_840tq"]
-[ext_resource type="PackedScene" uid="uid://chqdixp3k58yg" path="res://Prefabs/Props/Monitors/telescope_monitor.tscn" id="12_fno4d"]
-[ext_resource type="PackedScene" uid="uid://cr88bedkk3sbc" path="res://Prefabs/Furniture/Bedroom/bed.tscn" id="16_e7jis"]
+[ext_resource type="PackedScene" uid="uid://chqdixp3k58yg" path="res://Prefabs/Environment/Props/Computer/telescope_monitor.tscn" id="12_fno4d"]
+[ext_resource type="PackedScene" uid="uid://cr88bedkk3sbc" path="res://Prefabs/Environment/Furniture/Bedroom/bed.tscn" id="16_e7jis"]
 [ext_resource type="PackedScene" uid="uid://chh20j4dixc1b" path="res://Prefabs/Test/test_carriable.tscn" id="18_f5voq"]
 [ext_resource type="PackedScene" uid="uid://bllspm5ews8r5" path="res://Prefabs/Test/test_brown_note.tscn" id="19_3ndhy"]
-[ext_resource type="PackedScene" uid="uid://gnd4fi0eu2wk" path="res://Prefabs/Props/Industrial/fire_extinguisher.tscn" id="19_8jsly"]
-[ext_resource type="PackedScene" uid="uid://bc74vtur5o21t" path="res://Prefabs/Furniture/StorageRoom/StorageWall.tscn" id="21_p7lde"]
-[ext_resource type="PackedScene" uid="uid://c18ngf0r0l3c1" path="res://Prefabs/Props/Monitors/storage_monitor.tscn" id="22_p7lde"]
-[ext_resource type="PackedScene" uid="uid://qcjjmv7hbf3i" path="res://Prefabs/Furniture/Bedroom/toilet.tscn" id="23_gw6bx"]
+[ext_resource type="PackedScene" uid="uid://gnd4fi0eu2wk" path="res://Prefabs/Environment/Props/Industrial/fire_extinguisher.tscn" id="19_8jsly"]
+[ext_resource type="PackedScene" uid="uid://bc74vtur5o21t" path="res://Prefabs/Environment/Furniture/StorageRoom/StorageWall.tscn" id="21_p7lde"]
+[ext_resource type="PackedScene" uid="uid://c18ngf0r0l3c1" path="res://Prefabs/Environment/Props/Computer/storage_monitor.tscn" id="22_p7lde"]
+[ext_resource type="PackedScene" uid="uid://qcjjmv7hbf3i" path="res://Prefabs/Environment/Furniture/Bedroom/toilet.tscn" id="23_gw6bx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
 shader = ExtResource("1_iv3f0")
@@ -334,6 +334,7 @@ visible = false
 
 [node name="StorageWall" parent="." instance=ExtResource("21_p7lde")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -16)
+enable_debug = true
 
 [node name="Monitor_3" parent="." instance=ExtResource("22_p7lde")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -1, -2)
