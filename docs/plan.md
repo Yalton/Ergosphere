@@ -88,7 +88,6 @@ Hermes voice still terrible
 
 ---
 
-Clean up code
 
 Plan Out Day 2
 

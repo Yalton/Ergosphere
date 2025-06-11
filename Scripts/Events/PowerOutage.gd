@@ -1,14 +1,20 @@
-# PowerOutageEvent.gd
+# PowerOutage.gd - FIXED state checking
 extends BaseEvent
 
 @export_group("Power Outage Settings")
+## Sound to play when power goes out
 @export var power_off_sound: AudioStream
+## Sound to play when power is restored
 @export var power_on_sound: AudioStream
+## Color of emergency lighting
 @export var emergency_light_color: Color = Color(0.8, 0.0, 0.0)  # Red
+## Brightness of emergency lighting
 @export var emergency_light_energy: float = 0.3  # Dimmed
 
 @export_group("Emissive Material")
-@export var shared_emissive_material: StandardMaterial3D  # The shared material resource
+## Shared emissive material resource
+@export var shared_emissive_material: StandardMaterial3D
+## Emergency emission energy level
 @export var emergency_emission_energy: float = 0.3
 
 # Cached original values
@@ -32,11 +38,10 @@ func _ready() -> void:
 		original_emission_color = shared_emissive_material.emission
 		original_emission_energy = shared_emissive_material.emission_energy_multiplier
 
-
 func _on_start(state_manager: StateManager) -> void:
-	# Update state
-	state_manager.set_state("power", "off")
-	state_manager.set_state("emergency_mode", true)
+	# Update state using constants
+	state_manager.set_state(CommonUtils.STATE_POWER, "off")
+	state_manager.set_state(CommonUtils.STATE_EMERGENCY_MODE, true)
 	
 	# Play power off sound
 	if power_off_sound and audio_player:
@@ -50,20 +55,18 @@ func _on_start(state_manager: StateManager) -> void:
 	_modify_emissive_material(true)
 	
 	# Update power lever if we have one
-	#if power_lever_path:
 	var lever = get_tree().get_first_node_in_group("power_lever")
-	if lever and lever.has_method("set_power_state"):
-		lever.set_power_state(false)
-	
+	if lever:
+		CommonUtils.safe_call(lever, "set_power_state", [false])
 	else: 
 		DebugLogger.info(module_name, "Could not find lever")
 	
 	DebugLogger.info(module_name, "Power outage started - emergency lighting active")
 
 func _on_reverse(state_manager: StateManager) -> void:
-	# Update state
-	state_manager.set_state("power", "on")
-	state_manager.set_state("emergency_mode", false)
+	# Update state using constants
+	state_manager.set_state(CommonUtils.STATE_POWER, "on")
+	state_manager.set_state(CommonUtils.STATE_EMERGENCY_MODE, false)
 	
 	# Play power on sound
 	if power_on_sound and audio_player:
@@ -78,8 +81,8 @@ func _on_reverse(state_manager: StateManager) -> void:
 	
 	# Update power lever
 	var lever = get_tree().get_first_node_in_group("power_lever")
-	if lever and lever.has_method("set_power_state"):
-		lever.set_power_state(true)
+	if lever:
+		CommonUtils.safe_call(lever, "set_power_state", [true])
 	
 	DebugLogger.info(module_name, "Power restored - normal lighting active")
 

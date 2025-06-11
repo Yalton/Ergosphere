@@ -8,14 +8,7 @@ class_name HintUI
 var removal_timer: Timer
 
 func _ready() -> void:
-	# Create removal timer
-	removal_timer = Timer.new()
-	removal_timer.one_shot = true
-	removal_timer.timeout.connect(_remove_hint)
-	add_child(removal_timer)
-	
-	# Start timer immediately
-	removal_timer.start(hint_duration)
+	removal_timer = CommonUtils.create_one_shot_timer(self, hint_duration, _remove_hint)
 
 func set_hint_text(text: String) -> void:
 	if hint_label:

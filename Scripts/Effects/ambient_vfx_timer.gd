@@ -21,12 +21,11 @@ func _ready() -> void:
 		DebugLogger.error(module_name, "No AudioStreamPlayer3D assigned")
 		return
 	
-	# Create timer
-	timer = Timer.new()
-	timer.one_shot = true
-	timer.timeout.connect(_trigger_steam_leak)
-	add_child(timer)
+	# Use CommonUtils for timer creation
+	timer = CommonUtils.create_timer(self, 1.0, true, false)
+	timer.timeout.connect(_trigger_vfx_effect)
 	
+
 	# Start first timer
 	start_random_timer()
 	
@@ -34,11 +33,12 @@ func _ready() -> void:
 
 func start_random_timer() -> void:
 	var delay = randf_range(min_delay, max_delay)
-	DebugLogger.debug(module_name, "Next " +str(vfx_name)+  " in " + str(delay) + " seconds")
-	timer.start(delay)
+	DebugLogger.debug(module_name, "Next " + str(vfx_name) + " in " + str(delay) + " seconds")
+	timer.wait_time = delay
+	timer.start()
 
-func _trigger_steam_leak() -> void:
-	DebugLogger.debug(module_name, "Triggering " +str(vfx_name)+  " effect")
+func _trigger_vfx_effect() -> void:
+	DebugLogger.debug(module_name, "Triggering " + str(vfx_name) + " effect")
 	
 	# Start particles
 	particles.emitting = true
@@ -46,9 +46,8 @@ func _trigger_steam_leak() -> void:
 	# Play audio
 	audio_player.play()
 	
-	# Stop particles after duration
-	var stop_timer = get_tree().create_timer(effect_duration)
-	stop_timer.timeout.connect(func(): particles.emitting = false)
+	# Stop particles after duration using CommonUtils
+	CommonUtils.create_one_shot_timer(self, effect_duration, func(): particles.emitting = false)
 	
 	# Start next random timer
 	start_random_timer()
