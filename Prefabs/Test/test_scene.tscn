@@ -1,8 +1,8 @@
 [gd_scene load_steps=43 format=3 uid="uid://dujqnrmicdqrm"]
 
-[ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space/Space.gdshader" id="1_fhq2j"]
-[ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="2_mq6lw"]
-[ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Textures/VFX_Textures/smoke_04.png" id="3_fwk10"]
+[ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="1_fhq2j"]
+[ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="2_mq6lw"]
+[ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Graphics/Textures/VFX_Textures/smoke_04.png" id="3_fwk10"]
 [ext_resource type="PackedScene" uid="uid://bgnqxsxljglaq" path="res://Prefabs/Entities/player.tscn" id="4_ibr8b"]
 [ext_resource type="PackedScene" uid="uid://c2y3acul1d2qk" path="res://Prefabs/Levels/Station/Prefabs/station_door.tscn" id="5_mq6lw"]
 

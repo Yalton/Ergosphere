@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://pbnr7pramny2" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/BlackPlastic-Color.png" id="7_ip67i"]
 [ext_resource type="Texture2D" uid="uid://duy67lsedwmtk" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/BlackPlastic-Roughness.png" id="8_utpjb"]
 [ext_resource type="Texture2D" uid="uid://b8sp42obfgsvm" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/BlackPlastic-Normal.png" id="9_7k4th"]
-[ext_resource type="ArrayOccluder3D" uid="uid://br4b7en4h8aiq" path="res://Assets/Occluders/Furniture/server_rack.occ" id="10_80n33"]
+[ext_resource type="ArrayOccluder3D" uid="uid://br4b7en4h8aiq" path="res://Assets/Models/Occluders/Furniture/server_rack.occ" id="10_80n33"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g3mne"]
 resource_name = "BlackerMetal-Dithered"

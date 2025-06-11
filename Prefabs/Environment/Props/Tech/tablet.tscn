@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://pjbcru42uljw" path="res://Assets/Models/Station/Props/tablet/tablet.gltf" id="1_co1uk"]
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_p1fn5"]
-[ext_resource type="ArrayOccluder3D" uid="uid://0yp524f5ch8f" path="res://Assets/Occluders/Props/tablet.occ" id="2_lgbmd"]
+[ext_resource type="ArrayOccluder3D" uid="uid://0yp524f5ch8f" path="res://Assets/Models/Occluders/Props/tablet.occ" id="2_lgbmd"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_bgn8t"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_e7e3f"]
 [ext_resource type="AudioStream" uid="uid://cg5phwrprhtn6" path="res://Assets/Audio/Impacts/Metal/metal_1.ogg" id="6_g7yd6"]

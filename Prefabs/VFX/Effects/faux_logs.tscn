@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c162os6iubosa"]
 
 [ext_resource type="Script" uid="uid://cqhxddc5upt61" path="res://Scripts/Environment/GameObjects/typewriter_effect.gd" id="1_igskk"]
-[ext_resource type="Shader" uid="uid://d2202msrah15r" path="res://Assets/Shader/crt_colorrect.gdshader" id="2_edilq"]
+[ext_resource type="Shader" uid="uid://d2202msrah15r" path="res://Assets/VFX/Shader/crt_colorrect.gdshader" id="2_edilq"]
 [ext_resource type="Script" uid="uid://0ygsgg3tj8wn" path="res://Scripts/Environment/GameObjects/typewriter_demo.gd" id="3_077e6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g7a6u"]

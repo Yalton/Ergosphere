@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bu7glvugvbary" path="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/Cloth-Roughness.png" id="2_jppct"]
 [ext_resource type="Texture2D" uid="uid://qyx4qmy4sr4j" path="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/Cloth-Normal.png" id="3_ffnsc"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="5_bgfbo"]
-[ext_resource type="ArrayOccluder3D" uid="uid://ct8mcwuvpqsau" path="res://Assets/Occluders/Props/air_filter.occ" id="6_bgfbo"]
+[ext_resource type="ArrayOccluder3D" uid="uid://ct8mcwuvpqsau" path="res://Assets/Models/Occluders/Props/air_filter.occ" id="6_bgfbo"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="7_l77eg"]
 [ext_resource type="AudioStream" uid="uid://c2v4h8dhqi6yg" path="res://Assets/Audio/Impacts/soft_1.ogg" id="8_ba6oo"]
 [ext_resource type="AudioStream" uid="uid://x78gp63qehq3" path="res://Assets/Audio/Impacts/chains_1.ogg" id="9_4324c"]

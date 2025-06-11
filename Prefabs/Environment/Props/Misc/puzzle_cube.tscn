@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cf1v6wxmxtoe5" path="res://Assets/Models/Station/Props/PuzzleCube/puzzle_cube.gltf" id="1_2jrfn"]
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_trr0i"]
-[ext_resource type="ArrayOccluder3D" uid="uid://f3frfhc3afut" path="res://Assets/Occluders/Props/puzzle_cube.occ" id="2_n6og4"]
+[ext_resource type="ArrayOccluder3D" uid="uid://f3frfhc3afut" path="res://Assets/Models/Occluders/Props/puzzle_cube.occ" id="2_n6og4"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_l2inw"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_hxfex"]
 [ext_resource type="AudioStream" uid="uid://b58b3rkx2glvd" path="res://Assets/Audio/Impacts/wood_1.ogg" id="6_rq461"]

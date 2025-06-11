@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="9_1fmvh"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Scripts/UI/sview_diag_aspect_matcher.gd" id="9_56nk0"]
 [ext_resource type="PackedScene" uid="uid://b1outtodahk2b" path="res://Prefabs/UI/DiageticUI/telescope_adjust_ui.tscn" id="10_1as24"]
-[ext_resource type="ArrayOccluder3D" uid="uid://bnlncdi6cfyvc" path="res://Assets/Occluders/Props/Monitors/telescope_monitor.occ" id="13_143ql"]
+[ext_resource type="ArrayOccluder3D" uid="uid://bnlncdi6cfyvc" path="res://Assets/Models/Occluders/Props/Monitors/telescope_monitor.occ" id="13_143ql"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cdamu"]
 resource_name = "GreyPlastic"

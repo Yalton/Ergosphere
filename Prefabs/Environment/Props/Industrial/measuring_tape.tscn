@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cac1kv2eko26o" path="res://Assets/Models/Station/Props/measuring_tape/measuring_tape.gltf" id="1_8hmxc"]
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_jvsow"]
-[ext_resource type="ArrayOccluder3D" uid="uid://bdflq3tjq8r5v" path="res://Assets/Occluders/Props/measuring_tape.occ" id="2_rfefa"]
+[ext_resource type="ArrayOccluder3D" uid="uid://bdflq3tjq8r5v" path="res://Assets/Models/Occluders/Props/measuring_tape.occ" id="2_rfefa"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="4_pf04y"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_soaj3"]
 [ext_resource type="AudioStream" uid="uid://b58b3rkx2glvd" path="res://Assets/Audio/Impacts/wood_1.ogg" id="6_4e8dv"]

@@ -1,14 +1,14 @@
 [gd_scene load_steps=54 format=4 uid="uid://bn1o17c7p8vkj"]
 
 [ext_resource type="Script" uid="uid://cdjhgy0msaylc" path="res://Scripts/Events/intro_cutscene.gd" id="1_n7xyp"]
-[ext_resource type="Shader" uid="uid://sc71vvscj345" path="res://Assets/Shader/vignette.gdshader" id="1_rvmyu"]
+[ext_resource type="Shader" uid="uid://sc71vvscj345" path="res://Assets/VFX/Shader/vignette.gdshader" id="1_rvmyu"]
 [ext_resource type="AudioStream" uid="uid://18pkb8xbgll8" path="res://Assets/Audio/text_click.wav" id="2_g2t6w"]
 [ext_resource type="Script" uid="uid://c2lq0mlp6vmir" path="res://Subsystems/post_process_shader.gd" id="2_n7xyp"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="3_clbkm"]
-[ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space/Space.gdshader" id="3_qp47a"]
+[ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="3_qp47a"]
 [ext_resource type="Texture2D" uid="uid://c38dqajrkajdn" path="res://Assets/Graphics/InputIcons/PC_Input_Sheet.png" id="4_clbkm"]
-[ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="4_g2t6w"]
-[ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Textures/VFX_Textures/smoke_04.png" id="5_clbkm"]
+[ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="4_g2t6w"]
+[ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Graphics/Textures/VFX_Textures/smoke_04.png" id="5_clbkm"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_0qej6"]
 viewport_path = NodePath("Environment")

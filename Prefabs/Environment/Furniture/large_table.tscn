@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dteq58uw7xp5n" path="res://Assets/Models/Station/Furniture/ObservationRoom/textures/BlackMetal-Color.png" id="4_8edks"]
 [ext_resource type="Texture2D" uid="uid://biatpe8jrhu8h" path="res://Assets/Models/Station/Furniture/ObservationRoom/textures/BlackMetal-Metalness-BlackMetal-Roughness.png" id="5_fpyf5"]
 [ext_resource type="Texture2D" uid="uid://dc4d6ca87fi3i" path="res://Assets/Models/Station/Furniture/ObservationRoom/textures/BlackMetal-Normal.png" id="6_cdeq4"]
-[ext_resource type="ArrayOccluder3D" uid="uid://d3hxvniu3t23u" path="res://Assets/Occluders/Furniture/large_table.occ" id="7_r6n23"]
+[ext_resource type="ArrayOccluder3D" uid="uid://d3hxvniu3t23u" path="res://Assets/Models/Occluders/Furniture/large_table.occ" id="7_r6n23"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_coymw"]
 resource_name = "BlackerMetal-Dithered"

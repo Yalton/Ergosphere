@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c1k062delbder" path="res://Assets/Models/Station/Vers_2/textures/BlackMetal-Color.png" id="4_dsy6c"]
 [ext_resource type="Texture2D" uid="uid://bufaftomimpf2" path="res://Assets/Models/Station/Vers_2/textures/BlackMetal-Metalness-BlackMetal-Roughness.png" id="5_mg6xd"]
 [ext_resource type="Texture2D" uid="uid://crnnj7sttoeya" path="res://Assets/Models/Station/Vers_2/textures/BlackMetal-Normal.png" id="6_3w4a1"]
-[ext_resource type="ArrayOccluder3D" uid="uid://dmo6evwyvqltb" path="res://Assets/Occluders/Walls/observatory_countertop.occ" id="7_0p4is"]
+[ext_resource type="ArrayOccluder3D" uid="uid://dmo6evwyvqltb" path="res://Assets/Models/Occluders/Walls/observatory_countertop.occ" id="7_0p4is"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eskp8"]
 resource_name = "GreyMetal-Dithered.207"

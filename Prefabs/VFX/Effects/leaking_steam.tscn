@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://5vlybs5xl3fy"]
 
 [ext_resource type="Script" uid="uid://baj6kj3plms20" path="res://Scripts/VFX/ambient_vfx_timer.gd" id="1_hh3ko"]
-[ext_resource type="Texture2D" uid="uid://u3fmuw3begxb" path="res://Assets/Textures/VFX_Textures/smoke_02.png" id="2_47eln"]
+[ext_resource type="Texture2D" uid="uid://u3fmuw3begxb" path="res://Assets/Graphics/Textures/VFX_Textures/smoke_02.png" id="2_47eln"]
 [ext_resource type="AudioStream" uid="uid://dv527ilnw7p8a" path="res://Assets/Audio/Ambience/StationAmbience/steam_hiss.ogg" id="3_ealy6"]
 
 [sub_resource type="Gradient" id="Gradient_denvj"]

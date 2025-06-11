@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://fn5mn0xkkb8y" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Color.png" id="11_b2fch"]
 [ext_resource type="Texture2D" uid="uid://cse65y4qixeyq" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="12_t4jdi"]
 [ext_resource type="Texture2D" uid="uid://1bmer1juvv4a" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Normal.png" id="13_ukrw2"]
-[ext_resource type="ArrayOccluder3D" uid="uid://o4nm72b3axia" path="res://Assets/Occluders/Furniture/StationLight.occ" id="14_q6u8w"]
+[ext_resource type="ArrayOccluder3D" uid="uid://o4nm72b3axia" path="res://Assets/Models/Occluders/Furniture/StationLight.occ" id="14_q6u8w"]
 [ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="14_t4jdi"]
 [ext_resource type="AudioStream" uid="uid://qdnd1gkytak7" path="res://Assets/Audio/Ambience/StationAmbience/Bedroom/plumbing_1.ogg" id="16_mic7i"]
 [ext_resource type="AudioStream" uid="uid://c435kpv7madey" path="res://Assets/Audio/Ambience/StationAmbience/Bedroom/plumbing_2.ogg" id="17_0kgnn"]

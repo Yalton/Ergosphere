@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://dbpndsnud71tj" path="res://Assets/Models/Station/Props/Desktop/HDD_Desktop/textures/Pipe-Color.png" id="10_3bddt"]
 [ext_resource type="Texture2D" uid="uid://bpsy33mk1pmcr" path="res://Assets/Models/Station/Props/Desktop/HDD_Desktop/textures/Pipe-Metalness-Pipe-Roughness.png" id="11_si8vh"]
 [ext_resource type="Texture2D" uid="uid://cws4x0v3kcrgd" path="res://Assets/Models/Station/Props/Desktop/HDD_Desktop/textures/Pipe-Normal.png" id="12_sklwk"]
-[ext_resource type="ArrayOccluder3D" uid="uid://5ql1yi35xynn" path="res://Assets/Occluders/Props/Computers/desktop_with_hdd.occ" id="15_kr00o"]
+[ext_resource type="ArrayOccluder3D" uid="uid://5ql1yi35xynn" path="res://Assets/Models/Occluders/Props/Computers/desktop_with_hdd.occ" id="15_kr00o"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3dkog"]
 resource_name = "BlackerMetal-Dithered"

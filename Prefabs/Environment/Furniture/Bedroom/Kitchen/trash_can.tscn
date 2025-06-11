@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://chpio5g5f6ifx" path="res://Assets/Models/Station/Furniture/Bedroom/textures/GreyPlastic-Color.png" id="7_iebht"]
 [ext_resource type="Texture2D" uid="uid://c7wrphxkychtd" path="res://Assets/Models/Station/Furniture/Bedroom/textures/GreyPlastic-Roughness.png" id="8_vqb0m"]
 [ext_resource type="Texture2D" uid="uid://c6mgn7v1io7qh" path="res://Assets/Models/Station/Furniture/Bedroom/textures/GreyPlastic-Normal.png" id="9_23qy0"]
-[ext_resource type="ArrayOccluder3D" uid="uid://ejbj8si3wotq" path="res://Assets/Occluders/Furniture/trash_can.occ" id="10_fjel5"]
+[ext_resource type="ArrayOccluder3D" uid="uid://ejbj8si3wotq" path="res://Assets/Models/Occluders/Furniture/trash_can.occ" id="10_fjel5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tnoac"]
 size = Vector3(2.8, 2, 2)

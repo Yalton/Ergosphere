@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://im037h4ks2ot" path="res://Assets/Models/Station/Props/trash_can/textures/BlackerMetal-Color.png" id="1_ww6qi"]
 [ext_resource type="Texture2D" uid="uid://0pmvjh6h6k01" path="res://Assets/Models/Station/Props/trash_can/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_j7hik"]
 [ext_resource type="Texture2D" uid="uid://70m3d2bwkmm8" path="res://Assets/Models/Station/Props/trash_can/textures/BlackerMetal-Normal.png" id="3_gd7e3"]
-[ext_resource type="ArrayOccluder3D" uid="uid://cmek4cu6vruxp" path="res://Assets/Occluders/Props/trashcan.occ" id="4_j7hik"]
+[ext_resource type="ArrayOccluder3D" uid="uid://cmek4cu6vruxp" path="res://Assets/Models/Occluders/Props/trashcan.occ" id="4_j7hik"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bfjnn"]
 resource_name = "BlackerMetal-Dithered"

@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="9_61j7p"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Scripts/UI/sview_diag_aspect_matcher.gd" id="10_dyq57"]
 [ext_resource type="PackedScene" uid="uid://bbjf845xqmmao" path="res://Prefabs/UI/DiageticUI/pattern_memory.tscn" id="11_53kpu"]
-[ext_resource type="ArrayOccluder3D" uid="uid://c8qoceconqnna" path="res://Assets/Occluders/Props/Monitors/memory_block_monitor.occ" id="12_vlr4o"]
+[ext_resource type="ArrayOccluder3D" uid="uid://c8qoceconqnna" path="res://Assets/Models/Occluders/Props/Monitors/memory_block_monitor.occ" id="12_vlr4o"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khebe"]
 resource_name = "Screen"

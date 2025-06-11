@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://xfxv2lwnhobh" path="res://Assets/Models/Station/Props/fire_extinguisher/textures/Pipe-Color.png" id="7_oedgr"]
 [ext_resource type="Texture2D" uid="uid://dsl03kru3s5o8" path="res://Assets/Models/Station/Props/fire_extinguisher/textures/Pipe-Metalness-Pipe-Roughness.png" id="8_digop"]
 [ext_resource type="Texture2D" uid="uid://bwfghl6pocsu" path="res://Assets/Models/Station/Props/fire_extinguisher/textures/Pipe-Normal.png" id="9_3ccgx"]
-[ext_resource type="ArrayOccluder3D" uid="uid://jupvu0ikuxnx" path="res://Assets/Occluders/Props/fire_extinguisher.occ" id="10_rfmt0"]
+[ext_resource type="ArrayOccluder3D" uid="uid://jupvu0ikuxnx" path="res://Assets/Models/Occluders/Props/fire_extinguisher.occ" id="10_rfmt0"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="11_1wkgi"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="11_vyevo"]
 [ext_resource type="AudioStream" uid="uid://bhuh44fjonvjm" path="res://Assets/Audio/Impacts/Metal/metal_2.ogg" id="14_jr255"]

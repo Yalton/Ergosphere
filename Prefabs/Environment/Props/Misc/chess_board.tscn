@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cxwencttp0wer"]
 
 [ext_resource type="PackedScene" uid="uid://cbjqo4agu5mu5" path="res://Assets/Models/Station/Props/ChessBoard/chess_board.gltf" id="1_y8kdr"]
-[ext_resource type="ArrayOccluder3D" uid="uid://cj0d24aglgkvi" path="res://Assets/Occluders/Props/chess_board.occ" id="2_cup3p"]
+[ext_resource type="ArrayOccluder3D" uid="uid://cj0d24aglgkvi" path="res://Assets/Models/Occluders/Props/chess_board.occ" id="2_cup3p"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_cup3p"]
 size = Vector3(2, 0.05, 2)

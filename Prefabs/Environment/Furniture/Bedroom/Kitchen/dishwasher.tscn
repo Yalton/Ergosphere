@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dnyj1c153a7ku" path="res://Assets/Models/Station/Furniture/Bedroom/textures/RedPlastic-Color.png" id="10_v87w4"]
 [ext_resource type="Texture2D" uid="uid://bi7nxb6x3nu5y" path="res://Assets/Models/Station/Furniture/Bedroom/textures/RedPlastic-Roughness.png" id="11_lwpmu"]
 [ext_resource type="Texture2D" uid="uid://1kvk1p0ls2wa" path="res://Assets/Models/Station/Furniture/Bedroom/textures/RedPlastic-Normal.png" id="12_m3kbt"]
-[ext_resource type="ArrayOccluder3D" uid="uid://6vdny5xesi0j" path="res://Assets/Occluders/Furniture/dishwasher.occ" id="13_roc5j"]
+[ext_resource type="ArrayOccluder3D" uid="uid://6vdny5xesi0j" path="res://Assets/Models/Occluders/Furniture/dishwasher.occ" id="13_roc5j"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fntsm"]
 resource_name = "BlackerMetal-Dithered"

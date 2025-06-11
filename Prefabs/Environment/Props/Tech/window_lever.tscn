@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="10_60vfs"]
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="11_m1w8p"]
 [ext_resource type="AudioStream" uid="uid://b8tui3hwhaal7" path="res://Assets/Audio/Interactions/PowerLever/power_lever_adjust.ogg" id="14_jkfbb"]
-[ext_resource type="ArrayOccluder3D" uid="uid://h0m7eg51licr" path="res://Assets/Occluders/Props/window_lever.occ" id="15_rytq7"]
+[ext_resource type="ArrayOccluder3D" uid="uid://h0m7eg51licr" path="res://Assets/Models/Occluders/Props/window_lever.occ" id="15_rytq7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4vr02"]
 resource_name = "GreyPlastic"

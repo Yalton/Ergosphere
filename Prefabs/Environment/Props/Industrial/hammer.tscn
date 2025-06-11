@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dfmvnk6o6l4t3" path="res://Assets/Models/Station/Props/hammer/hammer.gltf" id="1_e0xq4"]
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_sqb2j"]
-[ext_resource type="ArrayOccluder3D" uid="uid://cwo0c6084oykc" path="res://Assets/Occluders/Props/hammer.occ" id="2_kl48v"]
+[ext_resource type="ArrayOccluder3D" uid="uid://cwo0c6084oykc" path="res://Assets/Models/Occluders/Props/hammer.occ" id="2_kl48v"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_0nrx4"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_xer4w"]
 [ext_resource type="AudioStream" uid="uid://bhuh44fjonvjm" path="res://Assets/Audio/Impacts/Metal/metal_2.ogg" id="6_fm2s8"]

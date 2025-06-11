@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=4 uid="uid://b235lwi0vgjbg"]
 
-[ext_resource type="ArrayOccluder3D" uid="uid://c6qlnt05h6orm" path="res://Assets/Occluders/Furniture/server_cabinet.occ" id="1_p2py0"]
+[ext_resource type="ArrayOccluder3D" uid="uid://c6qlnt05h6orm" path="res://Assets/Models/Occluders/Furniture/server_cabinet.occ" id="1_p2py0"]
 [ext_resource type="Texture2D" uid="uid://clqraog8t4202" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/BlackerMetal-Color.png" id="1_thvft"]
 [ext_resource type="Texture2D" uid="uid://bwi1cjah4xbn2" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_p2py0"]
 [ext_resource type="Texture2D" uid="uid://ddhrrmcfhf46p" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/BlackerMetal-Normal.png" id="3_615i3"]

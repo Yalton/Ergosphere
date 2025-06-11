@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://c31lp20pix78w" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/GreyPlastic-Color.png" id="4_1wms0"]
 [ext_resource type="Texture2D" uid="uid://cwwbyauqor6j8" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/GreyPlastic-Roughness.png" id="5_fx80h"]
 [ext_resource type="Texture2D" uid="uid://drl381q5e8rwh" path="res://Assets/Models/Station/Furniture/ServerRoom/textures/GreyPlastic-Normal.png" id="6_l3csq"]
-[ext_resource type="ArrayOccluder3D" uid="uid://dcl7hyamroufm" path="res://Assets/Occluders/Props/keyboard.occ" id="7_r7kss"]
+[ext_resource type="ArrayOccluder3D" uid="uid://dcl7hyamroufm" path="res://Assets/Models/Occluders/Props/keyboard.occ" id="7_r7kss"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7j86l"]
 resource_name = "BlackPlastic"

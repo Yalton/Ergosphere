@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://vrjj6glrveox" path="res://Assets/Models/Station/Props/Monitors/SquareMonitor/textures/BlackerMetal-Normal.png" id="9_3sxeh"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Scripts/UI/sview_diag_aspect_matcher.gd" id="10_j141i"]
 [ext_resource type="PackedScene" uid="uid://cr1bpmb7lgifx" path="res://Prefabs/UI/DiageticUI/download_ui.tscn" id="11_ysran"]
-[ext_resource type="ArrayOccluder3D" uid="uid://bhlbs6oq2ptew" path="res://Assets/Occluders/Props/Monitors/storage_room_monitor.occ" id="12_gk3iu"]
+[ext_resource type="ArrayOccluder3D" uid="uid://bhlbs6oq2ptew" path="res://Assets/Models/Occluders/Props/Monitors/storage_room_monitor.occ" id="12_gk3iu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m2b70"]
 size = Vector3(0.255, 0.216523, 0.402853)

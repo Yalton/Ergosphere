@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_f7jee"]
 [ext_resource type="PackedScene" uid="uid://d1odicyoh7dds" path="res://Assets/Models/Station/Props/lubricant_spray/lubricant_spray.gltf" id="1_t6vcp"]
-[ext_resource type="ArrayOccluder3D" uid="uid://b3pbgl7mj4jed" path="res://Assets/Occluders/Props/lubricant_spray.occ" id="2_g3rhn"]
+[ext_resource type="ArrayOccluder3D" uid="uid://b3pbgl7mj4jed" path="res://Assets/Models/Occluders/Props/lubricant_spray.occ" id="2_g3rhn"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_hd8va"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_ky17x"]
 [ext_resource type="AudioStream" uid="uid://bhuh44fjonvjm" path="res://Assets/Audio/Impacts/Metal/metal_2.ogg" id="6_f1i3q"]

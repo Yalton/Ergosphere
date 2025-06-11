@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://bc3m0blmls2fx"]
 
-[ext_resource type="Texture2D" uid="uid://cnt24tows8l2" path="res://Assets/Textures/VFX_Textures/Flare00.PNG" id="1_ass6i"]
+[ext_resource type="Texture2D" uid="uid://cnt24tows8l2" path="res://Assets/Graphics/Textures/VFX_Textures/Flare00.PNG" id="1_ass6i"]
 [ext_resource type="Script" uid="uid://bgap2dij24igp" path="res://Scripts/Misc/note_hit_particle_effect.gd" id="2_2v8xa"]
 
 [sub_resource type="Gradient" id="Gradient_ass6i"]

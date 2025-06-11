@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://vm5wdhbrtdqn" path="res://Assets/Models/Station/Props/scissors/scissors.gltf" id="1_3sid8"]
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_w8ghe"]
-[ext_resource type="ArrayOccluder3D" uid="uid://rn6bs8rjdbgb" path="res://Assets/Occluders/Props/scissors.occ" id="2_i1dbh"]
+[ext_resource type="ArrayOccluder3D" uid="uid://rn6bs8rjdbgb" path="res://Assets/Models/Occluders/Props/scissors.occ" id="2_i1dbh"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_lg6wj"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_qxol1"]
 [ext_resource type="AudioStream" uid="uid://b58b3rkx2glvd" path="res://Assets/Audio/Impacts/wood_1.ogg" id="6_86m3p"]

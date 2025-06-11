@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=4 uid="uid://cqr7b34a4kyiq"]
 
-[ext_resource type="ArrayOccluder3D" uid="uid://cdxd03e76lvdj" path="res://Assets/Occluders/Walls/main_window_big.occ" id="1_c3wos"]
+[ext_resource type="ArrayOccluder3D" uid="uid://cdxd03e76lvdj" path="res://Assets/Models/Occluders/Walls/main_window_big.occ" id="1_c3wos"]
 [ext_resource type="Texture2D" uid="uid://bqtx0vn5bcavd" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Color.png" id="1_ckr8f"]
 [ext_resource type="Texture2D" uid="uid://vhb0jbilmqtc" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="2_c3wos"]
 [ext_resource type="Texture2D" uid="uid://bhp30e6ife5ua" path="res://Assets/Models/Station/Vers_2/textures/GreyMetal-Normal.png" id="3_ow7ty"]

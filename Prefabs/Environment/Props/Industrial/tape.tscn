@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_nego1"]
 [ext_resource type="PackedScene" uid="uid://hhpw0ijq80g6" path="res://Assets/Models/Station/Props/tape/tape.gltf" id="1_qf1mw"]
-[ext_resource type="ArrayOccluder3D" uid="uid://br57jw10qxieq" path="res://Assets/Occluders/Props/tape.occ" id="2_waevo"]
+[ext_resource type="ArrayOccluder3D" uid="uid://br57jw10qxieq" path="res://Assets/Models/Occluders/Props/tape.occ" id="2_waevo"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="4_2qw5h"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_1d7rg"]
 [ext_resource type="AudioStream" uid="uid://c2v4h8dhqi6yg" path="res://Assets/Audio/Impacts/soft_1.ogg" id="6_1x4ew"]

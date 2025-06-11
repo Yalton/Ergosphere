@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://byanelhos0hcd" path="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/RedPlastic-Color.png" id="10_dqccl"]
 [ext_resource type="Texture2D" uid="uid://c46qvkmd7ipqf" path="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/RedPlastic-Roughness.png" id="11_af4bl"]
 [ext_resource type="Texture2D" uid="uid://by4tajt084i4x" path="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/RedPlastic-Normal.png" id="12_lytph"]
-[ext_resource type="ArrayOccluder3D" uid="uid://clok3aiuj6slm" path="res://Assets/Occluders/Furniture/air_tube_thing.occ" id="13_2tx2w"]
+[ext_resource type="ArrayOccluder3D" uid="uid://clok3aiuj6slm" path="res://Assets/Models/Occluders/Furniture/air_tube_thing.occ" id="13_2tx2w"]
 [ext_resource type="Texture2D" uid="uid://l25ciijwsa8b" path="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/Cloth-Color.png" id="14_jp2rc"]
 [ext_resource type="Texture2D" uid="uid://bu7glvugvbary" path="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/Cloth-Roughness.png" id="15_imitm"]
 [ext_resource type="Texture2D" uid="uid://qyx4qmy4sr4j" path="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/Cloth-Normal.png" id="16_vmxgw"]

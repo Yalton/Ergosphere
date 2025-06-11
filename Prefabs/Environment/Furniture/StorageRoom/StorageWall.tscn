@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bvdyw3fcmj377" path="res://Scripts/Environment/Storage/storage_wall.gd" id="1_5jewd"]
 [ext_resource type="PackedScene" uid="uid://bvfpw6v5h8lci" path="res://Prefabs/Environment/Furniture/StorageRoom/storage_container.tscn" id="7_smqay"]
-[ext_resource type="ArrayOccluder3D" uid="uid://cjx0xc1io7n4q" path="res://Assets/Occluders/Walls/StorageWall.occ" id="8_cwyio"]
+[ext_resource type="ArrayOccluder3D" uid="uid://cjx0xc1io7n4q" path="res://Assets/Models/Occluders/Walls/StorageWall.occ" id="8_cwyio"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="9_epdqm"]
 [ext_resource type="Texture2D" uid="uid://byk65hmcmwp14" path="res://Assets/Models/Station/Furniture/StorageWall/textures/GreyMetal-Color.png" id="13_blauj"]
 [ext_resource type="Texture2D" uid="uid://b1420vaexp200" path="res://Assets/Models/Station/Furniture/StorageWall/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="14_eo7wr"]

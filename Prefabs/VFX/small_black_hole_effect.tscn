@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://60nciysoontj" path="res://PolyBlocks/EffectBlocks/source_files/textures/sparkle.png" id="1_odhrg"]
 [ext_resource type="Shader" uid="uid://ck4hpjkjfvdmr" path="res://PolyBlocks/EffectBlocks/source_files/shaders/lightning.gdshader" id="2_ghrhd"]
-[ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="3_uf6qu"]
+[ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="3_uf6qu"]
 
 [sub_resource type="Gradient" id="Gradient_vk3vk"]
 

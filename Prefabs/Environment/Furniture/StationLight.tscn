@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cse65y4qixeyq" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_sgr0c"]
 [ext_resource type="Texture2D" uid="uid://1bmer1juvv4a" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Normal.png" id="3_3w6fu"]
 [ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="4_3w6fu"]
-[ext_resource type="ArrayOccluder3D" uid="uid://o4nm72b3axia" path="res://Assets/Occluders/Furniture/StationLight.occ" id="4_sgr0c"]
+[ext_resource type="ArrayOccluder3D" uid="uid://o4nm72b3axia" path="res://Assets/Models/Occluders/Furniture/StationLight.occ" id="4_sgr0c"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e7j7u"]
 resource_name = "BlackerMetal-Dithered"

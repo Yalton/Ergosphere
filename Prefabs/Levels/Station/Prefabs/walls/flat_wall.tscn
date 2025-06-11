@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://chhwgsufnhwp1" path="res://Assets/Models/Station/SpecialWalls/flat_wall/textures/GreyMetal-Color.png" id="1_7ofh0"]
 [ext_resource type="Texture2D" uid="uid://c8l541rr2rhtv" path="res://Assets/Models/Station/SpecialWalls/flat_wall/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="2_y82t1"]
 [ext_resource type="Texture2D" uid="uid://cbrsgbp4e3bad" path="res://Assets/Models/Station/SpecialWalls/flat_wall/textures/GreyMetal-Normal.png" id="3_03e5k"]
-[ext_resource type="ArrayOccluder3D" uid="uid://cl12bav0rbhat" path="res://Assets/Occluders/Walls/flat_wall.occ" id="4_y82t1"]
+[ext_resource type="ArrayOccluder3D" uid="uid://cl12bav0rbhat" path="res://Assets/Models/Occluders/Walls/flat_wall.occ" id="4_y82t1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cy35q"]
 resource_name = "GreyMetal-Dithered.023"
