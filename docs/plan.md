@@ -88,8 +88,6 @@ Hermes voice still terrible
 
 ---
 
-Add Storage room Item shop
-
 Plan Out Day 2
 
 Make more events
