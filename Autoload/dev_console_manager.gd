@@ -1,10 +1,13 @@
 extends Node
 
-## Singleton that manages dev console commands and processing with permission system
+## Singleton that manages dev console commands and processing with permission and log system
 ## Access via DevConsoleManager in your code
 
 signal command_processed(command: String, args: Array)
 signal output_requested(text: String, type: String)
+
+## Array of terminal log resources
+@export var terminal_logs: Array[TerminalLog] = []
 
 var commands: Dictionary = {}
 var command_aliases: Dictionary = {}
@@ -25,7 +28,10 @@ func _ready() -> void:
 	# Register game commands
 	_register_game_commands()
 	
-	DebugLogger.info(module_name, "Dev Console Manager initialized")
+	# Register log commands
+	_register_log_commands()
+	
+	DebugLogger.info(module_name, "Dev Console Manager initialized with " + str(terminal_logs.size()) + " logs")
 
 func set_console_ui(console_ui: DevConsoleUI, admin_mode: bool = false) -> void:
 	dev_console_ui = console_ui
@@ -64,6 +70,16 @@ func _register_game_commands() -> void:
 	register_command("tasks", _cmd_tasks, "Lists current active tasks", false)
 	
 	DebugLogger.debug(module_name, "Game commands registered")
+
+func _register_log_commands() -> void:
+	# Log commands accessible to all users
+	register_command("logs", _cmd_list_logs, "Lists available terminal logs", false)
+	register_command("log", _cmd_show_log, "Shows a specific log (usage: log <number>)", false)
+	
+	# Admin can unlock logs
+	register_command("unlock_log", _cmd_unlock_log, "Unlocks a specific log", true)
+	
+	DebugLogger.debug(module_name, "Log commands registered")
 
 func register_command(name: String, method: Callable, description: String = "", admin_only: bool = false) -> void:
 	commands[name.to_lower()] = {
@@ -198,6 +214,8 @@ func _cmd_trigger_event(args: Array) -> void:
 	var event_id = args[0]
 	GameManager.event_manager.trigger_event(event_id)
 
+
+
 func _cmd_assign_task(args: Array) -> void:
 	if args.is_empty():
 		output_error("Usage: assign_task <task_id>")
@@ -241,6 +259,12 @@ func _cmd_next_day(args: Array) -> void:
 
 func _cmd_status(args: Array) -> void:
 	output_system("=== Game Status ===")
+	
+	# Time status
+	if GameManager.time_manager:
+		output("Day: %d" % GameManager.time_manager.current_day)
+		output("Time: %s" % GameManager.time_manager.get_time_string())
+	
 	# Task status
 	if GameManager.task_manager:
 		var active_tasks = GameManager.task_manager.get_active_tasks()
@@ -267,3 +291,88 @@ func _cmd_tasks(args: Array) -> void:
 		output("[%s] %s - %s" % [task.task_id, task.task_name, status])
 		if task.task_description:
 			output("  Description: %s" % task.task_description)
+
+# Log command implementations
+func _cmd_list_logs(args: Array) -> void:
+	if terminal_logs.is_empty():
+		output_system("No logs available in the system")
+		return
+	
+	output_system("=== Available Terminal Logs ===")
+	
+	for i in range(terminal_logs.size()):
+		var log = terminal_logs[i]
+		if not log:
+			continue
+			
+		var status = ""
+		if log.is_locked:
+			if log.is_accessible():
+				status = " [UNLOCKED]"
+			else:
+				status = " [LOCKED]"
+		
+		var security = ""
+		if not log.security_level.is_empty():
+			security = " (" + log.security_level + ")"
+		
+		output("%d. %s%s%s" % [i + 1, log.log_title, security, status])
+	
+	output_system("\nUse 'log <number>' to read a specific log")
+
+func _cmd_show_log(args: Array) -> void:
+	if args.is_empty():
+		output_error("Usage: log <number>")
+		output("Example: log 1")
+		return
+	
+	var log_number = args[0].to_int()
+	
+	if log_number < 1 or log_number > terminal_logs.size():
+		output_error("Invalid log number. Use 'logs' to see available logs")
+		return
+	
+	var log = terminal_logs[log_number - 1]
+	
+	if not log:
+		output_error("Log data is missing")
+		return
+	
+	# Check if accessible
+	if not log.is_accessible():
+		output_error(log.locked_message)
+		if not log.unlock_state_name.is_empty():
+			output_system("Required: %s = %s" % [log.unlock_state_name, str(log.unlock_state_value)])
+		return
+	
+	# Display the log
+	output_system(log.get_formatted_content())
+
+func _cmd_unlock_log(args: Array) -> void:
+	if args.is_empty():
+		output_error("Usage: unlock_log <number>")
+		return
+	
+	var log_number = args[0].to_int()
+	
+	if log_number < 1 or log_number > terminal_logs.size():
+		output_error("Invalid log number")
+		return
+	
+	var log = terminal_logs[log_number - 1]
+	
+	if not log:
+		output_error("Log data is missing")
+		return
+	
+	if not log.is_locked:
+		output_warning("Log is not locked")
+		return
+	
+	# Force unlock by setting the required state
+	if not log.unlock_state_name.is_empty() and GameManager.state_manager:
+		GameManager.state_manager.set_state(log.unlock_state_name, log.unlock_state_value)
+		output_system("Log '%s' unlocked by setting %s to %s" % [log.log_title, log.unlock_state_name, str(log.unlock_state_value)])
+	else:
+		log.is_locked = false
+		output_system("Log '%s' force unlocked" % log.log_title)

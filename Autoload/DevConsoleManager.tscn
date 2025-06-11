@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddmnsmsgtxan3"]
+
+[ext_resource type="Script" uid="uid://b5pe1qu81jpft" path="res://Autoload/dev_console_manager.gd" id="1_3q5ym"]
+
+[node name="DevConsoleManager" type="Node"]
+script = ExtResource("1_3q5ym")

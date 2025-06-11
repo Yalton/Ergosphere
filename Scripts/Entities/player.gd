@@ -10,6 +10,18 @@ extends CharacterBody3D
 @export var acceleration: float = 8.0
 @export var deceleration: float = 10.0
 
+@export_group("Crouch")
+## Enable crouching functionality
+@export var enable_crouch: bool = true
+## Speed when crouched
+@export var crouch_speed: float = 2.5
+## Crouched camera height offset from standing position
+@export var crouch_camera_offset: float = -0.8
+## Crouched collision shape height multiplier
+@export var crouch_height_multiplier: float = 0.5
+## Duration of crouch transition animation
+@export var crouch_transition_duration: float = 0.3
+
 # View bobbing parameters
 @export var enable_view_bobbing: bool = true
 @export var bob_amount: float = 0.08
@@ -24,7 +36,6 @@ extends CharacterBody3D
 @export var mouse_sensitivity: float = 0.002
 @export var vertical_angle_limit: float = 1.0  # About 60 degrees up/down
 
-
 # Debug options
 @export var enable_debug: bool = true
 var module_name: String = "Player"
@@ -32,7 +43,7 @@ var module_name: String = "Player"
 # Force focusing movement
 @export var force_movement_focus: bool = true
 
-@export var PLAYER_PUSH_FORCE : float = 1.3
+@export var PLAYER_PUSH_FORCE: float = 1.3
 
 # Flashlight settings
 @export_group("Flashlight")
@@ -41,11 +52,11 @@ var module_name: String = "Player"
 ## Sound played when turning flashlight on/off
 @export var flashlight_click_sound: AudioStream
 
-
 # Node references
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
 @onready var raycast: RayCast3D = $Head/Camera3D/RayCast3D
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D
 
 # Physics
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -72,6 +83,15 @@ var is_camera_transitioning: bool = false
 var flashlight_on: bool = false
 var flashlight_audio: AudioStreamPlayer3D
 
+# Crouch variables
+var is_crouched: bool = false
+var is_crouching: bool = false
+var original_camera_y: float
+var original_collision_height: float
+var current_speed: float
+var crouch_tween: Tween
+var collision_tween: Tween
+
 func _ready() -> void:
 	# Register with debug logger if it exists
 	DebugLogger.register_module(module_name, enable_debug)
@@ -79,10 +99,19 @@ func _ready() -> void:
 	# Capture mouse cursor and hide it
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	# Store the initial camera position for view bobbing
+	# Store the initial camera position for view bobbing and crouch
 	if camera:
 		bob_base_height = camera.position.y
+		original_camera_y = camera.position.y
 		last_bob_position = bob_base_height
+	
+	# Store original collision shape height
+	if collision_shape and collision_shape.shape is CapsuleShape3D:
+		var capsule = collision_shape.shape as CapsuleShape3D
+		original_collision_height = capsule.height
+	
+	# Initialize current speed
+	current_speed = walk_speed
 		
 	# Setup flashlight audio
 	flashlight_audio = AudioStreamPlayer3D.new()
@@ -126,6 +155,13 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	
+	# Handle crouch input
+	if enable_crouch and !is_crouching:
+		if event.is_action_pressed("crouch") and !is_crouched:
+			start_crouch()
+		elif event.is_action_released("crouch") and is_crouched:
+			stop_crouch()
+	
 	# Mouse look (camera rotation)
 	if event is InputEventMouseMotion and !is_interacting_with_ui and can_control:
 		# Rotate head (left and right)
@@ -153,6 +189,93 @@ func toggle_flashlight() -> void:
 	
 	DebugLogger.debug(module_name, "Flashlight " + ("on" if flashlight_on else "off"))
 
+func start_crouch() -> void:
+	if is_crouched:
+		return
+	
+	is_crouched = true
+	
+	var target_camera_y = original_camera_y + crouch_camera_offset
+	var target_collision_height = original_collision_height * crouch_height_multiplier
+	
+	DebugLogger.debug(module_name, "Starting crouch")
+	
+	# Kill existing tweens if any
+	if crouch_tween and crouch_tween.is_valid():
+		crouch_tween.kill()
+	if collision_tween and collision_tween.is_valid():
+		collision_tween.kill()
+	
+	# Start crouching flag
+	is_crouching = true
+	
+	# Tween camera position from current position
+	crouch_tween = create_tween()
+	crouch_tween.set_ease(Tween.EASE_OUT)
+	crouch_tween.set_trans(Tween.TRANS_CUBIC)
+	crouch_tween.tween_property(camera, "position:y", target_camera_y, crouch_transition_duration)
+	crouch_tween.tween_callback(_on_crouch_complete)
+	
+	# Tween collision shape from current height
+	if collision_shape and collision_shape.shape is CapsuleShape3D:
+		var capsule = collision_shape.shape as CapsuleShape3D
+		collision_tween = create_tween()
+		collision_tween.set_ease(Tween.EASE_OUT)
+		collision_tween.set_trans(Tween.TRANS_CUBIC)
+		collision_tween.tween_method(_update_collision_height, capsule.height, target_collision_height, crouch_transition_duration)
+	
+	# Update speed and bob height immediately
+	current_speed = crouch_speed
+	bob_base_height = target_camera_y
+
+func stop_crouch() -> void:
+	if !is_crouched:
+		return
+	
+	is_crouched = false
+	
+	var target_camera_y = original_camera_y
+	var target_collision_height = original_collision_height
+	
+	DebugLogger.debug(module_name, "Stopping crouch")
+	
+	# Kill existing tweens if any
+	if crouch_tween and crouch_tween.is_valid():
+		crouch_tween.kill()
+	if collision_tween and collision_tween.is_valid():
+		collision_tween.kill()
+	
+	# Start crouching flag
+	is_crouching = true
+	
+	# Tween camera position from current position
+	crouch_tween = create_tween()
+	crouch_tween.set_ease(Tween.EASE_OUT)
+	crouch_tween.set_trans(Tween.TRANS_CUBIC)
+	crouch_tween.tween_property(camera, "position:y", target_camera_y, crouch_transition_duration)
+	crouch_tween.tween_callback(_on_crouch_complete)
+	
+	# Tween collision shape from current height
+	if collision_shape and collision_shape.shape is CapsuleShape3D:
+		var capsule = collision_shape.shape as CapsuleShape3D
+		collision_tween = create_tween()
+		collision_tween.set_ease(Tween.EASE_OUT)
+		collision_tween.set_trans(Tween.TRANS_CUBIC)
+		collision_tween.tween_method(_update_collision_height, capsule.height, target_collision_height, crouch_transition_duration)
+	
+	# Update speed and bob height immediately
+	current_speed = walk_speed
+	bob_base_height = target_camera_y
+
+func _update_collision_height(height: float) -> void:
+	if collision_shape and collision_shape.shape is CapsuleShape3D:
+		var capsule = collision_shape.shape as CapsuleShape3D
+		capsule.height = height
+
+func _on_crouch_complete() -> void:
+	is_crouching = false
+	DebugLogger.debug(module_name, "Crouch transition complete")
+
 func _physics_process(delta: float) -> void:
 	if is_interacting_with_ui or !can_control:
 		return
@@ -175,8 +298,8 @@ func _physics_process(delta: float) -> void:
 	
 	# Handle acceleration and deceleration
 	if direction:
-		velocity.x = lerp(velocity.x, direction.x * walk_speed, acceleration * delta)
-		velocity.z = lerp(velocity.z, direction.z * walk_speed, acceleration * delta)
+		velocity.x = lerp(velocity.x, direction.x * current_speed, acceleration * delta)
+		velocity.z = lerp(velocity.z, direction.z * current_speed, acceleration * delta)
 		is_moving = true
 	else:
 		velocity.x = lerp(velocity.x, 0.0, deceleration * delta)
@@ -232,13 +355,14 @@ func get_look_target() -> Dictionary:
 func update_view_bobbing(delta: float) -> void:
 	if is_moving and not is_zero_approx(velocity.length()):
 		# Increase the bob cycle based on movement speed and bob speed
-		bob_cycle += delta * bob_speed * min(1.0, velocity.length() / walk_speed)
+		bob_cycle += delta * bob_speed * min(1.0, velocity.length() / current_speed)
 		
 		# Calculate vertical bob with sine wave
 		var vertical_bob = sin(bob_cycle) * bob_amount
 		
-		# Apply bobbing to camera position
-		camera.position.y = bob_base_height + vertical_bob
+		# Apply bobbing to camera position only if not transitioning crouch
+		if not is_crouching:
+			camera.position.y = bob_base_height + vertical_bob
 		
 		# Optional: Add some horizontal bobbing for more realistic effect
 		camera.position.x = sin(bob_cycle * 0.5) * bob_amount * 0.5
@@ -271,9 +395,10 @@ func update_view_bobbing(delta: float) -> void:
 			# Update last position for next frame
 			last_bob_position = current_bob_pos
 	else:
-		# Gradually return to center when not moving
+		# Gradually return to center when not moving, but only if not crouching
 		bob_cycle = 0.0
-		camera.position.y = lerp(camera.position.y, bob_base_height, delta * 5.0)
+		if not is_crouching:
+			camera.position.y = lerp(camera.position.y, bob_base_height, delta * 5.0)
 		camera.position.x = lerp(camera.position.x, 0.0, delta * 5.0)
 		
 		# Reset footstep flags when not moving
@@ -295,12 +420,9 @@ func end_ui_interaction() -> void:
 	# Additional code to re-enable movement and hide mouse cursor
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-
 ######################################
 # Camera code
 ######################################
-
-
 
 func move_camera_to_position(target_position: Vector3, target_rotation: Vector3, duration: float = 1.5) -> void:
 	if is_camera_transitioning:

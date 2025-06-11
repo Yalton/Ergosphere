@@ -78,6 +78,7 @@ collision_mask = 5
 script = ExtResource("1_23jlx")
 ui_controller = NodePath("PlayerUI")
 interaction_component = NodePath("PlayerInteractionComponent")
+crouch_height_multiplier = 0.8
 footstep_detector = NodePath("FootstepSurfaceDetector")
 flashlight_spot = NodePath("Head/Camera3D/SpotLight3D")
 
