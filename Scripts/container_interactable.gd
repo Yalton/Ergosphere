@@ -50,7 +50,6 @@ func interact(player_interaction: PlayerInteractionComponent) -> void:
 	if is_animating:
 		DebugLogger.debug(module_name, "Interaction blocked - animation in progress")
 		return
-	
 	if is_open:
 		close_container()
 	else:
@@ -63,10 +62,6 @@ func open_container() -> void:
 	DebugLogger.debug(module_name, "Opening container")
 	is_animating = true
 	
-	# Play open sound
-	if audio_player and open_sound:
-		audio_player.stream = open_sound
-		audio_player.play()
 	
 	# Play open animation
 	if animation_player and animation_player.has_animation(open_animation):

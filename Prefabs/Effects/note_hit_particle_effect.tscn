@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://bg32top0jw3sy"]
+
+[ext_resource type="Texture2D" uid="uid://cnt24tows8l2" path="res://Assets/Textures/VFX_Textures/Flare00.PNG" id="1_3q554"]
+[ext_resource type="Script" uid="uid://bgap2dij24igp" path="res://Scripts/Misc/note_hit_particle_effect.gd" id="2_52808"]
+
+[sub_resource type="Curve" id="Curve_ifxs4"]
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, -1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_r4kt2"]
+curve = SubResource("Curve_ifxs4")
+
+[sub_resource type="Curve" id="Curve_sb83c"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_r301c"]
+curve = SubResource("Curve_sb83c")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dxj3q"]
+lifetime_randomness = 1.0
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(50, 20, 50)
+direction = Vector3(0, -1, 0)
+spread = 80.0
+initial_velocity_min = 10.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 20, 0)
+scale_min = 0.05
+scale_max = 0.1
+scale_curve = SubResource("CurveTexture_r301c")
+hue_variation_min = -1.0
+hue_variation_max = -2.23517e-08
+hue_variation_curve = SubResource("CurveTexture_r4kt2")
+turbulence_enabled = true
+
+[node name="NoteHitParticleEffect" type="GPUParticles2D"]
+emitting = false
+amount = 32
+texture = ExtResource("1_3q554")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+visibility_rect = Rect2(-200, -100, 400, 200)
+process_material = SubResource("ParticleProcessMaterial_dxj3q")
+script = ExtResource("2_52808")

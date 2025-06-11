@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=57 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -6,22 +6,16 @@
 [ext_resource type="Script" uid="uid://bex3ut4wa5nfy" path="res://Scripts/Misc/murder_zone.gd" id="4_840tq"]
 [ext_resource type="Texture2D" uid="uid://oj5ulsk010s8" path="res://Assets/Models/Station/Props/Drive/textures/BlackerMetal-Color.png" id="5_ovot7"]
 [ext_resource type="Texture2D" uid="uid://dij75o3xe074e" path="res://Assets/Models/Station/Props/Drive/textures/BlackerMetal-Normal.png" id="6_45tto"]
-[ext_resource type="PackedScene" uid="uid://clfwtnfkg4g0i" path="res://Prefabs/Props/Monitors/monitor_1.tscn" id="7_wb0bh"]
 [ext_resource type="PackedScene" uid="uid://bgnqxsxljglaq" path="res://Prefabs/Entities/player.tscn" id="8_dyfrl"]
 [ext_resource type="PackedScene" uid="uid://5s5arswn7wyx" path="res://Prefabs/Test/TestDiagetic.tscn" id="9_840tq"]
-[ext_resource type="PackedScene" uid="uid://ch6mkc1p7hs84" path="res://Prefabs/Props/Monitors/download_monitor.tscn" id="10_ovot7"]
-[ext_resource type="PackedScene" uid="uid://dnpaf7qn1mnc7" path="res://Prefabs/Props/Tech/desktop_with_hdd.tscn" id="11_45tto"]
 [ext_resource type="PackedScene" uid="uid://chqdixp3k58yg" path="res://Prefabs/Props/Monitors/telescope_monitor.tscn" id="12_fno4d"]
-[ext_resource type="PackedScene" uid="uid://c633scl3g5ik0" path="res://Prefabs/Props/Tech/telescope.tscn" id="13_o3pct"]
-[ext_resource type="PackedScene" uid="uid://qr1n21uuq8fa" path="res://Prefabs/Props/Tech/window_lever.tscn" id="14_gx60g"]
-[ext_resource type="PackedScene" uid="uid://5gar5jvxjk2l" path="res://Prefabs/Levels/Station/Prefabs/window_shutters.tscn" id="14_rbxte"]
 [ext_resource type="PackedScene" uid="uid://cr88bedkk3sbc" path="res://Prefabs/Furniture/Bedroom/bed.tscn" id="16_e7jis"]
 [ext_resource type="PackedScene" uid="uid://chh20j4dixc1b" path="res://Prefabs/Test/test_carriable.tscn" id="18_f5voq"]
 [ext_resource type="PackedScene" uid="uid://bllspm5ews8r5" path="res://Prefabs/Test/test_brown_note.tscn" id="19_3ndhy"]
 [ext_resource type="PackedScene" uid="uid://gnd4fi0eu2wk" path="res://Prefabs/Props/Industrial/fire_extinguisher.tscn" id="19_8jsly"]
-[ext_resource type="PackedScene" uid="uid://dtsj17an6ahci" path="res://Prefabs/Props/Monitors/terminal_monitor.tscn" id="21_eljqp"]
 [ext_resource type="PackedScene" uid="uid://bc74vtur5o21t" path="res://Prefabs/Furniture/StorageRoom/StorageWall.tscn" id="21_p7lde"]
 [ext_resource type="PackedScene" uid="uid://c18ngf0r0l3c1" path="res://Prefabs/Props/Monitors/storage_monitor.tscn" id="22_p7lde"]
+[ext_resource type="PackedScene" uid="uid://qcjjmv7hbf3i" path="res://Prefabs/Furniture/Bedroom/toilet.tscn" id="23_gw6bx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
 shader = ExtResource("1_iv3f0")
@@ -307,28 +301,14 @@ collision_mask = 5
 size = Vector3(75, 0.2, 75)
 material = SubResource("StandardMaterial3D_v7qhq")
 
-[node name="Monitor_1" parent="." instance=ExtResource("7_wb0bh")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -12.6293, 1.11895, -7)
-
 [node name="Player" parent="." instance=ExtResource("8_dyfrl")]
 transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
 
 [node name="DiageticTest" parent="." instance=ExtResource("9_840tq")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -15.9445, 2, -6)
 
-[node name="Download_Monitor" parent="." instance=ExtResource("10_ovot7")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -28, 1, -5)
-
-[node name="Desktop_With_HDD" parent="." node_paths=PackedStringArray("download_diegetic_ui") instance=ExtResource("11_45tto")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -5)
-download_diegetic_ui = NodePath("../Download_Monitor")
-
 [node name="Monitor_2" parent="." instance=ExtResource("12_fno4d")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 30.0852, 1, -4.25703)
-
-[node name="Telescope" parent="." node_paths=PackedStringArray("diegetic_telescope_ui") instance=ExtResource("13_o3pct")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -31.0537, 2, -16)
-diegetic_telescope_ui = NodePath("../Monitor_2")
 
 [node name="Huh" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, -0.337124, -5)
@@ -336,13 +316,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, -0.337124, -5)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Huh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.275146, 1.80347)
 shape = SubResource("BoxShape3D_o3pct")
-
-[node name="WindowShutters" parent="." instance=ExtResource("14_rbxte")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -14)
-
-[node name="window_lever" parent="." node_paths=PackedStringArray("window_shutters") instance=ExtResource("14_gx60g")]
-transform = Transform3D(-0.0371495, 0, -0.99931, 0, 1, 0, 0.99931, 0, -0.0371495, -23.5507, 1.63417, 0.327374)
-window_shutters = NodePath("../WindowShutters")
 
 [node name="Bed" parent="." instance=ExtResource("16_e7jis")]
 transform = Transform3D(5.11591e-13, 0, -4.79613, 0, 4.79613, 0, 4.79613, 0, 5.11591e-13, 11, -1, 1)
@@ -357,11 +330,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 5, -9)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9)
 visible = false
 
-[node name="monitor_3" parent="." instance=ExtResource("21_eljqp")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -19, 0, -4)
-
 [node name="StorageWall" parent="." instance=ExtResource("21_p7lde")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -16)
 
 [node name="Monitor_3" parent="." instance=ExtResource("22_p7lde")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -1, -2)
+
+[node name="Toilet" parent="." instance=ExtResource("23_gw6bx")]
+transform = Transform3D(-0.5, 0, -0.866025, 0, -1, 0, 0.866025, 0, -0.5, 7, -1, 17)

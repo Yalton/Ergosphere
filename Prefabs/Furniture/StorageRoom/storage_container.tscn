@@ -35,6 +35,18 @@ tracks/2/path = NodePath("../InteractionForwarder")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../InteractionForwarder:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_fahvj"]
 resource_name = "close"
@@ -60,6 +72,18 @@ tracks/2/path = NodePath("../InteractionForwarder")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 1.5, 1, 1, 0, 0, 0)
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../InteractionForwarder:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_qju3s"]
 resource_name = "open"
@@ -85,6 +109,18 @@ tracks/2/path = NodePath("../InteractionForwarder")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 1, 0, 0, 1.5)
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../InteractionForwarder:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0c58d"]
 _data = {
@@ -269,10 +305,11 @@ size = Vector3(3.75, 1.8, 0.05)
 [sub_resource type="BoxShape3D" id="BoxShape3D_fsrny"]
 size = Vector3(4, 2, 2)
 
-[node name="StorageContainer" type="Node3D" node_paths=PackedStringArray("item_spawn_point", "emissive_mesh", "animation_player")]
+[node name="StorageContainer" type="Node3D" node_paths=PackedStringArray("item_spawn_point", "emissive_mesh", "interaction_area", "animation_player")]
 script = ExtResource("1_f48e7")
 item_spawn_point = NodePath("StorageContainerBody/SpawnLocation")
 emissive_mesh = NodePath("StorageContainerBody/Door/Cube_362")
+interaction_area = NodePath("InteractionForwarder")
 animation_player = NodePath("AnimationPlayer")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("8_3c1nw")]

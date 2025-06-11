@@ -276,7 +276,7 @@ func create_test_items() -> void:
 	test_cube.display_name = "Test Cube"
 	test_cube.description = "A simple test cube for storage testing"
 	test_cube.cost = 50
-	test_cube.delivery_time = 10.0
+	test_cube.delivery_time = 1.0
 	test_cube.category = "General"
 	test_cube.scene_path = "res://Prefabs/Props/Industrial/lubricant_spray.tscn"
 	register_item(test_cube)
