@@ -88,14 +88,15 @@ Hermes voice still terrible
 
 ---
 
+Fix Brown note
+- Notes teleport around
 
-Plan Out Day 2
+---
+
+Plan Out days
+
 
 Make more events
-
-Fix Brown note
-
-Game against Hermes
 
 Make failing emergency tasks have consequences
 
@@ -172,6 +173,140 @@ Space Station
 - Walls
 - Ceiling 
 - Doors  -->
+
+Day Plan 
+
+# 5-Day Horror Game Task & Event Planning
+
+## Current Problems
+- Day 4 & 5 are too light - no buildup to climax
+- Secret endings need clear unlock conditions
+- Events need better pacing/escalation
+- Missing crucial story revelation moments
+
+## Revised Daily Structure
+
+### Day 1 (Establish Normal)
+**Tasks:**
+- Tour Station ✓
+- Align Telescope ✓
+- Download Data ✓
+- Upload Data ✓
+- **Power Outage (Forced)** ✓
+
+**Events:** Keep minimal - maybe one subtle thing
+- Entity appears briefly in peripheral vision (no interaction)
+
+### Day 2 (First Cracks)
+**Tasks:**
+- Eat Food ✓
+- Memorization Game ✓
+- Defragment Hard Drive ✓
+- **Order Wrench** (sets up Day 3)
+- Reboot Systems ✓
+
+**Events:** 1-2 minor incidents
+- Random teleportation OR Blood decals appear/disappear
+- Spooky sound at predetermined position
+
+### Day 3 (Escalation Begins)
+**Tasks:**
+- Lube Engine Blades ✓
+- Sample Oxygen ✓
+- Download Data ✓
+- Upload Data ✓
+- Terminal Game ✓
+- **Replace Generator Heatsink** (use the wrench ordered Day 2)
+
+**Events:** 2-3 more aggressive
+- Entity follows player around (more persistent)
+- Smaller black hole appears in hallway
+- Fire appears (must be put out)
+
+### Day 4 (Breaking Point)
+**Tasks:**
+- Align Telescope ✓
+- **Oxygen Tank Filter Failure** (emergency task)
+- Download Data ✓
+- Upload Data ✓
+- **Investigate Anomalous Readings** (reveals story)
+- **Attempt Communication with Earth** (gets no response)
+
+**Events:** 3-4 major incidents
+- Shadowy figure at end of hall
+- Player vision goes wonky
+- Flesh appears on walls
+- Lightning/smoke wall blocks path
+
+### Day 5 (Final Descent)
+**Tasks:**
+- **Emergency Systems Check** (reveals station damage)
+- **Final Data Transmission Attempt** (fails)
+- **Prepare Escape Pod** (unlocks ending paths)
+- **Choose Your Fate** (triggers ending selection)
+
+**Events:** Constant supernatural activity
+- Eyes appear all around station
+- Environment outside gets darker
+- Mysterious Obelisk appears
+- Black hole accretion disk color changes
+
+## Secret Ending Unlock Conditions
+
+### Secret Ending 1: "The Researcher's Gambit"
+**Unlock Condition:** Complete all optional data analysis tasks on Days 1-3 + find hidden research logs
+**Trigger:** During Day 5, option appears to "Activate Experimental Protocol"
+**Outcome:** Player attempts to reverse the black hole formation
+
+### Secret Ending 2: "The Witness"
+**Unlock Condition:** Never flee from supernatural events (stand still during Entity encounters, don't run from shadows)
+**Trigger:** On Day 5, Entity offers direct communication
+**Outcome:** Player learns the truth about what happened to previous crew
+
+## Main Ending Paths (Day 5)
+
+### Ending 1: Consumed
+**Default if player makes no choice or fails escape preparation**
+Player and station sucked into black hole
+
+### Ending 2: Escape
+**Unlocked by completing "Prepare Escape Pod" task**
+Player flees in escape pod
+
+### Ending 3: Acceptance
+**Unlocked by interacting with Mysterious Obelisk**
+Player willingly merges with black hole
+
+## Event Escalation Pattern
+
+### Days 1-2: Subtle
+- Brief appearances
+- Environmental changes
+- Audio cues
+
+### Days 3-4: Active
+- Direct interaction required
+- Multiple simultaneous events
+- System failures
+
+### Day 5: Overwhelming
+- Constant supernatural presence
+- Multiple overlapping crises
+- Reality breaking down
+
+## Key Story Beats to Add
+
+**Day 3:** Player finds log revealing previous crew's fate
+**Day 4:** Communication systems show Earth is gone/changed
+**Day 5:** Player realizes they may be the last human alive
+
+## Implementation Notes
+
+- Each day should have 1 fewer normal tasks and 1-2 more emergency/story tasks
+- Events should interrupt tasks more frequently as days progress
+- Secret ending conditions should be trackable via state manager
+- Day 5 should feel completely different - more horror, less routine
+
 
 
 Intro Cutscene

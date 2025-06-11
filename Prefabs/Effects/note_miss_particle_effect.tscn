@@ -1,0 +1,65 @@
+[gd_scene load_steps=12 format=3 uid="uid://bc3m0blmls2fx"]
+
+[ext_resource type="Texture2D" uid="uid://cnt24tows8l2" path="res://Assets/Textures/VFX_Textures/Flare00.PNG" id="1_ass6i"]
+[ext_resource type="Script" uid="uid://bgap2dij24igp" path="res://Scripts/Misc/note_hit_particle_effect.gd" id="2_2v8xa"]
+
+[sub_resource type="Gradient" id="Gradient_ass6i"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2v8xa"]
+gradient = SubResource("Gradient_ass6i")
+
+[sub_resource type="Curve" id="Curve_71qt1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_05nly"]
+curve = SubResource("Curve_71qt1")
+
+[sub_resource type="Curve" id="Curve_1t21e"]
+_limits = [-1.0, 1.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, -1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1bkdh"]
+curve = SubResource("Curve_1t21e")
+
+[sub_resource type="Curve" id="Curve_xfj0q"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_jjgpr"]
+curve = SubResource("Curve_xfj0q")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_87rqc"]
+lifetime_randomness = 1.0
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(50, 20, 50)
+direction = Vector3(0, -1, 0)
+spread = 80.0
+initial_velocity_min = 10.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 20, 0)
+scale_min = 0.05
+scale_max = 0.1
+scale_curve = SubResource("CurveTexture_jjgpr")
+color = Color(1, 0, 0, 1)
+color_ramp = SubResource("GradientTexture1D_2v8xa")
+emission_curve = SubResource("CurveTexture_05nly")
+hue_variation_min = -0.1
+hue_variation_max = 0.1
+hue_variation_curve = SubResource("CurveTexture_1bkdh")
+turbulence_enabled = true
+
+[node name="NoteMissParticleEffect" type="GPUParticles2D"]
+emitting = false
+amount = 32
+texture = ExtResource("1_ass6i")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+visibility_rect = Rect2(-200, -100, 400, 200)
+process_material = SubResource("ParticleProcessMaterial_87rqc")
+script = ExtResource("2_2v8xa")

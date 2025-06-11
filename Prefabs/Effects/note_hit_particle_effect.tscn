@@ -1,7 +1,21 @@
-[gd_scene load_steps=8 format=3 uid="uid://bg32top0jw3sy"]
+[gd_scene load_steps=12 format=3 uid="uid://bg32top0jw3sy"]
 
 [ext_resource type="Texture2D" uid="uid://cnt24tows8l2" path="res://Assets/Textures/VFX_Textures/Flare00.PNG" id="1_3q554"]
 [ext_resource type="Script" uid="uid://bgap2dij24igp" path="res://Scripts/Misc/note_hit_particle_effect.gd" id="2_52808"]
+
+[sub_resource type="Gradient" id="Gradient_1102w"]
+offsets = PackedFloat32Array(0, 0.524715, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.479087, 0.479087, 0.479087, 0.479087, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_702wm"]
+gradient = SubResource("Gradient_1102w")
+
+[sub_resource type="Curve" id="Curve_i5u1e"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_elojj"]
+curve = SubResource("Curve_i5u1e")
 
 [sub_resource type="Curve" id="Curve_ifxs4"]
 _limits = [-1.0, 1.0, 0.0, 1.0]
@@ -31,6 +45,8 @@ gravity = Vector3(0, 20, 0)
 scale_min = 0.05
 scale_max = 0.1
 scale_curve = SubResource("CurveTexture_r301c")
+color_ramp = SubResource("GradientTexture1D_702wm")
+emission_curve = SubResource("CurveTexture_elojj")
 hue_variation_min = -1.0
 hue_variation_max = -2.23517e-08
 hue_variation_curve = SubResource("CurveTexture_r4kt2")

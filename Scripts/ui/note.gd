@@ -19,19 +19,34 @@ const KEY_REGIONS = {
 }
 
 func _ready():
+	DebugLogger.register_module("Note")
+	
 	if texture_rect and notes_texture:
 		# Create a new AtlasTexture instance for this note
 		var atlas = AtlasTexture.new()
 		atlas.atlas = notes_texture
 		texture_rect.texture = atlas
+		DebugLogger.log_message("Note", "Created new AtlasTexture instance")
 
 func set_key_type(index: int):
 	key_index = index
 	if not texture_rect or not texture_rect.texture:
+		DebugLogger.log_message("Note", "Cannot set key type - texture_rect or texture missing")
 		return
 	
 	if index in KEY_REGIONS:
 		var pos = KEY_REGIONS[index]
 		var atlas = texture_rect.texture as AtlasTexture
 		if atlas:
+			# Ensure we're working with our own AtlasTexture instance
+			if atlas.atlas != notes_texture:
+				# Create a new one if somehow it got replaced
+				atlas = AtlasTexture.new()
+				atlas.atlas = notes_texture
+				texture_rect.texture = atlas
+				DebugLogger.log_message("Note", "Recreated AtlasTexture instance")
+			
 			atlas.region = Rect2(pos.x, pos.y, 48, 48)
+			DebugLogger.log_message("Note", "Set key type %d with region: %v" % [index, pos])
+		else:
+			DebugLogger.log_message("Note", "Failed to cast texture to AtlasTexture")

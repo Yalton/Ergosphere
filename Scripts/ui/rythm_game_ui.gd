@@ -49,6 +49,10 @@ signal game_cancelled()
 ## Duration for camera transitions
 @export var camera_transition_duration: float = 1.5
 
+@export_group("Visual Debugging")
+## ColorRect to visualize the hit zone across all lanes
+@export var hit_zone_debug_rect: ColorRect
+
 var notes_spawned: int = 0
 var notes_hit: int = 0
 var notes_missed: int = 0
@@ -56,52 +60,98 @@ var game_active: bool = false
 var spawn_timer: float = 0.0
 var next_spawn_time: float = 0.0
 var game_timer: float = 0.0
+
 var current_level: int = 1
 var has_played_today: bool = false
-var player_controller: Player = null
 
-# Audio players
 var hit_audio_player: AudioStreamPlayer
 var miss_audio_player: AudioStreamPlayer
 var complete_audio_player: AudioStreamPlayer
 
+# Track last spawn time per lane to prevent rapid spawning in same lane
+var last_lane_spawn_times: Array[float] = [0.0, 0.0, 0.0, 0.0]
+const MIN_LANE_SPAWN_INTERVAL: float = 1.0
+
 func _ready():
 	DebugLogger.register_module("RhythmGameUI")
-	visible = false
 	
-	# Setup audio players
+	# Create audio players
 	hit_audio_player = AudioStreamPlayer.new()
-	hit_audio_player.bus = "SFX"
-	add_child(hit_audio_player)
-	
 	miss_audio_player = AudioStreamPlayer.new()
-	miss_audio_player.bus = "SFX"
-	add_child(miss_audio_player)
-	
 	complete_audio_player = AudioStreamPlayer.new()
-	complete_audio_player.bus = "SFX"
+	add_child(hit_audio_player)
+	add_child(miss_audio_player)
 	add_child(complete_audio_player)
 	
+	# Connect to lane controller signals
 	if lane_controller:
 		lane_controller.note_hit.connect(_on_note_hit)
 		lane_controller.note_missed.connect(_on_note_missed)
 	
-	# Connect to day reset
-	if GameManager:
-		GameManager.day_reset.connect(_on_day_reset)
+	# Create hit zone debug visualization
+	_create_hit_zone_debug_rect()
 	
-	# Update UI
-	_update_ui()
+	visible = false
 
-func _on_day_reset():
-	# If the game was played, increment level
-	if has_played_today:
-		current_level += 1
-		DebugLogger.log_message("RhythmGameUI", "Day reset - advancing to level %d" % current_level)
+func _create_hit_zone_debug_rect():
+	if not hit_zone_debug_rect:
+		hit_zone_debug_rect = ColorRect.new()
+		hit_zone_debug_rect.name = "HitZoneDebugRect"
+		hit_zone_debug_rect.color = Color(0.0, 1.0, 0.0, 0.3)  # Semi-transparent green
+		hit_zone_debug_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(hit_zone_debug_rect)
+		
+		# Set to high z-index to ensure it's on top
+		hit_zone_debug_rect.z_index = 10
+		hit_zone_debug_rect.show_behind_parent = false
 	
-	# Reset play status
-	has_played_today = false
-	DebugLogger.log_message("RhythmGameUI", "Day reset - game available again")
+	# Update position when visible
+	if visible:
+		_update_hit_zone_debug_rect()
+
+func _update_hit_zone_debug_rect():
+	if not hit_zone_debug_rect or not lane_controller or not lane_controller.lanes.size() > 0:
+		return
+	
+	# Get the first and last lane to determine bounds
+	var first_lane = lane_controller.lanes[0]
+	var last_lane = lane_controller.lanes[lane_controller.lanes.size() - 1]
+	
+	if not first_lane or not last_lane:
+		return
+	
+	# Get hit zone bounds from the first lane
+	var hit_zone_bounds = first_lane.get_hit_zone_bounds() if first_lane.has_method("get_hit_zone_bounds") else {}
+	
+	if hit_zone_bounds.is_empty():
+		# Fallback to old calculation
+		var hit_zone_y = first_lane.hit_zone_center_y - first_lane.hit_zone_tolerance
+		var hit_zone_height = first_lane.hit_zone_tolerance * 2.0
+		
+		# Get global positions of lanes relative to RhythmGameUI
+		var first_lane_global_x = first_lane.global_position.x - global_position.x
+		var last_lane_global_x = last_lane.global_position.x + last_lane.size.x - global_position.x
+		var lane_global_y = first_lane.global_position.y - global_position.y
+		
+		# Set the debug rect position and size
+		hit_zone_debug_rect.position = Vector2(first_lane_global_x, lane_global_y + hit_zone_y)
+		hit_zone_debug_rect.size = Vector2(last_lane_global_x - first_lane_global_x, hit_zone_height)
+	else:
+		# Use actual hit zone panel bounds
+		var hit_zone_top = hit_zone_bounds["top"]
+		var hit_zone_bottom = hit_zone_bounds["bottom"]
+		var hit_zone_height = hit_zone_bottom - hit_zone_top
+		
+		# Get global positions of lanes relative to RhythmGameUI
+		var first_lane_global_x = first_lane.global_position.x - global_position.x
+		var last_lane_global_x = last_lane.global_position.x + last_lane.size.x - global_position.x
+		var lane_global_y = first_lane.global_position.y - global_position.y
+		
+		# Set the debug rect position and size
+		hit_zone_debug_rect.position = Vector2(first_lane_global_x, lane_global_y + hit_zone_top)
+		hit_zone_debug_rect.size = Vector2(last_lane_global_x - first_lane_global_x, hit_zone_height)
+	
+	DebugLogger.log_message("RhythmGameUI", "Hit zone debug rect - Pos: %v, Size: %v" % [hit_zone_debug_rect.position, hit_zone_debug_rect.size])
 
 func _process(delta):
 	if not game_active:
@@ -110,10 +160,9 @@ func _process(delta):
 	game_timer += delta
 	spawn_timer += delta
 	
-	# Update progress bar
+	# Update progress bars
 	if level_progress_bar:
-		var progress = float(notes_hit + notes_missed) / float(total_notes)
-		level_progress_bar.value = progress * 100
+		level_progress_bar.value = (float(notes_hit + notes_missed) / float(total_notes)) * 100.0
 	
 	# Check if we should spawn a new note
 	if spawn_timer >= next_spawn_time and notes_spawned < total_notes:
@@ -171,16 +220,29 @@ func start_game():
 	game_timer = 0.0
 	spawn_timer = 0.0
 	
+	# Reset lane spawn timers
+	last_lane_spawn_times = [0.0, 0.0, 0.0, 0.0]
+	
 	# Reset progress bars
 	if level_progress_bar:
 		level_progress_bar.value = 0
 	if hit_percentage_bar:
 		hit_percentage_bar.value = 0
 	
-	# Adjust difficulty based on level
+	# Apply difficulty based on level
 	_apply_level_difficulty()
 	
 	next_spawn_time = randf_range(min_spawn_interval, max_spawn_interval)
+	
+	# Update hit zone debug rect after a frame to ensure lanes are properly sized
+	await get_tree().process_frame
+	
+	# Force lanes to recalculate their positions
+	for lane in lane_controller.lanes:
+		if lane and lane.has_method("_calculate_positions"):
+			lane._calculate_positions()
+	
+	_update_hit_zone_debug_rect()
 	
 	_update_ui()
 
@@ -205,7 +267,24 @@ func _apply_level_difficulty():
 		[current_level, total_notes, min_spawn_interval, max_spawn_interval])
 
 func _spawn_note():
-	var lane_index = randi() % 4
+	# Try to find a suitable lane that hasn't been used recently
+	var available_lanes = []
+	
+	for i in range(4):
+		# Check if enough time has passed since last spawn in this lane
+		if game_timer - last_lane_spawn_times[i] >= MIN_LANE_SPAWN_INTERVAL:
+			available_lanes.append(i)
+	
+	# If no lanes are available (very rare), use any lane
+	if available_lanes.is_empty():
+		available_lanes = [0, 1, 2, 3]
+	
+	# Pick a random lane from available ones
+	var lane_index = available_lanes[randi() % available_lanes.size()]
+	
+	# Update last spawn time for this lane
+	last_lane_spawn_times[lane_index] = game_timer
+	
 	lane_controller.spawn_note(lane_index)
 	notes_spawned += 1
 	DebugLogger.log_message("RhythmGameUI", "Spawned note %d/%d in lane %d" % [notes_spawned, total_notes, lane_index])
@@ -213,9 +292,15 @@ func _spawn_note():
 func _on_note_hit(lane_index: int):
 	notes_hit += 1
 	
-	# Play hit sound
+	# Play hit sound with pitch variation based on lane
 	if note_hit_sound and hit_audio_player:
 		hit_audio_player.stream = note_hit_sound
+		
+		# Pitch up based on lane index (0 = no change, 1 = +2 semitones, etc.)
+		# Each semitone is approximately 1.0595 multiplier
+		var pitch_multiplier = pow(1.0595, lane_index * 2)
+		hit_audio_player.pitch_scale = pitch_multiplier
+		
 		hit_audio_player.play()
 	
 	# Update hit percentage
@@ -223,7 +308,7 @@ func _on_note_hit(lane_index: int):
 		var hit_percentage = float(notes_hit) / float(max(1, notes_hit + notes_missed)) * 100.0
 		hit_percentage_bar.value = hit_percentage
 	
-	DebugLogger.log_message("RhythmGameUI", "Note hit! Total hits: %d" % notes_hit)
+	DebugLogger.log_message("RhythmGameUI", "Note hit in lane %d! Total hits: %d" % [lane_index, notes_hit])
 
 func _on_note_missed(lane_index: int):
 	notes_missed += 1
@@ -235,7 +320,7 @@ func _on_note_missed(lane_index: int):
 	
 	# Update hit percentage
 	if hit_percentage_bar:
-		var hit_percentage = float(notes_hit) / float(max(1, notes_hit + notes_missed))
+		var hit_percentage = float(notes_hit) / float(max(1, notes_hit + notes_missed)) * 100.0
 		hit_percentage_bar.value = hit_percentage
 	
 	DebugLogger.log_message("RhythmGameUI", "Note missed! Total misses: %d" % notes_missed)
@@ -252,44 +337,32 @@ func _end_game():
 	var score_percentage = (float(notes_hit) / float(total_notes)) * 100.0
 	DebugLogger.log_message("RhythmGameUI", "Game ended! Score: %.1f%%" % score_percentage)
 	
-	# Play complete sound
+	# Play completion sound
 	if level_complete_sound and complete_audio_player:
 		complete_audio_player.stream = level_complete_sound
 		complete_audio_player.play()
 	
-	# Mark as played today
+	# Save progress
 	has_played_today = true
+	if score_percentage >= 60.0:  # Pass threshold
+		current_level += 1
 	
-	# Update UI with final score
-	if status_label:
-		status_label.text = "Level %d - Score: %.1f%%" % [current_level, score_percentage]
+	# Emit signal and hide after delay
+	game_finished.emit(score_percentage)
 	
-	# Wait before hiding and restoring controls
-	await get_tree().create_timer(3.0).timeout
-	
+	await get_tree().create_timer(2.0).timeout
 	visible = false
 	
-	game_finished.emit(score_percentage)
+	# Clear all notes
+	if lane_controller and lane_controller.has_method("clear_all_notes"):
+		lane_controller.clear_all_notes()
 
 func _cancel_game():
 	game_active = false
+	visible = false
 	
-	# Clear any remaining notes
+	# Clear all notes
 	if lane_controller and lane_controller.has_method("clear_all_notes"):
 		lane_controller.clear_all_notes()
 	
-	visible = false
-	
 	game_cancelled.emit()
-
-func _restore_player_control():
-	if not player_controller:
-		return
-	
-	# Re-enable player controls
-	player_controller.is_interacting_with_ui = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
-	# Restore camera
-	if player_controller.has_method("restore_camera_position"):
-		player_controller.restore_camera_position(camera_transition_duration)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bcatrxvp6r3ff"]
+[gd_scene load_steps=9 format=3 uid="uid://bcatrxvp6r3ff"]
 
 [ext_resource type="PackedScene" uid="uid://da50kw4yql76w" path="res://Prefabs/UI/lanes_controller.tscn" id="1_n4kk0"]
 [ext_resource type="Script" uid="uid://cp7kq5qnumldv" path="res://Scripts/ui/rythm_game_ui.gd" id="1_tc83c"]
@@ -7,9 +7,9 @@
 [ext_resource type="AudioStream" uid="uid://f3ucxy15y70i" path="res://Assets/Audio/Character/pain_grunt.wav" id="3_d2dch"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="3_em8t4"]
 [ext_resource type="AudioStream" uid="uid://27mp756mjjus" path="res://Assets/Audio/Character/relieved.wav" id="4_hk2rr"]
+[ext_resource type="PackedScene" uid="uid://bg32top0jw3sy" path="res://Prefabs/Effects/note_hit_particle_effect.tscn" id="8_hk2rr"]
 
 [node name="RythmGameUI" type="Control" node_paths=PackedStringArray("lane_controller", "status_label", "level_progress_bar", "hit_percentage_bar")]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -117,18 +117,46 @@ theme = ExtResource("3_em8t4")
 [node name="Lane" parent="MarginContainer/VBoxContainer/LanesContainer" instance=ExtResource("2_w3fai")]
 layout_mode = 2
 size_flags_horizontal = 3
+hit_particle_scene = ExtResource("8_hk2rr")
 
 [node name="Lane2" parent="MarginContainer/VBoxContainer/LanesContainer" instance=ExtResource("2_w3fai")]
 layout_mode = 2
 size_flags_horizontal = 3
 lane_index = 1
+hit_particle_scene = ExtResource("8_hk2rr")
 
 [node name="Lane3" parent="MarginContainer/VBoxContainer/LanesContainer" instance=ExtResource("2_w3fai")]
 layout_mode = 2
 size_flags_horizontal = 3
 lane_index = 2
+hit_particle_scene = ExtResource("8_hk2rr")
 
 [node name="Lane4" parent="MarginContainer/VBoxContainer/LanesContainer" instance=ExtResource("2_w3fai")]
 layout_mode = 2
 size_flags_horizontal = 3
 lane_index = 3
+hit_particle_scene = ExtResource("8_hk2rr")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 1, 0)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 1, 0)
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 1, 0)
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 1, 0)

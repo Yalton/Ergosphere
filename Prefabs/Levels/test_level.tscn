@@ -293,6 +293,8 @@ script = ExtResource("4_840tq")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/MurderZone"]
 shape = SubResource("BoxShape3D_wi6ky")
 
+[node name="Props" type="Node3D" parent="." groups=["props"]]
+
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 use_collision = true
