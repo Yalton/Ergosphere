@@ -43,7 +43,7 @@ func _populate_credits() -> void:
 		categories[entry.category].append(entry)
 	
 	# Build credits text
-	var text = ""
+	var text = "[center][outline_size=2][outline_color=00ff00]"
 	for category in categories.keys():
 		text += "[b][font_size=24]" + category + "[/font_size][/b]\n\n"
 		
@@ -52,6 +52,7 @@ func _populate_credits() -> void:
 		
 		text += "\n"
 	
+	text += "[/outline_color][/outline_size][/center]"
 	credits_label.text = text
 	
 	# Start auto-scroll

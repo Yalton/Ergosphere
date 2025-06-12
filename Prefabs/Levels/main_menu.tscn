@@ -1,12 +1,14 @@
-[gd_scene load_steps=67 format=4 uid="uid://b2xc4entjfn1n"]
+[gd_scene load_steps=77 format=4 uid="uid://b2xc4entjfn1n"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_86c1k"]
 [ext_resource type="Script" uid="uid://c1caxpjbvsqx7" path="res://Scripts/UI/Menus/main_menu.gd" id="2_qgifm"]
 [ext_resource type="Script" uid="uid://2hpysr5j0634" path="res://Scripts/UI/options_ui_control.gd" id="3_11euj"]
 [ext_resource type="Shader" uid="uid://sc71vvscj345" path="res://Assets/VFX/Shader/vignette.gdshader" id="4_bpjv4"]
 [ext_resource type="Script" uid="uid://cdeqsnytxwlgo" path="res://Scripts/UI/credits.gd" id="4_qgifm"]
+[ext_resource type="Script" uid="uid://b57ljlojaqaje" path="res://Scripts/Resources/credit_entry.gd" id="5_bpjv4"]
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="5_oo8h8"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="6_2hlap"]
+[ext_resource type="Script" uid="uid://dvv2xi58iaxg7" path="res://Scripts/Resources/credits.gd" id="6_oo8h8"]
 [ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Graphics/Textures/VFX_Textures/smoke_04.png" id="7_hnakq"]
 [ext_resource type="Script" uid="uid://c2lq0mlp6vmir" path="res://Subsystems/post_process_shader.gd" id="8_d1snc"]
 
@@ -15,6 +17,61 @@ metadata/__load_path__ = "res://Assets/Audio/door_opening.wav"
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_llxsi"]
 viewport_path = NodePath("SubViewport")
+
+[sub_resource type="Resource" id="Resource_2hlap"]
+script = ExtResource("5_bpjv4")
+role = "test"
+name = "test"
+category = "Cat1"
+metadata/_custom_type_script = "uid://b57ljlojaqaje"
+
+[sub_resource type="Resource" id="Resource_hnakq"]
+script = ExtResource("5_bpjv4")
+role = "test"
+name = "test"
+category = "Cat1"
+metadata/_custom_type_script = "uid://b57ljlojaqaje"
+
+[sub_resource type="Resource" id="Resource_d1snc"]
+script = ExtResource("5_bpjv4")
+role = "test"
+name = "test"
+category = "Cat2"
+metadata/_custom_type_script = "uid://b57ljlojaqaje"
+
+[sub_resource type="Resource" id="Resource_4n13l"]
+script = ExtResource("5_bpjv4")
+role = "test"
+name = "test"
+category = "Cat2"
+metadata/_custom_type_script = "uid://b57ljlojaqaje"
+
+[sub_resource type="Resource" id="Resource_bpjv4"]
+script = ExtResource("5_bpjv4")
+role = "test"
+name = "test"
+category = "test"
+metadata/_custom_type_script = "uid://b57ljlojaqaje"
+
+[sub_resource type="Resource" id="Resource_mtcah"]
+script = ExtResource("5_bpjv4")
+role = "test"
+name = "test"
+category = "test2"
+metadata/_custom_type_script = "uid://b57ljlojaqaje"
+
+[sub_resource type="Resource" id="Resource_oo8h8"]
+script = ExtResource("5_bpjv4")
+role = "test"
+name = "test"
+category = "test3"
+metadata/_custom_type_script = "uid://b57ljlojaqaje"
+
+[sub_resource type="Resource" id="Resource_5xi1m"]
+script = ExtResource("6_oo8h8")
+credits_entries = Array[ExtResource("5_bpjv4")]([SubResource("Resource_2hlap"), SubResource("Resource_hnakq"), SubResource("Resource_d1snc"), SubResource("Resource_4n13l"), SubResource("Resource_bpjv4"), SubResource("Resource_mtcah"), SubResource("Resource_mtcah"), SubResource("Resource_mtcah"), SubResource("Resource_oo8h8")])
+scroll_speed = 30.0
+metadata/_custom_type_script = "uid://dvv2xi58iaxg7"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_is06q"]
 load_path = "res://.godot/imported/PC_Input_Sheet.png-5fe71aaeccff47400b0fe822292e75f7.ctex"
@@ -795,7 +852,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_86c1k")
 
-[node name="Credits" type="HBoxContainer" parent="."]
+[node name="Credits" type="HBoxContainer" parent="." node_paths=PackedStringArray("credits_label", "scroll_container", "back_button")]
 visible = false
 z_index = 5
 layout_mode = 1
@@ -806,6 +863,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_86c1k")
 script = ExtResource("4_qgifm")
+credits_resource = SubResource("Resource_5xi1m")
+credits_label = NodePath("VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/ScrollContainer/RichTextLabel")
+scroll_container = NodePath("VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/ScrollContainer")
+back_button = NodePath("VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/BackButton")
 
 [node name="Control" type="Control" parent="Credits"]
 z_index = 5
@@ -847,6 +908,7 @@ theme = ExtResource("1_86c1k")
 
 [node name="Label" type="Label" parent="Credits/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 42
 text = "Credits"
 horizontal_alignment = 1
 
@@ -861,6 +923,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 24
 bbcode_enabled = true
 text = "LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM "
 fit_content = true
