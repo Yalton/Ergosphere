@@ -5,7 +5,7 @@ extends Node
 
 signal command_processed(command: String, args: Array)
 signal output_requested(text: String, type: String)
-
+signal rebooted
 ## Array of terminal log resources
 @export var terminal_logs: Array[TerminalLog] = []
 
@@ -66,7 +66,8 @@ func _register_game_commands() -> void:
 	register_command("assign_task", _cmd_assign_task, "Assigns a task by ID", true)
 	register_command("complete_task", _cmd_complete_task, "Force completes a task by ID", true)
 	register_command("next_day", _cmd_next_day, "Instantly starts the next day", true)
-	
+	register_command("no_clip", _cmd_noclip, "Exactly what it sounds like", true)
+
 	# User-accessible commands
 	register_command("status", _cmd_status, "Shows current game status", false)
 	register_command("tasks", _cmd_tasks, "Lists current active tasks", false)
@@ -188,6 +189,7 @@ func _cmd_clear(args: Array) -> void:
 
 func _cmd_reboot(args: Array) -> void:
 	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
+	rebooted.emit()
 	if effects_manager: 
 		effects_manager.kill_power(5.0)
 		output_system("Reboot issued successfully")
@@ -249,16 +251,8 @@ func _cmd_complete_task(args: Array) -> void:
 		return
 	
 	var task_id = args[0]
-	
-	if GameManager.task_manager:
-		var task = GameManager.task_manager._get_task_by_id(task_id)
-		if task:
-			task.complete()
-			output_system("Task '%s' force completed" % task_id)
-		else:
-			output_error("Task '%s' not found" % task_id)
-	else:
-		output_error("Task manager not available")
+	GameManager.task_manager.complete_task(task_id)
+	output_system("Task '%s' force completed" % task_id)
 
 func _cmd_next_day(args: Array) -> void:
 	if GameManager.time_manager:
@@ -358,6 +352,21 @@ func _cmd_show_log(args: Array) -> void:
 	# Display the log
 	output_system(log.get_formatted_content())
 
+func _cmd_noclip(args: Array) -> void:
+	var player = get_tree().get_first_node_in_group("player") as Player
+	
+	if not player:
+		output_error("Player not found")
+		return
+	
+	if not player.has_method("toggle_noclip"):
+		output_error("Player doesn't support noclip")
+		return
+	
+	player.toggle_noclip()
+	var state = "enabled" if player.noclip_enabled else "disabled"
+	output_system("No-clip mode " + state)
+	
 func _cmd_unlock_log(args: Array) -> void:
 	if args.is_empty():
 		output_error("Usage: unlock_log <number>")

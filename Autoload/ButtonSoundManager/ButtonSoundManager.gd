@@ -12,9 +12,8 @@ extends Node
 const SOUND_BUTTON_GROUP = "sound_buttons"
 
 func _ready() -> void:
-	# Register with debug logger if available
-	if Engine.has_singleton("DebugLogger"):
-		DebugLogger.register_module(module_name, enable_debug)
+
+	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Set to always process even when game is paused
 	process_mode = PROCESS_MODE_ALWAYS

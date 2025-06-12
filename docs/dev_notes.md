@@ -2,6 +2,13 @@
 
 ## Current Known Bugs
 
+Make entity impossible to record with recording software
+
+Make entity/events dissapear when game is paused
+
+Get Power outage to use new effects node
+
+
 ### Critical Issues
 - Power Lever animation plays twice
 - Hard Drive sometimes falls through floor  

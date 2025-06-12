@@ -1,8 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://dhyx5csih4lkc"]
 
 [ext_resource type="Script" uid="uid://ehmq26lcj6pp" path="res://Autoload/ButtonSoundManager/ButtonSoundManager.gd" id="1_8r44u"]
-[ext_resource type="AudioStream" uid="uid://c3ilnt0hfjck2" path="res://Assets/Audio/UI/button_click.ogg" id="2_t2liy"]
+[ext_resource type="AudioStream" uid="uid://csx64s7jfh7df" path="res://Assets/Audio/UI/button_click_alt.ogg" id="2_ptr4y"]
 
 [node name="ButtonSoundManager" type="Node"]
 script = ExtResource("1_8r44u")
-default_click_sound = ExtResource("2_t2liy")
+default_click_sound = ExtResource("2_ptr4y")
+enable_debug = true

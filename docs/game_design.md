@@ -1,5 +1,9 @@
 # Game Design Documents
 
+Add insanity/visibility meter
+
+
+
 ## Game Concept
 
 **ERGOSPHERE** - A first-person psychological horror experience where a lone researcher stationed in orbit around a black hole gradually discovers they are not simply observing the void—the void is observing them back.
@@ -57,13 +61,13 @@
 **Tasks**: Tour Station, Align Telescope, Download Data, Upload Data, Power Outage (Forced)
 **Events**: Minimal - entity appears briefly in peripheral vision
 
-### Day 2 (First Cracks)  
-**Tasks**: Eat Food, Memorization Game, Defragment Hard Drive, Order Wrench, Reboot Systems
+### Day 2 (First Cracks)
+**Tasks**: Eat Food, Memorization Game, Defragment Hard Drive, Order Heatsink, Reboot Systems
 **Events**: 1-2 minor incidents - random teleportation, blood decals, spooky sounds
 
 ### Day 3 (Escalation Begins)
-**Tasks**: Lube Engine Blades, Sample Oxygen, Download Data, Upload Data, Terminal Game, Replace Generator Heatsink
-**Events**: 2-3 aggressive incidents - entity follows player, small black hole appears, fire
+**Tasks**: Lube Engine Blades, Sample Oxygen, Download Data, Upload Data, Terminal Game, 
+**Events**: 2-3 aggressive incidents - entity follows player, small black hole appears, fire, Replace Generator Heatsink
 
 ### Day 4 (Breaking Point)
 **Tasks**: Align Telescope, Oxygen Tank Filter Failure, Download Data, Upload Data, Investigate Anomalous Readings, Attempt Communication with Earth

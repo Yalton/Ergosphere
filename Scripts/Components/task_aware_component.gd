@@ -49,10 +49,17 @@ func _ready() -> void:
 	add_to_group("task_aware")
 	
 	GameManager.task_manager.task_completed.connect(_on_any_task_complete)
+	GameManager.task_manager.task_assigned.connect(_on_task_assigned)
+
 	# Initial update
 	update_task_availability()
 	
 	DebugLogger.debug(module_name, "TaskAwareComponent initialized for task: " + associated_task_id)
+
+
+func _process(_delta) -> void :
+	if Engine.get_frames_drawn() % 5 == 0:
+		update_task_availability()
 
 func update_task_availability() -> void:
 	if not GameManager or not GameManager.task_manager:
@@ -64,12 +71,12 @@ func update_task_availability() -> void:
 	# Find our specific task
 	current_task = task_manager._get_task_by_id(associated_task_id)
 
-	# Connect to TaskManager singleton signal
-	if GameManager.task_manager:
-		GameManager.task_manager.task_assigned.connect(_on_task_assigned)
-		DebugLogger.info(module_name, "Connected to TaskManager")
-	else:
-		DebugLogger.error(module_name, "TaskManager not found in GameManager!")
+	## Connect to TaskManager singleton signal
+	#if GameManager.task_manager:
+		#GameManager.task_manager.task_assigned.connect(_on_task_assigned)
+		#DebugLogger.info(module_name, "Connected to TaskManager")
+	#else:
+		#DebugLogger.error(module_name, "TaskManager not found in GameManager!")
 		
 	# Determine availability
 	var was_available = is_task_available
@@ -95,6 +102,9 @@ func update_task_availability() -> void:
 	
 	# Emit signal if availability changed
 	if was_available != is_task_available:
+		task_availability_changed.emit(is_task_available)
+	
+	if Engine.get_frames_drawn() % 10 == 0:
 		task_availability_changed.emit(is_task_available)
 	
 	DebugLogger.debug(module_name, "Task availability for "+str(associated_task_id)+ " updated: " + str(is_task_available))

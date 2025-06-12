@@ -1,6 +1,6 @@
 [gd_scene load_steps=26 format=4 uid="uid://ccjgxjxx1f42w"]
 
-[ext_resource type="Script" uid="uid://deckk16woy3m0" path="res://Scripts/UI/DiageticUI/pattern_memory_terminal.gd" id="1_rpj2a"]
+[ext_resource type="Script" uid="uid://01nvv6q25sk4" path="res://Scripts/UI/DiageticUI/pattern_memory_terminal.gd" id="1_rpj2a"]
 [ext_resource type="Texture2D" uid="uid://be7a8jj6erek0" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Color.png" id="1_tx603"]
 [ext_resource type="Texture2D" uid="uid://bclhu3c4q4mso" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Roughness.png" id="2_rpj2a"]
 [ext_resource type="Texture2D" uid="uid://dil6e83a852yl" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Normal.png" id="3_4m2n7"]
@@ -187,7 +187,8 @@ mesh = SubResource("ArrayMesh_kmxua")
 skin = SubResource("Skin_gdjy4")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("7_fq6eq")]
-associated_task_id = "defragment_memory"
+associated_task_id = "recalibrate_systems"
+show_task_in_interaction_text = false
 
 [node name="StateAwareComponent" parent="." instance=ExtResource("8_5p1t1")]
 

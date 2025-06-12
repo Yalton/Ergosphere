@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bdy6quxbmyj42"]
+[gd_scene load_steps=7 format=3 uid="uid://bdy6quxbmyj42"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_80hll"]
 [ext_resource type="Script" uid="uid://drdkat8ocbx1w" path="res://Scripts/UI/DiageticUI/memory_purge_game.gd" id="1_mni6k"]
 [ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_mo3yb"]
+[ext_resource type="AudioStream" uid="uid://b8q1aervgqdap" path="res://Assets/Audio/UI/ui_beep.ogg" id="3_up57j"]
+[ext_resource type="AudioStream" uid="uid://cgtf2e44ihp1y" path="res://Assets/Audio/UI/ui_success.ogg" id="4_up57j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80hll"]
 bg_color = Color(1, 1, 1, 1)
@@ -29,6 +31,8 @@ grow_vertical = 2
 theme = ExtResource("1_80hll")
 script = ExtResource("1_mni6k")
 blocks_to_win = 10
+block_purged_audio = ExtResource("3_up57j")
+game_complete_audio = ExtResource("4_up57j")
 main_ui = NodePath("MainUI")
 splash_screen = NodePath("ScreenSaver")
 

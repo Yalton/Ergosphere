@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BaseTask" load_steps=2 format=3 uid="uid://cj3dl7kd4ssha"]
+
+[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_ovup3"]
+
+[resource]
+script = ExtResource("1_ovup3")
+task_id = "reboot_systems"
+task_name = "Reboot Systems"
+task_description = ""
+is_emergency = false
+is_secret = false
+emergency_time_limit = 0.0
+dependent_on_tasks = Array[String]([])
+required_states = {}
+blocked_by_states = {}
+revealed_under = {}
+reveal_delay = 1.0
+related_object_groups = Array[String]([])
+metadata/_custom_type_script = "uid://bxrho0i2t1mql"

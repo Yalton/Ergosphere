@@ -21,6 +21,11 @@ var module_name: String = "MemoryPurge"
 @export var corrupted_color: Color = Color(1.0, 0.3, 0.3)
 @export var purged_color: Color = Color(0.3, 1.0, 0.3)
 
+@export_category("Audio")
+@export var block_purged_audio : AudioStream
+@export var game_complete_audio : AudioStream
+
+
 # Node references
 @onready var start_screen: Control = $MainUI/StartScreen
 @onready var game_screen: Control = $MainUI/GameScreen
@@ -161,6 +166,8 @@ func _on_block_clicked(block: Button) -> void:
 		return
 	
 	# Purge the corrupted block
+	Audio.play_sound(block_purged_audio, true,1.0,0.0,"SFX")
+
 	_purge_block(block)
 
 func _purge_block(block: Button) -> void:
@@ -236,6 +243,7 @@ func _trigger_victory() -> void:
 		block.modulate = normal_color
 		block_states[block]["corrupted"] = false
 	
+	Audio.play_sound(game_complete_audio, true,1.0,0.0,"SFX")
 	# Start victory animation
 	_play_victory_animation()
 

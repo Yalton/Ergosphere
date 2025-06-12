@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=57 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://oj5ulsk010s8" path="res://Assets/Models/Station/Props/Drive/textures/BlackerMetal-Color.png" id="5_ovot7"]
 [ext_resource type="Texture2D" uid="uid://dij75o3xe074e" path="res://Assets/Models/Station/Props/Drive/textures/BlackerMetal-Normal.png" id="6_45tto"]
 [ext_resource type="PackedScene" uid="uid://bgnqxsxljglaq" path="res://Prefabs/Entities/player.tscn" id="8_dyfrl"]
+[ext_resource type="PackedScene" uid="uid://c7n25om7olp7" path="res://Prefabs/Environment/Props/Computer/memory_block_monitor.tscn" id="16_02mtw"]
 [ext_resource type="PackedScene" uid="uid://cr88bedkk3sbc" path="res://Prefabs/Environment/Furniture/Bedroom/bed.tscn" id="16_e7jis"]
 [ext_resource type="PackedScene" uid="uid://ccjgxjxx1f42w" path="res://Prefabs/Environment/Props/Computer/pattern_memory_terminal.tscn" id="17_02mtw"]
 [ext_resource type="PackedScene" uid="uid://chh20j4dixc1b" path="res://Prefabs/Test/test_carriable.tscn" id="18_f5voq"]
@@ -336,4 +337,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -1, -2)
 transform = Transform3D(-0.5, 0, -0.866025, 0, -1, 0, 0.866025, 0, -0.5, 7, -1, 17)
 
 [node name="pattern_memory_terminal" parent="." instance=ExtResource("17_02mtw")]
-transform = Transform3D(0.0704355, 0, 0.997516, 0, 1, 0, -0.997516, 0, 0.0704355, -15.5471, -0.9, 5.9437)
+transform = Transform3D(0.0704355, 0, 0.997516, 0, 1, 0, -0.997516, 0, 0.0704355, -15.6352, -0.899998, 5.9299)
+
+[node name="memory_block_monitor" parent="." instance=ExtResource("16_02mtw")]
+transform = Transform3D(-0.947679, 0, 0.319224, 0, 1, 0, -0.319224, 0, -0.947679, -4.06355, -0.9, 15.0278)

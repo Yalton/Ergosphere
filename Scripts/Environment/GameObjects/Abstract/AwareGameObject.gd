@@ -19,7 +19,6 @@ func _ready() -> void:
 	if not state_aware_component:
 		state_aware_component = get_node_or_null("StateAwareComponent")
 	
-	DebugLogger.debug(module_name, "AwareGameObject initialized on " + name)
 
 # Check if this object can be interacted with
 func can_interact() -> bool:

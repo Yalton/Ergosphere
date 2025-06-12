@@ -27,10 +27,10 @@ general/text_to_speech=true
 
 [autoload]
 
+DebugLogger="*res://addons/debug_manager/debug_logger.gd"
 Audio="*res://Autoload/Audio.gd"
 SettingsManager="*res://Autoload/SettingsManager.gd"
-ButtonSoundManager="*res://Autoload/ButtonSoundManager/ButtonSoundManager.gd"
-DebugLogger="*res://addons/debug_manager/debug_logger.gd"
+ButtonSoundManager="*res://Autoload/ButtonSoundManager/ButtonSoundManager.tscn"
 TransitionManager="*res://Autoload/TransitionManager/transition_manager.tscn"
 GameManager="*res://Autoload/GameManager/GameManager.tscn"
 CommonUtils="*res://Autoload/Utilities.gd"

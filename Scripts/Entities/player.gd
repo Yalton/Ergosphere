@@ -92,6 +92,10 @@ var current_speed: float
 var crouch_tween: Tween
 var collision_tween: Tween
 
+# Noclip variables
+var noclip_enabled: bool = false
+var noclip_speed: float = 10.0
+
 func _ready() -> void:
 	# Register with debug logger if it exists
 	DebugLogger.register_module(module_name, enable_debug)
@@ -123,6 +127,11 @@ func _ready() -> void:
 	if flashlight_spot:
 		flashlight_spot.visible = false
 		flashlight_on = false
+	
+	# Connect to dev console signals if UI controller has them
+	if ui_controller and ui_controller.dev_console_ui:
+		ui_controller.dev_console_ui.console_opened.connect(_on_dev_console_opened)
+		ui_controller.dev_console_ui.console_closed.connect(_on_dev_console_closed)
 		
 	# Debug input map state
 	if enable_debug:
@@ -148,11 +157,23 @@ func _ready() -> void:
 	
 	DebugLogger.info(module_name, "FirstPersonController initialized")
 
+func _on_dev_console_opened() -> void:
+	is_interacting_with_ui = true
+	DebugLogger.debug(module_name, "Dev console opened - player input disabled")
+
+func _on_dev_console_closed() -> void:
+	is_interacting_with_ui = false
+	DebugLogger.debug(module_name, "Dev console closed - player input enabled")
+
 func _input(event: InputEvent) -> void:
+	# Skip all input processing if interacting with UI (including dev console)
+	if is_interacting_with_ui:
+		return
+		
 	# Handle flashlight toggle
 	if event.is_action_pressed("f"):
 		toggle_flashlight()
-		get_viewport().set_input_as_handled()
+		#get_viewport().set_input_as_handled()
 		return
 	
 	# Handle crouch input
@@ -163,7 +184,7 @@ func _input(event: InputEvent) -> void:
 			stop_crouch()
 	
 	# Mouse look (camera rotation)
-	if event is InputEventMouseMotion and !is_interacting_with_ui and can_control:
+	if event is InputEventMouseMotion and can_control:
 		# Rotate head (left and right)
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		
@@ -277,7 +298,13 @@ func _on_crouch_complete() -> void:
 	DebugLogger.debug(module_name, "Crouch transition complete")
 
 func _physics_process(delta: float) -> void:
+	# Skip movement if interacting with UI
 	if is_interacting_with_ui or !can_control:
+		return
+	
+	# Handle noclip movement
+	if noclip_enabled:
+		_handle_noclip_movement(delta)
 		return
 		
 	# Apply gravity
@@ -317,6 +344,41 @@ func _physics_process(delta: float) -> void:
 	# Update view bobbing (and footsteps, since they're now integrated)
 	if enable_view_bobbing and camera:
 		update_view_bobbing(delta)
+
+func _handle_noclip_movement(delta: float) -> void:
+	var input_dir = Vector3.ZERO
+	
+	# Get input
+	if Input.is_action_pressed("w"):
+		input_dir -= transform.basis.z
+	if Input.is_action_pressed("s"):
+		input_dir += transform.basis.z
+	if Input.is_action_pressed("a"):
+		input_dir -= transform.basis.x
+	if Input.is_action_pressed("d"):
+		input_dir += transform.basis.x
+	
+	# Up/down movement
+	if Input.is_action_pressed("ui_accept"):  # Space
+		input_dir.y += 1
+	if Input.is_action_pressed("crouch"):
+		input_dir.y -= 1
+	
+	# Apply movement
+	if input_dir != Vector3.ZERO:
+		input_dir = input_dir.normalized()
+		global_position += input_dir * noclip_speed * delta
+
+func toggle_noclip() -> void:
+	noclip_enabled = !noclip_enabled
+	
+	if collision_shape:
+		collision_shape.disabled = noclip_enabled
+	
+	# Reset velocity when toggling
+	velocity = Vector3.ZERO
+	
+	DebugLogger.info(module_name, "Noclip " + ("enabled" if noclip_enabled else "disabled"))
 
 # Add this function to receive messages from other scripts
 func receive_message(text: String) -> void:

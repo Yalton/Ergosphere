@@ -1,9 +1,10 @@
-[gd_scene load_steps=66 format=4 uid="uid://b2xc4entjfn1n"]
+[gd_scene load_steps=67 format=4 uid="uid://b2xc4entjfn1n"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_86c1k"]
 [ext_resource type="Script" uid="uid://c1caxpjbvsqx7" path="res://Scripts/UI/Menus/main_menu.gd" id="2_qgifm"]
 [ext_resource type="Script" uid="uid://2hpysr5j0634" path="res://Scripts/UI/options_ui_control.gd" id="3_11euj"]
 [ext_resource type="Shader" uid="uid://sc71vvscj345" path="res://Assets/VFX/Shader/vignette.gdshader" id="4_bpjv4"]
+[ext_resource type="Script" uid="uid://cdeqsnytxwlgo" path="res://Scripts/UI/credits.gd" id="4_qgifm"]
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="5_oo8h8"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="6_2hlap"]
 [ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Graphics/Textures/VFX_Textures/smoke_04.png" id="7_hnakq"]
@@ -320,7 +321,7 @@ metadata/_custom_type_script = "uid://c2lq0mlp6vmir"
 [sub_resource type="Compositor" id="Compositor_w7uhp"]
 compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_ywv0o")])
 
-[node name="MainMenu" type="Control" node_paths=PackedStringArray("play_game_button", "options_button", "controls_button", "quit_button")]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("play_game_button", "options_button", "controls_button", "credits_button", "quit_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -334,6 +335,7 @@ game_scene_path = "uid://bn1o17c7p8vkj"
 play_game_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/PlayButton")
 options_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/OptionsButton")
 controls_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/Controls")
+credits_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/Credits")
 quit_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/QuitButton")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -791,6 +793,100 @@ theme = ExtResource("1_86c1k")
 z_index = 5
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_86c1k")
+
+[node name="Credits" type="HBoxContainer" parent="."]
+visible = false
+z_index = 5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_86c1k")
+script = ExtResource("4_qgifm")
+
+[node name="Control" type="Control" parent="Credits"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+theme = ExtResource("1_86c1k")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Credits"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_86c1k")
+
+[node name="Control" type="Control" parent="Credits/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_86c1k")
+
+[node name="PanelContainer" type="PanelContainer" parent="Credits/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 8.0
+theme = ExtResource("1_86c1k")
+
+[node name="MarginContainer" type="MarginContainer" parent="Credits/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="VBoxContainer" parent="Credits/VBoxContainer/PanelContainer/MarginContainer"]
+z_index = 5
+layout_mode = 2
+theme = ExtResource("1_86c1k")
+
+[node name="Label" type="Label" parent="Credits/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Credits"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Credits/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Credits/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Credits/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM LOREM IPSEM "
+fit_content = true
+
+[node name="BackButton" type="Button" parent="Credits/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="Control2" type="Control" parent="Credits/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+theme = ExtResource("1_86c1k")
+
+[node name="Control2" type="Control" parent="Credits/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_86c1k")
+
+[node name="Control2" type="Control" parent="Credits"]
+z_index = 5
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
 theme = ExtResource("1_86c1k")
 
 [node name="Controls" type="HBoxContainer" parent="."]

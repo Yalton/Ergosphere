@@ -13,7 +13,7 @@ func _ready() -> void:
 	
 	# Find task aware component
 	#task_aware_component = get_node_or_null("TaskAwareComponent")
-	task_aware_component.task_availability_changed.connect(_on_availability_change)
+	#task_aware_component.task_availability_changed.connect(_on_availability_change)
 	# Add to download_terminals group for task system
 	add_to_group("download_terminals")
 	
@@ -59,5 +59,5 @@ func _on_ui_download_completed() -> void:
 	download_completed.emit()
 
 func _on_availability_change(available: bool): 
-	DebugLogger.debug(module_name, "Received _on_availability_change, valye was " + str(available))
+	DebugLogger.debug(module_name, "Received _on_availability_change, value was " + str(available))
 	set_ui_enabled(available)

@@ -136,7 +136,7 @@ carryable_position = NodePath("../Head/Camera3D/Marker3D")
 [node name="PauseOptions" parent="." instance=ExtResource("12_3c1vh")]
 visible = false
 
-[node name="PlayerUI" type="Control" parent="." node_paths=PackedStringArray("message_panel", "message_label", "interaction_panel", "interaction_label", "interaction_icon", "task_tree_ui", "hint_container", "hint_audio")]
+[node name="PlayerUI" type="Control" parent="." node_paths=PackedStringArray("message_panel", "message_label", "interaction_panel", "interaction_label", "interaction_icon", "task_tree_ui", "hint_container", "hint_audio", "dev_console_ui")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -156,6 +156,7 @@ task_tree_ui = NodePath("TaskContainer/VBoxContainer/Tree")
 hint_container = NodePath("HintContainer")
 hint_scene = ExtResource("16_mtnbr")
 hint_audio = NodePath("../HintReceived")
+dev_console_ui = NodePath("DevTerminal")
 
 [node name="Interaction Container" type="VBoxContainer" parent="PlayerUI"]
 layout_mode = 1

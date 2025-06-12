@@ -1,7 +1,8 @@
-[gd_scene load_steps=26 format=4 uid="uid://c7n25om7olp7"]
+[gd_scene load_steps=27 format=4 uid="uid://c7n25om7olp7"]
 
 [ext_resource type="Texture2D" uid="uid://be7a8jj6erek0" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Color.png" id="1_3igau"]
 [ext_resource type="Script" uid="uid://of78jwwcyi1w" path="res://Scripts/UI/DiageticUI/memory_block_monitor.gd" id="1_aoay5"]
+[ext_resource type="AudioStream" uid="uid://cice2lpo4ab8b" path="res://Assets/Audio/Interactions/terminal_interact.ogg" id="2_1ci40"]
 [ext_resource type="Texture2D" uid="uid://bclhu3c4q4mso" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Roughness.png" id="2_aoay5"]
 [ext_resource type="Texture2D" uid="uid://dil6e83a852yl" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Normal.png" id="3_0kvyb"]
 [ext_resource type="Texture2D" uid="uid://c7w8p31fvy3ml" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/BlackPlastic-Color.png" id="4_i5rsv"]
@@ -150,13 +151,16 @@ resource_local_to_scene = true
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_kodtd")
 
-[node name="memory_block_monitor" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content")]
+[node name="memory_block_monitor" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_aoay5")
+interact_sound = ExtResource("2_1ci40")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Display")
 ui_content = NodePath("SubViewport/memory_purge_game")
+task_aware_component = NodePath("TaskAwareComponent")
+state_aware_component = NodePath("StateAwareComponent")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
 transform = Transform3D(9.5, 0, 0, 0, 9.5, 0, 0, 0, 9.5, 0, 0, 0)
@@ -186,8 +190,10 @@ skin = SubResource("Skin_ou3l8")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("8_0kvyb")]
 associated_task_id = "defragment_memory"
+show_task_in_interaction_text = false
 
 [node name="StateAwareComponent" parent="." instance=ExtResource("9_i5rsv")]
+requires_power = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00816521, 2.05379, -0.549724)

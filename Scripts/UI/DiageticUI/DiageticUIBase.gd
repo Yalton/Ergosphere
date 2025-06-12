@@ -40,7 +40,7 @@ var player_interaction_component: PlayerInteractionComponent
 var cooldown: float
 var is_player_interacting: bool = false
 var is_in_cooldown: bool = false  # Track if we're in post-interaction cooldown
-var is_disabled: bool = false  # New: Track if UI is disabled
+var is_disabled: bool = false  # Track if UI is disabled
 var original_material: Material  # Store original material
 
 # Mouse handling variables
@@ -53,6 +53,9 @@ func _ready() -> void:
 	module_name = "DiegeticUI"
 	DebugLogger.register_module(module_name, enable_debug)
 	
+	if task_aware_component: 
+		task_aware_component.task_availability_changed.connect(_on_availability_change)
+		
 	cooldown = 0
 	interaction_text = usable_interaction_text
 	object_state_updated.emit(interaction_text)
@@ -123,12 +126,12 @@ func interact(_player_interaction_component: PlayerInteractionComponent) -> void
 func show_splash_screen() -> void:
 	if ui_content:
 		ui_content.show_splash()
-		DebugLogger.log_info("DiageticUIBase", "Showing splash screen")
+		DebugLogger.debug(module_name, "Showing splash screen")
 
 func hide_splash_screen() -> void:
 	if ui_content:
 		ui_content.hide_splash()
-		DebugLogger.log_info("DiageticUIBase", "Hiding splash screen")
+		DebugLogger.debug(module_name, "Hiding splash screen")
 	
 func start_interaction() -> void:
 	if interact_sound:
@@ -294,25 +297,56 @@ func set_state() -> void:
 func can_interact() -> bool:
 	return not is_disabled and not is_in_cooldown and cooldown <= 0 and not is_player_interacting
 
+func disable_screen() -> void:
+	is_disabled = true
+	match disable_method:
+		DisableMethod.SPLASH_SCREEN:
+			show_splash_screen()
+		DisableMethod.BLACK_SCREEN:
+			_show_black_screen()
+		DisableMethod.STATIC_NOISE:
+			_show_static_noise()
 
-# NEW: Disable/enable the UI
+func enable_screen() -> void:
+	is_disabled = false
+	match disable_method:
+		DisableMethod.SPLASH_SCREEN:
+			hide_splash_screen()
+		DisableMethod.BLACK_SCREEN:
+			_hide_black_screen()
+		DisableMethod.STATIC_NOISE:
+			_hide_static_noise()
+
+func _show_black_screen() -> void:
+	black_out_display()
+
+func _hide_black_screen() -> void:
+	restore_display()
+
+func _show_static_noise() -> void:
+	# To be implemented when needed
+	DebugLogger.debug(module_name, "Static noise not implemented")
+
+func _hide_static_noise() -> void:
+	# To be implemented when needed
+	pass
+
+# Disable/enable the UI
 func set_ui_enabled(enabled: bool) -> void:
-	is_disabled = not enabled
-	
-	if is_disabled:
-		black_out_display()
-		# End any current interaction
-		if is_player_interacting:
-			end_interaction()
-		interaction_text = unusable_interaction_text
+	if enabled:
+		enable_screen()
 	else:
-		restore_display()
-		interaction_text = usable_interaction_text
+		disable_screen()
 	
+	# End any current interaction if disabling
+	if is_disabled and is_player_interacting:
+		end_interaction()
+	
+	interaction_text = usable_interaction_text if not is_disabled else unusable_interaction_text
 	object_state_updated.emit(interaction_text)
 	DebugLogger.debug(module_name, "UI enabled state changed to: " + str(enabled))
 
-# NEW: Black out the display
+# Black out the display
 func black_out_display() -> void:
 	if not display:
 		DebugLogger.warning(module_name, "No display mesh assigned")
@@ -328,7 +362,7 @@ func black_out_display() -> void:
 	
 	DebugLogger.debug(module_name, "Display blacked out")
 
-# NEW: Restore the display to normal
+# Restore the display to normal
 func restore_display() -> void:
 	if not display:
 		DebugLogger.warning(module_name, "No display mesh assigned")
@@ -375,6 +409,10 @@ func _on_day_reset() -> void:
 	
 	DebugLogger.debug(module_name, "UI state reset completed")
 
+func _on_availability_change(available: bool): 
+	DebugLogger.debug(module_name, "Received _on_availability_change, value was " + str(available))
+	set_ui_enabled(available)
+	
 # Virtual method for child classes to override for custom reset behavior
 func _on_day_reset_custom() -> void:
 	pass

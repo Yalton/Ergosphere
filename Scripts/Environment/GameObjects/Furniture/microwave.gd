@@ -13,9 +13,9 @@ signal door_closed
 ## Animation player for door animations
 @export var animation_player: AnimationPlayer
 ## Name of the door opening animation
-@export var open_door_animation: String = "door_open"
+@export var open_door_animation: String = "open"
 ## Name of the door closing animation
-@export var close_door_animation: String = "door_close"
+@export var close_door_animation: String = "close"
 
 @export_group("Task Settings")
 ## The task ID for eating food
@@ -37,12 +37,6 @@ func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Ensure we have a spawn position
-	if not food_spawn_position:
-		food_spawn_position = Node3D.new()
-		food_spawn_position.name = "FoodSpawnPosition"
-		add_child(food_spawn_position)
-		food_spawn_position.position = Vector3(0, 0.1, 0)
-		DebugLogger.warning(module_name, "No food spawn position assigned, created default")
 	
 	# Set up task aware component
 	if task_aware_component:
