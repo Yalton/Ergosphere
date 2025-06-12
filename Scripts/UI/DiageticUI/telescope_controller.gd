@@ -1,5 +1,5 @@
 # TelescopeController.gd
-extends Control
+extends DiageticUIContent
 
 # Signal emitted when telescope position changes
 signal telescope_position_changed(x_normalized: float, y_normalized: float)

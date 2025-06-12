@@ -1,4 +1,4 @@
-extends Node3D
+extends AwareGameObject
 class_name Microwave
 
 signal food_generated
@@ -6,24 +6,34 @@ signal door_opened
 signal door_closed
 
 @export_group("Microwave Settings")
-@export var food_scene: PackedScene  # The food scene to spawn
-@export var food_spawn_position: Node3D  # Where to spawn the food
+## The food scene to spawn when eat_food task is assigned
+@export var food_scene: PackedScene
+## Where to spawn the food inside the microwave
+@export var food_spawn_position: Node3D
+## Animation player for door animations
 @export var animation_player: AnimationPlayer
+## Name of the door opening animation
 @export var open_door_animation: String = "door_open"
+## Name of the door closing animation
 @export var close_door_animation: String = "door_close"
 
-@export_group("Testing")
-@export var test_mode: bool = true
-@export var test_delay: float = 5.0
+@export_group("Task Settings")
+## The task ID for eating food
+@export var eat_food_task_id: String = "eat_food"
 
-@export var enable_debug: bool = true
-var module_name: String = "Microwave"
+@export_group("Testing")
+## Enable test mode to generate food after delay
+@export var test_mode: bool = false
+## Delay before generating food in test mode
+@export var test_delay: float = 5.0
 
 # State tracking
 var door_open: bool = false
 var current_food: Node3D = null
 
 func _ready() -> void:
+	super._ready()
+	module_name = "Microwave"
 	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Ensure we have a spawn position
@@ -31,16 +41,26 @@ func _ready() -> void:
 		food_spawn_position = Node3D.new()
 		food_spawn_position.name = "FoodSpawnPosition"
 		add_child(food_spawn_position)
-		food_spawn_position.position = Vector3(0, 0.1, 0)  # Slightly above microwave floor
+		food_spawn_position.position = Vector3(0, 0.1, 0)
 		DebugLogger.warning(module_name, "No food spawn position assigned, created default")
+	
+	# Set up task aware component
+	if task_aware_component:
+		task_aware_component.associated_task_id = eat_food_task_id
+		task_aware_component.associated_task_assigned.connect(_on_eat_food_task_assigned)
+		DebugLogger.debug(module_name, "Connected to task aware component")
 	
 	DebugLogger.debug(module_name, "Microwave initialized")
 	
-	# Test mode - generate food after delay
+	# Test mode
 	if test_mode:
 		DebugLogger.info(module_name, "Test mode enabled - will generate food in " + str(test_delay) + " seconds")
 		var test_timer = get_tree().create_timer(test_delay)
 		test_timer.timeout.connect(generate_food)
+
+func _on_eat_food_task_assigned(task_id: String) -> void:
+	DebugLogger.info(module_name, "Eat food task assigned, generating food")
+	generate_food()
 
 func generate_food() -> void:
 	if not food_scene:
@@ -59,7 +79,7 @@ func generate_food() -> void:
 	get_tree().current_scene.add_child(current_food)
 	current_food.global_position = food_spawn_position.global_position
 	
-	# Connect to food's tree_exiting signal to know when it's consumed
+	# Connect to food's tree_exiting signal
 	if not current_food.is_connected("tree_exiting", _on_food_removed):
 		current_food.tree_exiting.connect(_on_food_removed)
 	
@@ -75,7 +95,6 @@ func _open_door() -> void:
 	
 	door_open = true
 	
-	# Play open animation
 	if animation_player and animation_player.has_animation(open_door_animation):
 		animation_player.play(open_door_animation)
 		DebugLogger.debug(module_name, "Playing door open animation")
@@ -91,7 +110,6 @@ func _close_door() -> void:
 	
 	door_open = false
 	
-	# Play close animation
 	if animation_player and animation_player.has_animation(close_door_animation):
 		animation_player.play(close_door_animation)
 		DebugLogger.debug(module_name, "Playing door close animation")
@@ -103,6 +121,9 @@ func _on_food_removed() -> void:
 	DebugLogger.info(module_name, "Food was removed")
 	current_food = null
 	
-	# Close door after a short delay
+	# Complete the task if it's active
+	task_aware_component.complete_task()
+	
+	# Close door after delay
 	var close_timer = get_tree().create_timer(0.5)
 	close_timer.timeout.connect(_close_door)

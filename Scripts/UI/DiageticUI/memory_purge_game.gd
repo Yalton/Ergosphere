@@ -1,4 +1,4 @@
-extends Control
+extends DiageticUIContent
 class_name MemoryPurgeGame
 
 signal game_won
@@ -22,12 +22,12 @@ var module_name: String = "MemoryPurge"
 @export var purged_color: Color = Color(0.3, 1.0, 0.3)
 
 # Node references
-@onready var start_screen: Control = $StartScreen
-@onready var game_screen: Control = $GameScreen
-@onready var start_button: Button = $StartScreen/PanelContainer/MarginContainer/VBoxContainer/Button
-@onready var counter_label: Label = $GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/HBoxContainer/CounterLabel
-@onready var progress_bar: ProgressBar = $GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/ProgressBar
-@onready var grid_container: GridContainer = $GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer
+@onready var start_screen: Control = $MainUI/StartScreen
+@onready var game_screen: Control = $MainUI/GameScreen
+@onready var start_button: Button = $MainUI/StartScreen/PanelContainer/MarginContainer/VBoxContainer/Button
+@onready var counter_label: Label = $MainUI/GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/HBoxContainer/CounterLabel
+@onready var progress_bar: ProgressBar = $MainUI/GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/ProgressBar
+@onready var grid_container: GridContainer = $MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer
 
 # Game state
 var memory_blocks: Array[Button] = []

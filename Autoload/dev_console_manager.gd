@@ -53,6 +53,8 @@ func _register_default_commands() -> void:
 	# Echo command
 	register_command("echo", _cmd_echo, "Prints text to console", false)
 	
+	register_command("reboot", _cmd_reboot, "Reboots Station systems", false)
+
 	# List commands
 	register_command("list", _cmd_list, "Lists all available commands", false)
 	
@@ -184,6 +186,14 @@ func _cmd_clear(args: Array) -> void:
 	if dev_console_ui:
 		dev_console_ui.clear_console()
 
+func _cmd_reboot(args: Array) -> void:
+	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
+	if effects_manager: 
+		effects_manager.kill_power(5.0)
+		output_system("Reboot issued successfully")
+	else: 
+		output_system("Reboot has failed")
+		
 func _cmd_exit(args: Array) -> void:
 	if dev_console_ui:
 		dev_console_ui.hide_console()

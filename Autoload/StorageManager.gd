@@ -278,7 +278,7 @@ func create_test_items() -> void:
 	test_cube.cost = 50
 	test_cube.delivery_time = 1.0
 	test_cube.category = "General"
-	test_cube.scene_path = "res://Prefabs/Props/Industrial/lubricant_spray.tscn"
+	test_cube.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
 	register_item(test_cube)
 	
 	var energy_cell = ShopItem.new()
@@ -288,7 +288,7 @@ func create_test_items() -> void:
 	energy_cell.cost = 100
 	energy_cell.delivery_time = 20.0
 	energy_cell.category = "General"
-	energy_cell.scene_path = "res://Prefabs/Props/Industrial/lubricant_spray.tscn"
+	energy_cell.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
 	register_item(energy_cell)
 	
 	var oxygen_tank = ShopItem.new()
@@ -298,7 +298,7 @@ func create_test_items() -> void:
 	oxygen_tank.cost = 125
 	oxygen_tank.delivery_time = 25.0
 	oxygen_tank.category = "General"
-	oxygen_tank.scene_path = "res://Prefabs/Props/Industrial/lubricant_spray.tscn"
+	oxygen_tank.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
 	register_item(oxygen_tank)
 	
 	var repair_kit = ShopItem.new()
@@ -308,7 +308,7 @@ func create_test_items() -> void:
 	repair_kit.cost = 150
 	repair_kit.delivery_time = 30.0
 	repair_kit.category = "General"
-	repair_kit.scene_path = "res://Prefabs/Props/Industrial/lubricant_spray.tscn"
+	repair_kit.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
 	register_item(repair_kit)
 	
 	# Replacement Parts
@@ -319,7 +319,7 @@ func create_test_items() -> void:
 	power_module.cost = 200
 	power_module.delivery_time = 45.0
 	power_module.category = "Replacement Parts"
-	power_module.scene_path = "res://Prefabs/Props/Industrial/lubricant_spray.tscn"
+	power_module.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
 	register_item(power_module)
 	
 	var cooling_unit = ShopItem.new()
@@ -329,7 +329,7 @@ func create_test_items() -> void:
 	cooling_unit.cost = 250
 	cooling_unit.delivery_time = 50.0
 	cooling_unit.category = "Replacement Parts"
-	cooling_unit.scene_path = "res://Prefabs/Props/Industrial/lubricant_spray.tscn"
+	cooling_unit.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
 	register_item(cooling_unit)
 	
 	var circuit_board = ShopItem.new()
@@ -339,7 +339,7 @@ func create_test_items() -> void:
 	circuit_board.cost = 300
 	circuit_board.delivery_time = 60.0
 	circuit_board.category = "Replacement Parts"
-	circuit_board.scene_path = "res://Prefabs/Props/Industrial/lubricant_spray.tscn"
+	circuit_board.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
 	register_item(circuit_board)
 	
 	DebugLogger.info(module_name, "Created " + str(shop_catalog.size()) + " test items")

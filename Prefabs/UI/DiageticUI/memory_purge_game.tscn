@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bdy6quxbmyj42"]
+[gd_scene load_steps=5 format=3 uid="uid://bdy6quxbmyj42"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_80hll"]
 [ext_resource type="Script" uid="uid://drdkat8ocbx1w" path="res://Scripts/UI/DiageticUI/memory_purge_game.gd" id="1_mni6k"]
+[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_mo3yb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80hll"]
 bg_color = Color(1, 1, 1, 1)
@@ -18,7 +19,7 @@ corner_radius_bottom_left = 2
 shadow_color = Color(0, 1, 0, 0.360784)
 shadow_size = 4
 
-[node name="memory_purge_game" type="Control"]
+[node name="memory_purge_game" type="Control" node_paths=PackedStringArray("main_ui", "splash_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,8 +29,18 @@ grow_vertical = 2
 theme = ExtResource("1_80hll")
 script = ExtResource("1_mni6k")
 blocks_to_win = 10
+main_ui = NodePath("MainUI")
+splash_screen = NodePath("ScreenSaver")
 
-[node name="StartScreen" type="Control" parent="."]
+[node name="MainUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartScreen" type="Control" parent="MainUI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,7 +49,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_80hll")
 
-[node name="PanelContainer" type="PanelContainer" parent="StartScreen"]
+[node name="PanelContainer" type="PanelContainer" parent="MainUI/StartScreen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,7 +58,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_80hll")
 
-[node name="MarginContainer" type="MarginContainer" parent="StartScreen/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainUI/StartScreen/PanelContainer"]
 layout_mode = 2
 theme = ExtResource("1_80hll")
 theme_override_constants/margin_left = 60
@@ -55,11 +66,11 @@ theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 60
 theme_override_constants/margin_bottom = 60
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StartScreen/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainUI/StartScreen/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme = ExtResource("1_80hll")
 
-[node name="Label" type="Label" parent="StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MainUI/StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
@@ -68,10 +79,10 @@ theme_override_font_sizes/font_size = 32
 text = "MEMORY PURGED REQUIRED"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MainUI/StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="MainUI/StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_80hll")
@@ -79,19 +90,19 @@ theme_override_font_sizes/font_size = 32
 text = "Corrupted blocks detected "
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="MainUI/StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.08
 theme = ExtResource("1_80hll")
 text = "BEGIN PURGE SEQUENCE"
 
-[node name="Control" type="Control" parent="StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="MainUI/StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.08
 
-[node name="GameScreen" type="Control" parent="."]
+[node name="GameScreen" type="Control" parent="MainUI"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -101,7 +112,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_80hll")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameScreen"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainUI/GameScreen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -110,52 +121,52 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_80hll")
 
-[node name="HeaderPanel" type="PanelContainer" parent="GameScreen/VBoxContainer"]
+[node name="HeaderPanel" type="PanelContainer" parent="MainUI/GameScreen/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 theme = ExtResource("1_80hll")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameScreen/VBoxContainer/HeaderPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainUI/GameScreen/VBoxContainer/HeaderPanel"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="GameScreen/VBoxContainer/HeaderPanel/VBoxContainer"]
+[node name="Control" type="Control" parent="MainUI/GameScreen/VBoxContainer/HeaderPanel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GameScreen/VBoxContainer/HeaderPanel/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainUI/GameScreen/VBoxContainer/HeaderPanel/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_80hll")
 
-[node name="Control" type="Control" parent="GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="MainUI/GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="MainUI/GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_80hll")
 theme_override_font_sizes/font_size = 32
 text = "BLOCKS PURGED: "
 
-[node name="CounterLabel" type="Label" parent="GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/HBoxContainer"]
+[node name="CounterLabel" type="Label" parent="MainUI/GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_80hll")
 theme_override_font_sizes/font_size = 32
 text = "0"
 
-[node name="Control2" type="Control" parent="GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/HBoxContainer"]
+[node name="Control2" type="Control" parent="MainUI/GameScreen/VBoxContainer/HeaderPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ProgressBar" type="ProgressBar" parent="GameScreen/VBoxContainer/HeaderPanel/VBoxContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="MainUI/GameScreen/VBoxContainer/HeaderPanel/VBoxContainer"]
 layout_mode = 2
 
-[node name="GamePanel" type="PanelContainer" parent="GameScreen/VBoxContainer"]
+[node name="GamePanel" type="PanelContainer" parent="MainUI/GameScreen/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_80hll")
 
-[node name="MarginContainer" type="MarginContainer" parent="GameScreen/VBoxContainer/GamePanel"]
+[node name="MarginContainer" type="MarginContainer" parent="MainUI/GameScreen/VBoxContainer/GamePanel"]
 layout_mode = 2
 theme = ExtResource("1_80hll")
 theme_override_constants/margin_left = 500
@@ -163,12 +174,12 @@ theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 500
 theme_override_constants/margin_bottom = 60
 
-[node name="GridContainer" type="GridContainer" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer"]
 layout_mode = 2
 theme = ExtResource("1_80hll")
 columns = 5
 
-[node name="MemoryBlock" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -176,7 +187,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock2" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock2" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -184,7 +195,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock3" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock3" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -192,7 +203,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock4" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock4" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -200,7 +211,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock5" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock5" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -208,7 +219,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock6" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock6" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -216,7 +227,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock7" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock7" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -224,7 +235,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock8" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock8" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -232,7 +243,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock9" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock9" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -240,7 +251,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock10" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock10" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -248,7 +259,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock11" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock11" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -256,7 +267,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock12" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock12" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -264,7 +275,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock13" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock13" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -272,7 +283,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock14" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock14" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -280,7 +291,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock15" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock15" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -288,7 +299,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock16" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock16" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -296,7 +307,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock17" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock17" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -304,7 +315,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock18" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock18" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -312,7 +323,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock19" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock19" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -320,7 +331,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock20" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock20" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -328,7 +339,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock21" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock21" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -336,7 +347,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock22" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock22" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -344,7 +355,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock23" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock23" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -352,7 +363,7 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock24" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock24" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -360,10 +371,14 @@ theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
 
-[node name="MemoryBlock25" type="Button" parent="GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
+[node name="MemoryBlock25" type="Button" parent="MainUI/GameScreen/VBoxContainer/GamePanel/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_80hll")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_80hll")
 theme_override_styles/normal = SubResource("StyleBoxFlat_80hll")
+
+[node name="ScreenSaver" parent="." instance=ExtResource("3_mo3yb")]
+visible = false
+layout_mode = 1

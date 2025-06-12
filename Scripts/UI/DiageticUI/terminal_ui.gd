@@ -1,4 +1,4 @@
-extends Control
+extends DiageticUIContent
 
 ## Example terminal UI for use inside a DiageticTextInputUI SubViewport.
 ## This demonstrates a simple text input interface.

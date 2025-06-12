@@ -149,13 +149,14 @@ resource_local_to_scene = true
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_loklc")
 
-[node name="monitor_3" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display")]
+[node name="monitor_3" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_qybft")
 typing_sound = ExtResource("2_a1ecx")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Display")
+ui_content = NodePath("SubViewport/TerminalUI")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
 transform = Transform3D(9.5, 0, 0, 0, 9.5, 0, 0, 0, 9.5, 0, 0, 0)

@@ -1,5 +1,5 @@
 # DownloadUIControl.gd
-extends Control
+extends DiageticUIContent
 
 signal download_completed
 

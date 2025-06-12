@@ -1,5 +1,5 @@
 # ShopUIControl.gd
-extends Control
+extends DiageticUIContent
 
 signal purchase_attempted(item_id: String)
 signal purchase_successful(item_id: String)

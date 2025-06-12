@@ -2,6 +2,7 @@
 extends Node
 class_name TaskAwareComponent
 
+signal associated_task_assigned(taks_id: String)
 signal task_completed_at_object(task_id: String)
 signal task_availability_changed(is_available: bool)
 
@@ -62,7 +63,14 @@ func update_task_availability() -> void:
 	
 	# Find our specific task
 	current_task = task_manager._get_task_by_id(associated_task_id)
-	
+
+	# Connect to TaskManager singleton signal
+	if GameManager.task_manager:
+		GameManager.task_manager.task_assigned.connect(_on_task_assigned)
+		DebugLogger.info(module_name, "Connected to TaskManager")
+	else:
+		DebugLogger.error(module_name, "TaskManager not found in GameManager!")
+		
 	# Determine availability
 	var was_available = is_task_available
 	
@@ -131,6 +139,12 @@ func _on_any_task_complete(_task_id):
 
 	update_task_availability()
 
+func _on_task_assigned(task_id: String) -> void:
+	# Check if this is our associated task
+	if task_id == associated_task_id:
+		DebugLogger.info(module_name, "Associated task assigned: " + task_id)
+		associated_task_assigned.emit(task_id)
+		
 # Check if our task is available for completion
 func can_complete_task() -> bool:
 	return is_task_available and current_task != null

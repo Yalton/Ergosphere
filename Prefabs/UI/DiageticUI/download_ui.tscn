@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://cr1bpmb7lgifx"]
+[gd_scene load_steps=6 format=3 uid="uid://cr1bpmb7lgifx"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_foh8n"]
 [ext_resource type="Script" uid="uid://bw7vk3iwnsj8p" path="res://Scripts/UI/DiageticUI/download_ui.gd" id="2_c1cak"]
 [ext_resource type="Texture2D" uid="uid://dsfxxinovu4ep" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/save.svg" id="2_cvfbq"]
 [ext_resource type="Texture2D" uid="uid://b07y8q0d47hc7" path="res://Assets/Graphics/UI_ThemeIcons/green_icons/save_green.svg" id="3_c1cak"]
+[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="5_0hsm7"]
 
-[node name="DownloadUI" type="Control" node_paths=PackedStringArray("download_button", "progress_bar", "status_label")]
+[node name="DownloadUI" type="Control" node_paths=PackedStringArray("download_button", "progress_bar", "status_label", "main_ui", "splash_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,6 +20,8 @@ script = ExtResource("2_c1cak")
 download_button = NodePath("PanelContainer/MarginContainer/VBoxContainer/Button")
 progress_bar = NodePath("PanelContainer/MarginContainer/VBoxContainer/AspectRatioContainer/TextureProgressBar")
 status_label = NodePath("PanelContainer/MarginContainer/VBoxContainer/DownloadStatus")
+main_ui = NodePath("PanelContainer")
+splash_screen = NodePath("ScreenSaver")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -74,3 +77,7 @@ text = "Download Data"
 [node name="Control2" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="ScreenSaver" parent="." instance=ExtResource("5_0hsm7")]
+visible = false
+layout_mode = 1

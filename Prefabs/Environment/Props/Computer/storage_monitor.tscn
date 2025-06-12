@@ -126,13 +126,14 @@ resource_local_to_scene = true
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_loklc")
 
-[node name="Monitor_1" type="StaticBody3D" node_paths=PackedStringArray("shop_ui_control", "sub_viewport", "display")]
+[node name="Monitor_1" type="StaticBody3D" node_paths=PackedStringArray("shop_ui_control", "sub_viewport", "display", "ui_content")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_nrkwu")
 shop_ui_control = NodePath("SubViewport/StorageInterfaceUI")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Display")
+ui_content = NodePath("SubViewport/StorageInterfaceUI")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
 bones/0/name = "Monitor Stand"

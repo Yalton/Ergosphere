@@ -19,8 +19,20 @@ signal interaction_ended
 @export_group("UI Control")
 @export var sub_viewport: SubViewport
 @export var display: MeshInstance3D
+## Reference to the UI content node inside the SubViewport
+@export var ui_content: DiageticUIContent
 
 @onready var area_3d: Area3D = $Area3D
+
+## Different methods for disabling the screen
+enum DisableMethod {
+	SPLASH_SCREEN,
+	BLACK_SCREEN,
+	STATIC_NOISE
+}
+
+## Current method to use when disabling the screen
+@export var disable_method: DisableMethod = DisableMethod.SPLASH_SCREEN
 
 var has_been_used: bool = false
 var interaction_text: String
@@ -108,6 +120,16 @@ func interact(_player_interaction_component: PlayerInteractionComponent) -> void
 	DebugLogger.debug(module_name, "Starting interaction")
 	start_interaction()
 
+func show_splash_screen() -> void:
+	if ui_content:
+		ui_content.show_splash()
+		DebugLogger.log_info("DiageticUIBase", "Showing splash screen")
+
+func hide_splash_screen() -> void:
+	if ui_content:
+		ui_content.hide_splash()
+		DebugLogger.log_info("DiageticUIBase", "Hiding splash screen")
+	
 func start_interaction() -> void:
 	if interact_sound:
 		Audio.play_sound_3d(interact_sound).global_position = global_position
@@ -271,6 +293,7 @@ func set_state() -> void:
 # Helper method to check if UI can be interacted with
 func can_interact() -> bool:
 	return not is_disabled and not is_in_cooldown and cooldown <= 0 and not is_player_interacting
+
 
 # NEW: Disable/enable the UI
 func set_ui_enabled(enabled: bool) -> void:

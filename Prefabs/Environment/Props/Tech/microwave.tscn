@@ -1,10 +1,12 @@
-[gd_scene load_steps=32 format=4 uid="uid://dq0sewxbmt2a1"]
+[gd_scene load_steps=34 format=4 uid="uid://dq0sewxbmt2a1"]
 
 [ext_resource type="Script" uid="uid://bo8w2nt8vaj3u" path="res://Scripts/Environment/GameObjects/Furniture/microwave.gd" id="1_4m4ky"]
 [ext_resource type="Texture2D" uid="uid://dltvq57p0vbgq" path="res://Assets/Models/Station/Furniture/Microwave/textures/BlackerMetal-Color.png" id="1_xtycp"]
 [ext_resource type="Texture2D" uid="uid://btv0m3gjrg3id" path="res://Assets/Models/Station/Furniture/Microwave/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_4m4ky"]
 [ext_resource type="PackedScene" uid="uid://bitroo25gr1vc" path="res://Prefabs/Environment/Props/Food/food_1.tscn" id="2_6g80k"]
 [ext_resource type="Texture2D" uid="uid://cw60uup7o2nn3" path="res://Assets/Models/Station/Furniture/Microwave/textures/BlackerMetal-Normal.png" id="3_6g80k"]
+[ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="3_x1gye"]
+[ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="4_ini3w"]
 [ext_resource type="Texture2D" uid="uid://tlrqnv1n0rc" path="res://Assets/Models/Station/Furniture/Microwave/textures/GreyPlastic-Color.png" id="4_mdomn"]
 [ext_resource type="Texture2D" uid="uid://emfhqjiii2ig" path="res://Assets/Models/Station/Furniture/Microwave/textures/GreyPlastic-Roughness.png" id="5_qa46y"]
 [ext_resource type="Texture2D" uid="uid://cots1m27tbf6k" path="res://Assets/Models/Station/Furniture/Microwave/textures/GreyPlastic-Normal.png" id="6_cov4g"]
@@ -303,16 +305,25 @@ _data = {
 &"open": SubResource("Animation_f65nv")
 }
 
-[node name="Microwave" type="StaticBody3D" node_paths=PackedStringArray("food_spawn_position", "animation_player")]
+[node name="Microwave" type="StaticBody3D" node_paths=PackedStringArray("food_spawn_position", "animation_player", "task_aware_component", "state_aware_component")]
 script = ExtResource("1_4m4ky")
 food_scene = ExtResource("2_6g80k")
 food_spawn_position = NodePath("FoodPosition")
 animation_player = NodePath("AnimationPlayer")
 open_door_animation = "open"
 close_door_animation = "close"
+task_aware_component = NodePath("TaskAwareComponent")
+state_aware_component = NodePath("StateAwareComponent")
+display_name = "microwave"
 
 [node name="FoodPosition" type="Marker3D" parent="."]
 transform = Transform3D(-0.274379, 0, 0.961622, 0, 1, 0, -0.961622, 0, -0.274379, -0.463527, 0.2873, 0.00724661)
+
+[node name="TaskAwareComponent" parent="." instance=ExtResource("3_x1gye")]
+associated_task_id = "eat_food"
+show_task_in_interaction_text = false
+
+[node name="StateAwareComponent" parent="." instance=ExtResource("4_ini3w")]
 
 [node name="Microwave" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_nlif5")

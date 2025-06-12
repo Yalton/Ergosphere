@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://8qgxvpq582wy"]
+[gd_scene load_steps=4 format=3 uid="uid://8qgxvpq582wy"]
 
 [ext_resource type="Script" uid="uid://hmf6gumdxj7n" path="res://Scripts/UI/DiageticUI/terminal_ui.gd" id="1_gjlas"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="2_n2ccl"]
+[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_f6355"]
 
-[node name="TerminalUI" type="Control" node_paths=PackedStringArray("input_field", "output_area", "terminal_label")]
+[node name="TerminalUI" type="Control" node_paths=PackedStringArray("input_field", "output_area", "terminal_label", "main_ui", "splash_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +15,8 @@ script = ExtResource("1_gjlas")
 input_field = NodePath("DevTerminal2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/LineEdit")
 output_area = NodePath("DevTerminal2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/OutputLabel")
 terminal_label = NodePath("DevTerminal2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Label")
+main_ui = NodePath("DevTerminal2")
+splash_screen = NodePath("ScreenSaver")
 
 [node name="DevTerminal2" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -96,3 +99,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 32
 placeholder_text = "..."
+
+[node name="ScreenSaver" parent="." instance=ExtResource("3_f6355")]
+visible = false
+layout_mode = 1

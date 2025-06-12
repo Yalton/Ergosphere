@@ -43,16 +43,20 @@ func _on_start(state_manager: StateManager) -> void:
 	state_manager.set_state(CommonUtils.STATE_POWER, "off")
 	state_manager.set_state(CommonUtils.STATE_EMERGENCY_MODE, true)
 	
-	# Play power off sound
-	if power_off_sound and audio_player:
-		audio_player.stream = power_off_sound
-		audio_player.play()
+	## Play power off sound
+	#if power_off_sound and audio_player:
+		#audio_player.stream = power_off_sound
+		#audio_player.play()
+	#
+	## Modify all lights in the "lights" group
+	#_modify_lights(true)
+	#
+	## Modify shared emissive material
+	#_modify_emissive_material(true)
 	
-	# Modify all lights in the "lights" group
-	_modify_lights(true)
-	
-	# Modify shared emissive material
-	_modify_emissive_material(true)
+	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
+	if effects_manager: 
+		effects_manager.kill_power()
 	
 	# Update power lever if we have one
 	var lever = get_tree().get_first_node_in_group("power_lever")
@@ -68,17 +72,19 @@ func _on_reverse(state_manager: StateManager) -> void:
 	state_manager.set_state(CommonUtils.STATE_POWER, "on")
 	state_manager.set_state(CommonUtils.STATE_EMERGENCY_MODE, false)
 	
-	# Play power on sound
-	if power_on_sound and audio_player:
-		audio_player.stream = power_on_sound
-		audio_player.play()
-	
-	# Restore lights
-	_restore_lights()
-	
-	# Restore emissive material
-	_modify_emissive_material(false)
-	
+	## Play power on sound
+	#if power_on_sound and audio_player:
+		#audio_player.stream = power_on_sound
+		#audio_player.play()
+	#
+	## Restore lights
+	#_restore_lights()
+	#
+	## Restore emissive material
+	#_modify_emissive_material(false)
+	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
+	if effects_manager: 
+		effects_manager.restore_power()
 	# Update power lever
 	var lever = get_tree().get_first_node_in_group("power_lever")
 	if lever:

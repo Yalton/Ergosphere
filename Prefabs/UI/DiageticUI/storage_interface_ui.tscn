@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dlovd5rc5hg5a"]
+[gd_scene load_steps=6 format=3 uid="uid://dlovd5rc5hg5a"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_bcmvx"]
 [ext_resource type="Script" uid="uid://ddabv272mcxu7" path="res://Scripts/UI/Storage/storage_interface_ui.gd" id="2_vhmgj"]
+[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_e2ird"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vhmgj"]
 bg_color = Color(0, 0, 0, 1)
@@ -14,7 +15,7 @@ corner_radius_bottom_left = 84
 bg_color = Color(0, 0, 0, 1)
 draw_center = false
 
-[node name="StorageInterfaceUI" type="Control" node_paths=PackedStringArray("tab_container", "general_grid", "replacement_parts_grid", "requisition_label")]
+[node name="StorageInterfaceUI" type="Control" node_paths=PackedStringArray("tab_container", "general_grid", "replacement_parts_grid", "requisition_label", "main_ui", "splash_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,12 +24,22 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_bcmvx")
 script = ExtResource("2_vhmgj")
-tab_container = NodePath("MarginContainer/PanelContainer/VBoxContainer/TabContainer")
-general_grid = NodePath("MarginContainer/PanelContainer/VBoxContainer/TabContainer/General/GridContainer")
-replacement_parts_grid = NodePath("MarginContainer/PanelContainer/VBoxContainer/TabContainer/Replacement Parts/GridContainer2")
-requisition_label = NodePath("MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer/RequisitionLabel")
+tab_container = NodePath("MainUI/MarginContainer/PanelContainer/VBoxContainer/TabContainer")
+general_grid = NodePath("MainUI/MarginContainer/PanelContainer/VBoxContainer/TabContainer/General/GridContainer")
+replacement_parts_grid = NodePath("MainUI/MarginContainer/PanelContainer/VBoxContainer/TabContainer/Replacement Parts/GridContainer2")
+requisition_label = NodePath("MainUI/MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer/RequisitionLabel")
+main_ui = NodePath("MainUI")
+splash_screen = NodePath("ScreenSaver")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MainUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainUI"]
 z_index = 3
 layout_mode = 1
 anchors_preset = 15
@@ -41,18 +52,18 @@ theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 40
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MainUI/MarginContainer"]
 z_index = 3
 layout_mode = 2
 theme = ExtResource("1_bcmvx")
 theme_override_styles/panel = SubResource("StyleBoxFlat_vhmgj")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainUI/MarginContainer/PanelContainer"]
 z_index = 3
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Control2" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="Control2" type="Label" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer"]
 z_index = 3
 layout_mode = 2
 size_flags_vertical = 3
@@ -61,7 +72,7 @@ theme_override_font_sizes/font_size = 64
 text = "Storage Interface"
 horizontal_alignment = 1
 
-[node name="TabContainer" type="TabContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer"]
 z_index = 3
 layout_mode = 2
 size_flags_vertical = 3
@@ -70,13 +81,13 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/tabbar_background = SubResource("StyleBoxFlat_kff3n")
 current_tab = 0
 
-[node name="General" type="TabBar" parent="MarginContainer/PanelContainer/VBoxContainer/TabContainer"]
+[node name="General" type="TabBar" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer/TabContainer"]
 z_index = 3
 layout_mode = 2
 theme = ExtResource("1_bcmvx")
 metadata/_tab_index = 0
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/PanelContainer/VBoxContainer/TabContainer/General"]
+[node name="GridContainer" type="GridContainer" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer/TabContainer/General"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -84,14 +95,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Replacement Parts" type="TabBar" parent="MarginContainer/PanelContainer/VBoxContainer/TabContainer"]
+[node name="Replacement Parts" type="TabBar" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer/TabContainer"]
 visible = false
 z_index = 3
 layout_mode = 2
 theme = ExtResource("1_bcmvx")
 metadata/_tab_index = 1
 
-[node name="GridContainer2" type="GridContainer" parent="MarginContainer/PanelContainer/VBoxContainer/TabContainer/Replacement Parts"]
+[node name="GridContainer2" type="GridContainer" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer/TabContainer/Replacement Parts"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -101,43 +112,43 @@ offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer"]
 z_index = 3
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 mouse_filter = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MainUI/MarginContainer/PanelContainer"]
 z_index = 3
 layout_mode = 2
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Control" type="Control" parent="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer"]
+[node name="Control" type="Control" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
 mouse_filter = 2
 
-[node name="RequisitionLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer"]
+[node name="RequisitionLabel" type="Label" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer"]
 z_index = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 32
 text = "Requisition: "
 
-[node name="Control" type="Control" parent="MarginContainer/PanelContainer/VBoxContainer2"]
+[node name="Control" type="Control" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.72
 mouse_filter = 2
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="MainUI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -145,3 +156,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="ScreenSaver" parent="." instance=ExtResource("3_e2ird")]
+visible = false
+layout_mode = 1

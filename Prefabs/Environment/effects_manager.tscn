@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://hoc0u5yoraph"]
+
+[ext_resource type="Script" uid="uid://lxr73p780525" path="res://Scripts/Environment/effects_manager.gd" id="1_h0qpp"]
+
+[node name="EffectsManager" type="Node" groups=["effects_manager"]]
+script = ExtResource("1_h0qpp")
