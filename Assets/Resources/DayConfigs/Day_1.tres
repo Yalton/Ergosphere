@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_8l1vt"]
 [ext_resource type="Resource" uid="uid://bgt6nrm5tdq3w" path="res://Assets/Resources/Tasks/introduction.tres" id="2_omfl5"]
-[ext_resource type="Resource" uid="uid://bsjgiseh0aa2w" path="res://Assets/Resources/Tasks/eat_food.tres" id="3_omfl5"]
+[ext_resource type="Resource" uid="uid://b34y1pl3d7umu" path="res://Assets/Resources/Tasks/lube_engine.tres" id="3_omfl5"]
 [ext_resource type="Script" uid="uid://8rd0ckvff0d0" path="res://Scripts/Resources/day_config.gd" id="3_w1dxl"]
 
 [resource]
@@ -10,7 +10,7 @@ script = ExtResource("3_w1dxl")
 day_number = 1
 day_name = ""
 available_tasks = Array[ExtResource("1_8l1vt")]([ExtResource("2_omfl5"), ExtResource("3_omfl5")])
-mandatory_tasks = Array[String](["introduction", "eat_food"])
+mandatory_tasks = Array[String](["introduction", "lube_engine"])
 excluded_tasks = Array[String]([])
 task_count_override = 1
 available_event_ids = Array[String]([])

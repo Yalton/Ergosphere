@@ -66,7 +66,7 @@ Add insanity/visibility meter
 **Events**: 1-2 minor incidents - random teleportation, blood decals, spooky sounds
 
 ### Day 3 (Escalation Begins)
-**Tasks**: Lube Engine Blades, Sample Oxygen, Download Data, Upload Data, Terminal Game, 
+**Tasks**: Lube Engine Blades, Sample Oxygen, Download Data, Upload Data, Terminal Game
 **Events**: 2-3 aggressive incidents - entity follows player, small black hole appears, fire, Replace Generator Heatsink
 
 ### Day 4 (Breaking Point)

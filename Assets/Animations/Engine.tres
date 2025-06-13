@@ -10,7 +10,7 @@ tracks/0/enabled = true
 tracks/0/path = NodePath("Engine/SpinningEngineBlades")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.707107, 1.54543e-08, 1.54543e-08, 0.707107, 4, 1, 1.54543e-08, 0.707107, 0.707107, -4.63629e-08)
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 4, 1, 0, -1, 0, 0)
 
 [sub_resource type="Animation" id="Animation_3kcgm"]
 length = 0.001
@@ -20,7 +20,7 @@ tracks/0/enabled = true
 tracks/0/path = NodePath("Engine/SpinningEngineBlades")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0.707107, 0, 0, 0.707107)
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
 
 [resource]
 _data = {
