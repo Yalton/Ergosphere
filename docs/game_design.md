@@ -66,11 +66,11 @@ Add insanity/visibility meter
 **Events**: 1-2 minor incidents - random teleportation, blood decals, spooky sounds
 
 ### Day 3 (Escalation Begins)
-**Tasks**: Lube Engine Blades, Run Diagnostics, Clean Anomalies, Sample Oxygen, Snake
+**Tasks**: Eat Food, Lube Engine Blades, Run Diagnostics, Sample Anomalies, Snake
 **Events**: 2-3 aggressive incidents - entity follows player, small black hole appears, fire, Replace Generator Heatsink
 
 ### Day 4 (Breaking Point)
-**Tasks**: Align Telescope, Download Data, Upload Data, Investigate Anomalous Readings, Attempt Communication with Earth
+**Tasks**: Eat Food, Align Telescope, Download Data, Upload Data, Investigate Anomalous Readings, Attempt Communication with Earth
 **Events**: 3-4 major incidents - shadowy figures, vision distortion, flesh on walls, lightning barriers
 
 ### Day 5 (Final Descent)

@@ -57,7 +57,7 @@ func _register_default_commands() -> void:
 
 	# List commands
 	register_command("list", _cmd_list, "Lists all available commands", false)
-	
+	register_command("diag", _cmd_diagnostics, "Runs Diagnostics on the system", false)
 	DebugLogger.debug(module_name, "Default commands registered")
 
 func _register_game_commands() -> void:
@@ -245,6 +245,30 @@ func _cmd_assign_task(args: Array) -> void:
 	else:
 		output_error("Task manager not available")
 
+func _cmd_diagnostics(args: Array) -> void:
+	# ASCII art
+	output("                                                        ")
+	output("   m    #               m    #                          ")
+	output(" mm#mm  # mm    mmm   mm#mm  # mm           mmm    mmm  ")
+	output("   #    #:  #  #: :#    #    #:  #         #: :#  #   : ")
+	output("   #    #   #  #   #    #    #   #   :::   #   #   :::m ")
+	output("   :mm  #   #  :#m#:    :mm  #   #         :#m#:  :mmm: ")
+	output("                                                        ")
+														
+	
+	# Fake diagnostic info
+	output_system("THOTH Operating System v3.14.159")
+	output("Kernel: THOTH-CORE 7.42.1337")
+	output("Architecture: x86_64")
+	output("Uptime: " + str(randi_range(100, 9999)) + " cycles")
+	output("Memory: " + str(randi_range(60, 95)) + "% utilized")
+	output("Quantum cores: " + str(randi_range(4, 16)) + " active")
+	output("Neural pathways: " + str(randi_range(1024, 8192)) + " synchronized")
+	output("Temporal variance: " + str(randf_range(0.001, 0.999)) + "ms")
+	output("Consciousness buffer: " + str(randi_range(70, 100)) + "% coherent")
+	output("")
+	output_system("All systems nominal.")
+	
 func _cmd_complete_task(args: Array) -> void:
 	if args.is_empty():
 		output_error("Usage: complete_task <task_id>")

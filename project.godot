@@ -78,6 +78,7 @@ power_lever=""
 storage_wall=""
 props=""
 effects_manager=""
+anomalous_hotspots=""
 
 [gui]
 
