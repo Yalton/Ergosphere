@@ -220,7 +220,7 @@ func _assign_follow_up_tasks() -> void:
 	DebugLogger.info(module_name, "Assigning follow-up tasks: " + str(follow_up_task_ids))
 	
 	# Use the new mid-day assignment method
-	GameManager.task_manager.assign_mandatory_tasks_midday(follow_up_task_ids)
+	GameManager.task_manager.assign_mandatory_tasks(follow_up_task_ids)
 
 func _on_task_completed(task_id: String) -> void:
 	# Only care about follow-up tasks after exploration is complete

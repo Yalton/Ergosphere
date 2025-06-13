@@ -174,7 +174,7 @@ func throw(power : float) -> void:
 		audio_stream_player_3d.stream = drop_sound
 		audio_stream_player_3d.play()
 		
-	print(name, ": Throwing with impulse force ", player_interaction_component.Get_Look_Direction() * power)
+	#print(name, ": Throwing with impulse force ", player_interaction_component.Get_Look_Direction() * power)
 	parent_object.apply_central_impulse(player_interaction_component.Get_Look_Direction() * power)
 
 func get_mass() -> float:

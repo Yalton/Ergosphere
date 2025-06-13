@@ -1,7 +1,12 @@
-extends BaseEvent
-class_name OxygenFailureEvent
+# OxygenFailureHandler.gd
+extends EventHandler
+class_name OxygenFailureHandler
+
+## Oxygen failure event handler for the new event system
+## Handles oxygen filter failures and replacement
 
 @export_group("Oxygen Failure Settings")
+## Sound to play when oxygen system fails
 @export var failure_sound: AudioStream
 
 var failed_filter: OxygenFilter = null
@@ -9,15 +14,46 @@ var audio_player: AudioStreamPlayer
 
 func _ready() -> void:
 	super._ready()
-	event_name = "oxygen_failure"
-	event_description = "Oxygen filter requires replacement"
+	module_name = "OxygenFailureHandler"
+	
+	# Define which events this handler processes
+	handled_event_ids = ["oxygen_failure", "oxygen_leak", "oxygen_low"]
 	
 	# Create audio player
 	audio_player = AudioStreamPlayer.new()
 	audio_player.bus = "SFX"
 	add_child(audio_player)
+	
+	DebugLogger.debug(module_name, "OxygenFailureHandler ready")
 
-func _on_start(state_manager: StateManager) -> void:
+func _on_execute(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle oxygen failure event execution
+	DebugLogger.info(module_name, "Executing oxygen event: %s" % event_data.event_id)
+	
+	match event_data.event_id:
+		"oxygen_failure":
+			_handle_oxygen_failure(event_data, state_manager)
+		"oxygen_leak":
+			_handle_oxygen_leak(event_data, state_manager)
+		"oxygen_low":
+			_handle_oxygen_low(event_data, state_manager)
+
+func _on_complete(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle oxygen failure event completion
+	DebugLogger.info(module_name, "Completing oxygen event: %s" % event_data.event_id)
+	
+	match event_data.event_id:
+		"oxygen_failure":
+			_complete_oxygen_failure(event_data, state_manager)
+		"oxygen_leak":
+			_complete_oxygen_leak(event_data, state_manager)
+		"oxygen_low":
+			_complete_oxygen_low(event_data, state_manager)
+
+func _handle_oxygen_failure(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle oxygen system failure
+	DebugLogger.debug(module_name, "Oxygen failure started")
+	
 	# Update state
 	state_manager.set_state("oxygen_system_operational", false)
 	
@@ -48,13 +84,36 @@ func _on_start(state_manager: StateManager) -> void:
 		audio_player.stream = failure_sound
 		audio_player.play()
 	
-	DebugLogger.info(module_name, "Oxygen failure event started - filter: " + failed_filter.name)
+	# Show warning message
+	if CommonUtils:
+		CommonUtils.send_player_hint("", "WARNING: Oxygen System Failure")
+	
+	# Trigger emergency task if task system is available
+	if GameManager and GameManager.task_manager:
+		GameManager.task_manager.trigger_emergency_task("replace_oxygen_filter")
+	
+	DebugLogger.info(module_name, "Oxygen failure event started - filter: %s" % failed_filter.name)
 
-func _on_reverse(_state_manager: StateManager) -> void:
-	# This event can't be directly reversed - it requires player action
-	DebugLogger.warning(module_name, "Oxygen failure cannot be reversed - requires filter replacement")
+func _handle_oxygen_leak(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle oxygen leak
+	DebugLogger.debug(module_name, "Oxygen leak started")
+	
+	# Show warning
+	if CommonUtils:
+		CommonUtils.send_player_hint("", "WARNING: Oxygen Leak Detected")
 
-func _on_end(state_manager: StateManager) -> void:
+func _handle_oxygen_low(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle low oxygen warning
+	DebugLogger.debug(module_name, "Low oxygen warning")
+	
+	# Show warning
+	if CommonUtils:
+		CommonUtils.send_player_hint("", "WARNING: Oxygen Levels Low")
+
+func _complete_oxygen_failure(event_data: EventData, state_manager: StateManager) -> void:
+	## Complete oxygen failure (filter replaced)
+	DebugLogger.debug(module_name, "Oxygen failure completed - filter replaced")
+	
 	# Clean up connections
 	if failed_filter and failed_filter.is_connected("filter_fixed", _on_filter_fixed):
 		failed_filter.filter_fixed.disconnect(_on_filter_fixed)
@@ -64,14 +123,30 @@ func _on_end(state_manager: StateManager) -> void:
 	# Update state
 	state_manager.set_state("oxygen_system_operational", true)
 	
+	# Show restoration message
+	if CommonUtils:
+		CommonUtils.send_player_hint("", "Oxygen Systems Restored")
+	
 	DebugLogger.info(module_name, "Oxygen failure event ended")
 
-func _on_filter_fixed() -> void:
-	DebugLogger.info(module_name, "Filter has been fixed, ending event")
+func _complete_oxygen_leak(event_data: EventData, state_manager: StateManager) -> void:
+	## Complete oxygen leak
+	DebugLogger.debug(module_name, "Oxygen leak completed")
 	
-	# Tell GameManager the event is resolved
+	if CommonUtils:
+		CommonUtils.send_player_hint("", "Oxygen Leak Sealed")
+
+func _complete_oxygen_low(event_data: EventData, state_manager: StateManager) -> void:
+	## Complete low oxygen warning
+	DebugLogger.debug(module_name, "Low oxygen warning completed")
+	
+	if CommonUtils:
+		CommonUtils.send_player_hint("", "Oxygen Levels Restored")
+
+func _on_filter_fixed() -> void:
+	## Called when the failed filter is fixed by player
+	DebugLogger.info(module_name, "Filter has been fixed, completing event")
+	
+	# Tell EventManager the event is resolved
 	if GameManager and GameManager.event_manager:
-		GameManager.event_manager.end_event("oxygen_failure")
-	else:
-		# Fallback - end ourselves
-		end_event(GameManager.state_manager if GameManager else null)
+		GameManager.event_manager.complete_event("oxygen_failure")

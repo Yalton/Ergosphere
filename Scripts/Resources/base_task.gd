@@ -15,11 +15,14 @@ class_name BaseTask
 ## If true, this task is an emergency that blocks normal tasks and may have a time limit
 @export var is_emergency: bool = false
 
-## If true, this task is an emergency that blocks normal tasks and may have a time limit
+## If true, this task is a secret task that only appears when completed
 @export var is_secret: bool = false
 
 ## Time limit in seconds for emergency tasks. 0 = no time limit. Task fails if timer expires.
 @export var emergency_time_limit: float = 0.0
+
+## State changes to apply if emergency task fails
+@export var failure_consequence: Dictionary = {}
 
 # Task dependencies
 ## List of task IDs that must be completed before this task becomes available
@@ -46,7 +49,7 @@ class_name BaseTask
 # Task state
 var is_completed: bool = false
 var is_available: bool = false
-var is_revealed: bool = true  # Changed default to false
+var is_revealed: bool = false
 var time_remaining: float = 0.0
 var assigned_day: int = -1
 
@@ -105,7 +108,7 @@ func update_reveal_state(state_manager: StateManager, completed_tasks: Array[Str
 				is_revealed = false
 				reveal_timer = 0.0
 				reveal_conditions_met = false
-				DebugLogger.debug(module_name, "Task hidden due to blocking state: " + state_key)
+				DebugLogger.debug(module_name, "Task hidden due to blocking state: %s" % state_key)
 			return
 	
 	# Handle reveal with delay
@@ -118,7 +121,7 @@ func update_reveal_state(state_manager: StateManager, completed_tasks: Array[Str
 		reveal_timer += delta
 		if reveal_timer >= reveal_delay:
 			is_revealed = check_reveal_conditions(state_manager, completed_tasks)
-			DebugLogger.info(module_name, "Task revealed: " + task_name)
+			DebugLogger.info(module_name, "Task revealed: %s" % task_name)
 	elif not should_reveal and is_revealed:
 		# Immediate hide when conditions no longer met
 		is_revealed = false
@@ -129,7 +132,6 @@ func update_reveal_state(state_manager: StateManager, completed_tasks: Array[Str
 		# Reset timer if conditions aren't met
 		reveal_timer = 0.0
 		reveal_conditions_met = false
-	
 
 func can_be_completed(state_manager: StateManager, completed_tasks: Array[String]) -> bool:
 	# Task must be revealed to be completed
@@ -140,26 +142,26 @@ func can_be_completed(state_manager: StateManager, completed_tasks: Array[String
 	# Check if dependencies are met
 	for dep_task in dependent_on_tasks:
 		if not dep_task in completed_tasks:
-			DebugLogger.debug(module_name, "Cannot complete - missing dependency: " + dep_task)
+			DebugLogger.debug(module_name, "Cannot complete - missing dependency: %s" % dep_task)
 			return false
 	
 	# Check required states
 	for state_key in required_states:
 		if state_manager.get_state(state_key) != required_states[state_key]:
-			DebugLogger.debug(module_name, "Cannot complete - required state not met: " + state_key)
+			DebugLogger.debug(module_name, "Cannot complete - required state not met: %s" % state_key)
 			return false
 	
 	# Check blocking states
 	for state_key in blocked_by_states:
 		if state_manager.get_state(state_key) == blocked_by_states[state_key]:
-			DebugLogger.debug(module_name, "Cannot complete - blocked by state: " + state_key)
+			DebugLogger.debug(module_name, "Cannot complete - blocked by state: %s" % state_key)
 			return false
 	
 	return true
 
 func complete() -> void:
 	is_completed = true
-	DebugLogger.info(module_name, "Task completed: " + task_name)
+	DebugLogger.info(module_name, "Task completed: %s" % task_name)
 
 func reset() -> void:
 	is_completed = false
@@ -171,5 +173,5 @@ func reset() -> void:
 
 func get_display_name() -> String:
 	if is_emergency:
-		return "[EMERGENCY] " + task_name
+		return "[EMERGENCY] %s" % task_name
 	return task_name

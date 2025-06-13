@@ -1,4 +1,4 @@
-# TaskManager.gd - Fixed Sleep Task Visibility
+# TaskManager.gd
 extends Node
 class_name TaskManager
 
@@ -17,7 +17,7 @@ var module_name: String = "TaskManager"
 # Configuration
 @export var day_configs: Array[DayConfigResource] = []
 @export var default_tasks_per_day: int = 3
-@export var sleep_task_id: String = "sleep"  # Always last task
+@export var sleep_task_id: String = "sleep"
 
 # Fallback tasks if no day config
 @export var default_available_tasks: Array[BaseTask] = []
@@ -26,25 +26,23 @@ var module_name: String = "TaskManager"
 var current_day: int = 0
 var current_day_config: DayConfigResource = null
 var todays_tasks: Array[BaseTask] = []
-var completed_tasks: Array[String] = []  # Task IDs completed today
-var all_completed_tasks: Array[String] = []  # All task IDs ever completed
+var completed_tasks: Array[String] = []
+var all_completed_tasks: Array[String] = []
 var active_emergency_tasks: Array[BaseTask] = []
-var story_flags: Array[String] = []  # Persistent story progression
+var story_flags: Array[String] = []
 
 # References
 var state_manager: StateManager
-var event_manager: EventManager
 
 # Emergency task timers
-var emergency_timers: Dictionary = {}  # task_id -> Timer
+var emergency_timers: Dictionary = {}
 
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
-	set_process(true)  # Enable _process for reveal system
+	set_process(true)
 
-func initialize(_state_manager: StateManager, _event_manager: EventManager) -> void:
+func initialize(_state_manager: StateManager) -> void:
 	state_manager = _state_manager
-	event_manager = _event_manager
 	
 	# Reset everything first
 	_reset_task_system()
@@ -53,7 +51,7 @@ func initialize(_state_manager: StateManager, _event_manager: EventManager) -> v
 	if not state_manager.state_changed.is_connected(_on_state_changed):
 		state_manager.state_changed.connect(_on_state_changed)
 	
-	DebugLogger.info(module_name, "TaskManager initialized and reset with " + str(day_configs.size()) + " day configs")
+	DebugLogger.info(module_name, "TaskManager initialized and reset with %d day configs" % day_configs.size())
 
 func _reset_task_system() -> void:
 	# Clean up any emergency timers
@@ -97,7 +95,7 @@ func start_new_day() -> void:
 	current_day_config = _get_day_config(current_day)
 	
 	if current_day_config:
-		DebugLogger.info(module_name, "Using day config: " + current_day_config.day_name)
+		DebugLogger.info(module_name, "Using day config: %s" % current_day_config.day_name)
 		
 		# Apply starting states
 		for state_key in current_day_config.starting_states:
@@ -116,12 +114,8 @@ func start_new_day() -> void:
 	# Update task availability
 	_update_task_availability()
 	
-	# Notify event manager about available events
-	if event_manager:
-		event_manager.set_day_events(current_day_config)
-	
 	day_started.emit(current_day)
-	DebugLogger.info(module_name, "Started day " + str(current_day) + " with " + str(todays_tasks.size()) + " tasks")
+	DebugLogger.info(module_name, "Started day %d with %d tasks" % [current_day, todays_tasks.size()])
 
 func _get_day_config(day_number: int) -> DayConfigResource:
 	# First try exact match
@@ -158,13 +152,11 @@ func _assign_tasks_from_config(config: DayConfigResource) -> void:
 		var task = _find_task_in_pool(task_id, available_pool)
 		if task and not task in todays_tasks:
 			todays_tasks.append(task)
-			# Reset task state first
 			task.reset()
-			# Only reveal if task has no reveal conditions
 			if task.revealed_under.is_empty():
 				task.is_revealed = true
 				task_assigned.emit(task_id)
-			DebugLogger.debug(module_name, "Assigned mandatory task: " + task.task_name)
+			DebugLogger.debug(module_name, "Assigned mandatory task: %s" % task.task_name)
 	
 	# Determine how many tasks we need
 	var tasks_needed = config.task_count_override if config.task_count_override >= 0 else default_tasks_per_day
@@ -177,13 +169,11 @@ func _assign_tasks_from_config(config: DayConfigResource) -> void:
 		var task = available_pool[i]
 		if not task in todays_tasks and not task.is_emergency and task.task_id != sleep_task_id:
 			todays_tasks.append(task)
-			# Reset task state first
 			task.reset()
-			# Only reveal if task has no reveal conditions
 			if task.revealed_under.is_empty():
 				task.is_revealed = true
 				task_assigned.emit(task.task_id)
-			DebugLogger.debug(module_name, "Assigned task: " + task.task_name)
+			DebugLogger.debug(module_name, "Assigned task: %s" % task.task_name)
 	
 	# Add sleep task as last
 	var sleep_task = _find_task_in_pool(sleep_task_id, available_pool)
@@ -191,9 +181,7 @@ func _assign_tasks_from_config(config: DayConfigResource) -> void:
 		sleep_task = _find_task_in_pool(sleep_task_id, default_available_tasks)
 	if sleep_task:
 		todays_tasks.append(sleep_task)
-		# Reset sleep task state
 		sleep_task.reset()
-		# Sleep task should start hidden if it has reveal conditions
 		if sleep_task.revealed_under.is_empty():
 			sleep_task.is_revealed = true
 		else:
@@ -202,7 +190,6 @@ func _assign_tasks_from_config(config: DayConfigResource) -> void:
 		DebugLogger.debug(module_name, "Added sleep task as final task")
 
 func _assign_random_tasks() -> void:
-	# CRITICAL FIX: Check if we have any default tasks
 	if default_available_tasks.is_empty():
 		DebugLogger.error(module_name, "No default tasks available! Cannot assign tasks.")
 		return
@@ -218,21 +205,17 @@ func _assign_random_tasks() -> void:
 		var task = available_pool[i]
 		if not task.is_emergency and task.task_id != sleep_task_id:
 			todays_tasks.append(task)
-			# Reset task state first
 			task.reset()
-			# Only reveal if task has no reveal conditions
 			if task.revealed_under.is_empty():
 				task.is_revealed = true
 				task_assigned.emit(task.task_id)
-			DebugLogger.debug(module_name, "Assigned task: " + task.task_name)
+			DebugLogger.debug(module_name, "Assigned task: %s" % task.task_name)
 	
 	# Add sleep task if available
 	var sleep_task = _find_task_in_pool(sleep_task_id, default_available_tasks)
 	if sleep_task:
 		todays_tasks.append(sleep_task)
-		# Reset sleep task state
 		sleep_task.reset()
-		# Sleep task should start hidden if it has reveal conditions
 		if sleep_task.revealed_under.is_empty():
 			sleep_task.is_revealed = true
 		else:
@@ -259,11 +242,11 @@ func trigger_emergency_task(task_id: String) -> void:
 		task = _find_task_in_pool(task_id, default_available_tasks)
 	
 	if not task:
-		DebugLogger.error(module_name, "Emergency task not found: " + task_id)
+		DebugLogger.error(module_name, "Emergency task not found: %s" % task_id)
 		return
 	
 	if not task.is_emergency:
-		DebugLogger.warning(module_name, "Task is not marked as emergency: " + task_id)
+		DebugLogger.warning(module_name, "Task is not marked as emergency: %s" % task_id)
 		return
 	
 	# Add to active emergency tasks
@@ -282,10 +265,10 @@ func trigger_emergency_task(task_id: String) -> void:
 			timer.start()
 			emergency_timers[task_id] = timer
 			
-			DebugLogger.info(module_name, "Emergency task started with " + str(task.emergency_time_limit) + "s timer: " + task.task_name)
+			DebugLogger.info(module_name, "Emergency task started with %ds timer: %s" % [task.emergency_time_limit, task.task_name])
 
 func _on_emergency_timer_timeout(task_id: String) -> void:
-	DebugLogger.warning(module_name, "Emergency task time expired: " + task_id)
+	DebugLogger.warning(module_name, "Emergency task time expired: %s" % task_id)
 	
 	# Find the task
 	var expired_task: BaseTask = null
@@ -307,45 +290,8 @@ func _on_emergency_timer_timeout(task_id: String) -> void:
 		emergency_timers[task_id].queue_free()
 		emergency_timers.erase(task_id)
 
-## Assign mandatory tasks during the current day
-func assign_mandatory_tasks_midday(task_ids: Array[String]) -> void:
-	if not GameManager or not GameManager.task_manager:
-		DebugLogger.error(module_name, "Cannot assign tasks - TaskManager not found!")
-		return
-	
-	var assigned_count = 0
-	
-	for task_id in task_ids:
-		# Find the task in available pools
-		var task = _find_task_in_current_pools(task_id)
-		
-		if not task:
-			DebugLogger.warning(module_name, "Task not found for mid-day assignment: " + task_id)
-			continue
-		
-		# Check if task is already assigned today
-		if task in todays_tasks:
-			DebugLogger.debug(module_name, "Task already assigned today: " + task_id)
-			continue
-		
-		# Add to today's tasks
-		todays_tasks.append(task)
-		assigned_count += 1
-		
-		# Check if it should be revealed immediately
-		if task.revealed_under.is_empty():
-			task.is_revealed = true
-			task_assigned.emit(task_id)
-		
-		DebugLogger.info(module_name, "Assigned mandatory task mid-day: " + task.task_name)
-	
-	# Update task availability after adding new tasks
-	_update_task_availability()
-	
-	DebugLogger.info(module_name, "Assigned " + str(assigned_count) + " mandatory tasks mid-day")
-
 func can_be_completed(task_id: String) -> bool: 
-		# Find the task
+	# Find the task
 	var task: BaseTask = null
 	for t in todays_tasks:
 		if t.task_id == task_id:
@@ -387,16 +333,16 @@ func complete_task(task_id: String) -> void:
 				break
 	
 	if not task:
-		DebugLogger.error(module_name, "Task not found: " + task_id)
+		DebugLogger.error(module_name, "Task not found: %s" % task_id)
 		return
 		
 	if task.is_completed:
-		DebugLogger.warning(module_name, "Task already completed: " + task_id)
+		DebugLogger.warning(module_name, "Task already completed: %s" % task_id)
 		return
 		
 	# Check if task can be completed
 	if not task.can_be_completed(state_manager, completed_tasks):
-		DebugLogger.warning(module_name, "Task cannot be completed yet: " + task_id)
+		DebugLogger.warning(module_name, "Task cannot be completed yet: %s" % task_id)
 		return
 	
 	# Complete the task
@@ -404,14 +350,10 @@ func complete_task(task_id: String) -> void:
 	completed_tasks.append(task_id)
 	all_completed_tasks.append(task_id)
 	
-
-	
 	# Handle secrets
 	if task.is_secret:
-		DebugLogger.info(module_name, "Secret task completed: " + task.task_name)
-		# Show notification
+		DebugLogger.info(module_name, "Secret task completed: %s" % task.task_name)
 		_show_secret_completed_message(task)
-		# Task will now appear in UI since it's completed
 		task_assigned.emit(task_id)  # Notify UI to update
 	
 	# Remove from emergency tasks if applicable
@@ -437,7 +379,7 @@ func complete_task(task_id: String) -> void:
 	var completion_timer = get_tree().create_timer(1.0)
 	completion_timer.timeout.connect(_check_daily_completion)
 	
-	DebugLogger.info(module_name, "Task completed: " + task.task_name)
+	DebugLogger.info(module_name, "Task completed: %s" % task.task_name)
 
 func _check_daily_completion() -> void:
 	# Don't mark complete if there are active emergencies
@@ -462,9 +404,8 @@ func _check_daily_completion() -> void:
 	if all_complete and not was_complete:
 		DebugLogger.info(module_name, "All daily tasks complete - sleep task should reveal soon")
 
-# Show message when secret is completed
 func _show_secret_completed_message(task: BaseTask) -> void:
-	var message = "Secret discovered: " + task.task_name + "!"
+	var message = "Secret discovered: %s!" % task.task_name
 	
 	# Find player and show message
 	var players = get_tree().get_nodes_in_group("player")
@@ -474,14 +415,14 @@ func _show_secret_completed_message(task: BaseTask) -> void:
 			player.receive_message(message)
 			
 func _on_day_completed() -> void:
-	DebugLogger.info(module_name, "Day " + str(current_day) + " completed!")
+	DebugLogger.info(module_name, "Day %d completed!" % current_day)
 	
 	# Set story flags if configured
 	if current_day_config and current_day_config.sets_flags.size() > 0:
 		for flag in current_day_config.sets_flags:
 			if not flag in story_flags:
 				story_flags.append(flag)
-				DebugLogger.debug(module_name, "Set story flag: " + flag)
+				DebugLogger.debug(module_name, "Set story flag: %s" % flag)
 	
 	# Show completion message
 	if current_day_config and current_day_config.completion_message:
@@ -489,15 +430,11 @@ func _on_day_completed() -> void:
 	
 	# Emit signal that all daily tasks are done
 	daily_tasks_completed.emit()
-	
-	# GameManager will handle starting next day
 
-# Update which tasks can be completed based on current state
 func _update_task_availability() -> void:
 	for task in todays_tasks:
 		task.is_available = task.can_be_completed(state_manager, completed_tasks)
 
-# Process to update emergency task timers and reveal system
 func _process(delta: float) -> void:
 	# Update emergency task timers
 	for task in active_emergency_tasks:
@@ -516,28 +453,27 @@ func _process(delta: float) -> void:
 		if task.is_revealed and not was_revealed:
 			task_revealed.emit(task.task_id)
 			task_assigned.emit(task.task_id)  # Also emit assigned for UI update
-			DebugLogger.info(module_name, "Task revealed: " + task.task_name)
+			DebugLogger.info(module_name, "Task revealed: %s" % task.task_name)
 		elif not task.is_revealed and was_revealed:
 			task_hidden.emit(task.task_id)
-			DebugLogger.info(module_name, "Task hidden: " + task.task_name)
+			DebugLogger.info(module_name, "Task hidden: %s" % task.task_name)
 
-# Get all tasks assigned today
+# Public API methods
 func get_todays_tasks() -> Array[BaseTask]:
 	return todays_tasks
 
-# Get all active emergency tasks
+func get_current_tasks() -> Array[BaseTask]:
+	return todays_tasks
+
 func get_emergency_tasks() -> Array[BaseTask]:
 	return active_emergency_tasks
 
-# Alternative method name for getting emergency tasks
 func get_active_emergency_tasks() -> Array[BaseTask]:
 	return active_emergency_tasks
 
-# Check if a specific task is completed
 func is_task_completed(task_id: String) -> bool:
 	return task_id in completed_tasks
 
-# Get task by ID from today's tasks
 func get_task(task_id: String) -> BaseTask:
 	for task in todays_tasks:
 		if task.task_id == task_id:
@@ -547,7 +483,6 @@ func get_task(task_id: String) -> BaseTask:
 			return task
 	return null
 
-# Get visible tasks (only revealed tasks)
 func get_visible_tasks() -> Array[BaseTask]:
 	var visible_tasks: Array[BaseTask] = []
 	
@@ -557,7 +492,6 @@ func get_visible_tasks() -> Array[BaseTask]:
 	
 	return visible_tasks
 
-# Check if we have any active tasks (for UI visibility)
 func has_active_tasks() -> bool:
 	# Check if we have any non-completed revealed tasks
 	for task in todays_tasks:
@@ -567,7 +501,6 @@ func has_active_tasks() -> bool:
 	# Check emergency tasks
 	return active_emergency_tasks.size() > 0
 
-# Check if all daily tasks are completed
 func are_all_tasks_completed() -> bool:
 	if todays_tasks.is_empty():
 		return false
@@ -579,25 +512,49 @@ func are_all_tasks_completed() -> bool:
 	
 	return active_emergency_tasks.is_empty()
 
-# Get task by ID (internal method that checks all pools)
-func _get_task_by_id(task_id: String) -> BaseTask:
-	# Check today's tasks
-	for task in todays_tasks:
-		if task.task_id == task_id:
-			return task
+func assign_mandatory_tasks(task_ids: Array[String]) -> void:
+	if task_ids.is_empty():
+		return
 	
-	# Check emergency tasks
-	for task in active_emergency_tasks:
-		if task.task_id == task_id:
-			return task
+	var assigned_count = 0
 	
-	# Check in current config
-	if current_day_config:
+	for task_id in task_ids:
+		# Find the task in available pools
+		var task = _find_task_in_current_pools(task_id)
+		
+		if not task:
+			DebugLogger.warning(module_name, "Task not found for mid-day assignment: %s" % task_id)
+			continue
+		
+		# Check if task is already assigned today
+		if task in todays_tasks:
+			DebugLogger.debug(module_name, "Task already assigned today: %s" % task_id)
+			continue
+		
+		# Add to today's tasks
+		todays_tasks.append(task)
+		assigned_count += 1
+		
+		# Check if it should be revealed immediately
+		if task.revealed_under.is_empty():
+			task.is_revealed = true
+			task_assigned.emit(task_id)
+		
+		DebugLogger.info(module_name, "Assigned mandatory task mid-day: %s" % task.task_name)
+	
+	# Update task availability after adding new tasks
+	_update_task_availability()
+	
+	DebugLogger.info(module_name, "Assigned %d mandatory tasks mid-day" % assigned_count)
+
+func _find_task_in_current_pools(task_id: String) -> BaseTask:
+	# First check current day config if available
+	if current_day_config and current_day_config.available_tasks.size() > 0:
 		var task = _find_task_in_pool(task_id, current_day_config.available_tasks)
 		if task:
 			return task
 	
-	# Check default pool
+	# Fall back to default tasks
 	return _find_task_in_pool(task_id, default_available_tasks)
 
 func _show_day_message(message: String) -> void:
@@ -611,50 +568,3 @@ func _show_day_message(message: String) -> void:
 func _on_state_changed(key: String, value) -> void:
 	# Update task availability when states change
 	_update_task_availability()
-
-## Assign mandatory tasks during the day (used by events/scripts)
-func assign_mandatory_tasks(task_ids: Array[String]) -> void:
-	if task_ids.is_empty():
-		return
-	
-	var assigned_count = 0
-	
-	for task_id in task_ids:
-		# Find the task in available pools
-		var task = _find_task_in_current_pools(task_id)
-		
-		if not task:
-			DebugLogger.warning(module_name, "Task not found for mid-day assignment: " + task_id)
-			continue
-		
-		# Check if task is already assigned today
-		if task in todays_tasks:
-			DebugLogger.debug(module_name, "Task already assigned today: " + task_id)
-			continue
-		
-		# Add to today's tasks
-		todays_tasks.append(task)
-		assigned_count += 1
-		
-		# Check if it should be revealed immediately
-		if task.revealed_under.is_empty():
-			task.is_revealed = true
-			task_assigned.emit(task_id)
-		
-		DebugLogger.info(module_name, "Assigned mandatory task mid-day: " + task.task_name)
-	
-	# Update task availability after adding new tasks
-	_update_task_availability()
-	
-	DebugLogger.info(module_name, "Assigned " + str(assigned_count) + " mandatory tasks mid-day")
-
-## Find task in current day's available pools or fallback to defaults
-func _find_task_in_current_pools(task_id: String) -> BaseTask:
-	# First check current day config if available
-	if current_day_config and current_day_config.available_tasks.size() > 0:
-		var task = _find_task_in_pool(task_id, current_day_config.available_tasks)
-		if task:
-			return task
-	
-	# Fall back to default tasks
-	return _find_task_in_pool(task_id, default_available_tasks)

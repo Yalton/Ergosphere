@@ -294,8 +294,9 @@ func clear_all_hints() -> void:
 #endregion
 
 func _on_task_completed(task_id: String): 
-	var completed_task : BaseTask = GameManager.task_manager._get_task_by_id(task_id)
-	show_hint("cpl", completed_task.task_name)
+	var completed_task : BaseTask = GameManager.task_manager.get_task(task_id)
+	if completed_task: 
+		show_hint("cpl", completed_task.task_name)
 
 #region Task System Integration
 

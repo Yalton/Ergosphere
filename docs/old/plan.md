@@ -89,12 +89,16 @@ Hermes voice still terrible
 Fix Brown note
 - Notes still teleport around but I cannot be fucked 
 
+Get Events in the game
 
-Make more events
+Get new Hermes voice in the game
 
-Make failing emergency tasks have consequences
+New Event system
 
-Simplify task resources
+Start screen for all Uis
+
+Make new Demo
+
 
 ---
 

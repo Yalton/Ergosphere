@@ -226,7 +226,7 @@ func _cmd_trigger_event(args: Array) -> void:
 		return
 	
 	var event_id = args[0]
-	GameManager.event_manager.trigger_event(event_id)
+	GameManager.event_manager.force_trigger_event(event_id)
 
 
 
@@ -238,7 +238,7 @@ func _cmd_assign_task(args: Array) -> void:
 	var task_id = args[0]
 	
 	if GameManager.task_manager:
-		var task = GameManager.task_manager._get_task_by_id(task_id)
+		var task = GameManager.task_manager.get_task(task_id)
 		if task:
 			GameManager.task_manager.assign_task(task)
 			output_system("Task '%s' assigned successfully" % task_id)

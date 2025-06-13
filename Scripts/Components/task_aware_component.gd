@@ -69,7 +69,7 @@ func update_task_availability() -> void:
 	var task_manager = GameManager.task_manager
 	
 	# Find our specific task
-	current_task = task_manager._get_task_by_id(associated_task_id)
+	current_task = task_manager.get_task(associated_task_id)
 
 	## Connect to TaskManager singleton signal
 	#if GameManager.task_manager:

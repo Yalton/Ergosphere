@@ -1,4 +1,4 @@
-# GameManager.gd - Fixed with CommonUtils
+# GameManager.gd
 extends Node
 
 signal day_reset
@@ -14,14 +14,9 @@ var state_manager: StateManager
 var task_manager: TaskManager
 var storage_manager: StorageManager
 
-## Delay before triggering test power outage
-@export var test_power_outage_delay: float = 5.0
-## Delay before triggering test oxygen failure
-@export var test_oxygen_failure_delay: float = 5.0
-## Delay before triggering test heatsink failure
-@export var test_heatsink_failure_delay: float = 5.0
-## Automatically start test events
-@export var auto_start_test: bool = false
+## Current day counter
+var current_day: int = 0
+
 ## Automatically start the first day
 @export var auto_start_day: bool = true
 ## Audio stream to play for alarms
@@ -71,101 +66,92 @@ func _ready() -> void:
 func start_game() -> void:
 	DebugLogger.info(module_name, "Starting game - initializing all systems")
 	
-	event_manager.initialize(state_manager)
+	# Initialize all systems
 	state_manager.initialize()
-	task_manager.initialize(state_manager, event_manager)
+	event_manager.initialize(state_manager)
+	task_manager.initialize(state_manager)
 	# StorageManager doesn't need initialization
 	
 	is_initialized = true
 	
-	DebugLogger.info(module_name, "All systems initialized and reset")
+	DebugLogger.info(module_name, "All systems initialized")
 	
 	if auto_start_day:
 		CommonUtils.create_one_shot_timer(self, 1.0, start_new_day)
 	
-	if auto_start_test:
-		_setup_test_events()
-	
 	game_started.emit()
-
-func _setup_test_events() -> void:
-	if test_power_outage_delay > 0:
-		CommonUtils.create_one_shot_timer(self, test_power_outage_delay, _test_power_outage)
-	
-	if test_oxygen_failure_delay > 0:
-		CommonUtils.create_one_shot_timer(self, test_oxygen_failure_delay, _test_oxygen_failure)
-	
-	if test_heatsink_failure_delay > 0:
-		CommonUtils.create_one_shot_timer(self, test_heatsink_failure_delay, _test_heatsink_failure)
-
-func _test_power_outage() -> void:
-	DebugLogger.info(module_name, "TEST: Triggering power outage")
-	if event_manager:
-		event_manager.trigger_event("power_outage")
-
-func _test_oxygen_failure() -> void:
-	DebugLogger.info(module_name, "TEST: Triggering oxygen failure")
-	if event_manager:
-		event_manager.trigger_event("oxygen_failure")
-
-func _test_heatsink_failure() -> void:
-	DebugLogger.info(module_name, "TEST: Triggering heatsink failure")
-	if event_manager:
-		event_manager.trigger_event("heatsink_failure")
 
 func start_new_day() -> void:
 	if not is_initialized:
 		DebugLogger.warning(module_name, "Cannot start day - game not initialized")
 		return
 	
-	DebugLogger.info(module_name, "Starting new day")
+	current_day += 1
+	DebugLogger.info(module_name, "Starting day %d" % current_day)
+	
+	# Notify event manager of new day (handles grace period and event cleanup)
+	event_manager.start_new_day(current_day)
+	
+	# Start new day in task manager
 	task_manager.start_new_day()
+	
+	DebugLogger.info(module_name, "Day %d started successfully" % current_day)
 
-func reset_day() -> void:
-	DebugLogger.info(module_name, "Resetting day")
+func end_current_day() -> void:
+	## Called when day should end (all tasks complete, time limit, etc.)
+	if not is_initialized:
+		DebugLogger.warning(module_name, "Cannot end day - game not initialized")
+		return
+	
+	DebugLogger.info(module_name, "Ending day %d" % current_day)
+	
+	# Emit day reset signal for any systems that need to clean up
 	day_reset.emit()
 	
+	# Brief pause before starting next day
+	CommonUtils.create_one_shot_timer(self, 2.0, start_new_day)
+
+func reset_day() -> void:
+	## Reset current day (for debugging/testing)
+	DebugLogger.info(module_name, "Resetting day %d" % current_day)
+	day_reset.emit()
+	
+	# Reset systems
 	CommonUtils.safe_call(task_manager, "_reset_task_system")
-	CommonUtils.safe_call(event_manager, "_reset_event_system")
+	CommonUtils.safe_call(event_manager, "_end_all_active_events")
 	CommonUtils.safe_call(state_manager, "initialize")
 	
-	# Give small delay then start new day
+	# Restart current day
+	current_day -= 1  # Will be incremented in start_new_day
 	CommonUtils.create_one_shot_timer(self, 0.5, start_new_day)
 
-func _on_daily_tasks_completed() -> void:
-	DebugLogger.info(module_name, "All daily tasks completed!")
-	# Update state using CommonUtils constant
-	state_manager.set_state(CommonUtils.STATE_ALL_DAILY_TASKS_COMPLETE, true)
+func force_trigger_event(event_id: String) -> void:
+	## Force trigger an event (for dev console, scripted events)
+	if not is_initialized:
+		DebugLogger.warning(module_name, "Cannot trigger events before game start")
+		return
+		
+	DebugLogger.debug(module_name, "Force triggering event: %s" % event_id)
+	event_manager.force_trigger_event(event_id)
 
-func _on_emergency_task_failed(task_id: String) -> void:
-	DebugLogger.warning(module_name, "Emergency task failed: " + task_id)
-	# Handle failure consequences
-	match task_id:
-		"restore_power":
-			# Maybe damage equipment or reduce morale
-			pass
-		"replace_oxygen_filter":
-			# Maybe damage health
-			pass
-		"replace_heatsink":
-			# Maybe cause explosion
-			pass
+func complete_event(event_id: String) -> void:
+	## Mark an event as completed
+	if not is_initialized:
+		DebugLogger.warning(module_name, "Cannot complete events before game start")
+		return
+		
+	DebugLogger.debug(module_name, "Completing event: %s" % event_id)
+	event_manager.complete_event(event_id)
 
-func _on_task_completed(task_id: String) -> void:
-	DebugLogger.debug(module_name, "Task completed: " + task_id)
-	
-	# Special handling for certain tasks
-	match task_id:
-		"restore_power":
-			event_manager.reverse_event("power_outage")
-		"replace_oxygen_filter":
-			event_manager.end_event("oxygen_failure")
-		"replace_heatsink":
-			event_manager.end_event("heatsink_failure")
+func set_insanity_level(level: float) -> void:
+	## Update insanity level in event manager
+	if not is_initialized:
+		return
+		
+	event_manager.set_insanity_level(level)
 
-# Helper methods using CommonUtils
 func get_current_day() -> int:
-	return task_manager.current_day if task_manager else 0
+	return current_day
 
 func get_todays_tasks() -> Array:
 	return task_manager.get_current_tasks() if task_manager else []
@@ -173,36 +159,51 @@ func get_todays_tasks() -> Array:
 func get_active_emergency_tasks() -> Array:
 	return task_manager.get_active_emergency_tasks() if task_manager else []
 
-# Trigger event methods
-func trigger_power_outage() -> void:
-	if not is_initialized:
-		DebugLogger.warning(module_name, "Cannot trigger events before game start")
-		return
-		
-	DebugLogger.debug(module_name, "Triggering power outage")
-	event_manager.trigger_event("power_outage")
-	Audio.play_sound(alarm_audio, true, 1.0, -5.0, "SFX")
-	CommonUtils.send_player_hint("", "WARNING: Power System Failure")
-	task_manager.trigger_emergency_task("restore_power")
+# Task system event handlers
+func _on_daily_tasks_completed() -> void:
+	DebugLogger.info(module_name, "All daily tasks completed!")
+	# Update state using CommonUtils constant
+	state_manager.set_state(CommonUtils.STATE_ALL_DAILY_TASKS_COMPLETE, true)
+	
+	# Could automatically end day here if desired
+	# end_current_day()
 
-func trigger_oxygen_failure() -> void:
-	if not is_initialized:
-		DebugLogger.warning(module_name, "Cannot trigger events before game start")
-		return
-		
-	DebugLogger.debug(module_name, "Triggering oxygen failure")
-	event_manager.trigger_event("oxygen_failure")
-	Audio.play_sound(alarm_audio, true, 1.0, -5.0, "SFX")
-	CommonUtils.send_player_hint("", "WARNING: Oxygen System Failure")
-	task_manager.trigger_emergency_task("replace_oxygen_filter")
+func _on_emergency_task_failed(task_id: String) -> void:
+	DebugLogger.warning(module_name, "Emergency task failed: %s" % task_id)
+	# Handle failure consequences - could trigger more events based on failure type
 
-func trigger_heatsink_failure() -> void:
-	if not is_initialized:
-		DebugLogger.warning(module_name, "Cannot trigger events before game start")
-		return
-		
-	DebugLogger.debug(module_name, "Triggering heatsink failure")
-	event_manager.trigger_event("heatsink_failure")
-	Audio.play_sound(alarm_audio, true, 1.0, -5.0, "SFX")
-	CommonUtils.send_player_hint("", "WARNING: Engine Heatsink Failure")
-	task_manager.trigger_emergency_task("replace_heatsink")
+func _on_task_completed(task_id: String) -> void:
+	DebugLogger.debug(module_name, "Task completed: %s" % task_id)
+	
+	# Special handling for certain tasks that resolve events
+	match task_id:
+		"restore_power":
+			complete_event("power_outage")
+		"replace_oxygen_filter":
+			complete_event("oxygen_failure")
+		"replace_heatsink":
+			complete_event("heatsink_failure")
+
+# Dev console integration
+func get_debug_info() -> Dictionary:
+	## Get debug information about all systems
+	var info = {
+		"initialized": is_initialized,
+		"current_day": current_day,
+		"active_tasks": 0,
+		"active_emergency_tasks": 0,
+		"event_system": {}
+	}
+	
+	if task_manager:
+		info["active_tasks"] = task_manager.get_current_tasks().size()
+		info["active_emergency_tasks"] = task_manager.get_active_emergency_tasks().size()
+	
+	if event_manager:
+		info["event_system"] = {
+			"active_cooldowns": event_manager.active_cooldowns.size(),
+			"available_events": event_manager.available_events.size(),
+			"current_insanity": event_manager.insanity_level
+		}
+	
+	return info

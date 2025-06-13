@@ -110,7 +110,7 @@ func send_message_to_player_safe(message: String, speaker: String = "System") ->
 # Send hint to player interaction component
 func send_player_hint(title: String = "", text: String = "") -> bool:
 	var player = get_player()
-	if player and player.has_property("interaction_component") and player.interaction_component:
+	if player and player.interaction_component:
 		if player.interaction_component.has_method("send_hint"):
 			player.interaction_component.send_hint(title, text)
 			return true

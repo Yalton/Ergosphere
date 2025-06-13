@@ -1,23 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://bk1kuand7o7xa"]
+[gd_scene load_steps=7 format=3 uid="uid://bk1kuand7o7xa"]
 
 [ext_resource type="Script" uid="uid://b2evp3vtmha88" path="res://Autoload/GameManager/EventManager/event_manager.gd" id="1_nnr1m"]
-[ext_resource type="Script" uid="uid://bq7c4x3hb3jwh" path="res://Scripts/Events/PowerOutage.gd" id="2_63hjv"]
-[ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="3_iwi1f"]
+[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="2_dwaah"]
+[ext_resource type="Resource" uid="uid://j3iayfghgyfp" path="res://Assets/Resources/Events/power_outage.tres" id="3_dwaah"]
+[ext_resource type="Script" uid="uid://bvq73vstrajr2" path="res://Autoload/GameManager/EventManager/power_outage.gd" id="3_lf3xo"]
 [ext_resource type="Script" uid="uid://b41eevj1xvmfn" path="res://Autoload/GameManager/EventManager/oxygen_failure.gd" id="4_57jj7"]
 [ext_resource type="Script" uid="uid://cxt26q5mgk48w" path="res://Autoload/GameManager/EventManager/engine_heatsink_failure.gd" id="5_lf3xo"]
 
 [node name="EventManager" type="Node"]
 script = ExtResource("1_nnr1m")
+evaluation_interval = 5.0
+event_configurations = Array[ExtResource("2_dwaah")]([ExtResource("3_dwaah")])
 
 [node name="power_outage" type="Node" parent="."]
-script = ExtResource("2_63hjv")
-shared_emissive_material = ExtResource("3_iwi1f")
-event_name = "power_outage"
+script = ExtResource("3_lf3xo")
 
 [node name="oxygen_failure" type="Node" parent="."]
 script = ExtResource("4_57jj7")
-event_description = "oxygen_failure"
 
 [node name="heatsink_failure" type="Node" parent="."]
 script = ExtResource("5_lf3xo")
-event_name = "heatsink_failure"

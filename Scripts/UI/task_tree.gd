@@ -205,9 +205,9 @@ func _on_task_assigned(_task_id: String) -> void:
 	_check_visibility()
 
 func _on_task_completed(task_id: String) -> void:
-	# Just update the specific task
+	# Just update the specific taskw
 	if GameManager and GameManager.task_manager:
-		var task = GameManager.task_manager._get_task_by_id(task_id)
+		var task = GameManager.task_manager.get_task(task_id)
 		if task and task_items.has(task_id):
 			_update_task_item(task, task_items[task_id])
 	_check_visibility()
@@ -254,6 +254,6 @@ func get_selected_task() -> BaseTask:
 	for task_id in task_items:
 		if task_items[task_id] == selected:
 			if GameManager and GameManager.task_manager:
-				return GameManager.task_manager._get_task_by_id(task_id)
+				return GameManager.task_manager.get_task(task_id)
 	
 	return null

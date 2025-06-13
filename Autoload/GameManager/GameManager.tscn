@@ -42,6 +42,7 @@ task_description = ""
 is_emergency = false
 is_secret = false
 emergency_time_limit = 0.0
+failure_consequence = {}
 dependent_on_tasks = Array[String]([])
 required_states = {}
 blocked_by_states = {}
@@ -52,10 +53,6 @@ metadata/_custom_type_script = "uid://bxrho0i2t1mql"
 
 [node name="GameManager" type="Node"]
 script = ExtResource("1_ttbae")
-test_power_outage_delay = 0.0
-test_oxygen_failure_delay = 0.0
-test_heatsink_failure_delay = 0.0
-auto_start_test = true
 alarm_audio = ExtResource("2_52hc4")
 
 [node name="EventManager" parent="." instance=ExtResource("2_bax16")]
