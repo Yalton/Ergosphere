@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=59 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://c7n25om7olp7" path="res://Prefabs/Environment/Props/Computer/memory_block_monitor.tscn" id="16_02mtw"]
 [ext_resource type="PackedScene" uid="uid://cr88bedkk3sbc" path="res://Prefabs/Environment/Furniture/Bedroom/bed.tscn" id="16_e7jis"]
 [ext_resource type="PackedScene" uid="uid://ccjgxjxx1f42w" path="res://Prefabs/Environment/Props/Computer/pattern_memory_terminal.tscn" id="17_02mtw"]
+[ext_resource type="PackedScene" uid="uid://ct7pj3psckxgm" path="res://Prefabs/engine.tscn" id="17_f5voq"]
+[ext_resource type="PackedScene" uid="uid://cf07wlbahuu54" path="res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn" id="18_8jsly"]
 [ext_resource type="PackedScene" uid="uid://chh20j4dixc1b" path="res://Prefabs/Test/test_carriable.tscn" id="18_f5voq"]
 [ext_resource type="PackedScene" uid="uid://bllspm5ews8r5" path="res://Prefabs/Test/test_brown_note.tscn" id="19_3ndhy"]
 [ext_resource type="PackedScene" uid="uid://gnd4fi0eu2wk" path="res://Prefabs/Environment/Props/Industrial/fire_extinguisher.tscn" id="19_8jsly"]
@@ -337,7 +339,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -1, -2)
 transform = Transform3D(-0.5, 0, -0.866025, 0, -1, 0, 0.866025, 0, -0.5, 7, -1, 17)
 
 [node name="pattern_memory_terminal" parent="." instance=ExtResource("17_02mtw")]
-transform = Transform3D(0.0704355, 0, 0.997516, 0, 1, 0, -0.997516, 0, 0.0704355, -15.6352, -0.899998, 5.9299)
+transform = Transform3D(0.0704355, 0, 0.997516, 0, 1, 0, -0.997516, 0, 0.0704355, -28.6695, -0.899998, 5.9299)
+display_name = "pattern_memory_terminal"
 
 [node name="memory_block_monitor" parent="." instance=ExtResource("16_02mtw")]
-transform = Transform3D(-0.947679, 0, 0.319224, 0, 1, 0, -0.319224, 0, -0.947679, -4.06355, -0.9, 15.0278)
+transform = Transform3D(-0.659543, 0, -0.751667, 0, 1, 0, 0.751667, 0, -0.659543, 12.8147, -0.9, 15.0278)
+display_name = "memory_block_monitor"
+
+[node name="Engine" parent="." instance=ExtResource("17_f5voq")]
+transform = Transform3D(-0.886098, 0.463497, 0, 0, 0, -1, -0.463497, -0.886098, 0, -18.781, -1.34808, 29.6728)
+
+[node name="lubricant_spray" parent="." instance=ExtResource("18_8jsly")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -1, 6)

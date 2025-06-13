@@ -107,7 +107,6 @@ func update_task_availability() -> void:
 	if Engine.get_frames_drawn() % 10 == 0:
 		task_availability_changed.emit(is_task_available)
 	
-	DebugLogger.debug(module_name, "Task availability for "+str(associated_task_id)+ " updated: " + str(is_task_available))
 
 func _format_task_text(template: String) -> String:
 	if current_task and show_task_in_interaction_text:

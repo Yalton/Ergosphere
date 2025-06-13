@@ -55,7 +55,7 @@ func _check_for_valid_snap(object: Node) -> void:
 	
 	# Check if the display_name matches our target
 	if game_object.display_name != target_object_name:
-		DebugLogger.debug(module_name, "Object name doesn't match: " + game_object.display_name)
+		DebugLogger.debug(module_name, "Object name doesn't match: " + str(game_object) + " checked against " + str(target_object_name))
 		return
 	
 	# Check if it has a CarryableComponent

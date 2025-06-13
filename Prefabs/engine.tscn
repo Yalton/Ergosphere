@@ -362,6 +362,40 @@ size = Vector2(2, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_fyjcg"]
 size = Vector3(4, 5.6, 4)
 
+[sub_resource type="Animation" id="Animation_c6ji4"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Lubricant Spray")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 18.058, -4.002)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Lubricant Spray/LubeEffect/SmokeParticles:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Lubricant Spray:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
 [sub_resource type="Animation" id="Animation_drevu"]
 resource_name = "lubricate_engine"
 length = 5.2
@@ -426,40 +460,6 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0.933333, 2.5, 4)
 }
 tracks/4/use_blend = true
-
-[sub_resource type="Animation" id="Animation_c6ji4"]
-length = 0.001
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../Lubricant Spray")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 18.058, -4.002)
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../Lubricant Spray/LubeEffect/SmokeParticles:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../Lubricant Spray:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ulg67"]
 _data = {
@@ -860,7 +860,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00820541, 3.06665, 0.99999
 shape = SubResource("BoxShape3D_fyjcg")
 
 [node name="Intake" type="Node3D" parent="." node_paths=PackedStringArray("animation_player", "lube_mesh", "task_aware_component", "state_aware_component")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.0691, -3.66343)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.48648, -3.66343)
 script = ExtResource("20_mlc6h")
 animation_player = NodePath("LubeEngine")
 lube_mesh = NodePath("../Lubricant Spray")
@@ -874,8 +874,8 @@ show_task_in_interaction_text = false
 [node name="StateAwareComponent" parent="Intake" instance=ExtResource("12_yryyd")]
 
 [node name="SnapComponent" parent="Intake" node_paths=PackedStringArray("area_3d") instance=ExtResource("19_lg4ag")]
-target_object_name = "Lubricant Spray"
-area_3d = NodePath("../../Engine/SnapArea")
+target_object_name = "lube_spray"
+area_3d = NodePath("../SnapArea")
 
 [node name="LubeEngine" type="AnimationPlayer" parent="Intake"]
 libraries = {
@@ -883,9 +883,10 @@ libraries = {
 }
 
 [node name="SnapArea" type="Area3D" parent="Intake"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.92687, 5.0994, -6.78965)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.92687, 22.0045, -6.78965)
 collision_layer = 8
 collision_mask = 8
+input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Intake/SnapArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.89388, -4.42301, 6.52961)
@@ -919,7 +920,7 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 86.9463, -6)
 occluder = ExtResource("26_xebs7")
 
 [node name="Lubricant Spray" type="Node3D" parent="."]
-transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 18.058, -4.002)
+transform = Transform3D(-5.95183, 0.232264, -0.722367, 0.656035, -1.29511, -5.82171, -0.381286, -5.85395, 1.25931, 0, 18.058, -4.002)
 rotation_edit_mode = 1
 visible = false
 
