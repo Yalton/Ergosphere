@@ -1,6 +1,9 @@
 # PasswordLoginControl.gd
 extends DiageticUIContent
 
+## Signal emitted when access is granted and progress completes
+signal login_completed
+
 ## UI References
 @export_group("Login Screen")
 @export var login_screen: Control
@@ -212,3 +215,10 @@ func _on_progress_complete() -> void:
 		progress_label.text = "Access Granted!"
 	
 	is_processing = false
+	
+	# Emit signal for task completion
+	login_completed.emit()
+
+func set_password(new_password: String) -> void:
+	correct_password = new_password
+	DebugLogger.debug(module_name, "Password updated")

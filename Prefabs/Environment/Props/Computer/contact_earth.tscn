@@ -128,12 +128,13 @@ resource_local_to_scene = true
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_qfur7")
 
-[node name="Download_Monitor" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "task_aware_component", "state_aware_component")]
+[node name="ContactEarth" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_vnulx")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Display")
+ui_content = NodePath("SubViewport/CommsUpload")
 task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
 

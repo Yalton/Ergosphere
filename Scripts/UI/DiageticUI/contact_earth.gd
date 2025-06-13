@@ -11,6 +11,9 @@ func _ready() -> void:
 	module_name = "PasswordDiegeticUI"
 	DebugLogger.register_module(module_name, enable_debug)
 	
+	# Find task aware component
+	task_aware_component = get_node_or_null("TaskAwareComponent")
+	
 	# Find password control in SubViewport
 	if sub_viewport and sub_viewport.get_child_count() > 0:
 		password_control = sub_viewport.get_child(0)
@@ -21,9 +24,21 @@ func _ready() -> void:
 		elif password_control.has_property("correct_password"):
 			password_control.correct_password = correct_password
 		
+		# Connect to completion signal
+		if password_control.has_signal("login_completed"):
+			password_control.login_completed.connect(_on_login_completed)
+			DebugLogger.debug(module_name, "Connected to login completion signal")
+		
 		DebugLogger.debug(module_name, "Found password control, set password")
 	
 	DebugLogger.debug(module_name, "Password diegetic UI initialized")
+
+func _on_login_completed() -> void:
+	DebugLogger.info(module_name, "Login completed - completing task")
+	
+	# Complete the task if we have a task component
+	if task_aware_component:
+		task_aware_component.complete_task()
 
 # Override to handle ESC to exit
 func _unhandled_input(event: InputEvent) -> void:
