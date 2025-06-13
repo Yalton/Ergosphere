@@ -292,3 +292,33 @@ func test_corners() -> void:
 # Get current alignment status
 func is_telescope_aligned() -> bool:
 	return is_aligned
+
+## Override reset method to reset telescope to initial state
+func reset_ui() -> void:
+	DebugLogger.debug(module_name, "Resetting telescope UI to initial state")
+	reset_alignment()
+	
+	# Reset sliders to random positions avoiding center
+	if x_slider:
+		var center = (x_slider.min_value + x_slider.max_value) * 0.5
+		var range_size = x_slider.max_value - x_slider.min_value
+		# Pick either lower third or upper third, avoiding middle third
+		if randf() < 0.5:
+			# Lower third (0.0 to 0.33)
+			x_slider.value = x_slider.min_value + randf_range(0.0, 0.33) * range_size
+		else:
+			# Upper third (0.67 to 1.0)
+			x_slider.value = x_slider.min_value + randf_range(0.67, 1.0) * range_size
+	
+	if y_slider:
+		var center = (y_slider.min_value + y_slider.max_value) * 0.5
+		var range_size = y_slider.max_value - y_slider.min_value
+		# Pick either lower third or upper third, avoiding middle third
+		if randf() < 0.5:
+			# Lower third (0.0 to 0.33)
+			y_slider.value = y_slider.min_value + randf_range(0.0, 0.33) * range_size
+		else:
+			# Upper third (0.67 to 1.0)
+			y_slider.value = y_slider.min_value + randf_range(0.67, 1.0) * range_size
+	
+	_update_telescope_position()

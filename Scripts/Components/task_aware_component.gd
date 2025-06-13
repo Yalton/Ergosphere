@@ -58,7 +58,7 @@ func _ready() -> void:
 
 
 func _process(_delta) -> void :
-	if Engine.get_frames_drawn() % 60 == 0:
+	if Engine.get_frames_drawn() % 160 == 0:
 		update_task_availability()
 
 func update_task_availability() -> void:
