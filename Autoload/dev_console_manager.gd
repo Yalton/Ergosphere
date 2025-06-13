@@ -6,12 +6,13 @@ extends Node
 signal command_processed(command: String, args: Array)
 signal output_requested(text: String, type: String)
 signal rebooted
+signal diag_run
 ## Array of terminal log resources
 @export var terminal_logs: Array[TerminalLog] = []
 
 var commands: Dictionary = {}
 var command_aliases: Dictionary = {}
-var dev_console_ui: DevConsoleUI = null
+var dev_console_ui: Control = null
 var module_name: String = "DevConsoleManager"
 var is_admin: bool = false
 
@@ -33,7 +34,7 @@ func _ready() -> void:
 	
 	DebugLogger.info(module_name, "Dev Console Manager initialized with " + str(terminal_logs.size()) + " logs")
 
-func set_console_ui(console_ui: DevConsoleUI, admin_mode: bool = false) -> void:
+func set_console_ui(console_ui: Control, admin_mode: bool = false) -> void:
 	dev_console_ui = console_ui
 	is_admin = admin_mode
 	DebugLogger.debug(module_name, "Console UI reference set. Admin mode: " + str(is_admin))
@@ -67,7 +68,8 @@ func _register_game_commands() -> void:
 	register_command("complete_task", _cmd_complete_task, "Force completes a task by ID", true)
 	register_command("next_day", _cmd_next_day, "Instantly starts the next day", true)
 	register_command("no_clip", _cmd_noclip, "Exactly what it sounds like", true)
-
+	register_command("complete_all_daily", _cmd_complete_all_daily, "Completes all active daily tasks", true)
+	
 	# User-accessible commands
 	register_command("status", _cmd_status, "Shows current game status", false)
 	register_command("tasks", _cmd_tasks, "Lists current active tasks", false)
@@ -268,6 +270,7 @@ func _cmd_diagnostics(args: Array) -> void:
 	output("Consciousness buffer: " + str(randi_range(70, 100)) + "% coherent")
 	output("")
 	output_system("All systems nominal.")
+	diag_run.emit()
 	
 func _cmd_complete_task(args: Array) -> void:
 	if args.is_empty():
@@ -278,6 +281,50 @@ func _cmd_complete_task(args: Array) -> void:
 	GameManager.task_manager.complete_task(task_id)
 	output_system("Task '%s' force completed" % task_id)
 
+# Add this command implementation
+func _cmd_complete_all_daily(args: Array) -> void:
+	if not GameManager.task_manager:
+		output_error("Task manager not available")
+		return
+	
+	var todays_tasks = GameManager.task_manager.get_todays_tasks()
+	var completed_count = 0
+	var already_completed = 0
+	var failed_count = 0
+	
+	output_system("=== Completing All Daily Tasks ===")
+	
+	for task in todays_tasks:
+		# Skip sleep task and emergency tasks
+		if task.task_id == GameManager.task_manager.sleep_task_id:
+			continue
+			
+		if task.is_completed:
+			already_completed += 1
+			output("SKIP: %s (already completed)" % task.task_name)
+			continue
+		
+		# Force complete the task
+		GameManager.task_manager.complete_task(task.task_id)
+		
+		# Check if it actually completed
+		if task.is_completed:
+			completed_count += 1
+			output("DONE: %s" % task.task_name)
+		else:
+			failed_count += 1
+			output_warning("FAIL: %s (conditions not met)" % task.task_name)
+	
+	output_system("=== Summary ===")
+	output("Completed: %d" % completed_count)
+	output("Already done: %d" % already_completed)
+	output("Failed: %d" % failed_count)
+	
+	if completed_count > 0:
+		output_system("All completable daily tasks have been finished")
+	else:
+		output_warning("No tasks were completed")
+		
 func _cmd_next_day(args: Array) -> void:
 	if GameManager.time_manager:
 		GameManager.time_manager.start_next_day()

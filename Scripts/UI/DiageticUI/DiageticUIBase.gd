@@ -54,6 +54,7 @@ func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 	
 	if task_aware_component: 
+		task_aware_component.associated_task_assigned.connect(_on_task_assigned)
 		task_aware_component.task_availability_changed.connect(_on_availability_change)
 		
 	cooldown = 0
@@ -412,7 +413,11 @@ func _on_day_reset() -> void:
 func _on_availability_change(available: bool): 
 	DebugLogger.debug(module_name, "Received _on_availability_change, value was " + str(available))
 	set_ui_enabled(available)
-	
+
+
+func _on_task_assigned(task_id: String): 
+	ui_content.reset_ui()
+
 # Virtual method for child classes to override for custom reset behavior
 func _on_day_reset_custom() -> void:
 	pass

@@ -58,7 +58,7 @@ func _ready() -> void:
 
 
 func _process(_delta) -> void :
-	if Engine.get_frames_drawn() % 5 == 0:
+	if Engine.get_frames_drawn() % 60 == 0:
 		update_task_availability()
 
 func update_task_availability() -> void:
@@ -77,35 +77,35 @@ func update_task_availability() -> void:
 		#DebugLogger.info(module_name, "Connected to TaskManager")
 	#else:
 		#DebugLogger.error(module_name, "TaskManager not found in GameManager!")
-		
-	# Determine availability
 	var was_available = is_task_available
-	
-	if not current_task:
-		is_task_available = false
-		_update_interaction_state(false, "No active task")
-	elif task_manager.is_task_completed(associated_task_id):
-		is_task_available = false
-		_update_interaction_state(false, task_completed_text)
-	elif not current_task.is_available:
-		is_task_available = false
-		var reason = _format_task_text(task_unavailable_text)
-		_update_interaction_state(false, reason)
-	else:
-		is_task_available = true
-		var text = _format_task_text(task_available_text)
-		if current_task.is_emergency:
-			text = emergency_prefix + text
-			if current_task.time_remaining > 0:
-				text += " (" + str(int(current_task.time_remaining)) + "s)"
-		_update_interaction_state(true, text)
+	is_task_available = task_manager.can_be_completed(associated_task_id)
+	## Determine availability
+	#var was_available = is_task_available
+	#
+	#if not current_task:
+		#is_task_available = false
+		#_update_interaction_state(false, "No active task")
+	#elif task_manager.is_task_completed(associated_task_id):
+		#is_task_available = false
+		#_update_interaction_state(false, task_completed_text)
+	#elif not current_task.is_available:
+		#is_task_available = false
+		#var reason = _format_task_text(task_unavailable_text)
+		#_update_interaction_state(false, reason)
+	#else:
+		#is_task_available = true
+		#var text = _format_task_text(task_available_text)
+		#if current_task.is_emergency:
+			#text = emergency_prefix + text
+			#if current_task.time_remaining > 0:
+				#text += " (" + str(int(current_task.time_remaining)) + "s)"
+		#_update_interaction_state(true, text)
 	
 	# Emit signal if availability changed
 	if was_available != is_task_available:
 		task_availability_changed.emit(is_task_available)
 	
-	if Engine.get_frames_drawn() % 10 == 0:
-		task_availability_changed.emit(is_task_available)
+	task_availability_changed.emit(is_task_available)
 	
 
 func _format_task_text(template: String) -> String:

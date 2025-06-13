@@ -343,7 +343,34 @@ func assign_mandatory_tasks_midday(task_ids: Array[String]) -> void:
 	_update_task_availability()
 	
 	DebugLogger.info(module_name, "Assigned " + str(assigned_count) + " mandatory tasks mid-day")
+
+func can_be_completed(task_id: String) -> bool: 
+		# Find the task
+	var task: BaseTask = null
+	for t in todays_tasks:
+		if t.task_id == task_id:
+			task = t
+			break
 	
+	# Check emergency tasks too
+	if not task:
+		for t in active_emergency_tasks:
+			if t.task_id == task_id:
+				task = t
+				break
+	
+	if not task:
+		return false
+		
+	if task.is_completed:
+		return false
+		
+	# Check if task can be completed
+	if not task.can_be_completed(state_manager, completed_tasks):
+		return false
+	
+	return true
+
 func complete_task(task_id: String) -> void:
 	# Find the task
 	var task: BaseTask = null

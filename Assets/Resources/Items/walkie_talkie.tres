@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ShopItem" load_steps=2 format=3 uid="uid://can2tw0cqx0fd"]
+
+[ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="1_2o3xy"]
+
+[resource]
+script = ExtResource("1_2o3xy")
+item_id = "walkie_talkie"
+display_name = "Walkie Talkie"
+description = ""
+cost = 200
+delivery_time = 5.0
+category = "General"
+scene_path = "uid://du1y8vp63k4sb"
+metadata/_custom_type_script = "uid://c8uyfv585diig"

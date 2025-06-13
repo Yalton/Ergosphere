@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ShopItem" load_steps=2 format=3 uid="uid://daidakwbaqw8y"]
+
+[ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="1_xx0gw"]
+
+[resource]
+script = ExtResource("1_xx0gw")
+item_id = "puzzle_cube"
+display_name = "Puzzle Cube"
+description = ""
+cost = 20
+delivery_time = 5.0
+category = "General"
+scene_path = "uid://v273p56g7y0u"
+metadata/_custom_type_script = "uid://c8uyfv585diig"

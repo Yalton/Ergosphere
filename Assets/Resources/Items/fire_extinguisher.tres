@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ShopItem" load_steps=2 format=3 uid="uid://2c05ap4w6iu3"]
+
+[ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="1_cd0tp"]
+
+[resource]
+script = ExtResource("1_cd0tp")
+item_id = "fire_extinguisher"
+display_name = "Fire Extinguisher"
+description = ""
+cost = 180
+delivery_time = 5.0
+category = "General"
+scene_path = "uid://gnd4fi0eu2wk"
+metadata/_custom_type_script = "uid://c8uyfv585diig"

@@ -80,12 +80,23 @@ func start_interaction() -> void:
 	if capture_keyboard_input:
 		DebugLogger.debug(module_name, "Keyboard input capture enabled")
 	
+	# Force focus grab when interaction starts
+	call_deferred("_force_interaction_focus")
+	
 	# Connect exit signal to any child UI that might have an exit_terminal method
 	if sub_viewport and sub_viewport.get_child_count() > 0:
 		var ui = sub_viewport.get_child(0)
 		if ui.has_method("_on_exit_requested"):
 			exit_requested.connect(ui._on_exit_requested)
 			DebugLogger.debug(module_name, "Connected exit signal to child UI")
+
+func _force_interaction_focus() -> void:
+	# Find the terminal UI in the SubViewport and force its input field to grab focus
+	if sub_viewport and sub_viewport.get_child_count() > 0:
+		var ui = sub_viewport.get_child(0)
+		if ui.has_method("_force_focus_grab"):
+			ui._force_focus_grab()
+			DebugLogger.debug(module_name, "Forced focus grab on child UI input field")
 
 func end_interaction() -> void:
 	# Stop any playing typing sounds

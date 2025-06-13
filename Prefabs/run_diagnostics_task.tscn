@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6jfsara6b3ux"]
+
+[ext_resource type="Script" uid="uid://d132ous748lqb" path="res://Scripts/run_diagnostics_task.gd" id="1_ei3bu"]
+[ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="2_qd5dr"]
+
+[node name="RunDiagnosticsTask" type="Node"]
+script = ExtResource("1_ei3bu")
+
+[node name="TaskAwareComponent" parent="." instance=ExtResource("2_qd5dr")]
+associated_task_id = "run_diagnostics"
+show_task_in_interaction_text = false

@@ -31,7 +31,8 @@ func _process_existing_buttons() -> void:
 	var buttons = get_tree().get_nodes_in_group(SOUND_BUTTON_GROUP)
 	
 	for button in buttons:
-		_connect_button(button)
+		if button is Button:
+			_connect_button(button)
 
 func _on_node_added(node: Node) -> void:
 	# Check if the newly added node is a button in our group

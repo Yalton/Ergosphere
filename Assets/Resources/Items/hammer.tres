@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ShopItem" load_steps=2 format=3 uid="uid://dnjb2j7j8kwy6"]
+
+[ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="1_rnmk2"]
+
+[resource]
+script = ExtResource("1_rnmk2")
+item_id = "hammer"
+display_name = "Hammer"
+description = ""
+cost = 80
+delivery_time = 5.0
+category = "General"
+scene_path = "uid://w3254k8qn61q"
+metadata/_custom_type_script = "uid://c8uyfv585diig"

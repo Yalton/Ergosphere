@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ShopItem" load_steps=2 format=3 uid="uid://d37hlpm074yev"]
+
+[ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="1_30ngr"]
+
+[resource]
+script = ExtResource("1_30ngr")
+item_id = "tablet"
+display_name = "Tablet"
+description = ""
+cost = 300
+delivery_time = 5.0
+category = "General"
+scene_path = "uid://cvcddggpjxifk"
+metadata/_custom_type_script = "uid://c8uyfv585diig"

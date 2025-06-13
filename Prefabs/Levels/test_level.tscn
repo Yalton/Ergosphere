@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=62 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -12,9 +12,12 @@
 [ext_resource type="PackedScene" uid="uid://byfm7nhue30j2" path="res://Prefabs/Environment/Props/Computer/snake_monitor.tscn" id="17_02mtw"]
 [ext_resource type="PackedScene" uid="uid://di71tyfsvdywh" path="res://Prefabs/Environment/Props/anomaly_scanner.tscn" id="17_8jsly"]
 [ext_resource type="PackedScene" uid="uid://ct7pj3psckxgm" path="res://Prefabs/engine.tscn" id="17_f5voq"]
+[ext_resource type="PackedScene" uid="uid://c18ngf0r0l3c1" path="res://Prefabs/Environment/Props/Computer/storage_monitor.tscn" id="18_3ndhy"]
 [ext_resource type="PackedScene" uid="uid://cf07wlbahuu54" path="res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn" id="18_8jsly"]
 [ext_resource type="PackedScene" uid="uid://chh20j4dixc1b" path="res://Prefabs/Test/test_carriable.tscn" id="18_f5voq"]
+[ext_resource type="PackedScene" uid="uid://bcv0ufd7yoyf6" path="res://Prefabs/order_heatsink_task.tscn" id="19_3ndhy"]
 [ext_resource type="PackedScene" uid="uid://gnd4fi0eu2wk" path="res://Prefabs/Environment/Props/Industrial/fire_extinguisher.tscn" id="19_8jsly"]
+[ext_resource type="PackedScene" uid="uid://dtsj17an6ahci" path="res://Prefabs/Environment/Props/Computer/terminal_monitor.tscn" id="20_3ndhy"]
 [ext_resource type="PackedScene" uid="uid://bc74vtur5o21t" path="res://Prefabs/Environment/Furniture/StorageRoom/StorageWall.tscn" id="21_p7lde"]
 [ext_resource type="PackedScene" uid="uid://qcjjmv7hbf3i" path="res://Prefabs/Environment/Furniture/Bedroom/toilet.tscn" id="23_gw6bx"]
 
@@ -343,7 +346,7 @@ transform = Transform3D(-0.886098, 0.463497, 0, 0, 0, -1, -0.463497, -0.886098, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -1, 6)
 
 [node name="snake_monitor" parent="." instance=ExtResource("17_02mtw")]
-transform = Transform3D(0.310162, 0, 0.950684, 0, 1, 0, -0.950684, 0, 0.310162, -18.5608, 2.1, 2.09297)
+transform = Transform3D(0.310162, 0, 0.950684, 0, 1, 0, -0.950684, 0, 0.310162, -18.5608, 2.1, 9.09297)
 
 [node name="Node3D" type="Node3D" parent="." groups=["anomalous_hotspots"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.7367, 3.10891, 23.6341)
@@ -353,3 +356,11 @@ mesh = SubResource("TorusMesh_02mtw")
 
 [node name="AnomalyScanner" parent="." instance=ExtResource("17_8jsly")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.35751, 3.72951, 0.165011)
+
+[node name="Monitor_1" parent="." instance=ExtResource("18_3ndhy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.03, 0.768353, -2.51411)
+
+[node name="OrderHeatsinkTask" parent="." instance=ExtResource("19_3ndhy")]
+
+[node name="terminal_monitor" parent="." instance=ExtResource("20_3ndhy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -4)

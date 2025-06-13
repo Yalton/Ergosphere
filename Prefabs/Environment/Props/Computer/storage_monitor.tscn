@@ -126,7 +126,7 @@ resource_local_to_scene = true
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_loklc")
 
-[node name="Monitor_1" type="StaticBody3D" node_paths=PackedStringArray("shop_ui_control", "sub_viewport", "display", "ui_content")]
+[node name="storage_monitor" type="StaticBody3D" node_paths=PackedStringArray("shop_ui_control", "sub_viewport", "display", "ui_content")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_nrkwu")
@@ -169,11 +169,12 @@ shape = SubResource("BoxShape3D_61goh")
 script = null
 
 [node name="SubViewport" type="SubViewport" parent="." node_paths=PackedStringArray("display_mesh")]
-size = Vector2i(640, 472)
+size = Vector2i(960, 708)
 size_2d_override = Vector2i(1920, 1080)
 size_2d_override_stretch = true
 script = ExtResource("9_tx3eg")
 display_mesh = NodePath("../Display")
+base_width = 960
 
 [node name="StorageInterfaceUI" parent="SubViewport" instance=ExtResource("10_bffn4")]
 

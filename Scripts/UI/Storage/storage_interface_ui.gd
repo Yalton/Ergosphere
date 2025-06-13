@@ -23,7 +23,7 @@ var module_name: String = "ShopUIControl"
 ## Button Settings
 @export_group("Button Settings")
 @export var button_min_size: Vector2 = Vector2(360, 160)
-@export var button_font_size: int = 14
+@export var button_font_size: int = 24
 
 # Internal references
 var storage_manager: StorageManager
@@ -91,7 +91,10 @@ func _populate_shop() -> void:
 
 func _create_item_button(item: ShopItem, parent_grid: GridContainer) -> void:
 	var button = Button.new()
-	button.custom_minimum_size = button_min_size
+	
+	# Set button to expand and fill available space
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	button.clip_text = true
 	
 	# Create button text
@@ -107,7 +110,6 @@ func _create_item_button(item: ShopItem, parent_grid: GridContainer) -> void:
 	
 	# Update button state based on affordability
 	_update_button_state(item.item_id)
-
 func _on_item_button_pressed(item_id: String) -> void:
 	DebugLogger.debug(module_name, "Purchase attempted for: " + item_id)
 	purchase_attempted.emit(item_id)

@@ -41,10 +41,51 @@ func _ready() -> void:
 	if storage_walls.is_empty():
 		_find_storage_walls()
 	
-	create_test_items()
+	_register_exported_items()
 	
+	# Only create test items if no exported items exist
+	if shop_catalog.is_empty():
+		create_test_items()
+		
 	DebugLogger.info(module_name, "StorageManager initialized with " + str(storage_walls.size()) + " storage walls")
 
+func _register_exported_items() -> void:
+	if shop_catalog.is_empty():
+		DebugLogger.debug(module_name, "No exported items to register")
+		return
+	
+	var registered_count = 0
+	var duplicate_count = 0
+	
+	# Create a temporary array to avoid modifying while iterating
+	var items_to_register = shop_catalog.duplicate()
+	shop_catalog.clear()
+	
+	for item in items_to_register:
+		if not item:
+			DebugLogger.warning(module_name, "Skipping null item in export array")
+			continue
+			
+		if item.item_id.is_empty():
+			DebugLogger.warning(module_name, "Skipping item with empty ID: " + item.display_name)
+			continue
+		
+		# Check for duplicates
+		var duplicate = false
+		for existing in shop_catalog:
+			if existing.item_id == item.item_id:
+				DebugLogger.warning(module_name, "Duplicate item ID found: " + item.item_id)
+				duplicate = true
+				duplicate_count += 1
+				break
+		
+		if not duplicate:
+			shop_catalog.append(item)
+			registered_count += 1
+			DebugLogger.debug(module_name, "Registered exported item: " + item.display_name + " (ID: " + item.item_id + ")")
+	
+	DebugLogger.info(module_name, "Registered " + str(registered_count) + " exported items (" + str(duplicate_count) + " duplicates skipped)")
+	
 func _find_storage_walls() -> void:
 	var walls = get_tree().get_nodes_in_group("storage_walls")
 	for wall in walls:

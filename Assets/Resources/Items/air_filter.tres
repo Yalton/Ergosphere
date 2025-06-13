@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ShopItem" load_steps=2 format=3 uid="uid://b8qnpop0ojhbt"]
+
+[ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="1_b0aal"]
+
+[resource]
+script = ExtResource("1_b0aal")
+item_id = "air_filter"
+display_name = "Air Filter"
+description = "Air Filter"
+cost = 50
+delivery_time = 1.0
+category = "Replacement Parts"
+scene_path = "uid://c7o4k7y8noug2"
+metadata/_custom_type_script = "uid://c8uyfv585diig"

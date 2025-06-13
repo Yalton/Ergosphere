@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ShopItem" load_steps=2 format=3 uid="uid://deljo1xkbpegn"]
+
+[ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="1_c3f52"]
+
+[resource]
+script = ExtResource("1_c3f52")
+item_id = "dumbell"
+display_name = "Dumbell"
+description = ""
+cost = 120
+delivery_time = 5.0
+category = "General"
+scene_path = "uid://cjdxehd70jmdl"
+metadata/_custom_type_script = "uid://c8uyfv585diig"

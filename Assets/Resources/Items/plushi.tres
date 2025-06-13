@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ShopItem" load_steps=2 format=3 uid="uid://dkxwltno46q7f"]
+
+[ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="1_gr0vr"]
+
+[resource]
+script = ExtResource("1_gr0vr")
+item_id = "godot_plushi"
+display_name = "plushi"
+description = ""
+cost = 1024
+delivery_time = 15.0
+category = "General"
+scene_path = "uid://ds7ixk6l2mkqn"
+metadata/_custom_type_script = "uid://c8uyfv585diig"

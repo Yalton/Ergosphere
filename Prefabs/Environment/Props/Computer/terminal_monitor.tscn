@@ -149,7 +149,7 @@ resource_local_to_scene = true
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_loklc")
 
-[node name="monitor_3" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content")]
+[node name="terminal_monitor" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_qybft")
@@ -191,11 +191,13 @@ shape = SubResource("BoxShape3D_sta57")
 [node name="BasicInteraction" parent="." instance=ExtResource("7_a6vnl")]
 script = null
 
-[node name="SubViewport" type="SubViewport" parent="."]
-size = Vector2i(640, 472)
+[node name="SubViewport" type="SubViewport" parent="." node_paths=PackedStringArray("display_mesh")]
+size = Vector2i(960, 708)
 size_2d_override = Vector2i(1920, 1080)
 size_2d_override_stretch = true
 script = ExtResource("8_sd1aa")
+display_mesh = NodePath("../Display")
+base_width = 960
 
 [node name="TerminalUI" parent="SubViewport" instance=ExtResource("9_sigfe")]
 

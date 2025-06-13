@@ -33,3 +33,8 @@ func hide_splash() -> void:
 	if main_ui:
 		main_ui.visible = true
 		splash_hidden.emit()
+
+## Abstract method for resetting UI to initial state. Override in child classes.
+func reset_ui() -> void:
+	DebugLogger.debug("DiageticUIContent", "Base reset_ui called - override in child class for custom behavior")
+	pass

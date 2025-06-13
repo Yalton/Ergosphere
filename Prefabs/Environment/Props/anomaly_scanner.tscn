@@ -110,7 +110,7 @@ task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("2_20tev")]
-associated_task_id = "find_hotspot"
+associated_task_id = "sample_anomalies"
 
 [node name="StateAwareComponent" parent="." instance=ExtResource("3_xq2vw")]
 
@@ -125,6 +125,8 @@ mesh = SubResource("ArrayMesh_loubs")
 skeleton = NodePath("")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.115338, 0)
+light_color = Color(0, 1, 0, 1)
 omni_range = 2.0
 
 [node name="CarryableComponent" parent="." instance=ExtResource("8_1h6bj")]

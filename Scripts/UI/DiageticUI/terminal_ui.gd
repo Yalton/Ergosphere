@@ -1,7 +1,7 @@
 extends DiageticUIContent
 
 ## Example terminal UI for use inside a DiageticTextInputUI SubViewport.
-## This demonstrates a simple text input interface.
+## This demonstrates a simple text input interface using DevConsoleManager.
 
 signal terminal_exit_requested  # Signal to request closing the terminal
 
@@ -36,17 +36,27 @@ func _ready() -> void:
 	if output_area:
 		output_area.clear()
 		add_line("=== " + terminal_name + " ===")
-		add_line("Type 'help' for commands")
+		add_line("Connected to station systems")
 		add_line("")
 	
 	# Setup input field
 	if input_field:
 		input_field.text_submitted.connect(_on_text_submitted)
 		input_field.gui_input.connect(_on_input_gui_event)
-		input_field.grab_focus()
 		input_field.placeholder_text = "Enter command..."
 	
-	DebugLogger.debug(module_name, "Terminal UI initialized")
+	# Connect to DevConsoleManager output
+	DevConsoleManager.output_requested.connect(_on_dev_console_output)
+	
+	# Force focus grab after a frame to ensure it works
+	call_deferred("_force_focus_grab")
+	
+	DebugLogger.debug(module_name, "Terminal UI initialized with DevConsole integration")
+
+func _force_focus_grab() -> void:
+	if input_field:
+		input_field.grab_focus()
+		DebugLogger.debug(module_name, "Forced focus grab on input field")
 
 func _on_text_submitted(text: String) -> void:
 	if text.strip_edges() == "":
@@ -59,13 +69,16 @@ func _on_text_submitted(text: String) -> void:
 	# Display command with prompt
 	add_line(prompt + text)
 	
-	# Process command
-	process_command(text.strip_edges())
+	# Set this terminal as the console UI for DevConsoleManager
+	DevConsoleManager.set_console_ui(self, false)  # false = not admin mode
+	
+	# Process command through DevConsoleManager
+	DevConsoleManager.process_command(text.strip_edges())
 	
 	# Clear input and keep focus
 	if input_field:
 		input_field.clear()
-		input_field.grab_focus()  # Keep focus on input field
+		input_field.grab_focus()
 
 func _on_input_gui_event(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
@@ -90,61 +103,64 @@ func navigate_history(direction: int) -> void:
 		else:
 			input_field.clear()
 
-func process_command(cmd: String) -> void:
-	var parts = cmd.split(" ", false)
-	if parts.is_empty():
-		return
+func _on_dev_console_output(text: String, type: String) -> void:
+	match type:
+		"system":
+			add_system_message(text)
+		"error":
+			add_error_message(text)
+		"warning":
+			add_warning_message(text)
+		"normal", _:
+			add_line(text)
 	
-	var command = parts[0].to_lower()
-	var args = parts.slice(1)
-	
-	match command:
-		"help":
-			show_help()
-		"clear":
-			clear_terminal()
-		"echo":
-			if args.size() > 0:
-				add_line(" ".join(args))
-			else:
-				add_line("Usage: echo <text>")
-		"time":
-			add_line("Current time: " + Time.get_time_string_from_system())
-		"exit", "quit":
-			add_line("Goodbye!")
-			# Call the parent DiageticTextInputUI's exit method
-			var parent_viewport = get_viewport()
-			if parent_viewport and parent_viewport.get_parent() and parent_viewport.get_parent().has_method("request_exit"):
-				parent_viewport.get_parent().request_exit()
-		_:
-			add_line("Unknown command: " + command)
-			add_line("Type 'help' for available commands")
+	# Ensure input field keeps focus after any output
+	if input_field and not input_field.has_focus():
+		call_deferred("_refocus_input")
 
-func show_help() -> void:
-	add_line("Available commands:")
-	add_line("  help  - Show this help message")
-	add_line("  clear - Clear terminal screen")
-	add_line("  echo  - Echo text back")
-	add_line("  time  - Show current time")
-	add_line("  exit  - Exit terminal (or press ESC)")
+func _refocus_input() -> void:
+	if input_field:
+		input_field.grab_focus()
+		DebugLogger.debug(module_name, "Refocused input field after console output")
 
-func clear_terminal() -> void:
-	if output_area:
-		output_area.clear()
-		add_line("=== " + terminal_name + " ===")
-
-func add_line(text: String) -> void:
+# DevConsoleUI compatibility methods
+func add_line(text: String, add_to_history: bool = true) -> void:
 	if not output_area:
 		return
 	
 	output_area.append_text(text + "\n")
 	
-	# Limit history
-	var lines = output_area.text.split("\n")
-	if lines.size() > max_history_lines:
-		var keep_lines = lines.slice(-max_history_lines)
-		output_area.clear()
-		output_area.append_text("\n".join(keep_lines))
+	if add_to_history:
+		# Limit history
+		var lines = output_area.text.split("\n")
+		if lines.size() > max_history_lines:
+			var keep_lines = lines.slice(-max_history_lines)
+			output_area.clear()
+			output_area.append_text("\n".join(keep_lines))
 	
 	# Scroll to bottom
 	output_area.scroll_to_line(output_area.get_line_count() - 1)
+	
+	# Re-grab focus on input field after adding output
+	if input_field and not input_field.has_focus():
+		call_deferred("_refocus_input")
+
+func add_system_message(text: String) -> void:
+	add_line("[color=#00ff00]" + text + "[/color]")
+
+func add_error_message(text: String) -> void:
+	add_line("[color=#ff0000]" + text + "[/color]")
+
+func add_warning_message(text: String) -> void:
+	add_line("[color=#ffff00]" + text + "[/color]")
+
+func clear_console() -> void:
+	if output_area:
+		output_area.clear()
+		add_line("=== " + terminal_name + " ===", false)
+
+func hide_console() -> void:
+	# Exit the terminal interface
+	var parent_viewport = get_viewport()
+	if parent_viewport and parent_viewport.get_parent() and parent_viewport.get_parent().has_method("request_exit"):
+		parent_viewport.get_parent().request_exit()
