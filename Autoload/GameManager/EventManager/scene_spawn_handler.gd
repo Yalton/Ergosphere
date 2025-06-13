@@ -2,23 +2,23 @@
 extends EventHandler
 class_name SceneSpawnerHandler
 
-## Scene spawner event handler - spawns visual effects and objects at random locations
+## Scene spawner event handler - spawns specific visual effects at random locations
 
-@export_group("Spawn Scene Categories")
-## Subtle visual scenes - barely noticeable effects
-@export var subtle_visual_scenes: Array[PackedScene] = []
-## Jarring visual scenes - obvious, attention-grabbing effects
-@export var jarring_visual_scenes: Array[PackedScene] = []
-## Confusing visual scenes - reality-bending, disorienting effects
-@export var confusing_visual_scenes: Array[PackedScene] = []
+@export_group("Visual Effect Scenes")
+## VFX scene for shadow_figure event
+@export var shadow_figure_scene: PackedScene
+## VFX scene for flickering_lights event
+@export var flickering_lights_scene: PackedScene
+## VFX scene for floating_objects event
+@export var floating_objects_scene: PackedScene
+## VFX scene for mysterious_fog event
+@export var mysterious_fog_scene: PackedScene
+## VFX scene for reality_glitch event
+@export var reality_glitch_scene: PackedScene
 
-@export_group("Spawn Location Groups")
-## Group name for subtle spawn points
-@export var subtle_spawn_group: String = "subtle_spawn_points"
-## Group name for jarring spawn points
-@export var jarring_spawn_group: String = "jarring_spawn_points"
-## Group name for confusing spawn points
-@export var confusing_spawn_group: String = "confusing_spawn_points"
+@export_group("Spawn Settings")
+## Group name for spawn points (all events use same pool)
+@export var spawn_group: String = "fx_spawn_points"
 
 # Track spawned objects for cleanup
 var spawned_objects: Array[Node] = []
@@ -28,70 +28,83 @@ func _ready() -> void:
 	module_name = "SceneSpawnerHandler"
 	
 	# Define which events this handler processes
-	handled_event_ids = ["subtle_visual", "jarring_visual", "confusing_visual"]
+	handled_event_ids = ["shadow_figure", "flickering_lights", "floating_objects", "mysterious_fog", "reality_glitch"]
 	
 	DebugLogger.debug(module_name, "SceneSpawnerHandler ready")
 
 func _on_execute(event_data: EventData, state_manager: StateManager) -> void:
 	## Handle scene spawning event execution
-	DebugLogger.info(module_name, "Executing visual spawn event: %s" % event_data.event_id)
+	DebugLogger.info(module_name, "Executing VFX spawn event: %s" % event_data.event_id)
 	
 	match event_data.event_id:
-		"subtle_visual":
-			_handle_subtle_visual(event_data, state_manager)
-		"jarring_visual":
-			_handle_jarring_visual(event_data, state_manager)
-		"confusing_visual":
-			_handle_confusing_visual(event_data, state_manager)
+		"shadow_figure":
+			_handle_shadow_figure(event_data, state_manager)
+		"flickering_lights":
+			_handle_flickering_lights(event_data, state_manager)
+		"floating_objects":
+			_handle_floating_objects(event_data, state_manager)
+		"mysterious_fog":
+			_handle_mysterious_fog(event_data, state_manager)
+		"reality_glitch":
+			_handle_reality_glitch(event_data, state_manager)
 
 func _on_complete(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle visual spawn event completion
-	DebugLogger.info(module_name, "Completing visual spawn event: %s" % event_data.event_id)
+	## Handle VFX spawn event completion
+	DebugLogger.info(module_name, "Completing VFX spawn event: %s" % event_data.event_id)
 	
-	# Clean up any remaining spawned objects
-	_cleanup_spawned_objects()
+	# VFX scenes handle their own cleanup, but we can force cleanup here if needed
+	# _cleanup_spawned_objects()
 
-func _handle_subtle_visual(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle subtle visual spawning
-	DebugLogger.debug(module_name, "Spawning subtle visual effect")
+func _handle_shadow_figure(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle shadow figure spawning
+	DebugLogger.debug(module_name, "Spawning shadow figure VFX")
 	
-	_spawn_from_scene_pool(subtle_visual_scenes, subtle_spawn_group, "subtle visual")
+	_spawn_vfx_scene(shadow_figure_scene, "shadow_figure")
+	
+	# Optional atmospheric hint
+	if CommonUtils and randf() < 0.5:
+		CommonUtils.send_player_hint("", "A shadow moves in the corner of your eye...")
 
-func _handle_jarring_visual(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle jarring visual spawning
-	DebugLogger.debug(module_name, "Spawning jarring visual effect")
+func _handle_flickering_lights(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle flickering lights spawning
+	DebugLogger.debug(module_name, "Spawning flickering lights VFX")
 	
-	_spawn_from_scene_pool(jarring_visual_scenes, jarring_spawn_group, "jarring visual")
+	_spawn_vfx_scene(flickering_lights_scene, "flickering_lights")
+
+func _handle_floating_objects(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle floating objects spawning
+	DebugLogger.debug(module_name, "Spawning floating objects VFX")
 	
-	# Optional hint for jarring effects
+	_spawn_vfx_scene(floating_objects_scene, "floating_objects")
+	
+	# Unsettling hint
 	if CommonUtils:
-		var hints = [
-			"Did you see that?",
-			"Something moved in your peripheral vision...",
-			"Was that always there?"
-		]
-		CommonUtils.send_player_hint("", hints[randi() % hints.size()])
+		CommonUtils.send_player_hint("", "Objects defy gravity around you...")
 
-func _handle_confusing_visual(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle confusing visual spawning
-	DebugLogger.debug(module_name, "Spawning confusing visual effect")
+func _handle_mysterious_fog(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle mysterious fog spawning
+	DebugLogger.debug(module_name, "Spawning mysterious fog VFX")
 	
-	_spawn_from_scene_pool(confusing_visual_scenes, confusing_spawn_group, "confusing visual")
+	_spawn_vfx_scene(mysterious_fog_scene, "mysterious_fog")
 	
-	# Unsettling hints for confusing effects
+	# Atmospheric hint
 	if CommonUtils:
-		var hints = [
-			"The walls seem to shift and breathe...",
-			"Reality bends at the edges of your vision.",
-			"Nothing is as it appears.",
-			"The station doesn't look quite right..."
-		]
-		CommonUtils.send_player_hint("", hints[randi() % hints.size()])
+		CommonUtils.send_player_hint("", "An unnatural mist fills the air...")
 
-func _spawn_from_scene_pool(scene_pool: Array[PackedScene], spawn_group: String, category: String) -> void:
-	## Spawn a random scene from the specified pool at a random spawn point
-	if scene_pool.is_empty():
-		DebugLogger.warning(module_name, "No scenes configured for %s pool" % category)
+func _handle_reality_glitch(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle reality glitch spawning
+	DebugLogger.debug(module_name, "Spawning reality glitch VFX")
+	
+	_spawn_vfx_scene(reality_glitch_scene, "reality_glitch")
+	
+	# Reality-bending hint
+	if CommonUtils:
+		CommonUtils.send_player_hint("", "Reality fractures at the edges...")
+
+func _spawn_vfx_scene(scene: PackedScene, event_id: String) -> void:
+	## Spawn a specific VFX scene at a random spawn point
+	if not scene:
+		DebugLogger.warning(module_name, "No scene configured for %s event" % event_id)
 		return
 	
 	# Get spawn points from group
@@ -100,26 +113,21 @@ func _spawn_from_scene_pool(scene_pool: Array[PackedScene], spawn_group: String,
 		DebugLogger.warning(module_name, "No spawn points found in group: %s" % spawn_group)
 		return
 	
-	# Pick random scene and spawn point
-	var random_scene = scene_pool[randi() % scene_pool.size()]
+	# Pick random spawn point
 	var random_spawn_point = spawn_points[randi() % spawn_points.size()]
 	
-	_spawn_scene_at_location(random_scene, random_spawn_point, category)
+	_spawn_scene_at_location(scene, random_spawn_point, event_id)
 
-func _spawn_scene_at_location(scene: PackedScene, spawn_point: Node, category: String) -> void:
+func _spawn_scene_at_location(scene: PackedScene, spawn_point: Node, event_id: String) -> void:
 	## Spawn a specific scene at a specific location
-	if not scene:
-		DebugLogger.warning(module_name, "Attempted to spawn null scene for %s category" % category)
-		return
-	
 	if not spawn_point:
-		DebugLogger.warning(module_name, "Invalid spawn point for %s category" % category)
+		DebugLogger.warning(module_name, "Invalid spawn point for %s event" % event_id)
 		return
 	
 	# Instantiate the scene
 	var spawned_instance = scene.instantiate()
 	if not spawned_instance:
-		DebugLogger.error(module_name, "Failed to instantiate %s scene: %s" % [category, scene.resource_path])
+		DebugLogger.error(module_name, "Failed to instantiate %s scene: %s" % [event_id, scene.resource_path])
 		return
 	
 	# Add to scene tree at spawn point location
@@ -142,7 +150,7 @@ func _spawn_scene_at_location(scene: PackedScene, spawn_point: Node, category: S
 		var cleanup_timer = get_tree().create_timer(30.0)  # 30 second fallback
 		cleanup_timer.timeout.connect(_cleanup_specific_object.bind(spawned_instance))
 	
-	DebugLogger.info(module_name, "Spawned %s scene: %s at %s" % [category, scene.resource_path, spawn_point.name])
+	DebugLogger.info(module_name, "Spawned %s VFX at %s" % [event_id, spawn_point.name])
 
 func _on_spawned_object_cleanup_requested(spawned_object: Node) -> void:
 	## Called when a spawned object requests cleanup
@@ -156,12 +164,12 @@ func _cleanup_specific_object(spawned_object: Node) -> void:
 	if spawned_object in spawned_objects:
 		spawned_objects.erase(spawned_object)
 	
-	DebugLogger.debug(module_name, "Cleaning up spawned object: %s" % spawned_object.name)
+	DebugLogger.debug(module_name, "Cleaning up spawned VFX: %s" % spawned_object.name)
 	spawned_object.queue_free()
 
 func _cleanup_spawned_objects() -> void:
 	## Clean up all spawned objects
-	DebugLogger.debug(module_name, "Cleaning up %d spawned objects" % spawned_objects.size())
+	DebugLogger.debug(module_name, "Cleaning up %d spawned VFX objects" % spawned_objects.size())
 	
 	for spawned_object in spawned_objects:
 		if is_instance_valid(spawned_object):
