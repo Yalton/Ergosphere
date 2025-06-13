@@ -93,7 +93,11 @@ Get Events in the game
 
 Get new Hermes voice in the game
 
-New Event system
+~~New Event system~~
+
+Add events
+
+Fix Task tree UI
 
 Start screen for all Uis
 

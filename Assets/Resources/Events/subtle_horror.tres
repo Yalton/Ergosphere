@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://cjden0bcjx5im"]
+
+[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="1_lnj3c"]
+
+[resource]
+script = ExtResource("1_lnj3c")
+event_id = "subtle_horror"
+event_name = "subtle_horror_sfx"
+category = 1
+tension_score = 1
+disruption_score = 1
+base_chance = 10.0
+tension_cooldown = 30.0
+disruption_cooldown = 20.0
+min_day = 1
+max_day = 5
+scheduled_day = 0
+scheduled_time_hours = 12.0
+custom_data = {}
+metadata/_custom_type_script = "uid://clf1310qk2c05"

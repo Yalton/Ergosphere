@@ -1,6 +1,6 @@
 - Entity appears and follows player around 
-- Smaller black hole appears in hallway 
-- Player is teleported to random room 
+- Smaller black hole appears in hallway
+- Player is teleported to random room
 - Blood decals appear on walls and floors for a moment and then dissapear 
 - Fire appears and must be put out by player 
 - Shadowy figure appears at end of hall
