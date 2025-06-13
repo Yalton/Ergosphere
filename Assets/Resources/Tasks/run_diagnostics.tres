@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="BaseTask" load_steps=2 format=3 uid="uid://dpibm87ok8g54"]
+[gd_resource type="Resource" script_class="BaseTask" load_steps=2 format=3 uid="uid://c8xysuvlvj5ly"]
 
-[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_rx73g"]
+[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_2wpyy"]
 
 [resource]
-script = ExtResource("1_rx73g")
-task_id = "contact_earth"
-task_name = "Attempt Earth Communications"
+script = ExtResource("1_2wpyy")
+task_id = "run_diagnostics"
+task_name = "Run diagnostics"
 task_description = ""
 is_emergency = false
 is_secret = false
