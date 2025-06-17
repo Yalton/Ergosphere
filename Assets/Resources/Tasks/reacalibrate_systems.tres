@@ -10,6 +10,7 @@ task_description = ""
 is_emergency = false
 is_secret = false
 emergency_time_limit = 0.0
+failure_consequence = {}
 dependent_on_tasks = Array[String](["defragment_memory"])
 required_states = {}
 blocked_by_states = {}

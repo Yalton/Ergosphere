@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://qr1n21uuq8fa"]
+[gd_scene load_steps=32 format=4 uid="uid://qr1n21uuq8fa"]
 
 [ext_resource type="Texture2D" uid="uid://mdt1kero5hpi" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/GreyPlastic-Color.png" id="1_hdvgj"]
 [ext_resource type="Script" uid="uid://cgpjv0ht3v1qu" path="res://Scripts/Environment/GameObjects/Furniture/window_lever.gd" id="1_uaw60"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="11_m1w8p"]
 [ext_resource type="AudioStream" uid="uid://b8tui3hwhaal7" path="res://Assets/Audio/Interactions/PowerLever/power_lever_adjust.ogg" id="14_jkfbb"]
 [ext_resource type="ArrayOccluder3D" uid="uid://h0m7eg51licr" path="res://Assets/Models/Occluders/Props/window_lever.occ" id="15_rytq7"]
+[ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="16_1msa4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4vr02"]
 resource_name = "GreyPlastic"
@@ -249,6 +250,10 @@ _data = {
 &"open_window": SubResource("Animation_enpyc")
 }
 
+[sub_resource type="QuadMesh" id="QuadMesh_loqbq"]
+material = ExtResource("16_1msa4")
+size = Vector2(0.4, 0.1)
+
 [node name="window_lever" type="StaticBody3D" node_paths=PackedStringArray("lever_animation_player")]
 collision_layer = 7
 collision_mask = 7
@@ -295,3 +300,7 @@ stream = ExtResource("14_jkfbb")
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("15_rytq7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 2.73992e-09, 0.999509, 0.031341, -8.73798e-08, 0.031341, -0.999509, 0, 0.477126, -0.039342)
+mesh = SubResource("QuadMesh_loqbq")

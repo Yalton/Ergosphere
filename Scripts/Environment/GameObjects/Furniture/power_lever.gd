@@ -2,8 +2,6 @@
 extends AwareGameObject
 
 signal power_restored
-#signal object_state_updated(interaction_text: String)
-
 
 @export_group("Lever Settings")
 @export var lever_animation_player: AnimationPlayer
@@ -36,8 +34,6 @@ func set_power_state(powered: bool) -> void:
 	
 	# Play appropriate animation
 	if lever_animation_player:
-		#if powered and lever_animation_player.has_animation(power_on_animation):
-			#lever_animation_player.play(power_on_animation)
 		if not powered and lever_animation_player.has_animation(power_off_animation):
 			lever_animation_player.play(power_off_animation)
 	
@@ -83,18 +79,21 @@ func _on_animation_finished(anim_name: String) -> void:
 		_restore_power()
 
 func _restore_power() -> void:
-	# Tell game manager to restore power
-	if GameManager:
-		GameManager.restore_power()
+	# Get effects manager to restore power
+	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
+	if effects_manager:
+		effects_manager.restore_power()
+		DebugLogger.info(module_name, "Power restored via lever")
 	else:
-		DebugLogger.error(module_name, "GameManager instance not found!")
+		DebugLogger.error(module_name, "EffectsManager not found!")
+	
+	# Complete the task if we have a task component
+	if task_aware_component:
+		task_aware_component.complete_task()
+		DebugLogger.debug(module_name, "Task marked as complete")
 	
 	is_powered = true
 	is_interacting = false
 	
-	# The task component will handle updating interaction text
-	
 	# Emit signal
 	power_restored.emit()
-	
-	DebugLogger.info(module_name, "Power restored via lever")

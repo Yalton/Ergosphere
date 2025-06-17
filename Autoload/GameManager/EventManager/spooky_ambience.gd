@@ -14,13 +14,14 @@ class_name SpookyAmbienceHandler
 
 @export_group("Audio Settings")
 ## Volume for horror sounds (-80 to 0 dB)
-@export var horror_volume: float = -10.0
+@export var horror_volume: float = 0.0
 ## Audio bus for horror sounds
 @export var audio_bus: String = "SFX"
 
 func _ready() -> void:
-	super._ready()
 	module_name = "SpookyAmbienceHandler"
+	super._ready()
+	
 	
 	# Define which events this handler processes
 	handled_event_ids = ["subtle_horror", "jarring_horror", "confusing_horror"]
@@ -87,6 +88,6 @@ func _play_horror_sound(sound: AudioStream, category: String) -> void:
 		return
 	
 	# Play sound using Audio singleton
-	Audio.play_sound(sound, false, 1.0, horror_volume, audio_bus)
+	Audio.play_sound(sound, true, 1.0, horror_volume, audio_bus)
 	
 	DebugLogger.debug(module_name, "Playing %s sound: %s" % [category, sound.resource_path])

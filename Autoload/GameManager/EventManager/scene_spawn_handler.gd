@@ -2,23 +2,23 @@
 extends EventHandler
 class_name SceneSpawnerHandler
 
-## Scene spawner event handler - spawns specific visual effects at random locations
+## Scene spawner event handler - spawns specific visual effects at random locations only on off-screen spawn points
 
 @export_group("Visual Effect Scenes")
-## VFX scene for shadow_figure event
-@export var shadow_figure_scene: PackedScene
-## VFX scene for flickering_lights event
-@export var flickering_lights_scene: PackedScene
-## VFX scene for floating_objects event
-@export var floating_objects_scene: PackedScene
-## VFX scene for mysterious_fog event
-@export var mysterious_fog_scene: PackedScene
-## VFX scene for reality_glitch event
-@export var reality_glitch_scene: PackedScene
+## VFX scene for micro_blackhole event
+@export var micro_blackhole_scene: PackedScene
+## VFX scene for dark_fog event
+@export var dark_fog_scene: PackedScene
+## VFX scene for entity_appearance event
+@export var entity_appearance_scene: PackedScene
 
 @export_group("Spawn Settings")
 ## Group name for spawn points (all events use same pool)
 @export var spawn_group: String = "fx_spawn_points"
+## Whether to prefer spawn points closest to player
+@export var prefer_closest_to_player: bool = true
+## Maximum number of closest points to randomly select from
+@export var closest_points_pool_size: int = 3
 
 # Track spawned objects for cleanup
 var spawned_objects: Array[Node] = []
@@ -28,7 +28,7 @@ func _ready() -> void:
 	module_name = "SceneSpawnerHandler"
 	
 	# Define which events this handler processes
-	handled_event_ids = ["shadow_figure", "flickering_lights", "floating_objects", "mysterious_fog", "reality_glitch"]
+	handled_event_ids = ["micro_blackhole", "dark_fog", "entity_appearance"]
 	
 	DebugLogger.debug(module_name, "SceneSpawnerHandler ready")
 
@@ -37,72 +37,34 @@ func _on_execute(event_data: EventData, state_manager: StateManager) -> void:
 	DebugLogger.info(module_name, "Executing VFX spawn event: %s" % event_data.event_id)
 	
 	match event_data.event_id:
-		"shadow_figure":
-			_handle_shadow_figure(event_data, state_manager)
-		"flickering_lights":
-			_handle_flickering_lights(event_data, state_manager)
-		"floating_objects":
-			_handle_floating_objects(event_data, state_manager)
-		"mysterious_fog":
-			_handle_mysterious_fog(event_data, state_manager)
-		"reality_glitch":
-			_handle_reality_glitch(event_data, state_manager)
+		"micro_blackhole":
+			_handle_micro_blackhole(event_data, state_manager)
+		"dark_fog":
+			_handle_dark_fog(event_data, state_manager)
+		"entity_appearance":
+			_handle_entity_appearance(event_data, state_manager)
 
 func _on_complete(event_data: EventData, state_manager: StateManager) -> void:
 	## Handle VFX spawn event completion
 	DebugLogger.info(module_name, "Completing VFX spawn event: %s" % event_data.event_id)
-	
-	# VFX scenes handle their own cleanup, but we can force cleanup here if needed
-	# _cleanup_spawned_objects()
 
-func _handle_shadow_figure(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle shadow figure spawning
-	DebugLogger.debug(module_name, "Spawning shadow figure VFX")
-	
-	_spawn_vfx_scene(shadow_figure_scene, "shadow_figure")
-	
-	# Optional atmospheric hint
-	if CommonUtils and randf() < 0.5:
-		CommonUtils.send_player_hint("", "A shadow moves in the corner of your eye...")
+func _handle_micro_blackhole(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle micro blackhole spawning
+	DebugLogger.debug(module_name, "Spawning micro blackhole VFX")
+	_spawn_vfx_scene(micro_blackhole_scene, "micro_blackhole")
 
-func _handle_flickering_lights(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle flickering lights spawning
-	DebugLogger.debug(module_name, "Spawning flickering lights VFX")
-	
-	_spawn_vfx_scene(flickering_lights_scene, "flickering_lights")
+func _handle_dark_fog(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle dark fog spawning
+	DebugLogger.debug(module_name, "Spawning dark fog VFX")
+	_spawn_vfx_scene(dark_fog_scene, "dark_fog")
 
-func _handle_floating_objects(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle floating objects spawning
-	DebugLogger.debug(module_name, "Spawning floating objects VFX")
-	
-	_spawn_vfx_scene(floating_objects_scene, "floating_objects")
-	
-	# Unsettling hint
-	if CommonUtils:
-		CommonUtils.send_player_hint("", "Objects defy gravity around you...")
-
-func _handle_mysterious_fog(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle mysterious fog spawning
-	DebugLogger.debug(module_name, "Spawning mysterious fog VFX")
-	
-	_spawn_vfx_scene(mysterious_fog_scene, "mysterious_fog")
-	
-	# Atmospheric hint
-	if CommonUtils:
-		CommonUtils.send_player_hint("", "An unnatural mist fills the air...")
-
-func _handle_reality_glitch(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle reality glitch spawning
-	DebugLogger.debug(module_name, "Spawning reality glitch VFX")
-	
-	_spawn_vfx_scene(reality_glitch_scene, "reality_glitch")
-	
-	# Reality-bending hint
-	if CommonUtils:
-		CommonUtils.send_player_hint("", "Reality fractures at the edges...")
+func _handle_entity_appearance(event_data: EventData, state_manager: StateManager) -> void:
+	## Handle entity appearance spawning
+	DebugLogger.debug(module_name, "Spawning entity appearance VFX")
+	_spawn_vfx_scene(entity_appearance_scene, "entity_appearance")
 
 func _spawn_vfx_scene(scene: PackedScene, event_id: String) -> void:
-	## Spawn a specific VFX scene at a random spawn point
+	## Spawn a specific VFX scene at a random off-screen spawn point
 	if not scene:
 		DebugLogger.warning(module_name, "No scene configured for %s event" % event_id)
 		return
@@ -113,10 +75,57 @@ func _spawn_vfx_scene(scene: PackedScene, event_id: String) -> void:
 		DebugLogger.warning(module_name, "No spawn points found in group: %s" % spawn_group)
 		return
 	
-	# Pick random spawn point
-	var random_spawn_point = spawn_points[randi() % spawn_points.size()]
+	# Get player reference
+	var player = get_tree().get_first_node_in_group("player")
 	
-	_spawn_scene_at_location(scene, random_spawn_point, event_id)
+	# Filter to only off-screen VFXSpawnPoints
+	var offscreen_points = []
+	for point in spawn_points:
+		if point is VFXSpawnPoint and not point.is_on_screen:
+			offscreen_points.append(point)
+	
+	if offscreen_points.is_empty():
+		DebugLogger.warning(module_name, "No off-screen spawn points available - using any spawn point")
+		offscreen_points = spawn_points
+	
+	# Select spawn point based on distance to player if enabled
+	var spawn_point: Node
+	if prefer_closest_to_player and player and player is Node3D:
+		spawn_point = _get_closest_spawn_point(offscreen_points, player)
+	else:
+		# Pick random spawn point
+		spawn_point = offscreen_points[randi() % offscreen_points.size()]
+	
+	# Log spawn point status if it's a VFXSpawnPoint
+	if spawn_point is VFXSpawnPoint:
+		DebugLogger.debug(module_name, "Using spawn point %s (on screen: %s, time visible: %.1fs)" % 
+			[spawn_point.name, spawn_point.is_on_screen, spawn_point.time_on_screen])
+	
+	_spawn_scene_at_location(scene, spawn_point, event_id)
+
+func _get_closest_spawn_point(points: Array, player: Node3D) -> Node:
+	## Get spawn point closest to player (or randomly from closest few)
+	if points.is_empty():
+		return null
+	
+	# Calculate distances for all points
+	var distances = []
+	for point in points:
+		if point is Node3D:
+			var distance = point.global_position.distance_to(player.global_position)
+			distances.append({"point": point, "distance": distance})
+	
+	# Sort by distance
+	distances.sort_custom(func(a, b): return a.distance < b.distance)
+	
+	# Select from the closest few points
+	var pool_size = min(closest_points_pool_size, distances.size())
+	var selected_index = randi() % pool_size
+	
+	var selected = distances[selected_index]
+	DebugLogger.debug(module_name, "Selected spawn point at distance %.1f from player" % selected.distance)
+	
+	return selected.point
 
 func _spawn_scene_at_location(scene: PackedScene, spawn_point: Node, event_id: String) -> void:
 	## Spawn a specific scene at a specific location

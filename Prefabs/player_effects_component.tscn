@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://3ioq6sw0jikq"]
+
+[ext_resource type="Script" uid="uid://qtkuk7gi07dp" path="res://Scripts/player_effects_component.gd" id="1_1d0yj"]
+[ext_resource type="Shader" uid="uid://btt8n6kwqex30" path="res://Assets/VFX/blink.gdshader" id="2_l8tyx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u13ml"]
+shader = ExtResource("2_l8tyx")
+shader_parameter/blink_progress = 0.0
+shader_parameter/blink_color = Color(0, 0, 0, 1)
+
+[node name="PlayerEffectsComponent" type="Node" node_paths=PackedStringArray("effects_canvas_layer")]
+script = ExtResource("1_1d0yj")
+effects_canvas_layer = NodePath("CanvasLayer")
+blink_rect_path = NodePath("CanvasLayer/ColorRect")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_u13ml")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true

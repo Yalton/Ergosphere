@@ -79,6 +79,7 @@ storage_wall=""
 props=""
 effects_manager=""
 anomalous_hotspots=""
+fx_spawn_points=""
 
 [gui]
 

@@ -2,6 +2,8 @@
 
 ## Current Known Bugs
 
+## Misc 
+
 Make entity impossible to record with recording software
 
 Make entity/events dissapear when game is paused

@@ -813,7 +813,7 @@ show_task_in_interaction_text = false
 [node name="StateAwareComponent" parent="Engine" instance=ExtResource("12_yryyd")]
 
 [node name="SnapComponent" parent="Engine" node_paths=PackedStringArray("area_3d") instance=ExtResource("19_lg4ag")]
-target_object_name = "lube_spray"
+target_object_name = "heatsink"
 area_3d = NodePath("../SnapArea")
 
 [node name="Engine" type="MeshInstance3D" parent="Engine"]

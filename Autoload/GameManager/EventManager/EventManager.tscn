@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bk1kuand7o7xa"]
+[gd_scene load_steps=30 format=3 uid="uid://bk1kuand7o7xa"]
 
 [ext_resource type="Script" uid="uid://b2evp3vtmha88" path="res://Autoload/GameManager/EventManager/event_manager.gd" id="1_nnr1m"]
 [ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="2_dwaah"]
@@ -12,12 +12,28 @@
 [ext_resource type="Resource" uid="uid://cp6olf0kjv5j7" path="res://Assets/Resources/Events/jarring_horror.tres" id="7_x7yci"]
 [ext_resource type="Resource" uid="uid://deiv1xhrt6ls" path="res://Assets/Resources/Events/confusing_horror.tres" id="8_x7yci"]
 [ext_resource type="Script" uid="uid://3aye0vklbcrb" path="res://Autoload/GameManager/EventManager/spooky_ambience.gd" id="9_a4it4"]
+[ext_resource type="Resource" uid="uid://bh6idp3esp163" path="res://Assets/Resources/Events/warp.tres" id="9_jagxc"]
+[ext_resource type="Resource" uid="uid://c2iwhyyslhfmh" path="res://Assets/Resources/Events/micro_blackhole.tres" id="10_8t0n1"]
+[ext_resource type="Resource" uid="uid://b11msuyt1qf7" path="res://Assets/Resources/Events/dark_fog.tres" id="11_3sgie"]
+[ext_resource type="Resource" uid="uid://d0f5m4rmeei7l" path="res://Assets/Resources/Events/entity_appearance.tres" id="12_oj86y"]
 [ext_resource type="Script" uid="uid://eyog1iwh6ukg" path="res://Autoload/GameManager/EventManager/scene_spawn_handler.gd" id="13_4kg6c"]
+[ext_resource type="Resource" uid="uid://bpnrxn35y64w2" path="res://Assets/Resources/Events/object_throw.tres" id="13_nn0bu"]
+[ext_resource type="AudioStream" uid="uid://bxaqsd4b4gxrf" path="res://Assets/Audio/Ambience/AmbientHorror/escalating_noise.ogg" id="14_balmc"]
+[ext_resource type="Script" uid="uid://df673c1ghv4pk" path="res://Autoload/GameManager/EventManager/warp.gd" id="14_ia163"]
+[ext_resource type="AudioStream" uid="uid://kkl1de3odv7e" path="res://Assets/Audio/Ambience/AmbientHorror/ambient_horror_background.ogg" id="15_gsncq"]
+[ext_resource type="AudioStream" uid="uid://cqqrcqcmdxomk" path="res://Assets/Audio/Ambience/AmbientHorror/ambient_horror_1.ogg" id="16_jmqpi"]
+[ext_resource type="AudioStream" uid="uid://bnl6imf1gi2mp" path="res://Assets/Audio/Ambience/AmbientHorror/ambient_horror_2.ogg" id="17_djlj4"]
+[ext_resource type="AudioStream" uid="uid://c6gvlm6pggjys" path="res://Assets/Audio/Ambience/AmbientHorror/metal_open.ogg" id="18_8t0n1"]
+[ext_resource type="AudioStream" uid="uid://c0xjqr8o36rn2" path="res://Assets/Audio/Ambience/AmbientHorror/insect_swarm.ogg" id="19_3sgie"]
+[ext_resource type="PackedScene" uid="uid://bulnd3bpf0oew" path="res://Prefabs/VFX/small_black_hole_effect.tscn" id="23_oj86y"]
+[ext_resource type="PackedScene" uid="uid://bvqvla8urmxvc" path="res://Prefabs/VFX/big_smoke.tscn" id="24_u7gbo"]
+[ext_resource type="PackedScene" uid="uid://dhagbca5bcgjg" path="res://Prefabs/VFX/black_man_appears.tscn" id="26_u7gbo"]
+[ext_resource type="Script" uid="uid://c6mi1h0rkwggh" path="res://Autoload/GameManager/EventManager/object_throw.gd" id="28_u7gbo"]
 
 [node name="EventManager" type="Node"]
 script = ExtResource("1_nnr1m")
 evaluation_interval = 5.0
-event_configurations = Array[ExtResource("2_dwaah")]([ExtResource("3_dwaah"), ExtResource("4_ls50s"), ExtResource("5_3cw7f"), ExtResource("6_mjo8c"), ExtResource("7_x7yci"), ExtResource("8_x7yci")])
+event_configurations = Array[ExtResource("2_dwaah")]([ExtResource("3_dwaah"), ExtResource("4_ls50s"), ExtResource("5_3cw7f"), ExtResource("6_mjo8c"), ExtResource("7_x7yci"), ExtResource("8_x7yci"), ExtResource("9_jagxc"), ExtResource("10_8t0n1"), ExtResource("11_3sgie"), ExtResource("12_oj86y"), ExtResource("13_nn0bu")])
 
 [node name="power_outage" type="Node" parent="."]
 script = ExtResource("3_lf3xo")
@@ -33,7 +49,21 @@ handled_event_ids = Array[String](["heatsink_failure"])
 
 [node name="spooky_ambience" type="Node" parent="."]
 script = ExtResource("9_a4it4")
+subtle_horror_sounds = Array[AudioStream]([ExtResource("14_balmc"), ExtResource("15_gsncq"), ExtResource("16_jmqpi"), ExtResource("17_djlj4")])
+jarring_horror_sounds = Array[AudioStream]([ExtResource("18_8t0n1")])
+confusing_horror_sounds = Array[AudioStream]([ExtResource("19_3sgie")])
 handled_event_ids = Array[String](["subtle_horror", "jarring_horror", "confusing_horror"])
 
 [node name="scene_spawn" type="Node" parent="."]
 script = ExtResource("13_4kg6c")
+micro_blackhole_scene = ExtResource("23_oj86y")
+dark_fog_scene = ExtResource("24_u7gbo")
+entity_appearance_scene = ExtResource("26_u7gbo")
+
+[node name="warp" type="Node" parent="."]
+script = ExtResource("14_ia163")
+handled_event_ids = Array[String](["warp"])
+
+[node name="object_throw" type="Node" parent="."]
+script = ExtResource("28_u7gbo")
+handled_event_ids = Array[String](["object_throw"])

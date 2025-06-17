@@ -50,7 +50,7 @@ func _register_default_commands() -> void:
 	# Exit command
 	register_command("exit", _cmd_exit, "Closes the console", false)
 	register_alias("quit", "exit")
-	
+	register_command("list_events", _cmd_list_events, "Lists all available events", true)
 	# Echo command
 	register_command("echo", _cmd_echo, "Prints text to console", false)
 	
@@ -458,7 +458,7 @@ func _cmd_unlock_log(args: Array) -> void:
 	if not log.is_locked:
 		output_warning("Log is not locked")
 		return
-	
+
 	# Force unlock by setting the required state
 	if not log.unlock_state_name.is_empty() and GameManager.state_manager:
 		GameManager.state_manager.set_state(log.unlock_state_name, log.unlock_state_value)
@@ -466,3 +466,111 @@ func _cmd_unlock_log(args: Array) -> void:
 	else:
 		log.is_locked = false
 		output_system("Log '%s' force unlocked" % log.log_title)
+	
+
+func _cmd_list_events(args: Array) -> void:
+	if not GameManager.event_manager:
+		output_error("Event Manager not initialized")
+		return
+	
+	var events = GameManager.event_manager.available_events
+	if events.is_empty():
+		output_warning("No events configured")
+		return
+	
+	output_system("=== Available Events ===")
+	output_system("Total: %d events" % events.size())
+	output("")
+	
+	# Sort events by category then by ID
+	var sorted_events = events.duplicate()
+	sorted_events.sort_custom(func(a, b): 
+		if a.category != b.category:
+			return a.category < b.category
+		return a.event_id < b.event_id
+	)
+	
+	var current_category = -1
+	for event in sorted_events:
+		# Category header
+		if event.category != current_category:
+			current_category = event.category
+			output("")
+			output_system("--- %s Events ---" % event.get_category_description())
+		
+		# Event details
+		var severity = event.get_severity_description()
+		var tension_str = "T:%d" % event.tension_score
+		var disruption_str = "D:%d" % event.disruption_score
+		var chance_str = "%.1f%%" % event.base_chance if event.category != EventData.EventCategory.PLANNED else "PLANNED"
+		var day_str = ""
+		
+		# Add day restrictions if any
+		if event.min_day > 0 or event.max_day > 0:
+			if event.min_day > 0 and event.max_day > 0:
+				day_str = " [Days %d-%d]" % [event.min_day, event.max_day]
+			elif event.min_day > 0:
+				day_str = " [Day %d+]" % event.min_day
+			else:
+				day_str = " [Days 1-%d]" % event.max_day
+		
+		# For planned events, show scheduled day
+		if event.category == EventData.EventCategory.PLANNED:
+			day_str = " [Day %d @ %02d:00]" % [event.scheduled_day, int(event.scheduled_time_hours)]
+		
+		# Format: ID - Name (Severity) [T:X D:Y] Chance% [Day restrictions]
+		var line = "  %s - %s (%s) [%s %s] %s%s" % [
+			event.event_id,
+			event.event_name if not event.event_name.is_empty() else "Unnamed",
+			severity,
+			tension_str,
+			disruption_str,
+			chance_str,
+			day_str
+		]
+		
+		output(line)
+		
+		# Show cooldowns
+		var cooldown_info = []
+		if event.tension_cooldown > 0:
+			cooldown_info.append("Tension CD: %.1fs" % event.tension_cooldown)
+		if event.disruption_cooldown > 0:
+			cooldown_info.append("Disruption CD: %.1fs" % event.disruption_cooldown)
+		if not cooldown_info.is_empty():
+			output("    Cooldowns: %s" % ", ".join(cooldown_info))
+		
+		# Show custom data if any
+		if not event.custom_data.is_empty():
+			output("    Custom Data: %s" % str(event.custom_data))
+	
+	# Show current cooldowns
+	output("")
+	output_system("--- Active Cooldowns ---")
+	var cooldowns = GameManager.event_manager.active_cooldowns
+	if cooldowns.is_empty():
+		output("  None")
+	else:
+		for key in cooldowns:
+			output("  %s: %.1fs remaining" % [key, cooldowns[key]])
+	
+	# Show scheduled events
+	output("")
+	output_system("--- Scheduled Events ---")
+	var scheduled = GameManager.event_manager.scheduled_events
+	if scheduled.is_empty():
+		output("  None")
+	else:
+		for sched in scheduled:
+			var time_str = Time.get_datetime_string_from_unix_time(int(sched.trigger_time))
+			output("  %s on Day %d at %s" % [sched.event_id, sched.scheduled_day, time_str])
+	
+	# Show current state
+	output("")
+	output_system("--- Event System State ---")
+	output("  Current Day: %d" % GameManager.event_manager.current_day)
+	output("  Insanity Level: %.1f" % GameManager.event_manager.insanity_level)
+	output("  Task Completion Boost: %.1fx" % GameManager.event_manager.task_completion_boost)
+	
+	DebugLogger.debug(module_name, "Listed %d events" % events.size())
+	
