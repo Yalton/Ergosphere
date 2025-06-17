@@ -7,7 +7,7 @@ class_name EventManager
 
 signal event_triggered(event_data: EventData)
 signal event_completed(event_data: EventData)
-
+var insanity_component: InsanityComponent = null
 @export var enable_debug: bool = true
 var module_name: String = "EventManager"
 
@@ -89,6 +89,7 @@ func initialize(_state_manager: StateManager) -> void:
 	
 	DebugLogger.info(module_name, "Initialized with %d events, %d handlers, %d planned events scheduled" % [available_events.size(), event_handlers.size(), scheduled_events.size()])
 
+# Update start_new_day function
 func start_new_day(day_number: int) -> void:
 	## Called when a new day starts - handles day transition
 	DebugLogger.info(module_name, "Starting new day: %d" % day_number)
@@ -99,11 +100,23 @@ func start_new_day(day_number: int) -> void:
 	# Update current day
 	set_current_day(day_number)
 	
+	# Get insanity component
+	_check_for_insanity_component()
+	
 	# Start grace period where no events can trigger
 	_start_grace_period()
 	
 	DebugLogger.info(module_name, "Day %d started with 30s grace period" % day_number)
-
+# Add new function to get insanity component
+func _check_for_insanity_component() -> void:
+	var player = CommonUtils.get_player()
+	if player:
+		insanity_component = player.get_node("InsanityComponent")
+		if insanity_component:
+			DebugLogger.debug(module_name, "InsanityComponent found")
+		else:
+			DebugLogger.warning(module_name, "InsanityComponent not found on player")
+		
 func _end_all_active_events() -> void:
 	## End all currently active events for day transition
 	if active_cooldowns.is_empty():
@@ -218,13 +231,16 @@ func _should_event_trigger(event: EventData) -> bool:
 	DebugLogger.debug(module_name, "Event %s: base=%.1f%%, final=%.1f%%, roll=%.1f%%, trigger=%s" % [event.event_id, base_chance, final_chance, roll, str(triggered)])
 	
 	return triggered
-
+# Update _calculate_modified_chance to use InsanityComponent
 func _calculate_modified_chance(base_chance: float) -> float:
 	## Apply all modifiers to base chance
 	var modified_chance = base_chance
 	
+	# Get insanity from component if available, otherwise use stored value
+	var current_insanity = insanity_component.current_insanity if insanity_component else insanity_level
+	
 	# Insanity modifier (increases chance)
-	var insanity_modifier = 1.0 + (insanity_level / 100.0)
+	var insanity_modifier = 1.0 + (current_insanity / 100.0)
 	modified_chance *= insanity_modifier
 	
 	# Task completion boost
@@ -238,7 +254,6 @@ func _calculate_modified_chance(base_chance: float) -> float:
 	modified_chance = clamp(modified_chance, 0.0, 95.0)
 	
 	return modified_chance
-
 func _trigger_event(event: EventData) -> void:
 	## Actually trigger the event and start cooldowns
 	
@@ -267,12 +282,16 @@ func _start_cooldowns(event: EventData) -> void:
 		active_cooldowns[disruption_key] = disruption_cooldown
 		DebugLogger.debug(module_name, "Started disruption cooldown: %s = %.1fs" % [disruption_key, disruption_cooldown])
 
+# Update _calculate_modified_cooldown to use InsanityComponent
 func _calculate_modified_cooldown(base_cooldown: float) -> float:
 	## Apply modifiers to cooldown time
 	var modified_cooldown = base_cooldown
 	
+	# Get insanity from component if available, otherwise use stored value
+	var current_insanity = insanity_component.current_insanity if insanity_component else insanity_level
+	
 	# Insanity modifier (decreases cooldown)
-	var insanity_modifier = 1.0 - (insanity_level / 200.0) # Max 50% reduction
+	var insanity_modifier = 1.0 - (current_insanity / 200.0) # Max 50% reduction
 	modified_cooldown *= insanity_modifier
 	
 	# Day progression modifier (10% decrease per day after day 1)

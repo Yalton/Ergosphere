@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=64 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://bv36gpq3khln7" path="res://Prefabs/fx_spawn_point.tscn" id="21_eljqp"]
 [ext_resource type="PackedScene" uid="uid://cs4m32ekifatv" path="res://Prefabs/Environment/Props/heatsink.tscn" id="21_gw6bx"]
 [ext_resource type="PackedScene" uid="uid://bc74vtur5o21t" path="res://Prefabs/Environment/Furniture/StorageRoom/StorageWall.tscn" id="21_p7lde"]
+[ext_resource type="PackedScene" uid="uid://dhagbca5bcgjg" path="res://Prefabs/VFX/black_man_appears.tscn" id="21_uar7k"]
 [ext_resource type="PackedScene" uid="uid://qcjjmv7hbf3i" path="res://Prefabs/Environment/Furniture/Bedroom/toilet.tscn" id="23_gw6bx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
@@ -368,6 +369,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -4)
 
 [node name="Fx_Spawn_Point" parent="." instance=ExtResource("21_eljqp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 0)
+
+[node name="black_man" parent="Fx_Spawn_Point" instance=ExtResource("21_uar7k")]
 
 [node name="Heatsink" parent="." instance=ExtResource("21_gw6bx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, 13)

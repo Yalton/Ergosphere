@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2doyvxkp4awj"]
+
+[ext_resource type="Script" uid="uid://dbhxto635t1md" path="res://Scripts/Components/insanity_component.gd" id="1_2iqfo"]
+
+[node name="InsanityComponent" type="Node"]
+script = ExtResource("1_2iqfo")

@@ -35,7 +35,7 @@ extends CharacterBody3D
 # Mouse look sensitivity
 @export var mouse_sensitivity: float = 0.002
 @export var vertical_angle_limit: float = 1.0  # About 60 degrees up/down
-
+@onready var insanity_component: InsanityComponent = $InsanityComponent
 # Debug options
 @export var enable_debug: bool = true
 var module_name: String = "Player"
@@ -555,3 +555,13 @@ func _on_camera_restore_complete() -> void:
 	# Clean up tween
 	if camera_tween:
 		camera_tween = null
+
+# Call when player sleeps
+func sleep():
+	# ... existing sleep code ...
+	insanity_component.reset_insanity()
+
+# Call when player eats
+func eat():
+	# ... existing eat code ...
+	insanity_component.reduce_insanity_by_eating()

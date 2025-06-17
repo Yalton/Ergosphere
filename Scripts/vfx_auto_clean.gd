@@ -71,7 +71,7 @@ func _start_cleanup() -> void:
 	is_cleaning_up = true
 	
 	# Stop the max timer since we're cleaning up
-	if max_timer and max_timer.is_valid():
+	if max_timer:
 		max_timer.stop()
 	
 	if fade_out:
