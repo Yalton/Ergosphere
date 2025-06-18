@@ -85,7 +85,7 @@ func _initiate_sleep_sequence(player: Player) -> void:
 		
 		# Restore camera
 		player.restore_camera_position(1.0)
-		
+		player.sleep()
 		# Fade back in
 		await TransitionManager.fade_from_black()
 	else:

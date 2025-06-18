@@ -2,15 +2,12 @@
 extends EventHandler
 class_name TeleportationEventHandler
 
-## Handles silent teleportation events between specific station locations
-## Designed to disorient players by teleporting them between similar areas
+## Handles one-time teleportation events between specific station locations
+## Waits for player to enter radius before teleporting once
 
 @export_group("Teleportation Settings")
 ## Distance threshold for detecting if player is near a teleport point
 @export var detection_radius: float = 2.0
-
-## Cooldown between teleports to prevent rapid teleportation
-@export var teleport_cooldown: float = 3.0
 
 # Teleport point configurations
 var teleport_points: Array[Dictionary] = [
@@ -34,24 +31,21 @@ var teleport_points: Array[Dictionary] = [
 
 var player_node: Node3D = null
 var player_interaction: PlayerInteractionComponent = null
-var last_teleport_time: float = 0.0
 var is_active: bool = false
+var has_teleported: bool = false
 
 func _ready() -> void:
-	super._ready()
 	module_name = "TeleportationEventHandler"
+	super._ready()
+	DebugLogger.register_module(module_name)
 	
 	# Define which events this handler processes
-	handled_event_ids = ["disorienting_teleport", "spatial_anomaly", "teleport_malfunction"]
+	handled_event_ids = ["warp"]
 	
 	DebugLogger.debug(module_name, "TeleportationEventHandler ready")
 
 func _process(delta: float) -> void:
-	if not is_active or not player_node:
-		return
-		
-	# Check if enough time has passed since last teleport
-	if Time.get_ticks_msec() / 1000.0 - last_teleport_time < teleport_cooldown:
+	if not is_active or has_teleported or not player_node:
 		return
 	
 	# Check player proximity to teleport points
@@ -77,8 +71,10 @@ func _on_execute(event_data: EventData, state_manager: StateManager) -> void:
 	# Find player interaction component
 	player_interaction = _find_player_interaction()
 	
-	# Activate teleportation system silently
+	# Activate teleportation system and wait for player
 	is_active = true
+	has_teleported = false
+	DebugLogger.debug(module_name, "Waiting for player to enter teleport radius")
 
 func _on_complete(event_data: EventData, state_manager: StateManager) -> void:
 	## Handle teleportation event completion
@@ -88,11 +84,14 @@ func _on_complete(event_data: EventData, state_manager: StateManager) -> void:
 	is_active = false
 
 func _teleport_player(shift: Vector3) -> void:
-	## Silently teleport the player to the new position
-	if not player_node:
+	## Silently teleport the player using the shift vector once
+	if not player_node or has_teleported:
 		return
 		
 	DebugLogger.debug(module_name, "Silently teleporting player with shift %s" % shift)
+	
+	# Mark as teleported first to prevent double teleports
+	has_teleported = true
 	
 	# Force drop any carried item
 	if player_interaction and player_interaction.carried_object:
@@ -101,22 +100,23 @@ func _teleport_player(shift: Vector3) -> void:
 		# Small delay to ensure clean drop
 		await player_node.get_tree().create_timer(0.1).timeout
 	
-	# Calculate new position
-	var new_position = player_node.global_position + shift
+	# Stop player movement completely
+	if player_node is CharacterBody3D:
+		player_node.velocity = Vector3.ZERO
+	
+	# Apply the shift to current position
+	var old_position = player_node.global_position
+	var new_position = old_position + shift
 	
 	# Perform the teleportation silently
 	player_node.global_position = new_position
 	
-	# Update last teleport time
-	last_teleport_time = Time.get_ticks_msec() / 1000.0
-	
-	DebugLogger.info(module_name, "Player teleported to %s" % new_position)
+	DebugLogger.info(module_name, "Player teleported from %s to %s - teleportation complete" % [old_position, new_position])
 
 func _find_player_node() -> Node3D:
 	## Find the player node in the scene
-	var players = get_tree().get_nodes_in_group("Player")
-	if players.size() > 0:
-		return players[0]
+	if CommonUtils.get_player():
+		return CommonUtils.get_player()
 	return null
 
 func _find_player_interaction() -> PlayerInteractionComponent:

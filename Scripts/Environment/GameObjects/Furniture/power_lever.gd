@@ -37,13 +37,11 @@ func set_power_state(powered: bool) -> void:
 		if not powered and lever_animation_player.has_animation(power_off_animation):
 			lever_animation_player.play(power_off_animation)
 	
-	# Let task component handle interaction text
-	if not task_aware_component:
-		# Fallback if no task component
-		if is_powered:
-			object_state_updated.emit("Power is already on")
-		else:
-			object_state_updated.emit("Pull lever to restore power")
+	# Always update interaction text based on power state
+	if is_powered:
+		object_state_updated.emit("Power is on")
+	else:
+		object_state_updated.emit("Turn on power")
 	
 	DebugLogger.debug(module_name, "Power state set to: " + str(powered))
 
@@ -94,6 +92,9 @@ func _restore_power() -> void:
 	
 	is_powered = true
 	is_interacting = false
+	
+	# Update interaction text
+	object_state_updated.emit("Power is on")
 	
 	# Emit signal
 	power_restored.emit()

@@ -4,16 +4,22 @@ class_name OxygenFilter
 signal filter_failed
 signal filter_fixed
 
-
 @export_group("Components")
+## The visible air filter mesh that shows/hides when operational/broken
 @export var air_filter_mesh: MeshInstance3D
+## Emergency light that flashes when filter is broken
 @export var broken_light: OmniLight3D
+## Light that briefly flashes when filter is fixed
 @export var fixed_light: OmniLight3D
+## Animation player for repair animations
 @export var animation_player: AnimationPlayer
+## Audio for oxygen fan operation
 @export var oxygen_fan_audio: AudioStreamPlayer3D
-@export var oxygen_bubbles_audio: AudioStreamPlayer3D  # This should be the RandomAudioStream3D
+## Audio for oxygen bubbles (should be RandomAudioStream3D)
+@export var oxygen_bubbles_audio: AudioStreamPlayer3D
 
 @export_group("Settings")
+## Name of the animation to play when filter is being repaired
 @export var fix_animation_name: String = "load_air_filter"
 
 # Internal state
@@ -23,10 +29,8 @@ var fixed_light_tween: Tween
 
 func _ready() -> void:
 	super._ready()
-	module_name = "OxygenFilter"
-	# Register with debug logger
-	DebugLogger.register_module(module_name, enable_debug)
 	module_name = "OxygenFilter_" + name
+	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Add to oxygen_filters group for event system to find us
 	add_to_group("oxygen_filters")
@@ -34,6 +38,8 @@ func _ready() -> void:
 	# Set display name if not already set
 	if display_name.is_empty():
 		display_name = "Oxygen Filter"
+	
+
 	
 	# Initialize in operational state
 	set_operational_state(true)
@@ -119,6 +125,11 @@ func _complete_repair() -> void:
 	# Set back to operational
 	set_operational_state(true)
 	
+	# Complete the task through TaskAwareComponent
+	if task_aware_component:
+		task_aware_component.complete_task()
+		DebugLogger.debug(module_name, "Task completion requested through TaskAwareComponent")
+	
 	# Inform event system
 	filter_fixed.emit()
 	
@@ -168,6 +179,6 @@ func _stop_light_flashing() -> void:
 	if fixed_light:
 		fixed_light.visible = false
 
-# Public method for event system to check if this filter can fail
+## Public method for event system to check if this filter can fail
 func can_fail() -> bool:
 	return is_operational

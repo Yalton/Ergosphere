@@ -446,19 +446,23 @@ _data = {
 [sub_resource type="BoxShape3D" id="BoxShape3D_3utce"]
 size = Vector3(4, 7, 4)
 
-[node name="AirTubeThing" type="StaticBody3D" node_paths=PackedStringArray("broken_light", "fixed_light", "animation_player", "oxygen_fan_audio", "oxygen_bubbles_audio")]
+[node name="AirTubeThing" type="StaticBody3D" node_paths=PackedStringArray("air_filter_mesh", "broken_light", "fixed_light", "animation_player", "oxygen_fan_audio", "oxygen_bubbles_audio", "task_aware_component", "state_aware_component")]
 script = ExtResource("1_3utce")
+air_filter_mesh = NodePath("Meshes/AirGen/AirTubeThing_004")
 broken_light = NodePath("BrokenLight")
 fixed_light = NodePath("FixedLight")
 animation_player = NodePath("SnappableAnimation")
 oxygen_fan_audio = NodePath("OxygenFan")
 oxygen_bubbles_audio = NodePath("Oxygen_Bubbles")
+task_aware_component = NodePath("TaskAwareComponent")
+state_aware_component = NodePath("StateAwareComponent")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98331, 0)
 shape = SubResource("CylinderShape3D_eh4ul")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("2_1fgus")]
+associated_task_id = "oxygen_filter_failure"
 
 [node name="StateAwareComponent" parent="." instance=ExtResource("3_u4cq7")]
 

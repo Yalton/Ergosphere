@@ -229,17 +229,29 @@ func _find_task_in_pool(task_id: String, pool: Array[BaseTask]) -> BaseTask:
 		if task.task_id == task_id:
 			return task
 	return null
+# In task_manager.gd - update the trigger_emergency_task function
+
+# In task_manager.gd - update the trigger_emergency_task function
 
 func trigger_emergency_task(task_id: String) -> void:
+	DebugLogger.info(module_name, "Triggering emergency task: %s" % task_id)
+	
+	# Find task in available pools
 	var task: BaseTask = null
 	
-	# First check current day config
-	if current_day_config:
-		task = _find_task_in_pool(task_id, current_day_config.available_tasks)
+	# First check current day config tasks
+	if current_day_config and current_day_config.available_tasks.size() > 0:
+		for t in current_day_config.available_tasks:
+			if t.task_id == task_id:
+				task = t.duplicate()
+				break
 	
-	# Fall back to default tasks
+	# Fall back to default tasks if not found
 	if not task:
-		task = _find_task_in_pool(task_id, default_available_tasks)
+		for t in default_available_tasks:
+			if t.task_id == task_id:
+				task = t.duplicate()
+				break
 	
 	if not task:
 		DebugLogger.error(module_name, "Emergency task not found: %s" % task_id)
@@ -248,6 +260,15 @@ func trigger_emergency_task(task_id: String) -> void:
 	if not task.is_emergency:
 		DebugLogger.warning(module_name, "Task is not marked as emergency: %s" % task_id)
 		return
+	
+	# CRITICAL FIX: Remove from completed tasks if it was completed before
+	if task_id in completed_tasks:
+		completed_tasks.erase(task_id)
+		DebugLogger.debug(module_name, "Removed previously completed emergency task from completed list: %s" % task_id)
+	
+	# Reset task state for reuse
+	task.is_completed = false
+	task.is_available = true
 	
 	# Add to active emergency tasks
 	if not task in active_emergency_tasks:
@@ -266,6 +287,8 @@ func trigger_emergency_task(task_id: String) -> void:
 			emergency_timers[task_id] = timer
 			
 			DebugLogger.info(module_name, "Emergency task started with %ds timer: %s" % [task.emergency_time_limit, task.task_name])
+	else:
+		DebugLogger.warning(module_name, "Emergency task already active: %s" % task_id)
 
 func _on_emergency_timer_timeout(task_id: String) -> void:
 	DebugLogger.warning(module_name, "Emergency task time expired: %s" % task_id)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://d3hcptla36gp3"]
+[gd_scene load_steps=21 format=3 uid="uid://d3hcptla36gp3"]
 
 [ext_resource type="Script" uid="uid://brfd0bny5riwc" path="res://Autoload/GameManager/game_manager.gd" id="1_ttbae"]
 [ext_resource type="AudioStream" uid="uid://chnfaq63v5hia" path="res://Assets/Audio/Alarm/Alarm.ogg" id="2_52hc4"]
@@ -6,20 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bt83m4xuehnh8" path="res://Autoload/GameManager/StateManager/StateManager.tscn" id="3_554py"]
 [ext_resource type="PackedScene" uid="uid://cuykknx82jpa1" path="res://Autoload/GameManager/TaskManager/TaskManager.tscn" id="4_554py"]
 [ext_resource type="PackedScene" uid="uid://d03sh0ygt4cwo" path="res://Autoload/GameManager/storage_manager.tscn" id="6_k5xqi"]
-[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="6_yjeeo"]
-[ext_resource type="Resource" uid="uid://bssb4fc08w08x" path="res://Assets/Resources/Tasks/sleep.tres" id="7_3ee35"]
-[ext_resource type="Resource" uid="uid://ptpc1c1ijsx0" path="res://Assets/Resources/Tasks/close_shutters.tres" id="8_46dnk"]
 [ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="8_tpof5"]
-[ext_resource type="Resource" uid="uid://b7xee3kljnbkl" path="res://Assets/Resources/Tasks/open_shutters.tres" id="9_ndbpl"]
-[ext_resource type="Resource" uid="uid://cc42ahwhvl4xr" path="res://Assets/Resources/Tasks/restore_power.tres" id="10_vylof"]
-[ext_resource type="Resource" uid="uid://wx35acaqwm1s" path="res://Assets/Resources/Tasks/defragment_memory.tres" id="11_hygov"]
-[ext_resource type="Resource" uid="uid://bhs0warum3527" path="res://Assets/Resources/Tasks/replace_heatsink.tres" id="12_kvm4w"]
-[ext_resource type="Resource" uid="uid://bgt6nrm5tdq3w" path="res://Assets/Resources/Tasks/introduction.tres" id="13_7jed7"]
-[ext_resource type="Resource" uid="uid://b3e3r71bovmko" path="res://Assets/Resources/Tasks/allign_telescope.tres" id="14_yrjc6"]
-[ext_resource type="Resource" uid="uid://b5n6e78wex8px" path="res://Assets/Resources/Tasks/download_data.tres" id="15_t7cnd"]
-[ext_resource type="Resource" uid="uid://di2dxy6htbc2t" path="res://Assets/Resources/Tasks/upload_data.tres" id="16_x4ftn"]
-[ext_resource type="Resource" uid="uid://d28rjlfmdxjy7" path="res://Assets/Resources/Tasks/reacalibrate_systems.tres" id="17_3ee35"]
-[ext_resource type="Resource" uid="uid://cj3dl7kd4ssha" path="res://Assets/Resources/Tasks/reboot_systems.tres" id="18_46dnk"]
 [ext_resource type="Resource" uid="uid://b8qnpop0ojhbt" path="res://Assets/Resources/Items/air_filter.tres" id="21_7p8ko"]
 [ext_resource type="Resource" uid="uid://c6bh67bcta4r8" path="res://Assets/Resources/Items/anomaly_scanner.tres" id="22_pcida"]
 [ext_resource type="Resource" uid="uid://deljo1xkbpegn" path="res://Assets/Resources/Items/dumbell.tres" id="23_i8je7"]
@@ -34,23 +21,6 @@
 [ext_resource type="Resource" uid="uid://cjq4nhp7vy1a0" path="res://Assets/Resources/Items/thermos.tres" id="32_o3trq"]
 [ext_resource type="Resource" uid="uid://can2tw0cqx0fd" path="res://Assets/Resources/Items/walkie_talkie.tres" id="33_k3nj7"]
 
-[sub_resource type="Resource" id="Resource_ah2t3"]
-script = ExtResource("6_yjeeo")
-task_id = "consume_anus"
-task_name = "consume_anus"
-task_description = ""
-is_emergency = false
-is_secret = false
-emergency_time_limit = 0.0
-failure_consequence = {}
-dependent_on_tasks = Array[String]([])
-required_states = {}
-blocked_by_states = {}
-revealed_under = {}
-reveal_delay = 1.0
-related_object_groups = Array[String]([])
-metadata/_custom_type_script = "uid://bxrho0i2t1mql"
-
 [node name="GameManager" type="Node"]
 script = ExtResource("1_ttbae")
 alarm_audio = ExtResource("2_52hc4")
@@ -60,7 +30,6 @@ alarm_audio = ExtResource("2_52hc4")
 [node name="StateManager" parent="." instance=ExtResource("3_554py")]
 
 [node name="TaskManager" parent="." instance=ExtResource("4_554py")]
-default_available_tasks = Array[ExtResource("6_yjeeo")]([SubResource("Resource_ah2t3"), ExtResource("7_3ee35"), ExtResource("8_46dnk"), ExtResource("9_ndbpl"), ExtResource("10_vylof"), ExtResource("11_hygov"), ExtResource("12_kvm4w"), ExtResource("13_7jed7"), ExtResource("14_yrjc6"), ExtResource("15_t7cnd"), ExtResource("16_x4ftn"), ExtResource("17_3ee35"), ExtResource("18_46dnk")])
 
 [node name="StorageManager" parent="." instance=ExtResource("6_k5xqi")]
 current_requisition = 5000

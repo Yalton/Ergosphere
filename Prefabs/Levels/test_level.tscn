@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=69 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -20,8 +20,13 @@
 [ext_resource type="PackedScene" uid="uid://bv36gpq3khln7" path="res://Prefabs/fx_spawn_point.tscn" id="21_eljqp"]
 [ext_resource type="PackedScene" uid="uid://cs4m32ekifatv" path="res://Prefabs/Environment/Props/heatsink.tscn" id="21_gw6bx"]
 [ext_resource type="PackedScene" uid="uid://bc74vtur5o21t" path="res://Prefabs/Environment/Furniture/StorageRoom/StorageWall.tscn" id="21_p7lde"]
-[ext_resource type="PackedScene" uid="uid://dhagbca5bcgjg" path="res://Prefabs/VFX/black_man_appears.tscn" id="21_uar7k"]
+[ext_resource type="PackedScene" uid="uid://bgmjcis31thqm" path="res://Prefabs/Environment/Props/Tech/power_lever.tscn" id="22_p7lde"]
 [ext_resource type="PackedScene" uid="uid://qcjjmv7hbf3i" path="res://Prefabs/Environment/Furniture/Bedroom/toilet.tscn" id="23_gw6bx"]
+[ext_resource type="PackedScene" uid="uid://hoc0u5yoraph" path="res://Prefabs/Environment/effects_manager.tscn" id="23_ilblt"]
+[ext_resource type="AudioStream" uid="uid://dphwvw1cavb7a" path="res://Assets/Audio/Events/power_down.ogg" id="24_eprw8"]
+[ext_resource type="AudioStream" uid="uid://b833mqskbys66" path="res://Assets/Audio/Events/power_up.ogg" id="25_bsk3i"]
+[ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="26_wehjc"]
+[ext_resource type="Script" uid="uid://cofj3mdiput7h" path="res://Scripts/Environment/Misc/emmsive_flicker_manager.gd" id="27_0325f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
 shader = ExtResource("1_iv3f0")
@@ -370,7 +375,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -4)
 [node name="Fx_Spawn_Point" parent="." instance=ExtResource("21_eljqp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 0)
 
-[node name="black_man" parent="Fx_Spawn_Point" instance=ExtResource("21_uar7k")]
-
 [node name="Heatsink" parent="." instance=ExtResource("21_gw6bx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1, 13)
+
+[node name="PowerLever" parent="." instance=ExtResource("22_p7lde")]
+transform = Transform3D(-6.76901e-08, 0, 1.54857, 0, 1.54857, 0, -1.54857, 0, -6.76901e-08, 21.1384, 2.3358, 6.83511)
+
+[node name="Modules" type="Node" parent="."]
+
+[node name="EffectsManager" parent="Modules" instance=ExtResource("23_ilblt")]
+power_off_sound = ExtResource("24_eprw8")
+power_on_sound = ExtResource("25_bsk3i")
+shared_emissive_material = ExtResource("26_wehjc")
+
+[node name="EmissiveFlickerManager" type="Node" parent="Modules"]
+script = ExtResource("27_0325f")
+shared_emissive_material = ExtResource("26_wehjc")

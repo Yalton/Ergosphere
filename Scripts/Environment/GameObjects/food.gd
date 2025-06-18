@@ -38,6 +38,9 @@ func interact(player_interaction: PlayerInteractionComponent) -> void:
 	# Emit consumed signal (for hunger system later)
 	consumed.emit()
 	
+	var player : Player = player_interaction.get_parent()
+	if player: 
+		player.eat()
 	# Remove the food
 	queue_free()
 	

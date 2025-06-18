@@ -34,8 +34,7 @@
 
 [node name="EventManager" type="Node"]
 script = ExtResource("1_nnr1m")
-evaluation_interval = 5.0
-event_configurations = Array[ExtResource("2_dwaah")]([ExtResource("3_dwaah"), ExtResource("4_ls50s"), ExtResource("5_3cw7f"), ExtResource("6_mjo8c"), ExtResource("7_x7yci"), ExtResource("8_x7yci"), ExtResource("9_jagxc"), ExtResource("10_8t0n1"), ExtResource("11_3sgie"), ExtResource("12_oj86y"), ExtResource("13_nn0bu"), ExtResource("14_he56m")])
+event_configurations = Array[ExtResource("2_dwaah")]([ExtResource("8_x7yci"), ExtResource("11_3sgie"), ExtResource("12_oj86y"), ExtResource("14_he56m"), ExtResource("5_3cw7f"), ExtResource("7_x7yci"), ExtResource("10_8t0n1"), ExtResource("13_nn0bu"), ExtResource("4_ls50s"), ExtResource("3_dwaah"), ExtResource("6_mjo8c"), ExtResource("9_jagxc")])
 
 [node name="power_outage" type="Node" parent="."]
 script = ExtResource("3_lf3xo")
@@ -64,7 +63,6 @@ entity_appearance_scene = ExtResource("26_u7gbo")
 
 [node name="warp" type="Node" parent="."]
 script = ExtResource("14_ia163")
-handled_event_ids = Array[String](["warp"])
 
 [node name="object_throw" type="Node" parent="."]
 script = ExtResource("28_u7gbo")
