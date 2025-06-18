@@ -34,6 +34,7 @@ extends Node
 ## Panel or container for the dialogue UI
 @export var dialogue_container: Control
 
+## Enable debug logging for this module
 @export var enable_debug: bool = true
 var module_name: String = "IntroCutscene"
 
@@ -43,22 +44,17 @@ var current_char_index: int = 0
 var is_typing: bool = false
 var is_line_complete: bool = false
 var typing_timer: Timer
-var line_delay_timer: Timer
 var skip_current_line: bool = false
 
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 	
-	# Create timers
+	# Create typing timer
 	typing_timer = Timer.new()
+	typing_timer.wait_time = letter_typing_time
 	typing_timer.one_shot = true
 	typing_timer.timeout.connect(_type_next_character)
 	add_child(typing_timer)
-	
-	line_delay_timer = Timer.new()
-	line_delay_timer.one_shot = true
-	line_delay_timer.timeout.connect(_start_next_line)
-	add_child(line_delay_timer)
 	
 	# Initially hide dialogue
 	if dialogue_container:
@@ -66,131 +62,119 @@ func _ready() -> void:
 	
 	# Start cutscene after a short delay
 	await get_tree().create_timer(0.5).timeout
-	_start_cutscene()
-
-func _start_cutscene() -> void:
-	DebugLogger.info(module_name, "Starting intro cutscene")
-	
-	# Show dialogue container
-	if dialogue_container:
-		dialogue_container.show()
-	
-	# Start first line
-	current_line_index = 0
-	current_char_index = 0
-	_start_typing_line()
+	show_intro()
 
 func _input(event: InputEvent) -> void:
-	# Skip entire cutscene on Esc or E
-	if event.is_action_pressed("ui_cancel") or event.is_action_pressed("interact"):
-		DebugLogger.debug(module_name, "Skipping entire cutscene")
-		_skip_to_game()
+	if not is_typing:
 		return
 	
-	# Handle left click
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if is_typing and not skip_current_line:
-			# Instantly complete current line
-			skip_current_line = true
-			DebugLogger.debug(module_name, "Skipping current line typing")
-		elif is_line_complete and not line_delay_timer.time_left > 0:
-			# Skip to next line if we're waiting
-			_start_next_line()
+	# Skip current line on any key/mouse press
+	if event is InputEventKey and event.pressed:
+		skip_current_line = true
+	elif event is InputEventMouseButton and event.pressed:
+		skip_current_line = true
 
-func _start_typing_line() -> void:
-	if current_line_index >= dialogue_lines.size():
-		_on_cutscene_complete()
+func show_intro() -> void:
+	if dialogue_container:
+		dialogue_container.show()
+		
+		# Play show animation if available
+		if animation_player and animation_player.has_animation("show"):
+			animation_player.play("show")
+			await animation_player.animation_finished
+	
+	start_typing()
+
+func start_typing() -> void:
+	if dialogue_lines.is_empty():
+		DebugLogger.warning(module_name, "No dialogue lines configured")
+		_finish_cutscene()
 		return
 	
-	DebugLogger.debug(module_name, "Starting line " + str(current_line_index))
+	current_line_index = 0
+	_start_line()
+
+func _start_line() -> void:
+	if current_line_index >= dialogue_lines.size():
+		_finish_cutscene()
+		return
 	
-	# Reset state
+	current_char_index = 0
 	is_typing = true
 	is_line_complete = false
 	skip_current_line = false
-	current_char_index = 0
 	
-	# Clear the label
 	if dialogue_label:
 		dialogue_label.text = ""
-	
-	# Play corresponding animation
-	if animation_player and animation_player.has_animation(str(current_line_index)):
-		animation_player.play(str(current_line_index))
-		DebugLogger.debug(module_name, "Playing animation: " + str(current_line_index))
+		dialogue_label.visible_characters = 0
 	
 	# Start typing
-	_type_next_character()
+	typing_timer.start()
+	
+	DebugLogger.debug(module_name, "Starting line " + str(current_line_index))
 
 func _type_next_character() -> void:
-	if not is_typing:
+	if skip_current_line:
+		_complete_current_line()
 		return
 	
 	var current_line = dialogue_lines[current_line_index]
 	
-	# Check if we should skip to end
-	if skip_current_line:
-		current_char_index = current_line.length()
-	
-	# Type character
 	if current_char_index < current_line.length():
 		# Add next character
-		current_char_index += 1
 		if dialogue_label:
-			dialogue_label.text = "[outline_size=2][outline_color=00ff00]" + current_line.substr(0, current_char_index) + "[/outline_color][/outline_size]"
+			dialogue_label.text = current_line.substr(0, current_char_index + 1)
+			dialogue_label.visible_characters = current_char_index + 1
 		
 		# Play typing sound with pitch variation
-		if typing_sound and not skip_current_line:
+		if typing_sound and Audio:
 			var pitch = randf_range(typing_pitch_min, typing_pitch_max)
-			Audio.play_sound(typing_sound, true, pitch, -10.0, "SFX")
+			Audio.play_sound(typing_sound, false, pitch)
 		
-		# Schedule next character
-		if not skip_current_line:
-			typing_timer.start(letter_typing_time)
-		else:
-			# If skipping, type next character immediately
-			_type_next_character()
+		current_char_index += 1
+		typing_timer.start()
 	else:
-		# Line complete
-		_on_line_complete()
+		_complete_current_line()
 
-func _on_line_complete() -> void:
+func _complete_current_line() -> void:
 	is_typing = false
 	is_line_complete = true
 	
-	DebugLogger.debug(module_name, "Line " + str(current_line_index) + " complete")
+	# Show full line
+	if dialogue_label and current_line_index < dialogue_lines.size():
+		dialogue_label.text = dialogue_lines[current_line_index]
+		dialogue_label.visible_characters = -1
+	
+	# Play line complete animation if available
+	if animation_player and animation_player.has_animation("line_complete"):
+		animation_player.play("line_complete")
+	
+	current_line_index += 1
 	
 	# Wait before next line
-	line_delay_timer.start(line_completion_delay)
+	if current_line_index < dialogue_lines.size():
+		CommonUtils.create_one_shot_timer(self, line_completion_delay, _start_line)
+	else:
+		# Last line complete, wait before transitioning
+		CommonUtils.create_one_shot_timer(self, final_transition_delay, _finish_cutscene)
 
 func _start_next_line() -> void:
-	current_line_index += 1
-	_start_typing_line()
+	_start_line()
 
-func _on_cutscene_complete() -> void:
-	DebugLogger.info(module_name, "Cutscene complete, waiting for final transition")
+func _finish_cutscene() -> void:
+	DebugLogger.info(module_name, "Cutscene finished, transitioning to game")
 	
-	# Wait before transitioning
-	await get_tree().create_timer(final_transition_delay).timeout
-	_transition_to_game()
-
-func _skip_to_game() -> void:
-	# Stop all timers
-	typing_timer.stop()
-	line_delay_timer.stop()
+	# Hide dialogue with animation if available
+	if animation_player and animation_player.has_animation("hide"):
+		animation_player.play("hide")
+		await animation_player.animation_finished
 	
-	# Stop any playing animation
-	if animation_player and animation_player.is_playing():
-		animation_player.stop()
-	
-	_transition_to_game()
-
-func _transition_to_game() -> void:
-	DebugLogger.info(module_name, "Transitioning to game scene")
-	
-	# Use the global transition manager
-	if TransitionManager:
-		TransitionManager.transition_to_scene(game_scene_path)
-	else:
-		# Fallback if no transition manager
+	# Load game scene
+	if not game_scene_path.is_empty():
 		get_tree().change_scene_to_file(game_scene_path)
+	else:
+		DebugLogger.error(module_name, "No game scene path configured!")
+
+func skip_cutscene() -> void:
+	## Public method to skip entire cutscene
+	_finish_cutscene()

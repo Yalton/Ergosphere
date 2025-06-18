@@ -31,19 +31,26 @@ func _on_execute(event_data: EventData, state_manager: StateManager) -> void:
 	## Handle oxygen failure event execution
 	DebugLogger.info(module_name, "Executing oxygen event: %s" % event_data.event_id)
 	
-	if event_data.event_id == "oxygen_failure":
+	if event_data.event_id == "oxygen_filter_failure":
 		_handle_oxygen_failure(event_data, state_manager)
 
 func _on_complete(event_data: EventData, state_manager: StateManager) -> void:
 	## Handle oxygen failure event completion
 	DebugLogger.info(module_name, "Completing oxygen event: %s" % event_data.event_id)
 	
-	if event_data.event_id == "oxygen_failure":
+	if event_data.event_id == "oxygen_filter_failure":
 		_complete_oxygen_failure(event_data, state_manager)
 
 func _handle_oxygen_failure(event_data: EventData, state_manager: StateManager) -> void:
 	## Handle oxygen system failure
 	DebugLogger.debug(module_name, "Oxygen failure started")
+	
+	# Check if oxygen repair task is already active
+	if GameManager and GameManager.task_manager:
+		var existing_task = GameManager.task_manager.get_task("replace_oxygen_filter")
+		if existing_task and not existing_task.is_completed:
+			DebugLogger.info(module_name, "Oxygen repair task already active, skipping failure event")
+			return
 	
 	# Update state
 	state_manager.set_state("oxygen_system_operational", false)
@@ -81,7 +88,7 @@ func _handle_oxygen_failure(event_data: EventData, state_manager: StateManager) 
 	
 	# Trigger emergency task if task system is available
 	if GameManager and GameManager.task_manager:
-		GameManager.task_manager.trigger_emergency_task("oxygen_filter_failure")
+		GameManager.task_manager.trigger_emergency_task("replace_oxygen_filter")
 	
 	DebugLogger.info(module_name, "Oxygen failure event started - filter: %s" % failed_filter.name)
 
@@ -110,4 +117,4 @@ func _on_filter_fixed() -> void:
 	
 	# Tell EventManager the event is resolved
 	if GameManager and GameManager.event_manager:
-		GameManager.event_manager.complete_event("oxygen_failure")
+		GameManager.event_manager.complete_event("oxygen_filter_failure")

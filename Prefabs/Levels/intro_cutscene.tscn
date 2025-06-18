@@ -282,11 +282,16 @@ grow_vertical = 2
 script = ExtResource("1_n7xyp")
 dialogue_lines = Array[String](["The year is 2125, humanity has achieved interstellar colonization, in desperation to escape their failing bio-sphere humans spread themselves too thin.", "Communication across the vast cosmic distances proved to be a challenge, outpost after outpost keep vanishing leaving only a few pleading final words arriving years after disaster", "In order to survive, mankind must develop better communication methods, they must learn to bend space time to their whime. Thus they started covering the only known natural phenemenon which does the same", "Black holes", "They began searching for the holy grail, a stable microsingularity, and with time it was found. SJ-1765 or the Sejanus Singularity was a perfect canditate for research.", "The Thoth Observatory station was constructed in stable orbit, and researchers have been sent one after another to gather data from this miraculous stellar object.", "The fact that few of them return upon their rotation coming to its end is irrelevant; what mankind stands to gain from this research is too great.", "Your rotation begins now."])
 letter_typing_time = 0.02
+line_completion_delay = null
+final_transition_delay = null
 game_scene_path = "uid://k0irwx2fqi0x"
 typing_sound = ExtResource("2_g2t6w")
+typing_pitch_min = null
+typing_pitch_max = null
 animation_player = NodePath("AnimationPlayer")
 dialogue_label = NodePath("MarginContainer/VBoxContainer/PanelContainer/MarginContainer/RichTextLabel")
 dialogue_container = NodePath("MarginContainer/VBoxContainer/PanelContainer")
+enable_debug = null
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
