@@ -254,7 +254,7 @@ _data = {
 material = ExtResource("16_1msa4")
 size = Vector2(0.4, 0.1)
 
-[node name="window_lever" type="StaticBody3D" node_paths=PackedStringArray("lever_animation_player")]
+[node name="window_lever" type="StaticBody3D" node_paths=PackedStringArray("lever_animation_player") groups=["window_lever"]]
 collision_layer = 7
 collision_mask = 7
 script = ExtResource("1_uaw60")

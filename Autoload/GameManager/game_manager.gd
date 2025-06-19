@@ -3,6 +3,8 @@ extends Node
 
 signal day_reset
 signal game_started
+# In the class variables section, add:
+signal global_tension_changed(tension: float)
 
 ## Enable debug logging for the GameManager
 @export var enable_debug: bool = true
@@ -13,6 +15,7 @@ var event_manager: EventManager
 var state_manager: StateManager
 var task_manager: TaskManager
 var storage_manager: StorageManager
+var audio_fx_manager: AudioFXManager
 
 ## Current day counter
 var current_day: int = 0
@@ -24,6 +27,16 @@ var current_day: int = 0
 
 var is_initialized: bool = false
 
+## Length of the session password
+@export var session_password_length: int = 6
+
+## Characters to use for password generation
+const PASSWORD_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+## Current session password
+var session_password: String = ""
+
+
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 	
@@ -32,21 +45,21 @@ func _ready() -> void:
 	state_manager = CommonUtils.safe_get_node(self, "StateManager") as StateManager
 	task_manager = CommonUtils.safe_get_node(self, "TaskManager") as TaskManager
 	storage_manager = CommonUtils.safe_get_node(self, "StorageManager") as StorageManager
-	
+	audio_fx_manager = CommonUtils.safe_get_node(self, "AudioFXManager") as AudioFXManager
+
+
 	# Validate managers
-	if not CommonUtils.ensure_valid(event_manager, module_name, "EventManager"):
+	if not event_manager:
+		DebugLogger.error(module_name, "EventManager not found!")
 		return
-	if not CommonUtils.ensure_valid(state_manager, module_name, "StateManager"):
-		return
-	if not CommonUtils.ensure_valid(task_manager, module_name, "TaskManager"):
-		return
-	if not CommonUtils.ensure_valid(storage_manager, module_name, "StorageManager"):
-		return
+	if not state_manager:
+		DebugLogger.error(module_name, "State Manager not found!")
 	
 	# Connect task manager signals using CommonUtils
 	CommonUtils.connect_signal_safe(task_manager, "daily_tasks_completed", self, "_on_daily_tasks_completed")
 	CommonUtils.connect_signal_safe(task_manager, "emergency_task_failed", self, "_on_emergency_task_failed")
 	CommonUtils.connect_signal_safe(task_manager, "task_completed", self, "_on_task_completed")
+	event_manager.tension_changed.connect(_on_tension_changed)
 	
 	DebugLogger.info(module_name, "GameManager ready, waiting for game start")
 	
@@ -62,6 +75,14 @@ func _ready() -> void:
 		add_child(timer)
 		timer.start()
 
+
+
+# Add getter for current tension
+func get_global_tension() -> float:
+	if event_manager:
+		return event_manager.global_tension
+	return 0.0
+	
 func start_game() -> void:
 	DebugLogger.info(module_name, "Starting game - initializing all systems")
 	
@@ -70,7 +91,8 @@ func start_game() -> void:
 	event_manager.initialize(state_manager)
 	task_manager.initialize(state_manager)
 	# StorageManager doesn't need initialization
-	
+		# Generate session password
+	_generate_session_password()
 	is_initialized = true
 	
 	DebugLogger.info(module_name, "All systems initialized")
@@ -142,6 +164,21 @@ func _on_task_completed(task: BaseTask) -> void:
 
 func get_current_day() -> int:
 	return current_day
-
+func _on_tension_changed(new_tension: float) -> void:
+	## Forward tension changes to other systems
+	global_tension_changed.emit(new_tension)
+	DebugLogger.debug("GameManager", "Global tension: %.1f" % new_tension)
 func is_game_initialized() -> bool:
 	return is_initialized
+
+
+# Add this new function:
+func _generate_session_password() -> void:
+	session_password = ""
+	for i in session_password_length:
+		session_password += PASSWORD_CHARS[randi() % PASSWORD_CHARS.length()]
+	DebugLogger.info(module_name, "Session password generated: " + session_password)
+
+# Add this getter function:
+func get_session_password() -> String:
+	return session_password

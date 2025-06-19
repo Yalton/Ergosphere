@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://b24lgky4sot6r"]
 
-[ext_resource type="Script" uid="uid://dt8fbwwdkbhww" path="res://Subsystems/ascii_effect_shader.gd" id="1_48o7n"]
+[ext_resource type="Script" uid="uid://dt8fbwwdkbhww" path="res://Subsystems/PostProcessing/ascii_effect_shader.gd" id="1_48o7n"]
 
 [sub_resource type="CompositorEffect" id="CompositorEffect_fnk5m"]
 resource_local_to_scene = false

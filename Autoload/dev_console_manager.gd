@@ -50,7 +50,6 @@ func _register_default_commands() -> void:
 	# Exit command
 	register_command("exit", _cmd_exit, "Closes the console", false)
 	register_alias("quit", "exit")
-	register_command("list_events", _cmd_list_events, "Lists all available events", true)
 	# Echo command
 	register_command("echo", _cmd_echo, "Prints text to console", false)
 	
@@ -60,6 +59,10 @@ func _register_default_commands() -> void:
 	register_command("list", _cmd_list, "Lists all available commands", false)
 	register_command("diag", _cmd_diagnostics, "Runs Diagnostics on the system", false)
 	DebugLogger.debug(module_name, "Default commands registered")
+
+	register_command("tension", _cmd_tension, "Show or modify global tension")
+	register_command("event_list", _cmd_event_list, "List all events with tension info")
+	register_command("force_event", _cmd_force_event, "Force trigger an event")
 
 func _register_game_commands() -> void:
 	# Admin-only commands
@@ -367,38 +370,12 @@ func _cmd_tasks(args: Array) -> void:
 		if task.task_description:
 			output("  Description: %s" % task.task_description)
 
-# Log command implementations
-func _cmd_list_logs(args: Array) -> void:
-	if terminal_logs.is_empty():
-		output_system("No logs available in the system")
-		return
-	
-	output_system("=== Available Terminal Logs ===")
-	
-	for i in range(terminal_logs.size()):
-		var log = terminal_logs[i]
-		if not log:
-			continue
-			
-		var status = ""
-		if log.is_locked:
-			if log.is_accessible():
-				status = " [UNLOCKED]"
-			else:
-				status = " [LOCKED]"
-		
-		var security = ""
-		if not log.security_level.is_empty():
-			security = " (" + log.security_level + ")"
-		
-		output("%d. %s%s%s" % [i + 1, log.log_title, security, status])
-	
-	output_system("\nUse 'log <number>' to read a specific log")
 
 func _cmd_show_log(args: Array) -> void:
 	if args.is_empty():
-		output_error("Usage: log <number>")
+		output_error("Usage: log <number> [password]")
 		output("Example: log 1")
+		output("Example: log 37 ABC123")
 		return
 	
 	var log_number = args[0].to_int()
@@ -413,7 +390,26 @@ func _cmd_show_log(args: Array) -> void:
 		output_error("Log data is missing")
 		return
 	
-	# Check if accessible
+	# Check if password protected
+	if log.password_protected:
+		if args.size() < 2:
+			output_error("Access Denied - Password Required")
+			output_system("Usage: log %d <password>" % log_number)
+			return
+		
+		var provided_password = args[1]
+		if not GameManager or not GameManager.has_method("get_session_password"):
+			output_error("Password system not initialized")
+			return
+			
+		if provided_password != GameManager.get_session_password():
+			output_error("Access Denied - Invalid Password")
+			DebugLogger.log_message(module_name, "Failed password attempt for log %d: %s" % [log_number, provided_password])
+			return
+		
+		DebugLogger.log_message(module_name, "Log %d accessed with correct password" % log_number)
+	
+	# Check if accessible (state-based locking)
 	if not log.is_accessible():
 		output_error(log.locked_message)
 		if not log.unlock_state_name.is_empty():
@@ -422,6 +418,37 @@ func _cmd_show_log(args: Array) -> void:
 	
 	# Display the log
 	output_system(log.get_formatted_content())
+
+# Also update the _cmd_list_logs function to show password protection:
+func _cmd_list_logs(args: Array) -> void:
+	if terminal_logs.is_empty():
+		output_system("No logs available in the system")
+		return
+	
+	output_system("=== Available Terminal Logs ===")
+	
+	for i in range(terminal_logs.size()):
+		var log = terminal_logs[i]
+		if not log:
+			continue
+			
+		var status = ""
+		if log.password_protected:
+			status = " [PASSWORD]"
+		elif log.is_locked:
+			if log.is_accessible():
+				status = " [UNLOCKED]"
+			else:
+				status = " [LOCKED]"
+		
+		var security = ""
+		if not log.security_level.is_empty():
+			security = " (" + log.security_level + ")"
+		
+		output("%d. %s%s%s" % [i + 1, log.log_title, security, status])
+	
+	output_system("\nUse 'log <number>' to read a specific log")
+	output_system("Password protected logs require: 'log <number> <password>'")
 
 func _cmd_noclip(args: Array) -> void:
 	var player = get_tree().get_first_node_in_group("player") as Player
@@ -468,109 +495,255 @@ func _cmd_unlock_log(args: Array) -> void:
 		output_system("Log '%s' force unlocked" % log.log_title)
 	
 
-func _cmd_list_events(args: Array) -> void:
+
+func _cmd_tension(args: Array) -> void:
+	## Show or modify global tension
 	if not GameManager.event_manager:
-		output_error("Event Manager not initialized")
+		output_error("Event manager not available")
 		return
 	
+	if args.is_empty():
+		# Show current tension info
+		var info = GameManager.event_manager.get_tension_info()
+		output_system("=== Global Tension System ===")
+		output("Current Tension: %.1f/100" % info.global_tension)
+		output("Decay Rate: %.1f/sec" % info.tension_decay_rate)
+		output("Grace Period: %s" % ("ACTIVE" if info.grace_period_active else "Inactive"))
+		output("")
+		output("Active Cooldowns:")
+		output("  Visual: %d" % info.cooldowns.visual)
+		output("  Audio: %d" % info.cooldowns.audio)
+		output("  Gameplay: %d" % info.cooldowns.gameplay)
+		output("")
+		output("Relationship Boosts: %d active" % info.active_boosts)
+		
+		DebugLogger.debug(module_name, "Displayed tension info")
+		return
+	
+	# Modify tension
+	var action = args[0].to_lower()
+	match action:
+		"set":
+			if args.size() < 2:
+				output_error("Usage: tension set <value>")
+				return
+			var value = float(args[1])
+			GameManager.event_manager.global_tension = clamp(value, 0.0, 100.0)
+			output("Set tension to %.1f" % GameManager.event_manager.global_tension)
+			
+		"add":
+			if args.size() < 2:
+				output_error("Usage: tension add <value>")
+				return
+			var value = float(args[1])
+			var old_tension = GameManager.event_manager.global_tension
+			GameManager.event_manager.global_tension = clamp(old_tension + value, 0.0, 100.0)
+			output("Tension: %.1f -> %.1f" % [old_tension, GameManager.event_manager.global_tension])
+			
+		"reset":
+			GameManager.event_manager.global_tension = 0.0
+			output("Reset tension to 0")
+			
+		_:
+			output_error("Unknown action: %s" % action)
+			output("Usage: tension [set|add|reset] <value>")
+
+func _cmd_event_list(args: Array) -> void:
+	## List all events with tension information
+	if not GameManager.event_manager:
+		output_error("Event manager not available")
+		return
+		
 	var events = GameManager.event_manager.available_events
 	if events.is_empty():
-		output_warning("No events configured")
+		output("No events configured")
 		return
 	
-	output_system("=== Available Events ===")
-	output_system("Total: %d events" % events.size())
+	output_system("=== Configured Events ===")
+	output("Format: [ID] Name (Category) - T:tension D:disruption +Tension:gain Chance:base%")
 	output("")
 	
-	# Sort events by category then by ID
-	var sorted_events = events.duplicate()
-	sorted_events.sort_custom(func(a, b): 
-		if a.category != b.category:
-			return a.category < b.category
-		return a.event_id < b.event_id
-	)
-	
-	var current_category = -1
-	for event in sorted_events:
-		# Category header
-		if event.category != current_category:
-			current_category = event.category
-			output("")
-			output_system("--- %s Events ---" % event.get_category_description())
+	for event in events:
+		var tension_gain = event.get_tension_contribution()
+		var categories = []
+		if event.has_visual_effects:
+			categories.append("V")
+		if event.has_audio:
+			categories.append("A")
+		if event.disruption_score > 0:
+			categories.append("G")
+		var cat_str = "[%s]" % "".join(categories) if not categories.is_empty() else ""
 		
-		# Event details
-		var severity = event.get_severity_description()
-		var tension_str = "T:%d" % event.tension_score
-		var disruption_str = "D:%d" % event.disruption_score
-		var chance_str = "%.1f%%" % event.base_chance if event.category != EventData.EventCategory.PLANNED else "PLANNED"
-		var day_str = ""
-		
-		# Add day restrictions if any
-		if event.min_day > 0 or event.max_day > 0:
-			if event.min_day > 0 and event.max_day > 0:
-				day_str = " [Days %d-%d]" % [event.min_day, event.max_day]
-			elif event.min_day > 0:
-				day_str = " [Day %d+]" % event.min_day
-			else:
-				day_str = " [Days 1-%d]" % event.max_day
-		
-		# For planned events, show scheduled day
-		if event.category == EventData.EventCategory.PLANNED:
-			day_str = " [Day %d @ %02d:00]" % [event.scheduled_day, int(event.scheduled_time_hours)]
-		
-		# Format: ID - Name (Severity) [T:X D:Y] Chance% [Day restrictions]
-		var line = "  %s - %s (%s) [%s %s] %s%s" % [
+		var line = "[%s] %s (%s) - T:%d D:%d +Tension:%.0f Chance:%.1f%% %s" % [
 			event.event_id,
 			event.event_name if not event.event_name.is_empty() else "Unnamed",
-			severity,
-			tension_str,
-			disruption_str,
-			chance_str,
-			day_str
+			event.get_category_description(),
+			event.tension_score,
+			event.disruption_score,
+			tension_gain,
+			event.base_chance,
+			cat_str
 		]
 		
 		output(line)
 		
-		# Show cooldowns
-		var cooldown_info = []
-		if event.tension_cooldown > 0:
-			cooldown_info.append("Tension CD: %.1fs" % event.tension_cooldown)
-		if event.disruption_cooldown > 0:
-			cooldown_info.append("Disruption CD: %.1fs" % event.disruption_cooldown)
-		if not cooldown_info.is_empty():
-			output("    Cooldowns: %s" % ", ".join(cooldown_info))
+		# Show relationships if any
+		if not event.boosts_events.is_empty():
+			var boosts = []
+			for related_id in event.boosts_events:
+				boosts.append("%s(x%.1f)" % [related_id, event.boosts_events[related_id]])
+			output("    Boosts: %s" % ", ".join(boosts))
+	
+	# Show current cooldowns by category
+	output("")
+	output_system("--- Active Cooldowns by Category ---")
+	var cooldowns = GameManager.event_manager.cooldown_categories
+	
+	for category in ["visual", "audio", "gameplay"]:
+		if cooldowns[category].is_empty():
+			output("%s: None" % category.capitalize())
+		else:
+			var items = []
+			for key in cooldowns[category]:
+				items.append("%s(%.1fs)" % [key, cooldowns[category][key]])
+			output("%s: %s" % [category.capitalize(), ", ".join(items)])
+	
+	DebugLogger.debug(module_name, "Listed events with tension info")
+
+func _cmd_force_event(args: Array) -> void:
+	## Force trigger an event bypassing tension checks
+	if args.is_empty():
+		output_error("Usage: force_event <event_id>")
+		return
 		
-		# Show custom data if any
-		if not event.custom_data.is_empty():
-			output("    Custom Data: %s" % str(event.custom_data))
+	if not GameManager.event_manager:
+		output_error("Event manager not available")
+		return
+		
+	var event_id = args[0]
 	
-	# Show current cooldowns
-	output("")
-	output_system("--- Active Cooldowns ---")
-	var cooldowns = GameManager.event_manager.active_cooldowns
-	if cooldowns.is_empty():
-		output("  None")
-	else:
-		for key in cooldowns:
-			output("  %s: %.1fs remaining" % [key, cooldowns[key]])
+	# Check if event exists
+	var found = false
+	for event in GameManager.event_manager.available_events:
+		if event.event_id == event_id:
+			found = true
+			break
+			
+	if not found:
+		output_error("Event not found: %s" % event_id)
+		return
+		
+	GameManager.event_manager.force_trigger_event(event_id)
+	output("Force triggered event: %s" % event_id)
 	
-	# Show scheduled events
-	output("")
-	output_system("--- Scheduled Events ---")
-	var scheduled = GameManager.event_manager.scheduled_events
-	if scheduled.is_empty():
-		output("  None")
-	else:
-		for sched in scheduled:
-			var time_str = Time.get_datetime_string_from_unix_time(int(sched.trigger_time))
-			output("  %s on Day %d at %s" % [sched.event_id, sched.scheduled_day, time_str])
-	
-	# Show current state
-	output("")
-	output_system("--- Event System State ---")
-	output("  Current Day: %d" % GameManager.event_manager.current_day)
-	output("  Insanity Level: %.1f" % GameManager.event_manager.insanity_level)
-	output("  Task Completion Boost: %.1fx" % GameManager.event_manager.task_completion_boost)
-	
-	DebugLogger.debug(module_name, "Listed %d events" % events.size())
-	
+	# Show updated tension
+	var tension = GameManager.event_manager.global_tension
+	output("Global tension now: %.1f" % tension)
+
+
+#func _cmd_list_events(args: Array) -> void:
+	#if not GameManager.event_manager:
+		#output_error("Event Manager not initialized")
+		#return
+	#
+	#var events = GameManager.event_manager.available_events
+	#if events.is_empty():
+		#output_warning("No events configured")
+		#return
+	#
+	#output_system("=== Available Events ===")
+	#output_system("Total: %d events" % events.size())
+	#output("")
+	#
+	## Sort events by category then by ID
+	#var sorted_events = events.duplicate()
+	#sorted_events.sort_custom(func(a, b): 
+		#if a.category != b.category:
+			#return a.category < b.category
+		#return a.event_id < b.event_id
+	#)
+	#
+	#var current_category = -1
+	#for event in sorted_events:
+		## Category header
+		#if event.category != current_category:
+			#current_category = event.category
+			#output("")
+			#output_system("--- %s Events ---" % event.get_category_description())
+		#
+		## Event details
+		#var severity = event.get_severity_description()
+		#var tension_str = "T:%d" % event.tension_score
+		#var disruption_str = "D:%d" % event.disruption_score
+		#var chance_str = "%.1f%%" % event.base_chance if event.category != EventData.EventCategory.PLANNED else "PLANNED"
+		#var day_str = ""
+		#
+		## Add day restrictions if any
+		#if event.min_day > 0 or event.max_day > 0:
+			#if event.min_day > 0 and event.max_day > 0:
+				#day_str = " [Days %d-%d]" % [event.min_day, event.max_day]
+			#elif event.min_day > 0:
+				#day_str = " [Day %d+]" % event.min_day
+			#else:
+				#day_str = " [Days 1-%d]" % event.max_day
+		#
+		## For planned events, show scheduled day
+		#if event.category == EventData.EventCategory.PLANNED:
+			#day_str = " [Day %d @ %02d:00]" % [event.scheduled_day, int(event.scheduled_time_hours)]
+		#
+		## Format: ID - Name (Severity) [T:X D:Y] Chance% [Day restrictions]
+		#var line = "  %s - %s (%s) [%s %s] %s%s" % [
+			#event.event_id,
+			#event.event_name if not event.event_name.is_empty() else "Unnamed",
+			#severity,
+			#tension_str,
+			#disruption_str,
+			#chance_str,
+			#day_str
+		#]
+		#
+		#output(line)
+		#
+		## Show cooldowns
+		#var cooldown_info = []
+		#if event.tension_cooldown > 0:
+			#cooldown_info.append("Tension CD: %.1fs" % event.tension_cooldown)
+		#if event.disruption_cooldown > 0:
+			#cooldown_info.append("Disruption CD: %.1fs" % event.disruption_cooldown)
+		#if not cooldown_info.is_empty():
+			#output("    Cooldowns: %s" % ", ".join(cooldown_info))
+		#
+		## Show custom data if any
+		#if not event.custom_data.is_empty():
+			#output("    Custom Data: %s" % str(event.custom_data))
+	#
+	## Show current cooldowns
+	#output("")
+	#output_system("--- Active Cooldowns ---")
+	#var cooldowns = GameManager.event_manager.active_cooldowns
+	#if cooldowns.is_empty():
+		#output("  None")
+	#else:
+		#for key in cooldowns:
+			#output("  %s: %.1fs remaining" % [key, cooldowns[key]])
+	#
+	## Show scheduled events
+	#output("")
+	#output_system("--- Scheduled Events ---")
+	#var scheduled = GameManager.event_manager.scheduled_events
+	#if scheduled.is_empty():
+		#output("  None")
+	#else:
+		#for sched in scheduled:
+			#var time_str = Time.get_datetime_string_from_unix_time(int(sched.trigger_time))
+			#output("  %s on Day %d at %s" % [sched.event_id, sched.scheduled_day, time_str])
+	#
+	## Show current state
+	#output("")
+	#output_system("--- Event System State ---")
+	#output("  Current Day: %d" % GameManager.event_manager.current_day)
+	#output("  Insanity Level: %.1f" % GameManager.event_manager.insanity_level)
+	#output("  Task Completion Boost: %.1fx" % GameManager.event_manager.task_completion_boost)
+	#
+	#DebugLogger.debug(module_name, "Listed %d events" % events.size())
+	#

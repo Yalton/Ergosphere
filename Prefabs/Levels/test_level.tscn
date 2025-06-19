@@ -1,6 +1,7 @@
-[gd_scene load_steps=69 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=72 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="1_iv3f0"]
+[ext_resource type="Script" uid="uid://dbrp023kh24vn" path="res://Subsystems/PostProcessing/glitch.gd" id="2_bsk3i"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
 [ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Graphics/Textures/VFX_Textures/smoke_04.png" id="3_dyfrl"]
 [ext_resource type="Script" uid="uid://bex3ut4wa5nfy" path="res://Scripts/Misc/murder_zone.gd" id="4_840tq"]
@@ -27,6 +28,7 @@
 [ext_resource type="AudioStream" uid="uid://b833mqskbys66" path="res://Assets/Audio/Events/power_up.ogg" id="25_bsk3i"]
 [ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="26_wehjc"]
 [ext_resource type="Script" uid="uid://cofj3mdiput7h" path="res://Scripts/Environment/Misc/emmsive_flicker_manager.gd" id="27_0325f"]
+[ext_resource type="PackedScene" uid="uid://qr1n21uuq8fa" path="res://Prefabs/Environment/Props/Tech/window_lever.tscn" id="28_eprw8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
 shader = ExtResource("1_iv3f0")
@@ -71,7 +73,73 @@ volumetric_fog_density = 0.0
 adjustment_enabled = true
 adjustment_brightness = 0.8
 
+[sub_resource type="CompositorEffect" id="CompositorEffect_wehjc"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("2_bsk3i")
+shader_code = "
+	// Create pseudo-random value based on position
+	float rand = fract(sin(dot(vec2(uv.y, uv.x * 0.01), vec2(12.9898, 78.233))) * 43758.5453);
+	
+	// Horizontal glitch lines - random chance per row
+	bool should_glitch = rand < 0.05; // 5% of rows glitch
+	
+	if (should_glitch) {
+		// Calculate glitch offset
+		float glitch_strength = 20.0;
+		int offset = int((rand - 0.5) * glitch_strength);
+		
+		// RGB channel splitting for glitched rows
+		if (rand < 0.02) { // 2% chance for severe glitch
+			// Severe glitch - separate RGB channels
+			ivec2 r_coord = clamp(ivec2(uv.x + offset + 5, uv.y), ivec2(0), size - ivec2(1));
+			ivec2 g_coord = clamp(ivec2(uv.x + offset, uv.y), ivec2(0), size - ivec2(1));
+			ivec2 b_coord = clamp(ivec2(uv.x + offset - 5, uv.y), ivec2(0), size - ivec2(1));
+			
+			vec4 r_sample = imageLoad(color_image, r_coord);
+			vec4 g_sample = imageLoad(color_image, g_coord);
+			vec4 b_sample = imageLoad(color_image, b_coord);
+			
+			color.r = r_sample.r;
+			color.g = g_sample.g;
+			color.b = b_sample.b;
+			
+			// Add noise to glitched areas
+			float noise = fract(sin(float(uv.x + uv.y) * 78.233) * 43758.5453);
+			color.rgb = mix(color.rgb, vec3(noise), 0.3);
+		} else {
+			// Mild glitch - just displacement
+			ivec2 glitch_coord = clamp(ivec2(uv.x + offset, uv.y), ivec2(0), size - ivec2(1));
+			color = imageLoad(color_image, glitch_coord);
+		}
+	}
+	
+	// Occasional static blocks
+	float block_size = 32.0;
+	vec2 block_pos = floor(vec2(uv) / block_size);
+	float block_rand = fract(sin(dot(block_pos, vec2(12.9898, 78.233))) * 43758.5453);
+	
+	if (block_rand < 0.01) { // 1% chance per block
+		float static_noise = fract(sin(float(uv.x * uv.y) * 43758.5453));
+		color.rgb = vec3(static_noise);
+	}
+	
+	// Subtle scan lines for CRT feel
+	float scanline = sin(float(uv.y) * 800.0) * 0.02;
+	color.rgb -= scanline;
+	
+	// Color quantization for digital artifact feel
+	float levels = 32.0;
+	color.rgb = floor(color.rgb * levels) / levels;
+	"
+metadata/_custom_type_script = "uid://dbrp023kh24vn"
+
 [sub_resource type="Compositor" id="Compositor_gx60g"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_wehjc")])
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ux1ao"]
 render_priority = 0
@@ -370,7 +438,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.03, 0.768353, -2.51411)
 [node name="OrderHeatsinkTask" parent="." instance=ExtResource("19_3ndhy")]
 
 [node name="terminal_monitor" parent="." instance=ExtResource("20_3ndhy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -15.6004)
 
 [node name="Fx_Spawn_Point" parent="." instance=ExtResource("21_eljqp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 0)
@@ -391,3 +459,6 @@ shared_emissive_material = ExtResource("26_wehjc")
 [node name="EmissiveFlickerManager" type="Node" parent="Modules"]
 script = ExtResource("27_0325f")
 shared_emissive_material = ExtResource("26_wehjc")
+
+[node name="window_lever" parent="." instance=ExtResource("28_eprw8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.7016, 3.31112, 2.51838)

@@ -2,8 +2,8 @@
 extends Resource
 class_name EventData
 
-## Data structure for defining events in the new event system
-## Separate from BaseEvent - this is pure data, execution happens in EventDispatcher
+## Data structure for events with tension system support
+## Includes category-specific cooldowns and relationship data
 
 enum EventCategory {
 	## Event was always going to occur at a scheduled time
@@ -50,6 +50,22 @@ enum EventCategory {
 ## For planned events - what time of day (0-24 hours)
 @export var scheduled_time_hours: float = 12.0
 
+## Category-specific cooldowns and properties
+@export_group("Category Settings")
+## Whether this event has visual effects that need cooldown
+@export var has_visual_effects: bool = false
+## Visual effects cooldown override (0 = use tension_cooldown)
+@export var visual_cooldown_override: float = 0.0
+## Whether this event has audio that needs cooldown
+@export var has_audio: bool = false
+## Audio cooldown override (0 = use 70% of tension_cooldown)
+@export var audio_cooldown_override: float = 0.0
+
+## Event relationships - which events this boosts
+@export_group("Event Relationships")
+## Dictionary of event_id -> boost_multiplier for related events
+@export var boosts_events: Dictionary = {}
+
 ## Custom data that can be used by event handlers
 @export var custom_data: Dictionary = {}
 
@@ -57,6 +73,24 @@ func _init() -> void:
 	# Generate default ID if not set
 	if event_id.is_empty():
 		event_id = "event_" + str(randi())
+	
+	# Update custom data with category flags
+	_update_custom_data()
+
+func _update_custom_data() -> void:
+	## Sync category settings to custom data for backward compatibility
+	if has_visual_effects:
+		custom_data["has_visual"] = true
+		if visual_cooldown_override > 0:
+			custom_data["visual_cooldown"] = visual_cooldown_override
+	
+	if has_audio:
+		custom_data["has_audio"] = true
+		if audio_cooldown_override > 0:
+			custom_data["audio_cooldown"] = audio_cooldown_override
+	
+	if not boosts_events.is_empty():
+		custom_data["boosts_events"] = boosts_events
 
 func is_valid() -> bool:
 	## Check if this event data is properly configured
@@ -89,3 +123,15 @@ func get_category_description() -> String:
 		EventCategory.UNPLANNED: return "Unplanned"
 		EventCategory.HYBRID: return "Hybrid"
 		_: return "Unknown"
+
+func get_tension_contribution() -> float:
+	## Get how much tension this event would add
+	var severity = max(tension_score, disruption_score)
+	# This should match the event_tension_gain dictionary in EventManager
+	match severity:
+		1: return 5.0
+		2: return 10.0
+		3: return 20.0
+		4: return 35.0
+		5: return 50.0
+		_: return 10.0

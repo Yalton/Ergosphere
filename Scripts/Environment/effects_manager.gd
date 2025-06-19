@@ -40,6 +40,31 @@ func _ready():
 		original_emission_color = shared_emissive_material.emission
 		original_emission_energy = shared_emissive_material.emission_energy_multiplier
 
+## Brief flicker duration in seconds
+@export var brief_flicker_duration: float = 0.15
+
+## Triggers a brief flicker of all emissive lights
+func trigger_brief_flicker() -> void:
+	if not shared_emissive_material:
+		DebugLogger.warning("EffectsManager", "No shared emissive material for flicker")
+		return
+	
+	if not power_is_on:
+		DebugLogger.debug("EffectsManager", "Power is off, skipping flicker")
+		return
+	
+	DebugLogger.debug("EffectsManager", "Triggering brief flicker")
+	
+	var tween = create_tween()
+	
+	# Quick fade out
+	tween.tween_property(shared_emissive_material, "emission_energy_multiplier", 
+		0.0, brief_flicker_duration * 0.4)
+	
+	# Quick fade back in
+	tween.tween_property(shared_emissive_material, "emission_energy_multiplier", 
+		original_emission_energy, brief_flicker_duration * 0.6)
+		
 func kill_power(duration: float = 0.0) -> void:
 	if not power_is_on:
 		return

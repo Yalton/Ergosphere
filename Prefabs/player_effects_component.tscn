@@ -1,21 +1,36 @@
-[gd_scene load_steps=4 format=3 uid="uid://3ioq6sw0jikq"]
+[gd_scene load_steps=12 format=3 uid="uid://3ioq6sw0jikq"]
 
 [ext_resource type="Script" uid="uid://qtkuk7gi07dp" path="res://Scripts/player_effects_component.gd" id="1_1d0yj"]
 [ext_resource type="Shader" uid="uid://btt8n6kwqex30" path="res://Assets/VFX/blink.gdshader" id="2_l8tyx"]
+[ext_resource type="Shader" uid="uid://dippbd5x6ufys" path="res://Assets/VFX/Shader/warp_rect.gdshader" id="3_u13ml"]
+[ext_resource type="Script" uid="uid://d1n3p8t8a6ip6" path="res://Scripts/Entities/visual_fx/glitch_effect_handler.gd" id="4_cybdt"]
+[ext_resource type="Script" uid="uid://b2qu1mx3nhv6" path="res://Scripts/Entities/visual_fx/blink_effect_handler.gd" id="5_na65h"]
+[ext_resource type="Script" uid="uid://bn6ct5ron5370" path="res://Scripts/Entities/visual_fx/warp_effect_handler.gd" id="6_tchia"]
+[ext_resource type="Script" uid="uid://bq2sxhdtjc7tr" path="res://Scripts/Entities/visual_fx/mind_break_effect_handler.gd" id="7_v5h1s"]
+[ext_resource type="Script" uid="uid://b4aeb2qdnkcry" path="res://Scripts/Entities/visual_fx/chromatic_aberration_effect_handler.gd" id="8_v5h1s"]
+[ext_resource type="Script" uid="uid://f180xnqugwgo" path="res://Scripts/Entities/visual_fx/edge_detection_effect_handler.gd" id="9_j3bkj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u13ml"]
 shader = ExtResource("2_l8tyx")
 shader_parameter/blink_progress = 0.0
 shader_parameter/blink_color = Color(0, 0, 0, 1)
 
-[node name="PlayerEffectsComponent" type="Node" node_paths=PackedStringArray("effects_canvas_layer")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cybdt"]
+shader = ExtResource("3_u13ml")
+shader_parameter/warp_strength = 1.0
+shader_parameter/wave_speed = 3.01
+shader_parameter/wave_frequency = 26.265
+shader_parameter/chromatic_aberration = 0.029
+shader_parameter/blur_amount = 1.705
+shader_parameter/vignette_strength = 0.0
+
+[node name="PlayerEffectsComponent" type="Node"]
 script = ExtResource("1_1d0yj")
-effects_canvas_layer = NodePath("CanvasLayer")
-blink_rect_path = NodePath("CanvasLayer/ColorRect")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
 material = SubResource("ShaderMaterial_u13ml")
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,3 +40,31 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
+
+[node name="WarpRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource("ShaderMaterial_cybdt")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GlitchEffectHandler" type="Node" parent="."]
+script = ExtResource("4_cybdt")
+
+[node name="BlinkEffectHandler" type="Node" parent="." node_paths=PackedStringArray("blink_rect")]
+script = ExtResource("5_na65h")
+blink_rect = NodePath("../CanvasLayer/ColorRect")
+
+[node name="WarpEffectHandler" type="Node" parent="."]
+script = ExtResource("6_tchia")
+
+[node name="MindBreakEffectHandler" type="Node" parent="."]
+script = ExtResource("7_v5h1s")
+
+[node name="ChromaticAberrationEffectHandler" type="Node" parent="."]
+script = ExtResource("8_v5h1s")
+
+[node name="EdgeDetectionEffectHandler" type="Node" parent="."]
+script = ExtResource("9_j3bkj")

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://b365mi1v5n1xb"]
+
+[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="1_knrv8"]
+
+[resource]
+script = ExtResource("1_knrv8")
+event_id = "brief_flicker"
+event_name = "brief_flicker"
+category = 1
+tension_score = 1
+disruption_score = 1
+base_chance = 10.0
+tension_cooldown = 30.0
+disruption_cooldown = 20.0
+min_day = 0
+max_day = 0
+scheduled_day = 0
+scheduled_time_hours = 12.0
+has_visual_effects = true
+visual_cooldown_override = 0.0
+has_audio = false
+audio_cooldown_override = 0.0
+boosts_events = {}
+custom_data = {}
+metadata/_custom_type_script = "uid://clf1310qk2c05"

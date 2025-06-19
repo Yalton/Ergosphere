@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_ykrfc"]
 [ext_resource type="Texture2D" uid="uid://bxfy7beddfb00" path="res://Assets/Graphics/telescope_Crosshair.svg" id="2_gdp5c"]
 [ext_resource type="Script" uid="uid://c16dy1v737jhe" path="res://Scripts/Misc/play_on_load.gd" id="3_hejy6"]
-[ext_resource type="Script" uid="uid://dt8fbwwdkbhww" path="res://Subsystems/ascii_effect_shader.gd" id="3_ykrfc"]
+[ext_resource type="Script" uid="uid://dt8fbwwdkbhww" path="res://Subsystems/PostProcessing/ascii_effect_shader.gd" id="3_ykrfc"]
 [ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="4_4ud1o"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ykrfc"]

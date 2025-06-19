@@ -12,6 +12,9 @@ class_name TerminalLog
 ## Whether this log is locked initially
 @export var is_locked: bool = false
 
+## Whether this log requires the session password to access
+@export var password_protected: bool = false
+
 ## State requirement to unlock this log (if locked)
 @export_group("Unlock Requirements")
 ## The state name to check for unlocking

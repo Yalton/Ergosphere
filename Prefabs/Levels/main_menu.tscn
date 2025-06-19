@@ -10,7 +10,7 @@
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="6_2hlap"]
 [ext_resource type="Script" uid="uid://dvv2xi58iaxg7" path="res://Scripts/Resources/credits.gd" id="6_oo8h8"]
 [ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Graphics/Textures/VFX_Textures/smoke_04.png" id="7_hnakq"]
-[ext_resource type="Script" uid="uid://c2lq0mlp6vmir" path="res://Subsystems/post_process_shader.gd" id="8_d1snc"]
+[ext_resource type="Script" uid="uid://c2lq0mlp6vmir" path="res://Subsystems/PostProcessing/post_process_shader.gd" id="8_d1snc"]
 
 [sub_resource type="Resource" id="Resource_2e3k0"]
 metadata/__load_path__ = "res://Assets/Audio/door_opening.wav"
