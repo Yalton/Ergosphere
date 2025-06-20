@@ -250,7 +250,8 @@ mesh = SubResource("CapsuleMesh_23jlx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_bxc72")
 
-[node name="PlayerEffectsComponent" parent="." instance=ExtResource("2_5ls6m")]
+[node name="PlayerEffectsComponent" parent="." node_paths=PackedStringArray("player_camera") instance=ExtResource("2_5ls6m")]
+player_camera = NodePath("../Head/Camera3D")
 
 [node name="InsanityComponent" parent="." instance=ExtResource("3_p85qx")]
 

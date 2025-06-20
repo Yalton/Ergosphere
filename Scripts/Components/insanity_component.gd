@@ -20,7 +20,7 @@ signal insanity_changed(new_value: float)
 
 var grace_period_timer: float = 0.0
 var player: Node = null
-var interaction_component: Node = null
+var interaction_component: PlayerInteractionComponent = null
 
 func _ready():
 	DebugLogger.register_module("InsanityComponent")
@@ -29,7 +29,7 @@ func _ready():
 	# Get player reference
 	player = CommonUtils.get_player()
 	if player:
-		interaction_component = player.get_node("InteractionComponent")
+		interaction_component = player.interaction_component
 
 func _process(delta):
 	# Update grace period

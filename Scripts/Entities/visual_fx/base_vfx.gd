@@ -1,21 +1,23 @@
 extends Node
 class_name BaseVisualEffect
 
-## Base class for all visual effects
-## Each effect handler extends this and implements the effect logic
+## Base class for all visual effects - provides camera reference and common functionality
 
 signal effect_started()
 signal effect_finished()
 
+@export_group("Effect Settings")
 ## Unique identifier for this effect
 @export var effect_id: String = ""
 ## Display name for debugging
 @export var effect_name: String = ""
-## Which compositor effect index this uses (-1 if none)
+## Which compositor effect index to use (-1 for none)
 @export var compositor_index: int = -1
 ## Whether to use blink transition (except for blink itself)
 @export var use_blink_transition: bool = true
 
+## Player camera reference - passed by VisualEffectsManager
+var player_camera: Camera3D
 ## Whether this effect is currently active
 var is_active: bool = false
 ## Module name for debug logging
@@ -29,33 +31,48 @@ func _ready() -> void:
 	
 	module_name = effect_name + "Effect"
 	DebugLogger.register_module(module_name, true)
+	
+	if effect_id.is_empty():
+		DebugLogger.warning(module_name, "Effect ID not set for %s" % name)
 
-## Main method to invoke the effect
-func invoke_effect(startup: float, duration: float, wind_down: float) -> void:
+## Start the effect with timing parameters
+func invoke_effect(startup: float = 0.5, duration: float = 2.0, wind_down: float = 0.5) -> void:
 	if is_active:
-		DebugLogger.warning(module_name, "Effect already active")
+		DebugLogger.warning(module_name, "Effect %s already active" % effect_id)
 		return
 	
 	is_active = true
 	effect_started.emit()
-	DebugLogger.info(module_name, "Starting effect - startup: %f, duration: %f, wind_down: %f" % [startup, duration, wind_down])
+	
+	DebugLogger.info(module_name, "Starting effect %s (startup: %s, duration: %s, wind_down: %s)" % [effect_id, startup, duration, wind_down])
 	
 	# Handle blink transition for non-blink effects
 	if use_blink_transition and effect_id != "blink":
 		await _do_blink_transition(true)
 	
-	# Execute the three phases
-	await _startup_phase(startup)
-	await _duration_phase(duration)
-	await _wind_down_phase(wind_down)
+	# Startup phase
+	if startup > 0:
+		await _startup_phase(startup)
+		if not is_active: return  # Effect was stopped
+	
+	# Main duration phase
+	if duration > 0:
+		await _duration_phase(duration)
+		if not is_active: return  # Effect was stopped
+	
+	# Wind down phase
+	if wind_down > 0:
+		await _wind_down_phase(wind_down)
+		if not is_active: return  # Effect was stopped
 	
 	# Handle blink transition out
 	if use_blink_transition and effect_id != "blink":
 		await _do_blink_transition(false)
 	
+	# Cleanup and finish
+	_cleanup()
 	is_active = false
 	effect_finished.emit()
-	DebugLogger.info(module_name, "Effect finished")
 
 ## Helper to do blink transition
 func _do_blink_transition(starting: bool) -> void:
@@ -71,7 +88,7 @@ func _startup_phase(time: float) -> void:
 	if time > 0:
 		await get_tree().create_timer(time).timeout
 
-## Override in child classes - handles the main duration phase
+## Override in child classes - handles the main effect duration
 func _duration_phase(time: float) -> void:
 	DebugLogger.debug(module_name, "Default duration phase - override in child class")
 	if time > 0:
@@ -105,12 +122,11 @@ func get_compositor_effect() -> CompositorEffect:
 	if compositor_index < 0:
 		return null
 		
-	var player_cam = CommonUtils.get_player_camera()
-	if not player_cam:
-		DebugLogger.error(module_name, "No player camera found")
+	if not player_camera:
+		DebugLogger.error(module_name, "No player camera reference")
 		return null
 	
-	var compositor = player_cam.compositor
+	var compositor = player_camera.compositor
 	if not compositor:
 		DebugLogger.error(module_name, "No compositor on player camera")
 		return null

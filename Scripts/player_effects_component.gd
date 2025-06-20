@@ -13,6 +13,10 @@ signal effect_finished(effect_id: String)
 ## Maximum simultaneous effects (-1 for unlimited)
 @export var max_simultaneous: int = 3
 
+@export_group("Camera Reference")
+## Player camera reference - set this from the player script
+@export var player_camera: Camera3D
+
 ## Module name for debug logging
 var module_name: String = "VisualEffectsManager"
 ## Dictionary of effect handlers by ID
@@ -41,6 +45,9 @@ func _discover_effect_handlers() -> void:
 				DebugLogger.warning(module_name, "Effect handler %s has no ID" % handler.name)
 				continue
 			
+			# Pass camera reference to the handler
+			handler.player_camera = player_camera
+			
 			effect_handlers[handler.effect_id] = handler
 			
 			# Connect signals
@@ -48,6 +55,17 @@ func _discover_effect_handlers() -> void:
 			handler.effect_finished.connect(_on_effect_finished.bind(handler.effect_id))
 			
 			DebugLogger.debug(module_name, "Registered effect handler: %s" % handler.effect_id)
+
+## Set the camera reference and pass it to all handlers
+func set_camera(camera: Camera3D) -> void:
+	player_camera = camera
+	
+	# Update all existing handlers
+	for handler in effect_handlers.values():
+		if handler is BaseVisualEffect:
+			handler.player_camera = camera
+	
+	DebugLogger.debug(module_name, "Camera reference updated for all handlers")
 
 ## Invoke a visual effect with timing parameters
 func invoke_effect(effect_id: String, startup: float = 0.5, duration: float = 2.0, wind_down: float = 0.5) -> void:
