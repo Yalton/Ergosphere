@@ -17,7 +17,7 @@ func _ready() -> void:
 	super._ready()
 	effect_id = "edge_detection"
 	effect_name = "Edge Detection"
-	compositor_index = 1  # Edge detection is index 1
+	compositor_index = 3  # Edge detection is index 1
 	
 	# Create audio player
 	audio_player = AudioStreamPlayer.new()

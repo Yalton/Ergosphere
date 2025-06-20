@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bgnqxsxljglaq"]
+[gd_scene load_steps=34 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="PackedScene" uid="uid://3ioq6sw0jikq" path="res://Prefabs/player_effects_component.tscn" id="2_5ls6m"]
@@ -8,7 +8,10 @@
 [ext_resource type="AudioStream" uid="uid://cw2e8sv5oj7bw" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep00.ogg" id="3_rld0k"]
 [ext_resource type="AudioStream" uid="uid://dp305uipdp2ir" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep01.ogg" id="4_kkf6j"]
 [ext_resource type="AudioStream" uid="uid://bdhmdt44gw7jc" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep02.ogg" id="5_mepo0"]
+[ext_resource type="Script" uid="uid://dbrp023kh24vn" path="res://Subsystems/PostProcessing/glitch.gd" id="5_xdcw6"]
 [ext_resource type="AudioStream" uid="uid://d374xus6acenf" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep03.ogg" id="6_slw6b"]
+[ext_resource type="Script" uid="uid://dk5n3h6vj2l4d" path="res://Subsystems/PostProcessing/chromatic_aberration.gd" id="6_yls7o"]
+[ext_resource type="Script" uid="uid://c0y0x4gqcwmv2" path="res://Subsystems/PostProcessing/outline_detection.gd" id="7_bnfw2"]
 [ext_resource type="AudioStream" uid="uid://b25sg6gh7sqr4" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep04.ogg" id="7_jox8g"]
 [ext_resource type="Resource" uid="uid://ca0q2t6w08ubh" path="res://Subsystems/DynamicFootstepSystem/FootstepMaterialLibrary/sample_footstep_material_library.tres" id="8_kkf6j"]
 [ext_resource type="Script" uid="uid://bihy62e0ucg5g" path="res://Scripts/Components/Player/player_interaction_component.gd" id="9_mepo0"]
@@ -59,8 +62,162 @@ vignette = mix(1.0 - vignette_intensity, 1.0, vignette);
 color.rgb *= vignette;"
 metadata/_custom_type_script = "uid://c2lq0mlp6vmir"
 
+[sub_resource type="CompositorEffect" id="CompositorEffect_1p7eu"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("5_xdcw6")
+shader_code = "
+	// Create pseudo-random value based on position
+	float rand = fract(sin(dot(vec2(uv.y, uv.x * 0.01), vec2(12.9898, 78.233))) * 43758.5453);
+	
+	// Horizontal glitch lines - random chance per row
+	bool should_glitch = rand < 0.05; // 5% of rows glitch
+	
+	if (should_glitch) {
+		// Calculate glitch offset
+		float glitch_strength = 20.0;
+		int offset = int((rand - 0.5) * glitch_strength);
+		
+		// RGB channel splitting for glitched rows
+		if (rand < 0.02) { // 2% chance for severe glitch
+			// Severe glitch - separate RGB channels
+			ivec2 r_coord = clamp(ivec2(uv.x + offset + 5, uv.y), ivec2(0), size - ivec2(1));
+			ivec2 g_coord = clamp(ivec2(uv.x + offset, uv.y), ivec2(0), size - ivec2(1));
+			ivec2 b_coord = clamp(ivec2(uv.x + offset - 5, uv.y), ivec2(0), size - ivec2(1));
+			
+			vec4 r_sample = imageLoad(color_image, r_coord);
+			vec4 g_sample = imageLoad(color_image, g_coord);
+			vec4 b_sample = imageLoad(color_image, b_coord);
+			
+			color.r = r_sample.r;
+			color.g = g_sample.g;
+			color.b = b_sample.b;
+			
+			// Add noise to glitched areas
+			float noise = fract(sin(float(uv.x + uv.y) * 78.233) * 43758.5453);
+			color.rgb = mix(color.rgb, vec3(noise), 0.3);
+		} else {
+			// Mild glitch - just displacement
+			ivec2 glitch_coord = clamp(ivec2(uv.x + offset, uv.y), ivec2(0), size - ivec2(1));
+			color = imageLoad(color_image, glitch_coord);
+		}
+	}
+	
+	// Occasional static blocks
+	float block_size = 32.0;
+	vec2 block_pos = floor(vec2(uv) / block_size);
+	float block_rand = fract(sin(dot(block_pos, vec2(12.9898, 78.233))) * 43758.5453);
+	
+	if (block_rand < 0.01) { // 1% chance per block
+		float static_noise = fract(sin(float(uv.x * uv.y) * 43758.5453));
+		color.rgb = vec3(static_noise);
+	}
+	
+	// Subtle scan lines for CRT feel
+	float scanline = sin(float(uv.y) * 800.0) * 0.02;
+	color.rgb -= scanline;
+	
+	// Color quantization for digital artifact feel
+	float levels = 32.0;
+	color.rgb = floor(color.rgb * levels) / levels;
+	"
+metadata/_custom_type_script = "uid://dbrp023kh24vn"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_6p2g8"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("6_yls7o")
+shader_code = "
+	// Calculate distance from center for radial effect
+	vec2 center = vec2(size) * 0.5;
+	vec2 current_pos = vec2(uv);
+	float dist_from_center = length(current_pos - center) / length(center);
+	
+	// Base aberration strength - increases toward edges
+	float aberration_strength = 4.0 * dist_from_center * dist_from_center;
+	
+	// Calculate offset directions
+	vec2 direction = normalize(current_pos - center);
+	ivec2 red_offset = ivec2(direction * aberration_strength);
+	ivec2 blue_offset = ivec2(-direction * aberration_strength);
+	
+	// Clamp coordinates to prevent out-of-bounds access
+	ivec2 red_coord = clamp(uv + red_offset, ivec2(0), size - ivec2(1));
+	ivec2 blue_coord = clamp(uv + blue_offset, ivec2(0), size - ivec2(1));
+	
+	// Sample colors at offset positions
+	vec4 red_sample = imageLoad(color_image, red_coord);
+	vec4 blue_sample = imageLoad(color_image, blue_coord);
+	
+	// Keep green channel from original position, offset red and blue
+	color.r = red_sample.r;
+	color.b = blue_sample.b;
+	
+	// Add subtle vignette effect to enhance the distortion
+	float vignette = 1.0 - dist_from_center * 0.5;
+	color.rgb *= vignette;
+	
+	// Slight desaturation for horror atmosphere
+	float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));
+	color.rgb = mix(vec3(gray), color.rgb, 0.85);
+	"
+metadata/_custom_type_script = "uid://dk5n3h6vj2l4d"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_808wy"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("7_bnfw2")
+shader_code = "
+	// Sample neighboring pixels for edge detection
+	vec4 top = imageLoad(color_image, uv + ivec2(0, -1));
+	vec4 bottom = imageLoad(color_image, uv + ivec2(0, 1));
+	vec4 left = imageLoad(color_image, uv + ivec2(-1, 0));
+	vec4 right = imageLoad(color_image, uv + ivec2(1, 0));
+	
+	// Calculate luminance for each sample
+	float lum_center = dot(color.rgb, vec3(0.299, 0.587, 0.114));
+	float lum_top = dot(top.rgb, vec3(0.299, 0.587, 0.114));
+	float lum_bottom = dot(bottom.rgb, vec3(0.299, 0.587, 0.114));
+	float lum_left = dot(left.rgb, vec3(0.299, 0.587, 0.114));
+	float lum_right = dot(right.rgb, vec3(0.299, 0.587, 0.114));
+	
+	// Sobel operators
+	float sobel_x = abs(lum_right - lum_left);
+	float sobel_y = abs(lum_bottom - lum_top);
+	float edge = sqrt(sobel_x * sobel_x + sobel_y * sobel_y);
+	
+	// Edge threshold - adjust for sensitivity
+	float threshold = 0.15;
+	float edge_strength = smoothstep(threshold, threshold + 0.05, edge);
+	
+	// Create creepy outline effect
+	vec3 outline_color = vec3(0.0, 0.0, 0.0); // Black outlines
+	vec3 background_color = color.rgb * 0.8; // Darken the background
+	
+	// Mix based on edge detection
+	color.rgb = mix(background_color, outline_color, edge_strength);
+	
+	// Add subtle red tint to edges for horror effect
+	if (edge_strength > 0.5) {
+		color.r += edge_strength * 0.2;
+	}
+	"
+metadata/_custom_type_script = "uid://c0y0x4gqcwmv2"
+
 [sub_resource type="Compositor" id="Compositor_k313v"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_66sxq")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_66sxq"), SubResource("CompositorEffect_1p7eu"), SubResource("CompositorEffect_6p2g8"), SubResource("CompositorEffect_808wy")])
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c0wcc"]
 streams_count = 5

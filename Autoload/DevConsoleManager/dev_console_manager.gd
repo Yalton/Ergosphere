@@ -64,6 +64,16 @@ func _register_default_commands() -> void:
 	register_command("event_list", _cmd_event_list, "List all events with tension info")
 	register_command("force_event", _cmd_force_event, "Force trigger an event")
 
+	# Visual Effects commands
+	register_command("vfx", _cmd_vfx, "Test visual effects (usage: vfx <effect_id> [startup] [duration] [winddown])", true)
+	register_command("vfx_glitch", _cmd_vfx_glitch, "Quick glitch effect test", true)
+	register_command("vfx_mind", _cmd_vfx_mind, "Test mind break effect", true)
+	register_command("vfx_stop", _cmd_vfx_stop, "Stop all visual effects", true)
+	register_command("vfx_list", _cmd_vfx_list, "List all available visual effects", true)
+	
+	# VFX aliases
+	register_alias("fx", "vfx")
+	
 func _register_game_commands() -> void:
 	# Admin-only commands
 	register_command("trigger_event", _cmd_trigger_event, "Triggers a game event by ID", true)
@@ -641,6 +651,93 @@ func _cmd_force_event(args: Array) -> void:
 	output("Global tension now: %.1f" % tension)
 
 
+func _cmd_vfx(args: Array) -> void:
+	if args.is_empty():
+		output_error("Usage: vfx <effect_id> [startup] [duration] [winddown]")
+		output("Available effects: blink, warp, glitch, edge_detection, chromatic_aberration, mind_break")
+		return
+	
+	var vfx_manager = get_tree().get_first_node_in_group("visual_effects_manager")
+	if not vfx_manager:
+		output_error("No visual effects manager found in scene")
+		return
+	
+	# Parse arguments
+	var effect_id = args[0]
+	var startup = 0.5 if args.size() < 2 else float(args[1])
+	var duration = 2.0 if args.size() < 3 else float(args[2])
+	var winddown = 0.5 if args.size() < 4 else float(args[3])
+	
+	# Invoke effect
+	output_system("Triggering effect: %s (startup: %f, duration: %f, winddown: %f)" % [effect_id, startup, duration, winddown])
+	vfx_manager.invoke_effect(effect_id, startup, duration, winddown)
+
+func _cmd_vfx_glitch(args: Array) -> void:
+	var vfx_manager = get_tree().get_first_node_in_group("visual_effects_manager")
+	if not vfx_manager:
+		output_error("No visual effects manager found")
+		return
+	
+	output_system("Testing glitch effect...")
+	vfx_manager.invoke_effect("glitch", 0.2, 1.0, 0.2)
+
+func _cmd_vfx_mind(args: Array) -> void:
+	var vfx_manager = get_tree().get_first_node_in_group("visual_effects_manager")
+	if not vfx_manager:
+		output_error("No visual effects manager found")
+		return
+	
+	output_system("Testing mind break effect...")
+	vfx_manager.invoke_effect("mind_break", 1.0, 5.0, 1.0)
+
+func _cmd_vfx_stop(args: Array) -> void:
+	var vfx_manager = get_tree().get_first_node_in_group("visual_effects_manager")
+	if not vfx_manager:
+		output_error("No visual effects manager found")
+		return
+	
+	vfx_manager.stop_all_effects()
+	output_system("All visual effects stopped")
+
+func _cmd_vfx_list(args: Array) -> void:
+	var vfx_manager = get_tree().get_first_node_in_group("visual_effects_manager")
+	if not vfx_manager:
+		output_error("No visual effects manager found")
+		return
+	
+	output_system("=== Available Visual Effects ===")
+	
+	# Get all effect handlers
+	var effects = []
+	for child in vfx_manager.get_children():
+		if child is BaseVisualEffect:
+			var effect_info = {
+				"id": child.effect_id,
+				"name": child.effect_name,
+				"compositor_index": child.compositor_index,
+				"use_blink": child.use_blink_transition
+			}
+			effects.append(effect_info)
+	
+	if effects.is_empty():
+		output("No effects found. Make sure effect handlers are children of VisualEffectsManager")
+	else:
+		for effect in effects:
+			var active = " [ACTIVE]" if vfx_manager.is_effect_active(effect.id) else ""
+			var compositor = " (Compositor: %d)" % effect.compositor_index if effect.compositor_index >= 0 else " (ColorRect)"
+			var blink = " +Blink" if effect.use_blink else ""
+			output("- %s (%s)%s%s%s" % [effect.id, effect.name, compositor, blink, active])
+	
+	# Show active effects count
+	var active_effects = vfx_manager.get_active_effects()
+	output_system("\nActive effects: %d" % active_effects.size())
+	
+	# Show usage examples
+	output_system("\nExamples:")
+	output("  vfx blink 0.1 0.05 0.1     # Quick blink")
+	output("  vfx glitch                 # Default glitch (0.5s/2s/0.5s)")
+	output("  vfx mind_break 1 5 1       # 5-second mind break")
+	output("  vfx_stop                   # Stop all effects")
 #func _cmd_list_events(args: Array) -> void:
 	#if not GameManager.event_manager:
 		#output_error("Event Manager not initialized")

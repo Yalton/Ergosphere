@@ -34,7 +34,7 @@ ButtonSoundManager="*res://Autoload/ButtonSoundManager/ButtonSoundManager.tscn"
 TransitionManager="*res://Autoload/TransitionManager/transition_manager.tscn"
 GameManager="*res://Autoload/GameManager/GameManager.tscn"
 CommonUtils="*res://Autoload/Utilities.gd"
-DevConsoleManager="*res://Autoload/DevConsoleManager.tscn"
+DevConsoleManager="*res://Autoload/DevConsoleManager/DevConsoleManager.tscn"
 
 [debug]
 

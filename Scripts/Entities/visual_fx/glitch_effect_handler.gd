@@ -22,7 +22,7 @@ func _ready() -> void:
 	super._ready()
 	effect_id = "glitch"
 	effect_name = "Glitch"
-	compositor_index = 0  # Glitch is index 0
+	compositor_index = 1  # Glitch is index 0
 	
 	# Create audio player
 	audio_player = AudioStreamPlayer.new()
