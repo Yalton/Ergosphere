@@ -347,8 +347,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_151k6")
 
-[node name="BlackHole" type="Node3D"]
+[node name="BlackHole" type="Node3D" node_paths=PackedStringArray("main_mesh")]
 script = ExtResource("1_ow3i5")
+main_mesh = NodePath("BlackHole")
 
 [node name="BlackHole" type="MeshInstance3D" parent="."]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
