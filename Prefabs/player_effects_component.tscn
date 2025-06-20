@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://3ioq6sw0jikq"]
+[gd_scene load_steps=15 format=3 uid="uid://3ioq6sw0jikq"]
 
 [ext_resource type="Script" uid="uid://qtkuk7gi07dp" path="res://Scripts/player_effects_component.gd" id="1_1d0yj"]
 [ext_resource type="Shader" uid="uid://btt8n6kwqex30" path="res://Assets/VFX/blink.gdshader" id="2_l8tyx"]
@@ -9,6 +9,9 @@
 [ext_resource type="Script" uid="uid://bq2sxhdtjc7tr" path="res://Scripts/Entities/visual_fx/mind_break_effect_handler.gd" id="7_v5h1s"]
 [ext_resource type="Script" uid="uid://b4aeb2qdnkcry" path="res://Scripts/Entities/visual_fx/chromatic_aberration_effect_handler.gd" id="8_v5h1s"]
 [ext_resource type="Script" uid="uid://f180xnqugwgo" path="res://Scripts/Entities/visual_fx/edge_detection_effect_handler.gd" id="9_j3bkj"]
+[ext_resource type="Script" uid="uid://dxk2sk5l00ms8" path="res://Scripts/Entities/visual_fx/geometric_fractal.gd" id="10_eqkq4"]
+[ext_resource type="Script" uid="uid://b3uh84nul0edv" path="res://Scripts/Entities/visual_fx/purple_light.gd" id="11_bnhsu"]
+[ext_resource type="Script" uid="uid://ckw6yxy2jnrjg" path="res://Scripts/Entities/visual_fx/hallucination_text.gd" id="12_rl8qx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u13ml"]
 shader = ExtResource("2_l8tyx")
@@ -68,3 +71,12 @@ script = ExtResource("8_v5h1s")
 
 [node name="EdgeDetectionEffectHandler" type="Node" parent="."]
 script = ExtResource("9_j3bkj")
+
+[node name="GeometricFractal" type="Node" parent="."]
+script = ExtResource("10_eqkq4")
+
+[node name="PurpleLight" type="Node" parent="."]
+script = ExtResource("11_bnhsu")
+
+[node name="HallucinationText" type="Node" parent="."]
+script = ExtResource("12_rl8qx")
