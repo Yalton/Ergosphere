@@ -34,6 +34,16 @@ enum DisableMethod {
 ## Current method to use when disabling the screen
 @export var disable_method: DisableMethod = DisableMethod.SPLASH_SCREEN
 
+## Corruption settings - add to existing @export_category sections
+@export_category("Corruption")
+## Default corruption duration if not specified by event
+@export var default_corruption_duration: float = 3.0
+
+# Add to existing variables
+var is_corrupted: bool = false
+var corruption_timer: Timer
+
+
 var has_been_used: bool = false
 var interaction_text: String
 var player_interaction_component: PlayerInteractionComponent
@@ -81,6 +91,8 @@ func _ready() -> void:
 		GameManager.day_reset.connect(_on_day_reset)
 		DebugLogger.debug(module_name, "Connected to day_reset signal")
 	
+	setup_corruption_system() 
+	
 	DebugLogger.debug(module_name, "Diegetic UI initialized with text: " + interaction_text)
 
 func _physics_process(delta: float) -> void:
@@ -97,6 +109,12 @@ func _physics_process(delta: float) -> void:
 
 func interact(_player_interaction_component: PlayerInteractionComponent) -> void:
 	# Check if UI is disabled
+
+	# Check if corrupted
+	if is_corrupted:
+		DebugLogger.debug(module_name, "Terminal is corrupted, ignoring interaction")
+		return
+		
 	if is_disabled:
 		DebugLogger.debug(module_name, "UI is disabled, ignoring interaction")
 		return
@@ -296,7 +314,7 @@ func set_state() -> void:
 
 # Helper method to check if UI can be interacted with
 func can_interact() -> bool:
-	return not is_disabled and not is_in_cooldown and cooldown <= 0 and not is_player_interacting
+	return not is_corrupted and not is_disabled and not is_in_cooldown and cooldown <= 0 and not is_player_interacting
 
 func disable_screen() -> void:
 	is_disabled = true
@@ -421,3 +439,41 @@ func _on_task_assigned(task_id: String):
 # Virtual method for child classes to override for custom reset behavior
 func _on_day_reset_custom() -> void:
 	pass
+
+# Add to _ready() function after existing setup
+func setup_corruption_system() -> void:
+	corruption_timer = Timer.new()
+	corruption_timer.one_shot = true
+	corruption_timer.timeout.connect(_end_corruption)
+	add_child(corruption_timer)
+	DebugLogger.debug(module_name, "Corruption system initialized")
+
+## Corrupt the terminal for specified duration. Kicks out current user and prevents interaction.
+func corrupt_terminal(duration: float = -1.0) -> void:
+	var corruption_duration = duration if duration > 0 else default_corruption_duration
+	
+	DebugLogger.debug(module_name, "Corrupting terminal for " + str(corruption_duration) + " seconds")
+	
+	# Force end any current interaction
+	if is_player_interacting:
+		force_end_interaction()
+	
+	# Set corrupted state
+	is_corrupted = true
+	
+	# Show corruption screen
+	if ui_content:
+		ui_content.show_corruption()
+	
+	# Start corruption timer
+	corruption_timer.wait_time = corruption_duration
+	corruption_timer.start()
+
+func _end_corruption() -> void:
+	DebugLogger.debug(module_name, "Ending corruption")
+	
+	is_corrupted = false
+	
+	# Hide corruption screen
+	if ui_content:
+		ui_content.hide_corruption()

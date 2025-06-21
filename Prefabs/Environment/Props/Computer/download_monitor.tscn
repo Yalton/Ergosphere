@@ -182,6 +182,7 @@ skin = SubResource("Skin_7db5l")
 script = null
 
 [node name="SubViewport" type="SubViewport" parent="." node_paths=PackedStringArray("display_mesh")]
+disable_3d = true
 size = Vector2i(640, 472)
 size_2d_override = Vector2i(1920, 1080)
 size_2d_override_stretch = true

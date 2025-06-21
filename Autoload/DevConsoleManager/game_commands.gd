@@ -15,6 +15,7 @@ func register_commands() -> void:
 	register_command("no_clip", _cmd_noclip, "Exactly what it sounds like", true)
 	register_command("complete_all_daily", _cmd_complete_all_daily, "Completes all active daily tasks", true)
 	register_command("force_event", _cmd_force_event, "Force trigger an event", true)
+	register_command("unlock_log", _cmd_unlock_log, "Unlocks a specific log", true)
 	
 	# Visual Effects commands
 	register_command("vfx", _cmd_vfx, "Test visual effects (usage: vfx <effect_id> [startup] [duration] [winddown])", true)
@@ -47,8 +48,16 @@ func _cmd_assign_task(args: Array) -> void:
 		return
 	
 	var task_id = args[0]
-	# Add your task assignment logic here
-	output_system("Assigned task: " + task_id)
+	
+	if GameManager.task_manager:
+		var task = GameManager.task_manager.get_task(task_id)
+		if task:
+			GameManager.task_manager.assign_task(task)
+			output_system("Task '%s' assigned successfully" % task_id)
+		else:
+			output_error("Task '%s' not found" % task_id)
+	else:
+		output_error("Task manager not available")
 
 func _cmd_complete_task(args: Array) -> void:
 	if args.is_empty():
@@ -56,54 +65,251 @@ func _cmd_complete_task(args: Array) -> void:
 		return
 	
 	var task_id = args[0]
-	# Add your task completion logic here
-	output_system("Completed task: " + task_id)
+	GameManager.task_manager.complete_task(task_id)
+	output_system("Task '%s' force completed" % task_id)
 
 func _cmd_next_day(args: Array) -> void:
-	# Add your next day logic here
-	output_system("Starting next day...")
+	if GameManager.time_manager:
+		GameManager.time_manager.start_next_day()
+		output_system("Started next day")
+	else:
+		output_error("Time manager not available")
 
 func _cmd_noclip(args: Array) -> void:
-	# Add your noclip logic here
-	output_system("NoClip toggled")
+	var player = get_tree().get_first_node_in_group("player") as Player
+	
+	if not player:
+		output_error("Player not found")
+		return
+	
+	if not player.has_method("toggle_noclip"):
+		output_error("Player doesn't support noclip")
+		return
+	
+	player.toggle_noclip()
+	var state = "enabled" if player.noclip_enabled else "disabled"
+	output_system("No-clip mode " + state)
 
 func _cmd_complete_all_daily(args: Array) -> void:
-	# Add your complete all daily tasks logic here
-	output_system("All daily tasks completed")
+	if not GameManager.task_manager:
+		output_error("Task manager not available")
+		return
+	
+	var todays_tasks = GameManager.task_manager.get_todays_tasks()
+	var completed_count = 0
+	var already_completed = 0
+	var failed_count = 0
+	
+	output_system("=== Completing All Daily Tasks ===")
+	
+	for task in todays_tasks:
+		# Skip sleep task and emergency tasks
+		if task.task_id == GameManager.task_manager.sleep_task_id:
+			continue
+			
+		if task.is_completed:
+			already_completed += 1
+			output("SKIP: %s (already completed)" % task.task_name)
+			continue
+		
+		# Force complete the task
+		GameManager.task_manager.complete_task(task.task_id)
+		
+		# Check if it actually completed
+		if task.is_completed:
+			completed_count += 1
+			output("DONE: %s" % task.task_name)
+		else:
+			failed_count += 1
+			output_warning("FAIL: %s (conditions not met)" % task.task_name)
+	
+	output_system("=== Summary ===")
+	output("Completed: %d" % completed_count)
+	output("Already done: %d" % already_completed)
+	output("Failed: %d" % failed_count)
+	
+	if completed_count > 0:
+		output_system("All completable daily tasks have been finished")
+	else:
+		output_warning("No tasks were completed")
 
 func _cmd_force_event(args: Array) -> void:
 	if args.is_empty():
 		output_error("Usage: force_event <event_id>")
 		return
-	
+		
+	if not GameManager.event_manager:
+		output_error("Event manager not available")
+		return
+		
 	var event_id = args[0]
+	
+	# Check if event exists
+	var found = false
+	for event in GameManager.event_manager.available_events:
+		if event.event_id == event_id:
+			found = true
+			break
+			
+	if not found:
+		output_error("Event not found: %s" % event_id)
+		return
+		
 	GameManager.event_manager.force_trigger_event(event_id)
-	output_system("Force triggered event: " + event_id)
+	output("Force triggered event: %s" % event_id)
+	
+	# Show updated tension
+	var tension = GameManager.event_manager.global_tension
+	output("Global tension now: %.1f" % tension)
 
 func _cmd_status(args: Array) -> void:
 	output_system("=== Game Status ===")
-	# Add your status display logic here
-	output("Day: [current_day]")
-	output("Active Tasks: [task_count]")
+	
+	# Time status
+	if GameManager.time_manager:
+		output("Day: %d" % GameManager.time_manager.current_day)
+		output("Time: %s" % GameManager.time_manager.get_time_string())
+	
+	# Task status
+	if GameManager.task_manager:
+		var active_tasks = GameManager.task_manager.get_active_tasks()
+		output("Active tasks: %d" % active_tasks.size())
+	
+	# Player status
+	if GameManager.player:
+		output("Player position: %s" % str(GameManager.player.global_position))
 
 func _cmd_tasks(args: Array) -> void:
+	if not GameManager.task_manager:
+		output_error("Task manager not available")
+		return
+	
+	var active_tasks = GameManager.task_manager.get_active_tasks()
+	
+	if active_tasks.is_empty():
+		output_system("No active tasks")
+		return
+	
 	output_system("=== Active Tasks ===")
-	# Add your task listing logic here
-	output("No active tasks") # placeholder
+	for task in active_tasks:
+		var status = "In Progress" if not task.is_completed else "Completed"
+		output("[%s] %s - %s" % [task.task_id, task.task_name, status])
+		if task.task_description:
+			output("  Description: %s" % task.task_description)
 
 func _cmd_tension(args: Array) -> void:
+	## Show or modify global tension
+	if not GameManager.event_manager:
+		output_error("Event manager not available")
+		return
+	
 	if args.is_empty():
-		# Show current tension
-		output_system("Current tension: [tension_value]")
-	else:
-		# Set tension
-		var new_tension = args[0].to_float()
-		output_system("Tension set to: " + str(new_tension))
+		# Show current tension info
+		var info = GameManager.event_manager.get_tension_info()
+		output_system("=== Global Tension System ===")
+		output("Current Tension: %.1f/100" % info.global_tension)
+		output("Decay Rate: %.1f/sec" % info.tension_decay_rate)
+		output("Grace Period: %s" % ("ACTIVE" if info.grace_period_active else "Inactive"))
+		output("")
+		output("Active Cooldowns:")
+		output("  Visual: %d" % info.cooldowns.visual)
+		output("  Audio: %d" % info.cooldowns.audio)
+		output("  Gameplay: %d" % info.cooldowns.gameplay)
+		output("")
+		output("Relationship Boosts: %d active" % info.active_boosts)
+		
+		DebugLogger.debug(module_name, "Displayed tension info")
+		return
+	
+	# Modify tension
+	var action = args[0].to_lower()
+	match action:
+		"set":
+			if args.size() < 2:
+				output_error("Usage: tension set <value>")
+				return
+			var value = float(args[1])
+			GameManager.event_manager.global_tension = clamp(value, 0.0, 100.0)
+			output("Set tension to %.1f" % GameManager.event_manager.global_tension)
+			
+		"add":
+			if args.size() < 2:
+				output_error("Usage: tension add <value>")
+				return
+			var value = float(args[1])
+			var old_tension = GameManager.event_manager.global_tension
+			GameManager.event_manager.global_tension = clamp(old_tension + value, 0.0, 100.0)
+			output("Tension: %.1f -> %.1f" % [old_tension, GameManager.event_manager.global_tension])
+			
+		"reset":
+			GameManager.event_manager.global_tension = 0.0
+			output("Reset tension to 0")
+			
+		_:
+			output_error("Unknown action: %s" % action)
+			output("Usage: tension [set|add|reset] <value>")
 
 func _cmd_event_list(args: Array) -> void:
-	output_system("=== Event List ===")
-	# Add your event listing logic here
-	output("No events available") # placeholder
+	## List all events with tension information
+	if not GameManager.event_manager:
+		output_error("Event manager not available")
+		return
+		
+	var events = GameManager.event_manager.available_events
+	if events.is_empty():
+		output("No events configured")
+		return
+	
+	output_system("=== Configured Events ===")
+	output("Format: [ID] Name (Category) - T:tension D:disruption +Tension:gain Chance:base%")
+	output("")
+	
+	for event in events:
+		var tension_gain = event.get_tension_contribution()
+		var categories = []
+		if event.has_visual_effects:
+			categories.append("V")
+		if event.has_audio:
+			categories.append("A")
+		if event.disruption_score > 0:
+			categories.append("G")
+		var cat_str = "[%s]" % "".join(categories) if not categories.is_empty() else ""
+		
+		var line = "[%s] %s (%s) - T:%d D:%d +Tension:%.0f Chance:%.1f%% %s" % [
+			event.event_id,
+			event.event_name if not event.event_name.is_empty() else "Unnamed",
+			event.get_category_description(),
+			event.tension_score,
+			event.disruption_score,
+			tension_gain,
+			event.base_chance,
+			cat_str
+		]
+		
+		output(line)
+		
+		# Show relationships if any
+		if not event.boosts_events.is_empty():
+			var boosts = []
+			for related_id in event.boosts_events:
+				boosts.append("%s(x%.1f)" % [related_id, event.boosts_events[related_id]])
+			output("    Boosts: %s" % ", ".join(boosts))
+	
+	# Show current cooldowns by category
+	output("")
+	output_system("--- Active Cooldowns by Category ---")
+	var cooldowns = GameManager.event_manager.cooldown_categories
+	
+	for category in ["visual", "audio", "gameplay"]:
+		if cooldowns[category].is_empty():
+			output("%s: None" % category.capitalize())
+		else:
+			var items = []
+			for key in cooldowns[category]:
+				items.append("%s(%.1fs)" % [key, cooldowns[category][key]])
+			output("%s: %s" % [category.capitalize(), ", ".join(items)])
+	
+	DebugLogger.debug(module_name, "Listed events with tension info")
 
 func _cmd_reboot(args: Array) -> void:
 	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
@@ -115,9 +321,58 @@ func _cmd_reboot(args: Array) -> void:
 		output_system("Reboot has failed")
 
 func _cmd_diagnostics(args: Array) -> void:
+	# ASCII art
+	output("                                                        ")
+	output("   m    #               m    #                          ")
+	output(" mm#mm  # mm    mmm   mm#mm  # mm           mmm    mmm  ")
+	output("   #    #:  #  #: :#    #    #:  #         #: :#  #   : ")
+	output("   #    #   #  #   #    #    #   #   :::   #   #   :::m ")
+	output("   :mm  #   #  :#m#:    :mm  #   #         :#m#:  :mmm: ")
+	output("                                                        ")
+														
+	
+	# Fake diagnostic info
+	output_system("THOTH Operating System v3.14.159")
+	output("Kernel: THOTH-CORE 7.42.1337")
+	output("Architecture: x86_64")
+	output("Uptime: " + str(randi_range(100, 9999)) + " cycles")
+	output("Memory: " + str(randi_range(60, 95)) + "% utilized")
+	output("Quantum cores: " + str(randi_range(4, 16)) + " active")
+	output("Neural pathways: " + str(randi_range(1024, 8192)) + " synchronized")
+	output("Temporal variance: " + str(randf_range(0.001, 0.999)) + "ms")
+	output("Consciousness buffer: " + str(randi_range(70, 100)) + "% coherent")
+	output("")
+	output_system("All systems nominal.")
 	DevConsoleManager.diag_run.emit()
-	output_system("Running system diagnostics...")
-	# Add your diagnostics logic here
+
+func _cmd_unlock_log(args: Array) -> void:
+	if args.is_empty():
+		output_error("Usage: unlock_log <number>")
+		return
+	
+	var log_number = args[0].to_int()
+	
+	if log_number < 1 or log_number > DevConsoleManager.terminal_logs.size():
+		output_error("Invalid log number")
+		return
+	
+	var log = DevConsoleManager.terminal_logs[log_number - 1]
+	
+	if not log:
+		output_error("Log data is missing")
+		return
+	
+	if not log.is_locked:
+		output_warning("Log is not locked")
+		return
+
+	# Force unlock by setting the required state
+	if not log.unlock_state_name.is_empty() and GameManager.state_manager:
+		GameManager.state_manager.set_state(log.unlock_state_name, log.unlock_state_value)
+		output_system("Log '%s' unlocked by setting %s to %s" % [log.log_title, log.unlock_state_name, str(log.unlock_state_value)])
+	else:
+		log.is_locked = false
+		output_system("Log '%s' force unlocked" % log.log_title)
 
 # Visual Effects command implementations
 func _cmd_vfx(args: Array) -> void:

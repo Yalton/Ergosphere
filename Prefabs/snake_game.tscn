@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dl1qtta7n7nlq"]
+[gd_scene load_steps=4 format=3 uid="uid://dl1qtta7n7nlq"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_7irps"]
 [ext_resource type="Script" uid="uid://qd6jad53o4at" path="res://Scripts/snake_game.gd" id="1_r0uhh"]
+[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_txdl3"]
 
-[node name="SnakeGame" type="Control" node_paths=PackedStringArray("start_screen", "game_screen", "game_grid", "progress_bar", "length_label", "start_button", "game_over_label")]
+[node name="SnakeGame" type="Control" node_paths=PackedStringArray("start_screen", "game_screen", "game_grid", "progress_bar", "length_label", "start_button", "game_over_label", "main_ui", "splash_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,15 +15,25 @@ theme = ExtResource("1_7irps")
 script = ExtResource("1_r0uhh")
 move_interval = 0.15
 background_color = Color(0.252028, 0.252028, 0.252028, 1)
-start_screen = NodePath("StartScreen")
-game_screen = NodePath("GameScreen")
-game_grid = NodePath("GameScreen/PanelContainer/HBoxContainer/MarginContainer/GameArea")
-progress_bar = NodePath("GameScreen/PanelContainer/HBoxContainer/VBoxContainer/ProgressBar")
-length_label = NodePath("GameScreen/PanelContainer/HBoxContainer/VBoxContainer/LengthLabel")
-start_button = NodePath("StartScreen/PanelContainer/VBoxContainer/Button")
-game_over_label = NodePath("GameScreen/PanelContainer/HBoxContainer/VBoxContainer/GameOver")
+start_screen = NodePath("MainScreen/StartScreen")
+game_screen = NodePath("MainScreen/GameScreen")
+game_grid = NodePath("MainScreen/GameScreen/PanelContainer/HBoxContainer/MarginContainer/GameArea")
+progress_bar = NodePath("MainScreen/GameScreen/PanelContainer/HBoxContainer/VBoxContainer/ProgressBar")
+length_label = NodePath("MainScreen/GameScreen/PanelContainer/HBoxContainer/VBoxContainer/LengthLabel")
+start_button = NodePath("MainScreen/StartScreen/PanelContainer/VBoxContainer/Button")
+game_over_label = NodePath("MainScreen/GameScreen/PanelContainer/HBoxContainer/VBoxContainer/GameOver")
+main_ui = NodePath("MainScreen")
+splash_screen = NodePath("ScreenSaver")
 
-[node name="StartScreen" type="Control" parent="."]
+[node name="MainScreen" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartScreen" type="Control" parent="MainScreen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,7 +42,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_7irps")
 
-[node name="PanelContainer" type="PanelContainer" parent="StartScreen"]
+[node name="PanelContainer" type="PanelContainer" parent="MainScreen/StartScreen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,28 +50,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StartScreen/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainScreen/StartScreen/PanelContainer"]
 layout_mode = 2
 theme = ExtResource("1_7irps")
 
-[node name="Label" type="Label" parent="StartScreen/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MainScreen/StartScreen/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_7irps")
 text = "Snake Game"
 horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="StartScreen/PanelContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="MainScreen/StartScreen/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="Button" type="Button" parent="StartScreen/PanelContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="MainScreen/StartScreen/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_7irps")
 text = "Start Game"
 
-[node name="GameScreen" type="Control" parent="."]
+[node name="GameScreen" type="Control" parent="MainScreen"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -70,7 +81,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_7irps")
 
-[node name="PanelContainer" type="PanelContainer" parent="GameScreen"]
+[node name="PanelContainer" type="PanelContainer" parent="MainScreen/GameScreen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,10 +89,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GameScreen/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainScreen/GameScreen/PanelContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="GameScreen/PanelContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainScreen/GameScreen/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 60
@@ -89,28 +100,32 @@ theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 60
 theme_override_constants/margin_bottom = 60
 
-[node name="GameArea" type="GridContainer" parent="GameScreen/PanelContainer/HBoxContainer/MarginContainer"]
+[node name="GameArea" type="GridContainer" parent="MainScreen/GameScreen/PanelContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameScreen/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainScreen/GameScreen/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.45
 
-[node name="LengthLabel" type="Label" parent="GameScreen/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="LengthLabel" type="Label" parent="MainScreen/GameScreen/PanelContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 32
 text = "Placeholder"
 
-[node name="ProgressBar" type="ProgressBar" parent="GameScreen/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="MainScreen/GameScreen/PanelContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 2
 
-[node name="GameOver" type="Label" parent="GameScreen/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="GameOver" type="Label" parent="MainScreen/GameScreen/PanelContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 32
 text = "Placeholder"
+
+[node name="ScreenSaver" parent="." instance=ExtResource("3_txdl3")]
+visible = false
+layout_mode = 1

@@ -435,7 +435,7 @@ func _discover_event_handlers() -> void:
 	event_handlers.clear()
 	var nodes = get_tree().get_nodes_in_group("event_handlers")
 	for node in nodes:
-		if node.has_method("handle_event"):
+		if node is EventHandler:
 			event_handlers.append(node)
 	DebugLogger.debug(module_name, "Found %d event handlers" % event_handlers.size())
 

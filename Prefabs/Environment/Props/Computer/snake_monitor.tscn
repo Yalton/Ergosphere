@@ -1,9 +1,11 @@
-[gd_scene load_steps=18 format=4 uid="uid://byfm7nhue30j2"]
+[gd_scene load_steps=20 format=4 uid="uid://byfm7nhue30j2"]
 
 [ext_resource type="Texture2D" uid="uid://d30amr513rkr2" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Color.png" id="1_7kpcg"]
 [ext_resource type="Script" uid="uid://cqfxdy5h1w0va" path="res://Prefabs/Environment/Props/Computer/snake_monitor.gd" id="1_mm5sr"]
+[ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="2_nrf5x"]
 [ext_resource type="Texture2D" uid="uid://qejysd14q40x" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Roughness.png" id="2_qfy5d"]
 [ext_resource type="Texture2D" uid="uid://d4f4jssc74kra" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Normal.png" id="3_vaxqh"]
+[ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="3_vvenq"]
 [ext_resource type="Texture2D" uid="uid://dwgo0lfh56oy4" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Color.png" id="4_mm5sr"]
 [ext_resource type="Texture2D" uid="uid://cq1v1lwg2hweo" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Roughness.png" id="5_nrf5x"]
 [ext_resource type="Texture2D" uid="uid://pf0o6435nwg1" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Normal.png" id="6_vvenq"]
@@ -97,7 +99,7 @@ resource_local_to_scene = true
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_loklc")
 
-[node name="snake_monitor" type="StaticBody3D" node_paths=PackedStringArray("snake_game_control", "sub_viewport", "display", "ui_content")]
+[node name="snake_monitor" type="StaticBody3D" node_paths=PackedStringArray("snake_game_control", "sub_viewport", "display", "ui_content", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_mm5sr")
@@ -105,6 +107,13 @@ snake_game_control = NodePath("SubViewport/SnakeGame")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Display")
 ui_content = NodePath("SubViewport/SnakeGame")
+task_aware_component = NodePath("TaskAwareComponent")
+state_aware_component = NodePath("StateAwareComponent")
+
+[node name="TaskAwareComponent" parent="." instance=ExtResource("2_nrf5x")]
+associated_task_id = "snake_game"
+
+[node name="StateAwareComponent" parent="." instance=ExtResource("3_vvenq")]
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
 bones/0/name = "Monitor Stand"

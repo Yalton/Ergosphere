@@ -398,3 +398,4 @@ process_material = SubResource("ParticleProcessMaterial_28ne6")
 draw_pass_1 = SubResource("ArrayMesh_clw46")
 
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
+aabb = AABB(-14.0116, -15.1079, -16.0753, 28.0231, 30.2158, 32.1507)

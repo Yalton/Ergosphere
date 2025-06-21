@@ -3,13 +3,13 @@ extends DiegeticUIBase
 
 signal snake_game_completed(final_length: int)
 
-@export var snake_game_control: SnakeGame  # Assign the SnakeGame node
+## Reference to the SnakeGame control node
+@export var snake_game_control: SnakeGame
 
-## Enable debug logging
 
 func _ready() -> void:
-	super._ready()
 	module_name = "SnakeDiegeticUI"
+	super._ready()
 	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Set interaction text
@@ -30,8 +30,6 @@ func _ready() -> void:
 
 func start_interaction() -> void:
 	super.start_interaction()
-	
-	# Additional setup for snake game if needed
 	DebugLogger.debug(module_name, "Snake game interaction started")
 
 func end_interaction() -> void:
@@ -47,6 +45,11 @@ func _on_snake_game_completed(final_length: int) -> void:
 	
 	# Relay the signal to external listeners
 	snake_game_completed.emit(final_length)
+	
+	# Complete the task if task-aware component exists
+	if task_aware_component:
+		task_aware_component.complete_task()
+		DebugLogger.debug(module_name, "Task completed via task-aware component")
 	
 	# End interaction after completion
 	await get_tree().create_timer(1.0).timeout
