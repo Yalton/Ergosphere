@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cu662o2dsmg2b"]
+
+[ext_resource type="Script" uid="uid://codk73o0bh0wo" path="res://Scripts/Tasks/reboot_systems_task.gd" id="1_dyvk7"]
+[ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="2_jgse4"]
+
+[node name="RebootSystemsTask" type="Node" node_paths=PackedStringArray("task_aware_component")]
+script = ExtResource("1_dyvk7")
+task_aware_component = NodePath("TaskAwareComponent")
+
+[node name="TaskAwareComponent" parent="." instance=ExtResource("2_jgse4")]
+associated_task_id = "reboot_systems"
+show_task_in_interaction_text = false

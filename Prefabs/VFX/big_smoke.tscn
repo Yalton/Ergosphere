@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://bvqvla8urmxvc"]
 
-[ext_resource type="Script" uid="uid://dwsdvdmtr885x" path="res://Scripts/vfx_auto_clean.gd" id="1_gb4gd"]
+[ext_resource type="Script" uid="uid://dwsdvdmtr885x" path="res://Scripts/VFX/vfx_auto_clean.gd" id="1_gb4gd"]
 
 [sub_resource type="Gradient" id="Gradient_4xi4w"]
 offsets = PackedFloat32Array(0, 0.988764)

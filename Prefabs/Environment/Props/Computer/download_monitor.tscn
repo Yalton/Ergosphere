@@ -18,6 +18,20 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_l0qie"]
 size = Vector3(4.67627, 3.99227, 5.446)
 
+[sub_resource type="QuadMesh" id="QuadMesh_1210g"]
+size = Vector2(3.8, 2.8)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qfur7"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rd50w"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_qfur7")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_exi1t"]
+size = Vector3(3.85, 2.8, 0.2)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g4m61"]
 resource_name = "GreyPlastic"
 cull_mode = 2
@@ -115,20 +129,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_exi1t"]
-size = Vector3(3.85, 2.8, 0.2)
-
-[sub_resource type="QuadMesh" id="QuadMesh_1210g"]
-size = Vector2(3.8, 2.8)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_qfur7"]
-viewport_path = NodePath("SubViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rd50w"]
-resource_local_to_scene = true
-shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_qfur7")
-
 [node name="Download_Monitor" type="StaticBody3D" node_paths=PackedStringArray("download_ui_control", "sub_viewport", "display", "ui_content", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
@@ -136,7 +136,7 @@ script = ExtResource("1_qfur7")
 download_ui_control = NodePath("SubViewport/DownloadUI")
 interact_sound = ExtResource("2_15nl1")
 sub_viewport = NodePath("SubViewport")
-display = NodePath("Display")
+display = NodePath("Skeleton3D/BoneAttachment3D/Display")
 ui_content = NodePath("SubViewport/DownloadUI")
 task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
@@ -169,6 +169,34 @@ bones/1/position = Vector3(8.88178e-16, 0.035, -2.5411e-23)
 bones/1/rotation = Quaternion(0.707107, -3.38169e-08, -5.33852e-08, 0.707107)
 bones/1/scale = Vector3(1, 1, 1)
 
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Skeleton3D"]
+transform = Transform3D(1, -4.61853e-14, -3.89414e-07, -3.89414e-07, 5.96046e-08, -1, 6.75016e-14, 1, 5.96046e-08, 9.31322e-09, 0.035, -2.08616e-09)
+bone_name = "Monitor"
+bone_idx = 1
+
+[node name="Display" type="MeshInstance3D" parent="Skeleton3D/BoneAttachment3D"]
+transform = Transform3D(0.0714286, 4.76246e-08, 6.62897e-16, -1.26862e-09, 0.0019027, 0.0714032, 4.76077e-08, -0.0714032, 0.0019027, 7.60805e-08, 0.198615, -0.122829)
+mesh = SubResource("QuadMesh_1210g")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_rd50w")
+
+[node name="Area3D" type="Area3D" parent="Skeleton3D/BoneAttachment3D"]
+transform = Transform3D(0.0714286, -2.78153e-08, 4.95687e-15, -3.16362e-15, 4.25747e-09, 0.0714286, -2.78153e-08, -0.0714286, 4.25747e-09, -5.88239e-08, 0.200489, -0.127141)
+collision_layer = 32
+collision_mask = 32
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton3D/BoneAttachment3D/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0214791, 0.0178831, -0.075453)
+shape = SubResource("BoxShape3D_exi1t")
+
+[node name="SkeletonIK3D" type="SkeletonIK3D" parent="Skeleton3D"]
+transform = Transform3D(0.0714286, 0, 0, 0, 0.0714286, 0, 0, 0, 0.0714286, 0, 0, 0)
+root_bone = &"Monitor Stand"
+tip_bone = &"Monitor"
+use_magnet = true
+target_node = NodePath("../../Marker3D")
+
 [node name="Low-Poly Monitor #3" type="MeshInstance3D" parent="Skeleton3D"]
 mesh = SubResource("ArrayMesh_l4gnf")
 skin = SubResource("Skin_7db5l")
@@ -177,6 +205,20 @@ skin = SubResource("Skin_7db5l")
 visible = false
 mesh = SubResource("ArrayMesh_kdt73")
 skin = SubResource("Skin_7db5l")
+
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D"]
+active = false
+target_node = NodePath("../../Marker3D")
+bone_name = "Monitor"
+bone = 1
+forward_axis = 2
+primary_rotation_axis = 2
+use_angle_limitation = true
+symmetry_limitation = true
+primary_limit_angle = 1.0472
+primary_damp_threshold = 1.0
+secondary_limit_angle = 1.0472
+secondary_damp_threshold = 1.0
 
 [node name="BasicInteraction" parent="." instance=ExtResource("7_au0d5")]
 script = null
@@ -187,24 +229,12 @@ size = Vector2i(640, 472)
 size_2d_override = Vector2i(1920, 1080)
 size_2d_override_stretch = true
 script = ExtResource("8_qfur7")
-display_mesh = NodePath("../Display")
+display_mesh = NodePath("../Skeleton3D/BoneAttachment3D/Display")
 
 [node name="DownloadUI" parent="SubViewport" instance=ExtResource("9_au0d5")]
 
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26998, 2.80685)
-collision_layer = 32
-collision_mask = 32
-input_capture_on_drag = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0214791, 0.0178831, -0.075453)
-shape = SubResource("BoxShape3D_exi1t")
-
-[node name="Display" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28306, 2.73382)
-mesh = SubResource("QuadMesh_1210g")
-surface_material_override/0 = SubResource("StandardMaterial3D_rd50w")
-
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("13_1210g")
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(-0.292261, 0.942484, -0.162196, 0.628344, 0.317098, 0.710375, 0.720949, 0.1057, -0.684879, -0.642542, 3.24639, 7.33862)

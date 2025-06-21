@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bv36gpq3khln7"]
+
+[ext_resource type="Script" uid="uid://cqin8glxtkoy0" path="res://Scripts/Events/fx_spawn_point.gd" id="1_bq672"]
+
+[node name="Hotspot" type="VisibleOnScreenNotifier3D" groups=["fx_spawn_points"]]
+script = ExtResource("1_bq672")

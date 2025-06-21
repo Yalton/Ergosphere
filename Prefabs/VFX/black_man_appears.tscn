@@ -1,8 +1,8 @@
 [gd_scene load_steps=18 format=4 uid="uid://dhagbca5bcgjg"]
 
-[ext_resource type="Script" uid="uid://sxb2jdtu55o5" path="res://Scripts/black_man_appears.gd" id="1_1qg2e"]
+[ext_resource type="Script" uid="uid://sxb2jdtu55o5" path="res://Scripts/Events/black_man_appears.gd" id="1_1qg2e"]
 [ext_resource type="Shader" uid="uid://ceuj8elvthnk1" path="res://Assets/VFX/Shader/black_man.gdshader" id="1_j3awn"]
-[ext_resource type="PackedScene" uid="uid://pv8d43vvqbr4" path="res://Prefabs/VisibleOnScreenTimer3D.tscn" id="3_yi2c4"]
+[ext_resource type="PackedScene" uid="uid://pv8d43vvqbr4" path="res://Prefabs/VFX/VisibleOnScreenTimer3D.tscn" id="3_yi2c4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pyb7h"]
 resource_name = "lambert1.001"

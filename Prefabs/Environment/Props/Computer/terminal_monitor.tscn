@@ -13,6 +13,20 @@
 [ext_resource type="PackedScene" uid="uid://8qgxvpq582wy" path="res://Prefabs/UI/DiageticUI/terminal_ui.tscn" id="9_sigfe"]
 [ext_resource type="ArrayOccluder3D" uid="uid://c65wh3ifjm2up" path="res://Assets/Models/Occluders/Props/Monitors/terminal_monitor.occ" id="12_cm6g8"]
 
+[sub_resource type="QuadMesh" id="QuadMesh_u2o1j"]
+size = Vector2(3.8, 2.8)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_loklc"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jqiap"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_loklc")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jt0dg"]
+size = Vector3(3.85, 2.8, 0.2)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khebe"]
 resource_name = "Screen"
 cull_mode = 2
@@ -135,27 +149,13 @@ blend_shape_mode = 0
 [sub_resource type="BoxShape3D" id="BoxShape3D_sta57"]
 size = Vector3(4.142, 3.943, 4.589)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_jt0dg"]
-size = Vector3(3.85, 2.8, 0.2)
-
-[sub_resource type="QuadMesh" id="QuadMesh_u2o1j"]
-size = Vector2(3.8, 2.8)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_loklc"]
-viewport_path = NodePath("SubViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jqiap"]
-resource_local_to_scene = true
-shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_loklc")
-
 [node name="terminal_monitor" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_qybft")
 typing_sound = ExtResource("2_a1ecx")
 sub_viewport = NodePath("SubViewport")
-display = NodePath("Display")
+display = NodePath("Skeleton3D/BoneAttachment3D/Display")
 ui_content = NodePath("SubViewport/TerminalUI")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
@@ -175,6 +175,27 @@ bones/1/position = Vector3(0, 0.0375668, 0)
 bones/1/rotation = Quaternion(0.707107, -4.66727e-08, -5.33851e-08, 0.707107)
 bones/1/scale = Vector3(1, 1, 1)
 
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Skeleton3D"]
+transform = Transform3D(1, 9.23706e-14, -3.89415e-07, -3.89415e-07, -3.07301e-14, -1, -9.23706e-14, 1, -3.20733e-14, 9.31326e-09, 0.0375668, 1.15443e-15)
+bone_name = "Monitor"
+bone_idx = 1
+
+[node name="Display" type="MeshInstance3D" parent="Skeleton3D/BoneAttachment3D"]
+transform = Transform3D(0.105263, -4.09911e-08, -9.72322e-15, 9.72322e-15, -3.37614e-15, 0.105263, -4.09911e-08, -0.105263, -3.23474e-15, -9.44634e-08, 0.176471, -0.218662)
+mesh = SubResource("QuadMesh_u2o1j")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_jqiap")
+
+[node name="Area3D" type="Area3D" parent="Skeleton3D/BoneAttachment3D"]
+transform = Transform3D(0.105263, -4.09911e-08, -9.72322e-15, 9.72322e-15, -3.37614e-15, 0.105263, -4.09911e-08, -0.105263, -3.23474e-15, -9.39272e-08, 0.184158, -0.217285)
+collision_layer = 32
+collision_mask = 32
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton3D/BoneAttachment3D/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0214791, 0.0178831, -0.075453)
+shape = SubResource("BoxShape3D_jt0dg")
+
 [node name="Monitor_002" type="MeshInstance3D" parent="Skeleton3D"]
 visible = false
 mesh = SubResource("ArrayMesh_m0huw")
@@ -183,6 +204,20 @@ skin = SubResource("Skin_ou3l8")
 [node name="ViewSonic 17GS Dirty Mesh" type="MeshInstance3D" parent="Skeleton3D"]
 mesh = SubResource("ArrayMesh_tyel1")
 skin = SubResource("Skin_ou3l8")
+
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D"]
+active = false
+target_node = NodePath("../../Marker3D")
+bone_name = "Monitor"
+bone = 1
+forward_axis = 2
+primary_rotation_axis = 2
+use_angle_limitation = true
+symmetry_limitation = true
+primary_limit_angle = 1.0472
+primary_damp_threshold = 1.0
+secondary_limit_angle = 1.0472
+secondary_damp_threshold = 1.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00816521, 2.05003, -0.0481547)
@@ -196,25 +231,10 @@ size = Vector2i(960, 708)
 size_2d_override = Vector2i(1920, 1080)
 size_2d_override_stretch = true
 script = ExtResource("8_sd1aa")
-display_mesh = NodePath("../Display")
+display_mesh = NodePath("../Skeleton3D/BoneAttachment3D/Display")
 base_width = 960
 
 [node name="TerminalUI" parent="SubViewport" instance=ExtResource("9_sigfe")]
-
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.42109, 1.7495)
-collision_layer = 32
-collision_mask = 32
-input_capture_on_drag = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0214791, 0.0178831, -0.075453)
-shape = SubResource("BoxShape3D_jt0dg")
-
-[node name="Display" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.43417, 1.67647)
-mesh = SubResource("QuadMesh_u2o1j")
-surface_material_override/0 = SubResource("StandardMaterial3D_jqiap")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.12208, 2.01782)
@@ -224,3 +244,6 @@ omni_range = 3.0
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("12_cm6g8")
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(-0.292261, 0.942484, -0.162196, 0.628344, 0.317098, 0.710375, 0.720949, 0.1057, -0.684879, -0.586345, 2.81269, 7.4648)

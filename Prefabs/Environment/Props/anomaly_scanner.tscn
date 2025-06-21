@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=4 uid="uid://di71tyfsvdywh"]
 
 [ext_resource type="Texture2D" uid="uid://c05p204oi8sos" path="res://Assets/Models/Station/Props/oxygen_scanner/textures/GreyPlastic-Color.png" id="1_5idlv"]
-[ext_resource type="Script" uid="uid://dw1v1c40r5ue3" path="res://Scripts/anomaly_scanner.gd" id="1_5q0m8"]
+[ext_resource type="Script" uid="uid://dw1v1c40r5ue3" path="res://Scripts/Environment/anomaly_scanner.gd" id="1_5q0m8"]
 [ext_resource type="Texture2D" uid="uid://dkqtg50s7eqh6" path="res://Assets/Models/Station/Props/oxygen_scanner/textures/GreyPlastic-Roughness.png" id="2_5q0m8"]
 [ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="2_20tev"]
 [ext_resource type="Texture2D" uid="uid://cklxw8jxfyp6v" path="res://Assets/Models/Station/Props/oxygen_scanner/textures/GreyPlastic-Normal.png" id="3_ohrgw"]

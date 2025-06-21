@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://pf0o6435nwg1" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Normal.png" id="10_fuwie"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="11_yt2s7"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Scripts/UI/sview_diag_aspect_matcher.gd" id="12_ikxdg"]
-[ext_resource type="PackedScene" uid="uid://hiv1lau15tkr" path="res://Prefabs/comms_upload.tscn" id="12_vnulx"]
+[ext_resource type="PackedScene" uid="uid://hiv1lau15tkr" path="res://Prefabs/VFX/comms_upload.tscn" id="12_vnulx"]
 [ext_resource type="ArrayOccluder3D" uid="uid://bn7cv13h0a6kr" path="res://Assets/Models/Occluders/Props/Monitors/download_monitor.occ" id="14_7niay"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l0qie"]

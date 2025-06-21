@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://pv8d43vvqbr4"]
-
-[ext_resource type="Script" uid="uid://c8dup3ehdoxb" path="res://Scripts/VisibleOnScreenTimer3D.gd" id="1_ye0hr"]
-
-[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D"]
-script = ExtResource("1_ye0hr")

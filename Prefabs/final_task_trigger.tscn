@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c4ysx08i2kbro"]
-
-[ext_resource type="Script" uid="uid://bilf7cdn68r4p" path="res://Scripts/final_task_trigger.gd" id="1_n25bi"]
-
-[node name="FinalTaskTrigger" type="Node"]
-script = ExtResource("1_n25bi")

@@ -112,9 +112,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_61goh"]
-size = Vector3(0.380537, 0.309512, 0.415931)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_54t0p"]
 size = Vector3(3.85, 2.8, 0.2)
 
@@ -129,13 +126,16 @@ resource_local_to_scene = true
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_1fmvh")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_61goh"]
+size = Vector3(0.380537, 0.309512, 0.415931)
+
 [node name="TelescopeMonitor" type="StaticBody3D" node_paths=PackedStringArray("telescope_ui_control", "sub_viewport", "display", "ui_content", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_86hom")
 telescope_ui_control = NodePath("SubViewport/telescope_adjust_ui")
 sub_viewport = NodePath("SubViewport")
-display = NodePath("Display")
+display = NodePath("Skeleton3D/Display")
 ui_content = NodePath("SubViewport/telescope_adjust_ui")
 task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
@@ -153,8 +153,28 @@ bones/1/parent = 0
 bones/1/rest = Transform3D(1, 2.76737e-08, -1.23322e-07, -1.23322e-07, 0, -1, -2.76737e-08, 1, 0, 8.88178e-16, 0.035, 0)
 bones/1/enabled = true
 bones/1/position = Vector3(8.88178e-16, 0.035, 0)
-bones/1/rotation = Quaternion(0.707107, -3.38169e-08, -5.33851e-08, 0.707107)
+bones/1/rotation = Quaternion(0.707107, -3.38168e-08, -5.3385e-08, 0.707107)
 bones/1/scale = Vector3(1, 1, 1)
+
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D"]
+active = false
+target_node = NodePath("../../Marker3D")
+bone_name = "Monitor"
+bone = 1
+forward_axis = 2
+primary_rotation_axis = 2
+use_angle_limitation = true
+symmetry_limitation = true
+primary_limit_angle = 1.0472
+primary_damp_threshold = 1.0
+secondary_limit_angle = 1.0472
+secondary_damp_threshold = 1.0
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Skeleton3D"]
+transform = Transform3D(1, 2.66092e-07, -2.76737e-08, -2.66092e-07, 1, 5.96046e-08, 2.76737e-08, -5.96046e-08, 1, 0, 0, 0)
+bone_name = "Monitor"
+bone_idx = 1
+override_pose = true
 
 [node name="Low-Poly Monitor #3a" type="MeshInstance3D" parent="Skeleton3D"]
 transform = Transform3D(14, 0, 0, 0, 14, 0, 0, 0, 14, 0, 0, -2.22817)
@@ -165,6 +185,22 @@ skin = SubResource("Skin_s2mi2")
 visible = false
 mesh = SubResource("ArrayMesh_treef")
 skin = SubResource("Skin_s2mi2")
+
+[node name="Area3D" type="Area3D" parent="Skeleton3D"]
+transform = Transform3D(1, -1.98952e-13, 9.59233e-14, 1.98952e-13, 1, 0, -9.59233e-14, 0, 1, -4.02345e-13, 2.26998, 0.545306)
+collision_layer = 32
+collision_mask = 32
+input_capture_on_drag = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton3D/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0214791, 0.0178831, -0.075453)
+shape = SubResource("BoxShape3D_54t0p")
+
+[node name="Display" type="MeshInstance3D" parent="Skeleton3D"]
+transform = Transform3D(1, -1.98952e-13, 9.59233e-14, 1.98952e-13, 1, 0, -9.59233e-14, 0, 1, -4.02345e-13, 2.28306, 0.472274)
+mesh = SubResource("QuadMesh_54t0p")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_stgnb")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("8_1as24")]
 associated_task_id = "allign_telescope"
@@ -184,24 +220,12 @@ size = Vector2i(640, 472)
 size_2d_override = Vector2i(1920, 1080)
 size_2d_override_stretch = true
 script = ExtResource("9_56nk0")
-display_mesh = NodePath("../Display")
+display_mesh = NodePath("../Skeleton3D/Display")
 
 [node name="telescope_adjust_ui" parent="SubViewport" instance=ExtResource("10_1as24")]
 
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26998, 0.545306)
-collision_layer = 32
-collision_mask = 32
-input_capture_on_drag = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0214791, 0.0178831, -0.075453)
-shape = SubResource("BoxShape3D_54t0p")
-
-[node name="Display" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28306, 0.472274)
-mesh = SubResource("QuadMesh_54t0p")
-surface_material_override/0 = SubResource("StandardMaterial3D_stgnb")
-
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("13_143ql")
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(-0.292261, 0.942484, -0.162196, 0.628344, 0.317098, 0.710375, 0.720949, 0.1057, -0.684879, -0.642542, 3.24639, 7.33862)

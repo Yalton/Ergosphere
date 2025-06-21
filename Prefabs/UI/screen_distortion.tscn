@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://cytw30gd0p7i8"]
+
+[ext_resource type="Shader" uid="uid://dxlxdgc1v3qrp" path="res://Assets/VFX/Shader/screen_distortion.gdshader" id="1_s65sv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n12i1"]
+shader = ExtResource("1_s65sv")
+shader_parameter/corruption_intensity = 0.8
+shader_parameter/glitch_speed = 3.0
+shader_parameter/distortion_strength = 0.1
+shader_parameter/corruption_color1 = Color(1, 0, 0, 1)
+shader_parameter/corruption_color2 = Color(0.8, 0, 0.8, 1)
+shader_parameter/corruption_color3 = Color(0, 1, 0, 1)
+
+[node name="ScreenDistortion" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_n12i1")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

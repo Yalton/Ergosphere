@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcv0ufd7yoyf6"]
+
+[ext_resource type="Script" uid="uid://bslbo1a6gnp1m" path="res://Scripts/Tasks/order_heatsink_task.gd" id="1_pgnec"]
+[ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="2_qwonx"]
+
+[node name="OrderHeatsinkTask" type="Node" node_paths=PackedStringArray("task_aware_component")]
+script = ExtResource("1_pgnec")
+task_aware_component = NodePath("TaskAwareComponent")
+
+[node name="TaskAwareComponent" parent="." instance=ExtResource("2_qwonx")]
+associated_task_id = "order_heatsink"
+show_task_in_interaction_text = false

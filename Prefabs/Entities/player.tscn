@@ -1,7 +1,7 @@
 [gd_scene load_steps=34 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
-[ext_resource type="PackedScene" uid="uid://3ioq6sw0jikq" path="res://Prefabs/player_effects_component.tscn" id="2_5ls6m"]
+[ext_resource type="PackedScene" uid="uid://3ioq6sw0jikq" path="res://Prefabs/Components/player_effects_component.tscn" id="2_5ls6m"]
 [ext_resource type="Script" uid="uid://cd6roq0jsnw23" path="res://Subsystems/DynamicFootstepSystem/Scripts/footstep_surface_detector.gd" id="2_bxc72"]
 [ext_resource type="Script" uid="uid://c2lq0mlp6vmir" path="res://Subsystems/PostProcessing/post_process_shader.gd" id="2_mtnbr"]
 [ext_resource type="PackedScene" uid="uid://c2doyvxkp4awj" path="res://Prefabs/Components/insanity_component.tscn" id="3_p85qx"]

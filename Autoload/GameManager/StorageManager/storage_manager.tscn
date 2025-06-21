@@ -1,0 +1,21 @@
+[gd_scene load_steps=16 format=3 uid="uid://d03sh0ygt4cwo"]
+
+[ext_resource type="Script" uid="uid://4sb8y82ssx35" path="res://Autoload/GameManager/StorageManager/StorageManager.gd" id="1_x85x1"]
+[ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="2_rh7e8"]
+[ext_resource type="Resource" uid="uid://b8qnpop0ojhbt" path="res://Assets/Resources/Items/air_filter.tres" id="3_w4sw2"]
+[ext_resource type="Resource" uid="uid://c6bh67bcta4r8" path="res://Assets/Resources/Items/anomaly_scanner.tres" id="4_w4sw2"]
+[ext_resource type="Resource" uid="uid://d4kyc74eoaw1j" path="res://Assets/Resources/Items/heatsink.tres" id="5_fsis0"]
+[ext_resource type="Resource" uid="uid://d37hlpm074yev" path="res://Assets/Resources/Items/tablet.tres" id="6_jl8k2"]
+[ext_resource type="Resource" uid="uid://deljo1xkbpegn" path="res://Assets/Resources/Items/dumbell.tres" id="7_67n3q"]
+[ext_resource type="Resource" uid="uid://dkxwltno46q7f" path="res://Assets/Resources/Items/plushi.tres" id="8_67n3q"]
+[ext_resource type="Resource" uid="uid://daidakwbaqw8y" path="res://Assets/Resources/Items/puzzle_cube.tres" id="9_fqfgw"]
+[ext_resource type="Resource" uid="uid://cjq4nhp7vy1a0" path="res://Assets/Resources/Items/thermos.tres" id="10_5ia08"]
+[ext_resource type="Resource" uid="uid://can2tw0cqx0fd" path="res://Assets/Resources/Items/walkie_talkie.tres" id="11_pl027"]
+[ext_resource type="Resource" uid="uid://2c05ap4w6iu3" path="res://Assets/Resources/Items/fire_extinguisher.tres" id="12_28yli"]
+[ext_resource type="Resource" uid="uid://dnjb2j7j8kwy6" path="res://Assets/Resources/Items/hammer.tres" id="13_7jgyn"]
+[ext_resource type="Resource" uid="uid://dm6nanxxcam3b" path="res://Assets/Resources/Items/lubricant_spray.tres" id="14_3e3jm"]
+[ext_resource type="Resource" uid="uid://c4tumovmeyquf" path="res://Assets/Resources/Items/tape.tres" id="15_2nasw"]
+
+[node name="StorageManager" type="Node"]
+script = ExtResource("1_x85x1")
+shop_catalog = Array[ExtResource("2_rh7e8")]([ExtResource("3_w4sw2"), ExtResource("4_w4sw2"), ExtResource("5_fsis0"), ExtResource("6_jl8k2"), ExtResource("7_67n3q"), ExtResource("8_67n3q"), ExtResource("9_fqfgw"), ExtResource("10_5ia08"), ExtResource("11_pl027"), ExtResource("12_28yli"), ExtResource("13_7jgyn"), ExtResource("14_3e3jm"), ExtResource("15_2nasw")])
