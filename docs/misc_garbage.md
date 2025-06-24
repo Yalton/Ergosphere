@@ -1,28 +1,18 @@
+
+## Claude Help
+MessageBus Refactor 
+Fix Brown Note 
+Fix Event system 
+Secret Tasks and Alternatate Ending 
 Make game actually finishable, even if its shit 
-
-Make monitors follow player
-- Need script for this groundwork is done 
-
-Test Systems thouroughly
-
-Command to spawn in prop/item in from of the player 
-
-Debug Issue with events not spawning 
-
-Add Glitch to all diagetic UIs
-
-Fix notes teleporting in brown note 
-
-Make Diagetic UI make noise
-
-
 Clean up code base
 
 
+## Manual 
+Add Glitch to all diagetic UIs
+Monitor follow player 
+Organize File structure 
+Test Systems thouroughly
+Make Diagetic UI make noise
 add vfx and audio to events
-
-
-
-
 add fire and putting out fire
-
