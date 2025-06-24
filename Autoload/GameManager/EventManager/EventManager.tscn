@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bk1kuand7o7xa"]
+[gd_scene load_steps=38 format=3 uid="uid://bk1kuand7o7xa"]
 
 [ext_resource type="Script" uid="uid://b2evp3vtmha88" path="res://Autoload/GameManager/EventManager/event_manager.gd" id="1_nnr1m"]
 [ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="2_dwaah"]
@@ -36,6 +36,7 @@
 [ext_resource type="Script" uid="uid://c2d2vucrlyfnq" path="res://Autoload/GameManager/EventManager/Handlers/fog.gd" id="30_awmde"]
 [ext_resource type="Script" uid="uid://oxnqm23jqfcp" path="res://Autoload/GameManager/EventManager/Handlers/hawking_radiation.gd" id="32_36okp"]
 [ext_resource type="Script" uid="uid://2mf3gdfr4agp" path="res://Autoload/GameManager/EventManager/Handlers/brief_flicker.gd" id="33_r2li7"]
+[ext_resource type="Script" uid="uid://be3nvsrocwt34" path="res://Autoload/GameManager/EventManager/Handlers/glitch_event_handler.gd" id="37_e8orj"]
 
 [node name="EventManager" type="Node"]
 script = ExtResource("1_nnr1m")
@@ -82,3 +83,6 @@ script = ExtResource("32_36okp")
 [node name="brief_flicker" type="Node" parent="." groups=["event_handlers"]]
 script = ExtResource("33_r2li7")
 handled_event_ids = Array[String](["brief_flicker"])
+
+[node name="glitch_event" type="Node" parent="."]
+script = ExtResource("37_e8orj")

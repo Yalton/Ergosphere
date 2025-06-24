@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddmnsmsgtxan3"]
+[gd_scene load_steps=6 format=3 uid="uid://ddmnsmsgtxan3"]
 
 [ext_resource type="Script" uid="uid://b5pe1qu81jpft" path="res://Autoload/DevConsoleManager/dev_console_manager.gd" id="1_3q5ym"]
 [ext_resource type="Script" uid="uid://b0qg207abnf52" path="res://Autoload/DevConsoleManager/Handlers/core_commands.gd" id="2_vl7ne"]
 [ext_resource type="Script" uid="uid://dmgebucesdpb3" path="res://Autoload/DevConsoleManager/Handlers/game_commands.gd" id="3_5ovku"]
 [ext_resource type="Script" uid="uid://cgeq7vaw5mg54" path="res://Autoload/DevConsoleManager/Handlers/log_commands.gd" id="4_nyrkj"]
+[ext_resource type="Script" uid="uid://4vxh0bs3f2vg" path="res://Autoload/DevConsoleManager/spawn_commands.gd" id="5_rouhl"]
 
 [node name="DevConsoleManager" type="Node"]
 script = ExtResource("1_3q5ym")
@@ -16,3 +17,6 @@ script = ExtResource("3_5ovku")
 
 [node name="LogCommands" type="Node" parent="."]
 script = ExtResource("4_nyrkj")
+
+[node name="SpawnCommands" type="Node" parent="."]
+script = ExtResource("5_rouhl")

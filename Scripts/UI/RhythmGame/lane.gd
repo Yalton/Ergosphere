@@ -36,6 +36,9 @@ var despawn_y: float = 0.0
 var hit_zone_center_y: float = 0.0
 var hit_zone_tolerance: float = 0.0
 
+# Add minimum spacing between notes
+const MIN_NOTE_SPACING: float = 100.0
+
 func _ready():
 	DebugLogger.register_module("Lane")
 	# Calculate positions immediately
@@ -88,9 +91,28 @@ func _process(delta):
 			DebugLogger.log_message("Lane", "Note despawning - Top: %.1f, Despawn Y: %.1f" % [note_top, despawn_y])
 			_despawn_note(i, true)
 
+func can_spawn_note() -> bool:
+	# Check if there's enough space from the last spawned note
+	if active_notes.is_empty():
+		return true
+	
+	# Get the most recently spawned note (last in array)
+	var last_note = active_notes[-1]
+	if not is_instance_valid(last_note):
+		return true
+	
+	# Check if the last note has moved far enough down
+	var last_note_bottom = last_note.position.y + last_note.size.y
+	return last_note_bottom >= MIN_NOTE_SPACING
+
 func spawn_note():
 	if not note_scene:
 		DebugLogger.log_message("Lane", "No note scene assigned!")
+		return
+	
+	# Check if we can spawn a note
+	if not can_spawn_note():
+		DebugLogger.log_message("Lane", "Cannot spawn note in lane %d - not enough spacing from previous note" % lane_index)
 		return
 	
 	var note = note_scene.instantiate()
@@ -139,66 +161,58 @@ func check_hit():
 		note_hit.emit()
 		DebugLogger.log_message("Lane", "Note hit! Distance: %.1f, Tolerance: %.1f" % [closest_distance, hit_zone_tolerance])
 	else:
-		DebugLogger.log_message("Lane", "No note in hit zone. Hit zone: %.1f±%.1f" % [hit_zone_center_y, hit_zone_tolerance])
-		# Debug: log all note positions
-		for i in range(active_notes.size()):
-			if is_instance_valid(active_notes[i]):
-				var note_y = active_notes[i].position.y + (active_notes[i].size.y / 2.0)
-				var dist = abs(note_y - hit_zone_center_y)
-				DebugLogger.log_message("Lane", "  Note %d at Y: %.1f, Distance: %.1f" % [i, note_y, dist])
-
-func set_note_speed(speed: float):
-	note_speed = speed
+		DebugLogger.log_message("Lane", "No note in hit zone. Tolerance: %.1f" % hit_zone_tolerance)
 
 func _despawn_note(index: int, missed: bool):
 	if index < 0 or index >= active_notes.size():
 		return
-	
+		
 	var note = active_notes[index]
+	if not is_instance_valid(note):
+		active_notes.remove_at(index)
+		return
 	
-	if missed:
-		# Spawn miss particle effect at note position
-		_spawn_particle_effect(miss_particle_scene, note.global_position + note.size / 2.0)
-		note_missed.emit()
-		DebugLogger.log_message("Lane", "Note missed!")
-	
+	# Remove from active notes first
 	active_notes.remove_at(index)
+	
+	# Queue free the note
 	note.queue_free()
+	
+	# Emit signal based on whether it was missed
+	if missed:
+		# Spawn miss particle effect at hit zone
+		var miss_pos = Vector2(size.x / 2.0, hit_zone_center_y)
+		_spawn_particle_effect(miss_particle_scene, global_position + miss_pos)
+		note_missed.emit()
 
-func _spawn_particle_effect(particle_scene: PackedScene, position: Vector2):
+func _spawn_particle_effect(particle_scene: PackedScene, global_pos: Vector2):
 	if not particle_scene:
-		DebugLogger.log_message("Lane", "No particle scene assigned")
 		return
 		
-	var particle = particle_scene.instantiate()
-	get_tree().current_scene.add_child(particle)
-	particle.global_position = position
+	var particles = particle_scene.instantiate()
+	get_tree().root.add_child(particles)
+	particles.global_position = global_pos
 	
-	DebugLogger.log_message("Lane", "Spawned particle effect at position: %v" % position)
+	# Auto-remove after 2 seconds
+	particles.emitting = true
+	await get_tree().create_timer(2.0).timeout
+	if is_instance_valid(particles):
+		particles.queue_free()
 	
-	# Auto-remove particle after some time (adjust based on your particle system)
-	if particle.has_method("set_emitting"):
-		particle.set_emitting(true)
-	
-	# Queue free after 2 seconds (adjust based on your particle duration)
-	var timer = Timer.new()
-	timer.wait_time = 2.0
-	timer.one_shot = true
-	timer.timeout.connect(particle.queue_free)
-	particle.add_child(timer)
-	timer.start()
-		
+	DebugLogger.log_message("Lane", "Spawned particle effect at position: %v" % global_pos)
+
 func clear_notes():
-	# Remove all active notes
 	for note in active_notes:
 		if is_instance_valid(note):
 			note.queue_free()
 	active_notes.clear()
 	DebugLogger.log_message("Lane", "Cleared all notes from lane %d" % lane_index)
 
+func set_note_speed(speed: float):
+	note_speed = speed
+
 func get_hit_zone_bounds() -> Dictionary:
-	# Return the actual hit zone bounds for visualization
-	if hit_zone_panel:
+	if hit_zone_panel and hit_zone_panel.size.y > 0:
 		return {
 			"top": hit_zone_panel.position.y,
 			"bottom": hit_zone_panel.position.y + hit_zone_panel.size.y,
@@ -212,14 +226,3 @@ func get_hit_zone_bounds() -> Dictionary:
 			"center": hit_zone_center_y,
 			"tolerance": hit_zone_tolerance
 		}
-
-func get_newest_note_y() -> float:
-	# Return the Y position of the newest (highest) note in the lane
-	var newest_y = -1.0
-	
-	for note in active_notes:
-		if is_instance_valid(note):
-			if newest_y < 0 or note.position.y < newest_y:
-				newest_y = note.position.y
-	
-	return newest_y
