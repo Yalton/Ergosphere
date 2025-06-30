@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dlovd5rc5hg5a"]
+[gd_scene load_steps=7 format=3 uid="uid://dlovd5rc5hg5a"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_bcmvx"]
 [ext_resource type="Script" uid="uid://ddabv272mcxu7" path="res://Scripts/UI/Storage/storage_interface_ui.gd" id="2_vhmgj"]
 [ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_e2ird"]
+[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/screen_distortion.tscn" id="4_nvktm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vhmgj"]
 bg_color = Color(0, 0, 0, 1)
@@ -15,7 +16,7 @@ corner_radius_bottom_left = 84
 bg_color = Color(0, 0, 0, 1)
 draw_center = false
 
-[node name="StorageInterfaceUI" type="Control" node_paths=PackedStringArray("tab_container", "general_grid", "replacement_parts_grid", "requisition_label", "main_ui", "splash_screen")]
+[node name="StorageInterfaceUI" type="Control" node_paths=PackedStringArray("tab_container", "general_grid", "replacement_parts_grid", "requisition_label", "main_ui", "splash_screen", "corruption_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,6 +31,7 @@ replacement_parts_grid = NodePath("MainUI/MarginContainer/PanelContainer/VBoxCon
 requisition_label = NodePath("MainUI/MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer/RequisitionLabel")
 main_ui = NodePath("MainUI")
 splash_screen = NodePath("ScreenSaver")
+corruption_screen = NodePath("ScreenDistortion")
 
 [node name="MainUI" type="Control" parent="."]
 layout_mode = 1
@@ -158,5 +160,9 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="ScreenSaver" parent="." instance=ExtResource("3_e2ird")]
+visible = false
+layout_mode = 1
+
+[node name="ScreenDistortion" parent="." instance=ExtResource("4_nvktm")]
 visible = false
 layout_mode = 1

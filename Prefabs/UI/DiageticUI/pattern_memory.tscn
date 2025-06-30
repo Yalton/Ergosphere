@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bbjf845xqmmao"]
+[gd_scene load_steps=5 format=3 uid="uid://bbjf845xqmmao"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_2momd"]
 [ext_resource type="Script" uid="uid://d2uy7n3i31h7i" path="res://Scripts/UI/RhythmGame/pattern_memory.gd" id="1_380jw"]
 [ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_rmbn5"]
+[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/screen_distortion.tscn" id="4_3iw0i"]
 
-[node name="PatternMemory_Game" type="Control" node_paths=PackedStringArray("message_label", "progress_bar", "intro_ui", "start_button", "game_ui", "main_ui", "splash_screen")]
+[node name="PatternMemory_Game" type="Control" node_paths=PackedStringArray("message_label", "progress_bar", "intro_ui", "start_button", "game_ui", "main_ui", "splash_screen", "corruption_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,6 +21,7 @@ start_button = NodePath("MainUI/StartScreen/PanelContainer/MarginContainer/VBoxC
 game_ui = NodePath("MainUI/PanelContainer")
 main_ui = NodePath("MainUI")
 splash_screen = NodePath("ScreenSaver")
+corruption_screen = NodePath("ScreenDistortion")
 
 [node name="MainUI" type="Control" parent="."]
 layout_mode = 1
@@ -253,5 +255,9 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.08
 
 [node name="ScreenSaver" parent="." instance=ExtResource("3_rmbn5")]
+visible = false
+layout_mode = 1
+
+[node name="ScreenDistortion" parent="." instance=ExtResource("4_3iw0i")]
 visible = false
 layout_mode = 1

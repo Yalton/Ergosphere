@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cr1bpmb7lgifx"]
+[gd_scene load_steps=9 format=3 uid="uid://cr1bpmb7lgifx"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_foh8n"]
 [ext_resource type="Script" uid="uid://bw7vk3iwnsj8p" path="res://Scripts/UI/DiageticUI/download_ui.gd" id="2_c1cak"]
@@ -7,8 +7,9 @@
 [ext_resource type="AudioStream" uid="uid://c3ilnt0hfjck2" path="res://Assets/Audio/UI/button_click.ogg" id="3_g12sn"]
 [ext_resource type="AudioStream" uid="uid://cgtf2e44ihp1y" path="res://Assets/Audio/UI/ui_success.ogg" id="4_n4bn6"]
 [ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="5_0hsm7"]
+[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/screen_distortion.tscn" id="8_n4bn6"]
 
-[node name="DownloadUI" type="Control" node_paths=PackedStringArray("download_button", "progress_bar", "status_label", "main_ui", "splash_screen")]
+[node name="DownloadUI" type="Control" node_paths=PackedStringArray("download_button", "progress_bar", "status_label", "main_ui", "splash_screen", "corruption_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,6 +27,7 @@ button_clicked = ExtResource("3_g12sn")
 ui_complete_audio = ExtResource("4_n4bn6")
 main_ui = NodePath("PanelContainer")
 splash_screen = NodePath("ScreenSaver")
+corruption_screen = NodePath("ScreenDistortion")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -83,5 +85,9 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="ScreenSaver" parent="." instance=ExtResource("5_0hsm7")]
+visible = false
+layout_mode = 1
+
+[node name="ScreenDistortion" parent="." instance=ExtResource("8_n4bn6")]
 visible = false
 layout_mode = 1

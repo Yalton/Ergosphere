@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://ch6mkc1p7hs84"]
+[gd_scene load_steps=27 format=4 uid="uid://ch6mkc1p7hs84"]
 
 [ext_resource type="Texture2D" uid="uid://d30amr513rkr2" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/GreyPlastic-Color.png" id="1_l4gnf"]
 [ext_resource type="Script" uid="uid://dpqlr33j0q3nc" path="res://Scripts/UI/DiageticUI/download_monitor.gd" id="1_qfur7"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="7_au0d5"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Scripts/UI/sview_diag_aspect_matcher.gd" id="8_qfur7"]
 [ext_resource type="PackedScene" uid="uid://cr1bpmb7lgifx" path="res://Prefabs/UI/DiageticUI/download_ui.tscn" id="9_au0d5"]
+[ext_resource type="Script" uid="uid://cnybmo2siij10" path="res://Scripts/Environment/look_at_player.gd" id="11_44atv"]
 [ext_resource type="ArrayOccluder3D" uid="uid://bn7cv13h0a6kr" path="res://Assets/Models/Occluders/Props/Monitors/download_monitor.occ" id="13_1210g"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l0qie"]
@@ -219,6 +220,7 @@ primary_limit_angle = 1.0472
 primary_damp_threshold = 1.0
 secondary_limit_angle = 1.0472
 secondary_damp_threshold = 1.0
+script = ExtResource("11_44atv")
 
 [node name="BasicInteraction" parent="." instance=ExtResource("7_au0d5")]
 script = null

@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://8qgxvpq582wy"]
+[gd_scene load_steps=5 format=3 uid="uid://8qgxvpq582wy"]
 
 [ext_resource type="Script" uid="uid://hmf6gumdxj7n" path="res://Scripts/UI/DiageticUI/terminal_ui.gd" id="1_gjlas"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="2_n2ccl"]
 [ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_f6355"]
+[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/screen_distortion.tscn" id="4_l02rg"]
 
-[node name="TerminalUI" type="Control" node_paths=PackedStringArray("input_field", "output_area", "terminal_label", "main_ui", "splash_screen")]
+[node name="TerminalUI" type="Control" node_paths=PackedStringArray("input_field", "output_area", "terminal_label", "main_ui", "splash_screen", "corruption_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +18,7 @@ output_area = NodePath("DevTerminal2/VBoxContainer/PanelContainer/MarginContaine
 terminal_label = NodePath("DevTerminal2/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Label")
 main_ui = NodePath("DevTerminal2")
 splash_screen = NodePath("ScreenSaver")
+corruption_screen = NodePath("ScreenDistortion")
 
 [node name="DevTerminal2" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -101,5 +103,9 @@ theme_override_font_sizes/font_size = 44
 placeholder_text = "..."
 
 [node name="ScreenSaver" parent="." instance=ExtResource("3_f6355")]
+visible = false
+layout_mode = 1
+
+[node name="ScreenDistortion" parent="." instance=ExtResource("4_l02rg")]
 visible = false
 layout_mode = 1

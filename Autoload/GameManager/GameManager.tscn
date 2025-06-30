@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://d3hcptla36gp3"]
+[gd_scene load_steps=23 format=3 uid="uid://d3hcptla36gp3"]
 
 [ext_resource type="Script" uid="uid://brfd0bny5riwc" path="res://Autoload/GameManager/game_manager.gd" id="1_ttbae"]
 [ext_resource type="AudioStream" uid="uid://chnfaq63v5hia" path="res://Assets/Audio/Alarm/Alarm.ogg" id="2_52hc4"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bt83m4xuehnh8" path="res://Autoload/GameManager/StateManager/StateManager.tscn" id="3_554py"]
 [ext_resource type="PackedScene" uid="uid://cuykknx82jpa1" path="res://Autoload/GameManager/TaskManager/TaskManager.tscn" id="4_554py"]
 [ext_resource type="PackedScene" uid="uid://d03sh0ygt4cwo" path="res://Autoload/GameManager/StorageManager/storage_manager.tscn" id="6_k5xqi"]
+[ext_resource type="Script" uid="uid://8rd0ckvff0d0" path="res://Scripts/Resources/day_config.gd" id="6_vylof"]
 [ext_resource type="Script" uid="uid://c8uyfv585diig" path="res://Scripts/Resources/shop_item.gd" id="8_tpof5"]
 [ext_resource type="Resource" uid="uid://b8qnpop0ojhbt" path="res://Assets/Resources/Items/air_filter.tres" id="21_7p8ko"]
 [ext_resource type="PackedScene" uid="uid://d0tccx3iul7g0" path="res://Autoload/GameManager/AudioFXManager/audio_fx_manager.tscn" id="21_ndbpl"]
@@ -31,6 +32,9 @@ alarm_audio = ExtResource("2_52hc4")
 [node name="StateManager" parent="." instance=ExtResource("3_554py")]
 
 [node name="TaskManager" parent="." instance=ExtResource("4_554py")]
+day_configs = Array[ExtResource("6_vylof")]([])
+default_tasks_per_day = 3
+default_available_tasks = Array[ExtResource("6_vylof")]([])
 
 [node name="StorageManager" parent="." instance=ExtResource("6_k5xqi")]
 current_requisition = 5000

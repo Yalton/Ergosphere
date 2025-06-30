@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b1outtodahk2b"]
+[gd_scene load_steps=16 format=3 uid="uid://b1outtodahk2b"]
 
 [ext_resource type="Script" uid="uid://crp4wy3nlljp5" path="res://Scripts/UI/DiageticUI/telescope_controller.gd" id="1_k1e65"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_ykrfc"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://c16dy1v737jhe" path="res://Scripts/Misc/play_on_load.gd" id="3_hejy6"]
 [ext_resource type="Script" uid="uid://dt8fbwwdkbhww" path="res://Subsystems/PostProcessing/ascii_effect_shader.gd" id="3_ykrfc"]
 [ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="4_4ud1o"]
+[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/screen_distortion.tscn" id="5_xt8t8"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ykrfc"]
 viewport_path = NodePath("SubViewport")
@@ -62,7 +63,7 @@ _data = {
 &"spinning": SubResource("Animation_hejy6")
 }
 
-[node name="telescope_adjust_ui" type="Control" node_paths=PackedStringArray("x_slider", "y_slider", "telescope_image", "x_position_label", "y_position_label", "status_label", "progress_bar", "main_ui", "splash_screen")]
+[node name="telescope_adjust_ui" type="Control" node_paths=PackedStringArray("x_slider", "y_slider", "telescope_image", "x_position_label", "y_position_label", "status_label", "progress_bar", "main_ui", "splash_screen", "corruption_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -79,6 +80,7 @@ status_label = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VBo
 progress_bar = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ProgressBar")
 main_ui = NodePath("MainUI")
 splash_screen = NodePath("ScreenSaver")
+corruption_screen = NodePath("ScreenDistortion")
 
 [node name="MainUI" type="Control" parent="."]
 layout_mode = 1
@@ -233,6 +235,10 @@ layout_mode = 2
 texture = SubResource("ViewportTexture_ykrfc")
 
 [node name="ScreenSaver" parent="." instance=ExtResource("4_4ud1o")]
+visible = false
+layout_mode = 1
+
+[node name="ScreenDistortion" parent="." instance=ExtResource("5_xt8t8")]
 visible = false
 layout_mode = 1
 
