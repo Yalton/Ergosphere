@@ -1,149 +1,177 @@
-# SimpleTask.gd
+# BaseTask.gd
 extends Resource
 class_name BaseTask
 
-## Streamlined task definition with minimal complexity
+# Task properties
+## Unique identifier for this task. Used by TaskManager and TaskAwareComponent to reference this task.
+@export var task_id: String = ""
 
-#region Core Properties
+## Display name shown to the player in the UI
+@export var task_name: String = "Unnamed Task"
 
-## Unique task identifier
-@export var id: String = ""
+## Longer description of what the player needs to do. Can be shown as tooltip or help text.
+@export var task_description: String = ""
 
-## Display name shown to player
-@export var name: String = ""
+## If true, this task is an emergency that blocks normal tasks and may have a time limit
+@export var is_emergency: bool = false
 
-## Detailed description of what the player needs to do
-@export_multiline var description: String = ""
+## If true, this task is a secret task that only appears when completed
+@export var is_secret: bool = false
 
-## Task category for organization
-@export_enum("Daily", "Emergency", "Story", "Optional") var category: String = "Daily"
+## Time limit in seconds for emergency tasks. 0 = no time limit. Task fails if timer expires.
+@export var emergency_time_limit: float = 0.0
 
-## Priority for sorting (higher = more important)
-@export_range(0, 10) var priority: int = 5
+## State changes to apply if emergency task fails
+@export var failure_consequence: Dictionary = {}
 
-#endregion
+# Task dependencies
+## List of task IDs that must be completed before this task becomes available
+@export var dependent_on_tasks: Array[String] = []
 
-#region Task Requirements
-
-## Simple state requirements (state_name: required_value)
-## Example: {"power": "on", "lockdown": false}
+## Game states that must match for this task to be available. Example: {"power": "on", "doors_unlocked": true}
 @export var required_states: Dictionary = {}
 
-## Required completed task IDs
-@export var required_tasks: Array[String] = []
+## Game states that prevent this task from being available. Example: {"lockdown": true} blocks during lockdown
+@export var blocked_by_states: Dictionary = {}
 
-## Day range when task is available (0 = any day)
-@export var available_from_day: int = 0
-@export var available_until_day: int = 0
+# Visibility conditions
+## Conditions that must be met for this task to be revealed. Example: {"all_daily_tasks_complete": true}
+## Task will be hidden until these conditions are met, then shown. Can become hidden again if conditions change.
+@export var revealed_under: Dictionary = {}
 
-#endregion
+## Delay in seconds before revealing task after conditions are met. Prevents flickering.
+@export var reveal_delay: float = 1.0
 
-#region Task Behavior
+# Associated game objects
+## Groups that contain objects related to this task. Objects in these groups may show task-specific UI.
+@export var related_object_groups: Array[String] = []
 
-## Time limit in seconds (0 = no limit)
-@export var time_limit: float = 0.0
-
-## Can this task be failed?
-@export var can_fail: bool = false
-
-## What happens on failure
-@export_enum("Nothing", "Game Over", "Penalty") var failure_type: String = "Nothing"
-
-## Points/rewards for completion
-@export var completion_reward: int = 0
-
-## Should this task auto-complete when conditions are met?
-@export var auto_complete: bool = false
-
-## Associated object groups (for highlighting relevant objects)
-@export var related_groups: Array[String] = []
-
-#endregion
-
-#region Runtime State (Not Exported)
-
+# Task state
 var is_completed: bool = false
-var is_assigned: bool = false
 var is_available: bool = false
+var is_revealed: bool = false
 var time_remaining: float = 0.0
-var start_time: float = 0.0
+var assigned_day: int = -1
 
-#endregion
+# Reveal system tracking
+var reveal_timer: float = 0.0
+var reveal_conditions_met: bool = false
 
-#region Helper Methods
+# Debug
+var enable_debug: bool = false
+var module_name: String = "BaseTask"
 
-## Check if all requirements are met
-func check_requirements(state_manager: StateManager, completed_tasks: Array[String]) -> bool:
-	# Check state requirements
-	for state_name in required_states:
-		var required_value = required_states[state_name]
-		var current_value = state_manager.get_state(state_name)
-		if current_value != required_value:
-			return false
+func _init(p_id: String = "", p_name: String = "") -> void:
+	task_id = p_id
+	task_name = p_name
+	module_name = "Task_" + p_name
+	DebugLogger.register_module(module_name, enable_debug)
+
+## Check if task should be revealed based on current state
+func check_reveal_conditions(state_manager: StateManager, completed_tasks: Array[String]) -> bool:
+	# If no reveal conditions, task is always revealed
+	if revealed_under.is_empty():
+		return true
 	
-	# Check task requirements
-	for task_id in required_tasks:
-		if not task_id in completed_tasks:
-			return false
-	
-	return true
-
-## Check if task is available on given day
-func is_available_on_day(day: int) -> bool:
-	if available_from_day > 0 and day < available_from_day:
-		return false
-	if available_until_day > 0 and day > available_until_day:
-		return false
-	return true
-
-## Get formatted time remaining
-func get_time_remaining_text() -> String:
-	if time_limit <= 0:
-		return ""
-	
-	var minutes = int(time_remaining) / 60
-	var seconds = int(time_remaining) % 60
-	
-	if minutes > 0:
-		return "%d:%02d" % [minutes, seconds]
-	else:
-		return "%d seconds" % seconds
-
-## Reset task to initial state
-func reset() -> void:
-	is_completed = false
-	is_assigned = false
-	is_available = false
-	time_remaining = time_limit
-	start_time = 0.0
-
-## Start the task (when assigned)
-func start() -> void:
-	is_assigned = true
-	time_remaining = time_limit
-	start_time = Time.get_ticks_msec() / 1000.0
-
-## Update timer (call from _process)
-func update_timer(delta: float) -> bool:
-	if not is_assigned or is_completed or time_limit <= 0:
-		return false
+	# Check all reveal conditions
+	for condition_key in revealed_under:
+		var required_value = revealed_under[condition_key]
 		
-	time_remaining -= delta
+		# Special handling for task completion checks
+		if condition_key == "all_daily_tasks_complete":
+			# This will be set by TaskManager
+			if state_manager.get_state("all_daily_tasks_complete") != required_value:
+				return false
+		elif condition_key.begins_with("task_"):
+			# Check if specific task is completed
+			var check_task_id = condition_key.substr(5)  # Remove "task_" prefix
+			if required_value and not check_task_id in completed_tasks:
+				return false
+			elif not required_value and check_task_id in completed_tasks:
+				return false
+		else:
+			# Regular state check
+			if state_manager.get_state(condition_key) != required_value:
+				return false
 	
-	if time_remaining <= 0 and can_fail:
-		return true # Task failed
-	
-	return false
+	return true
 
-## Complete the task
+## Update reveal state with delay system
+func update_reveal_state(state_manager: StateManager, completed_tasks: Array[String], delta: float) -> void:
+	var should_reveal = check_reveal_conditions(state_manager, completed_tasks)
+	
+	# Check blocking states - these force immediate hide
+	for state_key in blocked_by_states:
+		if state_manager.get_state(state_key) == blocked_by_states[state_key]:
+			# Immediate hide if blocked
+			if is_revealed:
+				is_revealed = false
+				reveal_timer = 0.0
+				reveal_conditions_met = false
+				DebugLogger.debug(module_name, "Task hidden due to blocking state: %s" % state_key)
+			return
+	
+	# Handle reveal with delay
+	if should_reveal and not is_revealed:
+		if not reveal_conditions_met:
+			reveal_conditions_met = true
+			reveal_timer = 0.0
+			DebugLogger.debug(module_name, "Reveal conditions met, starting timer")
+		
+		reveal_timer += delta
+		if reveal_timer >= reveal_delay:
+			is_revealed = check_reveal_conditions(state_manager, completed_tasks)
+			DebugLogger.info(module_name, "Task revealed: %s" % task_name)
+	elif not should_reveal and is_revealed:
+		# Immediate hide when conditions no longer met
+		is_revealed = false
+		reveal_timer = 0.0
+		reveal_conditions_met = false
+		DebugLogger.debug(module_name, "Task hidden: conditions no longer met")
+	elif not should_reveal:
+		# Reset timer if conditions aren't met
+		reveal_timer = 0.0
+		reveal_conditions_met = false
+
+func can_be_completed(state_manager: StateManager, completed_tasks: Array[String]) -> bool:
+	# Task must be revealed to be completed
+	if not is_revealed:
+		DebugLogger.debug(module_name, "Cannot complete - task not revealed")
+		return false
+	
+	# Check if dependencies are met
+	for dep_task in dependent_on_tasks:
+		if not dep_task in completed_tasks:
+			DebugLogger.debug(module_name, "Cannot complete - missing dependency: %s" % dep_task)
+			return false
+	
+	# Check required states
+	for state_key in required_states:
+		if state_manager.get_state(state_key) != required_states[state_key]:
+			DebugLogger.debug(module_name, "Cannot complete - required state not met: %s" % state_key)
+			return false
+	
+	# Check blocking states
+	for state_key in blocked_by_states:
+		if state_manager.get_state(state_key) == blocked_by_states[state_key]:
+			DebugLogger.debug(module_name, "Cannot complete - blocked by state: %s" % state_key)
+			return false
+	
+	return true
+
 func complete() -> void:
 	is_completed = true
-	is_assigned = false
+	DebugLogger.info(module_name, "Task completed: %s" % task_name)
 
-## Create a duplicate for runtime use
-func duplicate_for_runtime() -> SimpleTask:
-	var copy = duplicate(true) as SimpleTask
-	copy.reset()
-	return copy
+func reset() -> void:
+	is_completed = false
+	is_available = false
+	is_revealed = false
+	reveal_timer = 0.0
+	reveal_conditions_met = false
+	time_remaining = emergency_time_limit
 
-#endregion
+func get_display_name() -> String:
+	if is_emergency:
+		return "[EMERGENCY] %s" % task_name
+	return task_name

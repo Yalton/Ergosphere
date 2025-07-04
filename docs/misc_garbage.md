@@ -1,17 +1,18 @@
 
 ## Claude Help
-MessageBus Refactor 
-Fix Brown Note 
-Fix Event system 
-Secret Tasks and Alternatate Ending 
-Make game actually finishable, even if its shit 
-Clean up code base
 
+Fix Event system
 
-## Manual 
-Add Glitch to all diagetic UIs
-Monitor follow player 
-Organize File structure 
+Fix Errors and warning
+
+Make game actually finishable, even if its shit
+
+Secret Tasks and Alternatate Ending
+- Maybe Done
+
+## Manual
+
+Organize File structure
 Test Systems thouroughly
 Make Diagetic UI make noise
 add vfx and audio to events

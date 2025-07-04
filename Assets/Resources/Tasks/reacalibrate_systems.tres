@@ -4,19 +4,17 @@
 
 [resource]
 script = ExtResource("1_yg4pl")
-id = ""
-name = ""
-description = ""
-category = "Daily"
-priority = 5
+task_id = ""
+task_name = "Unnamed Task"
+task_description = ""
+is_emergency = false
+is_secret = false
+emergency_time_limit = 0.0
+failure_consequence = {}
+dependent_on_tasks = Array[String]([])
 required_states = {}
-required_tasks = Array[String]([])
-available_from_day = 0
-available_until_day = 0
-time_limit = 0.0
-can_fail = false
-failure_type = "Nothing"
-completion_reward = 0
-auto_complete = false
-related_groups = Array[String]([])
+blocked_by_states = {}
+revealed_under = {}
+reveal_delay = 1.0
+related_object_groups = Array[String]([])
 metadata/_custom_type_script = "uid://bxrho0i2t1mql"

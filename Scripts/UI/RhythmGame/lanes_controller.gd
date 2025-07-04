@@ -23,13 +23,21 @@ func _ready():
 			lanes[i].note_missed.connect(_on_lane_note_missed.bind(i))
 			lanes[i].set_note_speed(note_speed)
 
-func spawn_note(lane_index: int):
+func spawn_note(lane_index: int) -> bool:
 	if lane_index < 0 or lane_index >= lanes.size():
 		DebugLogger.log_message("LaneController", "Invalid lane index: %d" % lane_index)
-		return
+		return false
 	
-	if lanes[lane_index]:
-		lanes[lane_index].spawn_note()
+	if not lanes[lane_index]:
+		DebugLogger.log_message("LaneController", "Lane %d is null" % lane_index)
+		return false
+	
+	# Call spawn_note and return its result
+	if lanes[lane_index].has_method("spawn_note"):
+		return lanes[lane_index].spawn_note()
+	else:
+		DebugLogger.log_message("LaneController", "Lane %d doesn't have spawn_note method" % lane_index)
+		return false
 
 func check_hit(lane_index: int):
 	if lane_index < 0 or lane_index >= lanes.size():

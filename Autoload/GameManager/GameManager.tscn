@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://d3hcptla36gp3"]
+[gd_scene load_steps=24 format=3 uid="uid://d3hcptla36gp3"]
 
 [ext_resource type="Script" uid="uid://brfd0bny5riwc" path="res://Autoload/GameManager/game_manager.gd" id="1_ttbae"]
 [ext_resource type="AudioStream" uid="uid://chnfaq63v5hia" path="res://Assets/Audio/Alarm/Alarm.ogg" id="2_52hc4"]
@@ -11,6 +11,7 @@
 [ext_resource type="Resource" uid="uid://b8qnpop0ojhbt" path="res://Assets/Resources/Items/air_filter.tres" id="21_7p8ko"]
 [ext_resource type="PackedScene" uid="uid://d0tccx3iul7g0" path="res://Autoload/GameManager/AudioFXManager/audio_fx_manager.tscn" id="21_ndbpl"]
 [ext_resource type="Resource" uid="uid://c6bh67bcta4r8" path="res://Assets/Resources/Items/anomaly_scanner.tres" id="22_pcida"]
+[ext_resource type="Script" uid="uid://bsrfva7i47st4" path="res://Autoload/GameManager/ending_sequence_manager.gd" id="23_hygov"]
 [ext_resource type="Resource" uid="uid://deljo1xkbpegn" path="res://Assets/Resources/Items/dumbell.tres" id="23_i8je7"]
 [ext_resource type="Resource" uid="uid://2c05ap4w6iu3" path="res://Assets/Resources/Items/fire_extinguisher.tres" id="24_vvnsy"]
 [ext_resource type="Resource" uid="uid://dnjb2j7j8kwy6" path="res://Assets/Resources/Items/hammer.tres" id="25_ypteb"]
@@ -41,3 +42,6 @@ current_requisition = 5000
 shop_catalog = Array[ExtResource("8_tpof5")]([ExtResource("21_7p8ko"), ExtResource("22_pcida"), ExtResource("23_i8je7"), ExtResource("24_vvnsy"), ExtResource("25_ypteb"), ExtResource("26_s6rh7"), ExtResource("27_rxn7a"), ExtResource("28_ueve2"), ExtResource("29_r07jx"), ExtResource("30_78fta"), ExtResource("31_nwhts"), ExtResource("32_o3trq"), ExtResource("33_k3nj7")])
 
 [node name="AudioFXManager" parent="." instance=ExtResource("21_ndbpl")]
+
+[node name="EndingSequenceManager" type="Node" parent="."]
+script = ExtResource("23_hygov")

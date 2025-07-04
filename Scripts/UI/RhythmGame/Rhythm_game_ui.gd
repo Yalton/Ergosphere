@@ -174,6 +174,45 @@ func _process(delta):
 	if notes_spawned >= total_notes and notes_hit + notes_missed >= total_notes:
 		_end_game()
 
+func _spawn_note():
+	# Try to find a suitable lane that hasn't been used recently
+	var available_lanes = []
+	
+	for i in range(4):
+		# Check if enough time has passed since last spawn in this lane
+		if game_timer - last_lane_spawn_times[i] >= MIN_LANE_SPAWN_INTERVAL:
+			available_lanes.append(i)
+	
+	# If no lanes meet the time requirement, don't force spawn
+	if available_lanes.is_empty():
+		DebugLogger.log_message("RhythmGameUI", "No lanes available due to timing, waiting...")
+		# Reduce the next spawn time to try again sooner
+		next_spawn_time = min_spawn_interval * 0.5
+		return
+	
+	# Shuffle available lanes to try them in random order
+	available_lanes.shuffle()
+	
+	# Try to spawn in one of the available lanes
+	var spawned = false
+	for lane_index in available_lanes:
+		if lane_controller.spawn_note(lane_index):
+			# Update last spawn time for this lane
+			last_lane_spawn_times[lane_index] = game_timer
+			notes_spawned += 1
+			spawned = true
+			DebugLogger.log_message("RhythmGameUI", "Spawned note %d/%d in lane %d" % [notes_spawned, total_notes, lane_index])
+			break
+		else:
+			DebugLogger.log_message("RhythmGameUI", "Lane %d rejected spawn" % lane_index)
+	
+	if not spawned:
+		DebugLogger.log_message("RhythmGameUI", "Failed to spawn in any available lane, waiting...")
+		# Reduce the next spawn time to try again sooner
+		next_spawn_time = min_spawn_interval * 0.5
+
+
+
 func _input(event):
 	if not game_active or not visible:
 		return
@@ -266,28 +305,6 @@ func _apply_level_difficulty():
 	DebugLogger.log_message("RhythmGameUI", "Level %d: %d notes, spawn interval %.1f-%.1f" % 
 		[current_level, total_notes, min_spawn_interval, max_spawn_interval])
 
-func _spawn_note():
-	# Try to find a suitable lane that hasn't been used recently
-	var available_lanes = []
-	
-	for i in range(4):
-		# Check if enough time has passed since last spawn in this lane
-		if game_timer - last_lane_spawn_times[i] >= MIN_LANE_SPAWN_INTERVAL:
-			available_lanes.append(i)
-	
-	# If no lanes are available (very rare), use any lane
-	if available_lanes.is_empty():
-		available_lanes = [0, 1, 2, 3]
-	
-	# Pick a random lane from available ones
-	var lane_index = available_lanes[randi() % available_lanes.size()]
-	
-	# Update last spawn time for this lane
-	last_lane_spawn_times[lane_index] = game_timer
-	
-	lane_controller.spawn_note(lane_index)
-	notes_spawned += 1
-	DebugLogger.log_message("RhythmGameUI", "Spawned note %d/%d in lane %d" % [notes_spawned, total_notes, lane_index])
 
 func _on_note_hit(lane_index: int):
 	notes_hit += 1
