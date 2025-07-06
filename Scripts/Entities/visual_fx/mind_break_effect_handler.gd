@@ -44,12 +44,12 @@ func _startup_phase(time: float) -> void:
 	var effects_to_activate = ["glitch", "edge_detection", "chromatic_aberration", "warp"]
 	
 	# Activate each effect with staggering
-	for effect_id in effects_to_activate:
+	for effct_id in effects_to_activate:
 		if vfx_manager.has_method("invoke_effect"):
 			# Each sub-effect gets a portion of the total time
 			var sub_startup = time / effects_to_activate.size()
-			vfx_manager.invoke_effect(effect_id, sub_startup, 0, 0)  # We'll handle duration and wind down
-			active_sub_effects.append(effect_id)
+			vfx_manager.invoke_effect(effct_id, sub_startup, 0, 0)  # We'll handle duration and wind down
+			active_sub_effects.append(effct_id)
 			
 			if stagger_effects and stagger_delay > 0:
 				await get_tree().create_timer(stagger_delay).timeout
@@ -75,9 +75,9 @@ func _wind_down_phase(time: float) -> void:
 		return
 	
 	# Stop all sub-effects with staggering
-	for effect_id in active_sub_effects:
+	for effct_id in active_sub_effects:
 		if vfx_manager.has_method("stop_effect"):
-			vfx_manager.stop_effect(effect_id)
+			vfx_manager.stop_effect(effct_id)
 			
 			if stagger_effects and stagger_delay > 0:
 				await get_tree().create_timer(stagger_delay).timeout
@@ -99,9 +99,9 @@ func _cleanup() -> void:
 	# Stop all active sub-effects immediately
 	var vfx_manager = get_parent()
 	if vfx_manager:
-		for effect_id in active_sub_effects:
+		for effct_id in active_sub_effects:
 			if vfx_manager.has_method("stop_effect"):
-				vfx_manager.stop_effect(effect_id)
+				vfx_manager.stop_effect(effct_id)
 	
 	active_sub_effects.clear()
 	

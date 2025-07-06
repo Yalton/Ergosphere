@@ -186,7 +186,7 @@ resource_local_to_scene = true
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_qfur7")
 
-[node name="monitor_4" type="StaticBody3D"]
+[node name="storage_room_monitor" type="StaticBody3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00678711, 0.108506, -0.000149042)

@@ -63,6 +63,15 @@ func _setup_ui() -> void:
 		replacement_parts_grid.columns = 3
 		replacement_parts_grid.add_theme_constant_override("h_separation", 10)
 		replacement_parts_grid.add_theme_constant_override("v_separation", 10)
+	
+	# Connect tab changed signal for neutral feedback
+	if tab_container:
+		tab_container.tab_changed.connect(_on_tab_changed)
+
+func _on_tab_changed(tab_index: int) -> void:
+	# Play neutral sound for tab navigation
+	play_neutral_sound()
+	DebugLogger.debug(module_name, "Tab changed to: " + str(tab_index))
 
 func _populate_shop() -> void:
 	if not storage_manager:
@@ -110,6 +119,7 @@ func _create_item_button(item: ShopItem, parent_grid: GridContainer) -> void:
 	
 	# Update button state based on affordability
 	_update_button_state(item.item_id)
+
 func _on_item_button_pressed(item_id: String) -> void:
 	DebugLogger.debug(module_name, "Purchase attempted for: " + item_id)
 	purchase_attempted.emit(item_id)
@@ -120,6 +130,8 @@ func _on_item_button_pressed(item_id: String) -> void:
 	
 	# Attempt purchase
 	if storage_manager.order_item(item_id):
+		# Play positive sound for successful purchase
+		play_positive_sound()
 		purchase_successful.emit(item_id)
 		_update_all_buttons()
 		_update_requisition_display()
@@ -128,6 +140,9 @@ func _on_item_button_pressed(item_id: String) -> void:
 		purchase_failed.emit(item_id)
 
 func _show_purchase_failed(item_id: String, reason: String = "") -> void:
+	# Play negative sound for failed purchase
+	play_negative_sound()
+	
 	# Flash the button red
 	var button = item_buttons.get(item_id, null)
 	if button:
@@ -174,5 +189,8 @@ func _on_requisition_spent(amount: int) -> void:
 func refresh_shop() -> void:
 	_populate_shop()
 	_update_requisition_display()
+	
+	# Play neutral sound for shop refresh
+	play_neutral_sound()
 	
 	DebugLogger.debug(module_name, "Shop refreshed")

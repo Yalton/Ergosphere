@@ -19,24 +19,24 @@ func _cmd_list_logs(args: Array) -> void:
 	output_system("=== Available Terminal Logs ===")
 	
 	for i in range(DevConsoleManager.terminal_logs.size()):
-		var log = DevConsoleManager.terminal_logs[i]
-		if not log:
+		var log_data = DevConsoleManager.terminal_logs[i]
+		if not log_data:
 			continue
 			
 		var status = ""
-		if log.password_protected:
+		if log_data.password_protected:
 			status = " [PASSWORD]"
-		elif log.is_locked:
-			if log.is_accessible():
+		elif log_data.is_locked:
+			if log_data.is_accessible():
 				status = " [UNLOCKED]"
 			else:
 				status = " [LOCKED]"
 		
 		var security = ""
-		if not log.security_level.is_empty():
-			security = " (" + log.security_level + ")"
+		if not log_data.security_level.is_empty():
+			security = " (" + log_data.security_level + ")"
 		
-		output("%d. %s%s%s" % [i + 1, log.log_title, security, status])
+		output("%d. %s%s%s" % [i + 1, log_data.log_title, security, status])
 	
 	output_system("\nUse 'log <number>' to read a specific log")
 	output_system("Password protected logs require: 'log <number> <password>'")
@@ -54,14 +54,14 @@ func _cmd_show_log(args: Array) -> void:
 		output_error("Invalid log number. Use 'logs' to see available logs")
 		return
 	
-	var log = DevConsoleManager.terminal_logs[log_number - 1]
+	var log_data = DevConsoleManager.terminal_logs[log_number - 1]
 	
-	if not log:
+	if not log_data:
 		output_error("Log data is missing")
 		return
 	
 	# Check if password protected
-	if log.password_protected:
+	if log_data.password_protected:
 		if args.size() < 2:
 			output_error("Access Denied - Password Required")
 			output_system("Usage: log %d <password>" % log_number)
@@ -80,11 +80,11 @@ func _cmd_show_log(args: Array) -> void:
 		DebugLogger.info(module_name, "Log %d accessed with correct password" % log_number)
 	
 	# Check if accessible (state-based locking)
-	if not log.is_accessible():
-		output_error(log.locked_message)
-		if not log.unlock_state_name.is_empty():
-			output_system("Required: %s = %s" % [log.unlock_state_name, str(log.unlock_state_value)])
+	if not log_data.is_accessible():
+		output_error(log_data.locked_message)
+		if not log_data.unlock_state_name.is_empty():
+			output_system("Required: %s = %s" % [log_data.unlock_state_name, str(log_data.unlock_state_value)])
 		return
 	
 	# Display the log
-	output_system(log.get_formatted_content())
+	output_system(log_data.get_formatted_content())

@@ -71,15 +71,15 @@ func _register_exported_items() -> void:
 			continue
 		
 		# Check for duplicates
-		var duplicate = false
+		var dup = false
 		for existing in shop_catalog:
 			if existing.item_id == item.item_id:
 				DebugLogger.warning(module_name, "Duplicate item ID found: " + item.item_id)
-				duplicate = true
+				dup = true
 				duplicate_count += 1
 				break
 		
-		if not duplicate:
+		if not dup:
 			shop_catalog.append(item)
 			registered_count += 1
 			DebugLogger.debug(module_name, "Registered exported item: " + item.display_name + " (ID: " + item.item_id + ")")

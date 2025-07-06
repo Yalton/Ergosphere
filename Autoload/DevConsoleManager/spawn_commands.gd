@@ -129,13 +129,13 @@ func _recursive_find_storage_manager(node: Node) -> StorageManager:
 func _find_props_group() -> Node:
 	var prop_names = ["Props", "items", "objects", "spawned_items"]
 	
-	for name in prop_names:
-		var found = get_tree().get_first_node_in_group(name.to_lower())
+	for p_name in prop_names:
+		var found = get_tree().get_first_node_in_group(p_name.to_lower())
 		if found:
 			return found
 	
-	for name in prop_names:
-		var found = get_tree().current_scene.find_child(name, true)
+	for p_name in prop_names:
+		var found = get_tree().current_scene.find_child(p_name, true)
 		if found:
 			return found
 	

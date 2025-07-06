@@ -130,7 +130,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[node name="Download_Monitor" type="StaticBody3D" node_paths=PackedStringArray("download_ui_control", "sub_viewport", "display", "ui_content", "task_aware_component", "state_aware_component")]
+[node name="Download_Monitor" type="StaticBody3D" node_paths=PackedStringArray("download_ui_control", "sub_viewport", "display", "ui_content", "area_3d", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_qfur7")
@@ -139,6 +139,7 @@ interact_sound = ExtResource("2_15nl1")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Skeleton3D/BoneAttachment3D/Display")
 ui_content = NodePath("SubViewport/DownloadUI")
+area_3d = NodePath("Skeleton3D/BoneAttachment3D/Area3D")
 task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
 display_name = "download_monitor"

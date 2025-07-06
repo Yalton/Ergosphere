@@ -156,9 +156,12 @@ func initialize(_state_manager: StateManager) -> void:
 	# Reset tension
 	global_tension = 0.0
 	
-	# Connect signals
-	event_triggered.connect(_on_event_triggered)
-	event_completed.connect(_on_event_completed)
+	# Connect signals only if not already connected
+	if not event_triggered.is_connected(_on_event_triggered):
+		event_triggered.connect(_on_event_triggered)
+	
+	if not event_completed.is_connected(_on_event_completed):
+		event_completed.connect(_on_event_completed)
 	
 	# Find all event handlers
 	_discover_event_handlers()

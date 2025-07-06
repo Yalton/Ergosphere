@@ -32,25 +32,25 @@ func set_console_ui(console_ui: Control, admin_mode: bool = false) -> void:
 	is_admin = admin_mode
 	DebugLogger.debug(module_name, "Console UI reference set. Admin mode: " + str(is_admin))
 
-func register_command(name: String, method: Callable, description: String = "", admin_only: bool = false) -> void:
-	commands[name.to_lower()] = {
+func register_command(p_name: String, method: Callable, description: String = "", admin_only: bool = false) -> void:
+	commands[p_name.to_lower()] = {
 		"method": method,
 		"description": description,
 		"admin_only": admin_only
 	}
-	DebugLogger.debug(module_name, "Registered command: " + name + " (admin_only: " + str(admin_only) + ")")
+	DebugLogger.debug(module_name, "Registered command: " + p_name + " (admin_only: " + str(admin_only) + ")")
 
 func register_alias(alias: String, command: String) -> void:
 	command_aliases[alias.to_lower()] = command.to_lower()
 	DebugLogger.debug(module_name, "Registered alias: %s -> %s" % [alias, command])
 
-func unregister_command(name: String) -> void:
-	commands.erase(name.to_lower())
+func unregister_command(p_name: String) -> void:
+	commands.erase(p_name.to_lower())
 	# Remove any aliases pointing to this command
 	for alias in command_aliases:
-		if command_aliases[alias] == name.to_lower():
+		if command_aliases[alias] == p_name.to_lower():
 			command_aliases.erase(alias)
-	DebugLogger.debug(module_name, "Unregistered command: " + name)
+	DebugLogger.debug(module_name, "Unregistered command: " + p_name)
 
 func process_command(input: String) -> void:
 	var parts = input.strip_edges().split(" ", false)

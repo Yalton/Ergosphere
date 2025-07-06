@@ -26,9 +26,9 @@ func register_commands() -> void:
 	DebugLogger.warning(module_name, "No commands registered - override register_commands() in child class")
 
 ## Helper function to register a command with the main console manager
-func register_command(name: String, method: Callable, description: String = "", admin_only: bool = false) -> void:
-	DevConsoleManager.register_command(name, method, description, admin_only)
-	DebugLogger.debug(module_name, "Registered command: " + name)
+func register_command(p_name: String, method: Callable, description: String = "", admin_only: bool = false) -> void:
+	DevConsoleManager.register_command(p_name, method, description, admin_only)
+	DebugLogger.debug(module_name, "Registered command: " + p_name)
 
 ## Helper function to register an alias
 func register_alias(alias: String, command: String) -> void:

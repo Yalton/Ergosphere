@@ -21,11 +21,6 @@ var module_name: String = "MemoryPurge"
 @export var corrupted_color: Color = Color(1.0, 0.3, 0.3)
 @export var purged_color: Color = Color(0.3, 1.0, 0.3)
 
-@export_category("Audio")
-@export var block_purged_audio : AudioStream
-@export var game_complete_audio : AudioStream
-
-
 # Node references
 @onready var start_screen: Control = $MainUI/StartScreen
 @onready var game_screen: Control = $MainUI/GameScreen
@@ -97,6 +92,9 @@ func _create_memory_blocks() -> void:
 func _on_start_pressed() -> void:
 	DebugLogger.debug(module_name, "Starting game")
 	
+	# Play neutral sound for game start
+	play_neutral_sound()
+	
 	# Switch screens
 	start_screen.hide()
 	game_screen.show()
@@ -155,6 +153,9 @@ func _corrupt_block(block: Button) -> void:
 	var tween = create_tween()
 	tween.tween_property(block, "modulate", corrupted_color, 0.2)
 	
+	# Play negative sound for corruption
+	play_negative_sound()
+	
 	DebugLogger.debug(module_name, "Corrupted block: " + block.name)
 
 func _on_block_clicked(block: Button) -> void:
@@ -162,12 +163,12 @@ func _on_block_clicked(block: Button) -> void:
 		return
 		
 	if not block_states[block]["corrupted"]:
-		# Clicking non-corrupted block does nothing
+		# Clicking non-corrupted block - play negative feedback
+		play_negative_sound()
 		return
 	
-	# Purge the corrupted block
-	Audio.play_sound(block_purged_audio, true,1.0,0.0,"SFX")
-
+	# Purge the corrupted block - play positive feedback
+	play_positive_sound()
 	_purge_block(block)
 
 func _purge_block(block: Button) -> void:
@@ -220,13 +221,13 @@ func _auto_cleanse_block(block: Button) -> void:
 	
 	DebugLogger.debug(module_name, "Auto-cleansed block: " + block.name)
 
-# Public method to stop the game (useful for when UI is closed)
+## Public method to stop the game (useful for when UI is closed)
 func stop_game() -> void:
 	is_game_active = false
 	corruption_timer.stop()
 	DebugLogger.debug(module_name, "Game stopped")
 
-# Public method to check if game is running
+## Public method to check if game is running
 func is_running() -> bool:
 	return is_game_active
 
@@ -243,7 +244,9 @@ func _trigger_victory() -> void:
 		block.modulate = normal_color
 		block_states[block]["corrupted"] = false
 	
-	Audio.play_sound(game_complete_audio, true,1.0,0.0,"SFX")
+	# Play victory sound
+	play_victory_sound()
+	
 	# Start victory animation
 	_play_victory_animation()
 

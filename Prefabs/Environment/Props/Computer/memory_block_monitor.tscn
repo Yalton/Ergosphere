@@ -152,7 +152,7 @@ albedo_texture = SubResource("ViewportTexture_kodtd")
 [sub_resource type="BoxShape3D" id="BoxShape3D_sta57"]
 size = Vector3(4.36, 3.88262, 4.49752)
 
-[node name="memory_block_monitor" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content", "task_aware_component", "state_aware_component")]
+[node name="memory_block_monitor" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content", "area_3d", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_aoay5")
@@ -160,6 +160,7 @@ interact_sound = ExtResource("2_1ci40")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Skeleton3D/BoneAttachment3D/Display")
 ui_content = NodePath("SubViewport/memory_purge_game")
+area_3d = NodePath("Skeleton3D/BoneAttachment3D/Area3D")
 task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
 

@@ -22,7 +22,7 @@ signal interaction_ended
 ## Reference to the UI content node inside the SubViewport
 @export var ui_content: DiageticUIContent
 
-@onready var area_3d: Area3D = $Area3D
+@export var area_3d: Area3D
 
 ## Different methods for disabling the screen
 enum DisableMethod {

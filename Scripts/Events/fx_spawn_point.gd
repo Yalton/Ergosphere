@@ -7,7 +7,7 @@ class_name VFXSpawnPoint
 ## Time in seconds this spawn point has been visible
 var time_on_screen: float = 0.0
 ## Whether this spawn point is currently visible
-var is_on_screen: bool = false
+var on_screen: bool = false
 
 func _ready() -> void:
 	DebugLogger.register_module("VFXSpawnPoint")
@@ -20,11 +20,11 @@ func _ready() -> void:
 	aabb = AABB(Vector3(-1, -1, -1), Vector3(2, 2, 2))
 
 func _on_screen_entered() -> void:
-	is_on_screen = true
+	on_screen = true
 	DebugLogger.debug("VFXSpawnPoint", "%s entered screen" % name)
 
 func _on_screen_exited() -> void:
-	is_on_screen = false
+	on_screen = false
 	time_on_screen = 0.0  # Reset timer when off screen
 	DebugLogger.debug("VFXSpawnPoint", "%s exited screen" % name)
 

@@ -180,16 +180,16 @@ func _despawn_note(index: int, missed: bool):
 	active_notes.remove_at(index)
 	note.queue_free()
 
-func _spawn_particle_effect(particle_scene: PackedScene, position: Vector2):
+func _spawn_particle_effect(particle_scene: PackedScene, local_position: Vector2):
 	if not particle_scene:
 		DebugLogger.log_message("Lane", "No particle scene assigned")
 		return
 		
 	var particle = particle_scene.instantiate()
 	get_tree().current_scene.add_child(particle)
-	particle.global_position = position
+	particle.global_position = local_position
 	
-	DebugLogger.log_message("Lane", "Spawned particle effect at position: %v" % position)
+	DebugLogger.log_message("Lane", "Spawned particle effect at position: %v" % local_position)
 	
 	# Auto-remove particle after some time (adjust based on your particle system)
 	if particle.has_method("set_emitting"):

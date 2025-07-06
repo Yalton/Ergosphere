@@ -7,13 +7,8 @@ signal download_completed
 @export var progress_bar: TextureProgressBar
 @export var status_label: Label
 @export var download_time: float = 3.0
-
 @export var enable_debug: bool = true
 var module_name: String = "DownloadUIControl"
-
-@export_category("Audio")
-@export var button_clicked : AudioStream
-@export var ui_complete_audio : AudioStream
 
 var is_downloading: bool = false
 var is_download_complete: bool = false
@@ -42,6 +37,8 @@ func _ready() -> void:
 func _on_download_button_pressed() -> void:
 	if is_downloading or is_download_complete:
 		DebugLogger.debug(module_name, "Download already in progress or completed")
+		# Play negative sound for invalid action
+		play_negative_sound()
 		return
 	
 	start_download()
@@ -49,6 +46,7 @@ func _on_download_button_pressed() -> void:
 func start_download() -> void:
 	if not progress_bar:
 		DebugLogger.error(module_name, "Cannot start download - no progress bar")
+		play_negative_sound()
 		return
 	
 	is_downloading = true
@@ -65,9 +63,9 @@ func start_download() -> void:
 	download_tween.tween_method(_update_progress, 0.0, 100.0, download_time)
 	download_tween.finished.connect(_on_download_finished)
 	
-	Audio.play_sound(button_clicked, true,1.0,0.0,"SFX")
-
-
+	# Play neutral sound for download start
+	play_neutral_sound()
+	
 	DebugLogger.debug(module_name, "Download started - " + str(download_time) + " seconds")
 
 func _update_progress(value: float) -> void:
@@ -92,8 +90,10 @@ func _on_download_finished() -> void:
 	
 	# Emit signal to parent diegetic UI
 	download_completed.emit()
-	Audio.play_sound(ui_complete_audio, true,1.0,0.0,"SFX")
-
+	
+	# Play positive sound for successful completion
+	play_positive_sound()
+	
 	DebugLogger.debug(module_name, "Download completed")
 
 func cancel_download() -> void:
@@ -113,5 +113,8 @@ func cancel_download() -> void:
 	
 	if status_label:
 		status_label.text = "Download: not started"
+	
+	# Play negative sound for cancellation
+	play_negative_sound()
 	
 	DebugLogger.debug(module_name, "Download cancelled")

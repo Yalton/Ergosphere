@@ -5,9 +5,11 @@ class_name PauseMenu
 signal resume_requested
 signal menu_requested
 
-# Main configuration
+## Path to the main menu scene file
 @export_file("*.tscn") var main_menu_path: String
+## Enable debug logging for this module
 @export var enable_debug: bool = false
+## Module name for debug logging
 @export var module_name: String = "PauseMenu"
 
 # Menu references
@@ -34,7 +36,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	# Make all UI elements processable during pause
-	_set_all_children_process_mode(self, Node.PROCESS_MODE_ALWAYS)
+	_set_all_children_process_mode(self, Node.PROCESS_MODE_ALWAYS as Node.ProcessMode)
 	
 	# Connect pause menu signals
 	resume_button.pressed.connect(_on_resume_pressed)
@@ -73,7 +75,7 @@ func toggle_pause() -> void:
 		pause()
 
 # Recursively set process mode for all UI children
-func _set_all_children_process_mode(node: Node, mode: int) -> void:
+func _set_all_children_process_mode(node: Node, mode: Node.ProcessMode) -> void:
 	for child in node.get_children():
 		child.process_mode = mode
 		_set_all_children_process_mode(child, mode)

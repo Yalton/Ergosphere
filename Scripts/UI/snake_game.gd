@@ -119,6 +119,9 @@ func _start_game() -> void:
 	
 	DebugLogger.debug(module_name, "Starting snake game")
 	
+	# Play neutral sound for game start
+	play_neutral_sound()
+	
 	# Switch to game screen
 	_show_game_screen()
 	
@@ -146,19 +149,28 @@ func _input(event: InputEvent) -> void:
 		return
 	
 	if event is InputEventKey and event.pressed:
+		var direction_changed = false
 		match event.keycode:
 			KEY_W, KEY_UP:
 				if direction != Vector2i.DOWN:
 					next_direction = Vector2i.UP
+					direction_changed = true
 			KEY_S, KEY_DOWN:
 				if direction != Vector2i.UP:
 					next_direction = Vector2i.DOWN
+					direction_changed = true
 			KEY_A, KEY_LEFT:
 				if direction != Vector2i.RIGHT:
 					next_direction = Vector2i.LEFT
+					direction_changed = true
 			KEY_D, KEY_RIGHT:
 				if direction != Vector2i.LEFT:
 					next_direction = Vector2i.RIGHT
+					direction_changed = true
+		
+		# Play neutral sound for direction change
+		if direction_changed:
+			play_neutral_sound()
 
 func _move_snake() -> void:
 	if not game_active:
@@ -211,6 +223,10 @@ func _spawn_food() -> void:
 
 func _eat_food() -> void:
 	DebugLogger.debug(module_name, "Food eaten! Snake length: " + str(snake_positions.size()))
+	
+	# Play positive sound for eating food
+	play_positive_sound()
+	
 	_spawn_food()
 
 func _update_visuals() -> void:
@@ -245,6 +261,9 @@ func _game_over() -> void:
 	game_active = false
 	move_timer.stop()
 	
+	# Play negative sound for game over
+	play_negative_sound()
+	
 	if game_over_label:
 		game_over_label.text = "Game Over! Length: " + str(snake_positions.size())
 		game_over_label.visible = true
@@ -259,6 +278,9 @@ func _game_complete() -> void:
 	
 	game_active = false
 	move_timer.stop()
+	
+	# Play victory sound for game completion
+	play_victory_sound()
 	
 	if game_over_label:
 		game_over_label.text = "Success! Game Complete!"

@@ -137,14 +137,14 @@ func _reparent_to_props() -> void:
 		return
 	
 	# Store global transform before reparenting
-	var global_transform = contained_item.global_transform
+	var local_transform = contained_item.global_transform
 	
 	# Reparent to props node
 	contained_item.get_parent().remove_child(contained_item)
 	props_node.add_child(contained_item)
 	
 	# Restore global transform
-	contained_item.global_transform = global_transform
+	contained_item.global_transform = local_transform
 	
 	DebugLogger.debug(module_name, "Item reparented to props group")
 	

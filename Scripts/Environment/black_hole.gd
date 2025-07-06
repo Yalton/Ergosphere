@@ -9,7 +9,7 @@ class_name BlackHole
 @export var current_view_time: float = 0.0
 
 ## Whether the black hole is currently visible on screen
-@export var is_visible: bool = false
+@export var is_on_screen: bool = false
 
 ## Time required to trigger the effect (in seconds)
 @export var stare_duration_required: float = 10.0
@@ -64,7 +64,7 @@ func _process(delta: float) -> void:
 			DebugLogger.debug(module_name, "Effect cooldown ended")
 	
 	# Track viewing time when visible
-	if is_visible:
+	if is_on_screen:
 		current_view_time += delta
 		view_time += delta
 		
@@ -132,12 +132,12 @@ func _damage_player_sanity() -> void:
 		DebugLogger.warning(module_name, "Could not find insanity component on player")
 
 func _on_screen_entered() -> void:
-	is_visible = true
+	is_on_screen = true
 	effect_triggered_this_session = false
 	DebugLogger.debug(module_name, "Black hole entered screen")
 
 func _on_screen_exited() -> void:
-	is_visible = false
+	is_on_screen = false
 	DebugLogger.debug(module_name, "Black hole exited screen - was visible for: " + str(current_view_time) + "s")
 	current_view_time = 0.0
 

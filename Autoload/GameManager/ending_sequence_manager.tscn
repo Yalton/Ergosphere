@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bc5nf2mdjem8r"]
+
+[ext_resource type="Script" uid="uid://bsrfva7i47st4" path="res://Autoload/GameManager/ending_sequence_manager.gd" id="1_jmgg2"]
+
+[node name="EndingSequenceManager" type="Node"]
+script = ExtResource("1_jmgg2")

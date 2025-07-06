@@ -160,10 +160,10 @@ func create_timer(parent: Node, duration: float, one_shot: bool = true, auto_sta
 	return timer
 
 # Get or create child node of type
-func get_or_create_child(parent: Node, name: String, type: GDScript) -> Node:
-	var child = parent.get_node_or_null(name)
+func get_or_create_child(parent: Node, l_name: String, type: GDScript) -> Node:
+	var child = parent.get_node_or_null(l_name)
 	if not child:
 		child = type.new()
-		child.name = name
+		child.name = l_name
 		parent.add_child(child)
 	return child

@@ -3,7 +3,6 @@ extends Node
 
 signal day_reset
 signal game_started
-# In the class variables section, add:
 signal global_tension_changed(tension: float)
 
 ## Enable debug logging for the GameManager
@@ -16,6 +15,7 @@ var state_manager: StateManager
 var task_manager: TaskManager
 var storage_manager: StorageManager
 var audio_fx_manager: AudioFXManager
+var ending_sequence_manager: EndingSequenceManager
 
 ## Current day counter
 var current_day: int = 0
@@ -36,7 +36,6 @@ const PASSWORD_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 ## Current session password
 var session_password: String = ""
 
-
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 	
@@ -46,7 +45,7 @@ func _ready() -> void:
 	task_manager = CommonUtils.safe_get_node(self, "TaskManager") as TaskManager
 	storage_manager = CommonUtils.safe_get_node(self, "StorageManager") as StorageManager
 	audio_fx_manager = CommonUtils.safe_get_node(self, "AudioFXManager") as AudioFXManager
-
+	ending_sequence_manager = CommonUtils.safe_get_node(self, "EndingSequenceManager") as EndingSequenceManager
 
 	# Validate managers
 	if not event_manager:
@@ -60,6 +59,13 @@ func _ready() -> void:
 	CommonUtils.connect_signal_safe(task_manager, "emergency_task_failed", self, "_on_emergency_task_failed")
 	CommonUtils.connect_signal_safe(task_manager, "task_completed", self, "_on_task_completed")
 	event_manager.tension_changed.connect(_on_tension_changed)
+	
+	# Connect ending sequence manager signals if available
+	if ending_sequence_manager:
+		CommonUtils.connect_signal_safe(ending_sequence_manager, "game_ended", self, "_on_game_ended")
+		DebugLogger.info(module_name, "EndingSequenceManager connected")
+	else:
+		DebugLogger.warning(module_name, "EndingSequenceManager not found - ending sequences disabled")
 	
 	DebugLogger.info(module_name, "GameManager ready, waiting for game start")
 	
@@ -75,8 +81,6 @@ func _ready() -> void:
 		add_child(timer)
 		timer.start()
 
-
-
 # Add getter for current tension
 func get_global_tension() -> float:
 	if event_manager:
@@ -91,7 +95,8 @@ func start_game() -> void:
 	event_manager.initialize(state_manager)
 	task_manager.initialize(state_manager)
 	# StorageManager doesn't need initialization
-		# Generate session password
+	
+	# Generate session password
 	_generate_session_password()
 	is_initialized = true
 	
@@ -144,7 +149,7 @@ func _on_daily_tasks_completed() -> void:
 	DebugLogger.info(module_name, "All daily tasks completed!")
 	CommonUtils.set_game_state(CommonUtils.STATE_ALL_DAILY_TASKS_COMPLETE, true)
 	
-	# Could trigger end of day or special events here
+	# EndingSequenceManager handles checking for final day
 
 func _on_emergency_task_failed(task_id: String) -> void:
 	DebugLogger.warning(module_name, "Emergency task failed: " + task_id)
@@ -153,7 +158,7 @@ func _on_emergency_task_failed(task_id: String) -> void:
 	if alarm_audio and Audio:
 		Audio.play_sound(alarm_audio, false, 1.0, 0.8)
 	
-	# Could trigger game over or penalty here
+	# EndingSequenceManager handles escape task failure
 
 func _on_task_completed(task: BaseTask) -> void:
 	DebugLogger.debug(module_name, "Task completed: " + task.task_name)
@@ -162,23 +167,26 @@ func _on_task_completed(task: BaseTask) -> void:
 	if event_manager:
 		event_manager.on_task_completed()
 
+func _on_game_ended() -> void:
+	DebugLogger.info(module_name, "Game ending triggered by EndingSequenceManager")
+	# Could do any final cleanup here before scene transition
+
 func get_current_day() -> int:
 	return current_day
+
 func _on_tension_changed(new_tension: float) -> void:
 	## Forward tension changes to other systems
 	global_tension_changed.emit(new_tension)
 	DebugLogger.debug("GameManager", "Global tension: %.1f" % new_tension)
+
 func is_game_initialized() -> bool:
 	return is_initialized
 
-
-# Add this new function:
 func _generate_session_password() -> void:
 	session_password = ""
 	for i in session_password_length:
 		session_password += PASSWORD_CHARS[randi() % PASSWORD_CHARS.length()]
 	DebugLogger.info(module_name, "Session password generated: " + session_password)
 
-# Add this getter function:
 func get_session_password() -> String:
 	return session_password

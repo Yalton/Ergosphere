@@ -1,8 +1,7 @@
-[gd_scene load_steps=27 format=4 uid="uid://chqdixp3k58yg"]
+[gd_scene load_steps=26 format=4 uid="uid://chqdixp3k58yg"]
 
 [ext_resource type="Script" uid="uid://dfw7sryh2lg4d" path="res://Scripts/UI/DiageticUI/telescope_monitor.gd" id="1_86hom"]
 [ext_resource type="Texture2D" uid="uid://bnm0acu4duroo" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/GreyPlastic-Color.png" id="2_1as24"]
-[ext_resource type="Script" uid="uid://cnybmo2siij10" path="res://Scripts/Environment/look_at_player.gd" id="2_nuusm"]
 [ext_resource type="Texture2D" uid="uid://cu1rpgp4qi4bw" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/GreyPlastic-Roughness.png" id="3_1fmvh"]
 [ext_resource type="Texture2D" uid="uid://mcvhotyg64n7" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/GreyPlastic-Normal.png" id="4_143ql"]
 [ext_resource type="Texture2D" uid="uid://bso2ino6tdh16" path="res://Assets/Models/Station/Props/Monitors/Monitor_1/textures/BlackPlastic-Color.png" id="5_ocyyd"]
@@ -130,7 +129,7 @@ albedo_texture = SubResource("ViewportTexture_1fmvh")
 [sub_resource type="BoxShape3D" id="BoxShape3D_61goh"]
 size = Vector3(0.380537, 0.309512, 0.415931)
 
-[node name="TelescopeMonitor" type="StaticBody3D" node_paths=PackedStringArray("telescope_ui_control", "sub_viewport", "display", "ui_content", "task_aware_component", "state_aware_component")]
+[node name="TelescopeMonitor" type="StaticBody3D" node_paths=PackedStringArray("telescope_ui_control", "sub_viewport", "display", "ui_content", "area_3d", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_86hom")
@@ -138,6 +137,7 @@ telescope_ui_control = NodePath("SubViewport/telescope_adjust_ui")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Skeleton3D/Display")
 ui_content = NodePath("SubViewport/telescope_adjust_ui")
+area_3d = NodePath("Skeleton3D/Area3D")
 task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
 
@@ -153,8 +153,8 @@ bones/1/name = "Monitor"
 bones/1/parent = 0
 bones/1/rest = Transform3D(1, 2.76737e-08, -1.23322e-07, -1.23322e-07, 0, -1, -2.76737e-08, 1, 0, 8.88178e-16, 0.035, 0)
 bones/1/enabled = true
-bones/1/position = Vector3(0, 0, 0)
-bones/1/rotation = Quaternion(-1.77636e-15, -4.61853e-14, -8.2474e-16, 1)
+bones/1/position = Vector3(8.88178e-16, 0.035, 0)
+bones/1/rotation = Quaternion(0.707107, -3.38168e-08, -5.3385e-08, 0.707107)
 bones/1/scale = Vector3(1, 1, 1)
 
 [node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D"]
@@ -172,11 +172,10 @@ secondary_limit_angle = 1.0472
 secondary_damp_threshold = 1.0
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Skeleton3D"]
-transform = Transform3D(1, 2.66092e-07, -2.76737e-08, -2.66092e-07, 1, 5.96046e-08, 2.76737e-08, -5.96046e-08, 1, 0, 0, 0)
+transform = Transform3D(1, 1.13687e-13, -3.89414e-07, -3.89414e-07, 5.96046e-08, -1, -9.23706e-14, 1, 5.96046e-08, 9.31322e-09, 0.035, -2.08616e-09)
 bone_name = "Monitor"
 bone_idx = 1
 override_pose = true
-script = ExtResource("2_nuusm")
 
 [node name="Low-Poly Monitor #3a" type="MeshInstance3D" parent="Skeleton3D"]
 transform = Transform3D(14, 0, 0, 0, 14, 0, 0, 0, 14, 0, 0, -2.22817)

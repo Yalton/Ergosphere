@@ -30,7 +30,7 @@ signal login_completed
 @export var success_sound: AudioStream
 @export var error_sound: AudioStream
 
-var is_processing: bool = false
+var is_busy: bool = false
 var progress_tween: Tween
 var module_name: String = "PasswordLoginControl"
 
@@ -94,7 +94,7 @@ func _show_progress_screen() -> void:
 
 func _on_submit_pressed() -> void:
 	DebugLogger.debug(module_name, "_on_submit_pressed called")
-	if is_processing:
+	if is_busy:
 		DebugLogger.debug(module_name, "Already processing, ignoring submit")
 		return
 	
@@ -102,7 +102,7 @@ func _on_submit_pressed() -> void:
 
 func _on_password_submitted(text: String) -> void:
 	DebugLogger.debug(module_name, "_on_password_submitted called with text: " + text)
-	if is_processing:
+	if is_busy:
 		DebugLogger.debug(module_name, "Already processing, ignoring enter key")
 		return
 	
@@ -119,8 +119,8 @@ func _submit_password() -> void:
 		_show_error_message("Password cannot be empty")
 		return
 	
-	is_processing = true
-	DebugLogger.debug(module_name, "Set is_processing = true")
+	is_busy = true
+	DebugLogger.debug(module_name, "Set is_busy = true")
 	
 	# Play button sound
 	if button_click_sound:
@@ -164,7 +164,7 @@ func _show_error() -> void:
 	_show_error_message("Incorrect Password")
 	
 	# Reset state
-	is_processing = false
+	is_busy = false
 	if submit_button:
 		submit_button.disabled = false
 	
@@ -214,7 +214,7 @@ func _on_progress_complete() -> void:
 	if progress_label:
 		progress_label.text = "Access Granted!"
 	
-	is_processing = false
+	is_busy = false
 	
 	# Emit signal for task completion
 	login_completed.emit()

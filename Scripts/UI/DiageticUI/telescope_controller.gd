@@ -4,6 +4,7 @@ extends DiageticUIContent
 # Signal emitted when telescope position changes
 signal telescope_position_changed(x_normalized: float, y_normalized: float)
 signal telescope_alligned()
+
 @export var x_slider: HSlider
 @export var y_slider: VSlider
 @export var telescope_image: Control  # The image/element to move around
@@ -112,10 +113,14 @@ func _calculate_movement_bounds() -> void:
 
 func _on_x_slider_changed(_value: float) -> void:
 	if not is_aligned:  # Only allow movement if not aligned
+		# Play neutral sound for slider adjustment
+		play_neutral_sound()
 		_update_telescope_position()
 
 func _on_y_slider_changed(_value: float) -> void:
 	if not is_aligned:  # Only allow movement if not aligned
+		# Play neutral sound for slider adjustment
+		play_neutral_sound()
 		_update_telescope_position()
 
 func _update_telescope_position() -> void:
@@ -187,6 +192,9 @@ func _start_calibration() -> void:
 	if progress_bar:
 		progress_bar.value = 0.0
 	
+	# Play positive sound for entering calibration zone
+	play_positive_sound()
+	
 	DebugLogger.info(module_name, "Started telescope calibration")
 
 func _cancel_calibration() -> void:
@@ -198,6 +206,9 @@ func _cancel_calibration() -> void:
 	
 	if progress_bar:
 		progress_bar.value = 0.0
+	
+	# Play negative sound for leaving calibration zone
+	play_negative_sound()
 	
 	DebugLogger.info(module_name, "Calibration cancelled - telescope moved")
 
@@ -220,16 +231,19 @@ func _complete_calibration() -> void:
 		y_slider.editable = false
 		y_slider.modulate.a = 0.5  # Make it look disabled
 	
+	# Play victory sound for successful alignment
+	play_victory_sound()
+	
 	DebugLogger.info(module_name, "Telescope calibration complete!")
 	telescope_alligned.emit()
 
-# Call this if screen size changes
+## Call this if screen size changes
 func _on_screen_resized() -> void:
 	_calculate_movement_bounds()
 	_update_telescope_position()
 	DebugLogger.debug(module_name, "Screen resized, recalculated bounds")
 
-# Helper function to set telescope to specific normalized position
+## Helper function to set telescope to specific normalized position
 func set_telescope_position(x_normalized: float, y_normalized: float) -> void:
 	if x_slider and y_slider and not is_aligned:
 		x_slider.value = x_slider.min_value + (x_normalized * (x_slider.max_value - x_slider.min_value))
@@ -237,7 +251,7 @@ func set_telescope_position(x_normalized: float, y_normalized: float) -> void:
 		var inverted_y = 1.0 - y_normalized
 		y_slider.value = y_slider.min_value + (inverted_y * (y_slider.max_value - y_slider.min_value))
 
-# Reset the telescope alignment (for testing or restarting)
+## Reset the telescope alignment (for testing or restarting)
 func reset_alignment() -> void:
 	is_aligned = false
 	is_calibrating = false
@@ -258,9 +272,12 @@ func reset_alignment() -> void:
 		y_slider.editable = true
 		y_slider.modulate.a = 1.0
 	
+	# Play neutral sound for reset
+	play_neutral_sound()
+	
 	DebugLogger.info(module_name, "Telescope alignment reset")
 
-# Test functions to verify positioning
+## Test functions to verify positioning
 func test_corners() -> void:
 	DebugLogger.info(module_name, "Testing corner positions...")
 	
@@ -289,7 +306,7 @@ func test_corners() -> void:
 	await get_tree().create_timer(1.0).timeout
 	DebugLogger.info(module_name, "Center position: " + str(telescope_image.position))
 
-# Get current alignment status
+## Get current alignment status
 func is_telescope_aligned() -> bool:
 	return is_aligned
 
