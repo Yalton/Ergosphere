@@ -4,22 +4,13 @@
 
 [resource]
 script = ExtResource("1_4od4u")
-event_id = "object_throw"
-event_name = "Object Throw"
-category = 1
-tension_score = 1
-disruption_score = 2
-base_chance = 10.0
-tension_cooldown = 30.0
-disruption_cooldown = 20.0
+id = "object_throw"
+name = "object_throw"
+description = "object_throw"
+cost = 15
+disruption_percentage = 10
 min_day = 1
-max_day = 5
-scheduled_day = 0
-scheduled_time_hours = 12.0
-has_visual_effects = true
-visual_cooldown_override = 0.0
-has_audio = false
-audio_cooldown_override = 0.0
-boosts_events = {}
-custom_data = {}
+cooldown = 40.0
+tags = Array[String]([])
+event_type = "MISC_DISRUPTIVE"
 metadata/_custom_type_script = "uid://clf1310qk2c05"

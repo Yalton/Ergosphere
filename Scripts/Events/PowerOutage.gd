@@ -1,5 +1,5 @@
 # PowerOutage.gd - FIXED state checking
-extends BaseEvent
+extends EventHandler
 
 @export_group("Power Outage Settings")
 ## Sound to play when power goes out

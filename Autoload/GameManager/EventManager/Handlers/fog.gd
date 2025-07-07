@@ -1,6 +1,6 @@
-# FogEventHandler.gd
+# fog.gd
 extends EventHandler
-class_name FogEventHandler
+class_name FogEvent
 
 ## Handles volumetric fog density events with smooth transitions
 
@@ -24,16 +24,15 @@ var is_fog_active: bool = false
 
 func _ready() -> void:
 	super._ready()
-	module_name = "FogEventHandler"
-	DebugLogger.register_module(module_name)
+	module_name = "FogEvent"
 	
 	# Define which events this handler processes
-	handled_event_ids = ["fog_event"]
+	handled_event_ids = ["fog", "fog_event"]
 	
 	# Find world environment
 	_find_world_environment()
 	
-	DebugLogger.debug(module_name, "FogEventHandler ready")
+	DebugLogger.debug(module_name, "FogEvent ready")
 
 func _find_world_environment() -> void:
 	## Find the WorldEnvironment node in the scene
@@ -59,15 +58,25 @@ func _search_world_environment(node: Node) -> WorldEnvironment:
 	
 	return null
 
-func _on_execute(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle fog event execution
+func can_execute() -> bool:
+	# First check base requirements
+	if not super.can_execute():
+		return false
+	
 	if is_fog_active:
-		DebugLogger.warning(module_name, "Fog event already active, ignoring")
-		return
+		DebugLogger.warning(module_name, "Fog event already active")
+		return false
 	
 	if not world_environment or not world_environment.environment:
-		DebugLogger.error(module_name, "No WorldEnvironment found, cannot execute fog event")
-		return
+		DebugLogger.error(module_name, "No WorldEnvironment found")
+		return false
+	
+	return true
+
+func execute() -> bool:
+	# Call base implementation
+	if not super.execute():
+		return false
 	
 	DebugLogger.info(module_name, "Executing fog event")
 	is_fog_active = true
@@ -81,10 +90,24 @@ func _on_execute(event_data: EventData, state_manager: StateManager) -> void:
 	
 	# Start fog sequence
 	_start_fog_sequence(fade_in_time, hold_time, fade_out_time)
+	
+	return true
 
-func _on_complete(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle fog event completion
+func end() -> void:
+	# Kill any active tween
+	if fog_tween and fog_tween.is_valid():
+		fog_tween.kill()
+	
+	# Reset fog density
+	if world_environment and world_environment.environment:
+		world_environment.environment.volumetric_fog_density = original_fog_density
+	
+	is_fog_active = false
+	
 	DebugLogger.info(module_name, "Fog event completed")
+	
+	# Call base implementation
+	super.end()
 
 func _randomize_time(base_time: float) -> float:
 	## Apply random variation to timing
@@ -119,3 +142,7 @@ func _on_fog_sequence_complete() -> void:
 	## Called when the entire fog sequence is finished
 	is_fog_active = false
 	DebugLogger.debug(module_name, "Fog sequence complete, density reset to: %f" % original_fog_density)
+	
+	# End the event
+	if is_active:
+		end()

@@ -4,17 +4,13 @@
 
 [resource]
 script = ExtResource("1_wtsam")
-event_id = "shutter_warning"
-event_name = "Shutter Warning"
-category = 1
-tension_score = 1
-disruption_score = 1
-base_chance = 10.0
-tension_cooldown = 30.0
-disruption_cooldown = 20.0
+id = "shutter_warning"
+name = "shutter_warning"
+description = "shutter_warning"
+cost = 30
+disruption_percentage = 90
 min_day = 2
-max_day = 5
-scheduled_day = 0
-scheduled_time_hours = 12.0
-custom_data = {}
+cooldown = 240.0
+tags = Array[String]([])
+event_type = "STATION_EMERGENCY"
 metadata/_custom_type_script = "uid://clf1310qk2c05"

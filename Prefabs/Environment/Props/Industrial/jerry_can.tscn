@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://cblia3ofhqx42"]
+[gd_scene load_steps=9 format=3 uid="uid://cblia3ofhqx42"]
 
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_kswyh"]
 [ext_resource type="PackedScene" uid="uid://bb7leveksilrb" path="res://Assets/Models/Station/Props/jerry_can/jerry_can.gltf" id="1_pkg81"]
-[ext_resource type="ArrayOccluder3D" uid="uid://ccdjym4nl7aen" path="res://Assets/Models/Occluders/Props/jerry_can.occ" id="2_2vrfh"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="3_o3cl5"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_o3ota"]
 [ext_resource type="AudioStream" uid="uid://5kvvmsy1r178" path="res://Assets/Audio/Impacts/HardHollow/hard_hollow_1.ogg" id="4_drk8h"]
@@ -30,6 +29,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.856916, 0)
 shape = SubResource("BoxShape3D_2vrfh")
 
 [node name="CarryableComponent" parent="." instance=ExtResource("3_o3ota")]
-
-[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
-occluder = ExtResource("2_2vrfh")

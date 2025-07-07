@@ -1,6 +1,6 @@
-# ShutterWarningEventHandler.gd
+# hawking_radiation.gd
 extends EventHandler
-class_name ShutterWarningEventHandler
+class_name HawkingRadiationEvent
 
 ## Event that warns player to close shutters or suffer vision/movement effects
 ## If shutters aren't closed within 15 seconds, player gets slowed, particles, and warped vision for 5 seconds
@@ -29,38 +29,49 @@ signal effects_ended
 ## Sound to play when effects end  
 @export var effect_end_sound: AudioStream
 
-var player: Player
+var player: Node3D
 var original_walk_speed: float
 var original_crouch_speed: float
 var particle_instance: Node3D
 var is_warning_active: bool = false
 var is_effect_active: bool = false
 var window_lever: Node
+var warning_timer: Timer
 
 func _ready() -> void:
-	module_name = "ShutterWarningEvent"
 	super._ready()
+	module_name = "HawkingRadiationEvent"
 	
 	# Define which events this handler processes
-	handled_event_ids = ["shutter_warning"]
+	handled_event_ids = ["hawking_radiation", "shutter_warning"]
 	
-	DebugLogger.register_module(module_name, true)
-	DebugLogger.debug(module_name, "ShutterWarningEventHandler ready")
+	DebugLogger.debug(module_name, "HawkingRadiationEvent ready")
 
-func _on_execute(event_data: EventData, state_manager: StateManager) -> void:
-	DebugLogger.info(module_name, "Executing shutter warning event")
+func can_execute() -> bool:
+	# First check base requirements
+	if not super.can_execute():
+		return false
 	
-	# Find the player
+	# Check if player exists
 	player = CommonUtils.get_player()
 	if not player:
-		DebugLogger.error(module_name, "Could not find player")
-		return
+		DebugLogger.warning(module_name, "No player found")
+		return false
 	
-	# Find the window lever
+	# Check if window lever exists
 	window_lever = get_tree().get_first_node_in_group("window_lever")
 	if not window_lever:
-		DebugLogger.error(module_name, "Could not find window lever")
-		return
+		DebugLogger.warning(module_name, "No window lever found")
+		return false
+	
+	return true
+
+func execute() -> bool:
+	# Call base implementation
+	if not super.execute():
+		return false
+	
+	DebugLogger.info(module_name, "Executing hawking radiation event")
 	
 	# Connect to shutter state changes
 	if window_lever.has_signal("shutters_toggled"):
@@ -69,19 +80,46 @@ func _on_execute(event_data: EventData, state_manager: StateManager) -> void:
 	# Show warning notification
 	_show_warning()
 	
-	# Start warning timer using CommonUtils
+	# Start warning timer
 	is_warning_active = true
-	var warning_timer = CommonUtils.create_timer(self, warning_duration, true, true)
+	warning_timer = Timer.new()
+	warning_timer.wait_time = warning_duration
+	warning_timer.one_shot = true
 	warning_timer.timeout.connect(_on_warning_timeout)
+	add_child(warning_timer)
+	warning_timer.start()
+	
+	return true
+
+func end() -> void:
+	# Clean up any active effects
+	if is_effect_active:
+		_remove_effects()
+	
+	# Cancel warning if still active
+	is_warning_active = false
+	
+	# Clean up timer
+	if warning_timer:
+		warning_timer.queue_free()
+	
+	# Disconnect from lever
+	if window_lever and window_lever.has_signal("shutters_toggled"):
+		if window_lever.shutters_toggled.is_connected(_on_shutters_toggled):
+			window_lever.shutters_toggled.disconnect(_on_shutters_toggled)
+	
+	DebugLogger.info(module_name, "Hawking radiation event completed")
+	
+	# Call base implementation
+	super.end()
 
 func _show_warning() -> void:
 	# Display warning message to player
-	if player.ui_controller:
-		player.ui_controller.show_message("WARNING", "Close the shutters immediately!")
+	CommonUtils.send_player_hint("", "WARNING: Close the shutters immediately!")
 	
-	# Play warning sound using Audio singleton
-	if warning_sound and Audio:
-		Audio.play_sound(warning_sound)
+	# Play warning sound
+	if warning_sound:
+		play_audio(warning_sound)
 	
 	warning_started.emit()
 	DebugLogger.info(module_name, "Warning displayed - player has %s seconds to close shutters" % warning_duration)
@@ -101,7 +139,7 @@ func _on_warning_timeout() -> void:
 		
 	# Check the actual state of the shutters from the lever
 	var shutters_open = true
-	if window_lever and window_lever.shutters_open:
+	if window_lever and window_lever.has_property("shutters_open"):
 		shutters_open = window_lever.shutters_open
 	
 	if not shutters_open:
@@ -117,12 +155,12 @@ func _apply_effects() -> void:
 	is_effect_active = true
 	
 	# Store original speeds
-	original_walk_speed = player.walk_speed
-	original_crouch_speed = player.crouch_speed
-	
-	# Apply movement slow
-	player.walk_speed *= movement_slow_factor
-	player.crouch_speed *= movement_slow_factor
+	if player.has_property("walk_speed"):
+		original_walk_speed = player.walk_speed
+		player.walk_speed *= movement_slow_factor
+	if player.has_property("crouch_speed"):
+		original_crouch_speed = player.crouch_speed
+		player.crouch_speed *= movement_slow_factor
 	
 	# Spawn particle effect attached to player
 	if particle_effect_scene:
@@ -138,17 +176,15 @@ func _apply_effects() -> void:
 	# Apply vision warping effect
 	_apply_vision_warp()
 	
-	# Play effect start sound using Audio singleton
-	if effect_start_sound and Audio:
-		Audio.play_sound(effect_start_sound)
+	# Play effect start sound
+	if effect_start_sound:
+		play_audio(effect_start_sound)
 	
 	# Show effect message
-	if player.ui_controller:
-		player.ui_controller.show_message("AFFECTED", "You should have closed the shutters...")
+	CommonUtils.send_player_hint("", "You should have closed the shutters...")
 	
-	# Start effect timer using CommonUtils
-	var effect_timer = CommonUtils.create_timer(self, effect_duration, true, true)
-	effect_timer.timeout.connect(_on_effect_timeout)
+	# Start effect timer
+	get_tree().create_timer(effect_duration).timeout.connect(_on_effect_timeout)
 	effects_started.emit()
 	
 	DebugLogger.info(module_name, "Effects applied for %s seconds" % effect_duration)
@@ -171,8 +207,10 @@ func _remove_effects() -> void:
 	
 	# Restore movement speeds
 	if player:
-		player.walk_speed = original_walk_speed
-		player.crouch_speed = original_crouch_speed
+		if player.has_property("walk_speed"):
+			player.walk_speed = original_walk_speed
+		if player.has_property("crouch_speed"):
+			player.crouch_speed = original_crouch_speed
 	
 	# Remove particle effect
 	if particle_instance:
@@ -182,12 +220,16 @@ func _remove_effects() -> void:
 	# Remove vision warp
 	_remove_vision_warp()
 	
-	# Play effect end sound using Audio singleton
-	if effect_end_sound and Audio:
-		Audio.play_sound(effect_end_sound)
+	# Play effect end sound
+	if effect_end_sound:
+		play_audio(effect_end_sound)
 	
 	effects_ended.emit()
 	DebugLogger.info(module_name, "Effects removed")
+	
+	# End the event
+	if is_active:
+		end()
 
 func _remove_vision_warp() -> void:
 	var effects_component = player.get_node_or_null("PlayerEffectsComponent") 
@@ -198,23 +240,8 @@ func _cancel_warning() -> void:
 	is_warning_active = false
 	
 	# Show success message
-	if player.ui_controller:
-		player.ui_controller.show_message("SAFE", "Good, the shutters are closed.")
-
-func _on_complete(event_data: EventData, state_manager: StateManager) -> void:
-	DebugLogger.info(module_name, "Completing shutter warning event")
+	CommonUtils.send_player_hint("", "Good, the shutters are closed.")
 	
-	# Clean up any active effects
-	if is_effect_active:
-		_remove_effects()
-	
-	# Cancel warning if still active
-	is_warning_active = false
-	
-	# Disconnect from lever
-	if window_lever and window_lever.has_signal("shutters_toggled"):
-		if window_lever.shutters_toggled.is_connected(_on_shutters_toggled):
-			window_lever.shutters_toggled.disconnect(_on_shutters_toggled)
-	
-	is_warning_active = false
-	is_effect_active = false
+	# End the event since player successfully closed shutters
+	if is_active:
+		end()

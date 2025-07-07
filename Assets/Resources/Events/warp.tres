@@ -4,17 +4,13 @@
 
 [resource]
 script = ExtResource("1_xa2lr")
-event_id = "warp"
-event_name = "Warp"
-category = 1
-tension_score = 2
-disruption_score = 3
-base_chance = 10.0
-tension_cooldown = 30.0
-disruption_cooldown = 20.0
+id = "warp"
+name = "warp"
+description = "warp"
+cost = 20
+disruption_percentage = 10
 min_day = 1
-max_day = 5
-scheduled_day = 0
-scheduled_time_hours = 12.0
-custom_data = {}
+cooldown = 60.0
+tags = Array[String]([])
+event_type = "MISC_DISRUPTIVE"
 metadata/_custom_type_script = "uid://clf1310qk2c05"

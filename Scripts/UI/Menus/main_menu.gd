@@ -24,12 +24,18 @@ var module_name: String = "MainMenu"
 # Controls Menu elements
 @onready var controls_back_button = $Controls/VBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/BackButton
 
+# Flag to track if we've done the initial fade
+var has_faded_in: bool = false
+
 func _ready() -> void:
 	# Register with debug logger
 	DebugLogger.register_module(module_name, enable_debug)
 	
 	# Make sure the mouse is visible when entering the main menu
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	# Hide all UI initially
+	modulate = Color(1, 1, 1, 0)
 	
 	# Connect main menu button signals
 	play_game_button.pressed.connect(_on_play_pressed)
@@ -64,9 +70,41 @@ func _ready() -> void:
 		controls_menu.hide()
 	
 	DebugLogger.info(module_name, "MainMenu initialized")
+	
+	# Start the fade from black
+	_initial_fade_in()
+
+func _initial_fade_in() -> void:
+	# Wait a frame to ensure everything is loaded
+	await get_tree().process_frame
+	
+	# Check if TransitionManager exists and has the correct state
+	if TransitionManager:
+		# Make sure the black overlay is showing
+		TransitionManager.show()
+		if TransitionManager.color_rect:
+			TransitionManager.color_rect.color = Color(0, 0, 0, 1)
+		
+		# Show the UI
+		modulate = Color(1, 1, 1, 1)
+		
+		# Fade from black
+		await TransitionManager.fade_from_black()
+	else:
+		# Fallback: manual fade in
+		DebugLogger.warning(module_name, "TransitionManager not found, using manual fade")
+		var tween = create_tween()
+		tween.tween_property(self, "modulate", Color(1, 1, 1, 1), 1.0)
+		await tween.finished
+	
+	has_faded_in = true
 
 # Main Menu Button Handlers
 func _on_play_pressed() -> void:
+	# Prevent interaction during fade
+	if not has_faded_in:
+		return
+		
 	DebugLogger.debug(module_name, "Play button pressed, starting game")
 	if play_game_audio: 
 		Audio.play_sound(play_game_audio)
@@ -79,6 +117,10 @@ func _on_play_pressed() -> void:
 	TransitionManager.transition_to_scene(game_scene_path)
 
 func _on_options_pressed() -> void:
+	# Prevent interaction during fade
+	if not has_faded_in:
+		return
+		
 	DebugLogger.debug(module_name, "Options button pressed - showing options menu")
 	
 	# Hide main menu, show options
@@ -92,6 +134,10 @@ func _on_options_pressed() -> void:
 		credits_ui_control.hide_credits()
 
 func _on_controls_pressed() -> void:
+	# Prevent interaction during fade
+	if not has_faded_in:
+		return
+		
 	DebugLogger.debug(module_name, "Controls button pressed - showing controls menu")
 	
 	# Hide main menu, show controls
@@ -106,6 +152,10 @@ func _on_controls_pressed() -> void:
 	controls_back_button.grab_focus()
 
 func _on_credits_pressed() -> void:
+	# Prevent interaction during fade
+	if not has_faded_in:
+		return
+		
 	DebugLogger.debug(module_name, "Credits button pressed - showing credits")
 	
 	# Hide main menu, show credits
@@ -117,6 +167,10 @@ func _on_credits_pressed() -> void:
 		credits_ui_control.show_credits()
 		
 func _on_quit_pressed() -> void:
+	# Prevent interaction during fade
+	if not has_faded_in:
+		return
+		
 	DebugLogger.debug(module_name, "Quit button pressed - exiting game")
 	get_tree().quit()
 

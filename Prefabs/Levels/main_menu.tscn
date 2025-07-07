@@ -389,6 +389,7 @@ theme = ExtResource("1_86c1k")
 script = ExtResource("2_qgifm")
 play_game_audio = SubResource("Resource_2e3k0")
 game_scene_path = "uid://bn1o17c7p8vkj"
+enable_debug = true
 play_game_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/PlayButton")
 options_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/OptionsButton")
 controls_button = NodePath("MainMenu/VBoxContainer/HBoxContainer/VBoxContainer/Controls")

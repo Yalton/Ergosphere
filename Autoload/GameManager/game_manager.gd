@@ -58,7 +58,7 @@ func _ready() -> void:
 	CommonUtils.connect_signal_safe(task_manager, "daily_tasks_completed", self, "_on_daily_tasks_completed")
 	CommonUtils.connect_signal_safe(task_manager, "emergency_task_failed", self, "_on_emergency_task_failed")
 	CommonUtils.connect_signal_safe(task_manager, "task_completed", self, "_on_task_completed")
-	event_manager.tension_changed.connect(_on_tension_changed)
+	#event_manager.tension_changed.connect(_on_tension_changed)
 	
 	# Connect ending sequence manager signals if available
 	if ending_sequence_manager:
@@ -173,11 +173,11 @@ func _on_game_ended() -> void:
 
 func get_current_day() -> int:
 	return current_day
-
-func _on_tension_changed(new_tension: float) -> void:
-	## Forward tension changes to other systems
-	global_tension_changed.emit(new_tension)
-	DebugLogger.debug("GameManager", "Global tension: %.1f" % new_tension)
+#
+#func _on_tension_changed(new_tension: float) -> void:
+	### Forward tension changes to other systems
+	#global_tension_changed.emit(new_tension)
+	#DebugLogger.debug("GameManager", "Global tension: %.1f" % new_tension)
 
 func is_game_initialized() -> bool:
 	return is_initialized

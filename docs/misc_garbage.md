@@ -1,15 +1,22 @@
 
 ## Claude Help
 
-Test/fix ending and event system
+Rework event system
 
-Skip intro not working
+Play/test Game and take notes
 
-Secret Tasks and Alternatate Ending
-- Maybe Done
+Test game ending
+
+Make Task Tree actually work, i.e dependent tasks are children of their parent
+
 
 ## Manual
 
 Re-make floor
-Test Systems thouroughly
 add fire and putting out fire
+New Hermes voice
+Add SFX to stuff
+
+
+
+Test Systems thouroughly

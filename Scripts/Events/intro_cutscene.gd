@@ -45,6 +45,9 @@ var is_typing: bool = false
 var is_line_complete: bool = false
 var typing_timer: Timer
 var skip_current_line: bool = false
+var line_delay_timer: Timer = null
+var is_waiting_for_next_line: bool = false
+var is_cutscene_active: bool = false
 
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
@@ -65,16 +68,28 @@ func _ready() -> void:
 	show_intro()
 
 func _input(event: InputEvent) -> void:
-	if not is_typing:
+	if not is_cutscene_active:
 		return
 	
-	# Skip current line on any key/mouse press
-	if event is InputEventKey and event.pressed:
-		skip_current_line = true
-	elif event is InputEventMouseButton and event.pressed:
-		skip_current_line = true
+	# Check for E key to skip entire cutscene
+	if event.is_action_pressed("interact"):
+		DebugLogger.info(module_name, "Skip cutscene triggered by E key")
+		skip_cutscene()
+		return
+	
+	# Handle left click for line progression
+	if event.is_action_pressed("action_primary"):
+		if is_typing:
+			# Currently typing - complete the current line
+			skip_current_line = true
+			DebugLogger.debug(module_name, "Skipping current line typing")
+		elif is_waiting_for_next_line:
+			# Waiting between lines - skip the delay and start next line immediately
+			_skip_line_delay()
+			DebugLogger.debug(module_name, "Skipping line delay")
 
 func show_intro() -> void:
+	is_cutscene_active = true
 	if dialogue_container:
 		dialogue_container.show()
 		
@@ -102,6 +117,7 @@ func _start_line() -> void:
 	current_char_index = 0
 	is_typing = true
 	is_line_complete = false
+	is_waiting_for_next_line = false
 	skip_current_line = false
 	
 	if dialogue_label:
@@ -153,27 +169,65 @@ func _complete_current_line() -> void:
 	
 	# Wait before next line
 	if current_line_index < dialogue_lines.size():
-		CommonUtils.create_one_shot_timer(self, line_completion_delay, _start_line)
+		is_waiting_for_next_line = true
+		line_delay_timer = CommonUtils.create_one_shot_timer(self, line_completion_delay, _start_line)
 	else:
 		# Last line complete, wait before transitioning
-		CommonUtils.create_one_shot_timer(self, final_transition_delay, _finish_cutscene)
+		is_waiting_for_next_line = true
+		line_delay_timer = CommonUtils.create_one_shot_timer(self, final_transition_delay, _finish_cutscene)
 
-func _start_next_line() -> void:
-	_start_line()
+func _skip_line_delay() -> void:
+	# Cancel the current delay timer if it exists
+	if line_delay_timer and is_instance_valid(line_delay_timer):
+		line_delay_timer.queue_free()
+		line_delay_timer = null
+	
+	is_waiting_for_next_line = false
+	
+	# Immediately proceed to next action
+	if current_line_index < dialogue_lines.size():
+		_start_line()
+	else:
+		_finish_cutscene()
 
 func _finish_cutscene() -> void:
+	is_cutscene_active = false
+	is_typing = false
+	is_waiting_for_next_line = false
+	
+	# Clean up any remaining timers
+	if line_delay_timer and is_instance_valid(line_delay_timer):
+		line_delay_timer.queue_free()
+		line_delay_timer = null
+	
 	DebugLogger.info(module_name, "Cutscene finished, transitioning to game")
 	
-	# Hide dialogue with animation if available
-	if animation_player and animation_player.has_animation("hide"):
-		animation_player.play("hide")
-		await animation_player.animation_finished
-	
-	# Load game scene
-	if not game_scene_path.is_empty():
-		get_tree().change_scene_to_file(game_scene_path)
+	# Use TransitionManager if available
+	if TransitionManager:
+		# Hide dialogue with animation if available
+		if animation_player and animation_player.has_animation("hide"):
+			animation_player.play("hide")
+			await animation_player.animation_finished
+		
+		# Transition to game scene with fade
+		if not game_scene_path.is_empty():
+			await TransitionManager.transition_to_scene(game_scene_path)
+		else:
+			DebugLogger.error(module_name, "No game scene path configured!")
 	else:
-		DebugLogger.error(module_name, "No game scene path configured!")
+		# Fallback without transition manager
+		DebugLogger.warning(module_name, "TransitionManager not found, using direct scene change")
+		
+		# Hide dialogue with animation if available
+		if animation_player and animation_player.has_animation("hide"):
+			animation_player.play("hide")
+			await animation_player.animation_finished
+		
+		# Load game scene directly
+		if not game_scene_path.is_empty():
+			get_tree().change_scene_to_file(game_scene_path)
+		else:
+			DebugLogger.error(module_name, "No game scene path configured!")
 
 func skip_cutscene() -> void:
 	## Public method to skip entire cutscene

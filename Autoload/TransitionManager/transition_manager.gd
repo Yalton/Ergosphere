@@ -36,6 +36,7 @@ func fade_to_black() -> void:
 
 func fade_from_black() -> void:
 	DebugLogger.debug(module_name, "Fading from black")
+	show()
 	var tween = create_tween()
 	tween.tween_property(color_rect, "color",
 		Color(0, 0, 0, 0), FADE_DURATION)

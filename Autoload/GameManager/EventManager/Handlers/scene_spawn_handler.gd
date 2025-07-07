@@ -1,6 +1,6 @@
-# SceneSpawnerHandler.gd
+# scene_spawn.gd
 extends EventHandler
-class_name SceneSpawnerHandler
+class_name SceneSpawnEvent
 
 ## Scene spawner event handler - spawns specific visual effects at random locations only on off-screen spawn points
 
@@ -24,41 +24,83 @@ class_name SceneSpawnerHandler
 var spawned_objects: Array[Node] = []
 
 func _ready() -> void:
+	module_name = "SceneSpawnEvent"
 	super._ready()
-	module_name = "SceneSpawnerHandler"
 	
 	# Define which events this handler processes
-	handled_event_ids = ["micro_blackhole", "dark_fog", "entity_appearance"]
+	handled_event_ids = ["micro_blackhole", "dark_fog", "entity_appearance", "scene_spawn"]
 	
-	DebugLogger.debug(module_name, "SceneSpawnerHandler ready")
 
-func _on_execute(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle scene spawning event execution
-	DebugLogger.info(module_name, "Executing VFX spawn event: %s" % event_data.event_id)
+	DebugLogger.debug(module_name, "SceneSpawnEvent ready")
+
+func can_execute() -> bool:
+	# First check base requirements
+	if not super.can_execute():
+		return false
 	
-	match event_data.event_id:
+	# Check if we have a scene for this event
+	match event_data.id:
 		"micro_blackhole":
-			_handle_micro_blackhole(event_data, state_manager)
+			if not micro_blackhole_scene:
+				DebugLogger.warning(module_name, "No micro blackhole scene configured")
+				return false
 		"dark_fog":
-			_handle_dark_fog(event_data, state_manager)
+			if not dark_fog_scene:
+				DebugLogger.warning(module_name, "No dark fog scene configured")
+				return false
 		"entity_appearance":
-			_handle_entity_appearance(event_data, state_manager)
+			if not entity_appearance_scene:
+				DebugLogger.warning(module_name, "No entity appearance scene configured")
+				return false
+	
+	# Check if spawn points exist
+	var spawn_points = get_tree().get_nodes_in_group(spawn_group)
+	if spawn_points.is_empty():
+		DebugLogger.warning(module_name, "No spawn points found in group: %s" % spawn_group)
+		return false
+	
+	return true
 
-func _on_complete(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle VFX spawn event completion
-	DebugLogger.info(module_name, "Completing VFX spawn event: %s" % event_data.event_id)
+func execute() -> bool:
+	# Call base implementation
+	if not super.execute():
+		return false
+	
+	DebugLogger.info(module_name, "Executing VFX spawn event: %s" % event_data.id)
+	
+	match event_data.id:
+		"micro_blackhole":
+			_handle_micro_blackhole()
+		"dark_fog":
+			_handle_dark_fog()
+		"entity_appearance":
+			_handle_entity_appearance()
+		_:
+			DebugLogger.warning(module_name, "Unknown event ID: %s" % event_data.id)
+			return false
+	
+	return true
 
-func _handle_micro_blackhole(event_data: EventData, state_manager: StateManager) -> void:
+func end() -> void:
+	# Clean up all spawned objects
+	_cleanup_spawned_objects()
+	
+	DebugLogger.info(module_name, "VFX spawn event completed: %s" % event_data.id)
+	
+	# Call base implementation
+	super.end()
+
+func _handle_micro_blackhole() -> void:
 	## Handle micro blackhole spawning
 	DebugLogger.debug(module_name, "Spawning micro blackhole VFX")
 	_spawn_vfx_scene(micro_blackhole_scene, "micro_blackhole")
 
-func _handle_dark_fog(event_data: EventData, state_manager: StateManager) -> void:
+func _handle_dark_fog() -> void:
 	## Handle dark fog spawning
 	DebugLogger.debug(module_name, "Spawning dark fog VFX")
 	_spawn_vfx_scene(dark_fog_scene, "dark_fog")
 
-func _handle_entity_appearance(event_data: EventData, state_manager: StateManager) -> void:
+func _handle_entity_appearance() -> void:
 	## Handle entity appearance spawning
 	DebugLogger.debug(module_name, "Spawning entity appearance VFX")
 	_spawn_vfx_scene(entity_appearance_scene, "entity_appearance")
@@ -81,7 +123,10 @@ func _spawn_vfx_scene(scene: PackedScene, event_id: String) -> void:
 	# Filter to only off-screen VFXSpawnPoints
 	var offscreen_points = []
 	for point in spawn_points:
-		if point is VFXSpawnPoint and not point.is_on_screen:
+		if point.has_method("is_on_screen") and not point.is_on_screen:
+			offscreen_points.append(point)
+		else:
+			# If not a VFXSpawnPoint, assume it's valid
 			offscreen_points.append(point)
 	
 	if offscreen_points.is_empty():
@@ -95,11 +140,6 @@ func _spawn_vfx_scene(scene: PackedScene, event_id: String) -> void:
 	else:
 		# Pick random spawn point
 		spawn_point = offscreen_points[randi() % offscreen_points.size()]
-	
-	# Log spawn point status if it's a VFXSpawnPoint
-	if spawn_point is VFXSpawnPoint:
-		DebugLogger.debug(module_name, "Using spawn point %s (on screen: %s, time visible: %.1fs)" % 
-			[spawn_point.name, spawn_point.is_on_screen, spawn_point.time_on_screen])
 	
 	_spawn_scene_at_location(scene, spawn_point, event_id)
 

@@ -4,22 +4,13 @@
 
 [resource]
 script = ExtResource("1_k0kwt")
-event_id = "brightness_boost"
-event_name = "brightness_boost"
-category = 1
-tension_score = 1
-disruption_score = 1
-base_chance = 10.0
-tension_cooldown = 30.0
-disruption_cooldown = 20.0
+id = "brightness_boost"
+name = "brightness_boost"
+description = "brightness_boost"
+cost = 2
+disruption_percentage = 5
 min_day = 0
-max_day = 0
-scheduled_day = 0
-scheduled_time_hours = 12.0
-has_visual_effects = true
-visual_cooldown_override = 0.0
-has_audio = false
-audio_cooldown_override = 0.0
-boosts_events = {}
-custom_data = {}
+cooldown = 5.0
+tags = Array[String]([])
+event_type = "MISC_DISRUPTIVE"
 metadata/_custom_type_script = "uid://clf1310qk2c05"

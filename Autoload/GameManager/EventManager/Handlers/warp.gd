@@ -1,137 +1,153 @@
-# TeleportationEventHandler.gd
+# warp.gd
 extends EventHandler
-class_name TeleportationEventHandler
+class_name WarpEvent
 
-## Handles one-time teleportation events between specific station locations
-## Waits for player to enter radius before teleporting once
+## Teleports the player to a random location
 
-@export_group("Teleportation Settings")
-## Distance threshold for detecting if player is near a teleport point
-@export var detection_radius: float = 2.0
-
-# Teleport point configurations
-var teleport_points: Array[Dictionary] = [
-	{
-		"position": Vector3(-35, -4, -17),
-		"shift": Vector3(0, 0, 47)  # Shift +47 in Z
-	},
-	{
-		"position": Vector3(-35, -4, 30),
-		"shift": Vector3(0, 0, -47)  # Shift -47 in Z
-	},
-	{
-		"position": Vector3(35, -4, -17),
-		"shift": Vector3(0, 0, 47)  # Shift +47 in Z
-	},
-	{
-		"position": Vector3(35, -4, 30),
-		"shift": Vector3(0, 0, -47)  # Shift -47 in Z
-	}
-]
-
-var player_node: Node3D = null
-var player_interaction: PlayerInteractionComponent = null
-var is_active: bool = false
-var has_teleported: bool = false
+@export_group("Warp Settings")
+## Group name for warp destinations
+@export var warp_destination_group: String = "warp_destinations"
+## Minimum distance from current position (to ensure noticeable warp)
+@export var min_warp_distance: float = 5.0
+## Sound to play when warping
+@export var warp_sound: AudioStream
+## Visual effect duration (fade to black and back)
+@export var fade_duration: float = 0.5
 
 func _ready() -> void:
-	module_name = "TeleportationEventHandler"
 	super._ready()
-	DebugLogger.register_module(module_name)
+	module_name = "WarpEvent"
 	
-	# Define which events this handler processes
-	handled_event_ids = ["warp"]
+	# Events this handler processes
+	handled_event_ids = ["warp", "player_teleport"]
 	
-	DebugLogger.debug(module_name, "TeleportationEventHandler ready")
+	DebugLogger.debug(module_name, "WarpEvent ready")
 
-func _process(delta: float) -> void:
-	if not is_active or has_teleported or not player_node:
-		return
+func can_execute() -> bool:
+	# First check base requirements
+	if not super.can_execute():
+		return false
 	
-	# Check player proximity to teleport points
-	var player_pos = player_node.global_position
+	# Check if player exists
+	var player = CommonUtils.get_player()
+	if not player:
+		DebugLogger.warning(module_name, "No player found")
+		return false
 	
-	for point in teleport_points:
-		var distance = player_pos.distance_to(point["position"])
-		
-		if distance <= detection_radius:
-			_teleport_player(point["shift"])
-			break
+	# Check if warp destinations exist
+	var destinations = get_tree().get_nodes_in_group(warp_destination_group)
+	if destinations.is_empty():
+		DebugLogger.warning(module_name, "No warp destinations found in group: %s" % warp_destination_group)
+		return false
+	
+	return true
 
-func _on_execute(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle teleportation event execution
-	DebugLogger.info(module_name, "Executing teleportation event: %s" % event_data.event_id)
+func execute() -> bool:
+	# Call base implementation
+	if not super.execute():
+		return false
 	
-	# Find player node
-	player_node = _find_player_node()
-	if not player_node:
-		DebugLogger.error(module_name, "Could not find player node")
-		return
+	var player = CommonUtils.get_player()
+	if not player:
+		DebugLogger.error(module_name, "No player found during execution")
+		return false
 	
-	# Find player interaction component
-	player_interaction = _find_player_interaction()
+	var destination = _find_valid_destination(player)
+	if not destination:
+		DebugLogger.warning(module_name, "No valid warp destination found")
+		return false
 	
-	# Activate teleportation system and wait for player
-	is_active = true
-	has_teleported = false
-	DebugLogger.debug(module_name, "Waiting for player to enter teleport radius")
+	# Perform the warp
+	_warp_player(player, destination)
+	
+	return true
 
-func _on_complete(event_data: EventData, state_manager: StateManager) -> void:
-	## Handle teleportation event completion
-	DebugLogger.info(module_name, "Completing teleportation event: %s" % event_data.event_id)
+func end() -> void:
+	DebugLogger.info(module_name, "Warp event completed")
 	
-	# Deactivate teleportation system
-	is_active = false
+	# Call base implementation
+	super.end()
 
-func _teleport_player(shift: Vector3) -> void:
-	## Silently teleport the player using the shift vector once
-	if not player_node or has_teleported:
-		return
-		
-	DebugLogger.debug(module_name, "Silently teleporting player with shift %s" % shift)
+func _find_valid_destination(player: Node3D) -> Node3D:
+	## Find a valid warp destination that meets distance requirements
+	var destinations = get_tree().get_nodes_in_group(warp_destination_group)
+	var valid_destinations = []
 	
-	# Mark as teleported first to prevent double teleports
-	has_teleported = true
+	for dest in destinations:
+		if dest is Node3D and dest != player:
+			var distance = player.global_position.distance_to(dest.global_position)
+			if distance >= min_warp_distance:
+				valid_destinations.append(dest)
 	
-	# Force drop any carried item
-	if player_interaction and player_interaction.carried_object:
-		DebugLogger.debug(module_name, "Forcing player to drop carried object before teleport")
-		player_interaction.carried_object.leave()
-		# Small delay to ensure clean drop
-		await player_node.get_tree().create_timer(0.1).timeout
+	if valid_destinations.is_empty():
+		# If no destinations meet distance requirement, use any destination
+		for dest in destinations:
+			if dest is Node3D and dest != player:
+				valid_destinations.append(dest)
 	
-	# Stop player movement completely
-	if player_node is CharacterBody3D:
-		player_node.velocity = Vector3.ZERO
-	
-	# Apply the shift to current position
-	var old_position = player_node.global_position
-	var new_position = old_position + shift
-	
-	# Perform the teleportation silently
-	player_node.global_position = new_position
-	
-	DebugLogger.info(module_name, "Player teleported from %s to %s - teleportation complete" % [old_position, new_position])
-
-func _find_player_node() -> Node3D:
-	## Find the player node in the scene
-	if CommonUtils.get_player():
-		return CommonUtils.get_player()
-	return null
-
-func _find_player_interaction() -> PlayerInteractionComponent:
-	## Find the player interaction component
-	if not player_node:
+	if valid_destinations.is_empty():
 		return null
-		
-	# Try to find PlayerInteractionComponent as child
-	for child in player_node.get_children():
-		if child is PlayerInteractionComponent:
-			return child
 	
-	# Try to find in nested structure (like Head/Camera3D)
-	var interaction = player_node.find_child("PlayerInteractionComponent", true)
-	if interaction and interaction is PlayerInteractionComponent:
-		return interaction
+	# Pick random destination
+	return valid_destinations[randi() % valid_destinations.size()]
+
+func _warp_player(player: Node3D, destination: Node3D) -> void:
+	## Actually teleport the player with effects
+	DebugLogger.info(module_name, "Warping player to: %s" % destination.name)
+	
+	# Play warp sound
+	if warp_sound:
+		play_audio(warp_sound)
+	
+	# Get UI controller for fade effect
+	var ui_controller = _find_ui_controller(player)
+	
+	if ui_controller and ui_controller.has_method("fade_to_black"):
+		# Fade to black
+		ui_controller.fade_to_black(fade_duration)
 		
+		# Wait for fade
+		await get_tree().create_timer(fade_duration).timeout
+		
+		# Teleport player
+		player.global_position = destination.global_position
+		if destination.has_method("get_rotation"):
+			player.rotation = destination.rotation
+		
+		# Fade back in
+		ui_controller.fade_from_black(fade_duration)
+		
+		# End event after fade completes
+		await get_tree().create_timer(fade_duration).timeout
+	else:
+		# No fade effect, just teleport instantly
+		player.global_position = destination.global_position
+		if destination.has_method("get_rotation"):
+			player.rotation = destination.rotation
+		
+		# Brief disorientation pause
+		await get_tree().create_timer(0.5).timeout
+	
+	# End the event
+	if is_active:
+		end()
+
+func _find_ui_controller(player: Node) -> Node:
+	## Find the UI controller (might be child of player or in scene)
+	# First check player children
+	var ui_controller = player.get_node_or_null("UIController")
+	if ui_controller:
+		return ui_controller
+	
+	# Check for FPCUIController in scene
+	var ui_controllers = get_tree().get_nodes_in_group("ui_controller")
+	if not ui_controllers.is_empty():
+		return ui_controllers[0]
+	
+	# Try to find by class
+	for node in get_tree().get_nodes_in_group("player"):
+		for child in node.get_children():
+			if child.has_method("fade_to_black"):
+				return child
+	
 	return null

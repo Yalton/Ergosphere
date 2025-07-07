@@ -27,10 +27,7 @@
 
 [node name="GameManager" type="Node"]
 script = ExtResource("1_ttbae")
-enable_debug = null
-auto_start_day = null
 alarm_audio = ExtResource("2_52hc4")
-session_password_length = null
 
 [node name="EventManager" parent="." instance=ExtResource("2_bax16")]
 

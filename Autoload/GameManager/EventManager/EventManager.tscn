@@ -21,8 +21,8 @@
 [ext_resource type="AudioStream" uid="uid://bxaqsd4b4gxrf" path="res://Assets/Audio/Ambience/AmbientHorror/escalating_noise.ogg" id="14_balmc"]
 [ext_resource type="Resource" uid="uid://bxeec5dmroa4c" path="res://Assets/Resources/Events/fog_event.tres" id="14_he56m"]
 [ext_resource type="Script" uid="uid://df673c1ghv4pk" path="res://Autoload/GameManager/EventManager/Handlers/warp.gd" id="14_ia163"]
+[ext_resource type="Resource" uid="uid://b0wt6stgjbd7d" path="res://Assets/Resources/Events/shutter_warning.tres" id="15_e8orj"]
 [ext_resource type="AudioStream" uid="uid://kkl1de3odv7e" path="res://Assets/Audio/Ambience/AmbientHorror/ambient_horror_background.ogg" id="15_gsncq"]
-[ext_resource type="Resource" uid="uid://b365mi1v5n1xb" path="res://brief_flicker.tres" id="15_si3tf"]
 [ext_resource type="Resource" uid="uid://boqp5mvjnjqnm" path="res://Assets/Resources/Events/purple_shift.tres" id="16_5jpdb"]
 [ext_resource type="AudioStream" uid="uid://cqqrcqcmdxomk" path="res://Assets/Audio/Ambience/AmbientHorror/ambient_horror_1.ogg" id="16_jmqpi"]
 [ext_resource type="AudioStream" uid="uid://bnl6imf1gi2mp" path="res://Assets/Audio/Ambience/AmbientHorror/ambient_horror_2.ogg" id="17_djlj4"]
@@ -40,26 +40,22 @@
 
 [node name="EventManager" type="Node"]
 script = ExtResource("1_nnr1m")
-event_configurations = Array[ExtResource("2_dwaah")]([ExtResource("8_x7yci"), ExtResource("11_3sgie"), ExtResource("12_oj86y"), ExtResource("14_he56m"), ExtResource("5_3cw7f"), ExtResource("7_x7yci"), ExtResource("10_8t0n1"), ExtResource("13_nn0bu"), ExtResource("4_ls50s"), ExtResource("3_dwaah"), ExtResource("6_mjo8c"), ExtResource("9_jagxc"), ExtResource("15_si3tf"), ExtResource("16_5jpdb"), ExtResource("17_e8orj")])
+event_resources = Array[ExtResource("2_dwaah")]([ExtResource("17_e8orj"), ExtResource("8_x7yci"), ExtResource("11_3sgie"), ExtResource("12_oj86y"), ExtResource("14_he56m"), ExtResource("5_3cw7f"), ExtResource("7_x7yci"), ExtResource("10_8t0n1"), ExtResource("13_nn0bu"), ExtResource("4_ls50s"), ExtResource("3_dwaah"), ExtResource("16_5jpdb"), ExtResource("15_e8orj"), ExtResource("6_mjo8c"), ExtResource("9_jagxc")])
 
 [node name="power_outage" type="Node" parent="." groups=["event_handlers"]]
 script = ExtResource("3_lf3xo")
-handled_event_ids = Array[String](["power_outage"])
 
 [node name="oxygen_failure" type="Node" parent="." groups=["event_handlers"]]
 script = ExtResource("4_57jj7")
-handled_event_ids = Array[String](["oxygen_failure"])
 
 [node name="heatsink_failure" type="Node" parent="." groups=["event_handlers"]]
 script = ExtResource("5_lf3xo")
-handled_event_ids = Array[String](["heatsink_failure"])
 
 [node name="spooky_ambience" type="Node" parent="." groups=["event_handlers"]]
 script = ExtResource("9_a4it4")
 subtle_horror_sounds = Array[AudioStream]([ExtResource("14_balmc"), ExtResource("15_gsncq"), ExtResource("16_jmqpi"), ExtResource("17_djlj4")])
 jarring_horror_sounds = Array[AudioStream]([ExtResource("18_8t0n1")])
 confusing_horror_sounds = Array[AudioStream]([ExtResource("19_3sgie")])
-handled_event_ids = Array[String](["subtle_horror", "jarring_horror", "confusing_horror"])
 
 [node name="scene_spawn" type="Node" parent="." groups=["event_handlers"]]
 script = ExtResource("13_4kg6c")
@@ -72,7 +68,6 @@ script = ExtResource("14_ia163")
 
 [node name="object_throw" type="Node" parent="." groups=["event_handlers"]]
 script = ExtResource("28_u7gbo")
-handled_event_ids = Array[String](["object_throw"])
 
 [node name="fog" type="Node" parent="." groups=["event_handlers"]]
 script = ExtResource("30_awmde")
@@ -82,7 +77,6 @@ script = ExtResource("32_36okp")
 
 [node name="brief_flicker" type="Node" parent="." groups=["event_handlers"]]
 script = ExtResource("33_r2li7")
-handled_event_ids = Array[String](["brief_flicker"])
 
 [node name="glitch_event" type="Node" parent="."]
 script = ExtResource("37_e8orj")

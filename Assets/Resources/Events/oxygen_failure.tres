@@ -4,17 +4,13 @@
 
 [resource]
 script = ExtResource("1_sbtcx")
-event_id = "oxygen_failure"
-event_name = "Oxygen Failure"
-category = 1
-tension_score = 1
-disruption_score = 3
-base_chance = 10.0
-tension_cooldown = 30.0
-disruption_cooldown = 20.0
+id = "oxygen_failure"
+name = "oxygen_failure"
+description = "oxygen_failure"
+cost = 30
+disruption_percentage = 70
 min_day = 2
-max_day = 5
-scheduled_day = 0
-scheduled_time_hours = 12.0
-custom_data = {}
+cooldown = 180.0
+tags = Array[String]([])
+event_type = "STATION_EMERGENCY"
 metadata/_custom_type_script = "uid://clf1310qk2c05"
