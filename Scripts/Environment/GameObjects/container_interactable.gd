@@ -98,13 +98,13 @@ func _on_animation_finished(anim_name: String) -> void:
 func _complete_open() -> void:
 	is_open = true
 	is_animating = false
-	container_opened.emit()
+	container_opened.emit(self)
 	DebugLogger.debug(module_name, "Container opened")
 
 func _complete_close() -> void:
 	is_open = false
 	is_animating = false
-	container_closed.emit()
+	container_closed.emit(self)
 	DebugLogger.debug(module_name, "Container closed")
 
 # Public methods for external control

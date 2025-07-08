@@ -2,19 +2,20 @@
 ## Claude Help
 
 
-
-Make Game Manager and all other manager sync their day management 
-Fix managers 
-Fix TaskTreeUI
-
-Rework task system
-- Make Task Tree actually work, i.e dependent tasks are children of their parent
-- 
 Play/test Game and take notes
 
+Recal systems broken 
+Contact earth broken 
 
+Ending task broken required managers not available 
+Player can sleep past day 5
+
+Shatter anomaly scanner when we find anomaly
+
+Fix managers
 
 Test game ending
+
 
 ## Manual
 
@@ -33,8 +34,3 @@ Floor Look bad
 Visible on screen should check if mesh is in the way 
 We start on day 2 for event manager bad 
 Event points acrue too quickly 
-
-Each manager tracking days individually, this is scuffed and dogshit 
-
-
-Claude keeps making the managers exports, it is retarded

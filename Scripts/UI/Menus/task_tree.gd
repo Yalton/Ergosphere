@@ -22,11 +22,7 @@ var module_name: String = "TaskTreeUI"
 @export var unavailable_color: Color = Color(0.7, 0.7, 0.7)
 @export var available_color: Color = Color(1.0, 1.0, 1.0)
 
-# Icons (optional)
-@export var task_icon: Texture2D
-@export var completed_icon: Texture2D
-@export var emergency_icon: Texture2D
-@export var locked_icon: Texture2D
+
 
 # Task tracking
 var task_items: Dictionary = {}  # task_id -> TreeItem
@@ -98,27 +94,62 @@ func _rebuild_tree() -> void:
 			_add_task_item(task, emergency_category)
 			has_tasks = true
 	
-	# Add regular VISIBLE tasks only
+	# Add regular VISIBLE tasks only - with Day number
 	var visible_tasks = GameManager.task_manager.get_visible_tasks()
 	if visible_tasks.size() > 0:
 		var tasks_category = create_item(root_item)
-		tasks_category.set_text(0, "Daily Tasks")
+		# Get current day from GameManager
+		var current_day = GameManager.current_day 
+		tasks_category.set_text(0, "Day " + str(current_day))
 		tasks_category.set_custom_font_size(0, 14)
 		
+		# Build task hierarchy
+		var tasks_by_id = {}
+		var root_tasks = []
+		
+		# First pass: collect all tasks by ID
 		for task in visible_tasks:
 			if not task.is_emergency:
-				_add_task_item(task, tasks_category)
-				has_tasks = true
+				tasks_by_id[task.task_id] = task
+		
+		# Second pass: identify root tasks (those with no dependencies)
+		for task in tasks_by_id.values():
+			var is_root = true
+			if task.dependent_on_tasks.size() > 0:
+				# Check if any dependency is in our visible tasks
+				for dep_id in task.dependent_on_tasks:
+					if tasks_by_id.has(dep_id):
+						is_root = false
+						break
+			
+			if is_root:
+				root_tasks.append(task)
+		
+		# Add root tasks and their children recursively
+		for task in root_tasks:
+			_add_task_with_children(task, tasks_category, tasks_by_id)
+			has_tasks = true
 	
 	DebugLogger.debug(module_name, "Tree rebuilt with " + str(task_items.size()) + " visible tasks")
 
+# Recursive function to add tasks with their dependent children
+func _add_task_with_children(task: BaseTask, parent: TreeItem, all_tasks: Dictionary) -> void:
+	# Add the task itself
+	var item = _add_task_item(task, parent)
+	
+	# Find and add tasks that depend on this task as children
+	for other_task in all_tasks.values():
+		if task.task_id in other_task.dependent_on_tasks:
+			_add_task_with_children(other_task, item, all_tasks)
 
-func _add_task_item(task: BaseTask, parent: TreeItem) -> void:
+func _add_task_item(task: BaseTask, parent: TreeItem) -> TreeItem:
 	var item = create_item(parent)
 	task_items[task.task_id] = item
 	
 	# Update the item
 	_update_task_item(task, item)
+	
+	return item
 
 func _update_task_item(task: BaseTask, item: TreeItem) -> void:
 	# Build task text
@@ -134,16 +165,7 @@ func _update_task_item(task: BaseTask, item: TreeItem) -> void:
 	if show_task_descriptions and task.task_description:
 		item.set_tooltip_text(0, task.task_description)
 	
-	# Set icon based on state
-	if task.is_completed and completed_icon:
-		item.set_icon(0, completed_icon)
-	elif task.is_emergency and emergency_icon:
-		item.set_icon(0, emergency_icon)
-	elif not task.is_available and locked_icon:
-		item.set_icon(0, locked_icon)
-	elif task_icon:
-		item.set_icon(0, task_icon)
-	
+
 	# Set color based on state
 	if task.is_completed:
 		item.set_custom_color(0, completed_color)
@@ -206,7 +228,7 @@ func _on_task_assigned(_task_id: String) -> void:
 	_check_visibility()
 
 func _on_task_completed(task_id: String) -> void:
-	# Just update the specific taskw
+	# Just update the specific task
 	if GameManager and GameManager.task_manager:
 		var task = GameManager.task_manager.get_task(task_id)
 		if task and task_items.has(task_id):

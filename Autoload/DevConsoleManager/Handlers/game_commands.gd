@@ -324,7 +324,7 @@ func _cmd_trigger_event(args: Array) -> void:
 		DebugLogger.debug("GameCommands", "Failed to trigger event: %s" % event_id)
 
 func _cmd_reboot(args: Array) -> void:
-	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
+	var effects_manager : EffectsManager = get_tree().get_first_node_in_group("effects_manager")
 	DevConsoleManager.rebooted.emit()
 	if effects_manager: 
 		effects_manager.kill_power(5.0)
@@ -355,6 +355,9 @@ func _cmd_diagnostics(args: Array) -> void:
 	output("Consciousness buffer: " + str(randi_range(70, 100)) + "% coherent")
 	output("")
 	output_system("All systems nominal.")
+	var effects_manager : EffectsManager = get_tree().get_first_node_in_group("effects_manager")
+	if effects_manager: 
+		effects_manager.trigger_light_pulse()
 	DevConsoleManager.diag_run.emit()
 
 func _cmd_unlock_log(args: Array) -> void:

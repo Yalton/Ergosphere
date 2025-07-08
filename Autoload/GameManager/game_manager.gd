@@ -9,7 +9,7 @@ signal day_ended(day_number: int)
 @export var current_day: int = 0
 
 ## Maximum number of days before game ends
-@export var max_days: int = 7
+@export var max_days: int = 5
 
 var event_manager: EventManager
 var state_manager: StateManager
@@ -73,7 +73,7 @@ func initialize_systems():
 func start_game():
 	"""Called when player starts the game from menu"""
 	if game_is_running:
-		DebugLogger.warn("GameManager", "Game already running, ignoring start_game call")
+		DebugLogger.warning("GameManager", "Game already running, ignoring start_game call")
 		return
 		
 	DebugLogger.info("GameManager", "Starting game - initializing all systems")
@@ -105,6 +105,9 @@ func start_first_day():
 		event_manager.start()
 		
 	start_day(1)
+
+func start_new_day() -> void:
+	start_day(current_day+1)
 
 func start_day(day_number: int):
 	"""Start a specific day"""
