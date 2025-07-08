@@ -42,4 +42,4 @@ func _on_item_ordered(item_id: String, container_location: String):
 
 func _trigger_emergency_heatsink_replacement() -> void:
 	DebugLogger.info(module_name, "Triggering emergency heatsink replacement task")
-	GameManager.task_manager.trigger_emergency_task("replace_heatsink")
+	GameManager.event_manager.trigger_event("heatsink_failure")

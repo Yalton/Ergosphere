@@ -1,15 +1,19 @@
-# DownloadUIControl.gd
 extends DiageticUIContent
 
 signal download_completed
 
+## The button that starts the download process
 @export var download_button: Button
+## The progress bar that shows download progress
 @export var progress_bar: TextureProgressBar
+## The label that displays download status
 @export var status_label: Label
+## Time in seconds for the download to complete
 @export var download_time: float = 3.0
+## Enable debug logging for this module
 @export var enable_debug: bool = true
-var module_name: String = "DownloadUIControl"
 
+var module_name: String = "DownloadUIControl"
 var is_downloading: bool = false
 var is_download_complete: bool = false
 var download_tween: Tween
@@ -33,6 +37,29 @@ func _ready() -> void:
 		DebugLogger.error(module_name, "No status label assigned!")
 	
 	DebugLogger.debug(module_name, "Download UI Control initialized")
+
+func reset_download() -> void:
+	# Cancel any ongoing download
+	if is_downloading and download_tween and download_tween.is_valid():
+		download_tween.kill()
+	
+	# Reset all state variables
+	is_downloading = false
+	is_download_complete = false
+	
+	# Enable button
+	if download_button:
+		download_button.disabled = false
+	
+	# Reset progress bar
+	if progress_bar:
+		progress_bar.value = 0
+	
+	# Reset status label
+	if status_label:
+		status_label.text = "Download: not started"
+	
+	DebugLogger.debug(module_name, "Download UI reset to initial state")
 
 func _on_download_button_pressed() -> void:
 	if is_downloading or is_download_complete:

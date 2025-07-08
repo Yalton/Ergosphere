@@ -1,19 +1,15 @@
-# DownloadDiegeticUI.gd
 extends DiegeticUIBase
 
 signal download_completed
 
+## The UI control that handles the download interface
 @export var download_ui_control: Control  # Assign the UI control with DownloadUIControl.gd
-
 
 func _ready() -> void:
 	super._ready()
 	module_name = "DownloadDiegeticUI"
 	DebugLogger.register_module(module_name, enable_debug)
 	
-	# Find task aware component
-	#task_aware_component = get_node_or_null("TaskAwareComponent")
-	#task_aware_component.task_availability_changed.connect(_on_availability_change)
 	# Add to download_terminals group for task system
 	add_to_group("download_terminals")
 	
@@ -30,17 +26,30 @@ func _ready() -> void:
 	# Connect to task completion to check when telescope is aligned
 	if GameManager and GameManager.task_manager:
 		GameManager.task_manager.task_completed.connect(_on_task_completed)
+		# Connect to task assignment to reset the UI
+		GameManager.task_manager.task_assigned.connect(_on_task_assigned)
 	
 	# Initial check of availability
-	_check_availability()
+	check_availability()
 	
 	DebugLogger.debug(module_name, "Download Diegetic UI initialized")
 
+func _on_task_assigned(task_id: String) -> void:
+	# Reset the download UI when the download task is assigned
+	if task_id == "download_data":
+		reset_download_ui()
+		DebugLogger.debug(module_name, "Download task assigned - resetting UI")
+
+func reset_download_ui() -> void:
+	if download_ui_control and download_ui_control.has_method("reset_download"):
+		download_ui_control.reset_download()
+		DebugLogger.debug(module_name, "Download UI reset")
+
 func _on_task_completed(task_id: String) -> void:
 	if task_id == "allign_telescope":
-		_check_availability()
+		check_availability()
 
-func _check_availability() -> void:
+func check_availability() -> void:
 	# Only enable if telescope alignment is complete
 	if GameManager and GameManager.task_manager:
 		var telescope_aligned = GameManager.task_manager.is_task_completed("allign_telescope")

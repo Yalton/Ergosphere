@@ -352,6 +352,8 @@ func _hide_static_noise() -> void:
 
 # Disable/enable the UI
 func set_ui_enabled(enabled: bool) -> void:
+	if !task_aware_component: 
+		return
 	if enabled:
 		enable_screen()
 	else:

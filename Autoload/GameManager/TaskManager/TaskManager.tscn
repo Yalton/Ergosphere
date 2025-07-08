@@ -28,12 +28,12 @@
 [ext_resource type="Resource" uid="uid://b4e8scuox2ied" path="res://Assets/Resources/Tasks/sample_oxygen.tres" id="21_k3vok"]
 [ext_resource type="Resource" uid="uid://c3lwcb3xxupi8" path="res://Assets/Resources/Tasks/investigate_anomalies.tres" id="21_ve6o7"]
 [ext_resource type="Resource" uid="uid://b3kjgcrvpxdji" path="res://Assets/Resources/Tasks/sample_anomalies.tres" id="24_qdfmk"]
+[ext_resource type="Resource" uid="uid://b56130urn74y3" path="res://Assets/Resources/Tasks/collapse_inevitable.tres" id="26_kwg2i"]
 [ext_resource type="Resource" uid="uid://c8xysuvlvj5ly" path="res://Assets/Resources/Tasks/run_diagnostics.tres" id="27_v2vmf"]
 [ext_resource type="Resource" uid="uid://d4kvf2iu8p4eu" path="res://Assets/Resources/Tasks/oxygen_filter_failure.tres" id="28_y2vsa"]
 [ext_resource type="Resource" uid="uid://c2w33g6w5p4q5" path="res://Assets/Resources/Tasks/snake_game.tres" id="29_5picg"]
-[ext_resource type="Resource" uid="uid://buf7m0gv7op12" path="res://Assets/Resources/Tasks/total_reality_collapse.tres" id="30_1pw2o"]
 
 [node name="TaskManager" type="Node"]
 script = ExtResource("1_n1gfo")
-all_possible_tasks = Array[ExtResource("2_1hfug")]([ExtResource("3_ah2t3"), ExtResource("20_0k0ho"), ExtResource("8_6km11"), ExtResource("11_mchnp"), ExtResource("4_kcc4n"), ExtResource("6_mchnp"), ExtResource("4_r81fx"), ExtResource("21_ve6o7"), ExtResource("18_0k0ho"), ExtResource("9_d82dc"), ExtResource("15_gfe2t"), ExtResource("28_y2vsa"), ExtResource("15_kwg2i"), ExtResource("17_n8qsd"), ExtResource("12_d82dc"), ExtResource("10_ysnsx"), ExtResource("27_v2vmf"), ExtResource("24_qdfmk"), ExtResource("21_k3vok"), ExtResource("7_y1vve"), ExtResource("29_5picg"), ExtResource("16_ngbvm"), ExtResource("30_1pw2o"), ExtResource("6_y1vve")])
+all_possible_tasks = Array[ExtResource("2_1hfug")]([ExtResource("3_ah2t3"), ExtResource("20_0k0ho"), ExtResource("8_6km11"), ExtResource("11_mchnp"), ExtResource("4_kcc4n"), ExtResource("6_mchnp"), ExtResource("4_r81fx"), ExtResource("21_ve6o7"), ExtResource("18_0k0ho"), ExtResource("9_d82dc"), ExtResource("15_gfe2t"), ExtResource("28_y2vsa"), ExtResource("15_kwg2i"), ExtResource("17_n8qsd"), ExtResource("12_d82dc"), ExtResource("10_ysnsx"), ExtResource("27_v2vmf"), ExtResource("24_qdfmk"), ExtResource("21_k3vok"), ExtResource("7_y1vve"), ExtResource("29_5picg"), ExtResource("16_ngbvm"), ExtResource("6_y1vve"), ExtResource("26_kwg2i")])
 day_configs = Array[ExtResource("2_yrm2m")]([ExtResource("3_qdfmk"), ExtResource("4_v2vmf"), ExtResource("5_y2vsa"), ExtResource("6_5picg"), ExtResource("7_1pw2o")])

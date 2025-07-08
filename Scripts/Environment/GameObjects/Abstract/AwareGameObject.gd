@@ -11,14 +11,6 @@ signal object_state_updated(interaction_text: String)
 
 func _ready() -> void:
 	super._ready()
-		
-	# Auto-find components if not assigned
-	if not task_aware_component:
-		task_aware_component = get_node_or_null("TaskAwareComponent")
-	
-	if not state_aware_component:
-		state_aware_component = get_node_or_null("StateAwareComponent")
-	
 
 # Check if this object can be interacted with
 func can_interact() -> bool:

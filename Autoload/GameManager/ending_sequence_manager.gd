@@ -12,7 +12,8 @@ var module_name: String = "EndingSequenceManager"
 
 @export_group("Ending Configuration")
 ## Day number that triggers the ending sequence
-@export var final_day: int = 7
+@export var final_day: int = 5
+
 ## Delay before starting escape sequence after all tasks complete
 @export var sequence_delay: float = 5.0
 ## Emergency task ID for the escape sequence
@@ -33,48 +34,56 @@ var module_name: String = "EndingSequenceManager"
 @export var alt_a_choice_scene: PackedScene
 ## Interactable scene for alternate ending B choice
 @export var alt_b_choice_scene: PackedScene
-#
-#@export_group("Spawn Positions")
-### Where to spawn alternate A choice
-#@export var alt_a_spawn_position: Vector3 = Vector3(-5, 0, 0)
-### Where to spawn alternate B choice
-#@export var alt_b_spawn_position: Vector3 = Vector3(5, 0, 0)
-### Parent node path for spawned objects (empty = current scene root)
-#@export var spawn_parent_path: NodePath = ""
 
 # State tracking
 var sequence_started: bool = false
 var ending_selected: bool = false
 var spawned_choices: Array[Node] = []
+var check_timer: float = 0.0
+var check_interval: float = 3.0
 
-# References
+# References - will be set by GameManager
 var game_manager
 var task_manager: TaskManager
 var state_manager: StateManager
 
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
-	
-	# Get references
-	game_manager = GameManager
-	if game_manager:
-		task_manager = game_manager.task_manager
-		state_manager = game_manager.state_manager
+	DebugLogger.info(module_name, "EndingSequenceManager ready, waiting for initialization")
+	set_process(true)
+
+func initialize(_game_manager, _task_manager: TaskManager, _state_manager: StateManager) -> void:
+	game_manager = _game_manager
+	task_manager = _task_manager
+	state_manager = _state_manager
 	
 	if not task_manager:
-		DebugLogger.error(module_name, "TaskManager not found!")
+		DebugLogger.error(module_name, "TaskManager not provided!")
 		return
 		
 	# Connect to task manager signals
-	task_manager.daily_tasks_completed.connect(_on_daily_tasks_completed)
 	task_manager.ending_chosen.connect(_on_ending_chosen)
 	task_manager.emergency_task_failed.connect(_on_emergency_task_failed)
 	
 	DebugLogger.info(module_name, "EndingSequenceManager initialized")
 
-func _on_daily_tasks_completed() -> void:
+func _process(delta: float) -> void:
+	if sequence_started or ending_selected:
+		return
+		
+	# Check every 3 seconds if we should start the ending
+	check_timer += delta
+	if check_timer >= check_interval:
+		check_timer = 0.0
+		_check_for_ending_conditions()
+
+func _check_for_ending_conditions() -> void:
 	# Check if this is the final day
-	if not game_manager or game_manager.current_day != final_day:
+	if not GameManager or GameManager.current_day != final_day:
+		return
+		
+	# Check if all non-secret daily tasks are completed
+	if not task_manager or not _are_all_daily_tasks_completed():
 		return
 		
 	if sequence_started:
@@ -84,8 +93,32 @@ func _on_daily_tasks_completed() -> void:
 	
 	# Start the ending sequence after delay
 	sequence_started = true
+	_schedule_ending_sequence()
+
+func _are_all_daily_tasks_completed() -> bool:
+	var todays_tasks = task_manager.get_todays_tasks()
+	
+	for task in todays_tasks:
+		# Skip sleep task
+		if task.task_id == task_manager.sleep_task_id:
+			continue
+			
+		# Skip secret tasks - they don't block the ending
+		if task.is_secret:
+			continue
+			
+		# Check if non-secret task is complete
+		if not task.is_completed:
+			return false
+	
+	return true
+
+func _schedule_ending_sequence() -> void:
 	await get_tree().create_timer(sequence_delay).timeout
-	_start_ending_sequence()
+	
+	# Double-check we haven't selected an ending during the delay
+	if not ending_selected:
+		_start_ending_sequence()
 
 func _start_ending_sequence() -> void:
 	DebugLogger.info(module_name, "Starting ending sequence!")
@@ -216,6 +249,7 @@ func reset() -> void:
 	## Reset the ending sequence (useful for testing)
 	sequence_started = false
 	ending_selected = false
+	check_timer = 0.0
 	_cleanup_choices()
 	
 	if state_manager:

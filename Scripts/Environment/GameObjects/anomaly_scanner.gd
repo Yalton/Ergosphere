@@ -35,6 +35,9 @@ class_name ProximityTracker
 ## Flash duration in seconds
 @export var flash_duration: float = 0.2
 
+## Path to the shattered scanner scene
+@export var shattered_scanner_scene: PackedScene
+
 # Internal state
 var target_point: Node3D
 var beep_timer: Timer
@@ -43,11 +46,17 @@ var emissive_material: StandardMaterial3D
 var original_emission_energy: float = 0.0
 var is_tracking: bool = false
 var is_completed: bool = false
+var carryable_component: CarryableComponent
 
 func _ready() -> void:
 	super._ready()
 	module_name = "ProximityTracker"
 	DebugLogger.register_module(module_name, enable_debug)
+	
+	# Get CarryableComponent reference
+	carryable_component = find_child("CarryableComponent", true, false)
+	if not carryable_component:
+		DebugLogger.error(module_name, "No CarryableComponent found!")
 	
 	# Get tracking points from group
 	var tracking_points = get_tree().get_nodes_in_group(tracking_group)
@@ -168,23 +177,40 @@ func _complete_tracking() -> void:
 	# Stop beep timer
 	beep_timer.stop()
 	
-	# Final beep
-	if audio_player and beep_sound:
-		audio_player.stream = beep_sound
-		audio_player.play()
+	# Force drop if being carried
+	if carryable_component and carryable_component.is_being_carried:
+		DebugLogger.info(module_name, "Forcing player to drop scanner before explosion")
+		carryable_component.leave()
 	
-	# Keep light and emission on
-	if flash_light:
-		flash_light.visible = true
-	
-	if emissive_material:
-		emissive_material.emission_energy_multiplier = 1.0
+	# Spawn shattered scanner and self-destruct
+	_spawn_shattered_scanner()
 	
 	# Complete task
 	if task_aware_component:
 		task_aware_component.complete_task()
 	
 	DebugLogger.info(module_name, "Tracking completed at target: " + target_point.name)
+
+func _spawn_shattered_scanner() -> void:
+	if not shattered_scanner_scene:
+		DebugLogger.error(module_name, "No shattered scanner scene assigned!")
+		queue_free()
+		return
+	
+	# Instance the shattered scanner
+	var shattered_scanner = shattered_scanner_scene.instantiate()
+	
+	# Position it at our current location
+	shattered_scanner.global_position = global_position
+	shattered_scanner.global_rotation = global_rotation
+	
+	# Add to the same parent
+	get_parent().add_child(shattered_scanner)
+	
+	DebugLogger.info(module_name, "Spawned shattered scanner")
+	
+	# Remove ourselves
+	queue_free()
 
 ## Reset the tracker to choose a new target
 func reset_tracking() -> void:

@@ -23,6 +23,8 @@ var module_name: String = "TaskManager"
 ## Task ID for the sleep task that ends the day
 @export var sleep_task_id: String = "sleep"
 
+@export var emergency_sfx: AudioStream 
+
 # Current state
 var current_day_config: DayConfigResource = null
 var todays_tasks: Array[BaseTask] = []
@@ -215,6 +217,10 @@ func trigger_emergency_task(task_id: String) -> void:
 	emergency_task_triggered.emit(task_id)
 	task_assigned.emit(task_id)
 	
+	CommonUtils.send_player_hint("", "EMERGENCY: " + str(task.task_name))
+	
+	Audio.play_sound(emergency_sfx)
+
 	DebugLogger.info(module_name, "Emergency task triggered: %s (time limit: %0.1fs)" % [task.task_name, task.emergency_time_limit])
 
 func _on_emergency_timer_expired(task_id: String) -> void:
@@ -319,6 +325,11 @@ func complete_task(task_id: String) -> void:
 	DebugLogger.info(module_name, "Task completed: %s" % task.task_name)
 
 func _check_daily_completion() -> void:
+	# Don't assign sleep task on final day (day 5) - let ending sequence handle it
+	if GameManager and GameManager.current_day == 5:
+		DebugLogger.debug(module_name, "Final day - skipping sleep task assignment")
+		return
+	
 	# Don't check if there are active emergencies
 	if active_emergency_tasks.size() > 0:
 		# Remove sleep task if it exists during emergencies

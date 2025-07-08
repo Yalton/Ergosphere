@@ -13,7 +13,7 @@ func _ready() -> void:
 	module_name = "HeatsinkFailureEvent"
 	
 	# This handler handles the heatsink_failure event
-	handled_event_ids = ["heatsink_failure", "engine_heatsink_failure"]
+	handled_event_ids = ["heatsink_failure"]
 
 func can_execute() -> bool:
 	# First check base requirements

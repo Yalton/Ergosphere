@@ -513,8 +513,15 @@ func _find_task_by_id(task_id: String) -> BaseTask:
 			if task.task_id == task_id:
 				return task
 	
-	# Check default tasks
-	for task in GameManager.task_manager.default_available_tasks:
+	# Check active tasks
+	var active_tasks = GameManager.task_manager.get_active_tasks()
+	for task in active_tasks:
+		if task.task_id == task_id:
+			return task
+	
+	# Check today's tasks
+	var todays_tasks = GameManager.task_manager.get_todays_tasks()
+	for task in todays_tasks:
 		if task.task_id == task_id:
 			return task
 			

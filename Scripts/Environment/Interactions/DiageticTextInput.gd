@@ -75,6 +75,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func start_interaction() -> void:
 	super.start_interaction()
+
+	# Show tab hint to player
+	#HintSystem.show_hint("TAB: Swap selected UI element", 3.0)
+	CommonUtils.send_player_hint("", "TAB: Swap selected UI element")
+
+	DebugLogger.debug(module_name, "Showed tab navigation hint")
 	
 	# Additional setup for text input
 	if capture_keyboard_input:

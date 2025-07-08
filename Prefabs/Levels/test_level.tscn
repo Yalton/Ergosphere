@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=72 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -26,7 +26,9 @@
 [ext_resource type="AudioStream" uid="uid://dphwvw1cavb7a" path="res://Assets/Audio/Events/power_down.ogg" id="24_eprw8"]
 [ext_resource type="AudioStream" uid="uid://b833mqskbys66" path="res://Assets/Audio/Events/power_up.ogg" id="25_bsk3i"]
 [ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="26_wehjc"]
+[ext_resource type="PackedScene" uid="uid://ccjgxjxx1f42w" path="res://Prefabs/Environment/Props/Computer/recalibrate_systems.tscn" id="28_bsk3i"]
 [ext_resource type="PackedScene" uid="uid://qr1n21uuq8fa" path="res://Prefabs/Environment/Props/Tech/window_lever.tscn" id="28_eprw8"]
+[ext_resource type="PackedScene" uid="uid://6nnliah25gvx" path="res://Prefabs/Environment/Props/Computer/contact_earth.tscn" id="29_bsk3i"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
 shader = ExtResource("1_iv3f0")
@@ -513,3 +515,9 @@ shared_emissive_material = ExtResource("26_wehjc")
 
 [node name="window_lever" parent="." instance=ExtResource("28_eprw8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.7016, 3.31112, 2.51838)
+
+[node name="recalibrate_systems" parent="." instance=ExtResource("28_bsk3i")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 13, 1, -11)
+
+[node name="ContactEarth" parent="." instance=ExtResource("29_bsk3i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.38148, 1.39883, -15.1546)

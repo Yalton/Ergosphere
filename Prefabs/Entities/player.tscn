@@ -527,6 +527,7 @@ mouse_filter = 2
 theme = ExtResource("11_qmfn3")
 allow_search = false
 script = ExtResource("16_iummq")
+emergency_color = Color(0.88, 0.79816, 0.3344, 1)
 
 [node name="Control2" type="Control" parent="PlayerUI/TaskContainer/VBoxContainer"]
 layout_mode = 2

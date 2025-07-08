@@ -33,6 +33,7 @@ signal login_completed
 var is_busy: bool = false
 var progress_tween: Tween
 var module_name: String = "PasswordLoginControl"
+var login_successful: bool = false
 
 func _ready() -> void:
 	DebugLogger.register_module(module_name, true)
@@ -143,6 +144,9 @@ func _submit_password() -> void:
 func _show_success() -> void:
 	DebugLogger.debug(module_name, "Showing success and starting progress")
 	
+	# Mark login as successful
+	login_successful = true
+	
 	# Play success sound
 	if success_sound:
 		Audio.play_sound(success_sound, true, 1.0, 0.0, "SFX")
@@ -168,10 +172,11 @@ func _show_error() -> void:
 	if submit_button:
 		submit_button.disabled = false
 	
-	# Clear password field
+	# Clear password field and refocus
 	if password_field:
 		password_field.clear()
 		password_field.grab_focus()
+		DebugLogger.debug(module_name, "Password field cleared and focused")
 
 func _show_error_message(message: String) -> void:
 	if not error_label:
@@ -222,3 +227,9 @@ func _on_progress_complete() -> void:
 func set_password(new_password: String) -> void:
 	correct_password = new_password
 	DebugLogger.debug(module_name, "Password updated")
+
+# Public method to focus password field
+func focus_password_field() -> void:
+	if password_field:
+		password_field.grab_focus()
+		DebugLogger.debug(module_name, "Password field focused")

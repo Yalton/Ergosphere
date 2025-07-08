@@ -19,15 +19,12 @@ func _ready() -> void:
 		password_control = sub_viewport.get_child(0)
 		
 		# Set password on control
-		if password_control.has_method("set_password"):
-			password_control.set_password(correct_password)
-		elif password_control.has_property("correct_password"):
-			password_control.correct_password = correct_password
-		
+		password_control.set_password(correct_password)
+		password_control.correct_password = correct_password
+	
 		# Connect to completion signal
-		if password_control.has_signal("login_completed"):
-			password_control.login_completed.connect(_on_login_completed)
-			DebugLogger.debug(module_name, "Connected to login completion signal")
+		password_control.login_completed.connect(_on_login_completed)
+		DebugLogger.debug(module_name, "Connected to login completion signal")
 		
 		DebugLogger.debug(module_name, "Found password control, set password")
 	
@@ -40,7 +37,16 @@ func _on_login_completed() -> void:
 	if task_aware_component:
 		task_aware_component.complete_task()
 
-# Override to handle ESC to exit
+# Override start_interaction to focus password field and show hint
+func start_interaction() -> void:
+	super.start_interaction()
+	
+	# Focus the password field when interaction starts
+	if password_control and password_control.password_field:
+		DebugLogger.debug(module_name, "Focusing password field")
+		password_control.password_field.grab_focus()
+	
+# Override to handle ESC to exit and TAB navigation
 func _unhandled_input(event: InputEvent) -> void:
 	if !is_player_interacting:
 		return
@@ -52,18 +58,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	
-	# Forward keyboard events to SubViewport
-	if capture_keyboard_input and event is InputEventKey:
-		if typing_audio and event.pressed and not event.echo:
-			typing_audio.play()
+	# Forward all input events to SubViewport when interacting
+	if sub_viewport:
+		sub_viewport.push_input(event)
 		
-		if sub_viewport:
-			sub_viewport.push_input(event)
-		
-		get_viewport().set_input_as_handled()
-		return
+		# Play typing sound for keyboard events
+		if capture_keyboard_input and event is InputEventKey and event.pressed and not event.echo:
+			if typing_audio:
+				typing_audio.play()
 	
-	# Handle mouse events
-	if !(event is InputEventMouseButton or event is InputEventMouseMotion):
-		if sub_viewport:
-			sub_viewport.push_input(event)
+	get_viewport().set_input_as_handled()

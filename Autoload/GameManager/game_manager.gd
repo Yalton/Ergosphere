@@ -25,26 +25,16 @@ var systems_initialized: bool = false
 func _ready():
 	DebugLogger.register_module("GameManager")
 	
-			# Find managers using CommonUtils
+	# Find managers using CommonUtils
 	event_manager = CommonUtils.safe_get_node(self, "EventManager") as EventManager
 	state_manager = CommonUtils.safe_get_node(self, "StateManager") as StateManager
 	task_manager = CommonUtils.safe_get_node(self, "TaskManager") as TaskManager
 	storage_manager = CommonUtils.safe_get_node(self, "StorageManager") as StorageManager
 	audio_fx_manager = CommonUtils.safe_get_node(self, "AudioFXManager") as AudioFXManager
+	ending_sequence_manager = CommonUtils.safe_get_node(self, "EndingSequenceManager") as EndingSequenceManager
 
-	# Initialize references but DON'T start the game
-	_setup_references()
-	
 	DebugLogger.info("GameManager", "GameManager ready, waiting for game start")
 
-func _setup_references():
-	# Get references to managers if not already set
-	if not state_manager:
-		state_manager = get_node_or_null("/root/StateManager")
-	if not event_manager:
-		event_manager = get_node_or_null("/root/EventManager")
-	if not task_manager:
-		task_manager = get_node_or_null("/root/TaskManager")
 
 func initialize_systems():
 	"""Initialize all game systems but don't start the game"""
@@ -62,6 +52,9 @@ func initialize_systems():
 		
 	if task_manager and task_manager.has_method("initialize"):
 		task_manager.initialize(state_manager)
+
+	if ending_sequence_manager and ending_sequence_manager.has_method("initialize"):
+		ending_sequence_manager.initialize(self, task_manager, state_manager)
 	
 	# Generate session password
 	session_password = _generate_password()
