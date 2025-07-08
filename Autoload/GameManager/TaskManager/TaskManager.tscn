@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cuykknx82jpa1"]
+[gd_scene load_steps=33 format=3 uid="uid://cuykknx82jpa1"]
 
 [ext_resource type="Script" uid="uid://c88co2uwqhp2x" path="res://Autoload/GameManager/TaskManager/task_manager.gd" id="1_n1gfo"]
 [ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="2_1hfug"]
@@ -20,10 +20,12 @@
 [ext_resource type="Resource" uid="uid://wx35acaqwm1s" path="res://Assets/Resources/Tasks/defragment_memory.tres" id="11_mchnp"]
 [ext_resource type="Resource" uid="uid://bhs0warum3527" path="res://Assets/Resources/Tasks/replace_heatsink.tres" id="12_d82dc"]
 [ext_resource type="Resource" uid="uid://lsrxnah36q15" path="res://Assets/Resources/Tasks/order_heatsink.tres" id="15_gfe2t"]
+[ext_resource type="Resource" uid="uid://cj3dl7kd4ssha" path="res://Assets/Resources/Tasks/reboot_systems.tres" id="15_kwg2i"]
 [ext_resource type="Resource" uid="uid://ctpssibwgo27o" path="res://Assets/Resources/Tasks/system_reboot.tres" id="16_ngbvm"]
 [ext_resource type="Resource" uid="uid://dymx2wx3pea51" path="res://Assets/Resources/Tasks/recalibrate_systems.tres" id="17_n8qsd"]
 [ext_resource type="Resource" uid="uid://b34y1pl3d7umu" path="res://Assets/Resources/Tasks/lube_engine.tres" id="18_0k0ho"]
 [ext_resource type="Resource" uid="uid://dpibm87ok8g54" path="res://Assets/Resources/Tasks/attempt_earth_com.tres" id="20_0k0ho"]
+[ext_resource type="Resource" uid="uid://b4e8scuox2ied" path="res://Assets/Resources/Tasks/sample_oxygen.tres" id="21_k3vok"]
 [ext_resource type="Resource" uid="uid://c3lwcb3xxupi8" path="res://Assets/Resources/Tasks/investigate_anomalies.tres" id="21_ve6o7"]
 [ext_resource type="Resource" uid="uid://b3kjgcrvpxdji" path="res://Assets/Resources/Tasks/sample_anomalies.tres" id="24_qdfmk"]
 [ext_resource type="Resource" uid="uid://c8xysuvlvj5ly" path="res://Assets/Resources/Tasks/run_diagnostics.tres" id="27_v2vmf"]
@@ -31,25 +33,7 @@
 [ext_resource type="Resource" uid="uid://c2w33g6w5p4q5" path="res://Assets/Resources/Tasks/snake_game.tres" id="29_5picg"]
 [ext_resource type="Resource" uid="uid://buf7m0gv7op12" path="res://Assets/Resources/Tasks/total_reality_collapse.tres" id="30_1pw2o"]
 
-[sub_resource type="Resource" id="Resource_ah2t3"]
-script = ExtResource("2_1hfug")
-task_id = "consume_anus"
-task_name = "consume_anus"
-task_description = ""
-is_emergency = false
-is_secret = false
-emergency_time_limit = 0.0
-failure_consequence = {}
-dependent_on_tasks = Array[String]([])
-required_states = {}
-blocked_by_states = {}
-revealed_under = {}
-reveal_delay = 1.0
-related_object_groups = Array[String]([])
-metadata/_custom_type_script = "uid://bxrho0i2t1mql"
-
 [node name="TaskManager" type="Node"]
 script = ExtResource("1_n1gfo")
+all_possible_tasks = Array[ExtResource("2_1hfug")]([ExtResource("3_ah2t3"), ExtResource("20_0k0ho"), ExtResource("8_6km11"), ExtResource("11_mchnp"), ExtResource("4_kcc4n"), ExtResource("6_mchnp"), ExtResource("4_r81fx"), ExtResource("21_ve6o7"), ExtResource("18_0k0ho"), ExtResource("9_d82dc"), ExtResource("15_gfe2t"), ExtResource("28_y2vsa"), ExtResource("15_kwg2i"), ExtResource("17_n8qsd"), ExtResource("12_d82dc"), ExtResource("10_ysnsx"), ExtResource("27_v2vmf"), ExtResource("24_qdfmk"), ExtResource("21_k3vok"), ExtResource("7_y1vve"), ExtResource("29_5picg"), ExtResource("16_ngbvm"), ExtResource("30_1pw2o"), ExtResource("6_y1vve")])
 day_configs = Array[ExtResource("2_yrm2m")]([ExtResource("3_qdfmk"), ExtResource("4_v2vmf"), ExtResource("5_y2vsa"), ExtResource("6_5picg"), ExtResource("7_1pw2o")])
-default_tasks_per_day = 4
-default_available_tasks = Array[ExtResource("2_1hfug")]([SubResource("Resource_ah2t3"), ExtResource("7_y1vve"), ExtResource("6_mchnp"), ExtResource("8_6km11"), ExtResource("9_d82dc"), ExtResource("10_ysnsx"), ExtResource("11_mchnp"), ExtResource("12_d82dc"), ExtResource("4_r81fx"), ExtResource("3_ah2t3"), ExtResource("4_kcc4n"), ExtResource("6_y1vve"), ExtResource("15_gfe2t"), ExtResource("16_ngbvm"), ExtResource("17_n8qsd"), ExtResource("18_0k0ho"), ExtResource("24_qdfmk"), ExtResource("20_0k0ho"), ExtResource("21_ve6o7"), ExtResource("27_v2vmf"), ExtResource("28_y2vsa"), ExtResource("29_5picg"), ExtResource("30_1pw2o")])

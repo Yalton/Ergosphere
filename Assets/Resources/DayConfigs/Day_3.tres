@@ -1,26 +1,9 @@
-[gd_resource type="Resource" script_class="DayConfigResource" load_steps=7 format=3 uid="uid://b1oefka8ym0wq"]
+[gd_resource type="Resource" script_class="DayConfigResource" load_steps=2 format=3 uid="uid://b1oefka8ym0wq"]
 
-[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_010ib"]
 [ext_resource type="Script" uid="uid://8rd0ckvff0d0" path="res://Scripts/Resources/day_config.gd" id="2_0s8e3"]
-[ext_resource type="Resource" uid="uid://bsjgiseh0aa2w" path="res://Assets/Resources/Tasks/eat_food.tres" id="2_w5l0o"]
-[ext_resource type="Resource" uid="uid://b34y1pl3d7umu" path="res://Assets/Resources/Tasks/lube_engine.tres" id="3_hcpev"]
-[ext_resource type="Resource" uid="uid://b3kjgcrvpxdji" path="res://Assets/Resources/Tasks/sample_anomalies.tres" id="4_obmp1"]
-[ext_resource type="Resource" uid="uid://c8xysuvlvj5ly" path="res://Assets/Resources/Tasks/run_diagnostics.tres" id="5_w5l0o"]
 
 [resource]
 script = ExtResource("2_0s8e3")
 day_number = 3
-day_name = ""
-available_tasks = Array[ExtResource("1_010ib")]([ExtResource("2_w5l0o"), ExtResource("3_hcpev"), ExtResource("4_obmp1"), ExtResource("5_w5l0o")])
-mandatory_tasks = Array[String](["eat_food", "lube_engine", "sample_anomalies", "run_diagnostics"])
-excluded_tasks = Array[String]([])
-task_count_override = -1
-available_event_ids = Array[String]([])
-guaranteed_events = Array[String]([])
-excluded_events = Array[String]([])
-starting_states = {}
-intro_message = ""
-completion_message = ""
-sets_flags = Array[String]([])
-requires_flags = Array[String]([])
+task_ids = Array[String](["eat_food", "lube_engine", "run_diagnostics", "sample_anomalies"])
 metadata/_custom_type_script = "uid://8rd0ckvff0d0"

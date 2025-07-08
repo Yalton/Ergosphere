@@ -1,0 +1,43 @@
+[gd_scene load_steps=11 format=3 uid="uid://dr62sfawl8e0l"]
+
+[ext_resource type="PackedScene" uid="uid://wtaqabmkefhp" path="res://Misc/PolyBlocks/EffectBlocks/assets/loot/gears.tscn" id="2_1o64v"]
+[ext_resource type="PackedScene" uid="uid://b21ylbshayj81" path="res://Misc/PolyBlocks/EffectBlocks/assets/loot/loot_pickaxe.tscn" id="2_vfcwl"]
+[ext_resource type="PackedScene" uid="uid://bgmdo3linlwbt" path="res://Misc/PolyBlocks/EffectBlocks/assets/loot/loot_axe.tscn" id="3_ddhwo"]
+[ext_resource type="PackedScene" uid="uid://ibwc13r4vgpd" path="res://Misc/PolyBlocks/EffectBlocks/assets/loot/down_arrow.tscn" id="4_ttlgq"]
+[ext_resource type="PackedScene" uid="uid://cujbal2tq1i4j" path="res://Misc/PolyBlocks/EffectBlocks/assets/loot/power_up.tscn" id="6_4q85s"]
+[ext_resource type="PackedScene" uid="uid://ca4o3laju8os4" path="res://Misc/PolyBlocks/EffectBlocks/assets/loot/pheonix.tscn" id="7_y1sko"]
+[ext_resource type="PackedScene" uid="uid://bbhsu60brcpyg" path="res://Misc/PolyBlocks/EffectBlocks/assets/loot/healing.tscn" id="8_mwhcr"]
+[ext_resource type="PackedScene" uid="uid://ck4lgumkne32i" path="res://Misc/PolyBlocks/EffectBlocks/assets/loot/eyes.tscn" id="9_7lkbv"]
+[ext_resource type="PackedScene" uid="uid://dmjeklvbs6v2k" path="res://Misc/PolyBlocks/EffectBlocks/assets/loot/skull.tscn" id="9_7tu4j"]
+[ext_resource type="PackedScene" uid="uid://u4l6hsrq87je" path="res://Misc/PolyBlocks/EffectBlocks/assets/loot/swords.tscn" id="10_qn0j1"]
+
+[node name="LootdropShowcase" type="Node3D"]
+
+[node name="LootAxe" parent="." instance=ExtResource("3_ddhwo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.4, 0)
+
+[node name="LootPicaxe" parent="." instance=ExtResource("2_vfcwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.4, 0)
+
+[node name="Gears" parent="." instance=ExtResource("2_1o64v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, 0)
+
+[node name="DownArrow" parent="." instance=ExtResource("4_ttlgq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.5, 0)
+
+[node name="PowerUp" parent="." instance=ExtResource("6_4q85s")]
+
+[node name="Pheonix" parent="." instance=ExtResource("7_y1sko")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 0)
+
+[node name="Healing" parent="." instance=ExtResource("8_mwhcr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+
+[node name="Skull" parent="." instance=ExtResource("9_7tu4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, 0)
+
+[node name="Eyes" parent="." instance=ExtResource("9_7lkbv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0.5, 0)
+
+[node name="Swords" parent="." instance=ExtResource("10_qn0j1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.5, 0)

@@ -1,27 +1,9 @@
-[gd_resource type="Resource" script_class="DayConfigResource" load_steps=8 format=3 uid="uid://bvvtjqi02kncj"]
+[gd_resource type="Resource" script_class="DayConfigResource" load_steps=2 format=3 uid="uid://bvvtjqi02kncj"]
 
-[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_xy5ll"]
 [ext_resource type="Script" uid="uid://8rd0ckvff0d0" path="res://Scripts/Resources/day_config.gd" id="2_7ma71"]
-[ext_resource type="Resource" uid="uid://b3e3r71bovmko" path="res://Assets/Resources/Tasks/allign_telescope.tres" id="2_kxp1w"]
-[ext_resource type="Resource" uid="uid://dpibm87ok8g54" path="res://Assets/Resources/Tasks/attempt_earth_com.tres" id="3_uhfko"]
-[ext_resource type="Resource" uid="uid://b5n6e78wex8px" path="res://Assets/Resources/Tasks/download_data.tres" id="4_5y15a"]
-[ext_resource type="Resource" uid="uid://bsjgiseh0aa2w" path="res://Assets/Resources/Tasks/eat_food.tres" id="5_4ew8h"]
-[ext_resource type="Resource" uid="uid://di2dxy6htbc2t" path="res://Assets/Resources/Tasks/upload_data.tres" id="6_mqfs2"]
 
 [resource]
 script = ExtResource("2_7ma71")
 day_number = 4
-day_name = ""
-available_tasks = Array[ExtResource("1_xy5ll")]([ExtResource("2_kxp1w"), ExtResource("3_uhfko"), ExtResource("4_5y15a"), ExtResource("5_4ew8h"), ExtResource("6_mqfs2")])
-mandatory_tasks = Array[String](["eat_food", "allign_telescope", "download_data", "upload_data", "contact_earth"])
-excluded_tasks = Array[String]([])
-task_count_override = -1
-available_event_ids = Array[String]([])
-guaranteed_events = Array[String]([])
-excluded_events = Array[String]([])
-starting_states = {}
-intro_message = ""
-completion_message = ""
-sets_flags = Array[String]([])
-requires_flags = Array[String]([])
+task_ids = Array[String](["eat_food", "allign_telescope", "download_data", "upload_data", "contact_earth"])
 metadata/_custom_type_script = "uid://8rd0ckvff0d0"

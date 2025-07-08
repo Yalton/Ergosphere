@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://eph8nwb45sch"]
 
-[ext_resource type="Script" uid="uid://cd157bjj6afve" path="res://Scripts/Components/state_aware_component.gd" id="1_px7ui"]
+[ext_resource type="Script" uid="uid://cd157bjj6afve" path="res://Scripts/Components/GameOBjects/state_aware_component.gd" id="1_px7ui"]
 
 [node name="StateAwareComponent" type="Node"]
 script = ExtResource("1_px7ui")

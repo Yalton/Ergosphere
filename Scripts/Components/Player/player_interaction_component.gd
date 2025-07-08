@@ -3,7 +3,7 @@ class_name PlayerInteractionComponent
 
 signal rotate_carried_object(rotation: Vector3)
 
-@export var ui_controller: FPCUIController
+@export var ui_controller: PlayerUI
 @export var interaction_action: String = "interact"  # Input action name
 @export var throw_power: float = 10.0  # Power for throwing carried objects
 @export var carryable_position: Node3D  # Reference to the position where carried objects should be placed

@@ -139,7 +139,7 @@ func _find_ui_controller(player: Node) -> Node:
 	if ui_controller:
 		return ui_controller
 	
-	# Check for FPCUIController in scene
+	# Check for PlayerUI in scene
 	var ui_controllers = get_tree().get_nodes_in_group("ui_controller")
 	if not ui_controllers.is_empty():
 		return ui_controllers[0]

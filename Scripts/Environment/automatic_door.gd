@@ -87,8 +87,8 @@ func interact(_interactor: PlayerInteractionComponent) -> void:
 	pass
 
 # Override day reset to also cancel timer
-func _on_day_reset() -> void:
-	super._on_day_reset()
+func _on_day_ended(day_number: int) -> void:
+	super._on_day_ended(day_number)
 	
 	# Cancel any pending close timer
 	if close_check_timer and close_check_timer.time_left > 0:

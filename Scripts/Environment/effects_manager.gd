@@ -64,7 +64,14 @@ func trigger_brief_flicker() -> void:
 	# Quick fade back in
 	tween.tween_property(shared_emissive_material, "emission_energy_multiplier", 
 		original_emission_energy, brief_flicker_duration * 0.6)
-		
+
+
+func update_power_lever(state:bool) -> void: 
+		# Update power lever
+	var lever = get_tree().get_first_node_in_group("power_lever")
+	if lever and lever.has_method("set_power_state"):
+		lever.set_power_state(state)
+
 func kill_power(duration: float = 0.0) -> void:
 	if not power_is_on:
 		return
@@ -86,10 +93,10 @@ func kill_power(duration: float = 0.0) -> void:
 	_modify_lights(true)
 	_modify_emissive_material(true)
 	
-	# Update power lever
-	var lever = get_tree().get_first_node_in_group("power_lever")
-	if lever and lever.has_method("set_power_state"):
-		lever.set_power_state(false)
+	## Update power lever
+	#var lever = get_tree().get_first_node_in_group("power_lever")
+	#if lever and lever.has_method("set_power_state"):
+		#lever.set_power_state(false)
 	
 	power_state_changed.emit(false)
 	
@@ -119,10 +126,10 @@ func restore_power() -> void:
 	_restore_lights()
 	_modify_emissive_material(false)
 	
-	# Update power lever
-	var lever = get_tree().get_first_node_in_group("power_lever")
-	if lever and lever.has_method("set_power_state"):
-		lever.set_power_state(true)
+	## Update power lever
+	#var lever = get_tree().get_first_node_in_group("power_lever")
+	#if lever and lever.has_method("set_power_state"):
+		#lever.set_power_state(true)
 	
 	power_state_changed.emit(true)
 

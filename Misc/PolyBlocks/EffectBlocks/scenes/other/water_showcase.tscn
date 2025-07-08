@@ -1,0 +1,85 @@
+[gd_scene load_steps=6 format=3 uid="uid://dyhj7hi0s188j"]
+
+[ext_resource type="PackedScene" uid="uid://dvgfebuvxk1jv" path="res://Misc/PolyBlocks/EffectBlocks/assets/water/water.tscn" id="1_i6uf6"]
+[ext_resource type="PackedScene" uid="uid://b3w0etcxx56n6" path="res://Misc/PolyBlocks/EffectBlocks/assets/water/water_foam.tscn" id="2_mevgi"]
+[ext_resource type="PackedScene" uid="uid://d1kl2r3k62818" path="res://Misc/PolyBlocks/EffectBlocks/assets/water/water_foam_long.tscn" id="3_1hu60"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8s508"]
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+albedo_color = Color(0.607843, 0.270588, 0.223529, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_a00vb"]
+material = SubResource("StandardMaterial3D_8s508")
+
+[node name="WaterShowcase" type="Node3D"]
+
+[node name="WaterObject" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0585603, 0)
+mesh = SubResource("CapsuleMesh_a00vb")
+skeleton = NodePath("")
+
+[node name="WaterObject2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.734417, -0.31405, 0.601668, 0, 0.886503, 0.462724, -0.678698, -0.339832, 0.651063, 0.59747, 0.0585603, -2.36119)
+mesh = SubResource("CapsuleMesh_a00vb")
+skeleton = NodePath("")
+
+[node name="WaterObject3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.594107, 0.372208, -0.71309, 3.73738e-08, 0.886503, 0.462724, 0.804386, -0.274907, 0.526677, 2.3374, 0.0585603, -1.61806)
+mesh = SubResource("CapsuleMesh_a00vb")
+skeleton = NodePath("")
+
+[node name="Ripples" type="Node3D" parent="."]
+
+[node name="WaterFoam" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.523645)
+
+[node name="WaterFoam2" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.122328, -5.96046e-08, 0.502425)
+
+[node name="WaterFoam3" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.232384, -5.96046e-08, 0.472218)
+
+[node name="WaterFoam4" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3418, -5.96046e-08, 0.421238)
+
+[node name="WaterFoam5" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.450381, -5.96046e-08, 0.324627)
+
+[node name="WaterFoam6" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.508149, -5.96046e-08, 0.20354)
+
+[node name="WaterFoam7" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.54995, -5.96046e-08, 0.0791278)
+
+[node name="WaterFoam8" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.536179, -5.96046e-08, 0.00468428)
+
+[node name="WaterFoam9" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.523645, 0, -2.28893e-08)
+
+[node name="WaterFoam10" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.502425, -5.96046e-08, 0.122328)
+
+[node name="WaterFoam11" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.472218, -5.96046e-08, 0.232384)
+
+[node name="WaterFoam12" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.421238, -5.96046e-08, 0.3418)
+
+[node name="WaterFoam13" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.324627, -5.96046e-08, 0.450381)
+
+[node name="WaterFoam14" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.20354, -5.96046e-08, 0.508149)
+
+[node name="WaterFoam15" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.0791279, -5.96046e-08, 0.54995)
+
+[node name="WaterFoam16" parent="Ripples" instance=ExtResource("2_mevgi")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.00468431, -5.96046e-08, 0.536179)
+
+[node name="WaterFoamLong" parent="." instance=ExtResource("3_1hu60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.46283, 0, 0)
+
+[node name="Water" parent="." instance=ExtResource("1_i6uf6")]

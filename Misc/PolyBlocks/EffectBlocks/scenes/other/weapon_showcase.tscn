@@ -1,0 +1,140 @@
+[gd_scene load_steps=14 format=3 uid="uid://djq2vibkd0x0f"]
+
+[ext_resource type="ArrayMesh" uid="uid://i6rgjl7dtsa5" path="res://Misc/PolyBlocks/EffectBlocks/source_files/meshes/gun.mesh" id="1_pmaih"]
+[ext_resource type="PackedScene" uid="uid://b811lwp060mex" path="res://Misc/PolyBlocks/EffectBlocks/assets/muzzle_flash/muzzle_flash_1.tscn" id="1_xfrjk"]
+[ext_resource type="Script" uid="uid://c00u8jj8smgv2" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/gun_backfire.gd" id="2_pcb7a"]
+[ext_resource type="PackedScene" uid="uid://b1nee2tr4peu3" path="res://Misc/PolyBlocks/EffectBlocks/assets/muzzle_flash/muzzle_flash_machinegun.tscn" id="3_vas12"]
+[ext_resource type="PackedScene" uid="uid://bw5rix0opmpn2" path="res://Misc/PolyBlocks/EffectBlocks/assets/muzzle_flash/flamethrower.tscn" id="5_0uis1"]
+[ext_resource type="PackedScene" uid="uid://d2w6wo71rufjo" path="res://Misc/PolyBlocks/EffectBlocks/assets/muzzle_flash/muzzle_flash_fps.tscn" id="6_s57h1"]
+
+[sub_resource type="Curve" id="Curve_g36yp"]
+_data = [Vector2(0.19403, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_n4pxc"]
+curve = SubResource("Curve_g36yp")
+
+[sub_resource type="Curve" id="Curve_cbibj"]
+max_value = 5.0
+_data = [Vector2(0.164179, 5), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_cdlk0"]
+curve = SubResource("Curve_cbibj")
+
+[sub_resource type="Curve" id="Curve_6h23u"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.141791, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ada02"]
+curve = SubResource("Curve_6h23u")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hahft"]
+lifetime_randomness = 0.4
+particle_flag_align_y = true
+initial_velocity_min = 2.0
+initial_velocity_max = 3.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.1
+scale_max = 0.2
+scale_curve = SubResource("CurveTexture_ada02")
+color = Color(0.0456703, 0.547762, 0.816958, 1)
+alpha_curve = SubResource("CurveTexture_n4pxc")
+emission_curve = SubResource("CurveTexture_cdlk0")
+
+[node name="WeaponShowcase" type="Node3D"]
+
+[node name="Gun" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.370007, 0, 0)
+mesh = ExtResource("1_pmaih")
+script = ExtResource("2_pcb7a")
+distance = 0.05
+cooldown = 1.2
+
+[node name="MuzzleFlash_1" parent="Gun" instance=ExtResource("1_xfrjk")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0.370007)
+cooldown_time = 1.2
+
+[node name="Gun(Modulated)" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.370007, 0, 1)
+mesh = ExtResource("1_pmaih")
+script = ExtResource("2_pcb7a")
+distance = 0.05
+cooldown = 1.2
+
+[node name="MuzzleFlash_1" parent="Gun(Modulated)" instance=ExtResource("1_xfrjk")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0.370007)
+cooldown_time = 1.2
+
+[node name="AnimatedFlash_1" parent="Gun(Modulated)/MuzzleFlash_1" index="0"]
+modulate = Color(0.203922, 0.941176, 0.972549, 1)
+
+[node name="AnimatedFlash_2" parent="Gun(Modulated)/MuzzleFlash_1" index="1"]
+modulate = Color(0.203922, 0.941176, 0.972549, 1)
+
+[node name="OmniLight" parent="Gun(Modulated)/MuzzleFlash_1" index="2"]
+light_color = Color(0.192, 0.702, 7.554, 1)
+
+[node name="Sparks" parent="Gun(Modulated)/MuzzleFlash_1" index="4"]
+process_material = SubResource("ParticleProcessMaterial_hahft")
+
+[node name="Gun2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.370007, 0, -1)
+mesh = ExtResource("1_pmaih")
+script = ExtResource("2_pcb7a")
+distance = 0.05
+
+[node name="MuzzleFlash_MachineGun" parent="Gun2" instance=ExtResource("3_vas12")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.61735e-08, 0, 0.370007)
+
+[node name="Gun3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.370007, 0, 3)
+mesh = ExtResource("1_pmaih")
+
+[node name="FlameThrower" parent="Gun3" instance=ExtResource("5_0uis1")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0.358632)
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.989402, -0.558863, -2.36489)
+text = "MUZZLE FLASHES (press space to preview)"
+font_size = 64
+
+[node name="Label3D2" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -1.86721, -0.558863, -1.01775)
+text = "burst fire"
+font_size = 64
+
+[node name="Label3D3" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -1.86721, -0.558863, -0.01775)
+text = "single fire"
+font_size = 64
+
+[node name="Gun4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.370007, 0, 2)
+mesh = ExtResource("1_pmaih")
+script = ExtResource("2_pcb7a")
+distance = 0.05
+cooldown = 1.0
+
+[node name="MuzzleFlashFPS" parent="Gun4" instance=ExtResource("6_s57h1")]
+transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0, 0, 0.4)
+cooldown_time = 1.0
+
+[node name="Label3D6" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -1.86721, -0.558863, 1.98225)
+text = "FPS muzzle"
+font_size = 64
+
+[node name="Label3D4" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -1.86721, -0.558863, 0.98225)
+modulate = Color(0.398419, 0.615352, 1, 1)
+text = "colors can be
+modulated"
+font_size = 64
+
+[node name="Label3D5" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -1.86721, -0.558863, 2.98225)
+text = "flamethrower"
+font_size = 64
+
+[editable path="Gun(Modulated)/MuzzleFlash_1"]

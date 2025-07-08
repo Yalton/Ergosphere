@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://da50kw4yql76w" path="res://Prefabs/UI/RhythmGame/lanes_controller.tscn" id="1_n4kk0"]
 [ext_resource type="Script" uid="uid://cp7kq5qnumldv" path="res://Scripts/UI/RhythmGame/Rhythm_game_ui.gd" id="1_tc83c"]
-[ext_resource type="PackedScene" uid="uid://biyuybe5jmg3p" path="res://Prefabs/UI/lane.tscn" id="2_w3fai"]
+[ext_resource type="PackedScene" uid="uid://biyuybe5jmg3p" path="res://Prefabs/UI/RhythmGame/lane.tscn" id="2_w3fai"]
 [ext_resource type="AudioStream" uid="uid://gkolg7ldu5y" path="res://Assets/Audio/Character/Farts/fart_a.ogg" id="2_y5qwx"]
 [ext_resource type="AudioStream" uid="uid://f3ucxy15y70i" path="res://Assets/Audio/Character/pain_grunt.wav" id="3_d2dch"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="3_em8t4"]

@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbjf845xqmmao"]
+[gd_scene load_steps=9 format=3 uid="uid://bbjf845xqmmao"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_2momd"]
 [ext_resource type="Script" uid="uid://d2uy7n3i31h7i" path="res://Scripts/UI/RhythmGame/pattern_memory.gd" id="1_380jw"]
-[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_rmbn5"]
-[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/screen_distortion.tscn" id="4_3iw0i"]
+[ext_resource type="AudioStream" uid="uid://l3or6wqe8ort" path="res://Assets/Audio/UI/diagetic_ui/positive.ogg" id="3_klx2r"]
+[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/components/screensaver.tscn" id="3_rmbn5"]
+[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/components/screen_distortion.tscn" id="4_3iw0i"]
+[ext_resource type="AudioStream" uid="uid://kfsybrkutugo" path="res://Assets/Audio/UI/diagetic_ui/negative.ogg" id="4_eane3"]
+[ext_resource type="AudioStream" uid="uid://b8q1aervgqdap" path="res://Assets/Audio/UI/diagetic_ui/neutral.ogg" id="5_keq4w"]
+[ext_resource type="AudioStream" uid="uid://cgtf2e44ihp1y" path="res://Assets/Audio/UI/diagetic_ui/victory.ogg" id="6_cr7xr"]
 
 [node name="PatternMemory_Game" type="Control" node_paths=PackedStringArray("message_label", "progress_bar", "intro_ui", "start_button", "game_ui", "main_ui", "splash_screen", "corruption_screen")]
 layout_mode = 3
@@ -22,6 +26,10 @@ game_ui = NodePath("MainUI/PanelContainer")
 main_ui = NodePath("MainUI")
 splash_screen = NodePath("ScreenSaver")
 corruption_screen = NodePath("ScreenDistortion")
+positive_sound = ExtResource("3_klx2r")
+negative_sound = ExtResource("4_eane3")
+neutral_sound = ExtResource("5_keq4w")
+victory_sound = ExtResource("6_cr7xr")
 
 [node name="MainUI" type="Control" parent="."]
 layout_mode = 1

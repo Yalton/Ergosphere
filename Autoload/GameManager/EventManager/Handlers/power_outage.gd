@@ -40,9 +40,17 @@ func execute() -> bool:
 	notify_group("powered_objects", "on_power_lost")
 	
 	# Play failure sound
-	if power_failure_sound:
-		play_audio(power_failure_sound)
+	#if power_failure_sound:
+		#play_audio(power_failure_sound)
 	
+		# Use effects manager for all power-related effects
+	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
+	if effects_manager:
+		effects_manager.kill_power()
+		effects_manager.update_power_lever(false)
+	else:
+		DebugLogger.error(module_name, "Could not find effects manager")
+		
 	# Create emergency task
 	trigger_emergency_task("restore_power")
 	
@@ -63,6 +71,8 @@ func end() -> void:
 	# Play restore sound
 	if power_restore_sound:
 		play_audio(power_restore_sound)
+		var effects_manager = get_tree().get_first_node_in_group("effects_manager")
+		effects_manager.update_power_lever(true)
 	
 	DebugLogger.info(module_name, "Power has been restored")
 	

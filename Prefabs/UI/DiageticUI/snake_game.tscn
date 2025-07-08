@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://dl1qtta7n7nlq"]
+[gd_scene load_steps=9 format=3 uid="uid://dl1qtta7n7nlq"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_wjhqc"]
-[ext_resource type="Script" uid="uid://qd6jad53o4at" path="res://Scripts/UI/snake_game.gd" id="2_7vc2v"]
-[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_pxp8s"]
-[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/screen_distortion.tscn" id="4_u0rs5"]
+[ext_resource type="Script" uid="uid://qd6jad53o4at" path="res://Scripts/UI/DiageticUI/snake_game.gd" id="2_7vc2v"]
+[ext_resource type="AudioStream" uid="uid://l3or6wqe8ort" path="res://Assets/Audio/UI/diagetic_ui/positive.ogg" id="3_juv8y"]
+[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/components/screensaver.tscn" id="3_pxp8s"]
+[ext_resource type="AudioStream" uid="uid://kfsybrkutugo" path="res://Assets/Audio/UI/diagetic_ui/negative.ogg" id="4_c8v62"]
+[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/components/screen_distortion.tscn" id="4_u0rs5"]
+[ext_resource type="AudioStream" uid="uid://b8q1aervgqdap" path="res://Assets/Audio/UI/diagetic_ui/neutral.ogg" id="5_175jd"]
+[ext_resource type="AudioStream" uid="uid://cgtf2e44ihp1y" path="res://Assets/Audio/UI/diagetic_ui/victory.ogg" id="6_4gndm"]
 
 [node name="SnakeGame" type="Control" node_paths=PackedStringArray("start_screen", "game_screen", "game_grid", "progress_bar", "length_label", "start_button", "game_over_label", "main_ui", "splash_screen", "corruption_screen")]
 layout_mode = 3
@@ -26,6 +30,10 @@ game_over_label = NodePath("MainScreen/GameScreen/PanelContainer/HBoxContainer/V
 main_ui = NodePath("MainScreen")
 splash_screen = NodePath("ScreenSaver")
 corruption_screen = NodePath("ScreenDistortion")
+positive_sound = ExtResource("3_juv8y")
+negative_sound = ExtResource("4_c8v62")
+neutral_sound = ExtResource("5_175jd")
+victory_sound = ExtResource("6_4gndm")
 
 [node name="MainScreen" type="Control" parent="."]
 layout_mode = 1

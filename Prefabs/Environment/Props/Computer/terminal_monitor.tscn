@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://c2qivsr1p2ibc" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/BlackPlastic-Normal.png" id="6_omv86"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="7_a6vnl"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Scripts/UI/sview_diag_aspect_matcher.gd" id="8_sd1aa"]
-[ext_resource type="Script" uid="uid://cnybmo2siij10" path="res://Scripts/Environment/look_at_player.gd" id="9_k5s82"]
+[ext_resource type="Script" uid="uid://cnybmo2siij10" path="res://Scripts/Environment/Misc/look_at_player.gd" id="9_k5s82"]
 [ext_resource type="PackedScene" uid="uid://8qgxvpq582wy" path="res://Prefabs/UI/DiageticUI/terminal_ui.tscn" id="9_sigfe"]
 [ext_resource type="ArrayOccluder3D" uid="uid://c65wh3ifjm2up" path="res://Assets/Models/Occluders/Props/Monitors/terminal_monitor.occ" id="12_cm6g8"]
 

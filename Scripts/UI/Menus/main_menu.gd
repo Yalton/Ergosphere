@@ -70,6 +70,11 @@ func _ready() -> void:
 		controls_menu.hide()
 	
 	DebugLogger.info(module_name, "MainMenu initialized")
+
+	# Reset game state when returning to menu
+	
+	GameManager.reset_game()
+	GameManager.stop_systems()
 	
 	# Start the fade from black
 	_initial_fade_in()

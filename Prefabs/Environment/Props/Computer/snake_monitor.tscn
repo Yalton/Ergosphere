@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cq1v1lwg2hweo" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Roughness.png" id="5_nrf5x"]
 [ext_resource type="Texture2D" uid="uid://pf0o6435nwg1" path="res://Assets/Models/Station/Props/Monitors/Monitor_2/textures/BlackPlastic-Normal.png" id="6_vvenq"]
 [ext_resource type="PackedScene" uid="uid://dl1qtta7n7nlq" path="res://Prefabs/UI/DiageticUI/snake_game.tscn" id="8_mm5sr"]
-[ext_resource type="Script" uid="uid://cnybmo2siij10" path="res://Scripts/Environment/look_at_player.gd" id="10_vvenq"]
+[ext_resource type="Script" uid="uid://cnybmo2siij10" path="res://Scripts/Environment/Misc/look_at_player.gd" id="10_vvenq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g4m61"]
 resource_name = "GreyPlastic"

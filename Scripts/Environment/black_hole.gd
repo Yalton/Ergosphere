@@ -90,10 +90,7 @@ func _trigger_stare_effect() -> void:
 	
 	# Damage player sanity
 	_damage_player_sanity()
-	
-	# Send message to player
-	if CommonUtils:
-		CommonUtils.send_player_message("The void gazes back...", "Black Hole")
+
 
 func _tween_mesh_scale() -> void:
 	# Kill existing tween if any

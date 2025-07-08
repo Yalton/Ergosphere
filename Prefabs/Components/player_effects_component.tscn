@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://3ioq6sw0jikq"]
 
-[ext_resource type="Script" uid="uid://qtkuk7gi07dp" path="res://Scripts/Components/player_effects_component.gd" id="1_1d0yj"]
+[ext_resource type="Script" uid="uid://qtkuk7gi07dp" path="res://Scripts/Components/Player/player_effects_component.gd" id="1_1d0yj"]
 [ext_resource type="Shader" uid="uid://btt8n6kwqex30" path="res://Assets/VFX/blink.gdshader" id="2_l8tyx"]
 [ext_resource type="Shader" uid="uid://dippbd5x6ufys" path="res://Assets/VFX/Shader/warp_rect.gdshader" id="3_u13ml"]
 [ext_resource type="Script" uid="uid://d1n3p8t8a6ip6" path="res://Scripts/Entities/visual_fx/glitch_effect_handler.gd" id="4_cybdt"]

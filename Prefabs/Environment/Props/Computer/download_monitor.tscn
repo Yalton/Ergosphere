@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="7_au0d5"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Scripts/UI/sview_diag_aspect_matcher.gd" id="8_qfur7"]
 [ext_resource type="PackedScene" uid="uid://cr1bpmb7lgifx" path="res://Prefabs/UI/DiageticUI/download_ui.tscn" id="9_au0d5"]
-[ext_resource type="Script" uid="uid://cnybmo2siij10" path="res://Scripts/Environment/look_at_player.gd" id="11_44atv"]
+[ext_resource type="Script" uid="uid://cnybmo2siij10" path="res://Scripts/Environment/Misc/look_at_player.gd" id="11_44atv"]
 [ext_resource type="ArrayOccluder3D" uid="uid://bn7cv13h0a6kr" path="res://Assets/Models/Occluders/Props/Monitors/download_monitor.occ" id="13_1210g"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l0qie"]

@@ -246,16 +246,16 @@ func _on_task_completed(task_id: String) -> void:
 		completion_timer.timeout.connect(_trigger_power_outage)
 
 func _trigger_power_outage() -> void:
-	print("Wungus")
-	#is_intro_complete = true
-	#DebugLogger.info(module_name, "All introduction tasks complete - triggering power outage!")
-	#
-	## Trigger the power outage event as final intro element
-	#if GameManager:
-		#GameManager.trigger_power_outage()
-		#DebugLogger.info(module_name, "Power outage triggered - introduction fully complete!")
-	#else:
-		#DebugLogger.error(module_name, "Cannot trigger power outage - GameManager not found!")
+	pass
+	# is_intro_complete = true
+	# DebugLogger.info(module_name, "All introduction tasks complete - triggering power outage!")
+	
+	# # Trigger the power outage event as final intro element
+	# if GameManager:
+	# 	GameManager.trigger_power_outage()
+	# 	DebugLogger.info(module_name, "Power outage triggered - introduction fully complete!")
+	# else:
+	# 	DebugLogger.error(module_name, "Cannot trigger power outage - GameManager not found!")
 
 # Helper function to get progress for UI display
 func get_progress() -> Dictionary:

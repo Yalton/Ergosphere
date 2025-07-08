@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Scripts/UI/sview_diag_aspect_matcher.gd" id="8_enhsa"]
 [ext_resource type="PackedScene" uid="uid://bdy6quxbmyj42" path="res://Prefabs/UI/DiageticUI/memory_purge_game.tscn" id="9_14863"]
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="9_i5rsv"]
-[ext_resource type="Script" uid="uid://cnybmo2siij10" path="res://Scripts/Environment/look_at_player.gd" id="9_ruip1"]
+[ext_resource type="Script" uid="uid://cnybmo2siij10" path="res://Scripts/Environment/Misc/look_at_player.gd" id="9_ruip1"]
 [ext_resource type="ArrayOccluder3D" uid="uid://c8qoceconqnna" path="res://Assets/Models/Occluders/Props/Monitors/memory_block_monitor.occ" id="13_kodtd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khebe"]

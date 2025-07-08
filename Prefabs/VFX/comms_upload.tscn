@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_e5ku2"]
 [ext_resource type="Script" uid="uid://d32ocqbt52hv0" path="res://Scripts/Tasks/comms_upload.gd" id="1_hk3d6"]
-[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_8aa2c"]
+[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/components/screensaver.tscn" id="3_8aa2c"]
 
 [node name="CommsUpload" type="Control" node_paths=PackedStringArray("login_screen", "password_field", "submit_button", "error_label", "status_label", "progress_screen", "progress_bar", "progress_label", "main_ui", "splash_screen")]
 layout_mode = 3

@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cn7vmp8ueafll" path="res://Assets/Models/Station/Furniture/StorageWall/textures/BlackPlastic-Color.png" id="7_vjtd5"]
 [ext_resource type="Texture2D" uid="uid://2hv6e0swuu6l" path="res://Assets/Models/Station/Furniture/StorageWall/textures/BlackPlastic-Roughness.png" id="8_ygx2g"]
 [ext_resource type="Texture2D" uid="uid://bbtlk5tjqc8g7" path="res://Assets/Models/Station/Furniture/StorageWall/textures/BlackPlastic-Normal.png" id="9_cb0iy"]
-[ext_resource type="Script" uid="uid://dijfpq8bnks05" path="res://Scripts/Components/area_3d_interactor.gd" id="10_t5h16"]
+[ext_resource type="Script" uid="uid://dijfpq8bnks05" path="res://Scripts/Components/GameOBjects/area_3d_interactor.gd" id="10_t5h16"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="11_5wjrb"]
 
 [sub_resource type="Animation" id="Animation_yyvv6"]

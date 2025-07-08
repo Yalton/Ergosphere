@@ -8,13 +8,11 @@ func _ready() -> void:
 
 func register_commands() -> void:
 	# Admin commands
-	register_command("trigger_event", _cmd_trigger_event, "Triggers a game event by ID", true)
 	register_command("assign_task", _cmd_assign_task, "Assigns a task by ID", true)
 	register_command("complete_task", _cmd_complete_task, "Force completes a task by ID", true)
 	register_command("next_day", _cmd_next_day, "Instantly starts the next day", true)
 	register_command("no_clip", _cmd_noclip, "Exactly what it sounds like", true)
 	register_command("complete_all_daily", _cmd_complete_all_daily, "Completes all active daily tasks", true)
-	register_command("force_event", _cmd_force_event, "Force trigger an event", true)
 	register_command("unlock_log", _cmd_unlock_log, "Unlocks a specific log", true)
 	
 	# Visual Effects commands
@@ -30,19 +28,13 @@ func register_commands() -> void:
 	register_command("tasks", _cmd_tasks, "Lists current active tasks", false)
 	register_command("tension", _cmd_tension, "Show or modify global tension", false)
 	register_command("event_list", _cmd_event_list, "List all events with tension info", false)
+	register_command("trigger_event", _cmd_trigger_event, "Triggers a game event by ID", true)
+
 	register_command("reboot", _cmd_reboot, "Reboots Station systems", false)
 	register_command("diag", _cmd_diagnostics, "Runs Diagnostics on the system", false)
 	register_command("test_ending", _cmd_test_ending, "Tests the ending sequence for the game", false)
 
 
-func _cmd_trigger_event(args: Array) -> void:
-	if args.is_empty():
-		output_error("Usage: trigger_event <event_id>")
-		return
-	
-	var event_id = args[0]
-	GameManager.event_manager.force_trigger_event(event_id)
-	output_system("Triggered event: " + event_id)
 
 func _cmd_assign_task(args: Array) -> void:
 	if args.is_empty():
@@ -134,36 +126,6 @@ func _cmd_complete_all_daily(args: Array) -> void:
 		output_system("All completable daily tasks have been finished")
 	else:
 		output_warning("No tasks were completed")
-
-func _cmd_force_event(args: Array) -> void:
-	if args.is_empty():
-		output_error("Usage: force_event <event_id>")
-		return
-		
-	if not GameManager.event_manager:
-		output_error("Event manager not available")
-		return
-		
-	var event_id = args[0]
-	
-	# Check if event exists
-	var found = false
-	for event in GameManager.event_manager.available_events:
-		if event.event_id == event_id:
-			found = true
-			break
-			
-	if not found:
-		output_error("Event not found: %s" % event_id)
-		return
-		
-	GameManager.event_manager.force_trigger_event(event_id)
-	output("Force triggered event: %s" % event_id)
-	
-	# Show updated tension
-	var tension = GameManager.event_manager.global_tension
-	output("Global tension now: %.1f" % tension)
-
 func _cmd_status(args: Array) -> void:
 	output_system("=== Game Status ===")
 	
@@ -252,66 +214,114 @@ func _cmd_tension(args: Array) -> void:
 			output("Usage: tension [set|add|reset] <value>")
 
 func _cmd_event_list(args: Array) -> void:
-	## List all events with tension information
+	## Lists all registered events with their tension costs
 	if not GameManager.event_manager:
 		output_error("Event manager not available")
 		return
-		
-	var events = GameManager.event_manager.available_events
+	
+	# Get events from the event_resources array
+	var events = GameManager.event_manager.event_resources
+	
 	if events.is_empty():
-		output("No events configured")
+		output_system("No events registered")
 		return
 	
-	output_system("=== Configured Events ===")
-	output("Format: [ID] Name (Category) - T:tension D:disruption +Tension:gain Chance:base%")
+	output_system("=== Registered Events ===")
+	output("%-20s | %-30s | %8s | %6s | %8s | %4s" % ["ID", "Name", "Cost", "Day", "Cooldown", "Disr"])
+	output("-".repeat(80))
+	
+	# Sort events by ID for better readability
+	var sorted_events = events.duplicate()
+	sorted_events.sort_custom(func(a, b): return a.id < b.id)
+	
+	for event in sorted_events:
+		var event_id = event.id if event.id else "unknown"
+		var event_name = event.name if event.name else "Unnamed Event"
+		var base_cost = str(event.cost)
+		var min_day = str(event.min_day)
+		var cooldown = "%.1fs" % event.cooldown
+		var disruption = "%d%%" % event.disruption_percentage
+		
+		# Check if event is currently active
+		var active = " [ACTIVE]" if GameManager.event_manager.is_event_active(event_id) else ""
+		
+		output("%-20s | %-30s | %8s | %6s | %8s | %4s%s" % [
+			event_id.substr(0, 20), 
+			event_name.substr(0, 30), 
+			base_cost, 
+			min_day, 
+			cooldown, 
+			disruption,
+			active
+		])
+	
+	output("-".repeat(80))
+	output("Total events: %d" % events.size())
+	
+	# Show current system state
+	var debug_info = GameManager.event_manager.get_debug_info()
 	output("")
+	output("Current Points: %.1f" % debug_info.points)
+	output("Current Disruption: %d%%" % debug_info.disruption)
+	output("Active Events: %d" % debug_info.active_events.size())
+	output("Next Evaluation: %.1fs" % debug_info.next_evaluation)
 	
-	for event in events:
-		var tension_gain = event.get_tension_contribution()
-		var categories = []
-		if event.has_visual_effects:
-			categories.append("V")
-		if event.has_audio:
-			categories.append("A")
-		if event.disruption_score > 0:
-			categories.append("G")
-		var cat_str = "[%s]" % "".join(categories) if not categories.is_empty() else ""
-		
-		var line = "[%s] %s (%s) - T:%d D:%d +Tension:%.0f Chance:%.1f%% %s" % [
-			event.event_id,
-			event.event_name if not event.event_name.is_empty() else "Unnamed",
-			event.get_category_description(),
-			event.tension_score,
-			event.disruption_score,
-			tension_gain,
-			event.base_chance,
-			cat_str
-		]
-		
-		output(line)
-		
-		# Show relationships if any
-		if not event.boosts_events.is_empty():
-			var boosts = []
-			for related_id in event.boosts_events:
-				boosts.append("%s(x%.1f)" % [related_id, event.boosts_events[related_id]])
-			output("    Boosts: %s" % ", ".join(boosts))
+	# Log to debug
+	DebugLogger.debug("GameCommands", "Listed %d events" % events.size())
+
+func _cmd_trigger_event(args: Array) -> void:
+	## Forcibly triggers an event by ID, bypassing all checks
+	if args.is_empty():
+		output_error("Usage: trigger_event <event_id>")
+		return
 	
-	# Show current cooldowns by category
-	output("")
-	output_system("--- Active Cooldowns by Category ---")
-	var cooldowns = GameManager.event_manager.cooldown_categories
+	if not GameManager.event_manager:
+		output_error("Event manager not available")
+		return
 	
-	for category in ["visual", "audio", "gameplay"]:
-		if cooldowns[category].is_empty():
-			output("%s: None" % category.capitalize())
-		else:
-			var items = []
-			for key in cooldowns[category]:
-				items.append("%s(%.1fs)" % [key, cooldowns[category][key]])
-			output("%s: %s" % [category.capitalize(), ", ".join(items)])
+	var event_id = args[0]
 	
-	DebugLogger.debug(module_name, "Listed events with tension info")
+	# Log the attempt
+	DebugLogger.debug("GameCommands", "Attempting to trigger event: %s" % event_id)
+	
+	# Check if event exists in resources
+	var event_found = false
+	var event_data = null
+	
+	for event in GameManager.event_manager.event_resources:
+		if event.id == event_id:
+			event_found = true
+			event_data = event
+			break
+	
+	if not event_found:
+		output_error("Event '%s' not found" % event_id)
+		output("Use 'event_list' to see available events")
+		return
+	
+	# Check if already active
+	if GameManager.event_manager.is_event_active(event_id):
+		output_warning("Event '%s' is already active" % event_id)
+		return
+	
+	# Display event info
+	output_system("Force triggering event: %s" % event_id)
+	output("Event Name: %s" % event_data.name)
+	output("Base Cost: %d" % event_data.cost)
+	output("Disruption: %d%%" % event_data.disruption_percentage)
+	output("Min Day: %d" % event_data.min_day)
+	
+	# Use the trigger_event method which bypasses cost
+	GameManager.event_manager.trigger_event(event_id)
+	
+	# Check if it actually triggered
+	if GameManager.event_manager.is_event_active(event_id):
+		output_system("Event '%s' triggered successfully" % event_id)
+		DebugLogger.debug("GameCommands", "Successfully triggered event: %s" % event_id)
+	else:
+		output_error("Failed to trigger event '%s'" % event_id)
+		output("The event may have failed its execution check or no handler exists")
+		DebugLogger.debug("GameCommands", "Failed to trigger event: %s" % event_id)
 
 func _cmd_reboot(args: Array) -> void:
 	var effects_manager = get_tree().get_first_node_in_group("effects_manager")

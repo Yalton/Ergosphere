@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://qcjjmv7hbf3i"]
+[gd_scene load_steps=39 format=4 uid="uid://qcjjmv7hbf3i"]
 
 [ext_resource type="Texture2D" uid="uid://djk4r6m8f5wkw" path="res://Assets/Models/Station/Furniture/Outhouse/textures/BlackerMetal-Color.png" id="1_vbp3a"]
 [ext_resource type="Texture2D" uid="uid://c3aggh3carfmp" path="res://Assets/Models/Station/Furniture/Outhouse/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="2_6e3cr"]
@@ -6,11 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://2iyjuxmsmnnn" path="res://Assets/Models/Station/Furniture/Outhouse/textures/BlackPlastic-Color.png" id="4_0aee2"]
 [ext_resource type="Texture2D" uid="uid://fwh18yuwxuib" path="res://Assets/Models/Station/Furniture/Outhouse/textures/BlackPlastic-Roughness.png" id="5_vr8cu"]
 [ext_resource type="Texture2D" uid="uid://b37k2akdab5e8" path="res://Assets/Models/Station/Furniture/Outhouse/textures/BlackPlastic-Normal.png" id="6_y30ie"]
-[ext_resource type="Script" uid="uid://d2ce41r63fb5x" path="res://Scripts/Testing/test_brown_note.gd" id="7_awhw0"]
 [ext_resource type="Script" uid="uid://o01p0hrgpl5b" path="res://Scripts/Environment/GameObjects/Furniture/door.gd" id="7_vr8cu"]
-[ext_resource type="PackedScene" uid="uid://bcatrxvp6r3ff" path="res://Prefabs/UI/RhythmGame/rythm_game_ui.tscn" id="8_3w12p"]
 [ext_resource type="AudioStream" uid="uid://dsqvo1r0b7q1a" path="res://Assets/Audio/Interactions/Door/doorOpen_1.ogg" id="8_y30ie"]
-[ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="9_kputk"]
 [ext_resource type="AudioStream" uid="uid://c14ndvhruq1xr" path="res://Assets/Audio/Interactions/Door/doorClose_1.ogg" id="9_tixoa"]
 [ext_resource type="Script" uid="uid://c1cj7xjlkyg1r" path="res://Scripts/Environment/Interactions/door_interaction.gd" id="10_520q8"]
 [ext_resource type="Texture2D" uid="uid://fn5mn0xkkb8y" path="res://Assets/Models/Station/Furniture/CeilingLight/textures/BlackerMetal-Color.png" id="11_b2fch"]
@@ -329,13 +326,7 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.00683, 0)
 shape = SubResource("ConcavePolygonShape3D_vbp3a")
 
-[node name="Terlet" type="StaticBody3D" parent="." node_paths=PackedStringArray("rhythm_game_ui", "basic_interactable", "camera_position_node")]
-collision_layer = 3
-collision_mask = 3
-script = ExtResource("7_awhw0")
-rhythm_game_ui = NodePath("RythmGameUI")
-basic_interactable = NodePath("BasicInteraction")
-camera_position_node = NodePath("CameraPosition")
+[node name="Terlet" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Terlet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00680888, -0.934219, -1.96328)
@@ -349,14 +340,6 @@ skeleton = NodePath("")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Terlet"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0223737, -1.96328)
 shape = SubResource("ConcavePolygonShape3D_4qbg5")
-
-[node name="RythmGameUI" parent="Terlet" instance=ExtResource("8_3w12p")]
-
-[node name="CameraPosition" type="Marker3D" parent="Terlet"]
-transform = Transform3D(1, 8.74228e-08, 8.74228e-08, 8.74228e-08, -1, 0, 8.74228e-08, 7.64274e-15, -1, 0, -4.01754, 0)
-
-[node name="BasicInteraction" parent="Terlet" instance=ExtResource("9_kputk")]
-interaction_text = "Play"
 
 [node name="Door" type="AnimatableBody3D" parent="." node_paths=PackedStringArray("audio_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.77764, -0.237173, 3)

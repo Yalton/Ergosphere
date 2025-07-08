@@ -88,7 +88,7 @@ func _ready() -> void:
 	
 	# Connect to GameManager's day_reset signal
 	if reset_on_new_day and GameManager:
-		GameManager.day_reset.connect(_on_day_reset)
+		GameManager.day_ended.connect(_on_day_ended)
 		DebugLogger.debug(module_name, "Connected to day_reset signal")
 	
 	setup_corruption_system() 
@@ -398,7 +398,7 @@ func restore_display() -> void:
 	DebugLogger.debug(module_name, "Display restored")
 
 # Handle day reset
-func _on_day_reset() -> void:
+func _on_day_ended(day_number: int) -> void:
 	if not reset_on_new_day:
 		return
 		
@@ -424,7 +424,7 @@ func _on_day_reset() -> void:
 	object_state_updated.emit(interaction_text)
 	
 	# Call virtual method for child classes to implement specific reset behavior
-	_on_day_reset_custom()
+	_on_day_ended_custom()
 	
 	DebugLogger.debug(module_name, "UI state reset completed")
 
@@ -437,7 +437,7 @@ func _on_task_assigned(task_id: String):
 	ui_content.reset_ui()
 
 # Virtual method for child classes to override for custom reset behavior
-func _on_day_reset_custom() -> void:
+func _on_day_ended_custom() -> void:
 	pass
 
 # Add to _ready() function after existing setup

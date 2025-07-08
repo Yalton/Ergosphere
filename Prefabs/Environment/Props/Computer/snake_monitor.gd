@@ -54,9 +54,3 @@ func _on_snake_game_completed(final_length: int) -> void:
 	# End interaction after completion
 	await get_tree().create_timer(1.0).timeout
 	end_interaction()
-
-func _on_day_reset_custom() -> void:
-	# Reset snake game on day reset if needed
-	if snake_game_control:
-		snake_game_control.stop_game()
-		DebugLogger.debug(module_name, "Snake game reset for new day")

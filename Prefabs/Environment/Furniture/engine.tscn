@@ -20,7 +20,7 @@
 [ext_resource type="Script" uid="uid://cg2qig7cdrifu" path="res://Scripts/Misc/audio_occlusion.gd" id="18_ulg67"]
 [ext_resource type="PackedScene" uid="uid://qbear523loiq" path="res://Prefabs/Components/snap_component.tscn" id="19_lg4ag"]
 [ext_resource type="Texture2D" uid="uid://dgu87woln2sfa" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/BlackerMetal-Color.png" id="20_5x2v8"]
-[ext_resource type="Script" uid="uid://cub2ynnjfpsvc" path="res://Scripts/Environment/lube_engine.gd" id="20_mlc6h"]
+[ext_resource type="Script" uid="uid://cub2ynnjfpsvc" path="res://Scripts/Environment/Misc/lube_engine.gd" id="20_mlc6h"]
 [ext_resource type="Texture2D" uid="uid://cxdmrm556d7qj" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/BlackerMetal-Metalness-BlackerMetal-Roughness.png" id="21_2do3u"]
 [ext_resource type="Texture2D" uid="uid://bryxxyjbuuelt" path="res://Assets/Models/Station/Furniture/EngineRoom/textures/BlackerMetal-Normal.png" id="22_r3veo"]
 [ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="23_px0sx"]

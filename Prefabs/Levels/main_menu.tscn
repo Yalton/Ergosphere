@@ -2,9 +2,9 @@
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_86c1k"]
 [ext_resource type="Script" uid="uid://c1caxpjbvsqx7" path="res://Scripts/UI/Menus/main_menu.gd" id="2_qgifm"]
-[ext_resource type="Script" uid="uid://2hpysr5j0634" path="res://Scripts/UI/options_ui_control.gd" id="3_11euj"]
+[ext_resource type="Script" uid="uid://2hpysr5j0634" path="res://Scripts/UI/Menus/options_ui_control.gd" id="3_11euj"]
 [ext_resource type="Shader" uid="uid://sc71vvscj345" path="res://Assets/VFX/Shader/vignette.gdshader" id="4_bpjv4"]
-[ext_resource type="Script" uid="uid://cdeqsnytxwlgo" path="res://Scripts/UI/credits.gd" id="4_qgifm"]
+[ext_resource type="Script" uid="uid://cdeqsnytxwlgo" path="res://Scripts/UI/Menus/credits.gd" id="4_qgifm"]
 [ext_resource type="Script" uid="uid://b57ljlojaqaje" path="res://Scripts/Resources/credit_entry.gd" id="5_bpjv4"]
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="5_oo8h8"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="6_2hlap"]

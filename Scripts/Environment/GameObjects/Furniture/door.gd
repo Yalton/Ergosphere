@@ -60,7 +60,7 @@ func _ready() -> void:
 	
 	# Connect to GameManager's day_reset signal
 	if reset_on_new_day and GameManager:
-		GameManager.day_reset.connect(_on_day_reset)
+		GameManager.day_ended.connect(_on_day_ended)
 		DebugLogger.debug(debug_module_name, "Connected to day_reset signal")
 	
 	DebugLogger.debug(debug_module_name, "Door initialized: Type=" + 
@@ -139,7 +139,7 @@ func lock() -> void:
 	lock_state_changed.emit(true)
 	DebugLogger.debug(debug_module_name, "Door locked")
 
-func _on_day_reset() -> void:
+func _on_day_ended(day_number: int) -> void:
 	if not reset_on_new_day:
 		return
 		

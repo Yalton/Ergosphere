@@ -1,4 +1,3 @@
-# EventManager.gd
 extends Node
 class_name EventManager
 
@@ -49,12 +48,16 @@ var last_delay_type: String = "medium"
 # References
 var state_manager: StateManager
 
+# Game state tracking
+var is_initialized: bool = false
+var game_is_running: bool = false
+
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 	
-	# Connect to GameManager's day_reset signal
+	# Connect to GameManager's day_ended signal
 	if GameManager:
-		GameManager.day_reset.connect(_on_day_reset)
+		GameManager.day_ended.connect(_on_day_ended)
 
 func initialize(_state_manager: StateManager) -> void:
 	state_manager = _state_manager
@@ -65,7 +68,30 @@ func initialize(_state_manager: StateManager) -> void:
 	# Schedule first evaluation
 	_schedule_next_evaluation()
 	
+	is_initialized = true
+	
 	DebugLogger.info(module_name, "EventManager initialized with " + str(event_resources.size()) + " events")
+
+func reset() -> void:
+	"""Reset the event system - called when returning to menu"""
+	_reset_event_system()
+	is_initialized = false
+	game_is_running = false
+	DebugLogger.info(module_name, "EventManager reset")
+
+func start() -> void:
+	"""Start the event system - called when game actually starts"""
+	if not is_initialized:
+		DebugLogger.error(module_name, "Cannot start - not initialized")
+		return
+	
+	game_is_running = true
+	DebugLogger.info(module_name, "Event system started")
+
+func stop() -> void:
+	"""Stop the event system - called when returning to menu"""
+	game_is_running = false
+	DebugLogger.info(module_name, "Event system stopped")
 
 func _reset_event_system() -> void:
 	# End all active events
@@ -86,7 +112,11 @@ func _reset_event_system() -> void:
 	DebugLogger.debug(module_name, "Event system reset")
 
 func _process(delta: float) -> void:
-	if not GameManager or not GameManager.is_initialized:
+	# Don't process if not initialized or game not running
+	if not is_initialized or not game_is_running:
+		return
+		
+	if not GameManager or not GameManager.is_game_running():
 		return
 	
 	# Accumulate points based on day and sanity
@@ -115,6 +145,10 @@ func _process(delta: float) -> void:
 		_evaluate_and_trigger_event()
 
 func _evaluate_and_trigger_event() -> void:
+	# Don't evaluate if game not running
+	if not game_is_running:
+		return
+		
 	DebugLogger.debug(module_name, "Evaluating events. Points: " + str(current_points) + ", Disruption: " + str(current_disruption) + "%")
 	
 	# Build list of valid events
@@ -177,7 +211,6 @@ func _can_trigger_event(event: EventData) -> bool:
 	
 	return true
 
-
 func start_new_day(day_number: int) -> void:
 	"""Handle day transition - for compatibility with existing systems"""
 	DebugLogger.info(module_name, "Starting new day: %d" % day_number)
@@ -199,6 +232,15 @@ func start_new_day(day_number: int) -> void:
 	time_since_last_evaluation = 0.0
 	
 	DebugLogger.info(module_name, "Day %d started - Starting points: %.1f, Grace period: 30s" % [day_number, current_points])
+
+func start_day(day_number: int) -> void:
+	"""Alias for start_new_day to match GameManager's expectations"""
+	start_new_day(day_number)
+
+func end_day() -> void:
+	"""Handle end of day"""
+	var current_day = GameManager.get_current_day()
+	DebugLogger.info(module_name, "Day %d ended - disruption: %d%%" % [current_day, current_disruption])
 	
 func _try_trigger_event(event: EventData) -> bool:
 	# Find handler that handles this event ID
@@ -313,8 +355,8 @@ func _schedule_next_evaluation() -> void:
 	
 	DebugLogger.debug(module_name, "Next evaluation in " + str(delay_time) + " seconds (" + delay_type + " delay)")
 
-func _on_day_reset() -> void:
-	DebugLogger.info(module_name, "Day reset - ending all events")
+func _on_day_ended(day_number: int) -> void:
+	DebugLogger.info(module_name, "Day %d ended - ending all events" % day_number)
 	
 	# End all active events
 	var events_to_end = active_events.keys().duplicate()
@@ -391,5 +433,7 @@ func get_debug_info() -> Dictionary:
 		"active_events": active_events.keys(),
 		"cooldowns": event_cooldowns,
 		"occurrences": event_occurrences,
-		"next_evaluation": next_evaluation_time - time_since_last_evaluation
+		"next_evaluation": next_evaluation_time - time_since_last_evaluation,
+		"game_running": game_is_running,
+		"initialized": is_initialized
 	}

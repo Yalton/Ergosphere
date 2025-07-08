@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=4 uid="uid://dqh4q3kcgwhm2"]
 
 [ext_resource type="Script" uid="uid://baj6kj3plms20" path="res://Scripts/VFX/ambient_vfx_timer.gd" id="1_fq0lu"]
-[ext_resource type="Shader" uid="uid://ck4hpjkjfvdmr" path="res://PolyBlocks/EffectBlocks/source_files/shaders/lightning.gdshader" id="2_g6mmx"]
+[ext_resource type="Shader" uid="uid://ck4hpjkjfvdmr" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/lightning.gdshader" id="2_g6mmx"]
 [ext_resource type="AudioStream" uid="uid://ch3xw6x1l1egh" path="res://Assets/Audio/Ambience/Sparks/sparks_5.ogg" id="3_jswqn"]
 
 [sub_resource type="Curve" id="Curve_jswqn"]

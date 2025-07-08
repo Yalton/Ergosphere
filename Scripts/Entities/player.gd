@@ -2,7 +2,7 @@
 class_name Player
 extends CharacterBody3D
 
-@export var ui_controller: FPCUIController
+@export var ui_controller: PlayerUI
 @export var interaction_component: PlayerInteractionComponent
 
 # Movement parameters

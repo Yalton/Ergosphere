@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dor25tmfaox5c" path="res://Scripts/Environment/black_hole.gd" id="1_ow3i5"]
 [ext_resource type="Texture2D" uid="uid://bk07syw0t1pau" path="res://Assets/Graphics/Textures/VFX_Textures/smoke_01.png" id="2_ad1qd"]
 [ext_resource type="Texture2D" uid="uid://c2tspgv3ucq6d" path="res://Assets/Graphics/Textures/VFX_Textures/PointLightTransparent.png" id="3_r7j7j"]
-[ext_resource type="Shader" uid="uid://ck4hpjkjfvdmr" path="res://PolyBlocks/EffectBlocks/source_files/shaders/lightning.gdshader" id="4_r7j7j"]
+[ext_resource type="Shader" uid="uid://ck4hpjkjfvdmr" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/lightning.gdshader" id="4_r7j7j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f65nv"]
 render_priority = 0

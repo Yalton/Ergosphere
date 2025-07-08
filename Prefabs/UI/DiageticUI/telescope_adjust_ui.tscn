@@ -1,12 +1,16 @@
-[gd_scene load_steps=16 format=3 uid="uid://b1outtodahk2b"]
+[gd_scene load_steps=20 format=3 uid="uid://b1outtodahk2b"]
 
 [ext_resource type="Script" uid="uid://crp4wy3nlljp5" path="res://Scripts/UI/DiageticUI/telescope_controller.gd" id="1_k1e65"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_ykrfc"]
 [ext_resource type="Texture2D" uid="uid://bxfy7beddfb00" path="res://Assets/Graphics/telescope_Crosshair.svg" id="2_gdp5c"]
+[ext_resource type="AudioStream" uid="uid://l3or6wqe8ort" path="res://Assets/Audio/UI/diagetic_ui/positive.ogg" id="2_l8hep"]
+[ext_resource type="AudioStream" uid="uid://kfsybrkutugo" path="res://Assets/Audio/UI/diagetic_ui/negative.ogg" id="3_7e7hs"]
 [ext_resource type="Script" uid="uid://c16dy1v737jhe" path="res://Scripts/Misc/play_on_load.gd" id="3_hejy6"]
 [ext_resource type="Script" uid="uid://dt8fbwwdkbhww" path="res://Subsystems/PostProcessing/ascii_effect_shader.gd" id="3_ykrfc"]
-[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="4_4ud1o"]
-[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/screen_distortion.tscn" id="5_xt8t8"]
+[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/components/screensaver.tscn" id="4_4ud1o"]
+[ext_resource type="AudioStream" uid="uid://b8q1aervgqdap" path="res://Assets/Audio/UI/diagetic_ui/neutral.ogg" id="4_yyvv5"]
+[ext_resource type="AudioStream" uid="uid://cgtf2e44ihp1y" path="res://Assets/Audio/UI/diagetic_ui/victory.ogg" id="5_amlu1"]
+[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/components/screen_distortion.tscn" id="5_xt8t8"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ykrfc"]
 viewport_path = NodePath("SubViewport")
@@ -81,6 +85,10 @@ progress_bar = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VBo
 main_ui = NodePath("MainUI")
 splash_screen = NodePath("ScreenSaver")
 corruption_screen = NodePath("ScreenDistortion")
+positive_sound = ExtResource("2_l8hep")
+negative_sound = ExtResource("3_7e7hs")
+neutral_sound = ExtResource("4_yyvv5")
+victory_sound = ExtResource("5_amlu1")
 
 [node name="MainUI" type="Control" parent="."]
 layout_mode = 1

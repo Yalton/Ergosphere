@@ -31,7 +31,7 @@ func _on_purchase_failed(item_id: String) -> void:
 	DebugLogger.debug(module_name, "Purchase failed: " + item_id)
 	# The UI control already handles the visual feedback
 
-func _on_day_reset_custom() -> void:
+func _on_day_ended(day_number: int) -> void:
 	# Refresh shop on day reset
 	if shop_ui_control and shop_ui_control.has_method("refresh_shop"):
 		shop_ui_control.refresh_shop()

@@ -1,15 +1,16 @@
-# GameManager.gd
 extends Node
 
-signal day_reset
 signal game_started
-signal global_tension_changed(tension: float)
+signal game_ended
+signal day_started(day_number: int)
+signal day_ended(day_number: int)
 
-## Enable debug logging for the GameManager
-@export var enable_debug: bool = true
-var module_name: String = "GameManager"
+## Current day number in the game
+@export var current_day: int = 0
 
-# Manager references
+## Maximum number of days before game ends
+@export var max_days: int = 7
+
 var event_manager: EventManager
 var state_manager: StateManager
 var task_manager: TaskManager
@@ -17,176 +18,205 @@ var storage_manager: StorageManager
 var audio_fx_manager: AudioFXManager
 var ending_sequence_manager: EndingSequenceManager
 
-## Current day counter
-var current_day: int = 0
-
-## Automatically start the first day
-@export var auto_start_day: bool = true
-## Audio stream to play for alarms
-@export var alarm_audio: AudioStream
-
-var is_initialized: bool = false
-
-## Length of the session password
-@export var session_password_length: int = 6
-
-## Characters to use for password generation
-const PASSWORD_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-
-## Current session password
 var session_password: String = ""
+var game_is_running: bool = false
+var systems_initialized: bool = false
 
-func _ready() -> void:
-	DebugLogger.register_module(module_name, enable_debug)
+func _ready():
+	DebugLogger.register_module("GameManager")
 	
-	# Find managers using CommonUtils
+			# Find managers using CommonUtils
 	event_manager = CommonUtils.safe_get_node(self, "EventManager") as EventManager
 	state_manager = CommonUtils.safe_get_node(self, "StateManager") as StateManager
 	task_manager = CommonUtils.safe_get_node(self, "TaskManager") as TaskManager
 	storage_manager = CommonUtils.safe_get_node(self, "StorageManager") as StorageManager
 	audio_fx_manager = CommonUtils.safe_get_node(self, "AudioFXManager") as AudioFXManager
-	ending_sequence_manager = CommonUtils.safe_get_node(self, "EndingSequenceManager") as EndingSequenceManager
 
-	# Validate managers
-	if not event_manager:
-		DebugLogger.error(module_name, "EventManager not found!")
-		return
+	# Initialize references but DON'T start the game
+	_setup_references()
+	
+	DebugLogger.info("GameManager", "GameManager ready, waiting for game start")
+
+func _setup_references():
+	# Get references to managers if not already set
 	if not state_manager:
-		DebugLogger.error(module_name, "State Manager not found!")
-	
-	# Connect task manager signals using CommonUtils
-	CommonUtils.connect_signal_safe(task_manager, "daily_tasks_completed", self, "_on_daily_tasks_completed")
-	CommonUtils.connect_signal_safe(task_manager, "emergency_task_failed", self, "_on_emergency_task_failed")
-	CommonUtils.connect_signal_safe(task_manager, "task_completed", self, "_on_task_completed")
-	#event_manager.tension_changed.connect(_on_tension_changed)
-	
-	# Connect ending sequence manager signals if available
-	if ending_sequence_manager:
-		CommonUtils.connect_signal_safe(ending_sequence_manager, "game_ended", self, "_on_game_ended")
-		DebugLogger.info(module_name, "EndingSequenceManager connected")
-	else:
-		DebugLogger.warning(module_name, "EndingSequenceManager not found - ending sequences disabled")
-	
-	DebugLogger.info(module_name, "GameManager ready, waiting for game start")
-	
-	if auto_start_day:
-		var timer = Timer.new()
-		timer.wait_time = 0.1
-		timer.one_shot = true
-		timer.timeout.connect(func(): 
-			if not is_initialized:
-				DebugLogger.info(module_name, "Auto-starting game")
-				start_game()
-		)
-		add_child(timer)
-		timer.start()
+		state_manager = get_node_or_null("/root/StateManager")
+	if not event_manager:
+		event_manager = get_node_or_null("/root/EventManager")
+	if not task_manager:
+		task_manager = get_node_or_null("/root/TaskManager")
 
-# Add getter for current tension
-func get_global_tension() -> float:
-	if event_manager:
-		return event_manager.global_tension
-	return 0.0
+func initialize_systems():
+	"""Initialize all game systems but don't start the game"""
+	if systems_initialized:
+		return
+		
+	DebugLogger.info("GameManager", "Initializing all systems")
 	
-func start_game() -> void:
-	DebugLogger.info(module_name, "Starting game - initializing all systems")
-	
-	# Initialize all systems
-	state_manager.initialize()
-	event_manager.initialize(state_manager)
-	task_manager.initialize(state_manager)
-	# StorageManager doesn't need initialization
+	# Initialize managers
+	if state_manager and state_manager.has_method("initialize"):
+		state_manager.initialize()
+		
+	if event_manager and event_manager.has_method("initialize"):
+		event_manager.initialize(state_manager)
+		
+	if task_manager and task_manager.has_method("initialize"):
+		task_manager.initialize(state_manager)
 	
 	# Generate session password
-	_generate_session_password()
-	is_initialized = true
+	session_password = _generate_password()
+	DebugLogger.info("GameManager", "Session password generated: " + session_password)
 	
-	DebugLogger.info(module_name, "All systems initialized")
-	
-	if auto_start_day:
-		var timer = Timer.new()
-		timer.wait_time = 1.0
-		timer.one_shot = true
-		timer.timeout.connect(start_new_day)
-		add_child(timer)
-		timer.start()
-	
-	game_started.emit()
+	systems_initialized = true
+	DebugLogger.info("GameManager", "All systems initialized")
 
-func start_new_day() -> void:
-	if not is_initialized:
-		DebugLogger.warning(module_name, "Cannot start day - game not initialized")
+func start_game():
+	"""Called when player starts the game from menu"""
+	if game_is_running:
+		DebugLogger.warn("GameManager", "Game already running, ignoring start_game call")
+		return
+		
+	DebugLogger.info("GameManager", "Starting game - initializing all systems")
+	
+	# Reset everything first
+	reset_game()
+	
+	# Initialize systems
+	initialize_systems()
+	
+	# Mark game as running
+	game_is_running = true
+	
+	# DON'T start day 1 here - wait for intro to finish
+	emit_signal("game_started")
+
+func start_first_day():
+	"""Called after intro cutscene finishes"""
+	if not game_is_running:
+		DebugLogger.error("GameManager", "Cannot start first day - game not running")
+		return
+		
+	if current_day != 0:
+		DebugLogger.warn("GameManager", "First day already started")
 		return
 	
-	current_day += 1
-	DebugLogger.info(module_name, "Starting day %d" % current_day)
-	
-	# Notify event manager of new day (handles grace period and event cleanup)
-	event_manager.start_new_day(current_day)
-	
-	# Start new day in task manager
-	task_manager.start_new_day()
-	
-	DebugLogger.info(module_name, "Day %d started successfully" % current_day)
+	# Start the event system now that game is actually beginning
+	if event_manager and event_manager.has_method("start"):
+		event_manager.start()
+		
+	start_day(1)
 
-func end_current_day() -> void:
-	## Called when day should end (all tasks complete, time limit, etc.)
-	DebugLogger.info(module_name, "Ending day %d" % current_day)
+func start_day(day_number: int):
+	"""Start a specific day"""
+	if not game_is_running:
+		DebugLogger.error("GameManager", "Cannot start day - game not running")
+		return
+		
+	current_day = day_number
+	DebugLogger.info("GameManager", "Starting day " + str(current_day))
 	
-	# Could add end-of-day summary, scoring, etc. here
+	# Start the day in other managers
+	if event_manager and event_manager.has_method("start_day"):
+		event_manager.start_day(current_day)
+		
+	if task_manager and task_manager.has_method("start_day"):
+		task_manager.start_day(current_day)
 	
-	# Reset for next day
-	day_reset.emit()
-	
-	# Start next day after a delay
-	var timer = Timer.new()
-	timer.wait_time = 3.0
-	timer.one_shot = true
-	timer.timeout.connect(start_new_day)
-	add_child(timer)
-	timer.start()
+	emit_signal("day_started", current_day)
+	DebugLogger.info("GameManager", "Day " + str(current_day) + " started successfully")
 
-func _on_daily_tasks_completed() -> void:
-	DebugLogger.info(module_name, "All daily tasks completed!")
-	CommonUtils.set_game_state(CommonUtils.STATE_ALL_DAILY_TASKS_COMPLETE, true)
+func end_day():
+	"""End the current day"""
+	if not game_is_running:
+		return
+		
+	DebugLogger.info("GameManager", "Ending day " + str(current_day))
 	
-	# EndingSequenceManager handles checking for final day
+	# End day in other managers
+	if event_manager and event_manager.has_method("end_day"):
+		event_manager.end_day()
+		
+	if task_manager and task_manager.has_method("end_day"):
+		task_manager.end_day()
+	
+	emit_signal("day_ended", current_day)
+	
+	# Check if we should continue or end game
+	if current_day >= max_days:
+		end_game()
+	else:
+		# Next day will be started by transition system
+		pass
 
-func _on_emergency_task_failed(task_id: String) -> void:
-	DebugLogger.warning(module_name, "Emergency task failed: " + task_id)
+func end_game():
+	"""End the game and return to menu"""
+	if not game_is_running:
+		return
+		
+	DebugLogger.info("GameManager", "Ending game")
 	
-	# Play alarm if configured
-	if alarm_audio and Audio:
-		Audio.play_sound(alarm_audio, false, 1.0, 0.8)
+	game_is_running = false
+	emit_signal("game_ended")
 	
-	# EndingSequenceManager handles escape task failure
+	# Stop all systems
+	stop_systems()
+	
+	# Transition to ending or menu
+	if ending_sequence_manager:
+		ending_sequence_manager.start_ending_sequence()
+	else:
+		# Return to main menu
+		get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
 
-func _on_task_completed(task: BaseTask) -> void:
-	DebugLogger.debug(module_name, "Task completed: " + task.task_name)
+func reset_game():
+	"""Reset all game state"""
+	DebugLogger.info("GameManager", "Resetting game state")
 	
-	# Update event manager with task completion
-	if event_manager:
-		event_manager.on_task_completed()
+	current_day = 0
+	game_is_running = false
+	systems_initialized = false
+	session_password = ""
+	
+	# Reset all managers
+	if state_manager and state_manager.has_method("reset"):
+		state_manager.reset()
+		
+	if event_manager and event_manager.has_method("reset"):
+		event_manager.reset()
+		
+	if task_manager and task_manager.has_method("reset"):
+		task_manager.reset()
 
-func _on_game_ended() -> void:
-	DebugLogger.info(module_name, "Game ending triggered by EndingSequenceManager")
-	# Could do any final cleanup here before scene transition
+func stop_systems():
+	"""Stop all running systems"""
+	DebugLogger.info("GameManager", "Stopping all systems")
+	
+	# Stop event processing
+	if event_manager and event_manager.has_method("stop"):
+		event_manager.stop()
+		
+	# Stop any other systems that need stopping
+	if task_manager and task_manager.has_method("stop"):
+		task_manager.stop()
+		
+	systems_initialized = false
+
+func _generate_password() -> String:
+	"""Generate a random 6-character password"""
+	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	var password = ""
+	for i in range(6):
+		password += chars[randi() % chars.length()]
+	return password
+
+func is_game_running() -> bool:
+	"""Check if game is currently running"""
+	return game_is_running
 
 func get_current_day() -> int:
+	"""Get the current day number"""
 	return current_day
-#
-#func _on_tension_changed(new_tension: float) -> void:
-	### Forward tension changes to other systems
-	#global_tension_changed.emit(new_tension)
-	#DebugLogger.debug("GameManager", "Global tension: %.1f" % new_tension)
-
-func is_game_initialized() -> bool:
-	return is_initialized
-
-func _generate_session_password() -> void:
-	session_password = ""
-	for i in session_password_length:
-		session_password += PASSWORD_CHARS[randi() % PASSWORD_CHARS.length()]
-	DebugLogger.info(module_name, "Session password generated: " + session_password)
 
 func get_session_password() -> String:
+	"""Get the current session password"""
 	return session_password

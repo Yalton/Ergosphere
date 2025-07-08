@@ -61,7 +61,7 @@ func execute() -> bool:
 		play_audio(failure_sound)
 	
 	# Create emergency task
-	trigger_emergency_task("replace_oxygen_filter")
+	trigger_emergency_task("oxygen_filter_failure")
 	
 	# Send player notification
 	CommonUtils.send_player_hint("", "WARNING: Oxygen System Failure")

@@ -1,24 +1,9 @@
-[gd_resource type="Resource" script_class="DayConfigResource" load_steps=5 format=3 uid="uid://ca07e1anexpm1"]
+[gd_resource type="Resource" script_class="DayConfigResource" load_steps=2 format=3 uid="uid://ca07e1anexpm1"]
 
-[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_crjfe"]
 [ext_resource type="Script" uid="uid://8rd0ckvff0d0" path="res://Scripts/Resources/day_config.gd" id="2_ngm28"]
-[ext_resource type="Resource" uid="uid://bsjgiseh0aa2w" path="res://Assets/Resources/Tasks/eat_food.tres" id="2_pn34q"]
-[ext_resource type="Resource" uid="uid://c2w33g6w5p4q5" path="res://Assets/Resources/Tasks/snake_game.tres" id="3_pn34q"]
 
 [resource]
 script = ExtResource("2_ngm28")
 day_number = 5
-day_name = ""
-available_tasks = Array[ExtResource("1_crjfe")]([ExtResource("2_pn34q"), ExtResource("3_pn34q")])
-mandatory_tasks = Array[String](["eat_food", "snake_game"])
-excluded_tasks = Array[String]([])
-task_count_override = -1
-available_event_ids = Array[String]([])
-guaranteed_events = Array[String]([])
-excluded_events = Array[String]([])
-starting_states = {}
-intro_message = ""
-completion_message = ""
-sets_flags = Array[String]([])
-requires_flags = Array[String]([])
+task_ids = Array[String](["eat_food", "snake_game"])
 metadata/_custom_type_script = "uid://8rd0ckvff0d0"

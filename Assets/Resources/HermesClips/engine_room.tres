@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=6 format=3 uid="uid://5estkpurb6ga"]
 
-[ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/HermesClip.gd" id="2_56284"]
-[ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/HermesSubtitleLine.gd" id="3_0ifpy"]
+[ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="2_56284"]
+[ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/Hermes/HermesSubtitleLine.gd" id="3_0ifpy"]
 
 [sub_resource type="Resource" id="Resource_cwhpi"]
 script = ExtResource("3_0ifpy")

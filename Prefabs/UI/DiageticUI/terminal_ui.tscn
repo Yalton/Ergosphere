@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://8qgxvpq582wy"]
+[gd_scene load_steps=9 format=3 uid="uid://8qgxvpq582wy"]
 
 [ext_resource type="Script" uid="uid://hmf6gumdxj7n" path="res://Scripts/UI/DiageticUI/terminal_ui.gd" id="1_gjlas"]
+[ext_resource type="AudioStream" uid="uid://l3or6wqe8ort" path="res://Assets/Audio/UI/diagetic_ui/positive.ogg" id="2_amgql"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="2_n2ccl"]
-[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_f6355"]
-[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/screen_distortion.tscn" id="4_l02rg"]
+[ext_resource type="AudioStream" uid="uid://kfsybrkutugo" path="res://Assets/Audio/UI/diagetic_ui/negative.ogg" id="3_2q1aj"]
+[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/components/screensaver.tscn" id="3_f6355"]
+[ext_resource type="AudioStream" uid="uid://b8q1aervgqdap" path="res://Assets/Audio/UI/diagetic_ui/neutral.ogg" id="4_2512f"]
+[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/components/screen_distortion.tscn" id="4_l02rg"]
+[ext_resource type="AudioStream" uid="uid://cgtf2e44ihp1y" path="res://Assets/Audio/UI/diagetic_ui/victory.ogg" id="5_adsr0"]
 
 [node name="TerminalUI" type="Control" node_paths=PackedStringArray("input_field", "output_area", "terminal_label", "main_ui", "splash_screen", "corruption_screen")]
 layout_mode = 3
@@ -19,6 +23,10 @@ terminal_label = NodePath("DevTerminal2/VBoxContainer/PanelContainer/MarginConta
 main_ui = NodePath("DevTerminal2")
 splash_screen = NodePath("ScreenSaver")
 corruption_screen = NodePath("ScreenDistortion")
+positive_sound = ExtResource("2_amgql")
+negative_sound = ExtResource("3_2q1aj")
+neutral_sound = ExtResource("4_2512f")
+victory_sound = ExtResource("5_adsr0")
 
 [node name="DevTerminal2" type="HBoxContainer" parent="."]
 layout_mode = 1

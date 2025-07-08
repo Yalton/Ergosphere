@@ -1,9 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://dlovd5rc5hg5a"]
+[gd_scene load_steps=11 format=3 uid="uid://dlovd5rc5hg5a"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_bcmvx"]
 [ext_resource type="Script" uid="uid://ddabv272mcxu7" path="res://Scripts/UI/Storage/storage_interface_ui.gd" id="2_vhmgj"]
-[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/screensaver.tscn" id="3_e2ird"]
-[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/screen_distortion.tscn" id="4_nvktm"]
+[ext_resource type="AudioStream" uid="uid://l3or6wqe8ort" path="res://Assets/Audio/UI/diagetic_ui/positive.ogg" id="3_8lm6o"]
+[ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/components/screensaver.tscn" id="3_e2ird"]
+[ext_resource type="AudioStream" uid="uid://kfsybrkutugo" path="res://Assets/Audio/UI/diagetic_ui/negative.ogg" id="4_dunhj"]
+[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/components/screen_distortion.tscn" id="4_nvktm"]
+[ext_resource type="AudioStream" uid="uid://b8q1aervgqdap" path="res://Assets/Audio/UI/diagetic_ui/neutral.ogg" id="5_p0lkx"]
+[ext_resource type="AudioStream" uid="uid://cgtf2e44ihp1y" path="res://Assets/Audio/UI/diagetic_ui/victory.ogg" id="6_j7h8n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vhmgj"]
 bg_color = Color(0, 0, 0, 1)
@@ -32,6 +36,10 @@ requisition_label = NodePath("MainUI/MarginContainer/PanelContainer/VBoxContaine
 main_ui = NodePath("MainUI")
 splash_screen = NodePath("ScreenSaver")
 corruption_screen = NodePath("ScreenDistortion")
+positive_sound = ExtResource("3_8lm6o")
+negative_sound = ExtResource("4_dunhj")
+neutral_sound = ExtResource("5_p0lkx")
+victory_sound = ExtResource("6_j7h8n")
 
 [node name="MainUI" type="Control" parent="."]
 layout_mode = 1

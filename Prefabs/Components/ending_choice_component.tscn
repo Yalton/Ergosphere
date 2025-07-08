@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dscbs501ay87r"]
 
-[ext_resource type="Script" uid="uid://b5l685wjp1tjh" path="res://Scripts/Components/ending_choice.gd" id="1_arjwd"]
+[ext_resource type="Script" uid="uid://b5l685wjp1tjh" path="res://Scripts/Components/GameOBjects/ending_choice.gd" id="1_arjwd"]
 
 [node name="EndingChoiceComponent" type="Node"]
 script = ExtResource("1_arjwd")

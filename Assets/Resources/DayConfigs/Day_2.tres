@@ -1,27 +1,9 @@
-[gd_resource type="Resource" script_class="DayConfigResource" load_steps=8 format=3 uid="uid://ddtsoesvtry7h"]
+[gd_resource type="Resource" script_class="DayConfigResource" load_steps=2 format=3 uid="uid://ddtsoesvtry7h"]
 
-[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_coxsx"]
-[ext_resource type="Resource" uid="uid://bsjgiseh0aa2w" path="res://Assets/Resources/Tasks/eat_food.tres" id="2_166ca"]
 [ext_resource type="Script" uid="uid://8rd0ckvff0d0" path="res://Scripts/Resources/day_config.gd" id="2_i5da2"]
-[ext_resource type="Resource" uid="uid://wx35acaqwm1s" path="res://Assets/Resources/Tasks/defragment_memory.tres" id="3_xf033"]
-[ext_resource type="Resource" uid="uid://d28rjlfmdxjy7" path="res://Assets/Resources/Tasks/reacalibrate_systems.tres" id="4_ufkuu"]
-[ext_resource type="Resource" uid="uid://cj3dl7kd4ssha" path="res://Assets/Resources/Tasks/reboot_systems.tres" id="5_vr027"]
-[ext_resource type="Resource" uid="uid://lsrxnah36q15" path="res://Assets/Resources/Tasks/order_heatsink.tres" id="6_tdd4n"]
 
 [resource]
 script = ExtResource("2_i5da2")
 day_number = 2
-day_name = ""
-available_tasks = Array[ExtResource("1_coxsx")]([ExtResource("2_166ca"), ExtResource("3_xf033"), ExtResource("4_ufkuu"), ExtResource("5_vr027"), ExtResource("6_tdd4n")])
-mandatory_tasks = Array[String](["eat_food", "defragment_memory", "recalibrate_systems", "reboot_systems", "order_heatsink"])
-excluded_tasks = Array[String]([])
-task_count_override = -1
-available_event_ids = Array[String]([])
-guaranteed_events = Array[String]([])
-excluded_events = Array[String]([])
-starting_states = {}
-intro_message = ""
-completion_message = ""
-sets_flags = Array[String]([])
-requires_flags = Array[String]([])
+task_ids = Array[String](["eat_food", "defragment_memory", "recalibrate_systems", "order_heatsink", "reboot_systems"])
 metadata/_custom_type_script = "uid://8rd0ckvff0d0"

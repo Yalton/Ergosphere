@@ -202,6 +202,8 @@ func _finish_cutscene() -> void:
 	
 	DebugLogger.info(module_name, "Cutscene finished, transitioning to game")
 	
+	GameManager.start_first_day()
+	
 	# Use TransitionManager if available
 	if TransitionManager:
 		# Hide dialogue with animation if available
