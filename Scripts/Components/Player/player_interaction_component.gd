@@ -8,7 +8,7 @@ signal rotate_carried_object(rotation: Vector3)
 @export var throw_power: float = 10.0  # Power for throwing carried objects
 @export var carryable_position: Node3D  # Reference to the position where carried objects should be placed
 @export var enable_debug: bool = true  # Enable debug by default
-
+@export var sleep_stats_screen: SleepStatsScreen
 var module_name: String = "PlayerInteraction"
 
 @onready var ray_cast = $"../Head/Camera3D/RayCast3D"  # Path to your raycast

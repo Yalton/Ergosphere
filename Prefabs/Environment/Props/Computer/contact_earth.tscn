@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=4 uid="uid://6nnliah25gvx"]
+[gd_scene load_steps=28 format=4 uid="uid://6nnliah25gvx"]
 
 [ext_resource type="Script" uid="uid://nfcpte5j0e2x" path="res://Scripts/UI/DiageticUI/contact_earth.gd" id="1_vnulx"]
+[ext_resource type="AudioStream" uid="uid://18pkb8xbgll8" path="res://Assets/Audio/text_click.wav" id="2_hxnul"]
 [ext_resource type="Texture2D" uid="uid://be7a8jj6erek0" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Color.png" id="3_hxnul"]
 [ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="3_njcr1"]
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="4_kiyvs"]
@@ -151,10 +152,18 @@ blend_shape_mode = 0
 [sub_resource type="BoxShape3D" id="BoxShape3D_sta57"]
 size = Vector3(4.142, 3.943, 4.589)
 
-[node name="terminal_monitor" type="StaticBody3D"]
+[node name="terminal_monitor" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content", "area_3d", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_vnulx")
+typing_sound = ExtResource("2_hxnul")
+sub_viewport = NodePath("SubViewport")
+display = NodePath("Skeleton3D/BoneAttachment3D/Display")
+ui_content = NodePath("SubViewport/CommsUpload")
+area_3d = NodePath("Skeleton3D/BoneAttachment3D/Area3D")
+task_aware_component = NodePath("TaskAwareComponent")
+state_aware_component = NodePath("StateAwareComponent")
+display_name = "contact_earth_monitor"
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("3_njcr1")]
 associated_task_id = "contact_earth"
@@ -178,7 +187,7 @@ bones/1/position = Vector3(0, 0.0375668, 0)
 bones/1/rotation = Quaternion(0.707107, -4.66727e-08, -5.33851e-08, 0.707107)
 bones/1/scale = Vector3(1, 1, 1)
 
-[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" node_paths=PackedStringArray("marker")]
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" node_paths=PackedStringArray("marker", "parent_diegetic_ui")]
 active = false
 target_node = NodePath("../../Marker3D")
 bone_name = "Monitor"
@@ -193,6 +202,7 @@ secondary_limit_angle = 1.0472
 secondary_damp_threshold = 1.0
 script = ExtResource("9_xkl2t")
 marker = NodePath("../../Marker3D")
+parent_diegetic_ui = NodePath("../..")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Skeleton3D"]
 transform = Transform3D(1, 9.23706e-14, -3.89415e-07, -3.89415e-07, -3.07301e-14, -1, -9.23706e-14, 1, -3.20733e-14, 9.31326e-09, 0.0375668, 1.15443e-15)
@@ -251,4 +261,4 @@ omni_range = 3.0
 occluder = ExtResource("13_tjbhr")
 
 [node name="Marker3D" type="Marker3D" parent="."]
-transform = Transform3D(-0.292261, 0.942484, -0.162196, 0.628344, 0.317098, 0.710375, 0.720949, 0.1057, -0.684879, -0.586345, 2.81269, 7.4648)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 7.5)

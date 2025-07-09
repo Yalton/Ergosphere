@@ -181,11 +181,12 @@ shape = SubResource("BoxShape3D_sta57")
 [node name="BasicInteraction" parent="." instance=ExtResource("7_ya2h6")]
 script = null
 
-[node name="SubViewport" type="SubViewport" parent="."]
+[node name="SubViewport" type="SubViewport" parent="." node_paths=PackedStringArray("display_mesh")]
 size = Vector2i(640, 472)
 size_2d_override = Vector2i(1920, 1080)
 size_2d_override_stretch = true
 script = ExtResource("8_p7oi5")
+display_mesh = NodePath("../Display")
 
 [node name="memory_purge_game" parent="SubViewport" instance=ExtResource("9_jpk0g")]
 

@@ -263,6 +263,51 @@ func can_be_completed(task_id: String) -> bool:
 	
 	return true
 
+func assign_task(task: BaseTask) -> void:
+	"""Forcibly assign a task to today's task list"""
+	if not task:
+		DebugLogger.error(module_name, "Cannot assign null task")
+		return
+	
+	# Check if task is already assigned today
+	for existing_task in todays_tasks:
+		if existing_task.task_id == task.task_id:
+			DebugLogger.warning(module_name, "Task already assigned: %s" % task.task_id)
+			return
+	
+	# Check if task is an active emergency
+	for emergency in active_emergency_tasks:
+		if emergency.task_id == task.task_id:
+			DebugLogger.warning(module_name, "Task is already active as emergency: %s" % task.task_id)
+			return
+	
+	# Handle emergency tasks differently
+	if task.is_emergency:
+		trigger_emergency_task(task.task_id)
+		return
+	
+	# Reset the task
+	task.reset()
+	
+	# Add to today's tasks
+	todays_tasks.append(task)
+	
+	# Secret tasks start hidden
+	if task.is_secret:
+		task.is_revealed = false
+		DebugLogger.info(module_name, "Forcibly assigned secret task (hidden): %s" % task.task_name)
+	else:
+		task.is_revealed = true
+		task_assigned.emit(task.task_id)
+		DebugLogger.info(module_name, "Forcibly assigned task: %s" % task.task_name)
+	
+	# Update task availability
+	_update_task_availability()
+	
+	# Check if we need to remove sleep task
+	if task.task_id != sleep_task_id:
+		_check_daily_completion()
+
 func complete_task(task_id: String) -> void:
 	# Find the task
 	var task = get_task(task_id)

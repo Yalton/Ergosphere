@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bgnqxsxljglaq"]
+[gd_scene load_steps=35 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="PackedScene" uid="uid://3ioq6sw0jikq" path="res://Prefabs/Components/player_effects_component.tscn" id="2_5ls6m"]
@@ -24,6 +24,7 @@
 [ext_resource type="Script" uid="uid://btbwro37m8imx" path="res://Scripts/UI/Menus/task_tree.gd" id="16_iummq"]
 [ext_resource type="PackedScene" uid="uid://du67esbe2xmup" path="res://Prefabs/UI/components/ui_hint.tscn" id="16_mtnbr"]
 [ext_resource type="PackedScene" uid="uid://dxkxj4kk30o5b" path="res://Prefabs/UI/DiageticUI/dev_terminal.tscn" id="18_k313v"]
+[ext_resource type="PackedScene" uid="uid://lb2r5qew7tsr" path="res://Prefabs/UI/sleep_stats.tscn" id="18_yls7o"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_23jlx"]
 
@@ -292,13 +293,16 @@ footstep_material_library = ExtResource("8_kkf6j")
 [node name="HintReceived" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("10_66sxq")
 
-[node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("ui_controller", "carryable_position")]
+[node name="PlayerInteractionComponent" type="Node3D" parent="." node_paths=PackedStringArray("ui_controller", "carryable_position", "sleep_stats_screen")]
 script = ExtResource("9_mepo0")
 ui_controller = NodePath("../PlayerUI")
 carryable_position = NodePath("../Head/Camera3D/Marker3D")
+sleep_stats_screen = NodePath("../SleepStats")
 
 [node name="PauseOptions" parent="." instance=ExtResource("12_3c1vh")]
 visible = false
+
+[node name="SleepStats" parent="." instance=ExtResource("18_yls7o")]
 
 [node name="PlayerUI" type="Control" parent="." node_paths=PackedStringArray("message_panel", "message_label", "interaction_panel", "interaction_label", "interaction_icon", "task_tree_ui", "hint_container", "hint_audio", "dev_console_ui")]
 layout_mode = 3

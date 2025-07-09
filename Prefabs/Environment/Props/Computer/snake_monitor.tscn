@@ -138,7 +138,7 @@ transform = Transform3D(14, 0, 0, 0, 14, 0, 0, 0, 14, 0, 0, 0)
 mesh = SubResource("ArrayMesh_l0qie")
 skin = SubResource("Skin_pjnre")
 
-[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" node_paths=PackedStringArray("marker")]
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" node_paths=PackedStringArray("marker", "parent_diegetic_ui")]
 active = false
 target_node = NodePath("../../Marker3D")
 bone_name = "Monitor"
@@ -153,6 +153,7 @@ secondary_limit_angle = 1.0472
 secondary_damp_threshold = 1.0
 script = ExtResource("10_vvenq")
 marker = NodePath("../../Marker3D")
+parent_diegetic_ui = NodePath("../..")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Skeleton3D"]
 transform = Transform3D(1, -4.61853e-14, -3.89414e-07, -3.89414e-07, 5.96046e-08, -1, 6.75016e-14, 1, 5.96046e-08, 9.31322e-09, 0.035, -2.08616e-09)

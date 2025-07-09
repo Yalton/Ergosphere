@@ -372,9 +372,9 @@ func clear_all_hints() -> void:
 
 #region Task System
 
-func _on_task_visibility_changed(is_visible: bool) -> void:
+func _on_task_visibility_changed(local_is_visible: bool) -> void:
 	if task_panel:
-		task_panel.visible = is_visible
+		task_panel.visible = local_is_visible
 		DebugLogger.debug(module_name, "Task panel visibility changed: " + str(is_visible))
 
 func show_task_panel() -> void:
@@ -392,6 +392,6 @@ func toggle_task_panel() -> void:
 		task_panel.visible = !task_panel.visible
 		DebugLogger.debug(module_name, "Task panel toggled to: " + str(task_panel.visible))
 
-func _on_task_completed(task_data) -> void:
-	show_hint("cpl", task_data.name)
+func _on_task_completed(task_data:BaseTask) -> void:
+	show_hint("cpl", task_data.task_name)
 #endregion

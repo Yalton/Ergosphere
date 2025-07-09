@@ -205,7 +205,7 @@ skin = SubResource("Skin_ou3l8")
 mesh = SubResource("ArrayMesh_tyel1")
 skin = SubResource("Skin_ou3l8")
 
-[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" node_paths=PackedStringArray("marker")]
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" node_paths=PackedStringArray("marker", "parent_diegetic_ui")]
 active = false
 target_node = NodePath("../../Marker3D")
 bone_name = "Monitor"
@@ -220,6 +220,7 @@ secondary_limit_angle = 1.0472
 secondary_damp_threshold = 1.0
 script = ExtResource("9_k5s82")
 marker = NodePath("../../Marker3D")
+parent_diegetic_ui = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00816521, 2.05003, -0.0481547)

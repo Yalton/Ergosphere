@@ -1,0 +1,161 @@
+[gd_scene load_steps=4 format=3 uid="uid://lb2r5qew7tsr"]
+
+[ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_xrrj2"]
+[ext_resource type="Script" uid="uid://b6mm74xvmq57j" path="res://Prefabs/UI/sleep_stats.gd" id="2_20i8o"]
+[ext_resource type="AudioStream" uid="uid://18pkb8xbgll8" path="res://Assets/Audio/text_click.wav" id="3_32a8r"]
+
+[node name="SleepStats" type="Control" node_paths=PackedStringArray("stats_grid")]
+z_index = 1000
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_xrrj2")
+script = ExtResource("2_20i8o")
+stats_grid = NodePath("PanelContainer/VBoxContainer/MarginContainer/GridContainer")
+typing_sound = ExtResource("3_32a8r")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+z_index = 1000
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_xrrj2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+z_index = 1000
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+z_index = 1000
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "SEMI-CONCIOUS STEWARD DEBRIEF PROTOCOL"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 240
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 240
+theme_override_constants/margin_bottom = 60
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/MarginContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_xrrj2")
+columns = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_xrrj2")
+theme_override_font_sizes/font_size = 42
+text = "penis mode engaged"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_xrrj2")
+theme_override_font_sizes/font_size = 42
+text = "penis mode engaged"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_xrrj2")
+theme_override_font_sizes/font_size = 42
+text = "penis mode engaged"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_xrrj2")
+theme_override_font_sizes/font_size = 42
+text = "penis mode engaged"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_xrrj2")
+theme_override_font_sizes/font_size = 42
+text = "penis mode engaged"
+horizontal_alignment = 1
+
+[node name="Label6" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_xrrj2")
+theme_override_font_sizes/font_size = 42
+text = "penis mode engaged"
+horizontal_alignment = 1
+
+[node name="Label7" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_xrrj2")
+theme_override_font_sizes/font_size = 42
+text = "penis mode engaged"
+horizontal_alignment = 1
+
+[node name="Label8" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_xrrj2")
+theme_override_font_sizes/font_size = 42
+text = "penis mode engaged"
+horizontal_alignment = 1
+
+[node name="Label9" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_xrrj2")
+theme_override_font_sizes/font_size = 42
+text = "penis mode engaged"
+horizontal_alignment = 1
+
+[node name="Label10" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
+z_index = 1000
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_xrrj2")
+theme_override_font_sizes/font_size = 42
+text = "penis mode engaged"
+horizontal_alignment = 1

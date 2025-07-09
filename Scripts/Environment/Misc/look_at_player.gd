@@ -5,9 +5,9 @@ extends LookAtModifier3D
 
 ## Marker node to follow when UI is locked
 @export var marker: Node3D
+@export var parent_diegetic_ui: DiegeticUIBase
 
 var player_head: Node3D
-var parent_diegetic_ui: DiegeticUIBase
 var module_name: String = "MonitorLookAt"
 
 func _ready():
@@ -15,7 +15,6 @@ func _ready():
 	DebugLogger.register_module(module_name)
 	
 	# Get parent diegetic UI
-	parent_diegetic_ui = get_parent_node_of_type(self, "DiegeticUIBase")
 	if not parent_diegetic_ui:
 		DebugLogger.log_message(module_name, "No parent DiegeticUIBase found")
 	
@@ -63,11 +62,3 @@ func _update_target() -> void:
 		if target_node != player_head.get_path():
 			target_node = player_head.get_path()
 			DebugLogger.log_message(module_name, "Diegetic UI enabled - switching to player head: " + str(player_head.get_path()))
-
-func get_parent_node_of_type(node: Node, name: String) -> Node:
-	var current = node.get_parent()
-	while current:
-		if current.get_class() == name or (current.has_method("is_class") and current.is_class(name)):
-			return current
-		current = current.get_parent()
-	return null

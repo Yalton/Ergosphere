@@ -171,7 +171,7 @@ bones/1/position = Vector3(8.88178e-16, 0.035, -2.5411e-23)
 bones/1/rotation = Quaternion(0.707107, -3.38169e-08, -5.33852e-08, 0.707107)
 bones/1/scale = Vector3(1, 1, 1)
 
-[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" node_paths=PackedStringArray("marker")]
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" node_paths=PackedStringArray("marker", "parent_diegetic_ui")]
 active = false
 target_node = NodePath("../../Marker3D")
 bone_name = "Monitor"
@@ -186,6 +186,7 @@ secondary_limit_angle = 1.0472
 secondary_damp_threshold = 1.0
 script = ExtResource("11_44atv")
 marker = NodePath("../../Marker3D")
+parent_diegetic_ui = NodePath("../..")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Skeleton3D"]
 transform = Transform3D(1, -4.61853e-14, -3.89414e-07, -3.89414e-07, 5.96046e-08, -1, 6.75016e-14, 1, 5.96046e-08, 9.31322e-09, 0.035, -2.08616e-09)
