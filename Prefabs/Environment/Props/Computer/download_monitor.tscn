@@ -171,6 +171,22 @@ bones/1/position = Vector3(8.88178e-16, 0.035, -2.5411e-23)
 bones/1/rotation = Quaternion(0.707107, -3.38169e-08, -5.33852e-08, 0.707107)
 bones/1/scale = Vector3(1, 1, 1)
 
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" node_paths=PackedStringArray("marker")]
+active = false
+target_node = NodePath("../../Marker3D")
+bone_name = "Monitor"
+bone = 1
+forward_axis = 2
+primary_rotation_axis = 2
+use_angle_limitation = true
+symmetry_limitation = true
+primary_limit_angle = 1.0472
+primary_damp_threshold = 1.0
+secondary_limit_angle = 1.0472
+secondary_damp_threshold = 1.0
+script = ExtResource("11_44atv")
+marker = NodePath("../../Marker3D")
+
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Skeleton3D"]
 transform = Transform3D(1, -4.61853e-14, -3.89414e-07, -3.89414e-07, 5.96046e-08, -1, 6.75016e-14, 1, 5.96046e-08, 9.31322e-09, 0.035, -2.08616e-09)
 bone_name = "Monitor"
@@ -192,13 +208,6 @@ input_capture_on_drag = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0214791, 0.0178831, -0.075453)
 shape = SubResource("BoxShape3D_exi1t")
 
-[node name="SkeletonIK3D" type="SkeletonIK3D" parent="Skeleton3D"]
-transform = Transform3D(0.0714286, 0, 0, 0, 0.0714286, 0, 0, 0, 0.0714286, 0, 0, 0)
-root_bone = &"Monitor Stand"
-tip_bone = &"Monitor"
-use_magnet = true
-target_node = NodePath("../../Marker3D")
-
 [node name="Low-Poly Monitor #3" type="MeshInstance3D" parent="Skeleton3D"]
 mesh = SubResource("ArrayMesh_l4gnf")
 skin = SubResource("Skin_7db5l")
@@ -207,21 +216,6 @@ skin = SubResource("Skin_7db5l")
 visible = false
 mesh = SubResource("ArrayMesh_kdt73")
 skin = SubResource("Skin_7db5l")
-
-[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D"]
-active = false
-target_node = NodePath("../../Marker3D")
-bone_name = "Monitor"
-bone = 1
-forward_axis = 2
-primary_rotation_axis = 2
-use_angle_limitation = true
-symmetry_limitation = true
-primary_limit_angle = 1.0472
-primary_damp_threshold = 1.0
-secondary_limit_angle = 1.0472
-secondary_damp_threshold = 1.0
-script = ExtResource("11_44atv")
 
 [node name="BasicInteraction" parent="." instance=ExtResource("7_au0d5")]
 script = null

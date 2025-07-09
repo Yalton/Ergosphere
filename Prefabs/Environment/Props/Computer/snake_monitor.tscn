@@ -138,7 +138,7 @@ transform = Transform3D(14, 0, 0, 0, 14, 0, 0, 0, 14, 0, 0, 0)
 mesh = SubResource("ArrayMesh_l0qie")
 skin = SubResource("Skin_pjnre")
 
-[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D"]
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" node_paths=PackedStringArray("marker")]
 active = false
 target_node = NodePath("../../Marker3D")
 bone_name = "Monitor"
@@ -152,6 +152,7 @@ primary_damp_threshold = 1.0
 secondary_limit_angle = 1.0472
 secondary_damp_threshold = 1.0
 script = ExtResource("10_vvenq")
+marker = NodePath("../../Marker3D")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Skeleton3D"]
 transform = Transform3D(1, -4.61853e-14, -3.89414e-07, -3.89414e-07, 5.96046e-08, -1, 6.75016e-14, 1, 5.96046e-08, 9.31322e-09, 0.035, -2.08616e-09)
@@ -186,4 +187,4 @@ size_2d_override_stretch = true
 [node name="SnakeGame" parent="SubViewport" instance=ExtResource("8_mm5sr")]
 
 [node name="Marker3D" type="Marker3D" parent="."]
-transform = Transform3D(-0.292261, 0.942484, -0.162196, 0.628344, 0.317098, 0.710375, 0.720949, 0.1057, -0.684879, -0.586345, 2.81269, 7.4648)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 7.5)

@@ -205,7 +205,7 @@ skin = SubResource("Skin_ou3l8")
 mesh = SubResource("ArrayMesh_tyel1")
 skin = SubResource("Skin_ou3l8")
 
-[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D"]
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Skeleton3D" node_paths=PackedStringArray("marker")]
 active = false
 target_node = NodePath("../../Marker3D")
 bone_name = "Monitor"
@@ -219,6 +219,7 @@ primary_damp_threshold = 1.0
 secondary_limit_angle = 1.0472
 secondary_damp_threshold = 1.0
 script = ExtResource("9_k5s82")
+marker = NodePath("../../Marker3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00816521, 2.05003, -0.0481547)
@@ -247,4 +248,4 @@ omni_range = 3.0
 occluder = ExtResource("12_cm6g8")
 
 [node name="Marker3D" type="Marker3D" parent="."]
-transform = Transform3D(-0.292261, 0.942484, -0.162196, 0.628344, 0.317098, 0.710375, 0.720949, 0.1057, -0.684879, -0.586345, 2.81269, 7.4648)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 7.5)
