@@ -214,7 +214,11 @@ func _move_snake() -> void:
 func _spawn_food() -> void:
 	var attempts = 0
 	while attempts < 100:  # Prevent infinite loop
-		food_position = Vector2i(randi() % grid_size.x, randi() % grid_size.y)
+		# Spawn food away from edges - only in inner area
+		food_position = Vector2i(
+			1 + randi() % (grid_size.x - 2),  # 1 to grid_size.x-2
+			1 + randi() % (grid_size.y - 2)   # 1 to grid_size.y-2
+		)
 		if food_position not in snake_positions:
 			break
 		attempts += 1

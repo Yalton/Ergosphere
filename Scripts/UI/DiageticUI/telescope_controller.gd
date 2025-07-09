@@ -19,6 +19,9 @@ signal telescope_alligned()
 @export var center_tolerance: float = 20.0  # How close to center counts as "aligned"
 @export var calibration_time: float = 3.0  # Time to calibrate
 
+## Keyboard control speed - how much to move per second when holding key
+@export var keyboard_control_speed: float = 0.3
+
 @export var enable_debug: bool = true
 var module_name: String = "TelescopeController"
 
@@ -74,6 +77,10 @@ func _ready() -> void:
 	DebugLogger.debug(module_name, "Image size: " + str(telescope_image.size))
 
 func _process(delta: float) -> void:
+	# Handle keyboard input only if UI is visible and telescope is not aligned
+	if visible and not is_aligned:
+		_handle_keyboard_input(delta)
+	
 	# Handle calibration timer
 	if is_calibrating and not is_aligned:
 		calibration_timer += delta
@@ -86,6 +93,33 @@ func _process(delta: float) -> void:
 		# Check if calibration is complete
 		if calibration_timer >= calibration_time:
 			_complete_calibration()
+
+func _handle_keyboard_input(delta: float) -> void:
+	var x_input = 0.0
+	var y_input = 0.0
+	
+	# A/D for horizontal movement
+	if Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A):
+		x_input = -1.0
+	elif Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D):
+		x_input = 1.0
+	
+	# W/S for vertical movement
+	if Input.is_action_pressed("ui_up") or Input.is_key_pressed(KEY_W):
+		y_input = 1.0  # Up in UI terms (decrease slider value)
+	elif Input.is_action_pressed("ui_down") or Input.is_key_pressed(KEY_S):
+		y_input = -1.0  # Down in UI terms (increase slider value)
+	
+	# Apply movement to sliders
+	if x_input != 0.0 and x_slider:
+		var range_size = x_slider.max_value - x_slider.min_value
+		var movement = x_input * keyboard_control_speed * range_size * delta
+		x_slider.value = clamp(x_slider.value + movement, x_slider.min_value, x_slider.max_value)
+	
+	if y_input != 0.0 and y_slider:
+		var range_size = y_slider.max_value - y_slider.min_value
+		var movement = y_input * keyboard_control_speed * range_size * delta
+		y_slider.value = clamp(y_slider.value + movement, y_slider.min_value, y_slider.max_value)
 
 func _calculate_movement_bounds() -> void:
 	var screen_size = get_viewport().get_visible_rect().size

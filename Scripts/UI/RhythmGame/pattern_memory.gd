@@ -38,6 +38,9 @@ signal pattern_failed
 ## Enable debug logging for this module
 @export var enable_debug: bool = false
 
+## Container node that holds the game squares (used to filter ColorRects)
+@export var squares_container: Control
+
 var squares: Array[ColorRect] = []
 var current_pattern: Array[int] = []
 var player_input: Array[int] = []
@@ -67,10 +70,31 @@ func _ready():
 func setup_squares():
 	DebugLogger.debug(module_name, "Finding existing ColorRect squares")
 	
-	# Find all ColorRect nodes in the scene
-	squares = find_colorrects_recursive(self)
+	# Look for GridContainer specifically
+	var grid_container = null
+	for child in get_children():
+		grid_container = find_node_recursive(child, "GridContainer")
+		if grid_container:
+			break
 	
-	DebugLogger.debug(module_name, "Found " + str(squares.size()) + " squares")
+	if not grid_container:
+		DebugLogger.error(module_name, "GridContainer not found!")
+		return
+	
+	DebugLogger.debug(module_name, "Found GridContainer with " + str(grid_container.get_child_count()) + " children")
+	
+	# Get ColorRects from GridContainer children
+	squares.clear()
+	for margin_container in grid_container.get_children():
+		if margin_container.get_child_count() > 0:
+			var aspect_ratio = margin_container.get_child(0)
+			if aspect_ratio and aspect_ratio.get_child_count() > 0:
+				var color_rect = aspect_ratio.get_child(0)
+				if color_rect is ColorRect:
+					squares.append(color_rect)
+					DebugLogger.debug(module_name, "Found ColorRect: " + color_rect.name + " in " + margin_container.name)
+	
+	DebugLogger.debug(module_name, "Found " + str(squares.size()) + " squares total")
 	
 	# Connect input events to squares
 	for i in range(squares.size()):
@@ -81,6 +105,17 @@ func setup_squares():
 		var index = i
 		square.gui_input.connect(_on_square_input.bind(index))
 		DebugLogger.debug(module_name, "Connected square " + str(i))
+
+func find_node_recursive(node: Node, name: String) -> Node:
+	if node.name == name:
+		return node
+	
+	for child in node.get_children():
+		var result = find_node_recursive(child, name)
+		if result:
+			return result
+	
+	return null
 
 func find_colorrects_recursive(node: Node) -> Array[ColorRect]:
 	var found_rects: Array[ColorRect] = []
@@ -135,6 +170,9 @@ func start_game():
 	if squares.size() == 0:
 		DebugLogger.error(module_name, "No squares found!")
 		return
+	
+	# Log expected square count
+	DebugLogger.debug(module_name, "Starting game with " + str(squares.size()) + " squares")
 	
 	game_active = true
 	current_round = 0
@@ -218,14 +256,16 @@ func reset_square(index: int):
 
 func play_square_sound(index: int):
 	# Calculate pitch based on square index
-	# 8 squares total: first 4 go down in pitch, last 4 go up
+	# Adjust for 6 squares: first 3 go down in pitch, last 3 go up
 	var pitch: float = 1.0
-	if index < 4:
-		# Pitch down by semitones (each semitone is roughly 2^(1/12) = 1.0595)
-		pitch = pow(2.0, -(4 - index) / 6.0)
+	var half_count = squares.size() / 2
+	
+	if index < half_count:
+		# Pitch down by semitones
+		pitch = pow(2.0, -(half_count - index) / 6.0)
 	else:
 		# Pitch up by semitones
-		pitch = pow(2.0, (index - 3) / 6.0)
+		pitch = pow(2.0, (index - half_count + 1) / 6.0)
 	
 	play_neutral_sound()
 	if Audio:

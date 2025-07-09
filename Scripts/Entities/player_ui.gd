@@ -34,7 +34,6 @@ signal interaction_changed(available: bool)
 @export_group("Dev Console")
 @export var dev_console_ui: DevConsoleUI  # Reference to the DevConsoleUI node
 
-
 # Internal variables for message system
 var is_message_completed: bool = false
 var message_tween: Tween
@@ -48,6 +47,10 @@ var is_interaction_available: bool = false
 # Internal variables for hint system
 var active_hints: Array = []
 var module_name: String = "PlayerUI"
+
+# Queue for messages/hints that arrive while paused
+var queued_messages: Array = []
+var queued_hints: Array = []
 
 func _ready() -> void:
 	# Register debug logger
@@ -67,7 +70,7 @@ func _ready() -> void:
 	message_timer.timeout.connect(_on_message_timer_timeout)
 	add_child(message_timer)
 	
-		# Setup dev console if available
+	# Setup dev console if available
 	if dev_console_ui:
 		DevConsoleManager.set_console_ui(dev_console_ui, true)
 		DebugLogger.debug(module_name, "Dev console UI connected")
@@ -86,8 +89,32 @@ func _ready() -> void:
 	if hint_container:
 		hint_container.hide()
 
+func _process(_delta: float) -> void:
+	# Process queued messages when unpaused
+	if not get_tree().paused and queued_messages.size() > 0:
+		var msg = queued_messages.pop_front()
+		_process_queued_message(msg)
+	
+	# Process queued hints when unpaused
+	if not get_tree().paused and queued_hints.size() > 0:
+		var hint = queued_hints.pop_front()
+		_show_hint_internal(hint.type, hint.text)
+
 #region Message System
 func show_message(speaker_name: String, message_text: String) -> void:
+	# Queue message if game is paused
+	if get_tree().paused:
+		queued_messages.append({
+			"speaker": speaker_name,
+			"text": message_text,
+			"type": "normal"
+		})
+		DebugLogger.debug(module_name, "Message queued due to pause: " + message_text)
+		return
+	
+	_show_message_with_typing(speaker_name, message_text)
+
+func _show_message_with_typing(speaker_name: String, message_text: String) -> void:
 	# Clear any existing timers and tweens
 	if message_timer.time_left > 0:
 		message_timer.stop()
@@ -127,12 +154,25 @@ func show_message(speaker_name: String, message_text: String) -> void:
 	
 	message_tween.finished.connect(func():
 		is_message_completed = true
-		message_label.text = message_text
+		message_label.text = "[outline_size=2][outline_color=00ff00]" + speaker_name + " "  + message_text + "[/outline_color][/outline_size]"
 		message_timer.start(message_display_time)
 	)
 
 # Show a message that stays visible until explicitly hidden
 func show_persistent_message(speaker_name: String, message_text: String) -> void:
+	# Queue message if game is paused
+	if get_tree().paused:
+		queued_messages.append({
+			"speaker": speaker_name,
+			"text": message_text,
+			"type": "persistent"
+		})
+		DebugLogger.debug(module_name, "Persistent message queued due to pause: " + message_text)
+		return
+	
+	_show_persistent_message_internal(speaker_name, message_text)
+
+func _show_persistent_message_internal(speaker_name: String, message_text: String) -> void:
 	# Clear any existing timers and tweens
 	if message_timer.time_left > 0:
 		message_timer.stop()
@@ -149,6 +189,20 @@ func show_persistent_message(speaker_name: String, message_text: String) -> void
 
 # Show full message with optional auto-hide timer
 func show_full_message(speaker_name: String, message_text: String, display_time: float = -1.0) -> void:
+	# Queue message if game is paused
+	if get_tree().paused:
+		queued_messages.append({
+			"speaker": speaker_name,
+			"text": message_text,
+			"type": "full",
+			"display_time": display_time
+		})
+		DebugLogger.debug(module_name, "Full message queued due to pause: " + message_text)
+		return
+	
+	_show_full_message_internal(speaker_name, message_text, display_time)
+
+func _show_full_message_internal(speaker_name: String, message_text: String, display_time: float) -> void:
 	# Clear any existing timers and tweens
 	if message_timer.time_left > 0:
 		message_timer.stop()
@@ -186,6 +240,17 @@ func skip_message() -> void:
 	is_message_completed = true
 	if message_label.text.length() > 0:
 		message_timer.start(message_display_time)
+
+# Process different message types from queue
+func _process_queued_message(msg: Dictionary) -> void:
+	match msg.type:
+		"normal":
+			_show_message_with_typing(msg.speaker, msg.text)
+		"persistent":
+			_show_persistent_message_internal(msg.speaker, msg.text)
+		"full":
+			var display_time = msg.get("display_time", -1.0)
+			_show_full_message_internal(msg.speaker, msg.text, display_time)
 #endregion
 
 #region Interaction System
@@ -228,6 +293,18 @@ func get_current_interaction_text() -> String:
 #region Hint System
 
 func show_hint(type: String, hint_text: String) -> void:
+	# Queue hint if game is paused
+	if get_tree().paused:
+		queued_hints.append({
+			"type": type,
+			"text": hint_text
+		})
+		DebugLogger.debug(module_name, "Hint queued due to pause: " + hint_text)
+		return
+	
+	_show_hint_internal(type, hint_text)
+
+func _show_hint_internal(type: String, hint_text: String) -> void:
 	if not hint_container or not hint_scene:
 		DebugLogger.error(module_name, "Hint system not configured properly")
 		return
@@ -284,87 +361,37 @@ func clear_all_hints() -> void:
 	for hint in active_hints:
 		if is_instance_valid(hint):
 			hint.queue_free()
+	
 	active_hints.clear()
 	
 	if hint_container:
 		hint_container.hide()
 	
-	DebugLogger.debug(module_name, "All hints cleared")
-
+	DebugLogger.debug(module_name, "Cleared all hints")
 #endregion
 
-func _on_task_completed(task_id: String): 
-	var completed_task : BaseTask = GameManager.task_manager.get_task(task_id)
-	if completed_task: 
-		show_hint("cpl", completed_task.task_name)
+#region Task System
 
-#region Task System Integration
+func _on_task_visibility_changed(is_visible: bool) -> void:
+	if task_panel:
+		task_panel.visible = is_visible
+		DebugLogger.debug(module_name, "Task panel visibility changed: " + str(is_visible))
 
-# Show the task UI
-func show_task_ui() -> void:
-	if task_tree_ui:
-		task_tree_ui.show_tasks()
+func show_task_panel() -> void:
 	if task_panel:
 		task_panel.show()
+		DebugLogger.debug(module_name, "Task panel shown")
 
-# Hide the task UI
-func hide_task_ui() -> void:
-	if task_tree_ui:
-		task_tree_ui.hide_tasks()
+func hide_task_panel() -> void:
 	if task_panel:
 		task_panel.hide()
+		DebugLogger.debug(module_name, "Task panel hidden")
 
-# Toggle task UI visibility
-func toggle_task_ui() -> void:
-	if task_tree_ui:
-		if task_tree_ui.visible:
-			hide_task_ui()
-		else:
-			show_task_ui()
-
-# Called when task tree visibility changes
-func _on_task_visibility_changed(should_show: bool) -> void:
-	# Update task panel visibility if we have one
+func toggle_task_panel() -> void:
 	if task_panel:
-		task_panel.visible = should_show
+		task_panel.visible = !task_panel.visible
+		DebugLogger.debug(module_name, "Task panel toggled to: " + str(task_panel.visible))
 
-# Get task UI visibility state
-func is_task_ui_visible() -> bool:
-	if task_tree_ui:
-		return task_tree_ui.visible
-	return false
-
-func toggle_dev_console() -> void:
-	if dev_console_ui:
-		dev_console_ui.toggle_ui()
-	else:
-		DebugLogger.warning(module_name, "No dev console UI assigned")
-
-func show_dev_console() -> void:
-	if dev_console_ui:
-		dev_console_ui.show_ui()
-	else:
-		DebugLogger.warning(module_name, "No dev console UI assigned")
-
-func hide_dev_console() -> void:
-	if dev_console_ui:
-		dev_console_ui.hide_ui()
-	else:
-		DebugLogger.warning(module_name, "No dev console UI assigned")
-
-func is_dev_console_visible() -> bool:
-	if dev_console_ui:
-		return dev_console_ui.visible
-	return false
-	
+func _on_task_completed(task_data) -> void:
+	show_hint("cpl", task_data.name)
 #endregion
-
-# Useful for debugging or testing
-func test_message(text: String = "This is a test message") -> void:
-	show_message("test", text)
-
-func test_interaction(text: String = "Test Interaction") -> void:
-	show_interaction(text)
-
-func test_hint(text: String = "This is a test hint") -> void:
-	show_hint("test", text)

@@ -13,8 +13,9 @@ signal calibration_completed
 @export_range(3, 10) var sequences_required: int = 5
 
 func _ready() -> void:
-	super._ready()
 	module_name = "PatternMemoryDiageticUI"
+	super._ready()
+
 	
 	# Find task aware component
 	

@@ -129,7 +129,7 @@ albedo_texture = SubResource("ViewportTexture_1fmvh")
 [sub_resource type="BoxShape3D" id="BoxShape3D_61goh"]
 size = Vector3(0.380537, 0.309512, 0.415931)
 
-[node name="TelescopeMonitor" type="StaticBody3D" node_paths=PackedStringArray("telescope_ui_control", "sub_viewport", "display", "ui_content", "area_3d", "task_aware_component", "state_aware_component")]
+[node name="TelescopeMonitor" type="StaticBody3D" node_paths=PackedStringArray("telescope_ui_control", "sub_viewport", "display", "ui_content", "area_3d", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_86hom")
@@ -138,7 +138,6 @@ sub_viewport = NodePath("SubViewport")
 display = NodePath("Skeleton3D/Display")
 ui_content = NodePath("SubViewport/telescope_adjust_ui")
 area_3d = NodePath("Skeleton3D/Area3D")
-task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]
@@ -153,7 +152,7 @@ bones/1/name = "Monitor"
 bones/1/parent = 0
 bones/1/rest = Transform3D(1, 2.76737e-08, -1.23322e-07, -1.23322e-07, 0, -1, -2.76737e-08, 1, 0, 8.88178e-16, 0.035, 0)
 bones/1/enabled = true
-bones/1/position = Vector3(8.88178e-16, 0.035, 0)
+bones/1/position = Vector3(-5.77316e-17, 0.035, 8.88178e-16)
 bones/1/rotation = Quaternion(0.707107, -3.38168e-08, -5.3385e-08, 0.707107)
 bones/1/scale = Vector3(1, 1, 1)
 

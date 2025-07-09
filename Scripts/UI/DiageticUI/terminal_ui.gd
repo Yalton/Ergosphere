@@ -53,6 +53,21 @@ func _ready() -> void:
 	
 	DebugLogger.debug(module_name, "Terminal UI initialized with DevConsole integration")
 
+func _input(event: InputEvent) -> void:
+	# Handle mouse wheel scrolling
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			if output_area and event.pressed:
+				var scroll_bar = output_area.get_v_scroll_bar()
+				var scroll_speed = 300  # Lines to scroll per wheel tick
+				
+				if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+					scroll_bar.value -= scroll_speed
+				else:
+					scroll_bar.value += scroll_speed
+				
+				DebugLogger.debug(module_name, "Scrolled terminal output with mouse wheel")
+
 func _force_focus_grab() -> void:
 	if input_field:
 		input_field.grab_focus()

@@ -54,6 +54,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Remove the interact key check - we only want ESC to exit
 	# This allows typing 'E' in text fields
 	
+	# Forward mouse wheel events to SubViewport
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			if sub_viewport:
+				sub_viewport.push_input(event)
+				DebugLogger.debug(module_name, "Forwarded mouse wheel event to SubViewport")
+			get_viewport().set_input_as_handled()
+			return
+	
 	# Forward keyboard events to SubViewport if capture is enabled
 	if capture_keyboard_input and event is InputEventKey:
 		# Play typing sound for key presses (not releases)

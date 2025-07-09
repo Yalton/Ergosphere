@@ -1,7 +1,6 @@
-[gd_scene load_steps=28 format=4 uid="uid://6nnliah25gvx"]
+[gd_scene load_steps=27 format=4 uid="uid://6nnliah25gvx"]
 
 [ext_resource type="Script" uid="uid://nfcpte5j0e2x" path="res://Scripts/UI/DiageticUI/contact_earth.gd" id="1_vnulx"]
-[ext_resource type="AudioStream" uid="uid://18pkb8xbgll8" path="res://Assets/Audio/text_click.wav" id="2_hxnul"]
 [ext_resource type="Texture2D" uid="uid://be7a8jj6erek0" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Color.png" id="3_hxnul"]
 [ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="3_njcr1"]
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="4_kiyvs"]
@@ -152,17 +151,10 @@ blend_shape_mode = 0
 [sub_resource type="BoxShape3D" id="BoxShape3D_sta57"]
 size = Vector3(4.142, 3.943, 4.589)
 
-[node name="terminal_monitor" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content", "area_3d", "task_aware_component", "state_aware_component")]
+[node name="terminal_monitor" type="StaticBody3D"]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_vnulx")
-typing_sound = ExtResource("2_hxnul")
-sub_viewport = NodePath("SubViewport")
-display = NodePath("Skeleton3D/BoneAttachment3D/Display")
-ui_content = NodePath("SubViewport/CommsUpload")
-area_3d = NodePath("Skeleton3D/BoneAttachment3D/Area3D")
-task_aware_component = NodePath("TaskAwareComponent")
-state_aware_component = NodePath("StateAwareComponent")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("3_njcr1")]
 associated_task_id = "contact_earth"
