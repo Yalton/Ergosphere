@@ -26,12 +26,20 @@ var despawn_timer: Timer
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 	
+
+
+func initialize(pos, rot) -> void: 
+	global_position = pos
+	global_rotation = rot
+
 	# Find all rigid body children
 	_find_rigid_body_shards()
 	
 	# Apply explosion forces
 	_explode_shards()
 	
+	DebugLogger.info(module_name, "Instantiated at " + str(global_position))
+
 	# Play explosion sound
 	if explosion_sound:
 		var audio_player = AudioStreamPlayer3D.new()
@@ -50,9 +58,9 @@ func _ready() -> void:
 	despawn_timer.timeout.connect(_despawn_all)
 	add_child(despawn_timer)
 	despawn_timer.start()
-	
-	DebugLogger.info(module_name, "Shattered scanner created with " + str(rigid_body_shards.size()) + " shards")
 
+	DebugLogger.info(module_name, "Shattered scanner created with " + str(rigid_body_shards.size()) + " shards")
+	
 func _find_rigid_body_shards() -> void:
 	# Find all RigidBody3D children recursively
 	rigid_body_shards.clear()

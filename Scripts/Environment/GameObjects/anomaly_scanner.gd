@@ -136,7 +136,7 @@ func _update_beep_rate() -> void:
 	var beep_interval = lerp(base_beep_interval, fastest_beep_interval, distance_ratio)
 	beep_timer.start(beep_interval)
 	
-	DebugLogger.debug(module_name, "Distance: %.1f, Beep interval: %.2f" % [distance, beep_interval])
+	#DebugLogger.debug(module_name, "Distance: %.1f, Beep interval: %.2f" % [distance, beep_interval])
 
 func _trigger_beep_flash() -> void:
 	if is_completed:
@@ -198,16 +198,23 @@ func _spawn_shattered_scanner() -> void:
 		return
 	
 	# Instance the shattered scanner
-	var shattered_scanner = shattered_scanner_scene.instantiate()
+	var shattered_scanner : ShatteredScanner = shattered_scanner_scene.instantiate()
 	
-	# Position it at our current location
-	shattered_scanner.global_position = global_position
-	shattered_scanner.global_rotation = global_rotation
+	var props_node = get_tree().get_first_node_in_group("props")
+	if props_node: 
+		props_node.add_child(shattered_scanner)
+		
+		shattered_scanner.initialize(global_position, global_rotation)
+		
+		DebugLogger.info(module_name, "Spawning shatter scene at " + str(global_position))
+
+		# Add to the same parent
+		DebugLogger.info(module_name, "Spawned shattered scanner")
+	else: 
+		DebugLogger.error(module_name, "Props container node not found")
+		return
 	
-	# Add to the same parent
-	get_parent().add_child(shattered_scanner)
-	
-	DebugLogger.info(module_name, "Spawned shattered scanner")
+
 	
 	# Remove ourselves
 	queue_free()

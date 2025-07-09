@@ -1,7 +1,8 @@
-[gd_scene load_steps=43 format=4 uid="uid://dsyhtogs7bpnc"]
+[gd_scene load_steps=44 format=4 uid="uid://dsyhtogs7bpnc"]
 
 [ext_resource type="Texture2D" uid="uid://qsmwaltgwle0" path="res://Assets/Models/Station/Props/shattered_oxygen_scanner/textures/GreyPlastic-Color.png" id="1_afhqm"]
 [ext_resource type="Script" uid="uid://twm2fcp1lwii" path="res://Scripts/shattered_anomaly_scanner.gd" id="1_gryal"]
+[ext_resource type="AudioStream" uid="uid://bbhdkc72cem1r" path="res://Assets/Audio/Misc/shatter.wav" id="2_1qjfd"]
 [ext_resource type="Texture2D" uid="uid://brnuanlfmoibv" path="res://Assets/Models/Station/Props/shattered_oxygen_scanner/textures/GreyPlastic-Roughness.png" id="2_gryal"]
 [ext_resource type="Texture2D" uid="uid://8kgyjbqft0r" path="res://Assets/Models/Station/Props/shattered_oxygen_scanner/textures/GreyPlastic-Normal.png" id="3_1qjfd"]
 
@@ -666,8 +667,10 @@ data = PackedVector3Array(-0.1323, 0.0387, -0.0902, -0.1283, -0.045, -0.0844, -0
 
 [node name="ShatteredAnomalyScanner" type="Node3D"]
 script = ExtResource("1_gryal")
+explosion_sound = ExtResource("2_1qjfd")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell" type="MeshInstance3D" parent="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.168506, 0.0557785, 0.00345397)
@@ -679,6 +682,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.168506, 0.0557785, 0.003453
 shape = SubResource("ConcavePolygonShape3D_pljc0")
 
 [node name="RigidBody3D2" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell_001" type="MeshInstance3D" parent="RigidBody3D2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.158607, 0.0577689, -0.144218)
@@ -690,6 +694,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.158607, 0.0577689, -0.14421
 shape = SubResource("ConcavePolygonShape3D_pcj1d")
 
 [node name="RigidBody3D3" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell_002" type="MeshInstance3D" parent="RigidBody3D3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0506362, 0.0711489, 0.186496)
@@ -701,6 +706,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0506362, 0.0711489, 0.18649
 shape = SubResource("ConcavePolygonShape3D_xnu1r")
 
 [node name="RigidBody3D4" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell_003" type="MeshInstance3D" parent="RigidBody3D4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0135447, 0.0558698, -0.169521)
@@ -712,6 +718,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0135447, 0.0558698, -0.1695
 shape = SubResource("ConcavePolygonShape3D_cldj5")
 
 [node name="RigidBody3D5" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell_004" type="MeshInstance3D" parent="RigidBody3D5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0557529, 0.027259, 0.215197)
@@ -723,6 +730,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0557529, 0.027259, 0.215197
 shape = SubResource("ConcavePolygonShape3D_agtr3")
 
 [node name="RigidBody3D6" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell_005" type="MeshInstance3D" parent="RigidBody3D6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0259622, 0.0537745, 0.11146)
@@ -734,6 +742,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0259622, 0.0537745, 0.1114
 shape = SubResource("ConcavePolygonShape3D_lmnyl")
 
 [node name="RigidBody3D7" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell_006" type="MeshInstance3D" parent="RigidBody3D7"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0193825, 0.0955487, -0.211577)
@@ -745,6 +754,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0193825, 0.0955487, -0.211
 shape = SubResource("ConcavePolygonShape3D_m351f")
 
 [node name="RigidBody3D8" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell_007" type="MeshInstance3D" parent="RigidBody3D8"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.180212, 0.0521573, 0.000738325)
@@ -756,6 +766,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.180212, 0.0521573, 0.00073
 shape = SubResource("ConcavePolygonShape3D_wt7w6")
 
 [node name="RigidBody3D9" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell_008" type="MeshInstance3D" parent="RigidBody3D9"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.151473, 0.057148, 0.168789)
@@ -767,6 +778,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.151473, 0.057148, 0.168789
 shape = SubResource("ConcavePolygonShape3D_b7ldy")
 
 [node name="RigidBody3D10" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell_009" type="MeshInstance3D" parent="RigidBody3D10"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.124169, 0.0614133, -0.135421)
@@ -778,6 +790,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.124169, 0.0614133, -0.1354
 shape = SubResource("ConcavePolygonShape3D_aokjl")
 
 [node name="RigidBody3D11" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell_010" type="MeshInstance3D" parent="RigidBody3D11"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0443263, 0.0623275, 0.236301)
@@ -789,6 +802,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0443263, 0.0623275, 0.2363
 shape = SubResource("ConcavePolygonShape3D_cvi51")
 
 [node name="RigidBody3D12" type="RigidBody3D" parent="."]
+collision_layer = 0
 
 [node name="Oxy_cell_011" type="MeshInstance3D" parent="RigidBody3D12"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.164628, 0.0521884, 0.131097)

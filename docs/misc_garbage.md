@@ -7,8 +7,6 @@ Play/test Game and take notes
 
 Recal Systems has weird bug, sometimes invisibile square is a part of pattern 
 
-Shattering anomaly scanner broken it just ceases to exist
-
 ## Manual
 
 Floor Look bad 

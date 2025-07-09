@@ -232,7 +232,7 @@ atlas = ExtResource("14_qmfn3")
 region = Rect2(264, 72, 48, 48)
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ui_controller", "interaction_component", "footstep_detector", "flashlight_spot") groups=["player"]]
-collision_layer = 5
+collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_23jlx")
 ui_controller = NodePath("PlayerUI")
