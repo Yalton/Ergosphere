@@ -12,7 +12,6 @@ class_name ChromaticAberrationHandler
 ## Pulse rate in BPM
 @export var pulse_bpm: float = 80.0
 
-var audio_player: AudioStreamPlayer
 var compositor_effect: CompositorEffect
 var pulse_tween: Tween
 
@@ -22,10 +21,7 @@ func _ready() -> void:
 	effect_name = "Chromatic Aberration"
 	compositor_index = 2  # Chromatic is index 2
 	
-	# Create audio player
-	audio_player = AudioStreamPlayer.new()
-	audio_player.bus = "SFX"
-	add_child(audio_player)
+
 
 func _startup_phase(time: float) -> void:
 	DebugLogger.debug(module_name, "Chromatic aberration startup phase")
@@ -36,11 +32,10 @@ func _startup_phase(time: float) -> void:
 		DebugLogger.error(module_name, "No compositor effect found for chromatic aberration")
 		return
 	
-	# Play sound
+	# Play sound using base class wrapper
 	if aberration_sound:
-		audio_player.stream = aberration_sound
-		audio_player.play()
-	
+		play_effect_audio(aberration_sound)
+
 	# Enable effect
 	compositor_effect.enabled = true
 	

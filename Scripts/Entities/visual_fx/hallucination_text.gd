@@ -16,7 +16,6 @@ class_name HallucinationTextHandler
 ## Message cycle duration
 @export var message_duration: float = 2.0
 
-var audio_player: AudioStreamPlayer
 var compositor_effect: CompositorEffect
 var text_tween: Tween
 var message_timer: Timer
@@ -27,11 +26,7 @@ func _ready() -> void:
 	effect_id = "hallucination_text"
 	effect_name = "Hallucination Text"
 	compositor_index = 7  # Assuming this is index 7
-	
-	# Create audio player
-	audio_player = AudioStreamPlayer.new()
-	audio_player.bus = "SFX"
-	add_child(audio_player)
+
 	
 	# Create message timer
 	message_timer = Timer.new()
@@ -53,8 +48,8 @@ func _startup_phase(time: float) -> void:
 	
 	# Play sound
 	if hallucination_sound:
-		audio_player.stream = hallucination_sound
-		audio_player.play()
+		play_effect_audio(hallucination_sound)
+
 	
 	# Enable effect
 	compositor_effect.enabled = true
@@ -120,16 +115,12 @@ func _wind_down_phase(time: float) -> void:
 	
 	# Disable effect
 	compositor_effect.enabled = false
-	
-	# Stop audio if still playing
-	if audio_player.playing:
-		audio_player.stop()
+
 
 func _cleanup() -> void:
 	if compositor_effect:
 		compositor_effect.enabled = false
-	if audio_player.playing:
-		audio_player.stop()
+
 	if text_tween and text_tween.is_valid():
 		text_tween.kill()
 		text_tween = null

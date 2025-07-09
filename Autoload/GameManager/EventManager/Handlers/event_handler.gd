@@ -53,7 +53,6 @@ func execute() -> bool:
 	
 	is_active = true
 	start_time = Time.get_ticks_msec() / 1000.0
-	
 	DebugLogger.info(module_name, "Executing event")
 	
 	# Subclasses implement actual logic
@@ -67,7 +66,6 @@ func end() -> void:
 	
 	is_active = false
 	DebugLogger.info(module_name, "Event ended after " + str(get_duration()) + " seconds")
-	
 	event_completed.emit()
 
 ## Get how long this event has been running
@@ -110,13 +108,9 @@ func trigger_emergency_task(task_id: String) -> void:
 func play_audio(audio_stream: AudioStream, bus: String = "SFX") -> void:
 	if not audio_stream:
 		return
-		
-	var player = AudioStreamPlayer.new()
-	player.stream = audio_stream
-	player.bus = bus
-	add_child(player)
-	player.play()
-	player.finished.connect(player.queue_free)
+	
+	Audio.play_sound(audio_stream, true, 1.0, 0.0, bus)
+	DebugLogger.debug(module_name, "Playing audio on bus: " + bus)
 
 ## Helper to notify object groups
 func notify_group(group_name: String, method_name: String, args: Array = []) -> void:

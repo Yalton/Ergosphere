@@ -12,7 +12,6 @@ class_name MindBreakHandler
 ## Delay between each effect activation
 @export var stagger_delay: float = 0.2
 
-var audio_player: AudioStreamPlayer
 var active_sub_effects: Array[String] = []
 
 func _ready() -> void:
@@ -20,20 +19,16 @@ func _ready() -> void:
 	effect_id = "mind_break"
 	effect_name = "Mind Break"
 	compositor_index = -1  # This manages multiple effects
-	use_blink_transition = false  # We handle our own transitions
 	
-	# Create audio player
-	audio_player = AudioStreamPlayer.new()
-	audio_player.bus = "SFX"
-	add_child(audio_player)
+
 
 func _startup_phase(time: float) -> void:
 	DebugLogger.debug(module_name, "Mind break startup phase")
 	
 	# Play sound
 	if mind_break_sound:
-		audio_player.stream = mind_break_sound
-		audio_player.play()
+		play_effect_audio(mind_break_sound)
+
 	
 	var vfx_manager = get_parent()
 	if not vfx_manager:
@@ -84,10 +79,7 @@ func _wind_down_phase(time: float) -> void:
 	
 	# Clear the list
 	active_sub_effects.clear()
-	
-	# Stop audio
-	if audio_player.playing:
-		audio_player.stop()
+
 	
 	# Wait for any remaining wind down time
 	var total_stagger_time = stagger_delay * active_sub_effects.size()
@@ -104,6 +96,3 @@ func _cleanup() -> void:
 				vfx_manager.stop_effect(effct_id)
 	
 	active_sub_effects.clear()
-	
-	if audio_player.playing:
-		audio_player.stop()

@@ -14,7 +14,6 @@ class_name PurpleLightHandler
 ## Whether to apply audio reactive pulsing
 @export var audio_reactive: bool = false
 
-var audio_player: AudioStreamPlayer
 var compositor_effect: CompositorEffect
 var light_tween: Tween
 
@@ -24,10 +23,7 @@ func _ready() -> void:
 	effect_name = "Purple Light"
 	compositor_index = 6  # Assuming this is index 6
 	
-	# Create audio player
-	audio_player = AudioStreamPlayer.new()
-	audio_player.bus = "SFX"
-	add_child(audio_player)
+
 	
 	module_name = "PurpleLightHandler"
 	DebugLogger.register_module(module_name, true)
@@ -43,8 +39,8 @@ func _startup_phase(time: float) -> void:
 	
 	# Play sound
 	if purple_sound:
-		audio_player.stream = purple_sound
-		audio_player.play()
+		play_effect_audio(purple_sound)
+
 	
 	# Enable effect
 	compositor_effect.enabled = true
@@ -66,9 +62,7 @@ func _duration_phase(time: float) -> void:
 	if dynamic_lights and time > 0:
 		_animate_lights()
 	
-	# Audio reactive pulsing
-	if audio_reactive and audio_player.playing:
-		_start_audio_reactive_pulse()
+
 	
 	# Wait for duration
 	if time > 0:
@@ -93,16 +87,11 @@ func _wind_down_phase(time: float) -> void:
 	
 	# Disable effect
 	compositor_effect.enabled = false
-	
-	# Stop audio if still playing
-	if audio_player.playing:
-		audio_player.stop()
 
 func _cleanup() -> void:
 	if compositor_effect:
 		compositor_effect.enabled = false
-	if audio_player.playing:
-		audio_player.stop()
+
 	if light_tween and light_tween.is_valid():
 		light_tween.kill()
 		light_tween = null

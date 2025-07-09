@@ -14,7 +14,6 @@ class_name GlitchEffectHandler
 ## Flicker frequency (times per second)
 @export var flicker_rate: float = 4.0
 
-var audio_player: AudioStreamPlayer
 var compositor_effect: CompositorEffect
 var flicker_tween: Tween
 
@@ -24,10 +23,6 @@ func _ready() -> void:
 	effect_name = "Glitch"
 	compositor_index = 1  # Glitch is index 0
 	
-	# Create audio player
-	audio_player = AudioStreamPlayer.new()
-	audio_player.bus = "SFX"
-	add_child(audio_player)
 
 func _startup_phase(time: float) -> void:
 	DebugLogger.debug(module_name, "Glitch startup phase")
@@ -40,8 +35,8 @@ func _startup_phase(time: float) -> void:
 	
 	# Play sound
 	if glitch_sound:
-		audio_player.stream = glitch_sound
-		audio_player.play()
+		play_effect_audio(glitch_sound)
+
 	
 	# Enable effect
 	compositor_effect.enabled = true
@@ -80,15 +75,12 @@ func _wind_down_phase(time: float) -> void:
 	# Disable effect
 	compositor_effect.enabled = false
 	
-	# Stop audio if still playing
-	if audio_player.playing:
-		audio_player.stop()
+
 
 func _cleanup() -> void:
 	if compositor_effect:
 		compositor_effect.enabled = false
-	if audio_player.playing:
-		audio_player.stop()
+
 	if flicker_tween:
 		flicker_tween.kill()
 		flicker_tween = null

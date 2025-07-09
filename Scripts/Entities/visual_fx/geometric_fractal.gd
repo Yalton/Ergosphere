@@ -14,7 +14,6 @@ class_name GeometricFractalHandler
 ## Whether to rotate the pattern
 @export var enable_rotation: bool = true
 
-var audio_player: AudioStreamPlayer
 var compositor_effect: CompositorEffect
 var original_segments: int
 var original_depth: int
@@ -25,11 +24,7 @@ func _ready() -> void:
 	effect_id = "geometric_fractal"
 	effect_name = "Geometric Fractal"
 	compositor_index = 5  # Assuming this is index 5
-	
-	# Create audio player
-	audio_player = AudioStreamPlayer.new()
-	audio_player.bus = "SFX"
-	add_child(audio_player)
+
 	
 	module_name = "GeometricFractalHandler"
 	DebugLogger.register_module(module_name, true)
@@ -50,8 +45,8 @@ func _startup_phase(time: float) -> void:
 	
 	# Play sound
 	if geometric_sound:
-		audio_player.stream = geometric_sound
-		audio_player.play()
+		play_effect_audio(geometric_sound)
+
 	
 	# Enable effect
 	compositor_effect.enabled = true

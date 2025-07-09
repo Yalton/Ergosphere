@@ -10,7 +10,6 @@ class_name EdgeDetectionHandler
 ## Whether to fade in/out smoothly
 @export var smooth_transitions: bool = true
 
-var audio_player: AudioStreamPlayer
 var compositor_effect: CompositorEffect
 
 func _ready() -> void:
@@ -19,10 +18,7 @@ func _ready() -> void:
 	effect_name = "Edge Detection"
 	compositor_index = 3  # Edge detection is index 1
 	
-	# Create audio player
-	audio_player = AudioStreamPlayer.new()
-	audio_player.bus = "SFX"
-	add_child(audio_player)
+
 
 func _startup_phase(time: float) -> void:
 	DebugLogger.debug(module_name, "Edge detection startup phase")
@@ -33,11 +29,13 @@ func _startup_phase(time: float) -> void:
 		DebugLogger.error(module_name, "No compositor effect found for edge detection")
 		return
 	
-	# Play sound
-	if edge_sound:
-		audio_player.stream = edge_sound
-		audio_player.play()
+
 	
+
+	# Play sound using base class wrapper
+	if edge_sound:
+		play_effect_audio(edge_sound)
+
 	# Enable effect
 	compositor_effect.enabled = true
 	
@@ -66,12 +64,7 @@ func _wind_down_phase(time: float) -> void:
 	# Disable effect
 	compositor_effect.enabled = false
 	
-	# Stop audio
-	if audio_player.playing:
-		audio_player.stop()
 
 func _cleanup() -> void:
 	if compositor_effect:
 		compositor_effect.enabled = false
-	if audio_player.playing:
-		audio_player.stop()

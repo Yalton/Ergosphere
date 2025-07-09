@@ -34,12 +34,7 @@ func _ready():
 	
 	# Register with debug logger
 	DebugLogger.register_module("EffectsManager")
-	
-	# Create audio player
-	audio_player = AudioStreamPlayer.new()
-	audio_player.bus = "SFX"
-	add_child(audio_player)
-	
+
 	# Cache original emissive values
 	if shared_emissive_material:
 		original_emission_color = shared_emissive_material.emission

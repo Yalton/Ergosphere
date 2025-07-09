@@ -12,19 +12,13 @@ class_name WarpEffectHandler
 ## Sound to play when warp ends
 @export var warp_end_sound: AudioStream
 
-var audio_player: AudioStreamPlayer
 
 func _ready() -> void:
 	super._ready()
 	effect_id = "warp"
 	effect_name = "Warp"
 	compositor_index = -1  # No compositor effect, uses ColorRect
-	
-	# Create audio player
-	audio_player = AudioStreamPlayer.new()
-	audio_player.bus = "SFX"
-	add_child(audio_player)
-	
+
 	# Ensure warp rect is hidden
 	if warp_rect:
 		warp_rect.visible = false
@@ -39,8 +33,8 @@ func _startup_phase(time: float) -> void:
 	
 	# Play start sound
 	if warp_start_sound:
-		audio_player.stream = warp_start_sound
-		audio_player.play()
+		play_effect_audio(warp_end_sound)
+
 	
 	# Show and fade in
 	warp_rect.visible = true
@@ -76,8 +70,8 @@ func _wind_down_phase(time: float) -> void:
 	
 	# Play end sound
 	if warp_end_sound:
-		audio_player.stream = warp_end_sound
-		audio_player.play()
+		play_effect_audio(warp_end_sound)
+
 	
 	# Fade out
 	if time > 0:
@@ -104,5 +98,4 @@ func _cleanup() -> void:
 	if warp_rect:
 		warp_rect.visible = false
 		warp_rect.modulate.a = 0.0
-	if audio_player.playing:
-		audio_player.stop()
+

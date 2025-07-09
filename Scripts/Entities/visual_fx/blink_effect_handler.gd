@@ -12,19 +12,12 @@ class_name BlinkEffectHandler
 ## Color to blink to
 @export var blink_color: Color = Color.BLACK
 
-var audio_player: AudioStreamPlayer
-
 func _ready() -> void:
 	super._ready()
 	effect_id = "blink"
 	effect_name = "Blink"
 	compositor_index = -1  # No compositor effect
-	use_blink_transition = false  # Blink doesn't use blink transition!
 	
-	# Create audio player
-	audio_player = AudioStreamPlayer.new()
-	audio_player.bus = "SFX"
-	add_child(audio_player)
 	
 	# Ensure blink rect is hidden
 	if blink_rect:
@@ -38,12 +31,12 @@ func _startup_phase(time: float) -> void:
 	if not blink_rect:
 		DebugLogger.error(module_name, "No blink rect assigned")
 		return
+
 	
-	# Play sound
+		# Play sound using base class wrapper
 	if blink_sound:
-		audio_player.stream = blink_sound
-		audio_player.play()
-	
+		play_effect_audio(blink_sound)
+
 	# Show and fade in
 	blink_rect.visible = true
 	

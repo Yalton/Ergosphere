@@ -1,139 +1,40 @@
+# BaseVisualEffect.gd
 extends Node
 class_name BaseVisualEffect
 
-## Base class for all visual effects - provides camera reference and common functionality
-
-signal effect_started()
-signal effect_finished()
-
-@export_group("Effect Settings")
-## Unique identifier for this effect
-@export var effect_id: String = ""
-## Display name for debugging
-@export var effect_name: String = ""
-## Which compositor effect index to use (-1 for none)
-@export var compositor_index: int = -1
-## Whether to use blink transition (except for blink itself)
-@export var use_blink_transition: bool = true
-
-## Player camera reference - passed by VisualEffectsManager
-var player_camera: Camera3D
-## Whether this effect is currently active
-var is_active: bool = false
-## Module name for debug logging
+## Base class for all visual effects
+var effect_id: String = ""
+var effect_name: String = ""
+var compositor_index: int = -1
 var module_name: String = "BaseVisualEffect"
 
 func _ready() -> void:
-	if effect_id.is_empty():
-		effect_id = name.to_lower().replace(" ", "_")
-	if effect_name.is_empty():
-		effect_name = name
-	
-	module_name = effect_name + "Effect"
 	DebugLogger.register_module(module_name, true)
-	
-	if effect_id.is_empty():
-		DebugLogger.warning(module_name, "Effect ID not set for %s" % name)
 
-## Start the effect with timing parameters
-func invoke_effect(startup: float = 0.5, duration: float = 2.0, wind_down: float = 0.5) -> void:
-	if is_active:
-		DebugLogger.warning(module_name, "Effect %s already active" % effect_id)
+## Play audio effect on the SFX bus
+func play_effect_audio(audio_stream: AudioStream, pitch_scale: float = 1.0, volume_db: float = 0.0) -> void:
+	if not audio_stream:
+		DebugLogger.warning(module_name, "No audio stream provided")
 		return
 	
-	is_active = true
-	effect_started.emit()
-	
-	DebugLogger.info(module_name, "Starting effect %s (startup: %s, duration: %s, wind_down: %s)" % [effect_id, startup, duration, wind_down])
-	
-	# Handle blink transition for non-blink effects
-	if use_blink_transition and effect_id != "blink":
-		await _do_blink_transition(true)
-	
-	# Startup phase
-	if startup > 0:
-		await _startup_phase(startup)
-		if not is_active: return  # Effect was stopped
-	
-	# Main duration phase
-	if duration > 0:
-		await _duration_phase(duration)
-		if not is_active: return  # Effect was stopped
-	
-	# Wind down phase
-	if wind_down > 0:
-		await _wind_down_phase(wind_down)
-		if not is_active: return  # Effect was stopped
-	
-	# Handle blink transition out
-	if use_blink_transition and effect_id != "blink":
-		await _do_blink_transition(false)
-	
-	# Cleanup and finish
-	_cleanup()
-	is_active = false
-	effect_finished.emit()
+	Audio.play_sound(audio_stream, true, pitch_scale, volume_db, "SFX")
+	DebugLogger.debug(module_name, "Playing effect audio: " + audio_stream.resource_path)
 
-## Helper to do blink transition
-func _do_blink_transition(starting: bool) -> void:
-	var vfx_manager = get_parent()
-	if vfx_manager and vfx_manager.has_method("invoke_effect"):
-		# Quick blink transition
-		vfx_manager.invoke_effect("blink", 0.1, 0.05, 0.1)
-		await get_tree().create_timer(0.15).timeout  # Wait for blink to reach peak
+## Get the compositor effect at the specified index
+func get_compositor_effect() -> CompositorEffect:
+	# Implementation depends on your compositor setup
+	# This is a placeholder
+	return null
 
-## Override in child classes - handles the startup/fade-in phase
-func _startup_phase(time: float) -> void:
-	DebugLogger.debug(module_name, "Default startup phase - override in child class")
-	if time > 0:
-		await get_tree().create_timer(time).timeout
-
-## Override in child classes - handles the main effect duration
-func _duration_phase(time: float) -> void:
-	DebugLogger.debug(module_name, "Default duration phase - override in child class")
-	if time > 0:
-		await get_tree().create_timer(time).timeout
-
-## Override in child classes - handles the wind-down/fade-out phase
-func _wind_down_phase(time: float) -> void:
-	DebugLogger.debug(module_name, "Default wind down phase - override in child class")
-	if time > 0:
-		await get_tree().create_timer(time).timeout
-
-## Stop the effect immediately (useful for cleanup)
-func stop_immediately() -> void:
-	if not is_active:
-		return
-	
-	DebugLogger.info(module_name, "Stopping effect immediately")
-	
-	# Call cleanup
-	_cleanup()
-	
-	is_active = false
-	effect_finished.emit()
-
-## Override in child classes for any cleanup needed
-func _cleanup() -> void:
+## Override these in derived classes
+func startup_phase(time: float) -> void:
 	pass
 
-## Helper to get the compositor effect from player camera
-func get_compositor_effect() -> CompositorEffect:
-	if compositor_index < 0:
-		return null
-		
-	if not player_camera:
-		DebugLogger.error(module_name, "No player camera reference")
-		return null
-	
-	var compositor = player_camera.compositor
-	if not compositor:
-		DebugLogger.error(module_name, "No compositor on player camera")
-		return null
-	
-	var effects = compositor.compositor_effects
-	if compositor_index >= effects.size():
-		DebugLogger.error(module_name, "Compositor index %d out of range" % compositor_index)
-		return null
-	
-	return effects[compositor_index]
+func duration_phase(time: float) -> void:
+	pass
+
+func wind_down_phase(time: float) -> void:
+	pass
+
+func _cleanup() -> void:
+	pass
