@@ -2,8 +2,6 @@
 ## Claude Help
 
 
-Scripts are creating their own audio players instead of just using the singleton 
-
 Play/test Game and take notes
 
 Scan Anomalies on day 2 and have it show the anomalous entity, and then on day 4 anomaly explodes 
