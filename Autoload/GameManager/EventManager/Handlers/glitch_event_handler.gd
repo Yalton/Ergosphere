@@ -19,7 +19,7 @@ func _ready() -> void:
 	module_name = "GlitchEvent"
 	
 	# Define which events this handler processes
-	handled_event_ids = ["glitch_event", "ui_glitch", "terminal_glitch"]
+	handled_event_ids = ["terminal_glitch"]
 	
 	DebugLogger.debug(module_name, "GlitchEvent ready")
 

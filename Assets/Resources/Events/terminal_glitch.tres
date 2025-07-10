@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://dsxw6dr5o5c2u"]
+
+[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="1_63m1k"]
+
+[resource]
+script = ExtResource("1_63m1k")
+id = "terminal_glitch"
+name = "terminal_glitch"
+description = "terminal_glitch"
+cost = 10
+disruption_percentage = 10
+min_day = 2
+cooldown = 60.0
+tags = Array[String]([])
+event_type = "MISC_DISRUPTIVE"
+metadata/_custom_type_script = "uid://clf1310qk2c05"

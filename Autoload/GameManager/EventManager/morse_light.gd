@@ -53,7 +53,7 @@ func _ready() -> void:
 	module_name = "MorseLightEvent"
 	
 	# Define which events this handler processes
-	handled_event_ids = ["morse_light", "light_morse", "morse_code"]
+	handled_event_ids = ["morse_light"]
 	
 	DebugLogger.debug(module_name, "MorseLightEvent ready")
 

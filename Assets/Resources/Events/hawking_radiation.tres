@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://do133yxf8hfox"]
+
+[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="1_w0or3"]
+
+[resource]
+script = ExtResource("1_w0or3")
+id = "hawking_radiation"
+name = "hawking_radiation"
+description = "hawking_radiation"
+cost = 10
+disruption_percentage = 90
+min_day = 3
+cooldown = 240.0
+tags = Array[String]([])
+event_type = "STATION_EMERGENCY"
+metadata/_custom_type_script = "uid://clf1310qk2c05"
