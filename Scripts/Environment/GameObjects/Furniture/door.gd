@@ -38,6 +38,14 @@ var initial_position: Vector3
 var target_position: Vector3
 var debug_module_name: String = "Door"
 
+# Resistance variables
+var should_resist_next_open: bool = false
+var resistance_progress: float = 0.25
+var resistance_duration: float = 0.5
+var resistance_active: bool = false
+var stored_door_speed: float = 0.0
+
+
 func _ready() -> void:
 	DebugLogger.register_module(debug_module_name, true)
 	add_to_group("interactable")
@@ -97,6 +105,14 @@ func interact(_interactor: PlayerInteractionComponent) -> void:
 	else:
 		open_door()
 
+## Tell the door to get stuck on next open
+func set_resistance_next_open(progress: float = 0.25, duration: float = 0.5) -> void:
+	should_resist_next_open = true
+	resistance_progress = progress
+	resistance_duration = duration
+	DebugLogger.debug(debug_module_name, "Door will resist at " + str(progress * 100) + "% for " + str(duration) + "s")
+
+# Modify the open_door function to check for resistance
 func open_door() -> void:
 	DebugLogger.debug(debug_module_name, "Opening door")
 	
@@ -112,7 +128,13 @@ func open_door() -> void:
 	is_moving = true
 	is_open = true
 	door_state_changed.emit(true)
-
+	
+	# Check if we should resist
+	if should_resist_next_open:
+		should_resist_next_open = false  # Only resist once
+		resistance_active = true
+		_monitor_resistance()
+	
 func close_door() -> void:
 	DebugLogger.debug(debug_module_name, "Closing door")
 	
@@ -139,6 +161,46 @@ func lock() -> void:
 	lock_state_changed.emit(true)
 	DebugLogger.debug(debug_module_name, "Door locked")
 
+# Monitor door progress and apply resistance
+func _monitor_resistance() -> void:
+	if not resistance_active or not is_moving:
+		return
+	
+	var progress = 0.0
+	
+	if door_type == DoorType.SLIDE:
+		var total_distance = slide_direction.normalized() * slide_distance
+		var current_distance = position - initial_position
+		progress = current_distance.length() / total_distance.length()
+	else:  # SWING
+		var total_angle = abs(open_rotation_deg - closed_rotation_deg)
+		var current_angle = abs(rad_to_deg(rotation.y) - closed_rotation_deg)
+		progress = current_angle / total_angle
+	
+	if progress >= resistance_progress:
+		# Apply resistance
+		stored_door_speed = door_speed
+		door_speed = 0.0
+		
+		if audio_player and audio_player.playing:
+			audio_player.stream_paused = true
+		
+		DebugLogger.debug(debug_module_name, "Door stuck at " + str(progress * 100) + "%")
+		
+		# Resume after duration
+		get_tree().create_timer(resistance_duration).timeout.connect(func():
+			door_speed = stored_door_speed
+			resistance_active = false
+			
+			if audio_player and audio_player.stream_paused:
+				audio_player.stream_paused = false
+			
+			DebugLogger.debug(debug_module_name, "Door resistance ended")
+		)
+	else:
+		# Continue monitoring
+		get_tree().create_timer(0.01).timeout.connect(_monitor_resistance)
+		
 func _on_day_ended(day_number: int) -> void:
 	if not reset_on_new_day:
 		return

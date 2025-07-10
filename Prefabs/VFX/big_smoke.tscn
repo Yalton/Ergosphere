@@ -13,14 +13,14 @@ gradient = SubResource("Gradient_4xi4w")
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(0.587329, 0.501806), -3.14482, -3.14482, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 4
 
-[sub_resource type="CurveTexture" id="CurveTexture_uexjp"]
+[sub_resource type="CurveTexture" id="CurveTexture_svume"]
 curve = SubResource("Curve_svume")
 
 [sub_resource type="Curve" id="Curve_mc5ru"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_5x6vh"]
+[sub_resource type="CurveTexture" id="CurveTexture_uexjp"]
 curve = SubResource("Curve_mc5ru")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1b11i"]
@@ -31,25 +31,25 @@ spread = 0.0
 gravity = Vector3(0, 4, 0)
 scale_min = 0.4
 scale_max = 0.4
-scale_curve = SubResource("CurveTexture_uexjp")
+scale_curve = SubResource("CurveTexture_svume")
 color = Color(0.414704, 0.414704, 0.414704, 0.219608)
 color_ramp = SubResource("GradientTexture1D_gb4gd")
 turbulence_enabled = true
 turbulence_noise_strength = 0.5
 turbulence_noise_scale = 5.0
-turbulence_influence_over_life = SubResource("CurveTexture_5x6vh")
+turbulence_influence_over_life = SubResource("CurveTexture_uexjp")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a14ag"]
 load_path = "res://.godot/imported/smoke_07.png-2b621f94198f3f42a10577e7347b1819.s3tc.ctex"
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fgy6c"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mc5ru"]
 transparency = 1
 albedo_color = Color(0.314316, 0.314316, 0.314316, 1)
 albedo_texture = SubResource("CompressedTexture2D_a14ag")
 billboard_mode = 1
 
 [sub_resource type="QuadMesh" id="QuadMesh_swyrw"]
-material = SubResource("StandardMaterial3D_fgy6c")
+material = SubResource("StandardMaterial3D_mc5ru")
 size = Vector2(4, 4)
 
 [sub_resource type="FogMaterial" id="FogMaterial_svume"]

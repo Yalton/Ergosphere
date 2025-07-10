@@ -198,7 +198,7 @@ func _spawn_shattered_scanner() -> void:
 		return
 	
 	# Instance the shattered scanner
-	var shattered_scanner : ShatteredScanner = shattered_scanner_scene.instantiate()
+	var shattered_scanner : ShatteredObject = shattered_scanner_scene.instantiate()
 	
 	var props_node = get_tree().get_first_node_in_group("props")
 	if props_node: 

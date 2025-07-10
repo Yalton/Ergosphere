@@ -1,5 +1,55 @@
 # Development Notes & Bugs
 
+
+
+
+
+## Claude Help
+
+
+Play/test Game and take notes
+
+Scan Anomalies on day 2 and have it show the anomalous entity, and then on day 4 anomaly explodes 
+
+Password Revelation - During power failure, emergency lighting creates shadows that spell out admin password on wall
+
+## Monster
+
+Create creates dark zone
+
+## Lore/Setting
+
+Figure out the monster
+Nail the story 
+Brighten it on day 1
+
+
+## Manual
+
+Floor Look bad 
+- Re-make floor
+Add SFX to stuff
+Test Systems thouroughly
+New Hermes voice
+
+### Notes
+
+Item on ground sometimes not let me pick it up
+Visible on screen should check if mesh is in the way 
+
+---
+
+
+Event points acrue too quickly 
+
+## Cant replicate 
+
+Go to sleep task not removed when new tasks assigned 
+Object fall through floor 
+
+
+
+
 ## Current Known Bugs
 
 ## Misc 

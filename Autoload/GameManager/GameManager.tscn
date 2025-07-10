@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://d3hcptla36gp3"]
+[gd_scene load_steps=25 format=3 uid="uid://d3hcptla36gp3"]
 
 [ext_resource type="Script" uid="uid://brfd0bny5riwc" path="res://Autoload/GameManager/game_manager.gd" id="1_ttbae"]
 [ext_resource type="PackedScene" uid="uid://bk1kuand7o7xa" path="res://Autoload/GameManager/EventManager/EventManager.tscn" id="2_bax16"]
 [ext_resource type="PackedScene" uid="uid://bt83m4xuehnh8" path="res://Autoload/GameManager/StateManager/StateManager.tscn" id="3_554py"]
+[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="3_hygov"]
 [ext_resource type="PackedScene" uid="uid://cuykknx82jpa1" path="res://Autoload/GameManager/TaskManager/TaskManager.tscn" id="4_554py"]
 [ext_resource type="AudioStream" uid="uid://chnfaq63v5hia" path="res://Assets/Audio/Alarm/Alarm.ogg" id="5_vylof"]
 [ext_resource type="PackedScene" uid="uid://d03sh0ygt4cwo" path="res://Autoload/GameManager/StorageManager/storage_manager.tscn" id="6_k5xqi"]
@@ -23,10 +24,24 @@
 [ext_resource type="Resource" uid="uid://cjq4nhp7vy1a0" path="res://Assets/Resources/Items/thermos.tres" id="32_o3trq"]
 [ext_resource type="Resource" uid="uid://can2tw0cqx0fd" path="res://Assets/Resources/Items/walkie_talkie.tres" id="33_k3nj7"]
 
+[sub_resource type="Resource" id="Resource_kvm4w"]
+script = ExtResource("3_hygov")
+id = ""
+name = "Unnamed Event"
+description = ""
+cost = 10
+disruption_percentage = 20
+min_day = 1
+cooldown = 60.0
+tags = Array[String]([])
+event_type = "NONE"
+metadata/_custom_type_script = "uid://clf1310qk2c05"
+
 [node name="GameManager" type="Node"]
 script = ExtResource("1_ttbae")
 
 [node name="EventManager" parent="." instance=ExtResource("2_bax16")]
+event_resources = Array[ExtResource("3_hygov")]([SubResource("Resource_kvm4w")])
 
 [node name="StateManager" parent="." instance=ExtResource("3_554py")]
 

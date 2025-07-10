@@ -2,11 +2,15 @@
 extends Node
 class_name BaseVisualEffect
 
+signal effect_started
+signal effect_finished
+
 ## Base class for all visual effects
 var effect_id: String = ""
 var effect_name: String = ""
 var compositor_index: int = -1
 var module_name: String = "BaseVisualEffect"
+var player_camera : Camera3D
 
 func _ready() -> void:
 	DebugLogger.register_module(module_name, true)

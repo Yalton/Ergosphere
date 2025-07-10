@@ -1,0 +1,147 @@
+[gd_scene load_steps=32 format=3 uid="uid://cabf6yaqip2ct"]
+
+[ext_resource type="Script" uid="uid://do1frtvfuswhf" path="res://Scripts/coffee_mug.gd" id="1_cn2xf"]
+[ext_resource type="PackedScene" uid="uid://cf72ucel8x55f" path="res://Assets/Models/Station/Props/CoffeeMug/coffee_mug.gltf" id="1_r04j7"]
+[ext_resource type="ArrayOccluder3D" uid="uid://jas1ms6caje5" path="res://Assets/Models/Occluders/Props/coffee_mug.occ" id="2_eg2t4"]
+[ext_resource type="PackedScene" uid="uid://c6grw1dr4dcot" path="res://Prefabs/shattered_coffee_mug.tscn" id="2_r6au3"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_k6hwo"]
+[ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_5ky4t"]
+[ext_resource type="Shader" uid="uid://dmyhja68ba8wv" path="res://Prefabs/Environment/Props/Food/coffee.gdshader" id="5_cn2xf"]
+[ext_resource type="AudioStream" uid="uid://8bou6fngtru7" path="res://Assets/Audio/Impacts/hard_1.ogg" id="6_cabii"]
+[ext_resource type="AudioStream" uid="uid://bn6npoj46a2s" path="res://Assets/Audio/Impacts/hard_2.ogg" id="7_vgnqb"]
+[ext_resource type="AudioStream" uid="uid://bp3jvbxxp163p" path="res://Assets/Audio/Impacts/hard_3.ogg" id="8_8cadu"]
+[ext_resource type="Texture2D" uid="uid://c3dr3nmew75ny" path="res://Assets/Graphics/Textures/VFX_Textures/smoke_04.png" id="9_k7j0f"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_eg2t4"]
+height = 0.28
+radius = 0.18
+
+[sub_resource type="Gradient" id="Gradient_cn2xf"]
+colors = PackedColorArray(0.281187, 0.281187, 0.281187, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_r6au3"]
+noise_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_cn2xf"]
+color_ramp = SubResource("Gradient_cn2xf")
+noise = SubResource("FastNoiseLite_r6au3")
+
+[sub_resource type="Gradient" id="Gradient_r25pr"]
+colors = PackedColorArray(0.282353, 0.282353, 0.282353, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_eu3fc"]
+noise_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_r6au3"]
+color_ramp = SubResource("Gradient_r25pr")
+noise = SubResource("FastNoiseLite_eu3fc")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r6au3"]
+render_priority = 0
+shader = ExtResource("5_cn2xf")
+shader_parameter/uAlbedo = Color(0.37, 0.178833, 0, 1)
+shader_parameter/uTexureNormal = SubResource("NoiseTexture2D_cn2xf")
+shader_parameter/uTexureNormal2 = SubResource("NoiseTexture2D_r6au3")
+shader_parameter/uNormalMix = 0.2
+shader_parameter/uWaveDirection = Vector2(1, 0)
+shader_parameter/uWaveDirection2 = Vector2(1, 1)
+shader_parameter/uTimeScale = 0.02
+shader_parameter/uWaveScale = 1.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_k7j0f"]
+material = SubResource("ShaderMaterial_r6au3")
+top_radius = 0.15
+bottom_radius = 0.15
+height = 0.015
+
+[sub_resource type="Curve" id="Curve_cn2xf"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.136029, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.915441, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_r6au3"]
+curve = SubResource("Curve_cn2xf")
+
+[sub_resource type="Gradient" id="Gradient_q3m7q"]
+offsets = PackedFloat32Array(0, 0.49187, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.28, 0.28, 0.28, 1, 0.49, 0.49, 0.49, 0.803922)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_r25pr"]
+gradient = SubResource("Gradient_q3m7q")
+
+[sub_resource type="Curve" id="Curve_eu3fc"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(0.587329, 0.501806), -3.14482, -3.14482, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_wnesx"]
+curve = SubResource("Curve_eu3fc")
+
+[sub_resource type="Curve" id="Curve_jf663"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wr7yg"]
+curve = SubResource("Curve_jf663")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5355c"]
+emission_shape = 1
+emission_sphere_radius = 0.2
+angle_max = 90.0
+spread = 0.0
+gravity = Vector3(0, 2, 0)
+scale_min = 0.25
+scale_max = 0.25
+scale_curve = SubResource("CurveTexture_wnesx")
+color = Color(0.414704, 0.414704, 0.414704, 0.219608)
+color_ramp = SubResource("GradientTexture1D_r25pr")
+alpha_curve = SubResource("CurveTexture_r6au3")
+turbulence_enabled = true
+turbulence_noise_strength = 0.5
+turbulence_noise_scale = 5.0
+turbulence_influence_over_life = SubResource("CurveTexture_wr7yg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_22klk"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("9_k7j0f")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_a6fci"]
+material = SubResource("StandardMaterial3D_22klk")
+size = Vector2(0.2, 0.2)
+
+[node name="CoffeeMug" type="RigidBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_cn2xf")
+shattered_mug_scene = ExtResource("2_r6au3")
+rigid_body_path = NodePath(".")
+
+[node name="coffee_mug" parent="." instance=ExtResource("1_r04j7")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.160372, 0)
+shape = SubResource("CylinderShape3D_eg2t4")
+
+[node name="CarryableComponent" parent="." instance=ExtResource("3_k6hwo")]
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("2_eg2t4")
+
+[node name="CoffeeLiquid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.273617, 0)
+mesh = SubResource("CylinderMesh_k7j0f")
+
+[node name="ImpactSounds" parent="." instance=ExtResource("5_5ky4t")]
+impact_sounds = Array[AudioStream]([ExtResource("6_cabii"), ExtResource("7_vgnqb"), ExtResource("8_8cadu")])
+min_volume_db = -10.0
+
+[node name="CoffeeSteam" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.291209, 0)
+amount = 32
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_5355c")
+draw_pass_1 = SubResource("QuadMesh_a6fci")

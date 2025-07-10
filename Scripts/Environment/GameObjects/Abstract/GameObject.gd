@@ -24,6 +24,7 @@ func find_interaction_nodes():
 #func find_rigid_body() -> RigidBody3D:
 	#var current = self
 	#while current:
+## Name that will displayed when interacting. Leave blan
 		#if current is RigidBody3D:
 			#return current as RigidBody3D
 		#current = current.get_parent()

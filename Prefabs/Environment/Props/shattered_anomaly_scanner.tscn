@@ -1,7 +1,7 @@
 [gd_scene load_steps=44 format=4 uid="uid://dsyhtogs7bpnc"]
 
 [ext_resource type="Texture2D" uid="uid://qsmwaltgwle0" path="res://Assets/Models/Station/Props/shattered_oxygen_scanner/textures/GreyPlastic-Color.png" id="1_afhqm"]
-[ext_resource type="Script" uid="uid://twm2fcp1lwii" path="res://Scripts/shattered_anomaly_scanner.gd" id="1_gryal"]
+[ext_resource type="Script" uid="uid://twm2fcp1lwii" path="res://Scripts/shattered_object.gd" id="1_gryal"]
 [ext_resource type="AudioStream" uid="uid://bbhdkc72cem1r" path="res://Assets/Audio/Misc/shatter.wav" id="2_1qjfd"]
 [ext_resource type="Texture2D" uid="uid://brnuanlfmoibv" path="res://Assets/Models/Station/Props/shattered_oxygen_scanner/textures/GreyPlastic-Roughness.png" id="2_gryal"]
 [ext_resource type="Texture2D" uid="uid://8kgyjbqft0r" path="res://Assets/Models/Station/Props/shattered_oxygen_scanner/textures/GreyPlastic-Normal.png" id="3_1qjfd"]

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://x1giaev7g56c"]
+
+[ext_resource type="Script" uid="uid://cao1xk315kc0h" path="res://Prefabs/coffee_mug_manager.gd" id="1_tx40u"]
+
+[node name="CoffeeMugManager" type="Node"]
+script = ExtResource("1_tx40u")
