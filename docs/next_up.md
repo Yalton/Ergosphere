@@ -5,19 +5,12 @@
 4. **Foundation for the monster** - Many of your unimplemented events (Reality Stutter, The Maze, Dream Sequence) could tie into how the monster manipulates reality. Get these working first so the monster can leverage them
 
 **Start with these high-impact, simple events:**
-1. **Terminal Flicker/Message** - Dead simple, just text manipulation
-2. **The Coffee Cup** - Just spawning an object in different rooms
-3. **Sound Delay** - Audio timing adjustment
-4. **Door Resistance** - Animation speed tweak
-5. **Morse Light** - Light flicker pattern
 
 These will give you quick wins and flesh out the atmosphere without complex systems.
 
 **Then move to medium complexity:**
 1. **The First Note** - Spawning with interaction
 2. **Gravitational Hiccup** - Physics tweaks
-3. **Memory Gap** - Journal system integration
-4. **Whisper Vents** - Positional audio
 
 **Save the complex ones for last:**
 1. **Dream Sequence** - Entire scene swap

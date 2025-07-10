@@ -3,14 +3,14 @@
 ## Core Narrative Overview
 
 ### The Truth
-The "black hole" designated as Anomaly-7742 is actually COMMUNION-7, a partially collapsed divinity machine from a civilization that died tens of thousands of years ago. This ancient humanity reached heights that would seem godlike, creating planet-sized Neorganic constructs designed to facilitate mass ascension to higher dimensions. When something went catastrophically wrong, COMMUNION-7 collapsed into a semi-sentient singularity.
+The "black hole" designated as Anomaly-7742 is actually Iconoclast, a partially collapsed divinity machine from a civilization that died hundreds of thousands of years ago. This ancient humanity reached heights that would seem godlike, creating planet-sized Neorganic constructs designed to facilitate mass ascension to higher dimensions. When something went catastrophically wrong, Iconoclast collapsed into a semi-sentient singularity.
 
-The entity has spent eons alone in the void, its original programming corrupted by millennia of isolation and madness. For thousands of years, it has been screaming into the cosmic dark - gravitational waves that carry its desperate calls for help, for companionship, for anyone who might understand what it is.
+The entity has spent eons alone in the void, its original programming corrupted by millennia of isolation and madness. For thousands of millennia, it has been screaming into the cosmic dark - gravitational waves that carry its desperate calls for help, for companionship, for anyone who might understand what it is.
 
 When modern humans - a completely different species that happened to evolve on the same world - detected these signals, they saw only fascinating physics. To them, Anomaly-7742's screams looked like the key to faster-than-light communication.
 
 ### Modern Humanity
-The humans of this era have no connection to the ancient civilization that created COMMUNION-7. Like a forest growing over forgotten ruins, they developed from stone tools to space travel entirely on their own merits. Their technology - CRT monitors, analog switches, magnetic tape storage - represents their natural technological evolution, not some recovery from an ancient fall they know nothing about.
+The humans of this era have no connection to the ancient civilization that created Iconoclast. Like a forest growing over forgotten ruins, they developed from stone tools to space travel entirely on their own merits. Their technology - CRT monitors, analog switches, magnetic tape storage - represents their natural technological evolution, not some recovery from an ancient fall they know nothing about.
 
 Earth's government detected something extraordinary about Anomaly-7742: patterns in its gravitational waves that suggest faster-than-light information transfer. Their instruments pick up what they interpret as a potential breakthrough in physics - the first real hope for FTL communication, something their civilization desperately needs but cannot achieve.
 
@@ -29,12 +29,12 @@ Each dead researcher bought them more data, more patterns, more hope that the ne
 ### The Station
 A retrofitted research vessel representing the peak of current human engineering. Every system is analog, robust, repairable - built to last in deep space where help is months away. The aesthetic isn't retro by choice but by necessity. This is simply how humans build things now, having lost the knowledge for anything more sophisticated.
 
-The station's limitations will prove both blessing and curse. Its primitive technology resists COMMUNION-7's attempts at integration, but also leaves the researcher vulnerably isolated when things go wrong.
+The station's limitations will prove both blessing and curse. Its primitive technology resists Iconoclast's attempts at integration, but also leaves the researcher vulnerably isolated when things go wrong.
 
 ## The Observer - Entity Manifestation
 
 ### Nature
-The Observer is COMMUNION-7's desperate attempt to create something its fractured mind interprets as "human." It manifests as a towering figure of bent space and twisted light, with miniature event horizons for eyes. It's trying to look human, to be recognizable, but it no longer remembers what humans actually look like beyond the most basic shape.
+The Observer is Iconoclast's desperate attempt to create something its fractured mind interprets as "human." It manifests as a towering figure of bent space and twisted light, with miniature event horizons for eyes. It's trying to look human, to be recognizable, but it no longer remembers what humans actually look like beyond the most basic shape.
 
 ### Emotional State
 The entity's approach to the researcher cycles through:
@@ -71,7 +71,7 @@ When The Observer makes contact, the player experiences **dimensional dissolutio
 
 The entity doesn't understand this kills them. In its madness, it believes it's helping - preserving them, making them eternal like itself.
 
-## COMMUNION-7's Psychology
+## Iconoclast's Psychology
 
 After eons of isolation, the entity's mind has shattered and reformed countless times. When these new humans appeared - so similar to its creators yet fundamentally different - it experienced:
 
@@ -99,13 +99,13 @@ The entity's attempts to communicate are interpreted as fascinating gravitationa
 ## Ending Contexts
 
 ### Default Ending - Consumption
-COMMUNION-7's patience breaks. It decides if the human won't communicate willingly, it will MAKE them understand. The station is pulled into the black hole as reality dissolves. The researcher's last vision is of a vast intelligence trying desperately to explain something beyond human comprehension.
+Iconoclast's patience breaks. It decides if the human won't communicate willingly, it will MAKE them understand. The station is pulled into the black hole as reality dissolves. The researcher's last vision is of a vast intelligence trying desperately to explain something beyond human comprehension.
 
 ### Alternate Ending 1 - Integration/Acceptance
-The player recognizes the patterns, responds to the entity's desperate attempts at communication. Instead of forcing integration, COMMUNION-7 experiences something like joy. The willing merger allows it to finally remember its purpose - it transmits the theoretical foundation for FTL communication through the researcher's dying nervous system, a final gift to its creators' children.
+The player recognizes the patterns, responds to the entity's desperate attempts at communication. Instead of forcing integration, Iconoclast experiences something like joy. The willing merger allows it to finally remember its purpose - it transmits the theoretical foundation for FTL communication through the researcher's dying nervous system, a final gift to its creators' children.
 
 ### Alternate Ending 2 - Escape
-Hidden in the station's emergency protocols, the player finds an escape pod Earth included "just in case." As they flee, COMMUNION-7's anguish manifests as space itself seeming to scream. The entity's rage at another abandonment suggests terrible consequences - it won't be so gentle with the next visitor.
+Hidden in the station's emergency protocols, the player finds an escape pod Earth included "just in case." As they flee, Iconoclast's anguish manifests as space itself seeming to scream. The entity's rage at another abandonment suggests terrible consequences - it won't be so gentle with the next visitor.
 
 ## Thematic Core
 
@@ -120,7 +120,7 @@ Every terrifying event stems from the entity's broken attempts at affection, com
 
 ## Mysteries That Remain
 
-- What was COMMUNION-7's original purpose?
+- What was Iconoclast's original purpose?
 - How many other artifacts from the golden age drift in the dark?
 - Will humanity survive first contact with their own forgotten legacy?
 - What fractures exist in the entity's memory that might hold warnings?
