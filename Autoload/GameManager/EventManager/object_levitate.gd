@@ -31,7 +31,7 @@ func _ready() -> void:
 	module_name = "ObjectLevitateEvent"
 	
 	# Events this handler processes
-	handled_event_ids = ["object_levitate", "levitation", "telekinesis"]
+	handled_event_ids = ["object_levitate"]
 	
 	DebugLogger.debug(module_name, "ObjectLevitateEvent ready")
 

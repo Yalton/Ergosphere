@@ -18,7 +18,7 @@ func _ready() -> void:
 	module_name = "DoorResistanceEvent"
 	
 	# Define which events this handler processes
-	handled_event_ids = ["door_resistance", "sticky_door", "door_stuck"]
+	handled_event_ids = ["door_malfunction"]
 	
 	DebugLogger.debug(module_name, "DoorResistanceEvent ready")
 

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://d4hfnmtpwg36q"]
+
+[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="1_gye7q"]
+
+[resource]
+script = ExtResource("1_gye7q")
+id = "door_malfunction"
+name = "door_malfunction"
+description = "door_malfunction"
+cost = 10
+disruption_percentage = 20
+min_day = 1
+cooldown = 60.0
+tags = Array[String]([])
+event_type = "NONE"
+metadata/_custom_type_script = "uid://clf1310qk2c05"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bk1kuand7o7xa"]
+[gd_scene load_steps=32 format=3 uid="uid://bk1kuand7o7xa"]
 
 [ext_resource type="Script" uid="uid://b2evp3vtmha88" path="res://Autoload/GameManager/EventManager/event_manager.gd" id="1_nnr1m"]
 [ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="2_oj86y"]
@@ -8,6 +8,8 @@
 [ext_resource type="Resource" uid="uid://dsxw6dr5o5c2u" path="res://Assets/Resources/Events/terminal_glitch.tres" id="4_u7gbo"]
 [ext_resource type="Script" uid="uid://cxt26q5mgk48w" path="res://Autoload/GameManager/EventManager/Handlers/engine_heatsink_failure.gd" id="5_lf3xo"]
 [ext_resource type="Resource" uid="uid://dvu6ufplt5r5y" path="res://Assets/Resources/Events/morse_light.tres" id="5_nn0bu"]
+[ext_resource type="Resource" uid="uid://d4hfnmtpwg36q" path="res://Assets/Resources/Events/door_malfunction.tres" id="6_awmde"]
+[ext_resource type="Resource" uid="uid://dnmyglaqvxi7s" path="res://Assets/Resources/Events/object_levitates.tres" id="7_he56m"]
 [ext_resource type="Script" uid="uid://3aye0vklbcrb" path="res://Autoload/GameManager/EventManager/Handlers/spooky_ambience.gd" id="9_a4it4"]
 [ext_resource type="Script" uid="uid://eyog1iwh6ukg" path="res://Autoload/GameManager/EventManager/Handlers/scene_spawn_handler.gd" id="13_4kg6c"]
 [ext_resource type="AudioStream" uid="uid://bxaqsd4b4gxrf" path="res://Assets/Audio/Ambience/AmbientHorror/escalating_noise.ogg" id="14_balmc"]
@@ -32,7 +34,7 @@
 
 [node name="EventManager" type="Node"]
 script = ExtResource("1_nnr1m")
-event_resources = Array[ExtResource("2_oj86y")]([ExtResource("3_u7gbo"), ExtResource("4_u7gbo"), ExtResource("5_nn0bu")])
+event_resources = Array[ExtResource("2_oj86y")]([ExtResource("3_u7gbo"), ExtResource("4_u7gbo"), ExtResource("5_nn0bu"), ExtResource("6_awmde"), ExtResource("7_he56m")])
 
 [node name="brief_flicker" type="Node" parent="." groups=["event_handlers"]]
 script = ExtResource("33_r2li7")

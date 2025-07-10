@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://dnmyglaqvxi7s"]
+
+[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="1_l247v"]
+
+[resource]
+script = ExtResource("1_l247v")
+id = "object_levitate"
+name = "object_levitate"
+description = "object_levitate"
+cost = 10
+disruption_percentage = 20
+min_day = 1
+cooldown = 60.0
+tags = Array[String]([])
+event_type = "NONE"
+metadata/_custom_type_script = "uid://clf1310qk2c05"
