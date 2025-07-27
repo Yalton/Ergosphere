@@ -17,7 +17,6 @@
 - **Terminal Flicker** - Screen briefly shows text in unrecognizable characters before returning to normal
 - **The First Note** - Sticky note appears with just "LISTEN" written in shaky handwriting
 - **Gravitational Hiccup** - Player briefly feels heavier/lighter, objects float momentarily
-- **Terminal Message** - Screen displays "HELLO" in the middle of routine data entry, disappears immediately
 - **Dream Sequence** - Player "wakes up" in observation room facing the black hole, everything is wrong (colors inverted, gravity sideways), then actually wakes up
 - **Reality Stutter** - Player enters engine room, exits into hab room instead of corridor
 - **The Maze Event** - Player opens door to find impossible corridor stretching beyond station dimensions, must backtrack quickly or become lost

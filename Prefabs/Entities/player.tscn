@@ -303,6 +303,7 @@ sleep_stats_screen = NodePath("../SleepStats")
 visible = false
 
 [node name="SleepStats" parent="." instance=ExtResource("18_yls7o")]
+visible = false
 
 [node name="PlayerUI" type="Control" parent="." node_paths=PackedStringArray("message_panel", "message_label", "interaction_panel", "interaction_label", "interaction_icon", "task_tree_ui", "hint_container", "hint_audio", "dev_console_ui")]
 layout_mode = 3

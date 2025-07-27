@@ -220,14 +220,12 @@ shadow_mesh = SubResource("ArrayMesh_3m8lc")
 [sub_resource type="BoxShape3D" id="BoxShape3D_frei3"]
 size = Vector3(0.694702, 0.0809326, 0.369141)
 
-[node name="Bed" type="StaticBody3D" node_paths=PackedStringArray("camera_position", "state_aware_component")]
+[node name="Bed" type="StaticBody3D" node_paths=PackedStringArray("camera_position")]
 transform = Transform3D(0, 0, -4.79613, 0, 4.79613, 0, 4.79613, 0, 0, 0, 0, 0)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_i2l80")
 camera_position = NodePath("CameraPosition")
-state_aware_component = NodePath("StateAwareComponent")
-display_name = "bed"
 
 [node name="BasicInteraction" parent="." instance=ExtResource("14_a51al")]
 

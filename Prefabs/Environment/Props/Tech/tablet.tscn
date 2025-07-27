@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cvcddggpjxifk"]
+[gd_scene load_steps=15 format=3 uid="uid://cvcddggpjxifk"]
 
 [ext_resource type="PackedScene" uid="uid://pjbcru42uljw" path="res://Assets/Models/Station/Props/tablet/tablet.gltf" id="1_co1uk"]
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_p1fn5"]
@@ -7,9 +7,47 @@
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_e7e3f"]
 [ext_resource type="AudioStream" uid="uid://cg5phwrprhtn6" path="res://Assets/Audio/Impacts/Metal/metal_1.ogg" id="6_g7yd6"]
 [ext_resource type="AudioStream" uid="uid://bhuh44fjonvjm" path="res://Assets/Audio/Impacts/Metal/metal_2.ogg" id="7_r7sbd"]
+[ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="8_1eqgs"]
+[ext_resource type="Shader" uid="uid://d2202msrah15r" path="res://Assets/VFX/Shader/crt_colorrect.gdshader" id="8_qkii0"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lgbmd"]
 size = Vector3(0.61, 0.06, 0.87)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1eqgs"]
+viewport_path = NodePath("CRT_Effect")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oc8oe"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_1eqgs")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gy5no"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_oc8oe")
+size = Vector2(0.9, 1.39)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_squb0"]
+shader = ExtResource("8_qkii0")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = false
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.03
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 1.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
 
 [node name="tablet" type="RigidBody3D"]
 collision_layer = 3
@@ -30,3 +68,55 @@ occluder = ExtResource("2_lgbmd")
 [node name="ImpactSounds" parent="." instance=ExtResource("5_e7e3f")]
 impact_sounds = Array[AudioStream]([ExtResource("6_g7yd6"), ExtResource("7_r7sbd")])
 min_volume_db = -10.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.615, 0, 0, 0, 0.615, 0, 0, 0, 0.615, 0, 0.0250977, 0)
+mesh = SubResource("PlaneMesh_gy5no")
+
+[node name="CRT_Effect" type="SubViewport" parent="."]
+size = Vector2i(360, 640)
+
+[node name="Control" type="Control" parent="CRT_Effect"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_1eqgs")
+
+[node name="CRT_Background" type="ColorRect" parent="CRT_Effect/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_1eqgs")
+color = Color(0, 0.168627, 0, 0.596078)
+
+[node name="CRT_Effect" type="ColorRect" parent="CRT_Effect/Control"]
+material = SubResource("ShaderMaterial_squb0")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_1eqgs")
+
+[node name="CenterContainer" type="CenterContainer" parent="CRT_Effect/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_1eqgs")
+
+[node name="Label" type="Label" parent="CRT_Effect/Control/CenterContainer"]
+layout_mode = 2
+theme = ExtResource("8_1eqgs")
+theme_override_font_sizes/font_size = 64
+text = "Jehovian 
+Myst"

@@ -4,7 +4,7 @@ signal game_started
 signal game_ended
 signal day_started(day_number: int)
 signal day_ended(day_number: int)
-
+signal player_sleeping()
 ## Current day number in the game
 @export var current_day: int = 0
 
@@ -164,6 +164,35 @@ func end_game():
 		# Return to main menu
 		get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
 
+
+
+# Helper method to get dream sequence handler from group
+func get_dream_sequence_handler() -> DreamSequenceEventHandler:
+	var handler = get_tree().get_first_node_in_group("dream_sequence_handler")
+	return handler as DreamSequenceEventHandler
+
+# Optional: Add this method to check if a dream sequence should play
+func should_play_dream_sequence() -> bool:
+	var handler = get_dream_sequence_handler()
+	return current_day == 2 and handler != null
+
+# Optional: Add debug method for testing dream sequence
+func test_dream_sequence() -> void:
+	var dream_handler = get_dream_sequence_handler()
+	if not dream_handler:
+		DebugLogger.error("GameManager", "No dream sequence handler found in group")
+		return
+		
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		var interaction_comp = player.get_node("PlayerInteractionComponent")
+		if interaction_comp:
+			dream_handler.trigger_dream_sequence(interaction_comp)
+		else:
+			DebugLogger.error("GameManager", "No player interaction component found")
+	else:
+		DebugLogger.error("GameManager", "No player found")
+		
 func reset_game():
 	"""Reset all game state"""
 	DebugLogger.info("GameManager", "Resetting game state")

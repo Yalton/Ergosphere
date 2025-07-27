@@ -13,14 +13,14 @@ Scan Anomalies on day 2 and have it show the anomalous entity, and then on day 4
 
 Password Revelation - During power failure, emergency lighting creates shadows that spell out admin password on wall
 
+Check to make sure all singletons can be re-initialized 
+
 ## Monster
 
 Create creates dark zone
 
 ## Lore/Setting
 
-Figure out the monster
-Nail the story 
 Brighten it on day 1
 
 
