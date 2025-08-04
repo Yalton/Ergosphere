@@ -172,13 +172,14 @@ func _evaluate_and_trigger_event() -> void:
 		var modified_cost = event.get_modified_cost(event_occurrences.get(event.id, 0))
 		
 		if current_points >= modified_cost:
-			if _try_trigger_event(event):
+			var result = _try_trigger_event(event)
+			if result.success:
 				current_points -= modified_cost
 				triggered = true
-				DebugLogger.info(module_name, "Triggered event: " + event.name + " (cost: " + str(modified_cost) + ")" + "points remaining " + str(current_points))
+				DebugLogger.info(module_name, "Triggered event: " + event.name + " (cost: " + str(modified_cost) + ")" + " points remaining " + str(current_points))
 				break
 			else:
-				DebugLogger.warning(module_name, "Event passed all checks but failed to execute: " + event.name)
+				DebugLogger.warning(module_name, "Event failed: " + event.name + " - " + result.message)
 	
 	if not triggered:
 		DebugLogger.debug(module_name, "Could not trigger any event")
@@ -242,7 +243,7 @@ func end_day() -> void:
 	var current_day = GameManager.get_current_day()
 	DebugLogger.info(module_name, "Day %d ended - disruption: %d%%" % [current_day, current_disruption])
 	
-func _try_trigger_event(event: EventData) -> bool:
+func _try_trigger_event(event: EventData) -> Dictionary:
 	# Find handler that handles this event ID
 	var handler: EventHandler = null
 	
@@ -252,25 +253,24 @@ func _try_trigger_event(event: EventData) -> bool:
 			break
 	
 	if not handler:
-		DebugLogger.error(module_name, "No handler found for event: " + event.name + " (id: " + event.id + ")")
-		return false
+		return {"success": false, "message": "No handler found for event ID: " + event.id}
 	
 	# Set the event data on the handler
 	handler.event_data = event
 	
-	# Check if handler says it can execute
-	if not handler.can_execute():
-		DebugLogger.debug(module_name, "Event handler cannot execute: " + event.name)
+	# Check if handler says it can execute and get status
+	var can_execute_result = handler.can_execute_with_status()
+	if not can_execute_result.success:
 		if handler.get_parent() == self:
 			handler.queue_free()
-		return false
+		return can_execute_result
 	
-	# Try to execute
-	if not handler.execute():
-		DebugLogger.warning(module_name, "Event execution failed: " + event.name)
+	# Try to execute and get status
+	var execute_result = handler.execute_with_status()
+	if not execute_result.success:
 		if handler.get_parent() == self:
 			handler.queue_free()
-		return false
+		return execute_result
 	
 	# Success! Track the event
 	active_events[event.id] = {
@@ -287,7 +287,7 @@ func _try_trigger_event(event: EventData) -> bool:
 	
 	event_triggered.emit(event.id)
 	
-	return true
+	return {"success": true, "message": "OK"}
 
 func _on_event_completed(event_id: String) -> void:
 	if not active_events.has(event_id):
@@ -396,7 +396,9 @@ func trigger_event(event_id: String) -> void:
 	
 	# Bypass cost but still check if it can run
 	if _can_trigger_event(event_data):
-		_try_trigger_event(event_data)
+		var result = _try_trigger_event(event_data)
+		if not result.success:
+			DebugLogger.warning(module_name, "Cannot force trigger event: " + event_id + " - " + result.message)
 	else:
 		DebugLogger.warning(module_name, "Cannot force trigger event: " + event_id)
 

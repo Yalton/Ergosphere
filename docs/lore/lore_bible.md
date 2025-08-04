@@ -55,7 +55,7 @@ The entity's approach to the researcher cycles through:
 - Appears more frequently, trying different approaches
 - Environmental manipulation becomes more aggressive
 - Shows signs of anger when messages aren't understood
-- Begins testing boundaries - how close can it get?
+- Begins testing boundaries - how close can it get?is:expired-3
 
 #### Stage 3: Desperate Possession (Day 5)
 - Refuses to be ignored any longer
@@ -68,7 +68,7 @@ When The Observer makes contact, the player experiences **dimensional dissolutio
 1. **Initial Touch** - Reality hiccups, vision fractures into impossible angles
 2. **Integration Attempt** - The entity tries to "save" the human by pulling them into its reality
 3. **Dissolution** - The player's consciousness is scattered across dimensions, their body becoming part of the station's geometry
-
+is:expired-3
 The entity doesn't understand this kills them. In its madness, it believes it's helping - preserving them, making them eternal like itself.
 
 ## Iconoclast's Psychology

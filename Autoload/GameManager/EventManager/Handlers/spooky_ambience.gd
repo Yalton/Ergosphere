@@ -1,4 +1,3 @@
-# spooky_ambience.gd
 extends EventHandler
 class_name SpookyAmbienceEvent
 
@@ -19,79 +18,61 @@ class_name SpookyAmbienceEvent
 @export var audio_bus: String = "SFX"
 
 func _ready() -> void:
-	module_name = "SpookyAmbienceEvent"
-	super._ready()
-	
-	
 	# Define which events this handler processes
 	handled_event_ids = ["subtle_horror", "jarring_horror", "confusing_horror", "spooky_ambience"]
-	
-	DebugLogger.debug(module_name, "SpookyAmbienceEvent ready")
 
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	# Check which sound pool we need based on event ID
 	match event_data.id:
 		"subtle_horror":
 			if subtle_horror_sounds.is_empty():
-				DebugLogger.warning(module_name, "No subtle horror sounds configured")
-				return false
+				return {"success": false, "message": "No subtle horror sounds configured"}
 		"jarring_horror":
 			if jarring_horror_sounds.is_empty():
-				DebugLogger.warning(module_name, "No jarring horror sounds configured")
-				return false
+				return {"success": false, "message": "No jarring horror sounds configured"}
 		"confusing_horror":
 			if confusing_horror_sounds.is_empty():
-				DebugLogger.warning(module_name, "No confusing horror sounds configured")
-				return false
+				return {"success": false, "message": "No confusing horror sounds configured"}
+		"spooky_ambience":
+			# Generic needs at least one pool
+			if subtle_horror_sounds.is_empty() and jarring_horror_sounds.is_empty() and confusing_horror_sounds.is_empty():
+				return {"success": false, "message": "No horror sounds configured in any category"}
 	
-	return true
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
+func _execute_internal() -> Dictionary:
 	# Handle based on event ID
 	match event_data.id:
 		"subtle_horror":
-			_handle_subtle_horror()
+			return _handle_subtle_horror()
 		"jarring_horror":
-			_handle_jarring_horror()
+			return _handle_jarring_horror()
 		"confusing_horror":
-			_handle_confusing_horror()
+			return _handle_confusing_horror()
 		"spooky_ambience":
 			# Generic spooky ambience - pick from any pool
-			_handle_generic_horror()
-	
-	return true
+			return _handle_generic_horror()
+		_:
+			return {"success": false, "message": "Unknown event ID: " + event_data.id}
 
 func end() -> void:
 	# Horror events complete naturally when sound ends
-	DebugLogger.info(module_name, "Horror ambience event completed")
-	
 	# Call base implementation
 	super.end()
 
-func _handle_subtle_horror() -> void:
+func _handle_subtle_horror() -> Dictionary:
 	## Handle subtle horror - quiet atmospheric sounds
-	DebugLogger.debug(module_name, "Playing subtle horror sound")
-	_play_from_sound_pool(subtle_horror_sounds, "subtle horror")
+	return _play_from_sound_pool(subtle_horror_sounds, "subtle horror")
 
-func _handle_jarring_horror() -> void:
+func _handle_jarring_horror() -> Dictionary:
 	## Handle jarring horror - sudden loud sounds
-	DebugLogger.debug(module_name, "Playing jarring horror sound")
-	_play_from_sound_pool(jarring_horror_sounds, "jarring horror")
+	return _play_from_sound_pool(jarring_horror_sounds, "jarring horror")
 
-func _handle_confusing_horror() -> void:
+func _handle_confusing_horror() -> Dictionary:
 	## Handle confusing horror - weird disorienting sounds
-	DebugLogger.debug(module_name, "Playing confusing horror sound")
-	_play_from_sound_pool(confusing_horror_sounds, "confusing horror")
+	return _play_from_sound_pool(confusing_horror_sounds, "confusing horror")
 
-func _handle_generic_horror() -> void:
+func _handle_generic_horror() -> Dictionary:
 	## Handle generic horror - pick from any available pool
 	var available_pools = []
 	if not subtle_horror_sounds.is_empty():
@@ -102,35 +83,29 @@ func _handle_generic_horror() -> void:
 		available_pools.append(confusing_horror_sounds)
 	
 	if available_pools.is_empty():
-		DebugLogger.warning(module_name, "No horror sounds configured")
-		return
+		return {"success": false, "message": "No horror sounds configured in any pool"}
 	
 	var selected_pool = available_pools[randi() % available_pools.size()]
-	_play_from_sound_pool(selected_pool, "generic horror")
+	return _play_from_sound_pool(selected_pool, "generic horror")
 
-func _play_from_sound_pool(sound_pool: Array[AudioStream], pool_name: String) -> void:
+func _play_from_sound_pool(sound_pool: Array[AudioStream], pool_name: String) -> Dictionary:
 	## Play a random sound from the specified pool
 	if sound_pool.is_empty():
-		DebugLogger.warning(module_name, "No sounds configured for %s pool" % pool_name)
-		return
+		return {"success": false, "message": "No sounds configured for " + pool_name + " pool"}
 	
 	var random_sound = sound_pool[randi() % sound_pool.size()]
-	_play_horror_sound(random_sound, pool_name)
+	return _play_horror_sound(random_sound, pool_name)
 
-func _play_horror_sound(sound: AudioStream, category: String) -> void:
+func _play_horror_sound(sound: AudioStream, category: String) -> Dictionary:
 	## Play a specific horror sound using the Audio singleton
 	if not sound:
-		DebugLogger.warning(module_name, "Attempted to play null sound from %s category" % category)
-		return
+		return {"success": false, "message": "Attempted to play null sound from " + category + " category"}
 	
 	if not Audio:
-		DebugLogger.error(module_name, "Audio singleton not found")
-		return
+		return {"success": false, "message": "Audio singleton not found"}
 	
 	# Play sound using Audio singleton
 	Audio.play_sound(sound, true, 1.0, horror_volume, audio_bus)
-	
-	DebugLogger.debug(module_name, "Playing %s sound: %s" % [category, sound.resource_path])
 	
 	# End event after sound duration (estimate based on stream length)
 	if sound.has_method("get_length"):
@@ -145,3 +120,5 @@ func _play_horror_sound(sound: AudioStream, category: String) -> void:
 			if is_active:
 				end()
 		)
+	
+	return {"success": true, "message": "OK"}

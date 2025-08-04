@@ -1,4 +1,3 @@
-# warp.gd
 extends EventHandler
 class_name WarpEvent
 
@@ -15,56 +14,47 @@ class_name WarpEvent
 @export var fade_duration: float = 0.5
 
 func _ready() -> void:
-	super._ready()
-	module_name = "WarpEvent"
-	
 	# Events this handler processes
 	handled_event_ids = ["warp", "player_teleport"]
-	
-	DebugLogger.debug(module_name, "WarpEvent ready")
 
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	# Check if player exists
 	var player = CommonUtils.get_player()
 	if not player:
-		DebugLogger.warning(module_name, "No player found")
-		return false
+		return {"success": false, "message": "No player found in scene"}
 	
 	# Check if warp destinations exist
 	var destinations = get_tree().get_nodes_in_group(warp_destination_group)
 	if destinations.is_empty():
-		DebugLogger.warning(module_name, "No warp destinations found in group: %s" % warp_destination_group)
-		return false
+		return {"success": false, "message": "No warp destinations found in group: " + warp_destination_group}
 	
-	return true
+	# Check if any valid destinations exist
+	var has_valid_destination = false
+	for dest in destinations:
+		if dest is Node3D and dest != player:
+			has_valid_destination = true
+			break
+	
+	if not has_valid_destination:
+		return {"success": false, "message": "No valid warp destinations (all destinations must be Node3D)"}
+	
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
+func _execute_internal() -> Dictionary:
 	var player = CommonUtils.get_player()
 	if not player:
-		DebugLogger.error(module_name, "No player found during execution")
-		return false
+		return {"success": false, "message": "No player found during execution"}
 	
 	var destination = _find_valid_destination(player)
 	if not destination:
-		DebugLogger.warning(module_name, "No valid warp destination found")
-		return false
+		return {"success": false, "message": "No valid warp destination found (check minimum distance requirements)"}
 	
 	# Perform the warp
 	_warp_player(player, destination)
 	
-	return true
+	return {"success": true, "message": "OK"}
 
 func end() -> void:
-	DebugLogger.info(module_name, "Warp event completed")
-	
 	# Call base implementation
 	super.end()
 
@@ -93,7 +83,6 @@ func _find_valid_destination(player: Node3D) -> Node3D:
 
 func _warp_player(player: Node3D, destination: Node3D) -> void:
 	## Actually teleport the player with effects
-	DebugLogger.info(module_name, "Warping player to: %s" % destination.name)
 	
 	# Play warp sound
 	if warp_sound:

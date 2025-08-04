@@ -1,8 +1,6 @@
 extends CompositorEffect
 class_name ShapeDilationEffect
 
-## Enable/disable the effect
-@export var enabled: bool = true
 
 ## Scale of the dilation effect - larger values create bigger distortion areas
 @export var scale: float = 1.0
@@ -134,16 +132,16 @@ func _render_callback(effect_callback_type: int, render_data: RenderData):
 		return
 		
 	var render_scene_buffers := render_data.get_render_scene_buffers()
-	var render_size := render_scene_buffers.get_internal_size()
+	var render_size: Vector2i = render_scene_buffers.get_internal_size()
 	
 	if render_size.x == 0 or render_size.y == 0:
 		return
 		
 	# Get color buffer
-	var color_image := render_scene_buffers.get_color_layer(0)
+	var color_image: RID = render_scene_buffers.get_color_layer(0)
 	
 	# Get depth buffer
-	var depth_image := render_scene_buffers.get_depth_layer(0)
+	var depth_image: RID = render_scene_buffers.get_depth_layer(0)
 	
 	# Create object mask buffer (this would be filled by your object shader)
 	var mask_format := RDTextureFormat.new()

@@ -1,4 +1,3 @@
-# heatsink_failure.gd
 extends EventHandler
 class_name HeatsinkFailureEvent
 
@@ -9,36 +8,28 @@ class_name HeatsinkFailureEvent
 var failed_heatsink: StationEngine = null
 
 func _ready() -> void:
-	super._ready()
-	module_name = "HeatsinkFailureEvent"
-	
 	# This handler handles the heatsink_failure event
 	handled_event_ids = ["heatsink_failure"]
 
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	# Check if heatsink is operational
 	if not check_state("engine_heatsink_operational", true):
-		DebugLogger.debug(module_name, "Engine heatsink already failed")
-		return false
+		return {"success": false, "message": "Engine heatsink already failed"}
 	
 	# Find operational engine heatsinks
 	var engines = get_tree().get_nodes_in_group("station_engine")
+	var operational_count = 0
+	
 	for engine in engines:
 		if engine is StationEngine and engine.can_fail():
-			return true
+			operational_count += 1
 	
-	DebugLogger.debug(module_name, "No operational engines available to fail")
-	return false
+	if operational_count == 0:
+		return {"success": false, "message": "No operational engines available to fail"}
+	
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
+func _execute_internal() -> Dictionary:
 	# Update state
 	set_state("engine_heatsink_operational", false)
 	
@@ -51,10 +42,9 @@ func execute() -> bool:
 			operational_engines.append(engine)
 	
 	if operational_engines.is_empty():
-		DebugLogger.error(module_name, "No operational engines found during execution")
 		# Revert state since we couldn't actually fail anything
 		set_state("engine_heatsink_operational", true)
-		return false
+		return {"success": false, "message": "No operational engines found during execution"}
 	
 	# Pick one at random to fail
 	failed_heatsink = operational_engines[randi() % operational_engines.size()]
@@ -76,9 +66,7 @@ func execute() -> bool:
 	# Send player notification
 	CommonUtils.send_player_hint("", "WARNING: Engine Heatsink Failure")
 	
-	DebugLogger.info(module_name, "Heatsink failure triggered on engine: " + failed_heatsink.name)
-	
-	return true
+	return {"success": true, "message": "OK"}
 
 func end() -> void:
 	# Clean up connections
@@ -90,14 +78,10 @@ func end() -> void:
 	# Restore state
 	set_state("engine_heatsink_operational", true)
 	
-	DebugLogger.info(module_name, "Heatsink failure event ended")
-	
 	# Call base implementation
 	super.end()
 
 func _on_heatsink_fixed() -> void:
-	DebugLogger.info(module_name, "Heatsink has been fixed, ending event")
-	
 	# Tell EventManager to end this event
 	if GameManager and GameManager.event_manager:
 		GameManager.event_manager.end_event("heatsink_failure")

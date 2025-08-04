@@ -1,4 +1,3 @@
-# power_outage.gd
 extends EventHandler
 class_name PowerOutageEvent
 
@@ -10,29 +9,17 @@ class_name PowerOutageEvent
 @export var power_restore_sound: AudioStream
 
 func _ready() -> void:
-	super._ready()
-	module_name = "PowerOutageEvent"
-	
 	# This handler handles the power_outage event
 	handled_event_ids = ["power_outage"]
 
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	# Check if power is currently on
 	if not check_state("power", "on"):
-		DebugLogger.debug(module_name, "Power is already off")
-		return false
+		return {"success": false, "message": "Power is already off"}
 	
-	return true
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
+func _execute_internal() -> Dictionary:
 	# Set power state to off
 	set_state("power", "off")
 	
@@ -43,13 +30,13 @@ func execute() -> bool:
 	#if power_failure_sound:
 		#play_audio(power_failure_sound)
 	
-		# Use effects manager for all power-related effects
+	# Use effects manager for all power-related effects
 	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
 	if effects_manager:
 		effects_manager.kill_power()
 		effects_manager.update_power_lever(false)
 	else:
-		DebugLogger.error(module_name, "Could not find effects manager")
+		return {"success": false, "message": "Could not find effects manager for power control"}
 		
 	# Create emergency task
 	trigger_emergency_task("restore_power")
@@ -57,9 +44,7 @@ func execute() -> bool:
 	# Send player notification
 	CommonUtils.send_player_hint("", "WARNING: Station Power Failure")
 	
-	DebugLogger.info(module_name, "Power outage executed successfully")
-	
-	return true
+	return {"success": true, "message": "OK"}
 
 func end() -> void:
 	# Restore power
@@ -72,9 +57,8 @@ func end() -> void:
 	if power_restore_sound:
 		play_audio(power_restore_sound)
 		var effects_manager = get_tree().get_first_node_in_group("effects_manager")
-		effects_manager.update_power_lever(true)
-	
-	DebugLogger.info(module_name, "Power has been restored")
+		if effects_manager:
+			effects_manager.update_power_lever(true)
 	
 	# Call base implementation
 	super.end()

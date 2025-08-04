@@ -1,72 +1,51 @@
-# brief_flicker.gd
 extends EventHandler
 class_name BriefFlickerEvent
 
 ## Handles brief light flickering effects
 
 func _ready() -> void:
-	super._ready()
-	module_name = "BriefFlickerEvent"
-	
 	# Define which events this handler processes
 	handled_event_ids = ["brief_flicker", "purple_shift", "brightness_boost"]
-	
-	DebugLogger.debug(module_name, "BriefFlickerEvent ready")
 
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	# Find effects manager
 	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
 	if not effects_manager:
-		DebugLogger.warning(module_name, "No effects manager found")
-		return false
+		return {"success": false, "message": "No effects manager found in scene"}
 	
 	# Check if the required method exists
 	match event_data.id:
 		"brief_flicker":
 			if not effects_manager.has_method("trigger_brief_flicker"):
-				DebugLogger.warning(module_name, "Effects manager missing trigger_brief_flicker method")
-				return false
+				return {"success": false, "message": "Effects manager missing trigger_brief_flicker method"}
 		"purple_shift":
 			if not effects_manager.has_method("trigger_purple_shift"):
-				DebugLogger.warning(module_name, "Effects manager missing trigger_purple_shift method")
-				return false
+				return {"success": false, "message": "Effects manager missing trigger_purple_shift method"}
 		"brightness_boost":
 			if not effects_manager.has_method("trigger_brightness_boost"):
-				DebugLogger.warning(module_name, "Effects manager missing trigger_brightness_boost method")
-				return false
+				return {"success": false, "message": "Effects manager missing trigger_brightness_boost method"}
+		_:
+			return {"success": false, "message": "Unknown event ID: " + event_data.id}
 	
-	return true
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
+func _execute_internal() -> Dictionary:
 	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
 	if not effects_manager:
-		DebugLogger.error(module_name, "Could not find effects manager during execution")
-		return false
+		return {"success": false, "message": "Could not find effects manager during execution"}
 	
 	match event_data.id:
 		"brief_flicker":
-			DebugLogger.info(module_name, "Executing brief flicker")
 			effects_manager.trigger_brief_flicker()
 		
 		"purple_shift":
-			DebugLogger.info(module_name, "Executing purple shift")
 			effects_manager.trigger_purple_shift()
 		
 		"brightness_boost":
-			DebugLogger.info(module_name, "Executing brightness boost")
 			effects_manager.trigger_brightness_boost()
 		
 		_:
-			DebugLogger.warning(module_name, "Unknown event ID: " + event_data.id)
-			return false
+			return {"success": false, "message": "Unknown event ID during execution: " + event_data.id}
 	
 	# These are instant effects, end immediately
 	get_tree().create_timer(0.1).timeout.connect(func():
@@ -74,10 +53,8 @@ func execute() -> bool:
 			end()
 	)
 	
-	return true
+	return {"success": true, "message": "OK"}
 
 func end() -> void:
-	DebugLogger.info(module_name, "Light effect event completed: " + event_data.id)
-	
 	# Call base implementation
 	super.end()

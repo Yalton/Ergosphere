@@ -1,4 +1,3 @@
-# scene_spawn.gd
 extends EventHandler
 class_name SceneSpawnEvent
 
@@ -24,98 +23,68 @@ class_name SceneSpawnEvent
 var spawned_objects: Array[Node] = []
 
 func _ready() -> void:
-	module_name = "SceneSpawnEvent"
-	super._ready()
-	
 	# Define which events this handler processes
 	handled_event_ids = ["micro_blackhole", "dark_fog", "entity_appearance", "scene_spawn"]
-	
 
-	DebugLogger.debug(module_name, "SceneSpawnEvent ready")
-
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	# Check if we have a scene for this event
 	match event_data.id:
 		"micro_blackhole":
 			if not micro_blackhole_scene:
-				DebugLogger.warning(module_name, "No micro blackhole scene configured")
-				return false
+				return {"success": false, "message": "No micro blackhole scene configured"}
 		"dark_fog":
 			if not dark_fog_scene:
-				DebugLogger.warning(module_name, "No dark fog scene configured")
-				return false
+				return {"success": false, "message": "No dark fog scene configured"}
 		"entity_appearance":
 			if not entity_appearance_scene:
-				DebugLogger.warning(module_name, "No entity appearance scene configured")
-				return false
+				return {"success": false, "message": "No entity appearance scene configured"}
 	
 	# Check if spawn points exist
 	var spawn_points = get_tree().get_nodes_in_group(spawn_group)
 	if spawn_points.is_empty():
-		DebugLogger.warning(module_name, "No spawn points found in group: %s" % spawn_group)
-		return false
+		return {"success": false, "message": "No spawn points found in group: " + spawn_group}
 	
-	return true
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
-	DebugLogger.info(module_name, "Executing VFX spawn event: %s" % event_data.id)
-	
+func _execute_internal() -> Dictionary:
 	match event_data.id:
 		"micro_blackhole":
-			_handle_micro_blackhole()
+			return _handle_micro_blackhole()
 		"dark_fog":
-			_handle_dark_fog()
+			return _handle_dark_fog()
 		"entity_appearance":
-			_handle_entity_appearance()
+			return _handle_entity_appearance()
 		_:
-			DebugLogger.warning(module_name, "Unknown event ID: %s" % event_data.id)
-			return false
-	
-	return true
+			return {"success": false, "message": "Unknown event ID: " + event_data.id}
 
 func end() -> void:
 	# Clean up all spawned objects
 	_cleanup_spawned_objects()
 	
-	DebugLogger.info(module_name, "VFX spawn event completed: %s" % event_data.id)
-	
 	# Call base implementation
 	super.end()
 
-func _handle_micro_blackhole() -> void:
+func _handle_micro_blackhole() -> Dictionary:
 	## Handle micro blackhole spawning
-	DebugLogger.debug(module_name, "Spawning micro blackhole VFX")
-	_spawn_vfx_scene(micro_blackhole_scene, "micro_blackhole")
+	return _spawn_vfx_scene(micro_blackhole_scene, "micro_blackhole")
 
-func _handle_dark_fog() -> void:
+func _handle_dark_fog() -> Dictionary:
 	## Handle dark fog spawning
-	DebugLogger.debug(module_name, "Spawning dark fog VFX")
-	_spawn_vfx_scene(dark_fog_scene, "dark_fog")
+	return _spawn_vfx_scene(dark_fog_scene, "dark_fog")
 
-func _handle_entity_appearance() -> void:
+func _handle_entity_appearance() -> Dictionary:
 	## Handle entity appearance spawning
-	DebugLogger.debug(module_name, "Spawning entity appearance VFX")
-	_spawn_vfx_scene(entity_appearance_scene, "entity_appearance")
+	return _spawn_vfx_scene(entity_appearance_scene, "entity_appearance")
 
-func _spawn_vfx_scene(scene: PackedScene, event_id: String) -> void:
+func _spawn_vfx_scene(scene: PackedScene, event_id: String) -> Dictionary:
 	## Spawn a specific VFX scene at a random off-screen spawn point
 	if not scene:
-		DebugLogger.warning(module_name, "No scene configured for %s event" % event_id)
-		return
+		return {"success": false, "message": "No scene configured for " + event_id + " event"}
 	
 	# Get spawn points from group
 	var spawn_points = get_tree().get_nodes_in_group(spawn_group)
 	if spawn_points.is_empty():
-		DebugLogger.warning(module_name, "No spawn points found in group: %s" % spawn_group)
-		return
+		return {"success": false, "message": "No spawn points found in group: " + spawn_group}
 	
 	# Get player reference
 	var player = get_tree().get_first_node_in_group("player")
@@ -130,7 +99,7 @@ func _spawn_vfx_scene(scene: PackedScene, event_id: String) -> void:
 			offscreen_points.append(point)
 	
 	if offscreen_points.is_empty():
-		DebugLogger.warning(module_name, "No off-screen spawn points available - using any spawn point")
+		# Use any spawn point if no off-screen ones available
 		offscreen_points = spawn_points
 	
 	# Select spawn point based on distance to player if enabled
@@ -141,7 +110,7 @@ func _spawn_vfx_scene(scene: PackedScene, event_id: String) -> void:
 		# Pick random spawn point
 		spawn_point = offscreen_points[randi() % offscreen_points.size()]
 	
-	_spawn_scene_at_location(scene, spawn_point, event_id)
+	return _spawn_scene_at_location(scene, spawn_point, event_id)
 
 func _get_closest_spawn_point(points: Array, player: Node3D) -> Node:
 	## Get spawn point closest to player (or randomly from closest few)
@@ -162,22 +131,17 @@ func _get_closest_spawn_point(points: Array, player: Node3D) -> Node:
 	var pool_size = min(closest_points_pool_size, distances.size())
 	var selected_index = randi() % pool_size
 	
-	var selected = distances[selected_index]
-	DebugLogger.debug(module_name, "Selected spawn point at distance %.1f from player" % selected.distance)
-	
-	return selected.point
+	return distances[selected_index].point
 
-func _spawn_scene_at_location(scene: PackedScene, spawn_point: Node, event_id: String) -> void:
+func _spawn_scene_at_location(scene: PackedScene, spawn_point: Node, event_id: String) -> Dictionary:
 	## Spawn a specific scene at a specific location
 	if not spawn_point:
-		DebugLogger.warning(module_name, "Invalid spawn point for %s event" % event_id)
-		return
+		return {"success": false, "message": "Invalid spawn point for " + event_id + " event"}
 	
 	# Instantiate the scene
 	var spawned_instance = scene.instantiate()
 	if not spawned_instance:
-		DebugLogger.error(module_name, "Failed to instantiate %s scene: %s" % [event_id, scene.resource_path])
-		return
+		return {"success": false, "message": "Failed to instantiate " + event_id + " scene: " + scene.resource_path}
 	
 	# Add to scene tree at spawn point location
 	spawn_point.add_child(spawned_instance)
@@ -199,7 +163,7 @@ func _spawn_scene_at_location(scene: PackedScene, spawn_point: Node, event_id: S
 		var cleanup_timer = get_tree().create_timer(30.0)  # 30 second fallback
 		cleanup_timer.timeout.connect(_cleanup_specific_object.bind(spawned_instance))
 	
-	DebugLogger.info(module_name, "Spawned %s VFX at %s" % [event_id, spawn_point.name])
+	return {"success": true, "message": "OK"}
 
 func _on_spawned_object_cleanup_requested(spawned_object: Node) -> void:
 	## Called when a spawned object requests cleanup
@@ -213,13 +177,10 @@ func _cleanup_specific_object(spawned_object: Node) -> void:
 	if spawned_object in spawned_objects:
 		spawned_objects.erase(spawned_object)
 	
-	DebugLogger.debug(module_name, "Cleaning up spawned VFX: %s" % spawned_object.name)
 	spawned_object.queue_free()
 
 func _cleanup_spawned_objects() -> void:
 	## Clean up all spawned objects
-	DebugLogger.debug(module_name, "Cleaning up %d spawned VFX objects" % spawned_objects.size())
-	
 	for spawned_object in spawned_objects:
 		if is_instance_valid(spawned_object):
 			spawned_object.queue_free()

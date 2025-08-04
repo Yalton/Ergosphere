@@ -1,4 +1,3 @@
-# hawking_radiation.gd
 extends EventHandler
 class_name HawkingRadiationEvent
 
@@ -39,43 +38,32 @@ var window_lever: Node
 var warning_timer: Timer
 
 func _ready() -> void:
-	super._ready()
-	module_name = "HawkingRadiationEvent"
-	
 	# Define which events this handler processes
 	handled_event_ids = ["hawking_radiation", "shutter_warning"]
-	
-	DebugLogger.debug(module_name, "HawkingRadiationEvent ready")
 
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	# Check if player exists
 	player = CommonUtils.get_player()
 	if not player:
-		DebugLogger.warning(module_name, "No player found")
-		return false
+		return {"success": false, "message": "No player found in scene"}
 	
 	# Check if window lever exists
 	window_lever = get_tree().get_first_node_in_group("window_lever")
 	if not window_lever:
-		DebugLogger.warning(module_name, "No window lever found")
-		return false
+		return {"success": false, "message": "No window lever found in scene"}
 	
-	return true
+	# Check if player has required movement properties
+	if not player.has_property("walk_speed") or not player.has_property("crouch_speed"):
+		return {"success": false, "message": "Player missing required movement properties"}
+	
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
-	DebugLogger.info(module_name, "Executing hawking radiation event")
-	
+func _execute_internal() -> Dictionary:
 	# Connect to shutter state changes
 	if window_lever.has_signal("shutters_toggled"):
 		window_lever.shutters_toggled.connect(_on_shutters_toggled)
+	else:
+		return {"success": false, "message": "Window lever missing shutters_toggled signal"}
 	
 	# Show warning notification
 	_show_warning()
@@ -89,7 +77,7 @@ func execute() -> bool:
 	add_child(warning_timer)
 	warning_timer.start()
 	
-	return true
+	return {"success": true, "message": "OK"}
 
 func end() -> void:
 	# Clean up any active effects
@@ -108,8 +96,6 @@ func end() -> void:
 		if window_lever.shutters_toggled.is_connected(_on_shutters_toggled):
 			window_lever.shutters_toggled.disconnect(_on_shutters_toggled)
 	
-	DebugLogger.info(module_name, "Hawking radiation event completed")
-	
 	# Call base implementation
 	super.end()
 
@@ -122,7 +108,6 @@ func _show_warning() -> void:
 		play_audio(warning_sound)
 	
 	warning_started.emit()
-	DebugLogger.info(module_name, "Warning displayed - player has %s seconds to close shutters" % warning_duration)
 
 func _on_shutters_toggled(open_state: bool) -> void:
 	if not is_warning_active or is_effect_active:
@@ -130,7 +115,6 @@ func _on_shutters_toggled(open_state: bool) -> void:
 	
 	# Check if shutters are now closed
 	if not open_state:
-		DebugLogger.info(module_name, "Shutters closed - canceling warning")
 		_cancel_warning()
 
 func _on_warning_timeout() -> void:
@@ -143,11 +127,9 @@ func _on_warning_timeout() -> void:
 		shutters_open = window_lever.shutters_open
 	
 	if not shutters_open:
-		DebugLogger.debug(module_name, "Warning timeout but shutters are closed")
 		_cancel_warning()
 		return
 	
-	DebugLogger.info(module_name, "Warning timeout - shutters still open, applying effects")
 	_apply_effects()
 
 func _apply_effects() -> void:
@@ -170,8 +152,6 @@ func _apply_effects() -> void:
 		# Ensure particles are emitting
 		if particle_instance.has_method("set_emitting"):
 			particle_instance.set_emitting(true)
-		
-		DebugLogger.debug(module_name, "Spawned particle effect")
 	
 	# Apply vision warping effect
 	_apply_vision_warp()
@@ -186,17 +166,12 @@ func _apply_effects() -> void:
 	# Start effect timer
 	get_tree().create_timer(effect_duration).timeout.connect(_on_effect_timeout)
 	effects_started.emit()
-	
-	DebugLogger.info(module_name, "Effects applied for %s seconds" % effect_duration)
 
 func _apply_vision_warp() -> void:
 	# Try to find and use player's effects component for vision warping
 	var effects_component = player.get_node_or_null("PlayerEffectsComponent")
 	if effects_component and effects_component.has_method("apply_vision_warp"):
 		effects_component.apply_vision_warp()
-		DebugLogger.debug(module_name, "Applied vision warp via effects component")
-	else:
-		DebugLogger.warning(module_name, "No effects component found - vision warp not applied")
 
 func _on_effect_timeout() -> void:
 	if is_effect_active:
@@ -225,7 +200,6 @@ func _remove_effects() -> void:
 		play_audio(effect_end_sound)
 	
 	effects_ended.emit()
-	DebugLogger.info(module_name, "Effects removed")
 	
 	# End the event
 	if is_active:

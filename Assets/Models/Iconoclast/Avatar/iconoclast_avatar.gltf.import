@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cm0j6vp45i5qk"
-path="res://.godot/imported/black_man.gltf-dc6d3034908c9bf7d3ea067e3a0566e2.scn"
+uid="uid://bwxwts74to4tm"
+path="res://.godot/imported/iconoclast_avatar.gltf-5cd619a029f820379199e9a7b614db5f.scn"
 
 [deps]
 
-source_file="res://Assets/Models/Station/Characters/black_man/black_man.gltf"
-dest_files=["res://.godot/imported/black_man.gltf-dc6d3034908c9bf7d3ea067e3a0566e2.scn"]
+source_file="res://Assets/Models/Iconoclast/Avatar/iconoclast_avatar.gltf"
+dest_files=["res://.godot/imported/iconoclast_avatar.gltf-5cd619a029f820379199e9a7b614db5f.scn"]
 
 [params]
 

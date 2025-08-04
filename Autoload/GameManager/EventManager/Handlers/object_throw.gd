@@ -1,4 +1,3 @@
-# object_throw.gd
 extends EventHandler
 class_name ObjectThrowEvent
 
@@ -15,48 +14,29 @@ class_name ObjectThrowEvent
 @export var throw_sound: AudioStream
 
 func _ready() -> void:
-	super._ready()
-	module_name = "ObjectThrowEvent"
-	
 	# Events this handler processes
 	handled_event_ids = ["object_throw", "poltergeist"]
-	
-	DebugLogger.debug(module_name, "ObjectThrowEvent ready")
 
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	var player = CommonUtils.get_player()
 	if not player:
-		DebugLogger.warning(module_name, "No player found")
-		return false
+		return {"success": false, "message": "No player found in scene"}
 	
 	# Check if there's a rigidbody nearby to throw
 	var closest_body = _find_closest_rigidbody(player.global_position)
 	if not closest_body:
-		DebugLogger.debug(module_name, "No rigidbody found within range")
-		return false
+		return {"success": false, "message": "No rigidbody found within " + str(max_search_distance) + " units"}
 	
-	return true
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
-	DebugLogger.debug(module_name, "Executing object throw event")
-	
+func _execute_internal() -> Dictionary:
 	var player = CommonUtils.get_player()
 	if not player:
-		DebugLogger.error(module_name, "No player found during execution")
-		return false
+		return {"success": false, "message": "No player found during execution"}
 	
 	var closest_body = _find_closest_rigidbody(player.global_position)
 	if not closest_body:
-		DebugLogger.debug(module_name, "No rigidbody found to throw")
-		return false
+		return {"success": false, "message": "No rigidbody found to throw"}
 	
 	_throw_object_at_player(closest_body, player.global_position)
 	
@@ -66,11 +46,9 @@ func execute() -> bool:
 			end()
 	)
 	
-	return true
+	return {"success": true, "message": "OK"}
 
 func end() -> void:
-	DebugLogger.info(module_name, "Object throw event completed")
-	
 	# Call base implementation
 	super.end()
 
@@ -138,5 +116,3 @@ func _throw_object_at_player(body: RigidBody3D, player_pos: Vector3) -> void:
 		audio_player.global_position = object_pos
 		audio_player.play()
 		audio_player.finished.connect(audio_player.queue_free)
-	
-	DebugLogger.debug(module_name, "Threw object '%s' at distance %.2f with force %.2f" % [body.name, distance, force_multiplier])
