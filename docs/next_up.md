@@ -13,9 +13,7 @@ These will give you quick wins and flesh out the atmosphere without complex syst
 2. **Gravitational Hiccup** - Physics tweaks
 
 **Save the complex ones for last:**
-1. **Dream Sequence** - Entire scene swap
 2. **The Maze Event** - Procedural generation
-3. **Reality Stutter** - Room connection manipulation
 
 The monster should come after you have at least 20-25 events working smoothly. By then, you'll have a rich toolkit of scares the monster can trigger or interact with, making it feel like part of the world rather than just an enemy.
 
