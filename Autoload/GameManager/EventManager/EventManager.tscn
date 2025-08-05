@@ -1,106 +1,57 @@
-[gd_scene load_steps=47 format=3 uid="uid://bk1kuand7o7xa"]
+[gd_scene load_steps=32 format=3 uid="uid://bk1kuand7o7xa"]
 
-[ext_resource type="Script" uid="uid://b2evp3vtmha88" path="res://Autoload/GameManager/EventManager/event_manager.gd" id="1_nnr1m"]
-[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="2_oj86y"]
+[ext_resource type="Script" uid="uid://b2evp3vtmha88" path="res://Autoload/GameManager/EventManager/Handlers/event_manager.gd" id="1_nnr1m"]
+[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="2_he56m"]
 [ext_resource type="Resource" uid="uid://dqlha088rjyex" path="res://Assets/Resources/Events/brightness_boost.tres" id="3_8djds"]
-[ext_resource type="Script" uid="uid://bvq73vstrajr2" path="res://Autoload/GameManager/EventManager/Handlers/power_outage.gd" id="3_lf3xo"]
 [ext_resource type="Resource" uid="uid://do133yxf8hfox" path="res://Assets/Resources/Events/hawking_radiation.tres" id="3_u7gbo"]
-[ext_resource type="Script" uid="uid://b41eevj1xvmfn" path="res://Autoload/GameManager/EventManager/Handlers/oxygen_failure.gd" id="4_57jj7"]
 [ext_resource type="Resource" uid="uid://dsxw6dr5o5c2u" path="res://Assets/Resources/Events/terminal_glitch.tres" id="4_u7gbo"]
 [ext_resource type="Resource" uid="uid://deiv1xhrt6ls" path="res://Assets/Resources/Events/confusing_horror.tres" id="4_xpt2l"]
 [ext_resource type="Resource" uid="uid://b11msuyt1qf7" path="res://Assets/Resources/Events/dark_fog.tres" id="5_cjofh"]
-[ext_resource type="Script" uid="uid://cxt26q5mgk48w" path="res://Autoload/GameManager/EventManager/Handlers/engine_heatsink_failure.gd" id="5_lf3xo"]
 [ext_resource type="Resource" uid="uid://dvu6ufplt5r5y" path="res://Assets/Resources/Events/morse_light.tres" id="5_nn0bu"]
 [ext_resource type="Resource" uid="uid://d4hfnmtpwg36q" path="res://Assets/Resources/Events/door_malfunction.tres" id="6_awmde"]
 [ext_resource type="Resource" uid="uid://d0f5m4rmeei7l" path="res://Assets/Resources/Events/entity_appearance.tres" id="7_1v8bf"]
 [ext_resource type="Resource" uid="uid://dnmyglaqvxi7s" path="res://Assets/Resources/Events/object_levitates.tres" id="7_he56m"]
 [ext_resource type="Resource" uid="uid://bxeec5dmroa4c" path="res://Assets/Resources/Events/fog_event.tres" id="8_w2vkq"]
-[ext_resource type="Script" uid="uid://3aye0vklbcrb" path="res://Autoload/GameManager/EventManager/Handlers/spooky_ambience.gd" id="9_a4it4"]
 [ext_resource type="Resource" uid="uid://tvigfbwlu1cu" path="res://Assets/Resources/Events/heatsink_failure.tres" id="10_l5acs"]
 [ext_resource type="Resource" uid="uid://cp6olf0kjv5j7" path="res://Assets/Resources/Events/jarring_horror.tres" id="11_yq1if"]
 [ext_resource type="Resource" uid="uid://c2iwhyyslhfmh" path="res://Assets/Resources/Events/micro_blackhole.tres" id="12_440ic"]
-[ext_resource type="Script" uid="uid://eyog1iwh6ukg" path="res://Autoload/GameManager/EventManager/Handlers/scene_spawn_handler.gd" id="13_4kg6c"]
-[ext_resource type="AudioStream" uid="uid://bxaqsd4b4gxrf" path="res://Assets/Audio/Ambience/AmbientHorror/escalating_noise.ogg" id="14_balmc"]
-[ext_resource type="Script" uid="uid://df673c1ghv4pk" path="res://Autoload/GameManager/EventManager/Handlers/warp.gd" id="14_ia163"]
-[ext_resource type="AudioStream" uid="uid://kkl1de3odv7e" path="res://Assets/Audio/Ambience/AmbientHorror/ambient_horror_background.ogg" id="15_gsncq"]
 [ext_resource type="Resource" uid="uid://bpnrxn35y64w2" path="res://Assets/Resources/Events/object_throw.tres" id="15_n1n8g"]
-[ext_resource type="AudioStream" uid="uid://cqqrcqcmdxomk" path="res://Assets/Audio/Ambience/AmbientHorror/ambient_horror_1.ogg" id="16_jmqpi"]
 [ext_resource type="Resource" uid="uid://dxn2xgd5br17h" path="res://Assets/Resources/Events/oxygen_failure.tres" id="16_rb45j"]
-[ext_resource type="AudioStream" uid="uid://bnl6imf1gi2mp" path="res://Assets/Audio/Ambience/AmbientHorror/ambient_horror_2.ogg" id="17_djlj4"]
 [ext_resource type="Resource" uid="uid://j3iayfghgyfp" path="res://Assets/Resources/Events/power_outage.tres" id="17_pkq12"]
-[ext_resource type="AudioStream" uid="uid://c6gvlm6pggjys" path="res://Assets/Audio/Ambience/AmbientHorror/metal_open.ogg" id="18_8t0n1"]
 [ext_resource type="Resource" uid="uid://boqp5mvjnjqnm" path="res://Assets/Resources/Events/purple_shift.tres" id="18_rdvo6"]
-[ext_resource type="AudioStream" uid="uid://c0xjqr8o36rn2" path="res://Assets/Audio/Ambience/AmbientHorror/insect_swarm.ogg" id="19_3sgie"]
 [ext_resource type="Resource" uid="uid://b0wt6stgjbd7d" path="res://Assets/Resources/Events/shutter_warning.tres" id="19_127bk"]
 [ext_resource type="Resource" uid="uid://cjden0bcjx5im" path="res://Assets/Resources/Events/subtle_horror.tres" id="20_foxlv"]
 [ext_resource type="Resource" uid="uid://bh6idp3esp163" path="res://Assets/Resources/Events/warp.tres" id="22_0gtbr"]
-[ext_resource type="Script" uid="uid://dejucv47pboo5" path="res://Autoload/GameManager/EventManager/morse_light.gd" id="22_gsncq"]
+[ext_resource type="Script" uid="uid://bjvec8aiicpdc" path="res://Autoload/GameManager/EventManager/Handlers/spooky_ambience.gd" id="22_awmde"]
 [ext_resource type="PackedScene" uid="uid://bulnd3bpf0oew" path="res://Prefabs/VFX/small_black_hole_effect.tscn" id="23_oj86y"]
-[ext_resource type="Script" uid="uid://5b6pl7ffkwi8" path="res://Autoload/GameManager/EventManager/door_malfunction.gd" id="24_djlj4"]
 [ext_resource type="PackedScene" uid="uid://bvqvla8urmxvc" path="res://Prefabs/VFX/big_smoke.tscn" id="24_u7gbo"]
-[ext_resource type="Script" uid="uid://dlhrl0254tvcm" path="res://Autoload/GameManager/EventManager/object_levitate.gd" id="25_3sgie"]
-[ext_resource type="Script" uid="uid://dlxehjyjciyh8" path="res://Autoload/GameManager/EventManager/ghost_tasks.gd" id="25_8t0n1"]
-[ext_resource type="Script" uid="uid://c6mi1h0rkwggh" path="res://Autoload/GameManager/EventManager/Handlers/object_throw.gd" id="28_u7gbo"]
-[ext_resource type="Script" uid="uid://c2d2vucrlyfnq" path="res://Autoload/GameManager/EventManager/Handlers/fog.gd" id="30_awmde"]
-[ext_resource type="Script" uid="uid://oxnqm23jqfcp" path="res://Autoload/GameManager/EventManager/Handlers/hawking_radiation.gd" id="32_36okp"]
-[ext_resource type="Script" uid="uid://2mf3gdfr4agp" path="res://Autoload/GameManager/EventManager/Handlers/brief_flicker.gd" id="33_r2li7"]
-[ext_resource type="Script" uid="uid://be3nvsrocwt34" path="res://Autoload/GameManager/EventManager/Handlers/glitch_event_handler.gd" id="37_e8orj"]
-
-[sub_resource type="Resource" id="Resource_ftp8o"]
-metadata/__load_path__ = "res://Prefabs/VFX/black_man_appears.tscn"
+[ext_resource type="AudioStream" uid="uid://ccxaui8l3jk0v" path="res://Assets/Audio/Ambience/AmbientHorror/Breathing/breathing_3.ogg" id="33_e8orj"]
+[ext_resource type="AudioStream" uid="uid://b833mqskbys66" path="res://Assets/Audio/Events/power_up.ogg" id="35_5jpdb"]
+[ext_resource type="Script" uid="uid://bv152s5jlgh17" path="res://Autoload/GameManager/EventManager/Handlers/misc_handler.gd" id="35_5qs84"]
+[ext_resource type="Script" uid="uid://ervl52oyi4xo" path="res://Autoload/GameManager/EventManager/Handlers/major_event_handler.gd" id="38_b8hgc"]
+[ext_resource type="Script" uid="uid://omxpai7js0p2" path="res://Autoload/GameManager/EventManager/Handlers/vfx_event_handler.gd" id="41_wm8la"]
+[ext_resource type="Script" uid="uid://7x1wa81fdf75" path="res://Autoload/GameManager/EventManager/Handlers/positional_event_handler.gd" id="46_8djds"]
 
 [node name="EventManager" type="Node"]
 script = ExtResource("1_nnr1m")
-event_resources = Array[ExtResource("2_oj86y")]([ExtResource("3_8djds"), ExtResource("4_xpt2l"), ExtResource("5_cjofh"), ExtResource("6_awmde"), ExtResource("7_1v8bf"), ExtResource("8_w2vkq"), ExtResource("3_u7gbo"), ExtResource("10_l5acs"), ExtResource("11_yq1if"), ExtResource("12_440ic"), ExtResource("5_nn0bu"), ExtResource("7_he56m"), ExtResource("15_n1n8g"), ExtResource("16_rb45j"), ExtResource("17_pkq12"), ExtResource("18_rdvo6"), ExtResource("19_127bk"), ExtResource("20_foxlv"), ExtResource("4_u7gbo"), ExtResource("22_0gtbr")])
-
-[node name="brief_flicker" type="Node" parent="." groups=["event_handlers"]]
-script = ExtResource("33_r2li7")
-
-[node name="power_outage" type="Node" parent="." groups=["event_handlers"]]
-script = ExtResource("3_lf3xo")
-
-[node name="oxygen_failure" type="Node" parent="." groups=["event_handlers"]]
-script = ExtResource("4_57jj7")
-
-[node name="heatsink_failure" type="Node" parent="." groups=["event_handlers"]]
-script = ExtResource("5_lf3xo")
+event_resources = Array[ExtResource("2_he56m")]([ExtResource("3_8djds"), ExtResource("4_xpt2l"), ExtResource("5_cjofh"), ExtResource("6_awmde"), ExtResource("7_1v8bf"), ExtResource("8_w2vkq"), ExtResource("3_u7gbo"), ExtResource("10_l5acs"), ExtResource("11_yq1if"), ExtResource("12_440ic"), ExtResource("5_nn0bu"), ExtResource("7_he56m"), ExtResource("15_n1n8g"), ExtResource("16_rb45j"), ExtResource("17_pkq12"), ExtResource("18_rdvo6"), ExtResource("19_127bk"), ExtResource("20_foxlv"), ExtResource("4_u7gbo"), ExtResource("22_0gtbr")])
 
 [node name="spooky_ambience" type="Node" parent="." groups=["event_handlers"]]
-script = ExtResource("9_a4it4")
-subtle_horror_sounds = Array[AudioStream]([ExtResource("14_balmc"), ExtResource("15_gsncq"), ExtResource("16_jmqpi"), ExtResource("17_djlj4")])
-jarring_horror_sounds = Array[AudioStream]([ExtResource("18_8t0n1")])
-confusing_horror_sounds = Array[AudioStream]([ExtResource("19_3sgie")])
+script = ExtResource("22_awmde")
 
-[node name="scene_spawn" type="Node" parent="." groups=["event_handlers"]]
-script = ExtResource("13_4kg6c")
+[node name="positional_event_handler" type="Node" parent="."]
+script = ExtResource("46_8djds")
 micro_blackhole_scene = ExtResource("23_oj86y")
 dark_fog_scene = ExtResource("24_u7gbo")
-entity_appearance_scene = SubResource("Resource_ftp8o")
+levitate_max_search_distance = 30.0
+levitate_sound = ExtResource("33_e8orj")
 
-[node name="warp" type="Node" parent="." groups=["event_handlers"]]
-script = ExtResource("14_ia163")
+[node name="vfx_event_handler" type="Node" parent="."]
+script = ExtResource("41_wm8la")
 
-[node name="object_throw" type="Node" parent="." groups=["event_handlers"]]
-script = ExtResource("28_u7gbo")
+[node name="major_event_handler" type="Node" parent="."]
+script = ExtResource("38_b8hgc")
+power_restore_sound = ExtResource("35_5jpdb")
 
-[node name="fog" type="Node" parent="." groups=["event_handlers"]]
-script = ExtResource("30_awmde")
-handled_event_ids = Array[String](["fog_event"])
-
-[node name="hawking_radiation" type="Node" parent="." groups=["event_handlers"]]
-script = ExtResource("32_36okp")
-
-[node name="glitch_event" type="Node" parent="."]
-script = ExtResource("37_e8orj")
-
-[node name="morse_light" type="Node" parent="."]
-script = ExtResource("22_gsncq")
-
-[node name="door_malfunction" type="Node" parent="."]
-script = ExtResource("24_djlj4")
-
-[node name="ghost_tasks" type="Node" parent="."]
-script = ExtResource("25_8t0n1")
-
-[node name="object_levitate" type="Node" parent="."]
-script = ExtResource("25_3sgie")
+[node name="misc_handler" type="Node" parent="."]
+script = ExtResource("35_5qs84")

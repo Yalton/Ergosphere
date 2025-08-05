@@ -14,10 +14,12 @@ Object Throw
 - NO Handler found
 
 
+Oxygen Failure not triggering emergency task
+
 Terminal Glitch 
 
-[EventManager][WARN] Cannot force trigger event: terminal_glitch - No diegetic UI elements found during execution
-[EventManager][WARN] Cannot force trigger event: terminal_glitch - No handler found for event ID: terminal_glitc
+- [EventManager][WARN] Cannot force trigger event: terminal_glitch - No diegetic UI elements found during execution
+- [EventManager][WARN] Cannot force trigger event: terminal_glitch - No handler found for event ID: terminal_glitc
 
 
 Purple Shift 
