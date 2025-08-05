@@ -49,62 +49,51 @@ var morse_sequence: Array = []
 var is_transmitting: bool = false
 
 func _ready() -> void:
-	super._ready()
-	module_name = "MorseLightEvent"
-	
 	# Define which events this handler processes
 	handled_event_ids = ["morse_light"]
-	
-	DebugLogger.debug(module_name, "MorseLightEvent ready")
 
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	# Check if power is on
 	var effects_manager = get_tree().get_first_node_in_group("effects_manager")
 	if effects_manager and not effects_manager.power_is_on:
-		DebugLogger.warning(module_name, "Power is off, cannot transmit morse")
-		return false
+		return {"success": false, "message": "Power is off, cannot transmit morse code"}
 	
 	# Find nearest light to player
 	var nearest_light = _find_nearest_light()
 	if not nearest_light:
-		DebugLogger.warning(module_name, "No valid light found near player")
-		return false
+		return {"success": false, "message": "No valid light found within " + str(max_light_distance) + " units of player"}
 	
-	return true
+	if morse_messages.is_empty():
+		return {"success": false, "message": "No morse messages configured"}
+	
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
+func _execute_internal() -> Dictionary:
 	# Find nearest light
 	affected_light = _find_nearest_light()
 	if not affected_light:
-		DebugLogger.error(module_name, "No light found during execution")
-		return false
+		return {"success": false, "message": "No light found during execution"}
 	
 	# Store original energy
 	original_energy = affected_light.light_energy
 	
 	# Pick random message
 	var message = morse_messages.pick_random()
-	DebugLogger.info(module_name, "Transmitting morse message '" + message + "' on light: " + affected_light.name)
 	
 	# Convert message to morse sequence
 	morse_sequence = _text_to_morse_sequence(message)
+	
+	if morse_sequence.is_empty():
+		return {"success": false, "message": "Failed to convert message to morse sequence"}
 	
 	# Start transmission
 	is_transmitting = true
 	_transmit_morse_sequence()
 	
-	return true
+	return {"success": true, "message": "OK"}
 
 func _find_nearest_light() -> Light3D:
-	var player = GameManager.get_player()
+	var player = CommonUtils.get_player()
 	if not player:
 		return null
 	
@@ -196,7 +185,6 @@ func end() -> void:
 	# Restore light to original state
 	if affected_light and is_instance_valid(affected_light):
 		affected_light.light_energy = original_energy
-		DebugLogger.info(module_name, "Morse transmission completed on light: " + affected_light.name)
 	
 	affected_light = null
 	morse_sequence.clear()

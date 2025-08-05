@@ -84,6 +84,8 @@ anomalous_hotspots=""
 fx_spawn_points=""
 window_lever=""
 station=""
+warp_destinations=""
+door_wrappers=""
 
 [gui]
 

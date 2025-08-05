@@ -249,7 +249,7 @@ size = Vector3(4, 6, 3)
 [sub_resource type="BoxShape3D" id="BoxShape3D_xq16v"]
 size = Vector3(8, 8, 12)
 
-[node name="StationDoor" type="Node3D" node_paths=PackedStringArray("door")]
+[node name="StationDoor" type="Node3D" node_paths=PackedStringArray("door") groups=["door_wrappers"]]
 transform = Transform3D(-7.15256e-07, 0, 1, 0, 1, 0, -1, 0, -7.15256e-07, 0, 0, 0)
 script = ExtResource("1_cv0it")
 door = NodePath("AnimatedDoor")

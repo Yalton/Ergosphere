@@ -83,10 +83,12 @@ func get_state_manager() -> StateManager:
 ## Helper to check a state value
 func check_state(state_key: String, expected_value = null) -> bool:
 	var state_manager = get_state_manager()
-	if not state_manager:
-		return false
+	assert(state_manager != null)
 	
 	var current_value = state_manager.get_state(state_key)
+	
+	assert(current_value != null)
+	print("State  man cur val ", current_value, " expected val is ", expected_value)
 	if expected_value == null:
 		return current_value != null
 	return current_value == expected_value

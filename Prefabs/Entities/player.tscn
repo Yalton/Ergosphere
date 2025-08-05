@@ -273,13 +273,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5815)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.2, 0)
-light_energy = 4.0
 light_indirect_energy = 2.0
 light_cull_mask = 4294443007
 shadow_enabled = true
-spot_range = 18.0
-spot_attenuation = 0.5
-spot_angle = 20.3058
+spot_range = 40.0
+spot_attenuation = 0.0
+spot_angle = 20.0
 
 [node name="FootstepSurfaceDetector" type="AudioStreamPlayer3D" parent="."]
 volume_db = -20.0

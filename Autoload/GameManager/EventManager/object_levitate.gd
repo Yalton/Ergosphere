@@ -1,4 +1,3 @@
-# object_levitate.gd
 extends EventHandler
 class_name ObjectLevitateEvent
 
@@ -27,48 +26,29 @@ var hold_timer: float = 0.0
 var is_levitating: bool = false
 
 func _ready() -> void:
-	super._ready()
-	module_name = "ObjectLevitateEvent"
-	
 	# Events this handler processes
 	handled_event_ids = ["object_levitate"]
-	
-	DebugLogger.debug(module_name, "ObjectLevitateEvent ready")
 
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	var player = CommonUtils.get_player()
 	if not player:
-		DebugLogger.warning(module_name, "No player found")
-		return false
+		return {"success": false, "message": "No player found in scene"}
 	
 	# Check if there's a rigidbody nearby to levitate
 	var closest_body = _find_closest_rigidbody(player.global_position)
 	if not closest_body:
-		DebugLogger.debug(module_name, "No rigidbody found within range")
-		return false
+		return {"success": false, "message": "No rigidbody found within " + str(max_search_distance) + " units"}
 	
-	return true
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
-	DebugLogger.debug(module_name, "Executing object levitate event")
-	
+func _execute_internal() -> Dictionary:
 	var player = CommonUtils.get_player()
 	if not player:
-		DebugLogger.error(module_name, "No player found during execution")
-		return false
+		return {"success": false, "message": "No player found during execution"}
 	
 	var closest_body = _find_closest_rigidbody(player.global_position)
 	if not closest_body:
-		DebugLogger.debug(module_name, "No rigidbody found to levitate")
-		return false
+		return {"success": false, "message": "No rigidbody found to levitate"}
 	
 	# Set up levitation
 	levitating_body = closest_body
@@ -94,9 +74,8 @@ func execute() -> bool:
 		audio_player.finished.connect(audio_player.queue_free)
 	
 	is_levitating = true
-	DebugLogger.info(module_name, "Started levitating object '%s' for %.1f seconds" % [levitating_body.name, hold_timer])
 	
-	return true
+	return {"success": true, "message": "OK"}
 
 func _physics_process(delta: float) -> void:
 	if not is_levitating or not levitating_body:
@@ -134,12 +113,9 @@ func end() -> void:
 		if levitating_body.has_property("gravity_scale"):
 			levitating_body.gravity_scale = original_gravity_scale
 		
-		DebugLogger.info(module_name, "Released levitating object '%s'" % levitating_body.name)
 		levitating_body = null
 	
 	is_levitating = false
-	
-	DebugLogger.info(module_name, "Object levitate event completed")
 	
 	# Call base implementation
 	super.end()

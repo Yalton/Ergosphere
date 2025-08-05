@@ -172,7 +172,7 @@ func _evaluate_and_trigger_event() -> void:
 		var modified_cost = event.get_modified_cost(event_occurrences.get(event.id, 0))
 		
 		if current_points >= modified_cost:
-			var result = _try_trigger_event(event)
+			var result = _try_trigger_event(event, false)
 			if result.success:
 				current_points -= modified_cost
 				triggered = true
@@ -243,7 +243,7 @@ func end_day() -> void:
 	var current_day = GameManager.get_current_day()
 	DebugLogger.info(module_name, "Day %d ended - disruption: %d%%" % [current_day, current_disruption])
 	
-func _try_trigger_event(event: EventData) -> Dictionary:
+func _try_trigger_event(event: EventData, _forced: bool) -> Dictionary:
 	# Find handler that handles this event ID
 	var handler: EventHandler = null
 	
@@ -258,12 +258,13 @@ func _try_trigger_event(event: EventData) -> Dictionary:
 	# Set the event data on the handler
 	handler.event_data = event
 	
-	# Check if handler says it can execute and get status
-	var can_execute_result = handler.can_execute_with_status()
-	if not can_execute_result.success:
-		if handler.get_parent() == self:
-			handler.queue_free()
-		return can_execute_result
+	if !_forced: 
+		# Check if handler says it can execute and get status
+		var can_execute_result = handler.can_execute_with_status()
+		if not can_execute_result.success:
+			if handler.get_parent() == self:
+				handler.queue_free()
+			return can_execute_result
 	
 	# Try to execute and get status
 	var execute_result = handler.execute_with_status()
@@ -288,6 +289,8 @@ func _try_trigger_event(event: EventData) -> Dictionary:
 	event_triggered.emit(event.id)
 	
 	return {"success": true, "message": "OK"}
+
+
 
 func _on_event_completed(event_id: String) -> void:
 	if not active_events.has(event_id):
@@ -380,7 +383,6 @@ func _normalize_occurrences() -> void:
 		DebugLogger.debug(module_name, "Normalized occurrences by subtracting " + str(min_occurrences))
 
 # Public API to maintain compatibility
-
 func trigger_event(event_id: String) -> void:
 	"""Force trigger an event by ID (for testing/story moments)"""
 	var event_data: EventData = null
@@ -394,13 +396,19 @@ func trigger_event(event_id: String) -> void:
 		DebugLogger.error(module_name, "Event not found: " + event_id)
 		return
 	
-	# Bypass cost but still check if it can run
-	if _can_trigger_event(event_data):
-		var result = _try_trigger_event(event_data)
-		if not result.success:
-			DebugLogger.warning(module_name, "Cannot force trigger event: " + event_id + " - " + result.message)
+	# Force trigger bypasses ALL restrictions except:
+	# 1. Event already active
+	# 2. No handler available
+	if active_events.has(event_id):
+		DebugLogger.warning(module_name, "Cannot force trigger - event already active: " + event_id)
+		return
+	
+	# Find handler and try to execute
+	var result = _try_trigger_event(event_data, true)
+	if not result.success:
+		DebugLogger.warning(module_name, "Cannot force trigger event: " + event_id + " - " + result.message)
 	else:
-		DebugLogger.warning(module_name, "Cannot force trigger event: " + event_id)
+		DebugLogger.info(module_name, "Force triggered event: " + event_id)
 
 func end_event(event_id: String) -> void:
 	"""End an active event"""

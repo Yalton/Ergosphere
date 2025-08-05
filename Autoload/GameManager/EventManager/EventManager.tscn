@@ -40,12 +40,14 @@
 [ext_resource type="PackedScene" uid="uid://bvqvla8urmxvc" path="res://Prefabs/VFX/big_smoke.tscn" id="24_u7gbo"]
 [ext_resource type="Script" uid="uid://dlhrl0254tvcm" path="res://Autoload/GameManager/EventManager/object_levitate.gd" id="25_3sgie"]
 [ext_resource type="Script" uid="uid://dlxehjyjciyh8" path="res://Autoload/GameManager/EventManager/ghost_tasks.gd" id="25_8t0n1"]
-[ext_resource type="PackedScene" uid="uid://dhagbca5bcgjg" path="res://Prefabs/VFX/black_man_appears.tscn" id="26_u7gbo"]
 [ext_resource type="Script" uid="uid://c6mi1h0rkwggh" path="res://Autoload/GameManager/EventManager/Handlers/object_throw.gd" id="28_u7gbo"]
 [ext_resource type="Script" uid="uid://c2d2vucrlyfnq" path="res://Autoload/GameManager/EventManager/Handlers/fog.gd" id="30_awmde"]
 [ext_resource type="Script" uid="uid://oxnqm23jqfcp" path="res://Autoload/GameManager/EventManager/Handlers/hawking_radiation.gd" id="32_36okp"]
 [ext_resource type="Script" uid="uid://2mf3gdfr4agp" path="res://Autoload/GameManager/EventManager/Handlers/brief_flicker.gd" id="33_r2li7"]
 [ext_resource type="Script" uid="uid://be3nvsrocwt34" path="res://Autoload/GameManager/EventManager/Handlers/glitch_event_handler.gd" id="37_e8orj"]
+
+[sub_resource type="Resource" id="Resource_ftp8o"]
+metadata/__load_path__ = "res://Prefabs/VFX/black_man_appears.tscn"
 
 [node name="EventManager" type="Node"]
 script = ExtResource("1_nnr1m")
@@ -73,7 +75,7 @@ confusing_horror_sounds = Array[AudioStream]([ExtResource("19_3sgie")])
 script = ExtResource("13_4kg6c")
 micro_blackhole_scene = ExtResource("23_oj86y")
 dark_fog_scene = ExtResource("24_u7gbo")
-entity_appearance_scene = ExtResource("26_u7gbo")
+entity_appearance_scene = SubResource("Resource_ftp8o")
 
 [node name="warp" type="Node" parent="." groups=["event_handlers"]]
 script = ExtResource("14_ia163")

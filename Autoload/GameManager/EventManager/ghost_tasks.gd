@@ -1,4 +1,3 @@
-# ghost_task_event.gd
 extends EventHandler
 class_name GhostTaskEvent
 
@@ -11,20 +10,16 @@ class_name GhostTaskEvent
 ]
 
 func _ready() -> void:
-	super._ready()
-	module_name = "GhostTaskEvent"
-	
 	# This handler handles the ghost_task event
 	handled_event_ids = ["ghost_task"]
 
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	# Initialize state if not exists
 	var state_manager = get_state_manager()
-	if state_manager and not state_manager.has_state("completed_ghost_tasks"):
+	if not state_manager:
+		return {"success": false, "message": "No state manager available"}
+	
+	if not state_manager.has_state("completed_ghost_tasks"):
 		set_state("completed_ghost_tasks", [])
 	
 	# Get completed ghost tasks from state
@@ -33,18 +28,21 @@ func can_execute() -> bool:
 		completed_ghosts = []
 	
 	# Check if we have any ghost tasks left
+	var available_count = 0
 	for task_id in ghost_task_ids:
 		if not task_id in completed_ghosts:
-			return true
+			available_count += 1
 	
-	DebugLogger.debug(module_name, "All ghost tasks already completed")
-	return false
+	if available_count == 0:
+		return {"success": false, "message": "All ghost tasks already completed"}
+	
+	# Check if task manager exists
+	if not GameManager or not GameManager.task_manager:
+		return {"success": false, "message": "Task manager not available"}
+	
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
+func _execute_internal() -> Dictionary:
 	# Get completed ghost tasks
 	var state_manager = get_state_manager()
 	var completed_ghosts = state_manager.get_state("completed_ghost_tasks")
@@ -58,7 +56,7 @@ func execute() -> bool:
 			available.append(task_id)
 	
 	if available.is_empty():
-		return false
+		return {"success": false, "message": "No available ghost tasks to complete"}
 	
 	# Pick random task
 	var chosen_id = available.pick_random()
@@ -69,8 +67,7 @@ func execute() -> bool:
 		task = GameManager.task_manager._find_task_by_id(chosen_id)
 	
 	if not task:
-		DebugLogger.error(module_name, "Ghost task not found: %s" % chosen_id)
-		return false
+		return {"success": false, "message": "Ghost task not found: " + chosen_id}
 	
 	# Add to today's tasks if not already there
 	if not task in GameManager.task_manager.todays_tasks:
@@ -86,12 +83,10 @@ func execute() -> bool:
 	completed_ghosts.append(chosen_id)
 	set_state("completed_ghost_tasks", completed_ghosts)
 	
-	DebugLogger.info(module_name, "Ghost task completed: %s" % chosen_id)
-	
 	# End immediately since this is instant
 	end()
 	
-	return true
+	return {"success": true, "message": "OK"}
 
 func end() -> void:
 	# Nothing to clean up for this event

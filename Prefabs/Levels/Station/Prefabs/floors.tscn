@@ -1,20 +1,12 @@
 [gd_scene load_steps=23 format=4 uid="uid://dsr7m64b65nrm"]
 
+[ext_resource type="Material" uid="uid://goxu2q8uv0i1" path="res://Assets/Materials/Emissive.tres" id="1_u8fae"]
 [ext_resource type="Texture2D" uid="uid://rdkfm1rxpp2u" path="res://Assets/Models/Station/Floor/textures/GreyMetal-Color.png" id="1_uq7ug"]
 [ext_resource type="Texture2D" uid="uid://cdl83xq40oi8p" path="res://Assets/Models/Station/Floor/textures/GreyMetal-Metalness-GreyMetal-Roughness.png" id="2_u8fae"]
 [ext_resource type="Texture2D" uid="uid://c1pcnxijsecd7" path="res://Assets/Models/Station/Floor/textures/GreyMetal-Normal.png" id="3_2quow"]
 [ext_resource type="Texture2D" uid="uid://coa8t438c74jf" path="res://Assets/Models/Station/Floor/textures/BlackMetal-Color.png" id="4_4ub1s"]
 [ext_resource type="Texture2D" uid="uid://cvvypanckt0mt" path="res://Assets/Models/Station/Floor/textures/BlackMetal-Metalness-BlackMetal-Roughness.png" id="5_20kti"]
 [ext_resource type="Texture2D" uid="uid://bd0n8w6d0dbjm" path="res://Assets/Models/Station/Floor/textures/BlackMetal-Normal.png" id="6_lp24n"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jahae"]
-resource_name = "Emissive"
-cull_mode = 2
-albedo_color = Color(0.906332, 0.906332, 0.906332, 1)
-roughness = 0.5
-emission_enabled = true
-emission = Color(1, 1, 1, 1)
-emission_energy_multiplier = 5.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bgatv"]
 resource_name = "FloorMetal"
@@ -87,7 +79,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 528,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkALAAtAC4ALAAvAC0AMAAxADIAMAAzADEANAA1ADYANAA3ADUAOAA5ADoAOAA7ADkAPAA9AD4APAA/AD0AQABBAEIAQABDAEEARABFAEYARABHAEUASABJAEoASABLAEkATABNAE4ATABPAE0AUABRAFIAUABTAFEAVABVAFYAVABXAFUAWABZAFoAWABbAFkAXABdAF4AXABfAF0AYABhAGIAYABjAGEAZABlAGYAZABnAGUAaABpAGoAaABrAGkAbABtAG4AbABvAG0AcABxAHIAcABzAHEAdAB1AHYAdAB3AHUAeAB5AHoAeAB7AHkAfAB9AH4AfAB/AH0AgACBAIIAgACDAIEAhACFAIYAhACHAIUAiACJAIoAiACLAIkAjACNAI4AjACPAI0AkACRAJIAkACTAJEAlACVAJYAlACXAJUAmACZAJoAmACbAJkAnACdAJ4AnACfAJ0AoAChAKIAoACjAKEApAClAKYApACnAKUAqACpAKoAqACrAKkArACtAK4ArACvAK0AsACxALIAsACzALEAtAC1ALYAtAC3ALUAuAC5ALoAuAC7ALkAvAC9AL4AvAC/AL0AwADBAMIAwADDAMEAxADFAMYAxADHAMUAyADJAMoAyADLAMkAzADNAM4AzADPAM0A0ADRANIA0ADTANEA1ADVANYA1ADXANUA2ADZANoA2ADbANkA3ADdAN4A3ADfAN0A4ADhAOIA4ADjAOEA5ADlAOYA5ADnAOUA6ADpAOoA6ADrAOkA7ADtAO4A7ADvAO0A8ADxAPIA8ADzAPEA9AD1APYA9AD3APUA+AD5APoA+AD7APkA/AD9AP4A/AD/AP0AAAEBAQIBAAEDAQEBBAEFAQYBBAEHAQUBCAEJAQoBCAELAQkBDAENAQ4BDAEPAQ0BEAERARIBEAETAREBFAEVARYBFAEXARUBGAEZARoBGAEbARkBHAEdAR4BHAEfAR0BIAEhASIBIAEjASEBJAElASYBJAEnASUBKAEpASoBKAErASkBLAEtAS4BLAEvAS0BMAExATIBMAEzATEBNAE1ATYBNAE3ATUBOAE5AToBOAE7ATkBPAE9AT4BPAE/AT0BQAFBAUIBQAFDAUEBRAFFAUYBRAFHAUUBSAFJAUoBSAFLAUkBTAFNAU4BTAFPAU0BUAFRAVIBUAFTAVEBVAFVAVYBVAFXAVUBWAFZAVoBWAFbAVkBXAFdAV4BXAFfAV0B"),
-"material": SubResource("StandardMaterial3D_jahae"),
+"material": ExtResource("1_u8fae"),
 "name": "Emissive",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),

@@ -21,6 +21,18 @@ signal power_state_changed(is_on: bool)
 ## Duration of power transition in seconds
 @export var power_transition_duration: float = 0.8
 
+@export_group("Light Effect Settings")
+## Brief flicker duration in seconds
+@export var brief_flicker_duration: float = 0.15
+## Purple shift color for lights
+@export var purple_shift_color: Color = Color(0.5, 0.0, 0.8)
+## Duration of purple shift effect
+@export var purple_shift_duration: float = 3.0
+## Brightness boost multiplier
+@export var brightness_boost_multiplier: float = 1.5
+## Duration of brightness boost
+@export var brightness_boost_duration: float = 5.0
+
 var audio_player: AudioStreamPlayer
 var original_light_states: Array = []
 var original_emission_color: Color
@@ -28,6 +40,7 @@ var original_emission_energy: float
 var power_is_on: bool = true
 var power_transition_tween: Tween
 var pulse_tween: Tween
+var effect_tween: Tween
 
 func _ready():
 	add_to_group("effects_manager")
@@ -39,9 +52,6 @@ func _ready():
 	if shared_emissive_material:
 		original_emission_color = shared_emissive_material.emission
 		original_emission_energy = shared_emissive_material.emission_energy_multiplier
-
-## Brief flicker duration in seconds
-@export var brief_flicker_duration: float = 0.15
 
 ## Triggers a brief flicker of all emissive lights
 func trigger_brief_flicker() -> void:
@@ -64,6 +74,96 @@ func trigger_brief_flicker() -> void:
 	# Quick fade back in
 	tween.tween_property(shared_emissive_material, "emission_energy_multiplier", 
 		original_emission_energy, brief_flicker_duration * 0.6)
+
+## Triggers a purple color shift on all lights
+func trigger_purple_shift() -> void:
+	if not power_is_on:
+		DebugLogger.debug("EffectsManager", "Power is off, skipping purple shift")
+		return
+	
+	DebugLogger.debug("EffectsManager", "Triggering purple shift")
+	
+	# Kill any existing effect tween
+	if effect_tween and effect_tween.is_valid():
+		effect_tween.kill()
+	
+	effect_tween = create_tween()
+	effect_tween.set_parallel(true)
+	
+	var lights = get_tree().get_nodes_in_group("lights")
+	var light_colors = {}
+	
+	# Store original colors and shift to purple
+	for light in lights:
+		if light is Light3D:
+			light_colors[light] = light.light_color
+			effect_tween.tween_property(light, "light_color", 
+				purple_shift_color, purple_shift_duration * 0.3)
+	
+	# Also shift emissive material if available
+	var mat_color = Color.WHITE
+	if shared_emissive_material:
+		mat_color = shared_emissive_material.emission
+		effect_tween.tween_property(shared_emissive_material, "emission",
+			purple_shift_color, purple_shift_duration * 0.3)
+	
+	# Hold the purple color
+	effect_tween.tween_interval(purple_shift_duration * 0.4)
+	
+	# Restore original colors
+	effect_tween.set_parallel(true)
+	for light in light_colors:
+		effect_tween.tween_property(light, "light_color", 
+			light_colors[light], purple_shift_duration * 0.3)
+	
+	if shared_emissive_material:
+		effect_tween.tween_property(shared_emissive_material, "emission",
+			mat_color, purple_shift_duration * 0.3)
+
+## Triggers a brightness boost on all lights
+func trigger_brightness_boost() -> void:
+	if not power_is_on:
+		DebugLogger.debug("EffectsManager", "Power is off, skipping brightness boost")
+		return
+	
+	DebugLogger.debug("EffectsManager", "Triggering brightness boost")
+	
+	# Kill any existing effect tween
+	if effect_tween and effect_tween.is_valid():
+		effect_tween.kill()
+	
+	effect_tween = create_tween()
+	effect_tween.set_parallel(true)
+	
+	var lights = get_tree().get_nodes_in_group("lights")
+	var light_energies = {}
+	
+	# Store original energies and boost brightness
+	for light in lights:
+		if light is Light3D:
+			light_energies[light] = light.light_energy
+			effect_tween.tween_property(light, "light_energy", 
+				light.light_energy * brightness_boost_multiplier, 0.5)
+	
+	# Also boost emissive material if available
+	var mat_energy = 0.0
+	if shared_emissive_material:
+		mat_energy = shared_emissive_material.emission_energy_multiplier
+		effect_tween.tween_property(shared_emissive_material, "emission_energy_multiplier",
+			mat_energy * brightness_boost_multiplier, 0.5)
+	
+	# Hold the boosted brightness
+	effect_tween.tween_interval(brightness_boost_duration)
+	
+	# Restore original brightness
+	effect_tween.set_parallel(true)
+	for light in light_energies:
+		effect_tween.tween_property(light, "light_energy", 
+			light_energies[light], 0.5)
+	
+	if shared_emissive_material:
+		effect_tween.tween_property(shared_emissive_material, "emission_energy_multiplier",
+			mat_energy, 0.5)
 
 ## Triggers a pulsing effect on lights over 2 seconds
 func trigger_light_pulse() -> void:

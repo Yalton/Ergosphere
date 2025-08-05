@@ -1,4 +1,3 @@
-# glitch_event.gd
 extends EventHandler
 class_name GlitchEvent
 
@@ -15,50 +14,47 @@ var glitched_ui: Node = null
 var glitch_duration: float = 0.0
 
 func _ready() -> void:
-	super._ready()
-	module_name = "GlitchEvent"
-	
 	# Define which events this handler processes
 	handled_event_ids = ["terminal_glitch"]
-	
-	DebugLogger.debug(module_name, "GlitchEvent ready")
 
-func can_execute() -> bool:
-	# First check base requirements
-	if not super.can_execute():
-		return false
-	
+func _can_execute_internal() -> Dictionary:
 	# Check if there are any diegetic UI elements
 	var ui_elements = get_tree().get_nodes_in_group(diegetic_ui_group)
 	if ui_elements.is_empty():
-		DebugLogger.warning(module_name, "No diegetic UI elements found in group: " + diegetic_ui_group)
-		return false
+		return {"success": false, "message": "No diegetic UI elements found in group: " + diegetic_ui_group}
 	
-	return true
+	# Check if any have the corrupt_terminal method
+	var valid_elements = false
+	for element in ui_elements:
+		if element.has_method("corrupt_terminal"):
+			valid_elements = true
+			break
+	
+	if not valid_elements:
+		return {"success": false, "message": "No UI elements with corrupt_terminal method found"}
+	
+	return {"success": true, "message": "OK"}
 
-func execute() -> bool:
-	# Call base implementation
-	if not super.execute():
-		return false
-	
+func _execute_internal() -> Dictionary:
 	var ui_elements = get_tree().get_nodes_in_group(diegetic_ui_group)
 	
 	if ui_elements.is_empty():
-		DebugLogger.error(module_name, "No diegetic UI elements found during execution")
-		return false
+		return {"success": false, "message": "No diegetic UI elements found during execution"}
+	
+	# Filter to only elements with corrupt_terminal method
+	var valid_elements = []
+	for element in ui_elements:
+		if element.has_method("corrupt_terminal"):
+			valid_elements.append(element)
+	
+	if valid_elements.is_empty():
+		return {"success": false, "message": "No UI elements with corrupt_terminal method available"}
 	
 	# Pick random UI element
-	glitched_ui = ui_elements.pick_random()
-	
-	# Check if it has the corrupt_terminal method
-	if not glitched_ui.has_method("corrupt_terminal"):
-		DebugLogger.error(module_name, "Selected UI element doesn't have corrupt_terminal method: " + glitched_ui.name)
-		return false
+	glitched_ui = valid_elements.pick_random()
 	
 	# Get random duration
 	glitch_duration = randf_range(min_glitch_duration, max_glitch_duration)
-	
-	DebugLogger.info(module_name, "Corrupting UI: " + glitched_ui.name + " for " + str(glitch_duration) + " seconds")
 	
 	# Corrupt the terminal
 	glitched_ui.corrupt_terminal(glitch_duration)
@@ -69,11 +65,9 @@ func execute() -> bool:
 			end()
 	)
 	
-	return true
+	return {"success": true, "message": "OK"}
 
 func end() -> void:
-	DebugLogger.info(module_name, "Glitch event completed on: " + (glitched_ui.name if glitched_ui else "unknown"))
-	
 	glitched_ui = null
 	
 	# Call base implementation
