@@ -14,6 +14,7 @@ var properties : int
 func _ready():
 	self.add_to_group("interactable")
 	self.add_to_group("Persist") #Adding object to group for persistence
+	self.add_to_group("game_object")
 	find_interaction_nodes()
 	
 

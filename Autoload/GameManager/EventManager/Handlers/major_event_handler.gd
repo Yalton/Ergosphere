@@ -129,7 +129,7 @@ func _can_execute_hawking() -> Dictionary:
 	if not window_lever:
 		return {"success": false, "message": "No window lever found in scene"}
 	
-	if not player.has_property("walk_speed") or not player.has_property("crouch_speed"):
+	if not player.walk_speed or not player.crouch_speed:
 		return {"success": false, "message": "Player missing required movement properties"}
 	
 	return {"success": true, "message": "OK"}
@@ -172,7 +172,7 @@ func _on_warning_timeout() -> void:
 		return
 		
 	var shutters_open = true
-	if window_lever and window_lever.has_property("shutters_open"):
+	if window_lever and window_lever.shutters_open:
 		shutters_open = window_lever.shutters_open
 	
 	if not shutters_open:
@@ -185,12 +185,10 @@ func _apply_hawking_effects() -> void:
 	is_warning_active = false
 	is_effect_active = true
 	
-	if player.has_property("walk_speed"):
-		original_walk_speed = player.walk_speed
-		player.walk_speed *= movement_slow_factor
-	if player.has_property("crouch_speed"):
-		original_crouch_speed = player.crouch_speed
-		player.crouch_speed *= movement_slow_factor
+	original_walk_speed = player.walk_speed
+	player.walk_speed *= movement_slow_factor
+	original_crouch_speed = player.crouch_speed
+	player.crouch_speed *= movement_slow_factor
 	
 	if particle_effect_scene:
 		particle_instance = particle_effect_scene.instantiate()
@@ -222,10 +220,8 @@ func _remove_hawking_effects() -> void:
 	is_effect_active = false
 	
 	if player:
-		if player.has_property("walk_speed"):
-			player.walk_speed = original_walk_speed
-		if player.has_property("crouch_speed"):
-			player.crouch_speed = original_crouch_speed
+		player.walk_speed = original_walk_speed
+		player.crouch_speed = original_crouch_speed
 	
 	if particle_instance:
 		particle_instance.queue_free()

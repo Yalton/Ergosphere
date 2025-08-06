@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bk1kuand7o7xa"]
+[gd_scene load_steps=42 format=3 uid="uid://bk1kuand7o7xa"]
 
 [ext_resource type="Script" uid="uid://b2evp3vtmha88" path="res://Autoload/GameManager/EventManager/Handlers/event_manager.gd" id="1_nnr1m"]
 [ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="2_he56m"]
@@ -25,7 +25,17 @@
 [ext_resource type="Script" uid="uid://bjvec8aiicpdc" path="res://Autoload/GameManager/EventManager/Handlers/spooky_ambience.gd" id="22_awmde"]
 [ext_resource type="PackedScene" uid="uid://bulnd3bpf0oew" path="res://Prefabs/VFX/small_black_hole_effect.tscn" id="23_oj86y"]
 [ext_resource type="PackedScene" uid="uid://bvqvla8urmxvc" path="res://Prefabs/VFX/big_smoke.tscn" id="24_u7gbo"]
-[ext_resource type="AudioStream" uid="uid://ccxaui8l3jk0v" path="res://Assets/Audio/Ambience/AmbientHorror/Breathing/breathing_3.ogg" id="33_e8orj"]
+[ext_resource type="AudioStream" uid="uid://cqqrcqcmdxomk" path="res://Assets/Audio/Ambience/AmbientHorror/Subtle/ambient_horror_1.ogg" id="24_wm8la"]
+[ext_resource type="AudioStream" uid="uid://bnl6imf1gi2mp" path="res://Assets/Audio/Ambience/AmbientHorror/Subtle/ambient_horror_2.ogg" id="25_xr1wj"]
+[ext_resource type="AudioStream" uid="uid://bmgcv7glx8jcq" path="res://Assets/Audio/Ambience/AmbientHorror/Subtle/scream.ogg" id="26_xifxp"]
+[ext_resource type="AudioStream" uid="uid://r4jcgfk1jamf" path="res://Assets/Audio/Ambience/AmbientHorror/Jarring/spooky_screech.ogg" id="27_5p7si"]
+[ext_resource type="AudioStream" uid="uid://bsom20hp5elq8" path="res://Assets/Audio/Ambience/AmbientHorror/Jarring/spooky_screech_2.ogg" id="28_ftp8o"]
+[ext_resource type="AudioStream" uid="uid://b5nsjju77joxe" path="res://Assets/Audio/Ambience/AmbientHorror/Confusing/breathing_1.ogg" id="29_8djds"]
+[ext_resource type="AudioStream" uid="uid://cjse5gwt6sxv7" path="res://Assets/Audio/Ambience/AmbientHorror/Confusing/breathing_2.ogg" id="30_xpt2l"]
+[ext_resource type="AudioStream" uid="uid://8s3tq8v56a0i" path="res://Assets/Audio/Ambience/AmbientHorror/Confusing/breathing_4.ogg" id="32_cjofh"]
+[ext_resource type="AudioStream" uid="uid://c0xjqr8o36rn2" path="res://Assets/Audio/Ambience/AmbientHorror/Confusing/insect_swarm.ogg" id="33_1v8bf"]
+[ext_resource type="AudioStream" uid="uid://ccxaui8l3jk0v" path="res://Assets/Audio/Ambience/AmbientHorror/Confusing/breathing_3.ogg" id="33_e8orj"]
+[ext_resource type="AudioStream" uid="uid://c6gvlm6pggjys" path="res://Assets/Audio/Ambience/AmbientHorror/Confusing/metal_open.ogg" id="34_w2vkq"]
 [ext_resource type="AudioStream" uid="uid://b833mqskbys66" path="res://Assets/Audio/Events/power_up.ogg" id="35_5jpdb"]
 [ext_resource type="Script" uid="uid://bv152s5jlgh17" path="res://Autoload/GameManager/EventManager/Handlers/misc_handler.gd" id="35_5qs84"]
 [ext_resource type="Script" uid="uid://ervl52oyi4xo" path="res://Autoload/GameManager/EventManager/Handlers/major_event_handler.gd" id="38_b8hgc"]
@@ -36,8 +46,11 @@
 script = ExtResource("1_nnr1m")
 event_resources = Array[ExtResource("2_he56m")]([ExtResource("3_8djds"), ExtResource("4_xpt2l"), ExtResource("5_cjofh"), ExtResource("6_awmde"), ExtResource("7_1v8bf"), ExtResource("8_w2vkq"), ExtResource("3_u7gbo"), ExtResource("10_l5acs"), ExtResource("11_yq1if"), ExtResource("12_440ic"), ExtResource("5_nn0bu"), ExtResource("7_he56m"), ExtResource("15_n1n8g"), ExtResource("16_rb45j"), ExtResource("17_pkq12"), ExtResource("18_rdvo6"), ExtResource("19_127bk"), ExtResource("20_foxlv"), ExtResource("4_u7gbo"), ExtResource("22_0gtbr")])
 
-[node name="spooky_ambience" type="Node" parent="." groups=["event_handlers"]]
+[node name="spooky_ambience" type="Node" parent="."]
 script = ExtResource("22_awmde")
+subtle_horror_sounds = Array[AudioStream]([ExtResource("24_wm8la"), ExtResource("25_xr1wj"), ExtResource("26_xifxp")])
+jarring_horror_sounds = Array[AudioStream]([ExtResource("27_5p7si"), ExtResource("28_ftp8o")])
+confusing_horror_sounds = Array[AudioStream]([ExtResource("29_8djds"), ExtResource("30_xpt2l"), ExtResource("33_e8orj"), ExtResource("32_cjofh"), ExtResource("33_1v8bf"), ExtResource("34_w2vkq")])
 
 [node name="positional_event_handler" type="Node" parent="."]
 script = ExtResource("46_8djds")

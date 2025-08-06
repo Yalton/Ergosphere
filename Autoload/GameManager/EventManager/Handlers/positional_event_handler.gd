@@ -361,8 +361,7 @@ func _execute_levitate() -> Dictionary:
 	start_position = levitating_body.global_position
 	target_height = start_position.y + levitate_height
 	
-	if levitating_body.has_property("gravity_scale"):
-		original_gravity_scale = levitating_body.gravity_scale
+	original_gravity_scale = levitating_body.gravity_scale
 	
 	hold_timer = randf_range(min_hold_time, max_hold_time)
 	
@@ -403,8 +402,7 @@ func _process_levitation(delta: float) -> void:
 
 func _end_levitation() -> void:
 	if levitating_body:
-		if levitating_body.has_property("gravity_scale"):
-			levitating_body.gravity_scale = original_gravity_scale
+		levitating_body.gravity_scale = original_gravity_scale
 		
 		levitating_body = null
 	
@@ -468,7 +466,7 @@ func _find_closest_rigidbody(player_pos: Vector3, max_distance: float) -> RigidB
 	var closest_body: RigidBody3D = null
 	var closest_distance: float = max_distance
 	
-	var bodies = get_tree().get_nodes_in_group("rigidbody")
+	var bodies = get_tree().get_nodes_in_group("game_object")
 	if bodies.is_empty():
 		bodies = _find_all_rigidbodies()
 	

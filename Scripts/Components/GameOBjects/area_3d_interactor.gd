@@ -35,21 +35,3 @@ func find_interaction_nodes():
 # This gets called by the player interaction system
 func interact(player_interaction: PlayerInteractionComponent) -> void:
 	target_node.interact(player_interaction)
-
-## Forward interaction text requests
-#func get_interaction_text() -> String:
-	## Try interaction components first
-	#if interaction_nodes.size() > 0:
-		#var interaction_component = interaction_nodes[0]
-		#if interaction_component.has_method("get_interaction_text"):
-			#return interaction_component.get_interaction_text()
-		#elif interaction_component.has_property("interaction_text"):
-			#return interaction_component.interaction_text
-	#
-	## Fallback to target
-	#if target_node and target_node.has_method("get_interaction_text"):
-		#return target_node.get_interaction_text()
-	#elif target_node and target_node.has_property("display_name") and target_node.display_name != "":
-		#return "Interact with " + target_node.display_name
-	#
-	#return "Interact"

@@ -8,4 +8,4 @@ Player finds password for log 11 on tablet when power goes out, log 11 tells the
 
 Alt ending 2
 
-Player must fully expose themselves to hawking radiation event, after that obelisk will spawn in the server room and then tell the player that they need to bring it a coffee cup. WHen they do and they throw the coffee cup at the obelisk it will drink it. Then they are tasked with disabling the stations security system. Then we replace the default ending with this new ending where the player welcomes being consumed by the black hole. 
+Player must fully expose themselves to hawking radiation event, after that obelisk will spawn in the server room and then tell the player that they need to bring it a coffee cup. WHen they do and they throw the coffee cup at the obelisk it will drink it. Then they are tasked with disabling the stations security system. Then we replace the default ending with this new ending where the player welcomes being consumed by the black hole. Sink drain from garbage disposal but backfill into other sink

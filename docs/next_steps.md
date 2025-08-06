@@ -7,18 +7,17 @@ Make monster work
 ## Event IDs
 
 ~~brightness_boost~~
-confusing_horror
-dark_fog
-door_malfunction
-door_malfunction
-fog_event
+~~confusing_horror~~
+~~dark_fog~~
+~~door_malfunction~~
+~~fog_event~~
 hawking_radiation
 heatsink_failure
-jarring_horror
-micro_blackhole
+~~jarring_horror~~
+~~micro_blackhole~~
 morse_light
 object_levitate
-object_throw
+~~object_throw~~
 oxygen_failure
 power_outage
 purple_shift

@@ -164,7 +164,7 @@ func _fade_and_remove_shard(shard: RigidBody3D) -> void:
 		if not material and mesh_instance.material_override:
 			material = mesh_instance.material_override
 		
-		if material and material.has_property("transparency"):
+		if material:
 			material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 			tween.tween_property(material, "albedo_color:a", 0.0, 0.5)
 	
