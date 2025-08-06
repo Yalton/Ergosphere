@@ -9,9 +9,7 @@ var debug_logger: DebugLogger
 var active_effects: Dictionary = {}
 
 func _ready():
-	debug_logger = get_node("/root/DebugLogger")
-	debug_logger.register_module("AudioFXManager")
-	debug_logger.info("AudioFXManager", "AudioFXManager initialized")
+	DebugLogger.info("AudioFXManager", "AudioFXManager initialized")
 
 ## Applies a reverb effect to the specified audio bus
 func apply_reverb(bus_name: String, room_size: float = 0.8, damping: float = 0.5, spread: float = 1.0, dry: float = 0.5) -> void:

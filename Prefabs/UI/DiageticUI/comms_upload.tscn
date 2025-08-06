@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://d32ocqbt52hv0" path="res://Scripts/Tasks/comms_upload.gd" id="2_v6bwo"]
 [ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/components/screensaver.tscn" id="3_o0kn3"]
 
-[node name="CommsUpload" type="Control" node_paths=PackedStringArray("login_screen", "password_field", "submit_button", "error_label", "status_label", "progress_screen", "progress_bar", "progress_label", "main_ui", "splash_screen")]
+[node name="CommsUpload" type="Control" node_paths=PackedStringArray("login_screen", "password_field", "submit_button", "error_label", "status_label", "progress_screen", "progress_bar", "progress_label", "main_ui", "splash_screen") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

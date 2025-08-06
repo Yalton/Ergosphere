@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_fxwij")
-id = "entity_appearance"
+id = "door_malfunction"
 name = "entity_appearance"
 description = "entity_appearance"
 cost = 50

@@ -99,7 +99,7 @@ func _reset_event_system() -> void:
 		var event_data = active_events[event_id]
 		if event_data.handler and is_instance_valid(event_data.handler):
 			event_data.handler.end()
-			event_data.handler.queue_free()
+			# DON'T delete handlers - they're reusable!
 	
 	# Clear all state
 	active_events.clear()
@@ -262,15 +262,13 @@ func _try_trigger_event(event: EventData, _forced: bool) -> Dictionary:
 		# Check if handler says it can execute and get status
 		var can_execute_result = handler.can_execute_with_status()
 		if not can_execute_result.success:
-			if handler.get_parent() == self:
-				handler.queue_free()
+			# DON'T DELETE THE HANDLER! It should be reusable
 			return can_execute_result
 	
 	# Try to execute and get status
 	var execute_result = handler.execute_with_status()
 	if not execute_result.success:
-		if handler.get_parent() == self:
-			handler.queue_free()
+		# DON'T DELETE THE HANDLER! It should be reusable
 		return execute_result
 	
 	# Success! Track the event
@@ -290,8 +288,6 @@ func _try_trigger_event(event: EventData, _forced: bool) -> Dictionary:
 	
 	return {"success": true, "message": "OK"}
 
-
-
 func _on_event_completed(event_id: String) -> void:
 	if not active_events.has(event_id):
 		return
@@ -309,9 +305,7 @@ func _on_event_completed(event_id: String) -> void:
 	# Start cooldown
 	event_cooldowns[event_id] = event.cooldown
 	
-	# Cleanup handler if it's our child
-	if event_data.handler.get_parent() == self:
-		event_data.handler.queue_free()
+	# DON'T DELETE THE HANDLER! It should be reusable
 	
 	event_ended.emit(event_id)
 	
@@ -396,12 +390,10 @@ func trigger_event(event_id: String) -> void:
 		DebugLogger.error(module_name, "Event not found: " + event_id)
 		return
 	
-	# Force trigger bypasses ALL restrictions except:
-	# 1. Event already active
-	# 2. No handler available
+	# Force trigger - if event is already active, end it first
 	if active_events.has(event_id):
-		DebugLogger.warning(module_name, "Cannot force trigger - event already active: " + event_id)
-		return
+		DebugLogger.info(module_name, "Force trigger: ending existing instance of " + event_id)
+		end_event(event_id)
 	
 	# Find handler and try to execute
 	var result = _try_trigger_event(event_data, true)

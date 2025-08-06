@@ -20,7 +20,7 @@ corner_radius_bottom_left = 84
 bg_color = Color(0, 0, 0, 1)
 draw_center = false
 
-[node name="StorageInterfaceUI" type="Control" node_paths=PackedStringArray("tab_container", "general_grid", "replacement_parts_grid", "requisition_label", "main_ui", "splash_screen", "corruption_screen")]
+[node name="StorageInterfaceUI" type="Control" node_paths=PackedStringArray("tab_container", "general_grid", "replacement_parts_grid", "requisition_label", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

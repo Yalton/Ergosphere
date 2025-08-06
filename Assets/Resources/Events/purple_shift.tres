@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_eactr")
-id = "purple_shift"
+id = " purple_shift"
 name = "purple_shift"
 description = "purple_shift"
 cost = 10

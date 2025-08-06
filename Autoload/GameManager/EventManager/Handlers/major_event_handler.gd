@@ -318,7 +318,7 @@ func _execute_oxygen_failure() -> Dictionary:
 	if oxygen_failure_sound:
 		play_audio(oxygen_failure_sound)
 	
-	trigger_emergency_task("restore_oxygen")
+	trigger_emergency_task("oxygen_filter_failure")
 	
 	CommonUtils.send_player_hint("", "WARNING: Oxygen System Failure")
 	

@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/components/screen_distortion.tscn" id="4_l02rg"]
 [ext_resource type="AudioStream" uid="uid://cgtf2e44ihp1y" path="res://Assets/Audio/UI/diagetic_ui/victory.ogg" id="5_adsr0"]
 
-[node name="TerminalUI" type="Control" node_paths=PackedStringArray("input_field", "output_area", "terminal_label", "main_ui", "splash_screen", "corruption_screen")]
+[node name="TerminalUI" type="Control" node_paths=PackedStringArray("input_field", "output_area", "terminal_label", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

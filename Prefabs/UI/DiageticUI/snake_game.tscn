@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://b8q1aervgqdap" path="res://Assets/Audio/UI/diagetic_ui/neutral.ogg" id="5_175jd"]
 [ext_resource type="AudioStream" uid="uid://cgtf2e44ihp1y" path="res://Assets/Audio/UI/diagetic_ui/victory.ogg" id="6_4gndm"]
 
-[node name="SnakeGame" type="Control" node_paths=PackedStringArray("start_screen", "game_screen", "game_grid", "progress_bar", "length_label", "start_button", "game_over_label", "main_ui", "splash_screen", "corruption_screen")]
+[node name="SnakeGame" type="Control" node_paths=PackedStringArray("start_screen", "game_screen", "game_grid", "progress_bar", "length_label", "start_button", "game_over_label", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

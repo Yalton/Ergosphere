@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://b8q1aervgqdap" path="res://Assets/Audio/UI/diagetic_ui/neutral.ogg" id="5_keq4w"]
 [ext_resource type="AudioStream" uid="uid://cgtf2e44ihp1y" path="res://Assets/Audio/UI/diagetic_ui/victory.ogg" id="6_cr7xr"]
 
-[node name="PatternMemory_Game" type="Control" node_paths=PackedStringArray("message_label", "progress_bar", "intro_ui", "start_button", "game_ui", "main_ui", "splash_screen", "corruption_screen")]
+[node name="PatternMemory_Game" type="Control" node_paths=PackedStringArray("message_label", "progress_bar", "intro_ui", "start_button", "game_ui", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

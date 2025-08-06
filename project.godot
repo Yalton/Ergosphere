@@ -86,6 +86,7 @@ window_lever=""
 station=""
 warp_destinations=""
 door_wrappers=""
+diegetic_ui=""
 
 [gui]
 

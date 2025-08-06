@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b4yqdqm4yeuhc" path="res://Scripts/UI/DiageticUI/dev_terminal.gd" id="1_5bqw8"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_rn7gp"]
 
-[node name="DevConsole" type="Control" node_paths=PackedStringArray("output_label", "input_field", "scroll_container")]
+[node name="DevConsole" type="Control" node_paths=PackedStringArray("output_label", "input_field", "scroll_container") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

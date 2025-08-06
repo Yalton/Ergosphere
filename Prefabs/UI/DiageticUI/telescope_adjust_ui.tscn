@@ -67,7 +67,7 @@ _data = {
 &"spinning": SubResource("Animation_hejy6")
 }
 
-[node name="telescope_adjust_ui" type="Control" node_paths=PackedStringArray("x_slider", "y_slider", "telescope_image", "x_position_label", "y_position_label", "status_label", "progress_bar", "main_ui", "splash_screen", "corruption_screen")]
+[node name="telescope_adjust_ui" type="Control" node_paths=PackedStringArray("x_slider", "y_slider", "telescope_image", "x_position_label", "y_position_label", "status_label", "progress_bar", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
