@@ -85,7 +85,7 @@ func _ready() -> void:
 	# All events this consolidated handler processes
 	handled_event_ids = [
 		"morse_light",
-		"brief_flicker", "purple_shift", "brightness_boost",
+		"brief_flicker", "brightness_boost",
 		"fog", "fog_event",
 		"terminal_glitch"
 	]
@@ -438,7 +438,7 @@ func _execute_glitch() -> Dictionary:
 	glitched_ui = valid_elements.pick_random()
 	glitch_duration = randf_range(min_glitch_duration, max_glitch_duration)
 	
-	glitched_ui.corrupt_terminal(glitch_duration)
+	glitched_ui.corrupt_terminal()
 	
 	get_tree().create_timer(glitch_duration).timeout.connect(func():
 		if is_active:

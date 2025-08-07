@@ -121,37 +121,23 @@ func end() -> void:
 
 # ============== HAWKING RADIATION FUNCTIONS ==============
 func _can_execute_hawking() -> Dictionary:
-	player = CommonUtils.get_player()
-	if not player:
-		return {"success": false, "message": "No player found in scene"}
-	
 	window_lever = get_tree().get_first_node_in_group("window_lever")
 	if not window_lever:
 		return {"success": false, "message": "No window lever found in scene"}
 	
-	if not player.walk_speed or not player.crouch_speed:
-		return {"success": false, "message": "Player missing required movement properties"}
+	# Check if shutters are open
+	if not window_lever.shutters_open:
+		return {"success": false, "message": "Shutters are closed - event won't proc"}
 	
 	return {"success": true, "message": "OK"}
 
 func _execute_hawking() -> Dictionary:
-	if window_lever.has_signal("shutters_toggled"):
-		window_lever.shutters_toggled.connect(_on_shutters_toggled)
-	else:
-		return {"success": false, "message": "Window lever missing shutters_toggled signal"}
+	# Simply trigger the emergency task - that's all we do
+	trigger_emergency_task("hawking_radiation")
 	
-	_show_hawking_warning()
-	
-	is_warning_active = true
-	warning_timer = Timer.new()
-	warning_timer.wait_time = warning_duration
-	warning_timer.one_shot = true
-	warning_timer.timeout.connect(_on_warning_timeout)
-	add_child(warning_timer)
-	warning_timer.start()
+	CommonUtils.send_player_hint("", "WARNING: Hawking radiation detected! Close the shutters immediately!")
 	
 	return {"success": true, "message": "OK"}
-
 func _show_hawking_warning() -> void:
 	CommonUtils.send_player_hint("", "WARNING: Close the shutters immediately!")
 	
@@ -184,7 +170,9 @@ func _on_warning_timeout() -> void:
 func _apply_hawking_effects() -> void:
 	is_warning_active = false
 	is_effect_active = true
-	
+
+	player = CommonUtils.get_player()
+
 	original_walk_speed = player.walk_speed
 	player.walk_speed *= movement_slow_factor
 	original_crouch_speed = player.crouch_speed

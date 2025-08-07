@@ -18,13 +18,14 @@ var module_name: String = "IntroductionTask"
 @export_group("Task Settings")
 ## Task aware component to handle task completion
 @export var task_aware_component: TaskAwareComponent
-## The three tasks to assign after intro completion
+## The three tasks to assign after shutters are opened
 @export var follow_up_task_ids: Array[String] = ["check_systems", "eat_breakfast", "calibrate_equipment"]
 
 @export_group("Room Requirements")
 ## Rooms that must be visited to complete the introduction
 @export var required_rooms: Array[String] = ["server_room", "stor_room", "oxy_room", "hab_room", "eng_room", "obs_room"]
 @export var player_detection: PlayerDetection
+
 # Track which rooms have been visited
 var visited_rooms: Dictionary = {}
 var rooms_with_played_audio: Dictionary = {}
@@ -33,6 +34,7 @@ var is_exploration_complete: bool = false
 var pending_room_voice_timer: SceneTreeTimer = null
 var waiting_for_final_room_audio: bool = false
 var follow_up_tasks_assigned: bool = false
+var shutters_task_assigned: bool = false
 
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
@@ -48,16 +50,14 @@ func _ready() -> void:
 			DebugLogger.error(module_name, "No TaskAwareComponent found!")
 			return
 	
-
 	player_detection.player_in_room.connect(_on_player_in_room)
-
 	
 	# Initialize room tracking
 	for room in required_rooms:
 		visited_rooms[room] = false
 		rooms_with_played_audio[room] = false
 	
-	# Connect to task completion signals for follow-up tasks
+	# Connect to task completion signals
 	if GameManager and GameManager.task_manager:
 		GameManager.task_manager.task_completed.connect(_on_task_completed)
 	
@@ -105,12 +105,6 @@ func _queue_room_voice_line(room_id: String) -> void:
 	# Don't play if we've already played audio for this room
 	if rooms_with_played_audio[room_id]:
 		return
-	
-	## Cancel any pending room voice line timerw
-	#if pending_room_voice_timer and pending_room_voice_timer.is_valid():
-		## SceneTreeTimer doesn't have disconnect_all, we need to track the connection differently
-		#pending_room_voice_timer = null
-		#DebugLogger.debug(module_name, "Cancelled pending room voice line")
 	
 	# Stop any currently playing voice line
 	if hermes_audio and hermes_audio.playing:
@@ -198,14 +192,29 @@ func _complete_exploration() -> void:
 	completion_timer.timeout.connect(_play_completion_voice)
 	DebugLogger.debug(module_name, "Waiting 20 seconds before playing completion voice")
 	
-	# Assign follow-up tasks immediately
-	_assign_follow_up_tasks()
+	# Assign open_shutters task instead of follow-up tasks
+	_assign_shutters_task()
 
 func _play_completion_voice() -> void:
 	if hermes_audio:
 		hermes_audio.play_voice_by_id("tour_complete")
 	else:
 		DebugLogger.error(module_name, "Cannot play completion voice line - no HermesAudio!")
+
+func _assign_shutters_task() -> void:
+	if shutters_task_assigned:
+		return
+		
+	shutters_task_assigned = true
+	
+	if not GameManager or not GameManager.task_manager:
+		DebugLogger.error(module_name, "Cannot assign shutters task - GameManager/TaskManager not found!")
+		return
+	
+	DebugLogger.info(module_name, "Assigning open_shutters task")
+	
+	# Assign the open shutters task
+	GameManager.task_manager.assign_mandatory_tasks(["open_shutters"])
 
 func _assign_follow_up_tasks() -> void:
 	if follow_up_tasks_assigned:
@@ -223,8 +232,14 @@ func _assign_follow_up_tasks() -> void:
 	GameManager.task_manager.assign_mandatory_tasks(follow_up_task_ids)
 
 func _on_task_completed(task_id: String) -> void:
-	# Only care about follow-up tasks after exploration is complete
-	if not is_exploration_complete:
+	# Check if shutters were just opened
+	if task_id == "open_shutters" and is_exploration_complete and not follow_up_tasks_assigned:
+		DebugLogger.info(module_name, "Shutters opened - assigning follow-up tasks")
+		_assign_follow_up_tasks()
+		return
+	
+	# Only care about follow-up tasks after shutters are opened
+	if not follow_up_tasks_assigned:
 		return
 	
 	# Check if this is one of our follow-up tasks
@@ -241,7 +256,6 @@ func _on_task_completed(task_id: String) -> void:
 			break
 	
 	if all_complete and not is_intro_complete:
-
 		var completion_timer = get_tree().create_timer(2.0)
 		completion_timer.timeout.connect(_trigger_power_outage)
 
@@ -293,6 +307,8 @@ func debug_reset() -> void:
 		
 	DebugLogger.debug(module_name, "Debug: Resetting introduction task")
 	is_intro_complete = false
+	shutters_task_assigned = false
+	follow_up_tasks_assigned = false
 	
 	for room in required_rooms:
 		visited_rooms[room] = false

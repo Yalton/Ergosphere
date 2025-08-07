@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BaseTask" load_steps=2 format=3 uid="uid://cil203xo85tjq"]
+
+[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_j8bk8"]
+
+[resource]
+script = ExtResource("1_j8bk8")
+task_id = "hawking_radiation"
+task_name = "hawking_radiation"
+task_description = ""
+is_emergency = true
+is_secret = false
+emergency_time_limit = 30.0
+failure_consequence = 0
+dependent_on_tasks = Array[String]([])
+related_object_groups = Array[String]([])
+metadata/_custom_type_script = "uid://bxrho0i2t1mql"

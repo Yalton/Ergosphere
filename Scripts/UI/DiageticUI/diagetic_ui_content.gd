@@ -1,12 +1,12 @@
 extends Control
 class_name DiageticUIContent
-
 ## Base class for UI content inside diegetic UI SubViewports with splash screen support
 
 ## Reference to the main UI content
 @export var main_ui: Control
 ## Reference to the splash screen node
 @export var splash_screen: Control
+## Reference to the corruption screen node
 @export var corruption_screen: Control
 
 @export_group("Audio Feedback")
@@ -19,18 +19,28 @@ class_name DiageticUIContent
 ## Sound to play for victory/completion (level complete, task finished)
 @export var victory_sound: AudioStream
 
-
 signal splash_shown()
 signal splash_hidden()
 signal corruption_shown()
 signal corruption_hidden()
+
+var corruption_timer: Timer
+
 func _ready() -> void:
 	DebugLogger.register_module("DiageticUIContent")
 	
 	# Ensure splash is hidden by default
 	if splash_screen:
 		splash_screen.visible = false
+	
+	# Create timer for corruption duration
+	corruption_timer = Timer.new()
+	corruption_timer.one_shot = true
+	corruption_timer.timeout.connect(hide_corruption)
+	add_child(corruption_timer)
+	
 	setup_corruption_ui()
+
 func show_splash() -> void:
 	if main_ui:
 		main_ui.visible = false
@@ -82,6 +92,26 @@ func hide_corruption() -> void:
 		
 	corruption_hidden.emit()
 
+## Corrupt the terminal for 3-6 seconds then restore previous state
+func corrupt_terminal() -> void:
+	DebugLogger.debug("DiageticUIContent", "Terminal corruption triggered")
+	
+	# Ensure timer exists
+	if not corruption_timer:
+		corruption_timer = Timer.new()
+		corruption_timer.one_shot = true
+		corruption_timer.timeout.connect(hide_corruption)
+		add_child(corruption_timer)
+	
+	# Show corruption
+	show_corruption()
+	
+	# Set timer for random duration between 3-6 seconds
+	var duration = randf_range(3.0, 6.0)
+	corruption_timer.wait_time = duration
+	corruption_timer.start()
+	
+	DebugLogger.debug("DiageticUIContent", "Corruption will last for %.2f seconds" % duration)
 
 ## Play positive feedback sound (success, confirmation, purchase)
 func play_positive_sound() -> void:

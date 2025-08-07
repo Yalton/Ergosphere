@@ -61,6 +61,12 @@ var module_name: String = "Player"
 # Physics
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+# Add these variables to the class variables section:
+var hawking_movement_slow: bool = false
+var hawking_slow_factor: float = 0.3
+var original_walk_speed: float = 0.0
+var original_crouch_speed: float = 0.0
+
 # View bob variables
 var bob_cycle: float = 0.0
 var bob_base_height: float = 0.0
@@ -555,6 +561,32 @@ func _on_camera_restore_complete() -> void:
 	# Clean up tween
 	if camera_tween:
 		camera_tween = null
+
+# Add this function to handle hawking radiation movement effects:
+func apply_hawking_movement(apply: bool) -> void:
+	"""Apply or remove hawking radiation movement slow effect"""
+	if apply and not hawking_movement_slow:
+		# Store original speeds if not already stored
+		if original_walk_speed == 0.0:
+			original_walk_speed = walk_speed
+			original_crouch_speed = crouch_speed
+		
+		# Apply slow
+		walk_speed = original_walk_speed * hawking_slow_factor
+		crouch_speed = original_crouch_speed * hawking_slow_factor
+		hawking_movement_slow = true
+		
+		DebugLogger.log_message("Player", "Applied hawking movement slow - walk: " + str(walk_speed) + ", crouch: " + str(crouch_speed))
+		
+	elif not apply and hawking_movement_slow:
+		# Restore original speeds
+		if original_walk_speed > 0.0:
+			walk_speed = original_walk_speed
+			crouch_speed = original_crouch_speed
+		
+		hawking_movement_slow = false
+		
+		DebugLogger.log_message("Player", "Removed hawking movement slow - walk: " + str(walk_speed) + ", crouch: " + str(crouch_speed))
 
 # Call when player sleeps
 func sleep():

@@ -22,6 +22,22 @@ var session_password: String = ""
 var game_is_running: bool = false
 var systems_initialized: bool = false
 
+# Settings for Hawking Radiation punishment
+@export_group("Hawking Radiation Punishment")
+## Duration of the radiation effects in seconds
+@export var radiation_effect_duration: float = 5.0
+## Movement speed multiplier when affected (0.3 = 30% speed)
+@export var radiation_speed_multiplier: float = 0.3
+## Sanity loss from radiation exposure
+@export var radiation_sanity_loss: float = 20.0
+## Particle effect to spawn on player
+@export var radiation_particle_scene: PackedScene
+## Audio to play during radiation exposure
+@export var radiation_audio: AudioStream
+## Audio to play when radiation ends
+@export var radiation_end_audio: AudioStream
+
+
 func _ready():
 	DebugLogger.register_module("GameManager")
 	
@@ -32,9 +48,8 @@ func _ready():
 	storage_manager = CommonUtils.safe_get_node(self, "StorageManager") as StorageManager
 	audio_fx_manager = CommonUtils.safe_get_node(self, "AudioFXManager") as AudioFXManager
 	ending_sequence_manager = CommonUtils.safe_get_node(self, "EndingSequenceManager") as EndingSequenceManager
-
+	
 	DebugLogger.info("GameManager", "GameManager ready, waiting for game start")
-
 
 func initialize_systems():
 	"""Initialize all game systems but don't start the game"""
@@ -55,7 +70,7 @@ func initialize_systems():
 
 	if ending_sequence_manager and ending_sequence_manager.has_method("initialize"):
 		ending_sequence_manager.initialize(self, task_manager, state_manager)
-	
+
 	# Generate session password
 	session_password = _generate_password()
 	DebugLogger.info("GameManager", "Session password generated: " + session_password)
@@ -163,7 +178,6 @@ func end_game():
 	else:
 		# Return to main menu
 		get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
-
 
 
 # Helper method to get dream sequence handler from group
