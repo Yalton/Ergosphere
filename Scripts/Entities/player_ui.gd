@@ -392,6 +392,12 @@ func toggle_task_panel() -> void:
 		task_panel.visible = !task_panel.visible
 		DebugLogger.debug(module_name, "Task panel toggled to: " + str(task_panel.visible))
 
-func _on_task_completed(task_data:BaseTask) -> void:
-	show_hint("cpl", task_data.task_name)
+
+	
+# Add this new adapter function:
+func _on_task_completed(task_id: String) -> void:
+	"""Adapter function to convert task_id String to BaseTask object"""
+	if GameManager and GameManager.task_manager:
+		var task = GameManager.task_manager.get_task(task_id)
+		show_hint("cpl", task.task_name)
 #endregion

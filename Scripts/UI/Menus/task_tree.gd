@@ -60,6 +60,8 @@ func _ready() -> void:
 		GameManager.task_manager.emergency_task_triggered.connect(_on_emergency_task_triggered)
 		GameManager.task_manager.daily_tasks_completed.connect(_on_daily_tasks_completed)
 		GameManager.task_manager.day_started.connect(_on_day_started)
+		# Connect to new emergency removal signal
+		GameManager.task_manager.emergency_task_removed.connect(_on_emergency_task_removed)
 		
 		# Check initial state
 		_rebuild_tree()
@@ -236,6 +238,12 @@ func _on_task_completed(task_id: String) -> void:
 	_check_visibility()
 
 func _on_emergency_task_triggered(_task_id: String) -> void:
+	_rebuild_tree()
+	_check_visibility()
+
+func _on_emergency_task_removed(_task_id: String) -> void:
+	"""Handle removal of completed emergency tasks after delay"""
+	DebugLogger.debug(module_name, "Emergency task removed from active list: " + _task_id)
 	_rebuild_tree()
 	_check_visibility()
 

@@ -11,6 +11,7 @@ signal emergency_task_failed(task_id: String)
 signal day_started(day_number: int)
 signal ending_path_available(path_id: String)
 signal ending_chosen(path_id: String)
+signal emergency_task_removed(task_id: String)  # New signal for UI cleanup
 
 @export var enable_debug: bool = true
 var module_name: String = "TaskManager"
@@ -35,6 +36,10 @@ var active_emergency_tasks: Array[BaseTask] = []
 # Sleep task checking
 var sleep_check_timer: float = 0.0
 var sleep_check_interval: float = 3.0
+
+# Emergency cleanup tracking
+var emergency_cleanup_timers: Dictionary = {}  # task_id -> Timer for cleanup after completion
+var emergency_cleanup_delay: float = 5.0  # Delay before removing completed emergency tasks from UI
 
 # Ending path tracking
 var ending_paths: Dictionary = {
@@ -78,6 +83,13 @@ func stop() -> void:
 		if is_instance_valid(emergency_timers[timer_id]):
 			emergency_timers[timer_id].queue_free()
 	emergency_timers.clear()
+	
+	# Clean up cleanup timers
+	for timer_id in emergency_cleanup_timers:
+		if is_instance_valid(emergency_cleanup_timers[timer_id]):
+			emergency_cleanup_timers[timer_id].queue_free()
+	emergency_cleanup_timers.clear()
+	
 	DebugLogger.info(module_name, "TaskManager stopped")
 
 func _reset_task_system() -> void:
@@ -86,6 +98,12 @@ func _reset_task_system() -> void:
 		if is_instance_valid(emergency_timers[timer_id]):
 			emergency_timers[timer_id].queue_free()
 	emergency_timers.clear()
+	
+	# Clean up cleanup timers
+	for timer_id in emergency_cleanup_timers:
+		if is_instance_valid(emergency_cleanup_timers[timer_id]):
+			emergency_cleanup_timers[timer_id].queue_free()
+	emergency_cleanup_timers.clear()
 	
 	# Reset all tracking variables
 	current_day_config = null
@@ -348,9 +366,10 @@ func complete_task(task_id: String) -> void:
 				ending_path_available.emit(path_id)
 				DebugLogger.info(module_name, "Ending path %s is now available!" % path_id)
 	
-	# Remove from emergency tasks if applicable
+	# Handle emergency task completion
 	if task in active_emergency_tasks:
-		active_emergency_tasks.erase(task)
+		# Don't remove immediately - schedule for removal after delay
+		_schedule_emergency_cleanup(task_id)
 		
 		# Clean up timer
 		if emergency_timers.has(task_id):
@@ -368,6 +387,42 @@ func complete_task(task_id: String) -> void:
 	_update_task_availability()
 	
 	DebugLogger.info(module_name, "Task completed: %s" % task.task_name)
+
+func _schedule_emergency_cleanup(task_id: String) -> void:
+	"""Schedule removal of completed emergency task from UI after delay"""
+	# Check if there's already a cleanup timer for this task
+	if emergency_cleanup_timers.has(task_id):
+		return
+	
+	var cleanup_timer = Timer.new()
+	cleanup_timer.wait_time = emergency_cleanup_delay
+	cleanup_timer.one_shot = true
+	cleanup_timer.timeout.connect(_on_emergency_cleanup_timer_expired.bind(task_id))
+	add_child(cleanup_timer)
+	cleanup_timer.start()
+	emergency_cleanup_timers[task_id] = cleanup_timer
+	
+	DebugLogger.debug(module_name, "Scheduled emergency task cleanup for %s in %0.1fs" % [task_id, emergency_cleanup_delay])
+
+func _on_emergency_cleanup_timer_expired(task_id: String) -> void:
+	"""Remove completed emergency task from active list after delay"""
+	# Find and remove the task from active emergency list
+	var task_to_remove: BaseTask = null
+	for task in active_emergency_tasks:
+		if task.task_id == task_id:
+			task_to_remove = task
+			break
+	
+	if task_to_remove:
+		active_emergency_tasks.erase(task_to_remove)
+		# Emit signal so UI can remove it
+		emergency_task_removed.emit(task_id)
+		DebugLogger.info(module_name, "Removed completed emergency task from UI: %s" % task_id)
+	
+	# Clean up the cleanup timer
+	if emergency_cleanup_timers.has(task_id):
+		emergency_cleanup_timers[task_id].queue_free()
+		emergency_cleanup_timers.erase(task_id)
 
 func _check_daily_completion() -> void:
 	# Don't assign sleep task on final day (day 5) - let ending sequence handle it
@@ -518,19 +573,42 @@ func assign_mandatory_tasks(task_ids: Array[String]) -> void:
 	var assigned_count = 0
 	
 	for task_id in task_ids:
-		# Find the task
+		# Find the task template
 		var task = _find_task_by_id(task_id)
 		
 		if not task:
 			DebugLogger.warning(module_name, "Task not found for mid-day assignment: %s" % task_id)
 			continue
 		
-		# Check if task is already assigned today
-		if task in todays_tasks:
-			DebugLogger.debug(module_name, "Task already assigned today: %s" % task_id)
+		# Check if task is already assigned today by searching through todays_tasks by ID
+		var existing_task: BaseTask = null
+		for t in todays_tasks:
+			if t.task_id == task_id:
+				existing_task = t
+				break
+		
+		if existing_task:
+			# If the task exists and is completed, reset it to make it available again
+			if existing_task.is_completed:
+				# Reset the existing task
+				existing_task.reset()
+				existing_task.is_revealed = true
+				
+				# Remove from completed tasks list
+				if task_id in completed_tasks:
+					completed_tasks.erase(task_id)
+				
+				assigned_count += 1
+				
+				# Notify UI about re-assignment
+				task_assigned.emit(task_id)
+				
+				DebugLogger.info(module_name, "Re-assigned completed task: %s" % existing_task.task_name)
+			else:
+				DebugLogger.debug(module_name, "Task already assigned and not completed: %s" % task_id)
 			continue
 		
-		# Add to today's tasks
+		# Task not found in today's list, add it as new
 		task.reset()
 		todays_tasks.append(task)
 		assigned_count += 1
@@ -545,7 +623,7 @@ func assign_mandatory_tasks(task_ids: Array[String]) -> void:
 	_update_task_availability()
 	
 	DebugLogger.info(module_name, "Assigned %d mandatory tasks mid-day" % assigned_count)
-
+	
 # Ending path helpers
 func get_ending_path_for_task(task_id: String) -> String:
 	for path_id in ending_paths:

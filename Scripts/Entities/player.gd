@@ -61,11 +61,15 @@ var module_name: String = "Player"
 # Physics
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-# Add these variables to the class variables section:
-var hawking_movement_slow: bool = false
-var hawking_slow_factor: float = 0.3
-var original_walk_speed: float = 0.0
-var original_crouch_speed: float = 0.0
+
+
+# Normal movement speeds (what we return to)
+@export var normal_walk_speed: float = 5.0
+@export var normal_crouch_speed: float = 2.5
+
+# Impeded movement speeds (during hawking radiation)
+@export var impeded_walk_speed: float = 1.5  # 30% of normal
+@export var impeded_crouch_speed: float = 0.75  # 30% of normal
 
 # View bob variables
 var bob_cycle: float = 0.0
@@ -562,29 +566,29 @@ func _on_camera_restore_complete() -> void:
 	if camera_tween:
 		camera_tween = null
 
-# Add this function to handle hawking radiation movement effects:
+# Replace the apply_hawking_movement function with this simpler version:
 func apply_hawking_movement(apply: bool) -> void:
 	"""Apply or remove hawking radiation movement slow effect"""
-	if apply and not hawking_movement_slow:
-		# Store original speeds if not already stored
-		if original_walk_speed == 0.0:
-			original_walk_speed = walk_speed
-			original_crouch_speed = crouch_speed
-		
-		# Apply slow
-		walk_speed = original_walk_speed * hawking_slow_factor
-		crouch_speed = original_crouch_speed * hawking_slow_factor
-		hawking_movement_slow = true
+	if apply:
+		# Apply impeded speeds
+		walk_speed = impeded_walk_speed
+		crouch_speed = impeded_crouch_speed
+		# Update current speed if already crouched
+		if is_crouched:
+			current_speed = impeded_crouch_speed
+		else:
+			current_speed = impeded_walk_speed
 		
 		DebugLogger.log_message("Player", "Applied hawking movement slow - walk: " + str(walk_speed) + ", crouch: " + str(crouch_speed))
-		
-	elif not apply and hawking_movement_slow:
-		# Restore original speeds
-		if original_walk_speed > 0.0:
-			walk_speed = original_walk_speed
-			crouch_speed = original_crouch_speed
-		
-		hawking_movement_slow = false
+	else:
+		# Restore normal speeds
+		walk_speed = normal_walk_speed
+		crouch_speed = normal_crouch_speed
+		# Update current speed if already crouched
+		if is_crouched:
+			current_speed = normal_crouch_speed
+		else:
+			current_speed = normal_walk_speed
 		
 		DebugLogger.log_message("Player", "Removed hawking movement slow - walk: " + str(walk_speed) + ", crouch: " + str(crouch_speed))
 

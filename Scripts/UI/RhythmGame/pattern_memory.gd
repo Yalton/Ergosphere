@@ -106,12 +106,12 @@ func setup_squares():
 		square.gui_input.connect(_on_square_input.bind(index))
 		DebugLogger.debug(module_name, "Connected square " + str(i))
 
-func find_node_recursive(node: Node, name: String) -> Node:
-	if node.name == name:
+func find_node_recursive(node: Node, p_name: String) -> Node:
+	if node.name == p_name:
 		return node
 	
 	for child in node.get_children():
-		var result = find_node_recursive(child, name)
+		var result = find_node_recursive(child, p_name)
 		if result:
 			return result
 	

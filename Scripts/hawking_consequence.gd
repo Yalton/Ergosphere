@@ -65,9 +65,8 @@ func _apply_hawking_consequences() -> void:
 		DebugLogger.log_message("HawkingConsequence", "Started audio playback")
 	
 	# Apply movement slow to player
-	if player.has_method("apply_hawking_movement"):
-		player.apply_hawking_movement(true)
-		DebugLogger.log_message("HawkingConsequence", "Applied movement slow to player")
+	player.apply_hawking_movement(true)
+	DebugLogger.log_message("HawkingConsequence", "Applied movement slow to player")
 	
 	# Start timer to stop effects
 	effect_timer.start(effect_duration)
