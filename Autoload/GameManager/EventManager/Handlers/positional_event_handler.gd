@@ -327,6 +327,9 @@ func _spawn_scene_at_location(scene: PackedScene, spawn_point: Node, event_id: S
 		var cleanup_timer = get_tree().create_timer(30.0)
 		cleanup_timer.timeout.connect(_cleanup_specific_object.bind(spawned_instance))
 	
+	# Trigger glitch VFX when spawning supernatural entities
+	_trigger_spawn_glitch_vfx()
+	
 	return {"success": true, "message": "OK"}
 
 func _on_spawned_object_cleanup_requested(spawned_object: Node) -> void:
@@ -387,6 +390,9 @@ func _execute_levitate() -> Dictionary:
 		audio_player.play()
 		audio_player.finished.connect(audio_player.queue_free)
 	
+	# Trigger chromatic aberration and edge detection VFX
+	_trigger_psychic_vfx()
+	
 	is_levitating = true
 	
 	return {"success": true, "message": "OK"}
@@ -442,6 +448,9 @@ func _execute_throw() -> Dictionary:
 		return {"success": false, "message": "No rigidbody found to throw"}
 	
 	_throw_object_at_player(closest_body, player.global_position)
+	
+	# Trigger chromatic aberration and edge detection VFX for psychic throw
+	_trigger_psychic_vfx()
 	
 	get_tree().create_timer(1.0).timeout.connect(func(): 
 		if is_active:
@@ -502,3 +511,61 @@ func _recursive_find_rigidbodies(node: Node, bodies: Array) -> void:
 	
 	for child in node.get_children():
 		_recursive_find_rigidbodies(child, bodies)
+
+# ============== VFX TRIGGER FUNCTIONS ==============
+func _trigger_psychic_vfx() -> void:
+	"""Trigger chromatic aberration and edge detection for psychic events"""
+	var player = CommonUtils.get_player()
+	if not player:
+		return
+	
+	# Try to get VFX component (player or global)
+	var vfx_component = player.get_node_or_null("PlayerVFXComponent")
+	if not vfx_component:
+		vfx_component = player.vfx_component if "vfx_component" in player else null
+	if not vfx_component:
+		vfx_component = get_tree().get_first_node_in_group("visual_effects_manager")
+	
+	if vfx_component and vfx_component.has_method("invoke_effect"):
+		# Random duration between 2-5 seconds
+		var effect_duration = randf_range(2.0, 5.0)
+		
+		# Quick startup and winddown for sudden psychic manifestation
+		var startup = 0.2
+		var winddown = 0.3
+		
+		# Trigger both effects simultaneously
+		vfx_component.invoke_effect("chromatic_aberration", startup, effect_duration, winddown)
+		vfx_component.invoke_effect("edge_detection", startup, effect_duration, winddown)
+		
+		DebugLogger.debug("PositionalEventHandler", "Triggered psychic VFX for %.1fs" % effect_duration)
+	else:
+		DebugLogger.warning("PositionalEventHandler", "No VFX component found for psychic effects")
+
+func _trigger_spawn_glitch_vfx() -> void:
+	"""Trigger glitch effect when spawning supernatural entities"""
+	var player = CommonUtils.get_player()
+	if not player:
+		return
+	
+	# Try to get VFX component (player or global)
+	var vfx_component = player.get_node_or_null("PlayerVFXComponent")
+	if not vfx_component:
+		vfx_component = player.vfx_component if "vfx_component" in player else null
+	if not vfx_component:
+		vfx_component = get_tree().get_first_node_in_group("visual_effects_manager")
+	
+	if vfx_component and vfx_component.has_method("invoke_effect"):
+		# Random duration between 2-6 seconds for reality distortion
+		var effect_duration = randf_range(2.0, 6.0)
+		
+		# Abrupt startup for shocking appearance
+		var startup = 0.1
+		var winddown = 0.5
+		
+		# Trigger glitch effect
+		vfx_component.invoke_effect("glitch", startup, effect_duration, winddown)
+		
+		DebugLogger.debug("PositionalEventHandler", "Triggered spawn glitch VFX for %.1fs" % effect_duration)
+	else:
+		DebugLogger.warning("PositionalEventHandler", "No VFX component found for glitch effect")
