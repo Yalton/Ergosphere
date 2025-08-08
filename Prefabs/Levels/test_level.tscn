@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=74 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -28,6 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://qr1n21uuq8fa" path="res://Prefabs/Environment/Props/Tech/window_lever.tscn" id="28_eprw8"]
 [ext_resource type="PackedScene" uid="uid://6nnliah25gvx" path="res://Prefabs/Environment/Props/Computer/contact_earth.tscn" id="29_bsk3i"]
 [ext_resource type="PackedScene" uid="uid://cabf6yaqip2ct" path="res://Prefabs/coffee_mug.tscn" id="29_wehjc"]
+[ext_resource type="PackedScene" uid="uid://40gjctxfvyyn" path="res://Prefabs/Entities/avatar_iconoclast.tscn" id="30_0325f"]
 [ext_resource type="PackedScene" uid="uid://di71tyfsvdywh" path="res://Prefabs/Environment/Props/anomaly_scanner.tscn" id="30_wehjc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
@@ -247,6 +248,10 @@ size = Vector2(10, 10)
 [sub_resource type="BoxShape3D" id="BoxShape3D_wi6ky"]
 size = Vector3(1000, 10, 1000)
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_bsk3i"]
+vertices = PackedVector3Array(-74.5, -0.6, -74.5, -74.5, -0.6, 74.5, 74.5, -0.6, 74.5, 74.5, -0.6, -74.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v7qhq"]
 albedo_texture = ExtResource("5_ovot7")
 metallic = 1.0
@@ -431,12 +436,15 @@ shape = SubResource("BoxShape3D_wi6ky")
 
 [node name="Props" type="Node3D" parent="." groups=["props"]]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_bsk3i")
+
+[node name="Floor" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 use_collision = true
 collision_layer = 5
 collision_mask = 5
-size = Vector3(75, 0.2, 75)
+size = Vector3(150, 0.2, 150)
 material = SubResource("StandardMaterial3D_v7qhq")
 
 [node name="Player" parent="." instance=ExtResource("8_dyfrl")]
@@ -521,3 +529,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3796, 0.984663, -3.24007)
 
 [node name="CoffeeMug" parent="." instance=ExtResource("29_wehjc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.00894, 3.48576, 8.33204)
+
+[node name="AvatarIconoclast" parent="." instance=ExtResource("30_0325f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.8333, 0.240425, -3.6678)
