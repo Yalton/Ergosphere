@@ -11,8 +11,10 @@ class_name PositionalEventHandler
 @export var min_warp_distance: float = 5.0
 ## Sound to play when warping
 @export var warp_sound: AudioStream
-## Visual effect duration (fade to black and back)
-@export var fade_duration: float = 0.5
+## Total duration for the warp effect (should be quick)
+@export var warp_total_duration: float = 0.8
+## How long to hold the black screen before teleporting (middle of blink)
+@export var warp_black_hold: float = 0.1
 
 # ============== SCENE SPAWN SETTINGS ==============
 @export_group("Visual Effect Scenes")
@@ -162,7 +164,7 @@ func _execute_warp() -> Dictionary:
 	if not destination:
 		return {"success": false, "message": "No valid warp destination found (check minimum distance requirements)"}
 	
-	_warp_player(player, destination)
+	_warp_player_with_vfx(player, destination)
 	
 	return {"success": true, "message": "OK"}
 
@@ -186,47 +188,57 @@ func _find_valid_warp_destination(player: Node3D) -> Node3D:
 	
 	return valid_destinations[randi() % valid_destinations.size()]
 
-func _warp_player(player: Node3D, destination: Node3D) -> void:
+func _warp_player_with_vfx(player: Node3D, destination: Node3D) -> void:
+	# Play warp sound if available
 	if warp_sound:
 		play_audio(warp_sound)
 	
-	var ui_controller = _find_ui_controller(player)
+	# Try to get the player's VFX component
+	var vfx_component = player.get_node_or_null("PlayerVFXComponent")
+	if not vfx_component:
+		vfx_component = player.vfx_component if "vfx_component" in player else null
 	
-	if ui_controller and ui_controller.has_method("fade_to_black"):
-		ui_controller.fade_to_black(fade_duration)
-		await get_tree().create_timer(fade_duration).timeout
+	# If no player VFX, try global VFX manager
+	if not vfx_component:
+		vfx_component = get_tree().get_first_node_in_group("visual_effects_manager")
+	
+	if vfx_component and vfx_component.has_method("invoke_effect"):
+		# Calculate timings for a quick blink effect
+		var fade_to_black = warp_total_duration * 0.4  # 40% of time fading to black
+		var fade_from_black = warp_total_duration * 0.4  # 40% of time fading back
+		var black_duration = warp_black_hold  # Hold black briefly
 		
+		# Start the blink effect with our custom timing
+		# Blink effect: startup (fade to black), duration (hold black), winddown (fade from black)
+		vfx_component.invoke_effect("blink", fade_to_black, black_duration, fade_from_black)
+		
+		# Wait for fade to black to complete
+		await get_tree().create_timer(fade_to_black).timeout
+		
+		# Teleport the player while screen is black
 		player.global_position = destination.global_position
 		if destination.has_method("get_rotation"):
 			player.rotation = destination.rotation
 		
-		ui_controller.fade_from_black(fade_duration)
-		await get_tree().create_timer(fade_duration).timeout
+		# Wait for the rest of the effect to complete
+		await get_tree().create_timer(black_duration + fade_from_black).timeout
+		
 	else:
+		# Fallback: No VFX available, just teleport with a small delay
+		DebugLogger.warning("PositionalEventHandler", "No VFX component found for blink effect, using instant teleport")
+		
+		# Small delay for the sound to play
+		await get_tree().create_timer(0.1).timeout
+		
 		player.global_position = destination.global_position
 		if destination.has_method("get_rotation"):
 			player.rotation = destination.rotation
 		
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(0.2).timeout
 	
+	# End the event
 	if is_active:
 		end()
-
-func _find_ui_controller(player: Node) -> Node:
-	var ui_controller = player.get_node_or_null("UIController")
-	if ui_controller:
-		return ui_controller
-	
-	var ui_controllers = get_tree().get_nodes_in_group("ui_controller")
-	if not ui_controllers.is_empty():
-		return ui_controllers[0]
-	
-	for node in get_tree().get_nodes_in_group("player"):
-		for child in node.get_children():
-			if child.has_method("fade_to_black"):
-				return child
-	
-	return null
 
 # ============== SCENE SPAWN EVENT FUNCTIONS ==============
 func _can_execute_scene_spawn() -> Dictionary:
@@ -255,7 +267,7 @@ func _spawn_vfx_scene(scene: PackedScene, event_id: String) -> Dictionary:
 	if spawn_points.is_empty():
 		return {"success": false, "message": "No spawn points found in group: " + spawn_group}
 	
-	var player = get_tree().get_first_node_in_group("player")
+	var player = CommonUtils.get_player()
 	
 	var offscreen_points = []
 	for point in spawn_points:

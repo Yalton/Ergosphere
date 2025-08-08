@@ -42,8 +42,8 @@ func _cmd_player_vfx(args: Array) -> void:
 		output("Example: pvfx glitch 0.2 1.0 0.2")
 		return
 	
-	# Get player reference
-	var player = get_tree().get_first_node_in_group("player") as Player
+	# Get player reference using CommonUtils
+	var player = CommonUtils.get_player()
 	if not player:
 		output_error("Player not found")
 		return
@@ -71,7 +71,7 @@ func _cmd_player_vfx(args: Array) -> void:
 	DebugLogger.debug(module_name, "Triggered player VFX: %s (%.1f/%.1f/%.1f)" % [effect_id, startup, duration, winddown])
 
 func _cmd_player_vfx_stop(args: Array) -> void:
-	var player = get_tree().get_first_node_in_group("player") as Player
+	var player = CommonUtils.get_player()
 	if not player:
 		output_error("Player not found")
 		return
@@ -91,7 +91,7 @@ func _cmd_player_vfx_stop(args: Array) -> void:
 		DebugLogger.debug(module_name, "Stopped player VFX: %s" % effect_id)
 
 func _cmd_player_vfx_list(args: Array) -> void:
-	var player = get_tree().get_first_node_in_group("player") as Player
+	var player = CommonUtils.get_player()
 	if not player:
 		output_error("Player not found")
 		return
@@ -102,15 +102,34 @@ func _cmd_player_vfx_list(args: Array) -> void:
 	
 	output_system("=== Available Player Visual Effects ===")
 	
-	# Get all effect handlers from player's component
+	# Get all available effects from handlers
 	var effects = []
 	var active_count = 0
 	
+	# Check if there's a consolidated handler (CompositorVFXHandler)
+	var has_compositor_handler = false
+	
 	for child in player.vfx_component.get_children():
-		if child.has_method("invoke_effect"):  # Assuming this is a visual effect
+		if child is CompositorVFXHandler:
+			has_compositor_handler = true
+			# Get all effects from the consolidated handler
+			for effect_id in CompositorVFXHandler.EFFECT_CONFIG.keys():
+				var config = CompositorVFXHandler.EFFECT_CONFIG[effect_id]
+				var effect_info = {
+					"id": effect_id,
+					"name": config.name,
+					"type": "Compositor",
+					"active": player.vfx_component.is_effect_active(effect_id)
+				}
+				if effect_info.active:
+					active_count += 1
+				effects.append(effect_info)
+		elif child.has_method("invoke_effect"):
+			# Regular individual effect handler
 			var effect_info = {
 				"id": child.effect_id if "effect_id" in child else child.name,
 				"name": child.effect_name if "effect_name" in child else child.name,
+				"type": "Individual",
 				"active": false
 			}
 			
@@ -127,7 +146,8 @@ func _cmd_player_vfx_list(args: Array) -> void:
 	else:
 		for effect in effects:
 			var active = " [ACTIVE]" if effect.active else ""
-			output("- %s (%s)%s" % [effect.id, effect.name, active])
+			var type_info = " (%s)" % effect.type
+			output("- %s: %s%s%s" % [effect.id, effect.name, type_info, active])
 	
 	output("")
 	output("Total effects: %d | Active: %d" % [effects.size(), active_count])
@@ -140,7 +160,7 @@ func _cmd_player_vfx_list(args: Array) -> void:
 	output("  pvfx_stop       # Stop all effects")
 
 func _cmd_player_vfx_glitch(args: Array) -> void:
-	var player = get_tree().get_first_node_in_group("player") as Player
+	var player = CommonUtils.get_player()
 	if not player:
 		output_error("Player not found")
 		return
@@ -154,7 +174,7 @@ func _cmd_player_vfx_glitch(args: Array) -> void:
 	DebugLogger.debug(module_name, "Quick test: player glitch")
 
 func _cmd_player_vfx_mind(args: Array) -> void:
-	var player = get_tree().get_first_node_in_group("player") as Player
+	var player = CommonUtils.get_player()
 	if not player:
 		output_error("Player not found")
 		return
@@ -168,7 +188,7 @@ func _cmd_player_vfx_mind(args: Array) -> void:
 	DebugLogger.debug(module_name, "Quick test: player mind break")
 
 func _cmd_player_vfx_status(args: Array) -> void:
-	var player = get_tree().get_first_node_in_group("player") as Player
+	var player = CommonUtils.get_player()
 	if not player:
 		output_error("Player not found")
 		return
@@ -180,10 +200,10 @@ func _cmd_player_vfx_status(args: Array) -> void:
 	output_system("=== Player VFX Status ===")
 	
 	var active_effects = []
-	for child in player.vfx_component.get_children():
-		if "effect_id" in child and player.vfx_component.has_method("is_effect_active"):
-			if player.vfx_component.is_effect_active(child.effect_id):
-				active_effects.append(child.effect_id)
+	
+	# Get active effects from the VFX component
+	if player.vfx_component.has_method("get_active_effects"):
+		active_effects = player.vfx_component.get_active_effects()
 	
 	if active_effects.is_empty():
 		output("No active player effects")
@@ -262,12 +282,30 @@ func _cmd_vfx_list(args: Array) -> void:
 	
 	output_system("=== Available Global Visual Effects ===")
 	
-	# Get all effect handlers
+	# Get all available effects from handlers
 	var effects = []
 	var active_count = 0
 	
+	# Check if there's a consolidated handler (CompositorVFXHandler)
+	var has_compositor_handler = false
+	
 	for child in vfx_manager.get_children():
-		if child.has_method("invoke_effect"):  # Assuming BaseVisualEffect has this
+		if child is CompositorVFXHandler:
+			has_compositor_handler = true
+			# Get all effects from the consolidated handler
+			for effect_id in CompositorVFXHandler.EFFECT_CONFIG.keys():
+				var config = CompositorVFXHandler.EFFECT_CONFIG[effect_id]
+				var effect_info = {
+					"id": effect_id,
+					"name": config.name,
+					"compositor_index": config.index,
+					"active": vfx_manager.is_effect_active(effect_id)
+				}
+				if effect_info.active:
+					active_count += 1
+				effects.append(effect_info)
+		elif child.has_method("invoke_effect"):
+			# Regular individual effect handler
 			var effect_info = {
 				"id": child.effect_id if "effect_id" in child else child.name,
 				"name": child.effect_name if "effect_name" in child else child.name,
@@ -290,8 +328,8 @@ func _cmd_vfx_list(args: Array) -> void:
 		for effect in effects:
 			var active = " [ACTIVE]" if effect.active else ""
 			var compositor = " (Compositor: %d)" % effect.compositor_index if effect.compositor_index >= 0 else " (ColorRect)"
-			var blink = " +Blink" if effect.use_blink else ""
-			output("- %s (%s)%s%s%s" % [effect.id, effect.name, compositor, blink, active])
+			var blink = " +Blink" if effect.get("use_blink", false) else ""
+			output("- %s: %s%s%s%s" % [effect.id, effect.name, compositor, blink, active])
 	
 	output("")
 	output("Total effects: %d | Active: %d" % [effects.size(), active_count])
@@ -332,8 +370,8 @@ func _cmd_stop_all_vfx(args: Array) -> void:
 	var stopped_player = false
 	var stopped_global = false
 	
-	# Stop player effects
-	var player = get_tree().get_first_node_in_group("player") as Player
+	# Stop player effects using CommonUtils
+	var player = CommonUtils.get_player()
 	if player and player.vfx_component:
 		player.stop_player_vfx()
 		stopped_player = true
@@ -371,8 +409,8 @@ func _cmd_vfx_test_suite(args: Array) -> void:
 	
 	output("Testing with %.1fs duration per effect" % test_duration)
 	
-	# Test on player
-	var player = get_tree().get_first_node_in_group("player") as Player
+	# Test on player using CommonUtils
+	var player = CommonUtils.get_player()
 	if player and player.vfx_component:
 		output("")
 		output_system("Testing Player Effects:")

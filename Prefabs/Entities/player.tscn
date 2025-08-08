@@ -132,7 +132,7 @@ shader_code = "
 	"
 metadata/_custom_type_script = "uid://dbrp023kh24vn"
 
-[sub_resource type="CompositorEffect" id="CompositorEffect_6p2g8"]
+[sub_resource type="CompositorEffect" id="CompositorEffect_7pgp2"]
 resource_local_to_scene = false
 resource_name = ""
 enabled = false
@@ -749,7 +749,7 @@ shader_code = "
 metadata/_custom_type_script = "uid://bpot4ouuaf23r"
 
 [sub_resource type="Compositor" id="Compositor_k313v"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_66sxq"), SubResource("CompositorEffect_1p7eu"), SubResource("CompositorEffect_6p2g8"), SubResource("CompositorEffect_808wy"), SubResource("CompositorEffect_bnfw2"), SubResource("CompositorEffect_hnd4y"), SubResource("CompositorEffect_yo8dt"), SubResource("CompositorEffect_6xyov")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_66sxq"), SubResource("CompositorEffect_1p7eu"), SubResource("CompositorEffect_7pgp2"), SubResource("CompositorEffect_808wy"), SubResource("CompositorEffect_bnfw2"), SubResource("CompositorEffect_hnd4y"), SubResource("CompositorEffect_yo8dt"), SubResource("CompositorEffect_6xyov")])
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c0wcc"]
 streams_count = 5

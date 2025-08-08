@@ -1,3 +1,4 @@
+# VisualEffectsManager.gd
 extends Node
 class_name VisualEffectsManager
 
@@ -21,6 +22,8 @@ signal effect_finished(effect_id: String)
 var module_name: String = "VisualEffectsManager"
 ## Dictionary of effect handlers by ID
 var effect_handlers: Dictionary = {}
+## Reference to the consolidated compositor handler if present
+var compositor_handler: CompositorVFXHandler = null
 ## Currently active effects
 var active_effects: Array[String] = []
 
@@ -38,7 +41,21 @@ func _ready() -> void:
 func _discover_effect_handlers() -> void:
 	## Find all child nodes that are effect handlers
 	for child in get_children():
-		if child is BaseVisualEffect:
+		if child is CompositorVFXHandler:
+			# Special handling for consolidated compositor handler
+			compositor_handler = child as CompositorVFXHandler
+			compositor_handler.player_camera = player_camera
+			
+			# Register all effects that this handler manages
+			for effect_id in CompositorVFXHandler.EFFECT_CONFIG.keys():
+				effect_handlers[effect_id] = compositor_handler
+				DebugLogger.debug(module_name, "Registered compositor effect: %s" % effect_id)
+			
+			# Connect signals for the handler itself
+			compositor_handler.effect_started.connect(_on_effect_started)
+			compositor_handler.effect_finished.connect(_on_effect_finished)
+			
+		elif child is BaseVisualEffect:
 			var handler = child as BaseVisualEffect
 			
 			if handler.effect_id.is_empty():
@@ -88,9 +105,19 @@ func invoke_effect(effect_id: String, startup: float = 0.5, duration: float = 2.
 		DebugLogger.warning(module_name, "Effect %s already active" % effect_id)
 		return
 	
-	# Get handler and invoke
+	# Get handler
 	var handler = effect_handlers[effect_id] as BaseVisualEffect
-	handler.invoke_effect(startup, duration, wind_down)
+	
+	# Special handling for compositor effects
+	if handler is CompositorVFXHandler:
+		# Set up the effect for this specific ID before invoking
+		handler.setup_effect(effect_id)
+		# The handler will manage its own effect_id during invocation
+		handler.invoke_effect(startup, duration, wind_down)
+		# Note: The handler's signals will have the correct effect_id
+	else:
+		# Regular handler - just invoke normally
+		handler.invoke_effect(startup, duration, wind_down)
 
 ## Stop an effect immediately
 func stop_effect(effect_id: String) -> void:
@@ -99,7 +126,13 @@ func stop_effect(effect_id: String) -> void:
 		return
 	
 	var handler = effect_handlers[effect_id] as BaseVisualEffect
-	handler.stop_immediately()
+	
+	# For compositor handler, we need to check if this is the active effect
+	if handler is CompositorVFXHandler:
+		if handler.effect_id == effect_id:
+			handler.stop_immediately()
+	else:
+		handler.stop_immediately()
 
 ## Stop all active effects
 func stop_all_effects() -> void:
@@ -116,14 +149,28 @@ func is_effect_active(effect_id: String) -> bool:
 func get_active_effects() -> Array[String]:
 	return active_effects
 
+## Get list of all available effect IDs
+func get_available_effects() -> Array[String]:
+	return effect_handlers.keys()
+
 ## Called when an effect starts
-func _on_effect_started(effect_id: String) -> void:
-	active_effects.append(effect_id)
-	DebugLogger.info(module_name, "Effect started: %s (active: %d)" % [effect_id, active_effects.size()])
-	effect_started.emit(effect_id)
+func _on_effect_started(effect_id: String = "") -> void:
+	# If no effect_id provided, try to get it from the signal source
+	if effect_id.is_empty() and compositor_handler:
+		effect_id = compositor_handler.effect_id
+	
+	if not effect_id.is_empty() and effect_id not in active_effects:
+		active_effects.append(effect_id)
+		DebugLogger.info(module_name, "Effect started: %s (active: %d)" % [effect_id, active_effects.size()])
+		effect_started.emit(effect_id)
 
 ## Called when an effect finishes
-func _on_effect_finished(effect_id: String) -> void:
-	active_effects.erase(effect_id)
-	DebugLogger.info(module_name, "Effect finished: %s (active: %d)" % [effect_id, active_effects.size()])
-	effect_finished.emit(effect_id)
+func _on_effect_finished(effect_id: String = "") -> void:
+	# If no effect_id provided, try to get it from the signal source
+	if effect_id.is_empty() and compositor_handler:
+		effect_id = compositor_handler.effect_id
+	
+	if not effect_id.is_empty():
+		active_effects.erase(effect_id)
+		DebugLogger.info(module_name, "Effect finished: %s (active: %d)" % [effect_id, active_effects.size()])
+		effect_finished.emit(effect_id)

@@ -54,9 +54,9 @@ func _create_warp_rect() -> void:
 	warp_rect.z_index = 99
 	warp_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
-	# Make it fullscreen
+	# Make it fullscreen using anchors (don't set size when using PRESET_FULL_RECT)
 	warp_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
-	warp_rect.size = viewport.get_visible_rect().size
+	# Remove the size setting - PRESET_FULL_RECT handles this automatically
 	
 	# Note: You'll need to assign a shader material with warp effect
 	DebugLogger.warning(module_name, "Warp rect created but needs shader material assigned")

@@ -1,24 +1,16 @@
-Implement Player VFX system
-
-Make events utilize player vfx system strategically 
-
-
-
-Write up all the log files 
+Make events utilize player vfx system 
 
 Make monster work 
 
 Create new build of game
+
+Test and polish 
+
+Write up all the log files 
+
 
 ## Broken Events 
 
 Hawking Radiation
 - Make soundscape that sounds like infinite corridor from castlevania
 
-
-
-## Broken VFX 
-
-Geometric Fractal
-Purple Light
-Hallucination Text
