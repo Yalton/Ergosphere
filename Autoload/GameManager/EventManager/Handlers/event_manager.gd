@@ -23,6 +23,16 @@ var module_name: String = "EventManager"
 ## Maximum time an event can be active before being force-ended (in seconds)
 @export var max_event_duration: float = 30.0
 
+@export_group("Grace Periods")
+## Grace period after day starts (seconds) - no events during this time
+@export var day_start_grace_period: float = 30.0
+
+## Extended grace period for day 1 (seconds)
+@export var day_1_grace_period: float = 180.0
+
+## Day 1 event frequency multiplier (0.2 = 5x less frequent)
+@export var day_1_frequency_multiplier: float = 0.2
+
 @export_group("Evaluation Delays")
 ## Short delay range (seconds)
 @export var short_delay_min: float = 1.0
@@ -48,6 +58,11 @@ var time_since_last_evaluation: float = 0.0
 var next_evaluation_time: float = 0.0
 var last_delay_type: String = "medium"
 var last_successful_event_time: float = 0.0
+
+# Grace period tracking
+var grace_period_active: bool = false
+var grace_period_remaining: float = 0.0
+var events_frozen: bool = false
 
 # References
 var state_manager: StateManager
@@ -81,6 +96,9 @@ func reset() -> void:
 	_reset_event_system()
 	is_initialized = false
 	game_is_running = false
+	grace_period_active = false
+	grace_period_remaining = 0.0
+	events_frozen = false
 	DebugLogger.info(module_name, "EventManager reset")
 
 func start() -> void:
@@ -96,6 +114,9 @@ func start() -> void:
 func stop() -> void:
 	"""Stop the event system - called when returning to menu"""
 	game_is_running = false
+	grace_period_active = false
+	grace_period_remaining = 0.0
+	events_frozen = false
 	DebugLogger.info(module_name, "Event system stopped")
 
 func _reset_event_system() -> void:
@@ -124,9 +145,25 @@ func _process(delta: float) -> void:
 	if not GameManager or not GameManager.is_game_running():
 		return
 	
+	# Handle grace period countdown
+	if grace_period_active:
+		grace_period_remaining -= delta
+		if grace_period_remaining <= 0:
+			grace_period_active = false
+			grace_period_remaining = 0.0
+			DebugLogger.info(module_name, "Grace period ended - events can now occur")
+	
+	# Don't accumulate points or evaluate events if frozen or in grace period
+	if events_frozen or grace_period_active:
+		return
+	
 	# Accumulate points based on day and sanity
 	var current_day = GameManager.get_current_day()
 	var point_gain = base_point_rate * current_day * delta
+	
+	# Apply day 1 frequency reduction
+	if current_day == 1:
+		point_gain *= day_1_frequency_multiplier
 	
 	# Apply sanity modifier (placeholder - need to get actual sanity)
 	var sanity_modifier = 1.0 # This should come from player stats
@@ -169,8 +206,8 @@ func _check_stuck_events() -> void:
 		_force_remove_event(event_id)
 
 func _evaluate_and_trigger_event() -> void:
-	# Don't evaluate if game not running
-	if not game_is_running:
+	# Don't evaluate if game not running, frozen, or in grace period
+	if not game_is_running or events_frozen or grace_period_active:
 		return
 		
 	DebugLogger.debug(module_name, "Evaluating events. Points: " + str(current_points) + ", Disruption: " + str(current_disruption) + "%")
@@ -257,8 +294,8 @@ func start_new_day(day_number: int) -> void:
 	"""Handle day transition - for compatibility with existing systems"""
 	DebugLogger.info(module_name, "Starting new day: %d" % day_number)
 	
-	# Reset event system for new day
-	#_reset_event_system()
+	# Unfreeze events first
+	events_frozen = false
 	
 	# Reset points to a base amount that scales with day
 	current_points = 0
@@ -269,11 +306,19 @@ func start_new_day(day_number: int) -> void:
 	# Normalize occurrences at day start
 	_normalize_occurrences()
 	
-	# Schedule first evaluation after a brief grace period
-	next_evaluation_time = 30.0  # 30 second grace period
-	time_since_last_evaluation = 0.0
+	# Set up grace period
+	if day_number == 1:
+		grace_period_remaining = day_1_grace_period
+		DebugLogger.info(module_name, "Day 1 started - Extended grace period of %.1f seconds" % day_1_grace_period)
+	else:
+		grace_period_remaining = day_start_grace_period
+		DebugLogger.info(module_name, "Day %d started - Grace period of %.1f seconds" % [day_number, day_start_grace_period])
 	
-	DebugLogger.info(module_name, "Day %d started - Starting points: %.1f, Grace period: 30s" % [day_number, current_points])
+	grace_period_active = true
+	
+	# Reset evaluation timing - will start after grace period
+	time_since_last_evaluation = 0.0
+	next_evaluation_time = grace_period_remaining + randf_range(5.0, 10.0)
 
 func start_day(day_number: int) -> void:
 	"""Alias for start_new_day to match GameManager's expectations"""
@@ -282,8 +327,13 @@ func start_day(day_number: int) -> void:
 func end_day() -> void:
 	"""Handle end of day"""
 	var current_day = GameManager.get_current_day()
-	DebugLogger.info(module_name, "Day %d ended - disruption: %d%%" % [current_day, current_disruption])
+	DebugLogger.info(module_name, "Day %d ending - freezing events" % current_day)
 	
+	# Freeze events when day is ending
+	events_frozen = true
+	
+	DebugLogger.info(module_name, "Day %d ended - disruption: %d%%" % [current_day, current_disruption])
+
 func _try_trigger_event(event: EventData, _forced: bool) -> Dictionary:
 	# Find handler that handles this event ID
 	var handler: EventHandler = null
@@ -380,6 +430,11 @@ func _schedule_next_evaluation() -> void:
 	# Reset time
 	time_since_last_evaluation = 0.0
 	
+	# If in grace period or frozen, delay evaluation
+	if grace_period_active or events_frozen:
+		next_evaluation_time = 999999.0  # Effectively never
+		return
+	
 	# Choose delay based on disruption
 	var delay_type: String
 	var delay_time: float
@@ -393,6 +448,10 @@ func _schedule_next_evaluation() -> void:
 	else:
 		delay_type = "short"
 		delay_time = randf_range(short_delay_min, short_delay_max)
+	
+	# Apply day 1 frequency reduction to delays as well
+	if GameManager and GameManager.get_current_day() == 1:
+		delay_time = delay_time / day_1_frequency_multiplier
 	
 	# Apply weighting based on last delay type
 	if delay_type == last_delay_type:
@@ -411,6 +470,10 @@ func _schedule_next_evaluation() -> void:
 					delay_time = randf_range(medium_delay_min, medium_delay_max)
 				"long":
 					delay_time = randf_range(long_delay_min, long_delay_max)
+			
+			# Re-apply day 1 modifier if needed
+			if GameManager and GameManager.get_current_day() == 1:
+				delay_time = delay_time / day_1_frequency_multiplier
 	
 	next_evaluation_time = delay_time
 	last_delay_type = delay_type
@@ -418,7 +481,10 @@ func _schedule_next_evaluation() -> void:
 	DebugLogger.debug(module_name, "Next evaluation in " + str(delay_time) + " seconds (" + delay_type + " delay)")
 
 func _on_day_ended(day_number: int) -> void:
-	DebugLogger.info(module_name, "Day %d ended - ending all events" % day_number)
+	DebugLogger.info(module_name, "Day %d ending - freezing events and ending all active events" % day_number)
+	
+	# Freeze events first
+	events_frozen = true
 	
 	# End all active events
 	var events_to_end = active_events.keys().duplicate()
@@ -556,5 +622,9 @@ func get_debug_info() -> Dictionary:
 		"occurrences": event_occurrences,
 		"next_evaluation": next_evaluation_time - time_since_last_evaluation,
 		"game_running": game_is_running,
-		"initialized": is_initialized
+		"initialized": is_initialized,
+		"grace_period_active": grace_period_active,
+		"grace_period_remaining": grace_period_remaining,
+		"events_frozen": events_frozen,
+		"current_day": GameManager.get_current_day() if GameManager else 0
 	}

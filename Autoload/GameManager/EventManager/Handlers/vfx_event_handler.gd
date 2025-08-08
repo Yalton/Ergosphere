@@ -205,17 +205,17 @@ func _find_nearest_light() -> Light3D:
 func _text_to_morse_sequence(text: String) -> Array:
 	var sequence = []
 	
-	for char in text.to_upper():
-		if char in morse_dict:
-			var morse = morse_dict[char]
+	for character in text.to_upper():
+		if character in morse_dict:
+			var morse = morse_dict[character]
 			
 			if sequence.size() > 0:
-				if char == " ":
+				if character == " ":
 					sequence.append({"type": "gap", "duration": word_gap})
 				else:
 					sequence.append({"type": "gap", "duration": letter_gap})
 			
-			if char == " ":
+			if character == " ":
 				continue
 			
 			for i in range(morse.length()):

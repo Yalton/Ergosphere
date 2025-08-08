@@ -35,7 +35,11 @@ extends CharacterBody3D
 # Mouse look sensitivity
 @export var mouse_sensitivity: float = 0.002
 @export var vertical_angle_limit: float = 1.0  # About 60 degrees up/down
+
+# Component references
 @onready var insanity_component: InsanityComponent = $InsanityComponent
+@onready var vfx_component: Node = $PlayerVFXComponent  # Reference to player's personal VFX component
+
 # Debug options
 @export var enable_debug: bool = true
 var module_name: String = "Player"
@@ -60,8 +64,6 @@ var module_name: String = "Player"
 
 # Physics
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
-
-
 
 # Normal movement speeds (what we return to)
 @export var normal_walk_speed: float = 5.0
@@ -109,6 +111,10 @@ var noclip_speed: float = 10.0
 func _ready() -> void:
 	# Register with debug logger if it exists
 	DebugLogger.register_module(module_name, enable_debug)
+	
+	# Validate VFX component
+	if not vfx_component:
+		DebugLogger.warning(module_name, "No PlayerVFXComponent found as child node")
 		
 	# Capture mouse cursor and hide it
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -579,7 +585,7 @@ func apply_hawking_movement(apply: bool) -> void:
 		else:
 			current_speed = impeded_walk_speed
 		
-		DebugLogger.log_message("Player", "Applied hawking movement slow - walk: " + str(walk_speed) + ", crouch: " + str(crouch_speed))
+		DebugLogger.debug(module_name, "Applied hawking movement slow - walk: " + str(walk_speed) + ", crouch: " + str(crouch_speed))
 	else:
 		# Restore normal speeds
 		walk_speed = normal_walk_speed
@@ -590,7 +596,7 @@ func apply_hawking_movement(apply: bool) -> void:
 		else:
 			current_speed = normal_walk_speed
 		
-		DebugLogger.log_message("Player", "Removed hawking movement slow - walk: " + str(walk_speed) + ", crouch: " + str(crouch_speed))
+		DebugLogger.debug(module_name, "Removed hawking movement slow - walk: " + str(walk_speed) + ", crouch: " + str(crouch_speed))
 
 # Call when player sleeps
 func sleep():
@@ -601,3 +607,36 @@ func sleep():
 func eat():
 	# ... existing eat code ...
 	insanity_component.reduce_insanity_by_eating()
+
+######################################
+# VFX Helper Functions
+######################################
+
+func trigger_player_vfx(effect_id: String, startup: float = 0.5, duration: float = 2.0, winddown: float = 0.5) -> void:
+	"""Trigger a visual effect on the player's VFX component"""
+	if not vfx_component:
+		DebugLogger.warning(module_name, "No VFX component attached to player")
+		return
+	
+	vfx_component.invoke_effect(effect_id, startup, duration, winddown)
+	DebugLogger.debug(module_name, "Triggered player effect: " + effect_id)
+
+func stop_player_vfx(effect_id: String = "") -> void:
+	"""Stop a specific effect or all effects on the player"""
+	if not vfx_component:
+		DebugLogger.warning(module_name, "No VFX component attached to player")
+		return
+	
+	if effect_id.is_empty():
+		vfx_component.stop_all_effects()
+		DebugLogger.debug(module_name, "Stopped all player effects")
+	else:
+		vfx_component.stop_effect(effect_id)
+		DebugLogger.debug(module_name, "Stopped player effect: " + effect_id)
+
+func is_player_vfx_active(effect_id: String) -> bool:
+	"""Check if a specific effect is active on the player"""
+	if not vfx_component:
+		return false
+	
+	return vfx_component.is_effect_active(effect_id)

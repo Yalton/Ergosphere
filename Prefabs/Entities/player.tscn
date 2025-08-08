@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bgnqxsxljglaq"]
+[gd_scene load_steps=43 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="PackedScene" uid="uid://3ioq6sw0jikq" path="res://Prefabs/Components/player_effects_component.tscn" id="2_5ls6m"]
@@ -13,10 +13,14 @@
 [ext_resource type="Script" uid="uid://dk5n3h6vj2l4d" path="res://Subsystems/PostProcessing/chromatic_aberration.gd" id="6_yls7o"]
 [ext_resource type="Script" uid="uid://c0y0x4gqcwmv2" path="res://Subsystems/PostProcessing/outline_detection.gd" id="7_bnfw2"]
 [ext_resource type="AudioStream" uid="uid://b25sg6gh7sqr4" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep04.ogg" id="7_jox8g"]
+[ext_resource type="Script" uid="uid://be31lepj7v52x" path="res://Subsystems/PostProcessing/geometric_fractal.gd" id="8_bnfw2"]
 [ext_resource type="Resource" uid="uid://ca0q2t6w08ubh" path="res://Subsystems/DynamicFootstepSystem/FootstepMaterialLibrary/sample_footstep_material_library.tres" id="8_kkf6j"]
+[ext_resource type="Script" uid="uid://dnbpcj5u6g20s" path="res://Subsystems/PostProcessing/purple_light.gd" id="9_808wy"]
 [ext_resource type="Script" uid="uid://bihy62e0ucg5g" path="res://Scripts/Components/Player/player_interaction_component.gd" id="9_mepo0"]
+[ext_resource type="Script" uid="uid://bqspdn3n3rfha" path="res://Subsystems/PostProcessing/hallucination_text.gd" id="10_7pgp2"]
 [ext_resource type="AudioStream" uid="uid://dqgogmv3dh7c0" path="res://Assets/Audio/UI/shop_open_close.ogg" id="10_66sxq"]
 [ext_resource type="Script" uid="uid://n0ptow8dk4sq" path="res://Scripts/Entities/player_ui.gd" id="10_slw6b"]
+[ext_resource type="Script" uid="uid://bpot4ouuaf23r" path="res://Scripts/VFX/ShapeDilationEffect.gd" id="11_ewaly"]
 [ext_resource type="AudioStream" uid="uid://18pkb8xbgll8" path="res://Assets/Audio/text_click.wav" id="11_jox8g"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="11_qmfn3"]
 [ext_resource type="PackedScene" uid="uid://brwmucdy87vu3" path="res://Prefabs/UI/menus/pause/pause_options.tscn" id="12_3c1vh"]
@@ -217,8 +221,535 @@ shader_code = "
 	"
 metadata/_custom_type_script = "uid://c0y0x4gqcwmv2"
 
+[sub_resource type="CompositorEffect" id="CompositorEffect_bnfw2"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("8_bnfw2")
+shader_code = "
+	// Constants
+	const float PI = 3.14159265359;
+	const float TAU = 6.28318530718;
+	
+	// Get normalized UV (0-1 range)
+	vec2 normalized_uv = vec2(uv) / vec2(size);
+	vec2 centered_uv = normalized_uv - 0.5;
+	
+	// Convert to polar coordinates
+	float radius = length(centered_uv);
+	float angle = atan(centered_uv.y, centered_uv.x);
+	
+	// Parameters (you can expose these later)
+	float segments = 6.0; // Number of kaleidoscope segments
+	float pattern_scale = 2.0; // Scale of the pattern
+	int fractal_depth = 2; // Fractal iterations
+	float time = 0.0; // Add time parameter if you want animation
+	
+	// Kaleidoscope effect
+	float segment_angle = TAU / segments;
+	float segment_index = floor(angle / segment_angle);
+	float local_angle = mod(angle, segment_angle);
+	
+	// Mirror every other segment
+	if (mod(segment_index, 2.0) == 1.0) {
+		local_angle = segment_angle - local_angle;
+	}
+	
+	// Reconstruct position with mirrored angle
+	float final_angle = local_angle + segment_index * segment_angle;
+	vec2 kaleidoscope_pos = vec2(
+		radius * cos(final_angle),
+		radius * sin(final_angle)
+	);
+	
+	// Apply fractal transformation
+	vec2 fractal_uv = kaleidoscope_pos;
+	for (int i = 0; i < fractal_depth; i++) {
+		// Scale and rotate for each iteration
+		fractal_uv *= pattern_scale;
+		
+		// Fold space (creates fractal patterns)
+		fractal_uv = abs(fractal_uv);
+		if (fractal_uv.x > fractal_uv.y) {
+			fractal_uv = fractal_uv.yx;
+		}
+		
+		// Mirror folding
+		if (fractal_uv.x > 0.5) {
+			fractal_uv.x = 1.0 - fractal_uv.x;
+		}
+		if (fractal_uv.y > 0.5) {
+			fractal_uv.y = 1.0 - fractal_uv.y;
+		}
+		
+		// Scale down for next iteration
+		fractal_uv *= 0.7;
+	}
+	
+	// Convert back to screen coordinates
+	vec2 sample_uv = (fractal_uv + 0.5);
+	
+	// Wrap coordinates
+	sample_uv = fract(sample_uv);
+	
+	// Convert to pixel coordinates
+	ivec2 sample_coord = ivec2(sample_uv * vec2(size));
+	sample_coord = clamp(sample_coord, ivec2(0), size - ivec2(1));
+	
+	// Sample the transformed position
+	vec4 fractal_color = imageLoad(color_image, sample_coord);
+	
+	// Add color shifting based on segment
+	vec3 color_shift = vec3(
+		sin(segment_index * 0.7) * 0.5 + 0.5,
+		sin(segment_index * 1.3 + 2.0) * 0.5 + 0.5,
+		sin(segment_index * 2.1 + 4.0) * 0.5 + 0.5
+	);
+	
+	// Mix in color shift
+	fractal_color.rgb = mix(fractal_color.rgb, fractal_color.rgb * color_shift, 0.4);
+	
+	// Add concentric rings overlay
+	float ring_pattern = sin(radius * 20.0) * 0.5 + 0.5;
+	fractal_color.rgb = mix(fractal_color.rgb, fractal_color.rgb * 1.5, ring_pattern * 0.3);
+	
+	// Edge darkening for vignette effect
+	float edge_fade = 1.0 - smoothstep(0.2, 0.5, radius);
+	fractal_color.rgb *= edge_fade;
+	
+	// Enhance contrast
+	fractal_color.rgb = pow(fractal_color.rgb, vec3(0.9));
+	
+	// Set final color
+	color = fractal_color;
+	"
+metadata/_custom_type_script = "uid://be31lepj7v52x"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_hnd4y"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("9_808wy")
+shader_code = "
+	// Get normalized UV
+	vec2 normalized_uv = vec2(uv) / vec2(size);
+	
+	// Sample original and neighboring pixels for edge detection
+	vec4 original = imageLoad(color_image, uv);
+	vec4 right = imageLoad(color_image, clamp(uv + ivec2(1, 0), ivec2(0), size - ivec2(1)));
+	vec4 down = imageLoad(color_image, clamp(uv + ivec2(0, 1), ivec2(0), size - ivec2(1)));
+	vec4 left = imageLoad(color_image, clamp(uv - ivec2(1, 0), ivec2(0), size - ivec2(1)));
+	vec4 up = imageLoad(color_image, clamp(uv - ivec2(0, 1), ivec2(0), size - ivec2(1)));
+	
+	// Calculate gradients for surface normals (fake reflection)
+	vec3 dx = (right.rgb - left.rgb) * 0.5;
+	vec3 dy = (down.rgb - up.rgb) * 0.5;
+	vec3 normal = normalize(vec3(dx.r + dx.g + dx.b, dy.r + dy.g + dy.b, 1.0));
+	
+	// Calculate luminance
+	float luminance = dot(original.rgb, vec3(0.299, 0.587, 0.114));
+	
+	// Chrome color palette - purple to gold
+	vec3 chrome_dark = vec3(0.1, 0.0, 0.2);    // Almost black purple
+	vec3 chrome_shadow = vec3(0.3, 0.05, 0.5); // Dark purple chrome
+	vec3 chrome_mid = vec3(0.6, 0.2, 0.8);     // Purple chrome
+	vec3 chrome_light = vec3(0.9, 0.5, 1.0);   // Light purple chrome
+	vec3 chrome_bright = vec3(1.0, 0.7, 0.9);  // Purple-tinted gold chrome
+	vec3 chrome_spec = vec3(1.2, 0.9, 1.1);    // Over-bright specular
+	
+	// Create chrome gradient with sharp transitions
+	vec3 chrome_color;
+	float adjusted_lum = pow(luminance, 0.5); // Adjust curve for more metallic look
+	
+	if (adjusted_lum < 0.15) {
+		chrome_color = chrome_dark;
+	} else if (adjusted_lum < 0.3) {
+		// Sharp transition from dark to shadow
+		float t = smoothstep(0.15, 0.3, adjusted_lum);
+		chrome_color = mix(chrome_dark, chrome_shadow, t);
+	} else if (adjusted_lum < 0.5) {
+		// Gradual mid-tone transition
+		float t = (adjusted_lum - 0.3) / 0.2;
+		chrome_color = mix(chrome_shadow, chrome_mid, t);
+	} else if (adjusted_lum < 0.7) {
+		// Sharp highlight transition
+		float t = smoothstep(0.5, 0.7, adjusted_lum);
+		chrome_color = mix(chrome_mid, chrome_light, t * t); // Squared for sharper
+	} else if (adjusted_lum < 0.85) {
+		// Bright areas
+		float t = (adjusted_lum - 0.7) / 0.15;
+		chrome_color = mix(chrome_light, chrome_bright, t);
+	} else {
+		// Super bright specular
+		float t = (adjusted_lum - 0.85) / 0.15;
+		chrome_color = mix(chrome_bright, chrome_spec, t);
+	}
+	
+	// Add environment map simulation using normal
+	vec2 env_uv = normal.xy * 0.5 + 0.5;
+	float env_pattern = sin(env_uv.x * 20.0) * sin(env_uv.y * 20.0);
+	vec3 reflection = mix(chrome_mid, chrome_bright, env_pattern * 0.5 + 0.5);
+	
+	// Mix in reflection based on surface angle
+	float fresnel = 1.0 - abs(normal.z);
+	fresnel = pow(fresnel, 2.0);
+	chrome_color = mix(chrome_color, reflection, fresnel * 0.5);
+	
+	// Add anisotropic streaks for brushed metal effect
+	float streak = sin(normalized_uv.y * 100.0 + normal.x * 10.0) * 0.5 + 0.5;
+	streak *= pow(luminance, 2.0); // Only on bright areas
+	chrome_color = mix(chrome_color, chrome_spec, streak * 0.3);
+	
+	// Sharp specular highlights based on edges
+	float edge_strength = length(vec2(dx.r + dx.g + dx.b, dy.r + dy.g + dy.b));
+	vec3 edge_highlight = chrome_spec * smoothstep(0.1, 0.3, edge_strength);
+	chrome_color += edge_highlight * 0.5;
+	
+	// Add rainbow iridescence for oil-slick effect
+	float iridescence_factor = sin(luminance * 15.0 + normalized_uv.x * 5.0) * 0.5 + 0.5;
+	vec3 iridescence = vec3(
+		sin(iridescence_factor * 6.28 + 0.0) * 0.5 + 0.5,
+		sin(iridescence_factor * 6.28 + 2.094) * 0.5 + 0.5,
+		sin(iridescence_factor * 6.28 + 4.189) * 0.5 + 0.5
+	);
+	chrome_color = mix(chrome_color, chrome_color * iridescence, 0.2);
+	
+	// High contrast adjustment for chrome look
+	chrome_color = pow(chrome_color, vec3(0.7));
+	
+	// Add subtle dithering to reduce banding
+	float dither = fract(sin(dot(normalized_uv * 1000.0, vec2(12.9898, 78.233))) * 43758.5453) * 0.01;
+	chrome_color += vec3(dither);
+	
+	// Final color
+	color.rgb = clamp(chrome_color, 0.0, 1.5); // Allow slight over-bright
+	color.a = original.a;
+	"
+metadata/_custom_type_script = "uid://dnbpcj5u6g20s"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_yo8dt"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("10_7pgp2")
+shader_code = "
+	// Get normalized UV
+	vec2 normalized_uv = vec2(uv) / vec2(size);
+	
+	// Sample original color
+	vec4 original = imageLoad(color_image, uv);
+	
+	// Time parameter for animation (you'd need to pass this somehow)
+	// For now using UV position to create variation
+	float time = normalized_uv.x * 10.0 + normalized_uv.y * 5.0;
+	
+	// Create multiple text layers at different scales
+	float text_pattern = 0.0;
+	
+	// Layer 1: Large creepy messages
+	vec2 text_uv1 = normalized_uv * vec2(8.0, 4.0);
+	text_uv1.y += time * 0.1; // Slow scroll
+	vec2 cell1 = floor(text_uv1);
+	vec2 cell_uv1 = fract(text_uv1);
+	
+	// Create fake text pattern using lines and dots
+	float char1 = 0.0;
+	// Horizontal lines (like text)
+	char1 += step(0.3, cell_uv1.y) * step(cell_uv1.y, 0.4);
+	char1 += step(0.5, cell_uv1.y) * step(cell_uv1.y, 0.6);
+	char1 += step(0.7, cell_uv1.y) * step(cell_uv1.y, 0.8);
+	// Vertical strokes
+	char1 *= step(0.1, cell_uv1.x) * step(cell_uv1.x, 0.9);
+	// Random gaps between characters
+	float rand1 = fract(sin(dot(cell1, vec2(12.9898, 78.233))) * 43758.5453);
+	char1 *= step(0.3, rand1);
+	
+	text_pattern += char1 * 0.8;
+	
+	// Layer 2: Medium scrambled text
+	vec2 text_uv2 = normalized_uv * vec2(15.0, 10.0);
+	text_uv2.x += sin(normalized_uv.y * 20.0 + time) * 0.1; // Wavy distortion
+	text_uv2.y -= time * 0.2; // Faster scroll
+	vec2 cell2 = floor(text_uv2);
+	vec2 cell_uv2 = fract(text_uv2);
+	
+	// Different character pattern
+	float char2 = 0.0;
+	// Create cross pattern (like corrupted text)
+	char2 += step(0.4, cell_uv2.x) * step(cell_uv2.x, 0.6);
+	char2 += step(0.4, cell_uv2.y) * step(cell_uv2.y, 0.6);
+	// Add dots
+	float dot_dist = length(cell_uv2 - vec2(0.5));
+	char2 += 1.0 - smoothstep(0.1, 0.2, dot_dist);
+	// Random appearance
+	float rand2 = fract(sin(dot(cell2 + vec2(time * 0.1), vec2(45.23, 89.45))) * 23758.5453);
+	char2 *= step(0.4, rand2) * step(rand2, 0.8);
+	
+	text_pattern += char2 * 0.5;
+	
+	// Layer 3: Small flickering symbols
+	vec2 text_uv3 = normalized_uv * vec2(30.0, 20.0);
+	text_uv3 = fract(text_uv3 + vec2(time * 0.05, -time * 0.3));
+	vec2 cell3 = floor(text_uv3 * 10.0);
+	vec2 cell_uv3 = fract(text_uv3);
+	
+	// Simple pixel pattern
+	float char3 = step(0.4, cell_uv3.x) * step(0.4, cell_uv3.y);
+	float rand3 = fract(sin(dot(cell3, vec2(127.1, 311.7))) * 43758.5453);
+	char3 *= step(0.7, rand3);
+	// Flicker
+	char3 *= 0.5 + 0.5 * sin(time * 20.0 + rand3 * 100.0);
+	
+	text_pattern += char3 * 0.3;
+	
+	// Create distortion based on text
+	vec2 distort_uv = normalized_uv;
+	distort_uv.x += sin(normalized_uv.y * 30.0 + time * 2.0) * text_pattern * 0.02;
+	distort_uv.y += cos(normalized_uv.x * 25.0 + time * 1.5) * text_pattern * 0.02;
+	
+	// Sample distorted position for warping effect
+	ivec2 distort_coord = ivec2(distort_uv * vec2(size));
+	distort_coord = clamp(distort_coord, ivec2(0), size - ivec2(1));
+	vec4 distorted = imageLoad(color_image, distort_coord);
+	
+	// Text colors - blood red with variations
+	vec3 text_color = vec3(0.8, 0.1, 0.1);
+	// Add color variation based on position
+	text_color.r += sin(normalized_uv.x * 10.0) * 0.2;
+	text_color.g += sin(normalized_uv.y * 15.0) * 0.05;
+	
+	// Create glow effect around text
+	float glow = text_pattern * 0.5;
+	// Expand glow
+	vec2 glow_uv = normalized_uv + vec2(0.002, 0.002);
+	float glow_pattern = 0.0;
+	// Sample nearby for glow (simplified)
+	glow_pattern += step(0.5, sin(glow_uv.x * 50.0) * sin(glow_uv.y * 30.0));
+	
+	// Mix everything together
+	vec3 final_color = distorted.rgb;
+	
+	// Add red glow
+	vec3 glow_color = vec3(1.0, 0.2, 0.2);
+	final_color = mix(final_color, final_color + glow_color * 0.3, glow * 0.5);
+	
+	// Add text overlay
+	final_color = mix(final_color, text_color, text_pattern * 0.7);
+	
+	// Add static noise for horror effect
+	float noise = fract(sin(dot(normalized_uv * 1000.0 + vec2(time), vec2(12.9898, 78.233))) * 43758.5453);
+	final_color = mix(final_color, vec3(noise), text_pattern * 0.1);
+	
+	// Darken edges for vignette
+	float vignette = 1.0 - length(normalized_uv - 0.5) * 0.7;
+	final_color *= vignette;
+	
+	// Output
+	color.rgb = final_color;
+	color.a = original.a;
+	"
+metadata/_custom_type_script = "uid://bqspdn3n3rfha"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_6xyov"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("11_ewaly")
+shader_code = "
+	// Get normalized UV
+	vec2 normalized_uv = vec2(uv) / vec2(size);
+	
+	// Sample original color
+	vec4 original = imageLoad(color_image, uv);
+	
+	// Create pseudo-time based on screen position for animation
+	// This creates a rolling effect across the screen
+	float pseudo_time = (normalized_uv.x + normalized_uv.y) * 10.0;
+	
+	// Use noise function for more organic movement
+	float noise1 = fract(sin(pseudo_time * 1.17) * 43758.5453);
+	float noise2 = fract(sin(pseudo_time * 2.35) * 23421.6313);
+	float noise3 = fract(sin(pseudo_time * 0.89) * 54327.8951);
+	
+	// Create moving distortion points (black holes)
+	// Each hole follows a different pattern
+	
+	// Hole 1 - Circular orbit
+	float orbit1 = pseudo_time * 0.5;
+	vec2 hole1 = vec2(0.5, 0.5) + vec2(
+		cos(orbit1) * 0.25,
+		sin(orbit1) * 0.25
+	);
+	
+	// Hole 2 - Figure-8 pattern
+	float orbit2 = pseudo_time * 0.7;
+	vec2 hole2 = vec2(0.5, 0.5) + vec2(
+		sin(orbit2) * 0.3,
+		sin(orbit2 * 2.0) * 0.2
+	);
+	
+	// Hole 3 - Chaotic movement
+	vec2 hole3 = vec2(
+		0.5 + sin(pseudo_time * 0.3) * 0.4 * noise3,
+		0.5 + cos(pseudo_time * 0.4) * 0.3 * (1.0 - noise3)
+	);
+	
+	// Add secondary movement layer for more organic feel
+	hole1.x += sin(pseudo_time * 3.0) * 0.05;
+	hole1.y += cos(pseudo_time * 2.5) * 0.05;
+	
+	hole2.x += cos(pseudo_time * 2.2) * 0.03;
+	hole2.y += sin(pseudo_time * 3.7) * 0.03;
+	
+	hole3.x += sin(pseudo_time * 4.1 + noise1 * 6.28) * 0.08;
+	hole3.y += cos(pseudo_time * 3.3 + noise2 * 6.28) * 0.08;
+	
+	// Calculate distortion from each hole
+	vec2 total_distortion = vec2(0.0);
+	
+	// Hole 1 - Strong pull with varying strength
+	float dist1 = distance(normalized_uv, hole1);
+	float radius1 = 0.2 + sin(pseudo_time * 2.0) * 0.1; // Pulsing radius
+	if (dist1 < radius1) {
+		float strength1 = 1.0 - (dist1 / radius1);
+		strength1 = pow(strength1, 2.0);
+		vec2 direction1 = normalize(hole1 - normalized_uv);
+		total_distortion += direction1 * strength1 * 0.15;
+		
+		// Create swirl effect with varying speed
+		float angle1 = atan(normalized_uv.y - hole1.y, normalized_uv.x - hole1.x);
+		angle1 += strength1 * (3.14159 + sin(pseudo_time) * 1.5);
+		float radius = dist1;
+		vec2 swirl1 = hole1 + vec2(cos(angle1), sin(angle1)) * radius;
+		total_distortion = mix(total_distortion, swirl1 - normalized_uv, strength1 * 0.5);
+	}
+	
+	// Hole 2 - Medium pull with ripples
+	float dist2 = distance(normalized_uv, hole2);
+	float radius2 = 0.15 + cos(pseudo_time * 1.5) * 0.08;
+	if (dist2 < radius2) {
+		float strength2 = 1.0 - (dist2 / radius2);
+		strength2 = pow(strength2, 1.5);
+		vec2 direction2 = normalize(hole2 - normalized_uv);
+		// Animated ripple effect
+		float ripple = sin(dist2 * 30.0 - pseudo_time * 5.0) * 0.5 + 0.5;
+		total_distortion += direction2 * strength2 * ripple * 0.1;
+	}
+	
+	// Hole 3 - Weak but wide pull with chaotic behavior
+	float dist3 = distance(normalized_uv, hole3);
+	float radius3 = 0.25 + noise3 * 0.15;
+	if (dist3 < radius3) {
+		float strength3 = 1.0 - (dist3 / radius3);
+		vec2 direction3 = normalize(hole3 - normalized_uv);
+		// Add some chaos to the pull
+		direction3 = mix(direction3, vec2(noise1 - 0.5, noise2 - 0.5), 0.3);
+		total_distortion += direction3 * strength3 * 0.08;
+	}
+	
+	// Edge detection for shape emphasis
+	vec4 right = imageLoad(color_image, clamp(uv + ivec2(1, 0), ivec2(0), size - ivec2(1)));
+	vec4 down = imageLoad(color_image, clamp(uv + ivec2(0, 1), ivec2(0), size - ivec2(1)));
+	vec4 left = imageLoad(color_image, clamp(uv - ivec2(1, 0), ivec2(0), size - ivec2(1)));
+	vec4 up = imageLoad(color_image, clamp(uv - ivec2(0, 1), ivec2(0), size - ivec2(1)));
+	
+	// Calculate edge strength
+	float edge_h = length((right.rgb - left.rgb) * 0.5);
+	float edge_v = length((down.rgb - up.rgb) * 0.5);
+	float edge_strength = edge_h + edge_v;
+	
+	// Amplify distortion at edges
+	total_distortion *= (1.0 + edge_strength * 2.0);
+	
+	// Apply animated wave distortion
+	float wave_time = pseudo_time * 2.0;
+	float wave = sin(normalized_uv.y * 20.0 + wave_time) * cos(normalized_uv.x * 15.0 - wave_time * 0.7) * 0.01;
+	total_distortion.x += wave;
+	total_distortion.y += wave * 0.5;
+	
+	// Calculate final sample position
+	vec2 distorted_uv = normalized_uv + total_distortion;
+	
+	// Clamp to valid range
+	distorted_uv = clamp(distorted_uv, 0.0, 1.0);
+	
+	// Sample from distorted position
+	ivec2 sample_coord = ivec2(distorted_uv * vec2(size));
+	sample_coord = clamp(sample_coord, ivec2(0), size - ivec2(1));
+	vec4 distorted_color = imageLoad(color_image, sample_coord);
+	
+	// Create black hole centers (event horizons)
+	vec3 final_color = distorted_color.rgb;
+	
+	// Darken areas near black hole centers with pulsing intensity
+	float dark_pulse1 = 0.7 + sin(pseudo_time * 3.0) * 0.2;
+	float dark_pulse2 = 0.6 + cos(pseudo_time * 2.5) * 0.2;
+	float dark_pulse3 = 0.5 + sin(pseudo_time * 4.0) * 0.2;
+	
+	if (dist1 < 0.05) {
+		float darkness1 = 1.0 - (dist1 / 0.05);
+		final_color *= (1.0 - darkness1 * dark_pulse1);
+	}
+	if (dist2 < 0.03) {
+		float darkness2 = 1.0 - (dist2 / 0.03);
+		final_color *= (1.0 - darkness2 * dark_pulse2);
+	}
+	if (dist3 < 0.04) {
+		float darkness3 = 1.0 - (dist3 / 0.04);
+		final_color *= (1.0 - darkness3 * dark_pulse3);
+	}
+	
+	// Add gravitational lensing effect
+	float total_dist_strength = length(total_distortion);
+	if (total_dist_strength > 0.01 && total_dist_strength < 0.1) {
+		float lens_effect = smoothstep(0.01, 0.1, total_dist_strength);
+		// Animated brightness
+		float lens_brightness = 1.3 + sin(pseudo_time * 5.0) * 0.2;
+		final_color = mix(final_color, final_color * lens_brightness, lens_effect * 0.5);
+	}
+	
+	// Add chromatic aberration for more distortion
+	if (total_dist_strength > 0.02) {
+		// Animated aberration strength
+		float aberration_amount = 1.0 + sin(pseudo_time * 7.0) * 0.2;
+		
+		vec2 r_uv = normalized_uv + total_distortion * (1.0 + aberration_amount * 0.1);
+		vec2 g_uv = normalized_uv + total_distortion;
+		vec2 b_uv = normalized_uv + total_distortion * (1.0 - aberration_amount * 0.1);
+		
+		ivec2 r_coord = clamp(ivec2(r_uv * vec2(size)), ivec2(0), size - ivec2(1));
+		ivec2 g_coord = clamp(ivec2(g_uv * vec2(size)), ivec2(0), size - ivec2(1));
+		ivec2 b_coord = clamp(ivec2(b_uv * vec2(size)), ivec2(0), size - ivec2(1));
+		
+		vec3 aberrated = vec3(
+			imageLoad(color_image, r_coord).r,
+			imageLoad(color_image, g_coord).g,
+			imageLoad(color_image, b_coord).b
+		);
+		
+		final_color = mix(final_color, aberrated, 0.5);
+	}
+	
+	// Output
+	color.rgb = final_color;
+	color.a = original.a;
+	"
+metadata/_custom_type_script = "uid://bpot4ouuaf23r"
+
 [sub_resource type="Compositor" id="Compositor_k313v"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_66sxq"), SubResource("CompositorEffect_1p7eu"), SubResource("CompositorEffect_6p2g8"), SubResource("CompositorEffect_808wy")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_66sxq"), SubResource("CompositorEffect_1p7eu"), SubResource("CompositorEffect_6p2g8"), SubResource("CompositorEffect_808wy"), SubResource("CompositorEffect_bnfw2"), SubResource("CompositorEffect_hnd4y"), SubResource("CompositorEffect_yo8dt"), SubResource("CompositorEffect_6xyov")])
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c0wcc"]
 streams_count = 5
@@ -251,7 +782,7 @@ mesh = SubResource("CapsuleMesh_23jlx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_bxc72")
 
-[node name="PlayerEffectsComponent" parent="." node_paths=PackedStringArray("player_camera") instance=ExtResource("2_5ls6m")]
+[node name="PlayerVFXComponent" parent="." node_paths=PackedStringArray("player_camera") instance=ExtResource("2_5ls6m")]
 player_camera = NodePath("../Head/Camera3D")
 
 [node name="InsanityComponent" parent="." instance=ExtResource("3_p85qx")]

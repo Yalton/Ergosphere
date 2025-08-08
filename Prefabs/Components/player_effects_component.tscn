@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://3ioq6sw0jikq"]
+[gd_scene load_steps=16 format=3 uid="uid://3ioq6sw0jikq"]
 
 [ext_resource type="Script" uid="uid://qtkuk7gi07dp" path="res://Scripts/Components/Player/player_effects_component.gd" id="1_1d0yj"]
 [ext_resource type="Shader" uid="uid://btt8n6kwqex30" path="res://Assets/VFX/blink.gdshader" id="2_l8tyx"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://dxk2sk5l00ms8" path="res://Scripts/Entities/visual_fx/geometric_fractal.gd" id="10_eqkq4"]
 [ext_resource type="Script" uid="uid://b3uh84nul0edv" path="res://Scripts/Entities/visual_fx/purple_light.gd" id="11_bnhsu"]
 [ext_resource type="Script" uid="uid://ckw6yxy2jnrjg" path="res://Scripts/Entities/visual_fx/hallucination_text.gd" id="12_rl8qx"]
+[ext_resource type="Script" uid="uid://cx538mscgh7iy" path="res://Scripts/shape_dilation_handler.gd" id="13_lguju"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u13ml"]
 shader = ExtResource("2_l8tyx")
@@ -32,7 +33,7 @@ script = ExtResource("1_1d0yj")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="BlinkRect" type="ColorRect" parent="CanvasLayer"]
 visible = false
 material = SubResource("ShaderMaterial_u13ml")
 anchors_preset = 15
@@ -58,7 +59,7 @@ script = ExtResource("4_cybdt")
 
 [node name="BlinkEffectHandler" type="Node" parent="." node_paths=PackedStringArray("blink_rect")]
 script = ExtResource("5_na65h")
-blink_rect = NodePath("../CanvasLayer/ColorRect")
+blink_rect = NodePath("../CanvasLayer/BlinkRect")
 
 [node name="WarpEffectHandler" type="Node" parent="."]
 script = ExtResource("6_tchia")
@@ -80,3 +81,6 @@ script = ExtResource("11_bnhsu")
 
 [node name="HallucinationText" type="Node" parent="."]
 script = ExtResource("12_rl8qx")
+
+[node name="ShapeDilationHandler" type="Node" parent="."]
+script = ExtResource("13_lguju")

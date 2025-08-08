@@ -1,12 +1,9 @@
-Emergency tasks should be removed from task tree after they are complete 
+Implement Player VFX system
 
-First day needs 5 minute grace period and drastically reduced event frequency 
+Make events utilize player vfx system strategically 
 
-Test all events 
 
-Test Player VFX system
 
-Fix errors/warnings
 Write up all the log files 
 
 Make monster work 
@@ -17,3 +14,11 @@ Create new build of game
 
 Hawking Radiation
 - Make soundscape that sounds like infinite corridor from castlevania
+
+
+
+## Broken VFX 
+
+Geometric Fractal
+Purple Light
+Hallucination Text
