@@ -1,4 +1,4 @@
-# FirstPersonController.gd
+# Player.gd
 class_name Player
 extends CharacterBody3D
 
@@ -55,6 +55,21 @@ var module_name: String = "Player"
 @export var flashlight_spot: SpotLight3D
 ## Sound played when turning flashlight on/off
 @export var flashlight_click_sound: AudioStream
+## Maximum battery duration in seconds
+@export var flashlight_max_battery: float = 5.0
+## Rate at which battery drains per second (1.0 = full drain rate)
+@export var flashlight_drain_rate: float = 1.0
+## Rate at which battery recharges per second (0.5 = half of drain rate)
+@export var flashlight_recharge_rate: float = 0.5
+## Delay before recharging starts after full depletion
+@export var flashlight_recharge_delay: float = 1.0
+
+# Flashlight state
+var flashlight_on: bool = false
+var flashlight_audio: AudioStreamPlayer3D
+var flashlight_battery: float = 5.0  # Current battery level
+var flashlight_depleted: bool = false  # Whether battery fully depleted
+var flashlight_recharge_timer: float = 0.0  # Timer for recharge delay
 
 # Node references
 @onready var head: Node3D = $Head
@@ -91,9 +106,6 @@ var original_camera_position: Vector3
 var original_camera_rotation: Vector3
 var is_camera_transitioning: bool = false
 
-# Flashlight state
-var flashlight_on: bool = false
-var flashlight_audio: AudioStreamPlayer3D
 
 # Crouch variables
 var is_crouched: bool = false
@@ -143,6 +155,9 @@ func _ready() -> void:
 	if flashlight_spot:
 		flashlight_spot.visible = false
 		flashlight_on = false
+
+	# Initialize battery to max
+	flashlight_battery = flashlight_max_battery
 	
 	# Connect to dev console signals if UI controller has them
 	if ui_controller and ui_controller.dev_console_ui:
@@ -211,9 +226,15 @@ func _input(event: InputEvent) -> void:
 		# Clamp vertical rotation
 		head.rotation.x = clamp(new_tilt, -vertical_angle_limit, vertical_angle_limit)
 
+# Replace the toggle_flashlight function:
 func toggle_flashlight() -> void:
 	if not flashlight_spot:
 		DebugLogger.warning(module_name, "No flashlight SpotLight3D assigned")
+		return
+	
+	# Can't toggle if depleted and not fully recharged
+	if flashlight_depleted and flashlight_battery < flashlight_max_battery:
+		DebugLogger.debug(module_name, "Flashlight depleted, must wait for full recharge")
 		return
 	
 	flashlight_on = !flashlight_on
@@ -224,7 +245,67 @@ func toggle_flashlight() -> void:
 		flashlight_audio.stream = flashlight_click_sound
 		flashlight_audio.play()
 	
-	DebugLogger.debug(module_name, "Flashlight " + ("on" if flashlight_on else "off"))
+	# Reset depleted state if turning on with full battery
+	if flashlight_on and flashlight_battery >= flashlight_max_battery:
+		flashlight_depleted = false
+	
+	DebugLogger.debug(module_name, "Flashlight " + ("on" if flashlight_on else "off") + " - Battery: %.1f/%.1f" % [flashlight_battery, flashlight_max_battery])
+
+# Add this new function to handle battery management:
+func _process_flashlight_battery(delta: float) -> void:
+	# Handle recharge delay after depletion
+	if flashlight_depleted and flashlight_recharge_timer > 0:
+		flashlight_recharge_timer -= delta
+		if flashlight_recharge_timer <= 0:
+			DebugLogger.debug(module_name, "Flashlight recharge delay complete, beginning recharge")
+		return  # Don't process battery until delay is complete
+	
+	# Drain battery when flashlight is on
+	if flashlight_on:
+		flashlight_battery -= flashlight_drain_rate * delta
+		
+		# Check for depletion
+		if flashlight_battery <= 0:
+			flashlight_battery = 0
+			flashlight_on = false
+			flashlight_spot.visible = false
+			flashlight_depleted = true
+			flashlight_recharge_timer = flashlight_recharge_delay
+			DebugLogger.debug(module_name, "Flashlight depleted! Starting recharge delay")
+			
+			# Play click sound for auto-shutoff
+			if flashlight_click_sound and flashlight_audio:
+				flashlight_audio.stream = flashlight_click_sound
+				flashlight_audio.pitch_scale = 0.8  # Lower pitch for depleted sound
+				flashlight_audio.play()
+				flashlight_audio.pitch_scale = 1.0  # Reset pitch
+	
+	# Recharge battery when flashlight is off (and not in delay)
+	elif flashlight_battery < flashlight_max_battery and flashlight_recharge_timer <= 0:
+		flashlight_battery += flashlight_recharge_rate * delta
+		
+		# Cap at maximum
+		if flashlight_battery >= flashlight_max_battery:
+			flashlight_battery = flashlight_max_battery
+			if flashlight_depleted:
+				flashlight_depleted = false
+				DebugLogger.debug(module_name, "Flashlight fully recharged")
+	
+	# Update UI
+	_update_flashlight_ui()
+
+# Add this function to update the UI:
+func _update_flashlight_ui() -> void:
+	if not ui_controller:
+		return
+	
+	# Only show meter if battery is not full
+	var show_meter = flashlight_battery < flashlight_max_battery
+	
+	# Calculate battery percentage (0-100)
+	var battery_percentage = (flashlight_battery / flashlight_max_battery) * 100.0
+	
+	ui_controller.update_flashlight_meter(battery_percentage, show_meter)
 
 func start_crouch() -> void:
 	if is_crouched:
@@ -314,6 +395,7 @@ func _on_crouch_complete() -> void:
 	DebugLogger.debug(module_name, "Crouch transition complete")
 
 func _physics_process(delta: float) -> void:
+	_process_flashlight_battery(delta)
 	# Skip movement if interacting with UI
 	if is_interacting_with_ui or !can_control:
 		return

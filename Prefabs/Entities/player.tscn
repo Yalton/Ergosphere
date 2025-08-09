@@ -835,7 +835,7 @@ visible = false
 [node name="SleepStats" parent="." instance=ExtResource("18_yls7o")]
 visible = false
 
-[node name="PlayerUI" type="Control" parent="." node_paths=PackedStringArray("message_panel", "message_label", "interaction_panel", "interaction_label", "interaction_icon", "task_tree_ui", "hint_container", "hint_audio", "dev_console_ui")]
+[node name="PlayerUI" type="Control" parent="." node_paths=PackedStringArray("message_panel", "message_label", "interaction_panel", "interaction_label", "interaction_icon", "task_tree_ui", "hint_container", "hint_audio", "dev_console_ui", "flashlight_meter", "flashlight_meter_container")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -848,14 +848,16 @@ script = ExtResource("10_slw6b")
 message_panel = NodePath("MessageContainer/VBoxContainer/PanelContainer")
 message_label = NodePath("MessageContainer/VBoxContainer/PanelContainer/HBoxContainer/MessageLabel")
 typing_sound = ExtResource("11_jox8g")
-interaction_panel = NodePath("Interaction Container/HBoxContainer/HBoxContainer/MarginContainer/InteractionTexturePanel")
-interaction_label = NodePath("Interaction Container/HBoxContainer/HBoxContainer/MarginContainer/InteractionTexturePanel/InteractionText")
-interaction_icon = NodePath("Interaction Container/HBoxContainer/HBoxContainer/AspectRatioContainer/InteractionIcon")
+interaction_panel = NodePath("Interaction Container/HBoxContainer/GridContainer/MarginContainer/InteractionTexturePanel")
+interaction_label = NodePath("Interaction Container/HBoxContainer/GridContainer/MarginContainer/InteractionTexturePanel/InteractionText")
+interaction_icon = NodePath("Interaction Container/HBoxContainer/GridContainer/AspectRatioContainer/InteractionIcon")
 task_tree_ui = NodePath("TaskContainer/VBoxContainer/Tree")
 hint_container = NodePath("HintContainer")
 hint_scene = ExtResource("16_mtnbr")
 hint_audio = NodePath("../HintReceived")
 dev_console_ui = NodePath("DevTerminal")
+flashlight_meter = NodePath("FlashlightMeter/HBoxContainer/FlashlightMeter")
+flashlight_meter_container = NodePath("FlashlightMeter")
 
 [node name="Interaction Container" type="VBoxContainer" parent="PlayerUI"]
 layout_mode = 1
@@ -883,23 +885,17 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.0
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/Interaction Container/HBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="PlayerUI/Interaction Container/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PlayerUI/Interaction Container/HBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="Control" type="Control" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-theme = ExtResource("11_qmfn3")
-
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-
-[node name="InteractionIcon" type="TextureRect" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer/AspectRatioContainer"]
+[node name="InteractionIcon" type="TextureRect" parent="PlayerUI/Interaction Container/HBoxContainer/GridContainer/AspectRatioContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
@@ -908,26 +904,28 @@ texture = SubResource("AtlasTexture_txu0e")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="MarginContainer" type="MarginContainer" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="PlayerUI/Interaction Container/HBoxContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
 mouse_filter = 2
 theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="InteractionTexturePanel" type="PanelContainer" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer/MarginContainer"]
+[node name="InteractionTexturePanel" type="PanelContainer" parent="PlayerUI/Interaction Container/HBoxContainer/GridContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.05
+size_flags_stretch_ratio = 2.0
 mouse_filter = 2
 theme = ExtResource("11_qmfn3")
 
-[node name="InteractionText" type="RichTextLabel" parent="PlayerUI/Interaction Container/HBoxContainer/HBoxContainer/MarginContainer/InteractionTexturePanel"]
+[node name="InteractionText" type="RichTextLabel" parent="PlayerUI/Interaction Container/HBoxContainer/GridContainer/MarginContainer/InteractionTexturePanel"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.43
 mouse_filter = 2
 theme = ExtResource("11_qmfn3")
+theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
 text = "[center][outline_size=2][outline_color=00ff00]Open Door[/outline_color]
 [/outline_size][/center]"
@@ -941,6 +939,49 @@ size_flags_stretch_ratio = 5.0
 mouse_filter = 2
 
 [node name="Control" type="Control" parent="PlayerUI/Interaction Container"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 17.0
+mouse_filter = 2
+
+[node name="FlashlightMeter" type="VBoxContainer" parent="PlayerUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Control2" type="Control" parent="PlayerUI/FlashlightMeter"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 20.0
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/FlashlightMeter"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Control2" type="Control" parent="PlayerUI/FlashlightMeter/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 5.0
+mouse_filter = 2
+
+[node name="FlashlightMeter" type="ProgressBar" parent="PlayerUI/FlashlightMeter/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+
+[node name="Control" type="Control" parent="PlayerUI/FlashlightMeter/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 5.0
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="PlayerUI/FlashlightMeter"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 17.0

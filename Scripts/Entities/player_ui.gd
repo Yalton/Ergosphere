@@ -34,6 +34,13 @@ signal interaction_changed(available: bool)
 @export_group("Dev Console")
 @export var dev_console_ui: DevConsoleUI  # Reference to the DevConsoleUI node
 
+# Add to exports:
+@export_group("Flashlight Meter")
+## Progress bar or TextureProgress that shows flashlight battery
+@export var flashlight_meter: ProgressBar
+## Optional container to show/hide the entire meter UI
+@export var flashlight_meter_container: Control
+
 # Internal variables for message system
 var is_message_completed: bool = false
 var message_tween: Tween
@@ -88,6 +95,21 @@ func _ready() -> void:
 	# Hide hint container initially
 	if hint_container:
 		hint_container.hide()
+
+	# Initialize flashlight meter
+	if flashlight_meter:
+		flashlight_meter.min_value = 0
+		flashlight_meter.max_value = 100
+		flashlight_meter.value = 100
+		
+		# Hide initially since battery starts full
+		if flashlight_meter_container:
+			flashlight_meter_container.hide()
+		else:
+			flashlight_meter.hide()
+		
+		DebugLogger.debug(module_name, "Flashlight meter initialized")
+
 
 func _process(_delta: float) -> void:
 	# Process queued messages when unpaused
@@ -401,3 +423,38 @@ func _on_task_completed(task_id: String) -> void:
 		var task = GameManager.task_manager.get_task(task_id)
 		show_hint("cpl", task.task_name)
 #endregion
+
+
+
+
+
+
+# Add this new function to update the flashlight meter:
+func update_flashlight_meter(battery_percentage: float, show: bool) -> void:
+	"""Update the flashlight battery meter display
+	Args:
+		battery_percentage: Current battery level (0-100)
+		show: Whether to show the meter
+	"""
+	if not flashlight_meter:
+		return
+	
+	# Update the meter value
+	flashlight_meter.value = battery_percentage
+	
+	# Show/hide the meter or its container
+	if flashlight_meter_container:
+		flashlight_meter_container.visible = show
+	else:
+		flashlight_meter.visible = show
+	
+	# Optional: Change meter color based on battery level
+	if flashlight_meter.has_theme_stylebox_override("fill"):
+		var fill_style = flashlight_meter.get_theme_stylebox("fill")
+		if fill_style and fill_style is StyleBoxFlat:
+			if battery_percentage <= 20:
+				fill_style.bg_color = Color.RED
+			elif battery_percentage <= 50:
+				fill_style.bg_color = Color.YELLOW
+			else:
+				fill_style.bg_color = Color.GREEN

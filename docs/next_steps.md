@@ -1,6 +1,4 @@
-Make events utilize player vfx system 
-
-Make monster work 
+Make monster work
 
 Create new build of game
 
