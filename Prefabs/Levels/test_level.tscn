@@ -531,4 +531,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3796, 0.984663, -3.24007)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.00894, 3.48576, 8.33204)
 
 [node name="AvatarIconoclast" parent="." instance=ExtResource("30_0325f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.8333, 0.240425, -3.6678)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.47, 0.240425, -56.4806)

@@ -13,6 +13,14 @@ class_name IconoclastAvatar
 @export var turn_speed: float = 3.0
 ## Time monster must remain visible before considered "truly seen" (seconds)
 @export var visibility_confirmation_time: float = 1.0
+## Gravity strength
+@export var gravity: float = 9.8
+## Armature node to hide when despawning
+@export var armature: Node3D
+## Sphere mesh with collapse shader
+@export var collapse_sphere: MeshInstance3D
+## Duration of the collapse animation (seconds)
+@export var collapse_duration: float = 1.0
 
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var visible_on_screen_notifier: VisibleOnScreenNotifier3D = $VisibleOnScreenNotifier3D
@@ -34,6 +42,9 @@ var chase_duration: float = 0.0
 var will_chase: bool = false
 var visibility_check_timer: float = 0.0
 var is_currently_visible: bool = false
+var despawn_tween: Tween
+var spawn_tween: Tween
+var has_spawned: bool = false
 
 func _ready():
 	DebugLogger.register_module("IconoclastAvatar")
@@ -48,8 +59,15 @@ func _ready():
 	
 	# Start in idle animation
 	animation_tree.set_to_idle()
+	
+	# Start spawn sequence
+	_start_spawn_sequence()
 
 func _physics_process(delta):
+	# Apply gravity
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+	
 	match current_state:
 		State.IDLE:
 			_process_idle_state(delta)
@@ -64,10 +82,15 @@ func _physics_process(delta):
 
 func _process_idle_state(delta):
 	# Just waiting to be seen
-	pass
+	move_and_slide()  # Still process physics for gravity
+	
+	# Don't process visibility until spawn is complete
+	if not has_spawned:
+		return
 
 func _process_visibility_check_state(delta):
 	visibility_check_timer -= delta
+	move_and_slide()  # Process physics for gravity
 	
 	if visibility_check_timer <= 0:
 		# Check if we're still visible after the delay
@@ -100,6 +123,9 @@ func _process_stare_state(delta):
 	# Turn to face player
 	_rotate_towards_player(delta, player)
 	
+	# Process physics for gravity
+	move_and_slide()
+	
 	# Count down stare timer
 	stare_timer -= delta
 	
@@ -113,7 +139,7 @@ func _process_stare_state(delta):
 			animation_tree.set_to_walk()
 		else:
 			DebugLogger.log_message("IconoclastAvatar", "Despawning after stare")
-			current_state = State.DESPAWNING
+			_start_despawn_sequence()
 
 func _process_chase_state(delta):
 	var player = CommonUtils.get_player()
@@ -142,16 +168,103 @@ func _process_chase_state(delta):
 	
 	if chase_timer <= 0:
 		DebugLogger.log_message("IconoclastAvatar", "Chase timer expired, despawning")
-		current_state = State.DESPAWNING
+		_start_despawn_sequence()
 
 func _process_despawn_state(delta):
+	# Wait for collapse animation to finish before queue_free
+	pass
+
+func _start_spawn_sequence():
+	DebugLogger.log_message("IconoclastAvatar", "Starting spawn sequence")
+	
+	# Hide armature initially
+	if armature:
+		armature.visible = false
+	
+	# Set up and show collapse sphere at full collapse
+	if collapse_sphere and collapse_sphere.material_override:
+		collapse_sphere.visible = true
+		collapse_sphere.material_override.set_shader_parameter("collapse_progress", 1.0)
+		
+		# Create tween for expand animation
+		if spawn_tween and spawn_tween.is_valid():
+			spawn_tween.kill()
+		
+		spawn_tween = create_tween()
+		
+		# Animate collapse_progress from 1 to 0 (expanding)
+		spawn_tween.tween_property(
+			collapse_sphere.material_override,
+			"shader_parameter/collapse_progress",
+			0.0,
+			collapse_duration
+		).from(1.0)
+		
+		# When expansion completes, switch to armature
+		spawn_tween.finished.connect(_on_spawn_finished)
+	else:
+		# No collapse sphere, just show armature immediately
+		DebugLogger.log_warning("IconoclastAvatar", "No collapse sphere configured, showing armature immediately")
+		if armature:
+			armature.visible = true
+		has_spawned = true
+
+func _on_spawn_finished():
+	DebugLogger.log_message("IconoclastAvatar", "Spawn animation finished, showing entity")
+	
+	# Hide sphere
+	if collapse_sphere:
+		collapse_sphere.visible = false
+	
+	# Show armature
+	if armature:
+		armature.visible = true
+	
+	has_spawned = true
+
+func _start_despawn_sequence():
+	current_state = State.DESPAWNING
+	DebugLogger.log_message("IconoclastAvatar", "Starting despawn sequence")
+	
+	# Hide the armature
+	if armature:
+		armature.visible = false
+	
+	# Show and animate the collapse sphere
+	if collapse_sphere and collapse_sphere.material_override:
+		collapse_sphere.visible = true
+		
+		# Create tween for collapse animation
+		if despawn_tween and despawn_tween.is_valid():
+			despawn_tween.kill()
+		
+		despawn_tween = create_tween()
+		
+		# Animate collapse_progress from 0 to 1
+		despawn_tween.tween_property(
+			collapse_sphere.material_override, 
+			"shader_parameter/collapse_progress", 
+			1.0, 
+			collapse_duration
+		).from(0.0)
+		
+		# Queue free when animation completes
+		despawn_tween.finished.connect(_on_collapse_finished)
+	else:
+		# No collapse sphere, just queue free immediately
+		DebugLogger.log_warning("IconoclastAvatar", "No collapse sphere configured, despawning immediately")
+		queue_free()
+
+func _on_collapse_finished():
+	DebugLogger.log_message("IconoclastAvatar", "Collapse animation finished, destroying entity")
 	queue_free()
 
 func _rotate_towards_player(delta, player):
 	if not player:
 		return
 	
-	var target_direction = (player.global_position - global_position).normalized()
+	# Invert direction - face away becomes face towards
+	var target_direction = -(player.global_position - global_position).normalized()
 	target_direction.y = 0  # Keep rotation on horizontal plane
 	
 	if target_direction.length() > 0:
@@ -160,6 +273,10 @@ func _rotate_towards_player(delta, player):
 
 func _on_screen_entered():
 	is_currently_visible = true
+	
+	# Don't react to visibility until spawn is complete
+	if not has_spawned:
+		return
 	
 	if not has_been_seen and current_state == State.IDLE:
 		DebugLogger.log_message("IconoclastAvatar", "Monster potentially seen, checking visibility")

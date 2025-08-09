@@ -13,7 +13,7 @@ func _ready():
 
 func set_to_idle():
 	# Switch to idle state
-	set("parameters/main_transition/transition_request", "idle_trans")
+	set("parameters/main_transition/transition_request", "idle")
 	
 	# Alternate between main and alt idle
 	if last_idle_was_main:
@@ -27,7 +27,7 @@ func set_to_idle():
 
 func set_to_walk():
 	# Switch to walk state
-	set("parameters/main_transition/transition_request", "walk_trans")
+	set("parameters/main_transition/transition_request", "walking")
 	
 	# Alternate between main and alt walk
 	if last_walk_was_main:

@@ -49,14 +49,14 @@ func startup_phase(time: float) -> void:
 	active_sub_effects.clear()
 	
 	# Activate each effect with staggering
-	for effect_id in effects_to_activate:
+	for id in effects_to_activate:
 		# Skip if it's mind_break itself or blink
-		if effect_id == "mind_break" or effect_id == "blink":
+		if id == "mind_break" or id == "blink":
 			continue
 			
 		# Check if the effect exists
-		if not vfx_manager.effect_handlers.has(effect_id):
-			DebugLogger.warning(module_name, "Effect not found: %s" % effect_id)
+		if not vfx_manager.effect_handlers.has(id):
+			DebugLogger.warning(module_name, "Effect not found: %s" % id)
 			continue
 		
 		# Each sub-effect gets its own timing
@@ -64,9 +64,9 @@ func startup_phase(time: float) -> void:
 		var sub_duration = 0  # Will be handled by our duration phase
 		var sub_winddown = 0  # Will be handled by our wind down phase
 		
-		DebugLogger.debug(module_name, "Activating sub-effect: %s" % effect_id)
-		vfx_manager.invoke_effect(effect_id, sub_startup, sub_duration, sub_winddown)
-		active_sub_effects.append(effect_id)
+		DebugLogger.debug(module_name, "Activating sub-effect: %s" % id)
+		vfx_manager.invoke_effect(id, sub_startup, sub_duration, sub_winddown)
+		active_sub_effects.append(id)
 		
 		if stagger_effects and stagger_delay > 0:
 			await get_tree().create_timer(stagger_delay).timeout
