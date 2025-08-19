@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://dnpaf7qn1mnc7"]
+[gd_scene load_steps=31 format=4 uid="uid://dnpaf7qn1mnc7"]
 
 [ext_resource type="Script" uid="uid://dyit8rc7htp3i" path="res://Scripts/Environment/GameObjects/Furniture/desktop_with_hdd.gd" id="1_mxci1"]
 [ext_resource type="Texture2D" uid="uid://cywl3hwvwyslw" path="res://Assets/Models/Station/Props/Desktop/HDD_Desktop/textures/BlackerMetal-Color.png" id="1_tcvl2"]
@@ -15,6 +15,8 @@
 [ext_resource type="Texture2D" uid="uid://bpsy33mk1pmcr" path="res://Assets/Models/Station/Props/Desktop/HDD_Desktop/textures/Pipe-Metalness-Pipe-Roughness.png" id="11_si8vh"]
 [ext_resource type="Texture2D" uid="uid://cws4x0v3kcrgd" path="res://Assets/Models/Station/Props/Desktop/HDD_Desktop/textures/Pipe-Normal.png" id="12_sklwk"]
 [ext_resource type="ArrayOccluder3D" uid="uid://5ql1yi35xynn" path="res://Assets/Models/Occluders/Props/Computers/desktop_with_hdd.occ" id="15_kr00o"]
+[ext_resource type="AudioStream" uid="uid://bugk1xy256c3x" path="res://Assets/Audio/Interactions/disk_drive_dispense.ogg" id="15_s5jfc"]
+[ext_resource type="AudioStream" uid="uid://diu5gxnusjx5u" path="res://Assets/Audio/Interactions/disk_dispense_beep.ogg" id="16_vyt5h"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3dkog"]
 resource_name = "BlackerMetal-Dithered"
@@ -305,6 +307,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OmniLight3D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_tcvl2"]
 resource_name = "eject_drive"
@@ -328,6 +342,48 @@ tracks/1/keys = {
 "update": 1,
 "values": [true, false]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OmniLight3D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.266667, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false]
+}
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DispenseAudio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("15_s5jfc")
+}],
+"times": PackedFloat32Array(0.0333333)
+}
+tracks/3/use_blend = true
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("DispenseBeep")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("16_vyt5h")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/4/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_526ns"]
 _data = {
@@ -362,8 +418,18 @@ libraries = {
 &"": SubResource("AnimationLibrary_526ns")
 }
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="DispenseAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+bus = &"SFX"
+
+[node name="DispenseBeep" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+bus = &"SFX"
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("15_kr00o")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.73501, 1.09936)
+light_color = Color(0, 1, 0, 1)
+omni_range = 2.0

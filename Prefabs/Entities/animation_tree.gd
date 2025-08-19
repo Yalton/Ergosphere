@@ -38,3 +38,8 @@ func set_to_walk():
 		DebugLogger.log_message("IconoclastAnimationController", "Playing main walk")
 	
 	last_walk_was_main = !last_walk_was_main
+
+func trigger_reach_out():
+	# Fire the reach_out oneshot animation
+	set("parameters/reach_out/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	DebugLogger.log_message("IconoclastAnimationController", "Triggered reach_out animation")

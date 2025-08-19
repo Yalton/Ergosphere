@@ -87,6 +87,8 @@ station=""
 warp_destinations=""
 door_wrappers=""
 diegetic_ui=""
+iconoclast_spawn=""
+iconoclast=""
 
 [gui]
 

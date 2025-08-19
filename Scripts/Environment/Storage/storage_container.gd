@@ -14,6 +14,8 @@ class_name StorageContainer
 ## Time to wait after item removal before auto-closing (seconds)
 @export var auto_close_delay: float = 1.0
 
+@export var item_delivered_audio: AudioStreamPlayer3D
+
 # Container state
 var is_locked: bool = true
 var contained_item: Node3D = null
@@ -244,6 +246,8 @@ func set_locked(locked: bool) -> void:
 			emissive_mesh.set_surface_override_material(2, material)
 			DebugLogger.debug(module_name, "Set emission enabled: " + str(not locked))
 	
+	if !locked: 
+		item_delivered_audio.play()
 	DebugLogger.debug(module_name, "Container " + ("locked" if locked else "unlocked"))
 
 ## Override interaction text

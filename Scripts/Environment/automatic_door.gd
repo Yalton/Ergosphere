@@ -4,13 +4,12 @@ class_name AutomaticStationDoor
 
 ## Detection area for automatic door opening
 @export var detection_area: Area3D
-
-## Delay in seconds before checking if door should close after player exits
+## Delay in seconds before checking if door should close after entity exits
 @export var close_check_delay: float = 1.0
 
 # Internal tracking
 var close_check_timer: Timer
-var player_inside: bool = false
+var entity_inside: bool = false
 
 func _ready() -> void:
 	# Call parent ready
@@ -42,22 +41,22 @@ func _ready() -> void:
 	DebugLogger.debug(debug_module_name, "Automatic station door initialized")
 
 func _on_body_entered(body: Node3D) -> void:
-	if body.is_in_group("player"):
-		player_inside = true
+	if body.is_in_group("player") or body.is_in_group("iconoclast"):
+		entity_inside = true
 		
 		# Cancel any pending close check
 		if close_check_timer.time_left > 0:
 			close_check_timer.stop()
-			DebugLogger.debug(debug_module_name, "Player entered, cancelled close timer")
+			DebugLogger.debug(debug_module_name, "Entity entered, cancelled close timer")
 		
 		# Open door if closed
 		if not is_open:
 			open_door()
 
 func _on_body_exited(body: Node3D) -> void:
-	if body.is_in_group("player"):
-		player_inside = false
-		DebugLogger.debug(debug_module_name, "Player exited, starting close timer")
+	if body.is_in_group("player") or body.is_in_group("iconoclast"):
+		entity_inside = false
+		DebugLogger.debug(debug_module_name, "Entity exited, starting close timer")
 		
 		# Start close check timer
 		close_check_timer.start()
@@ -65,21 +64,21 @@ func _on_body_exited(body: Node3D) -> void:
 func _check_and_close_door() -> void:
 	# Get all bodies currently in the detection area
 	var bodies_in_area = detection_area.get_overlapping_bodies()
-	var player_still_inside = false
+	var entity_still_inside = false
 	
-	# Check if any player is still in the area
+	# Check if any player or iconoclast is still in the area
 	for body in bodies_in_area:
-		if body.is_in_group("player"):
-			player_still_inside = true
+		if body.is_in_group("player") or body.is_in_group("iconoclast"):
+			entity_still_inside = true
 			break
 	
-	if player_still_inside:
-		# Player is still inside, check again later
-		DebugLogger.debug(debug_module_name, "Player still inside, checking again in " + str(close_check_delay) + " seconds")
+	if entity_still_inside:
+		# Entity is still inside, check again later
+		DebugLogger.debug(debug_module_name, "Entity still inside, checking again in " + str(close_check_delay) + " seconds")
 		close_check_timer.start()
 	else:
-		# No player inside, close the door
-		DebugLogger.debug(debug_module_name, "No player detected, closing door")
+		# No entity inside, close the door
+		DebugLogger.debug(debug_module_name, "No entity detected, closing door")
 		close_door()
 
 # Override interact to do nothing (door is automatic)
@@ -94,4 +93,4 @@ func _on_day_ended(day_number: int) -> void:
 	if close_check_timer and close_check_timer.time_left > 0:
 		close_check_timer.stop()
 		
-	player_inside = false
+	entity_inside = false

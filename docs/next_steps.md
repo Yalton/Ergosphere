@@ -1,14 +1,24 @@
 Make monster work
 
+
+Test game 
+
 Create new build of game
 
-Test and polish 
+Get feedback 
+
+Test more and polish more 
 
 Write up all the log files 
 
 
-## Broken Events 
+## Misc 
 
-Hawking Radiation
-- Make soundscape that sounds like infinite corridor from castlevania
+Break up player script, too big 
+
+
+
+## Bugs
+
+Allign telescope is available before shutters are opened 
 

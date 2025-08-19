@@ -1,8 +1,9 @@
-[gd_scene load_steps=29 format=4 uid="uid://bvfpw6v5h8lci"]
+[gd_scene load_steps=32 format=4 uid="uid://bvfpw6v5h8lci"]
 
 [ext_resource type="Script" uid="uid://csxoxafjbvrn7" path="res://Scripts/Environment/Storage/storage_container.gd" id="1_hgwfn"]
 [ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="2_uxhbg"]
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="3_d3hq8"]
+[ext_resource type="AudioStream" uid="uid://fdbdv018gu4v" path="res://Assets/Audio/Interactions/StorageContainer/container_slide.ogg" id="4_d3hq8"]
 [ext_resource type="Texture2D" uid="uid://dl3678u6pyas6" path="res://Assets/Models/Station/Furniture/StorageWall/textures/GreyPlastic-Color.png" id="4_eqsrc"]
 [ext_resource type="Texture2D" uid="uid://cd8hal3wxpnly" path="res://Assets/Models/Station/Furniture/StorageWall/textures/GreyPlastic-Roughness.png" id="5_dp1cp"]
 [ext_resource type="Texture2D" uid="uid://48n220m4jda0" path="res://Assets/Models/Station/Furniture/StorageWall/textures/GreyPlastic-Normal.png" id="6_yyt6c"]
@@ -11,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://bbtlk5tjqc8g7" path="res://Assets/Models/Station/Furniture/StorageWall/textures/BlackPlastic-Normal.png" id="9_cb0iy"]
 [ext_resource type="Script" uid="uid://dijfpq8bnks05" path="res://Scripts/Components/GameOBjects/area_3d_interactor.gd" id="10_t5h16"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="11_5wjrb"]
+[ext_resource type="AudioStream" uid="uid://bma0gpv254rxx" path="res://Assets/Audio/Interactions/StorageContainer/container_open.ogg" id="12_uxhbg"]
+[ext_resource type="AudioStream" uid="uid://cwpj3n2s3oat0" path="res://Assets/Audio/Interactions/StorageContainer/item_delivered.ogg" id="14_eqsrc"]
 
 [sub_resource type="Animation" id="Animation_yyvv6"]
 length = 0.001
@@ -50,7 +53,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_fahvj"]
 resource_name = "close"
-length = 1.5
+length = 2.0
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -84,10 +87,40 @@ tracks/3/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../ContainerSlide")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("4_d3hq8")
+}],
+"times": PackedFloat32Array(0.0333333)
+}
+tracks/4/use_blend = true
+tracks/5/type = "audio"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../ContainerOpen")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("12_uxhbg")
+}],
+"times": PackedFloat32Array(0.166667)
+}
+tracks/5/use_blend = true
 
 [sub_resource type="Animation" id="Animation_qju3s"]
 resource_name = "open"
-length = 1.5
+length = 2.0
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -121,6 +154,36 @@ tracks/3/keys = {
 "update": 1,
 "values": [false, false]
 }
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../ContainerSlide")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("4_d3hq8")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/4/use_blend = true
+tracks/5/type = "audio"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../ContainerOpen")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("12_uxhbg")
+}],
+"times": PackedFloat32Array(0.166667)
+}
+tracks/5/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0c58d"]
 _data = {
@@ -305,11 +368,12 @@ size = Vector3(3.75, 1.8, 0.05)
 [sub_resource type="BoxShape3D" id="BoxShape3D_fsrny"]
 size = Vector3(4, 2, 2)
 
-[node name="StorageContainer" type="Node3D" node_paths=PackedStringArray("item_spawn_point", "emissive_mesh", "interaction_area", "animation_player")]
+[node name="StorageContainer" type="Node3D" node_paths=PackedStringArray("item_spawn_point", "emissive_mesh", "interaction_area", "item_delivered_audio", "animation_player")]
 script = ExtResource("1_hgwfn")
 item_spawn_point = NodePath("StorageContainerBody/SpawnLocation")
 emissive_mesh = NodePath("StorageContainerBody/Door/Cube_362")
 interaction_area = NodePath("InteractionForwarder")
+item_delivered_audio = NodePath("ItemDelivered")
 animation_player = NodePath("AnimationPlayer")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("2_uxhbg")]
@@ -379,3 +443,18 @@ script = ExtResource("10_t5h16")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionForwarder"]
 shape = SubResource("BoxShape3D_fsrny")
+
+[node name="ContainerSlide" type="AudioStreamPlayer3D" parent="."]
+attenuation_model = 1
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="ContainerOpen" type="AudioStreamPlayer3D" parent="."]
+attenuation_model = 1
+volume_db = -2.0
+bus = &"SFX"
+
+[node name="ItemDelivered" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("14_eqsrc")
+attenuation_model = 1
+bus = &"SFX"

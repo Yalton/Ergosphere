@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://ckto5uf860msc"]
+
+[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="1_3dojj"]
+
+[resource]
+script = ExtResource("1_3dojj")
+id = "spawn_iconoclast"
+name = "spawn_iconoclast"
+description = ""
+cost = 50
+disruption_percentage = 80
+min_day = 3
+cooldown = 240.0
+tags = Array[String]([])
+event_type = "NONE"
+metadata/_custom_type_script = "uid://clf1310qk2c05"

@@ -28,6 +28,24 @@ class_name IconoclastAvatar
 ## Minimum number of raycasts that must hit player to confirm visibility
 @export var min_raycast_hits: int = 2
 
+@export_group("Kill Mechanic")
+## Distance at which the monster can catch the player
+@export var catch_distance: float = 2.0
+## Duration of the camera forced look at monster
+@export var forced_look_duration: float = 2.0
+## Target FOV when zooming in on monster
+@export var zoom_fov: float = 30.0
+## Path to main menu scene
+@export_file("*.tscn") var main_menu_path: String = "res://scenes/ui/main_menu.tscn"
+
+@export_group("Audio")
+## Audio player for when entity appears
+@export var appear_audio_player: AudioStreamPlayer3D
+## Audio player for when entity vanishes
+@export var vanish_audio_player: AudioStreamPlayer3D
+## Audio player for when entity captures the player
+@export var capture_audio_player: AudioStreamPlayer3D
+
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var visible_on_screen_notifier: VisibleOnScreenNotifier3D = $VisibleOnScreenNotifier3D
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -37,6 +55,7 @@ enum State {
 	CHECKING_VISIBILITY,
 	STARE,
 	CHASE,
+	CATCHING_PLAYER,
 	DESPAWNING
 }
 
@@ -53,6 +72,9 @@ var spawn_tween: Tween
 var has_spawned: bool = false
 var is_flashlight_on_monster: bool = false
 var raycasts: Array[RayCast3D] = []
+var has_caught_player: bool = false
+var player_ref: Node3D = null
+var original_camera_fov: float = 75.0
 
 func _ready():
 	DebugLogger.register_module("IconoclastAvatar")
@@ -86,8 +108,8 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
-	# Always face the player when spawned
-	if has_spawned:
+	# Always face the player when spawned (unless catching)
+	if has_spawned and current_state != State.CATCHING_PLAYER:
 		var player = CommonUtils.get_player()
 		if player:
 			_rotate_towards_player(delta, player)
@@ -107,6 +129,8 @@ func _physics_process(delta):
 			_process_stare_state(delta)
 		State.CHASE:
 			_process_chase_state(delta)
+		State.CATCHING_PLAYER:
+			_process_catching_state(delta)
 		State.DESPAWNING:
 			_process_despawn_state(delta)
 	
@@ -181,6 +205,13 @@ func _process_chase_state(delta):
 	if not player:
 		return
 	
+	# Check if we're close enough to catch the player
+	var distance_to_player = global_position.distance_to(player.global_position)
+	if distance_to_player <= catch_distance and not has_caught_player:
+		DebugLogger.log_message("IconoclastAvatar", "Within catch distance, initiating catch sequence")
+		_catch_player(player)
+		return
+	
 	# Update navigation target
 	navigation_agent.target_position = player.global_position
 	
@@ -206,9 +237,96 @@ func _process_chase_state(delta):
 		DebugLogger.log_message("IconoclastAvatar", "Chase timer expired, despawning")
 		_start_despawn_sequence()
 
+func _process_catching_state(delta):
+	# Just wait for the catch sequence to complete
+	move_and_slide()
+
 func _process_despawn_state(delta):
 	# Wait for collapse animation to finish before queue_free
 	pass
+
+func _catch_player(player: Node3D):
+	if has_caught_player:
+		return
+	
+	has_caught_player = true
+	current_state = State.CATCHING_PLAYER
+	player_ref = player
+	
+	DebugLogger.log_message("IconoclastAvatar", "Catching player!")
+	
+	# Stop player movement
+	if player.has_method("is_interacting_with_ui"):
+		player.is_interacting_with_ui = true
+	
+	# Play reach out animation
+	if animation_tree:
+		animation_tree.set("parameters/reach_out/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+		DebugLogger.log_message("IconoclastAvatar", "Triggered reach_out animation")
+	
+	# Force player to look at monster
+	_force_player_look()
+	
+	# Play capture audio
+	if capture_audio_player:
+		capture_audio_player.play()
+		DebugLogger.log_message("IconoclastAvatar", "Playing capture audio")
+	
+	# Wait for the forced look duration, then transition to main menu
+	await get_tree().create_timer(forced_look_duration).timeout
+	_transition_to_main_menu()
+
+func _force_player_look():
+	if not player_ref:
+		return
+	
+	var camera = get_viewport().get_camera_3d()
+	if not camera:
+		DebugLogger.warning("IconoclastAvatar", "Could not find player camera")
+		return
+	
+	# Store original FOV
+	original_camera_fov = camera.fov
+	
+	# Calculate direction from player to monster
+	var direction_to_monster = (global_position - player_ref.global_position).normalized()
+	
+	# Create target transform looking at monster
+	var target_pos = global_position + Vector3(0, 1.5, 0)  # Look at chest/head area
+	
+	# Create tween for smooth camera movement
+	var camera_tween = create_tween()
+	camera_tween.set_parallel(true)
+	
+	# Tween the player rotation to face monster
+	var target_y_rotation = atan2(-direction_to_monster.x, -direction_to_monster.z)
+	camera_tween.tween_property(player_ref, "rotation:y", target_y_rotation, 0.5)
+	
+	# Calculate pitch to look at monster's chest/head
+	var player_eye_pos = player_ref.global_position + Vector3(0, 1.6, 0)  # Approximate eye height
+	var to_monster = target_pos - player_eye_pos
+	var pitch = asin(to_monster.normalized().y)
+	
+	# Find the head node if it exists (assuming structure like Player/Head)
+	var head = player_ref.get_node_or_null("Head")
+	if head:
+		camera_tween.tween_property(head, "rotation:x", -pitch, 0.5)
+	
+	# Zoom in camera
+	camera_tween.tween_property(camera, "fov", zoom_fov, 0.5)
+	
+	DebugLogger.log_message("IconoclastAvatar", "Forcing player to look at monster with FOV: %f" % zoom_fov)
+
+func _transition_to_main_menu():
+	DebugLogger.log_message("IconoclastAvatar", "Transitioning to main menu after catch")
+	
+	# Use TransitionManager if available
+	if TransitionManager:
+		# This method handles fade to black, scene change, and fade from black
+		TransitionManager.transition_to_scene(main_menu_path)
+	else:
+		# Direct scene change
+		get_tree().change_scene_to_file(main_menu_path)
 
 func _check_player_line_of_sight() -> bool:
 	var player = CommonUtils.get_player()
@@ -272,6 +390,11 @@ func _start_spawn_sequence():
 	if armature:
 		armature.visible = false
 	
+	# Play appear audio
+	if appear_audio_player:
+		appear_audio_player.play()
+		DebugLogger.log_message("IconoclastAvatar", "Playing appear audio")
+	
 	# Set up and show collapse sphere at full collapse
 	if collapse_sphere and collapse_sphere.material_override:
 		collapse_sphere.visible = true
@@ -316,6 +439,11 @@ func _on_spawn_finished():
 func _start_despawn_sequence():
 	current_state = State.DESPAWNING
 	DebugLogger.log_message("IconoclastAvatar", "Starting despawn sequence")
+	
+	# Play vanish audio
+	if vanish_audio_player:
+		vanish_audio_player.play()
+		DebugLogger.log_message("IconoclastAvatar", "Playing vanish audio")
 	
 	# Hide the armature
 	if armature:

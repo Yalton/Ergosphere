@@ -33,6 +33,13 @@ class_name PositionalEventHandler
 ## Maximum number of closest points to randomly select from
 @export var closest_points_pool_size: int = 3
 
+# ============== ICONOCLAST SPAWN SETTINGS ==============
+@export_group("Iconoclast Settings")
+## Scene to spawn for iconoclast
+@export var iconoclast_scene: PackedScene
+## Group name for iconoclast spawn points
+@export var iconoclast_spawn_group: String = "iconoclast_spawn"
+
 # ============== LEVITATE SETTINGS ==============
 @export_group("Levitate Settings")
 ## Maximum distance to search for objects to levitate
@@ -74,6 +81,7 @@ func _ready() -> void:
 	handled_event_ids = [
 		"warp", "player_teleport",
 		"micro_blackhole", "dark_fog", "entity_appearance", "scene_spawn",
+		"spawn_iconoclast",
 		"object_levitate",
 		"object_throw", "poltergeist"
 	]
@@ -88,6 +96,8 @@ func _can_execute_internal() -> Dictionary:
 			return _can_execute_warp()
 		"micro_blackhole", "dark_fog", "entity_appearance", "scene_spawn":
 			return _can_execute_scene_spawn()
+		"spawn_iconoclast":
+			return _can_execute_iconoclast_spawn()
 		"object_levitate":
 			return _can_execute_levitate()
 		"object_throw", "poltergeist":
@@ -107,6 +117,8 @@ func _execute_internal() -> Dictionary:
 			return _spawn_vfx_scene(dark_fog_scene, "dark_fog")
 		"entity_appearance":
 			return _spawn_vfx_scene(entity_appearance_scene, "entity_appearance")
+		"spawn_iconoclast":
+			return _execute_iconoclast_spawn()
 		"object_levitate":
 			return _execute_levitate()
 		"object_throw", "poltergeist":
@@ -239,6 +251,83 @@ func _warp_player_with_vfx(player: Node3D, destination: Node3D) -> void:
 	# End the event
 	if is_active:
 		end()
+
+# ============== ICONOCLAST SPAWN EVENT FUNCTIONS ==============
+func _can_execute_iconoclast_spawn() -> Dictionary:
+	# Check if iconoclast already exists
+	var existing_iconoclast = get_tree().get_nodes_in_group("iconoclast")
+	if not existing_iconoclast.is_empty():
+		return {"success": false, "message": "Iconoclast already exists on the map"}
+	
+	# Check if scene is configured
+	if not iconoclast_scene:
+		return {"success": false, "message": "No iconoclast scene configured"}
+	
+	# Check if spawn points exist
+	var spawn_points = get_tree().get_nodes_in_group(iconoclast_spawn_group)
+	if spawn_points.is_empty():
+		return {"success": false, "message": "No iconoclast spawn points found in group: " + iconoclast_spawn_group}
+	
+	# Check if player exists to calculate distances
+	var player = CommonUtils.get_player()
+	if not player:
+		return {"success": false, "message": "No player found in scene"}
+	
+	return {"success": true, "message": "OK"}
+
+func _execute_iconoclast_spawn() -> Dictionary:
+	var player = CommonUtils.get_player()
+	if not player:
+		return {"success": false, "message": "No player found during execution"}
+	
+	# Get furthest spawn point
+	var spawn_point = _find_furthest_spawn_point(player)
+	if not spawn_point:
+		return {"success": false, "message": "No valid spawn point found"}
+	
+	# Spawn the iconoclast
+	var spawned_instance = iconoclast_scene.instantiate()
+	if not spawned_instance:
+		return {"success": false, "message": "Failed to instantiate iconoclast scene: " + iconoclast_scene.resource_path}
+	
+	# Add to scene tree
+	get_tree().current_scene.add_child(spawned_instance)
+	
+	# Position the iconoclast
+	if spawn_point is Node3D and spawned_instance is Node3D:
+		spawned_instance.global_position = spawn_point.global_position
+		spawned_instance.global_rotation = spawn_point.global_rotation
+	
+	# Track the spawned object
+	spawned_objects.append(spawned_instance)
+	
+	# Set up cleanup if the iconoclast has a cleanup signal
+	if spawned_instance.has_signal("cleanup_requested"):
+		spawned_instance.cleanup_requested.connect(_on_spawned_object_cleanup_requested.bind(spawned_instance))
+	
+	# Trigger spawn VFX
+	_trigger_spawn_glitch_vfx()
+	
+	DebugLogger.log_message("PositionalEventHandler", "Iconoclast spawned at furthest point from player")
+	
+	return {"success": true, "message": "OK"}
+
+func _find_furthest_spawn_point(player: Node3D) -> Node:
+	var spawn_points = get_tree().get_nodes_in_group(iconoclast_spawn_group)
+	if spawn_points.is_empty():
+		return null
+	
+	var furthest_point: Node = null
+	var furthest_distance: float = 0.0
+	
+	for point in spawn_points:
+		if point is Node3D:
+			var distance = player.global_position.distance_to(point.global_position)
+			if distance > furthest_distance:
+				furthest_distance = distance
+				furthest_point = point
+	
+	return furthest_point
 
 # ============== SCENE SPAWN EVENT FUNCTIONS ==============
 func _can_execute_scene_spawn() -> Dictionary:
