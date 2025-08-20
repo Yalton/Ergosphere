@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://wtaqabmkefhp"]
 
-[ext_resource type="Texture2D" uid="uid://bhbi10ffhf885" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/icons/gears_1.png" id="1_3xbdq"]
-[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/gradient_scroll.gdshader" id="4_r0vti"]
+[ext_resource type="Texture2D" uid="uid://bhbi10ffhf885" path="res://Assets/VFX/source_files/textures/icons/gears_1.png" id="1_3xbdq"]
+[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Assets/VFX/source_files/shaders/gradient_scroll.gdshader" id="4_r0vti"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d7tbb"]
 atlas = ExtResource("1_3xbdq")

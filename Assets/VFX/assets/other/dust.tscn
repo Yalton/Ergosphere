@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://ba6pjbml0igrx"]
 
-[ext_resource type="Material" uid="uid://ks1kly3dfqvc" path="res://Misc/PolyBlocks/EffectBlocks/source_files/materials/smoke_billboard.material" id="1_qptov"]
+[ext_resource type="Material" uid="uid://ks1kly3dfqvc" path="res://Assets/VFX/source_files/materials/smoke_billboard.material" id="1_qptov"]
 
 [sub_resource type="Curve" id="Curve_c4glq"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.151119, 0.997144), 0.0, 0.0, 0, 0, Vector2(0.873134, 0.997144), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

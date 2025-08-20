@@ -1,8 +1,8 @@
 [gd_scene load_steps=27 format=3 uid="uid://d2w6wo71rufjo"]
 
-[ext_resource type="Texture2D" uid="uid://ddxqnj3rbpdn2" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/muzzleflash/muzzle_flash_fps_1.png" id="1_71i5d"]
-[ext_resource type="Script" uid="uid://dfrp68pfxjf5b" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/muzzle_flash_fps.gd" id="2_gmn3l"]
-[ext_resource type="Material" uid="uid://ks1kly3dfqvc" path="res://Misc/PolyBlocks/EffectBlocks/source_files/materials/smoke_billboard.material" id="3_yn88y"]
+[ext_resource type="Texture2D" uid="uid://ddxqnj3rbpdn2" path="res://Assets/VFX/source_files/textures/muzzleflash/muzzle_flash_fps_1.png" id="1_71i5d"]
+[ext_resource type="Script" uid="uid://dfrp68pfxjf5b" path="res://Assets/VFX/source_files/scripts/muzzle_flash_fps.gd" id="2_gmn3l"]
+[ext_resource type="Material" uid="uid://ks1kly3dfqvc" path="res://Assets/VFX/source_files/materials/smoke_billboard.material" id="3_yn88y"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1ay5"]
 transparency = 1

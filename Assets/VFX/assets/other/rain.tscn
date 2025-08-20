@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://c8fqeutjlidfw"]
 
-[ext_resource type="Texture2D" uid="uid://d1e7hll0hnmad" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/circle_1.png" id="1_0b62y"]
+[ext_resource type="Texture2D" uid="uid://d1e7hll0hnmad" path="res://Assets/VFX/source_files/textures/circle_1.png" id="1_0b62y"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ju881"]
 emission_shape = 3

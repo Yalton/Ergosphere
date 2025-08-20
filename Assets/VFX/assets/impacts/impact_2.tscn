@@ -1,8 +1,8 @@
 [gd_scene load_steps=23 format=3 uid="uid://b82knjqmqtsq"]
 
-[ext_resource type="Script" uid="uid://c35ct7ymn85dw" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/impacts.gd" id="1_hykg5"]
-[ext_resource type="Texture2D" uid="uid://dsgstp42me8oy" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/icons/swords.png" id="2_xxpy2"]
-[ext_resource type="Texture2D" uid="uid://d1e7hll0hnmad" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/circle_1.png" id="3_3t4gc"]
+[ext_resource type="Script" uid="uid://c35ct7ymn85dw" path="res://Assets/VFX/source_files/scripts/impacts.gd" id="1_hykg5"]
+[ext_resource type="Texture2D" uid="uid://dsgstp42me8oy" path="res://Assets/VFX/source_files/textures/icons/swords.png" id="2_xxpy2"]
+[ext_resource type="Texture2D" uid="uid://d1e7hll0hnmad" path="res://Assets/VFX/source_files/textures/circle_1.png" id="3_3t4gc"]
 
 [sub_resource type="Curve" id="Curve_dldii"]
 max_value = 5.0

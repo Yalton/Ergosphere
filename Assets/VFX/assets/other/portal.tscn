@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://d32gtjkub4byi"]
 
-[ext_resource type="Material" uid="uid://b7frshhg5cqxq" path="res://Misc/PolyBlocks/EffectBlocks/source_files/materials/portal.material" id="1_b8oll"]
+[ext_resource type="Material" uid="uid://b7frshhg5cqxq" path="res://Assets/VFX/source_files/materials/portal.material" id="1_b8oll"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_0ht5h"]
 _surfaces = [{

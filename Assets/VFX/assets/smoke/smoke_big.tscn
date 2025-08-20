@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://ce0l7sdpyg8kw"]
 
-[ext_resource type="Material" uid="uid://ks1kly3dfqvc" path="res://Misc/PolyBlocks/EffectBlocks/source_files/materials/smoke_billboard.material" id="1_f60rf"]
+[ext_resource type="Material" uid="uid://ks1kly3dfqvc" path="res://Assets/VFX/source_files/materials/smoke_billboard.material" id="1_f60rf"]
 
 [sub_resource type="Gradient" id="Gradient_oyxsh"]
 

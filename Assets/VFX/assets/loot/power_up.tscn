@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://cujbal2tq1i4j"]
 
-[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/gradient_scroll.gdshader" id="2_nm4e7"]
-[ext_resource type="Texture2D" uid="uid://cwxu5gm6qg8a4" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/icons/power_up.png" id="2_xp0ql"]
+[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Assets/VFX/source_files/shaders/gradient_scroll.gdshader" id="2_nm4e7"]
+[ext_resource type="Texture2D" uid="uid://cwxu5gm6qg8a4" path="res://Assets/VFX/source_files/textures/icons/power_up.png" id="2_xp0ql"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ra71f"]
 emission_shape = 6

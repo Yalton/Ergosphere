@@ -1,8 +1,8 @@
 [gd_scene load_steps=28 format=3 uid="uid://c20c16eqqr7kn"]
 
-[ext_resource type="Material" uid="uid://cjgoj12p3pb0g" path="res://Misc/PolyBlocks/EffectBlocks/source_files/materials/fire_billboard.material" id="1_u868s"]
-[ext_resource type="Material" uid="uid://ks1kly3dfqvc" path="res://Misc/PolyBlocks/EffectBlocks/source_files/materials/smoke_billboard.material" id="2_tf07e"]
-[ext_resource type="Script" uid="uid://8efx3nq7iy4b" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/light_flicker.gd" id="3_vhvav"]
+[ext_resource type="Material" uid="uid://cjgoj12p3pb0g" path="res://Assets/VFX/source_files/materials/fire_billboard.material" id="1_u868s"]
+[ext_resource type="Material" uid="uid://ks1kly3dfqvc" path="res://Assets/VFX/source_files/materials/smoke_billboard.material" id="2_tf07e"]
+[ext_resource type="Script" uid="uid://8efx3nq7iy4b" path="res://Assets/VFX/source_files/scripts/light_flicker.gd" id="3_vhvav"]
 
 [sub_resource type="Gradient" id="Gradient_35pg8"]
 colors = PackedColorArray(0.94902, 0, 0, 1, 1, 0.776471, 0.0823529, 1)

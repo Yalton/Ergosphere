@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://cqaq6i2s7kwfa"]
 
-[ext_resource type="Texture2D" uid="uid://60nciysoontj" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/sparkle.png" id="1_5ss08"]
-[ext_resource type="Script" uid="uid://c5cbb0pc7ok8l" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/impact_single.gd" id="3_24ofy"]
+[ext_resource type="Texture2D" uid="uid://60nciysoontj" path="res://Assets/VFX/source_files/textures/sparkle.png" id="1_5ss08"]
+[ext_resource type="Script" uid="uid://c5cbb0pc7ok8l" path="res://Assets/VFX/source_files/scripts/impact_single.gd" id="3_24ofy"]
 
 [sub_resource type="Curve" id="Curve_dldii"]
 max_value = 5.0

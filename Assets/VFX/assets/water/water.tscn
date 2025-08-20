@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dvgfebuvxk1jv"]
 
-[ext_resource type="Shader" uid="uid://d2v5q4tmx77p7" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/water.gdshader" id="1_pukwu"]
+[ext_resource type="Shader" uid="uid://d2v5q4tmx77p7" path="res://Assets/VFX/source_files/shaders/water.gdshader" id="1_pukwu"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5dcae"]
 noise_type = 2

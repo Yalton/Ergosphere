@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=4 uid="uid://b2mxxtc218bmu"]
 
-[ext_resource type="Shader" uid="uid://ck4hpjkjfvdmr" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/lightning.gdshader" id="1_fv2nm"]
+[ext_resource type="Shader" uid="uid://ck4hpjkjfvdmr" path="res://Assets/VFX/source_files/shaders/lightning.gdshader" id="1_fv2nm"]
 [ext_resource type="PackedScene" uid="uid://ca0xt7tqp4c1g" path="res://Assets/VFX/assets/energy/electric_sparks_1.tscn" id="2_040t6"]
 
 [sub_resource type="Curve" id="Curve_j53ne"]

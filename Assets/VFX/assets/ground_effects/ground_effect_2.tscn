@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://c6jl0xxckwyvi"]
 
-[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/gradient_scroll.gdshader" id="1_wwkkh"]
+[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Assets/VFX/source_files/shaders/gradient_scroll.gdshader" id="1_wwkkh"]
 
 [sub_resource type="Gradient" id="Gradient_c06pq"]
 offsets = PackedFloat32Array(0.0756972, 0.193227, 0.350598, 0.426295, 0.567729, 0.750996)

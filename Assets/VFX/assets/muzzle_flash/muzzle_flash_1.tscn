@@ -1,8 +1,8 @@
 [gd_scene load_steps=33 format=3 uid="uid://b811lwp060mex"]
 
-[ext_resource type="Texture2D" uid="uid://bipatrhnuw07x" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/muzzleflash/muzzleflash_1.png" id="1_c6hhx"]
-[ext_resource type="Script" uid="uid://clx2dkhk2bjf7" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/muzzle_flash_1.gd" id="1_rwvvg"]
-[ext_resource type="Material" uid="uid://ks1kly3dfqvc" path="res://Misc/PolyBlocks/EffectBlocks/source_files/materials/smoke_billboard.material" id="2_0aq0q"]
+[ext_resource type="Texture2D" uid="uid://bipatrhnuw07x" path="res://Assets/VFX/source_files/textures/muzzleflash/muzzleflash_1.png" id="1_c6hhx"]
+[ext_resource type="Script" uid="uid://clx2dkhk2bjf7" path="res://Assets/VFX/source_files/scripts/muzzle_flash_1.gd" id="1_rwvvg"]
+[ext_resource type="Material" uid="uid://ks1kly3dfqvc" path="res://Assets/VFX/source_files/materials/smoke_billboard.material" id="2_0aq0q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_23xrp"]
 atlas = ExtResource("1_c6hhx")

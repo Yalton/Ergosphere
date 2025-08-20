@@ -1,7 +1,7 @@
 [gd_scene load_steps=34 format=3 uid="uid://c76ggriths1rd"]
 
-[ext_resource type="Script" uid="uid://bnq8uhd0sb5p2" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/small_explosion.gd" id="1_b76o4"]
-[ext_resource type="AudioStream" uid="uid://g2cyhbgkp3gl" path="res://Misc/PolyBlocks/EffectBlocks/source_files/audio/small_explosion.wav" id="2_1s72p"]
+[ext_resource type="Script" uid="uid://bnq8uhd0sb5p2" path="res://Assets/VFX/source_files/scripts/small_explosion.gd" id="1_b76o4"]
+[ext_resource type="AudioStream" uid="uid://g2cyhbgkp3gl" path="res://Assets/VFX/source_files/audio/small_explosion.wav" id="2_1s72p"]
 
 [sub_resource type="Curve" id="Curve_4o2wr"]
 _data = [Vector2(0.126866, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0432777), 0.0, 0.0, 0, 0]

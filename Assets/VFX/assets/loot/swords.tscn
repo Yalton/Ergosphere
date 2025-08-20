@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://u4l6hsrq87je"]
 
-[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/gradient_scroll.gdshader" id="1_xuv82"]
-[ext_resource type="Texture2D" uid="uid://dsgstp42me8oy" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/icons/swords.png" id="2_2astp"]
-[ext_resource type="Script" uid="uid://d4fuxqopu6go4" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/simple_rotate.gd" id="3_hyxuw"]
+[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Assets/VFX/source_files/shaders/gradient_scroll.gdshader" id="1_xuv82"]
+[ext_resource type="Texture2D" uid="uid://dsgstp42me8oy" path="res://Assets/VFX/source_files/textures/icons/swords.png" id="2_2astp"]
+[ext_resource type="Script" uid="uid://d4fuxqopu6go4" path="res://Assets/VFX/source_files/scripts/simple_rotate.gd" id="3_hyxuw"]
 
 [sub_resource type="Gradient" id="Gradient_7wega"]
 offsets = PackedFloat32Array(0.0756972, 0.193227, 0.350598, 0.426295, 0.567729, 0.750996)

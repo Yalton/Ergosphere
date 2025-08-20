@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://7frx18ejffbl"]
 
-[ext_resource type="Texture2D" uid="uid://ljdwjppfnunq" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/icons/skull.png" id="1_tha0r"]
-[ext_resource type="Script" uid="uid://c5cbb0pc7ok8l" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/impact_single.gd" id="2_dpviy"]
+[ext_resource type="Texture2D" uid="uid://ljdwjppfnunq" path="res://Assets/VFX/source_files/textures/icons/skull.png" id="1_tha0r"]
+[ext_resource type="Script" uid="uid://c5cbb0pc7ok8l" path="res://Assets/VFX/source_files/scripts/impact_single.gd" id="2_dpviy"]
 
 [sub_resource type="Curve" id="Curve_lt6q4"]
 _data = [Vector2(0.190298, 1), 0.0, 0.0, 0, 0, Vector2(0.783582, 0), 0.0, 0.0, 0, 0]

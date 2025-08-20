@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://b21ylbshayj81"]
 
-[ext_resource type="Texture2D" uid="uid://chfhr7ucgwb2j" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/icons/pickaxe.png" id="1_g3sd0"]
-[ext_resource type="Material" uid="uid://diy67f5orey0j" path="res://Misc/PolyBlocks/EffectBlocks/source_files/materials/white_gradient.material" id="2_nursl"]
+[ext_resource type="Texture2D" uid="uid://chfhr7ucgwb2j" path="res://Assets/VFX/source_files/textures/icons/pickaxe.png" id="1_g3sd0"]
+[ext_resource type="Material" uid="uid://diy67f5orey0j" path="res://Assets/VFX/source_files/materials/white_gradient.material" id="2_nursl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fng4e"]
 transparency = 1

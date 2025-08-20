@@ -1,7 +1,7 @@
 [gd_scene load_steps=45 format=3 uid="uid://dejbkt1bojau7"]
 
-[ext_resource type="Script" uid="uid://doddahj6m21e6" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/explosion_big.gd" id="1_mge3i"]
-[ext_resource type="Shader" uid="uid://ck4hpjkjfvdmr" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/lightning.gdshader" id="2_3fa40"]
+[ext_resource type="Script" uid="uid://doddahj6m21e6" path="res://Assets/VFX/source_files/scripts/explosion_big.gd" id="1_mge3i"]
+[ext_resource type="Shader" uid="uid://ck4hpjkjfvdmr" path="res://Assets/VFX/source_files/shaders/lightning.gdshader" id="2_3fa40"]
 
 [sub_resource type="Curve" id="Curve_4o2wr"]
 _data = [Vector2(0.0634328, 1), 0.0, 0.0, 0, 0, Vector2(0.697761, 0), 0.0, 0.0, 0, 0]

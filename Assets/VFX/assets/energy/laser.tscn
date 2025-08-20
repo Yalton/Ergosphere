@@ -1,6 +1,6 @@
 [gd_scene load_steps=38 format=3 uid="uid://dl1n86vlgnb34"]
 
-[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/gradient_scroll.gdshader" id="1_3otj5"]
+[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Assets/VFX/source_files/shaders/gradient_scroll.gdshader" id="1_3otj5"]
 
 [sub_resource type="Curve" id="Curve_3c4q3"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.166045, 1), 0.0, 0.0, 0, 0, Vector2(0.257463, 0.457381), 0.0, 0.0, 0, 0, Vector2(0.380597, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://csnc6bd8emf5v"]
 
-[ext_resource type="Texture2D" uid="uid://60nciysoontj" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/sparkle.png" id="1_u4vm3"]
+[ext_resource type="Texture2D" uid="uid://60nciysoontj" path="res://Assets/VFX/source_files/textures/sparkle.png" id="1_u4vm3"]
 
 [sub_resource type="Curve" id="Curve_nm7us"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.169776, 1), 0.0, 0.0, 0, 0, Vector2(0.83209, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

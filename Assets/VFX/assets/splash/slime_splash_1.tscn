@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://dvl13042jqtk0"]
 
-[ext_resource type="Script" uid="uid://bbukm4tm16hi2" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/splashes.gd" id="1_w4wny"]
+[ext_resource type="Script" uid="uid://bbukm4tm16hi2" path="res://Assets/VFX/source_files/scripts/splashes.gd" id="1_w4wny"]
 [ext_resource type="PackedScene" uid="uid://cqjsxh6tso3kr" path="res://Assets/VFX/assets/decals/decal_slime_1.tscn" id="2_n6u4c"]
 
 [sub_resource type="Gradient" id="Gradient_0yugf"]

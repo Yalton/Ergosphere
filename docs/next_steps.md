@@ -41,6 +41,8 @@ Order heatsink never delivers
 
 Emergency events happening this often are annoying
 
+Stats screen is broken 
+
 Carried object causes oclusion
 
 to their whime 

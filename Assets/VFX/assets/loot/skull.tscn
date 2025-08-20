@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=3 uid="uid://dmjeklvbs6v2k"]
 
-[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/gradient_scroll.gdshader" id="1_jaqg1"]
-[ext_resource type="Texture2D" uid="uid://ljdwjppfnunq" path="res://Misc/PolyBlocks/EffectBlocks/source_files/textures/icons/skull.png" id="2_s7omm"]
+[ext_resource type="Shader" uid="uid://bvu45kkaau2ce" path="res://Assets/VFX/source_files/shaders/gradient_scroll.gdshader" id="1_jaqg1"]
+[ext_resource type="Texture2D" uid="uid://ljdwjppfnunq" path="res://Assets/VFX/source_files/textures/icons/skull.png" id="2_s7omm"]
 
 [sub_resource type="Curve" id="Curve_4wt52"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.29291, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

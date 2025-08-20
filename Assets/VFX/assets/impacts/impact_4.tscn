@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://d2j0uv6bcok6k"]
 
-[ext_resource type="Script" uid="uid://c5cbb0pc7ok8l" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/impact_single.gd" id="1_ryefv"]
+[ext_resource type="Script" uid="uid://c5cbb0pc7ok8l" path="res://Assets/VFX/source_files/scripts/impact_single.gd" id="1_ryefv"]
 
 [sub_resource type="Curve" id="Curve_7227o"]
 _data = [Vector2(0.102612, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

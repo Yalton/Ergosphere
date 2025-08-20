@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://uch8qkb3b6nc"]
 
-[ext_resource type="Material" uid="uid://dscl7swcrv1o" path="res://Misc/PolyBlocks/EffectBlocks/source_files/materials/god_rays.tres" id="1_u0k0w"]
+[ext_resource type="Material" uid="uid://dscl7swcrv1o" path="res://Assets/VFX/source_files/materials/god_rays.tres" id="1_u0k0w"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_8yjs4"]
 _surfaces = [{

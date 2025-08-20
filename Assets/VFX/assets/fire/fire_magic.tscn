@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://bqhd6yuojmms5"]
 
-[ext_resource type="Script" uid="uid://8efx3nq7iy4b" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/light_flicker.gd" id="3_2bt4y"]
+[ext_resource type="Script" uid="uid://8efx3nq7iy4b" path="res://Assets/VFX/source_files/scripts/light_flicker.gd" id="3_2bt4y"]
 
 [sub_resource type="Gradient" id="Gradient_35pg8"]
 colors = PackedColorArray(0.101961, 0.427451, 0.596078, 1, 1, 0.776471, 0.0823529, 1)
