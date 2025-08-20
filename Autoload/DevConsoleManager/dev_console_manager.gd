@@ -1,6 +1,4 @@
-# DevConsoleManager.gd
 extends Node
-
 ## Singleton that manages dev console commands and processing with permission and log system
 ## Access via DevConsoleManager in your code
 
@@ -22,8 +20,7 @@ func _ready() -> void:
 	# Register with DebugLogger
 	DebugLogger.register_module(module_name, true)
 	
-	# Connect output signal
-	output_requested.connect(_on_output_requested)
+	# REMOVED: output_requested.connect(_on_output_requested) - This was causing duplicate output
 	
 	DebugLogger.info(module_name, "Dev Console Manager initialized with " + str(terminal_logs.size()) + " logs")
 
@@ -92,17 +89,5 @@ func output_error(text: String) -> void:
 func output_warning(text: String) -> void:
 	output_requested.emit(text, "warning")
 
-func _on_output_requested(text: String, type: String) -> void:
-	if not dev_console_ui:
-		DebugLogger.warning(module_name, "No console UI set, cannot display: " + text)
-		return
-	
-	match type:
-		"normal":
-			dev_console_ui.add_line(text)
-		"system":
-			dev_console_ui.add_system_message(text)
-		"error":
-			dev_console_ui.add_error_message(text)
-		"warning":
-			dev_console_ui.add_warning_message(text)
+# REMOVED: _on_output_requested function - This was causing duplicate output
+# The terminal UI already connects to output_requested signal directly

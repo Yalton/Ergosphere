@@ -1,7 +1,6 @@
-# CoreCommands.gd
 extends BaseCommandHandler
-
 ## Handles core console commands like help, clear, exit, echo
+
 func _ready() -> void:
 	handler_name = "CoreCommands"
 	super._ready()
@@ -34,10 +33,20 @@ func _cmd_help(args: Array) -> void:
 		else:
 			output("  %s%s" % [cmd, admin_tag])
 	
-	if not DevConsoleManager.command_aliases.is_empty():
+	# Only show aliases for commands the user can access
+	var visible_aliases = {}
+	for alias in DevConsoleManager.command_aliases:
+		var target_cmd = DevConsoleManager.command_aliases[alias]
+		if target_cmd in DevConsoleManager.commands:
+			var cmd_data = DevConsoleManager.commands[target_cmd]
+			# Only show alias if user has permission for the target command
+			if not cmd_data["admin_only"] or DevConsoleManager.is_admin:
+				visible_aliases[alias] = target_cmd
+	
+	if not visible_aliases.is_empty():
 		output_system("\nAliases:")
-		for alias in DevConsoleManager.command_aliases:
-			output("  %s -> %s" % [alias, DevConsoleManager.command_aliases[alias]])
+		for alias in visible_aliases:
+			output("  %s -> %s" % [alias, visible_aliases[alias]])
 
 func _cmd_clear(args: Array) -> void:
 	if DevConsoleManager.dev_console_ui:
@@ -59,7 +68,9 @@ func _cmd_list(args: Array) -> void:
 	
 	var available_commands = []
 	for cmd in sorted_commands:
-		if not DevConsoleManager.commands[cmd]["admin_only"] or DevConsoleManager.is_admin:
+		var cmd_data = DevConsoleManager.commands[cmd]
+		# Only add command to list if user has permission
+		if not cmd_data["admin_only"] or DevConsoleManager.is_admin:
 			available_commands.append(cmd)
 	
 	output_system("Commands: " + ", ".join(available_commands))

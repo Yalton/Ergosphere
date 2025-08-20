@@ -1,11 +1,10 @@
-[gd_scene load_steps=14 format=4 uid="uid://c7o4k7y8noug2"]
+[gd_scene load_steps=13 format=4 uid="uid://c7o4k7y8noug2"]
 
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_ffnsc"]
 [ext_resource type="Texture2D" uid="uid://l25ciijwsa8b" path="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/Cloth-Color.png" id="1_wgqa4"]
 [ext_resource type="Texture2D" uid="uid://bu7glvugvbary" path="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/Cloth-Roughness.png" id="2_jppct"]
 [ext_resource type="Texture2D" uid="uid://qyx4qmy4sr4j" path="res://Assets/Models/Station/Furniture/AirlockOxygenMaker/textures/Cloth-Normal.png" id="3_ffnsc"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="5_bgfbo"]
-[ext_resource type="ArrayOccluder3D" uid="uid://ct8mcwuvpqsau" path="res://Assets/Models/Occluders/Props/air_filter.occ" id="6_bgfbo"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="7_l77eg"]
 [ext_resource type="AudioStream" uid="uid://c2v4h8dhqi6yg" path="res://Assets/Audio/Impacts/soft_1.ogg" id="8_ba6oo"]
 [ext_resource type="AudioStream" uid="uid://x78gp63qehq3" path="res://Assets/Audio/Impacts/chains_1.ogg" id="9_4324c"]
@@ -71,9 +70,6 @@ skeleton = NodePath("")
 shape = SubResource("BoxShape3D_syhpu")
 
 [node name="CarryableComponent" parent="." instance=ExtResource("5_bgfbo")]
-
-[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
-occluder = ExtResource("6_bgfbo")
 
 [node name="ImpactSounds" parent="." instance=ExtResource("7_l77eg")]
 impact_sounds = Array[AudioStream]([ExtResource("8_ba6oo"), ExtResource("9_4324c")])

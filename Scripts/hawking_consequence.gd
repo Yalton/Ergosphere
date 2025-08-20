@@ -33,10 +33,17 @@ class_name HawkingConsequence
 ## Fade out time for movement restoration
 @export var movement_fade_out: float = 10.0
 
+@export_group("Iconoclast Settings")
+## Whether to spawn iconoclast avatar after radiation
+@export var spawn_iconoclast: bool = true
+## Delay after radiation ends before spawning iconoclast
+@export var iconoclast_spawn_delay: float = 2.0
+
 var player: Node3D
 var effect_timer: Timer
 var vfx_timer: Timer
 var vfx_removal_timer: Timer
+var iconoclast_timer: Timer
 var fade_tween: Tween
 var is_effect_active: bool = false
 var vfx_active: bool = false
@@ -66,6 +73,11 @@ func _ready() -> void:
 	vfx_removal_timer.one_shot = true
 	vfx_removal_timer.timeout.connect(_remove_visual_effects)
 	add_child(vfx_removal_timer)
+	
+	iconoclast_timer = Timer.new()
+	iconoclast_timer.one_shot = true
+	iconoclast_timer.timeout.connect(_spawn_iconoclast_avatar)
+	add_child(iconoclast_timer)
 
 func _on_task_failed(task_id: String) -> void:
 	DebugLogger.log_message("HawkingConsequence", "Task failed: " + task_id)
@@ -192,6 +204,11 @@ func _stop_radiation_exposure() -> void:
 		vfx_removal_timer.start(vfx_removal_delay)
 		DebugLogger.log_message("HawkingConsequence", "Visual effects will be removed in " + str(vfx_removal_delay) + " seconds")
 	
+	# Start timer to spawn iconoclast avatar after delay
+	if spawn_iconoclast:
+		iconoclast_timer.start(iconoclast_spawn_delay)
+		DebugLogger.log_message("HawkingConsequence", "Iconoclast will spawn in " + str(iconoclast_spawn_delay) + " seconds")
+	
 	# Mark main effect as inactive
 	is_effect_active = false
 
@@ -243,6 +260,20 @@ func _remove_visual_effects() -> void:
 		DebugLogger.log_message("HawkingConsequence", "Disabled shape dilation effect")
 	else:
 		DebugLogger.log_message("HawkingConsequence", "No VFX component found on player")
+
+func _spawn_iconoclast_avatar() -> void:
+	DebugLogger.log_message("HawkingConsequence", "Attempting to spawn iconoclast avatar")
+	
+	# Check if event manager exists
+	if not GameManager.event_manager:
+		DebugLogger.log_message("HawkingConsequence", "Event manager not available")
+		return
+	
+	# Trigger the entity_appearance event which will spawn the iconoclast
+	# This uses the same system as the game commands
+	GameManager.event_manager.trigger_event("spawn_iconoclast")
+	
+	DebugLogger.log_message("HawkingConsequence", "Triggered entity_appearance event for iconoclast spawn")
 
 func _exit_tree() -> void:
 	# Clean up any active tweens

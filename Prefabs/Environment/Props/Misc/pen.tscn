@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://c0v2kgi2yfdvd"]
+[gd_scene load_steps=8 format=3 uid="uid://c0v2kgi2yfdvd"]
 
 [ext_resource type="PackedScene" uid="uid://cfrk4ectxql5m" path="res://Assets/Models/Station/Props/pen/pen.gltf" id="1_62t20"]
 [ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_80mst"]
-[ext_resource type="ArrayOccluder3D" uid="uid://bl2clnr2h8tcg" path="res://Assets/Models/Occluders/Props/pen.occ" id="2_tmvqa"]
 [ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_khml3"]
 [ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="5_qcaqd"]
 [ext_resource type="AudioStream" uid="uid://b58b3rkx2glvd" path="res://Assets/Audio/Impacts/wood_1.ogg" id="6_or2an"]
@@ -26,9 +25,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.196475, 0)
 shape = SubResource("CylinderShape3D_tmvqa")
 
 [node name="CarryableComponent" parent="." instance=ExtResource("3_khml3")]
-
-[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
-occluder = ExtResource("2_tmvqa")
 
 [node name="ImpactSounds" parent="." instance=ExtResource("5_qcaqd")]
 impact_sounds = Array[AudioStream]([ExtResource("6_or2an"), ExtResource("7_7kebj")])
