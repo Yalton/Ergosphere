@@ -5,6 +5,8 @@ class_name IconoclastAnimationController
 var last_idle_was_main: bool = true
 ## Tracks which walk animation was used last (main or alt)  
 var last_walk_was_main: bool = true
+## Current animation speed scale
+var current_speed_scale: float = 1.0
 
 func _ready():
 	DebugLogger.register_module("IconoclastAnimationController")
@@ -43,3 +45,13 @@ func trigger_reach_out():
 	# Fire the reach_out oneshot animation
 	set("parameters/reach_out/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	DebugLogger.log_message("IconoclastAnimationController", "Triggered reach_out animation")
+
+func set_speed_scale(scale: float):
+	# Set the animation speed scale
+	current_speed_scale = scale
+	set("parameters/SlowdownScale/scale", scale)
+	DebugLogger.log_message("IconoclastAnimationController", "Set animation speed scale to: %.2f" % scale)
+
+func reset_speed_scale():
+	# Reset speed scale back to normal
+	set_speed_scale(1.0)

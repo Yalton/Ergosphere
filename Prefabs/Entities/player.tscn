@@ -1,15 +1,18 @@
-[gd_scene load_steps=44 format=3 uid="uid://bgnqxsxljglaq"]
+[gd_scene load_steps=46 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="PackedScene" uid="uid://3ioq6sw0jikq" path="res://Prefabs/Components/player_effects_component.tscn" id="2_5ls6m"]
 [ext_resource type="AudioStream" uid="uid://c442xporneypb" path="res://Assets/Audio/Interactions/Flashlight/flashlight.ogg" id="2_7pgp2"]
 [ext_resource type="Script" uid="uid://cd6roq0jsnw23" path="res://Subsystems/DynamicFootstepSystem/Scripts/footstep_surface_detector.gd" id="2_bxc72"]
 [ext_resource type="Script" uid="uid://c2lq0mlp6vmir" path="res://Subsystems/PostProcessing/post_process_shader.gd" id="2_mtnbr"]
+[ext_resource type="Script" uid="uid://c5f3p12552mqi" path="res://Scripts/Entities/player_camera_component.gd" id="3_ewaly"]
 [ext_resource type="PackedScene" uid="uid://c2doyvxkp4awj" path="res://Prefabs/Components/insanity_component.tscn" id="3_p85qx"]
 [ext_resource type="AudioStream" uid="uid://cw2e8sv5oj7bw" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep00.ogg" id="3_rld0k"]
+[ext_resource type="Script" uid="uid://ds5vwnwj8ksif" path="res://Scripts/Entities/player_movement_component.gd" id="4_hnd4y"]
 [ext_resource type="AudioStream" uid="uid://dp305uipdp2ir" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep01.ogg" id="4_kkf6j"]
 [ext_resource type="AudioStream" uid="uid://bdhmdt44gw7jc" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep02.ogg" id="5_mepo0"]
 [ext_resource type="Script" uid="uid://dbrp023kh24vn" path="res://Subsystems/PostProcessing/glitch.gd" id="5_xdcw6"]
+[ext_resource type="Script" uid="uid://cqnh0h0xfs7o4" path="res://Scripts/Entities/player_flashlight_component.gd" id="5_yo8dt"]
 [ext_resource type="AudioStream" uid="uid://d374xus6acenf" path="res://Assets/Audio/Ambience/AmbientHorror/Footsteps/footstep03.ogg" id="6_slw6b"]
 [ext_resource type="Script" uid="uid://dk5n3h6vj2l4d" path="res://Subsystems/PostProcessing/chromatic_aberration.gd" id="6_yls7o"]
 [ext_resource type="Script" uid="uid://c0y0x4gqcwmv2" path="res://Subsystems/PostProcessing/outline_detection.gd" id="7_bnfw2"]
@@ -30,8 +33,6 @@
 [ext_resource type="PackedScene" uid="uid://du67esbe2xmup" path="res://Prefabs/UI/components/ui_hint.tscn" id="16_mtnbr"]
 [ext_resource type="PackedScene" uid="uid://dxkxj4kk30o5b" path="res://Prefabs/UI/DiageticUI/dev_terminal.tscn" id="18_k313v"]
 [ext_resource type="PackedScene" uid="uid://lb2r5qew7tsr" path="res://Prefabs/UI/sleep_stats.tscn" id="18_yls7o"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_23jlx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bxc72"]
 
@@ -136,7 +137,7 @@ metadata/_custom_type_script = "uid://dbrp023kh24vn"
 [sub_resource type="CompositorEffect" id="CompositorEffect_7pgp2"]
 resource_local_to_scene = false
 resource_name = ""
-enabled = false
+enabled = true
 effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
@@ -764,21 +765,24 @@ stream_4/stream = ExtResource("7_jox8g")
 atlas = ExtResource("14_qmfn3")
 region = Rect2(264, 72, 48, 48)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ui_controller", "interaction_component", "footstep_detector", "flashlight_spot") groups=["player"]]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("ui_controller", "interaction_component", "footstep_detector") groups=["player"]]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource("1_23jlx")
 ui_controller = NodePath("PlayerUI")
 interaction_component = NodePath("PlayerInteractionComponent")
-crouch_height_multiplier = 0.8
 footstep_detector = NodePath("FootstepSurfaceDetector")
-flashlight_spot = NodePath("Head/Camera3D/SpotLight3D")
-flashlight_click_sound = ExtResource("2_7pgp2")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-visible = false
-mesh = SubResource("CapsuleMesh_23jlx")
+[node name="PlayerCameraComponent" type="Node3D" parent="."]
+script = ExtResource("3_ewaly")
+
+[node name="PlayerMovementComponent" type="Node3D" parent="."]
+script = ExtResource("4_hnd4y")
+
+[node name="PlayerFlashlightComponent" type="Node3D" parent="." node_paths=PackedStringArray("flashlight_spot")]
+script = ExtResource("5_yo8dt")
+flashlight_spot = NodePath("../Head/Camera3D/SpotLight3D")
+flashlight_click_sound = ExtResource("2_7pgp2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

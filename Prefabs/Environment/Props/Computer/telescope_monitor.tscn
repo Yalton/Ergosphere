@@ -129,7 +129,7 @@ albedo_texture = SubResource("ViewportTexture_1fmvh")
 [sub_resource type="BoxShape3D" id="BoxShape3D_61goh"]
 size = Vector3(0.380537, 0.309512, 0.415931)
 
-[node name="TelescopeMonitor" type="StaticBody3D" node_paths=PackedStringArray("telescope_ui_control", "sub_viewport", "display", "ui_content", "area_3d", "state_aware_component")]
+[node name="TelescopeMonitor" type="StaticBody3D" node_paths=PackedStringArray("telescope_ui_control", "sub_viewport", "display", "ui_content", "area_3d", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_86hom")
@@ -138,6 +138,7 @@ sub_viewport = NodePath("SubViewport")
 display = NodePath("Skeleton3D/Display")
 ui_content = NodePath("SubViewport/telescope_adjust_ui")
 area_3d = NodePath("Skeleton3D/Area3D")
+task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
 
 [node name="Skeleton3D" type="Skeleton3D" parent="."]

@@ -87,7 +87,6 @@ func check_state(state_key: String, expected_value = null) -> bool:
 	
 	var current_value = state_manager.get_state(state_key)
 	
-	assert(current_value != null)
 	print("State  man cur val ", current_value, " expected val is ", expected_value)
 	if expected_value == null:
 		return current_value != null

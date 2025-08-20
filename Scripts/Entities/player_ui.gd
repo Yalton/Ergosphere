@@ -426,11 +426,8 @@ func _on_task_completed(task_id: String) -> void:
 
 
 
-
-
-
 # Add this new function to update the flashlight meter:
-func update_flashlight_meter(battery_percentage: float, show: bool) -> void:
+func update_flashlight_meter(battery_percentage: float, p_show: bool) -> void:
 	"""Update the flashlight battery meter display
 	Args:
 		battery_percentage: Current battery level (0-100)
@@ -441,12 +438,12 @@ func update_flashlight_meter(battery_percentage: float, show: bool) -> void:
 	
 	# Update the meter value
 	flashlight_meter.value = battery_percentage
-	
+
 	# Show/hide the meter or its container
 	if flashlight_meter_container:
-		flashlight_meter_container.visible = show
+		flashlight_meter_container.visible = p_show
 	else:
-		flashlight_meter.visible = show
+		flashlight_meter.visible = p_show
 	
 	# Optional: Change meter color based on battery level
 	if flashlight_meter.has_theme_stylebox_override("fill"):

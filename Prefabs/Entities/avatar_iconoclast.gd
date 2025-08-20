@@ -21,12 +21,18 @@ class_name IconoclastAvatar
 @export var collapse_sphere: MeshInstance3D
 ## Duration of the collapse animation (seconds)
 @export var collapse_duration: float = 1.0
+## Particle effect that emits while entity is active
+@export var particle_effect: GPUParticles3D
 ## Speed reduction factor when flashlight is on monster
 @export var flashlight_speed_factor: float = 0.5
 ## Node containing RayCast3D children for visibility checking
 @export var raycasts_node: Node3D
 ## Minimum number of raycasts that must hit player to confirm visibility
 @export var min_raycast_hits: int = 2
+## How often to recheck visibility when visible but no LOS (seconds)
+@export var visibility_recheck_interval: float = 1.0
+## Distance at which monster automatically detects player
+@export var auto_detect_distance: float = 8.0
 
 @export_group("Kill Mechanic")
 ## Distance at which the monster can catch the player
@@ -37,6 +43,10 @@ class_name IconoclastAvatar
 @export var zoom_fov: float = 30.0
 ## Path to main menu scene
 @export_file("*.tscn") var main_menu_path: String = "res://scenes/ui/main_menu.tscn"
+
+@export_group("Testing")
+## Force monster to always chase when seen (for testing)
+@export var always_chase: bool = false
 
 @export_group("Audio")
 ## Audio player for when entity appears
@@ -66,6 +76,7 @@ var chase_timer: float = 0.0
 var chase_duration: float = 0.0
 var will_chase: bool = false
 var visibility_check_timer: float = 0.0
+var visibility_recheck_timer: float = 0.0
 var is_currently_visible: bool = false
 var despawn_tween: Tween
 var spawn_tween: Tween
@@ -145,41 +156,87 @@ func _process_idle_state(delta):
 	# Don't process visibility until spawn is complete
 	if not has_spawned:
 		return
+	
+	# Check for proximity detection even in idle
+	var player = CommonUtils.get_player()
+	if player:
+		var distance = global_position.distance_to(player.global_position)
+		if distance <= auto_detect_distance and not has_been_seen:
+			DebugLogger.log_message("IconoclastAvatar", "Player within auto-detect range (%.1f), triggering detection" % distance)
+			_trigger_detection(true)  # Always chase when proximity detected
 
 func _process_visibility_check_state(delta):
-	visibility_check_timer -= delta
 	move_and_slide()  # Process physics for gravity
 	
-	if visibility_check_timer <= 0:
-		DebugLogger.log_message("IconoclastAvatar", "Visibility timer expired, checking conditions...")
-		DebugLogger.log_message("IconoclastAvatar", "Is currently visible (frustum): %s" % is_currently_visible)
+	# Decrement the recheck timer
+	visibility_recheck_timer -= delta
+	
+	# Check visibility at intervals
+	if visibility_recheck_timer <= 0:
+		visibility_recheck_timer = visibility_recheck_interval
 		
-		# Check if we're still visible after the delay AND not occluded
-		var line_of_sight = _check_player_line_of_sight()
+		# Check proximity first
+		var player = CommonUtils.get_player()
+		if player:
+			var distance = global_position.distance_to(player.global_position)
+			if distance <= auto_detect_distance:
+				DebugLogger.log_message("IconoclastAvatar", "Player within auto-detect range (%.1f), triggering detection" % distance)
+				_trigger_detection(true)  # Always chase when proximity detected
+				return
 		
-		if is_currently_visible and line_of_sight:
-			# Player has truly seen us
-			has_been_seen = true
-			DebugLogger.log_message("IconoclastAvatar", "PLAYER HAS SEEN THE MONSTER!")
+		# Check line of sight if we're visible
+		if is_currently_visible:
+			var line_of_sight = _check_player_line_of_sight()
 			
-			# Trigger glitch effect on player
-			_trigger_player_glitch_effect()
-			
-			# Flip coin to decide behavior
-			will_chase = randf() > 0.5
-			
-			# Start staring
-			current_state = State.STARE
-			stare_timer = stare_duration
-			
-			if will_chase:
-				DebugLogger.log_message("IconoclastAvatar", "Will chase after stare")
+			if line_of_sight:
+				# Player has truly seen us
+				DebugLogger.log_message("IconoclastAvatar", "PLAYER HAS LINE OF SIGHT TO MONSTER!")
+				_trigger_detection(false)  # Use normal chase logic
 			else:
-				DebugLogger.log_message("IconoclastAvatar", "Will despawn after stare")
-		else:
-			# Player looked away or geometry blocking view, go back to idle
-			DebugLogger.log_message("IconoclastAvatar", "Visibility check failed - returning to idle (visible: %s, LOS: %s)" % [is_currently_visible, line_of_sight])
-			current_state = State.IDLE
+				DebugLogger.log_message("IconoclastAvatar", "Still checking visibility - no line of sight yet")
+
+func _trigger_detection(force_chase: bool):
+	has_been_seen = true
+	
+	# Determine behavior
+	if always_chase or force_chase:
+		will_chase = true
+		DebugLogger.log_message("IconoclastAvatar", "Will chase (forced: %s, always: %s)" % [force_chase, always_chase])
+	else:
+		# Flip coin to decide behavior
+		will_chase = randf() > 0.5
+		DebugLogger.log_message("IconoclastAvatar", "Coin flip: will %s" % ("chase" if will_chase else "despawn"))
+	
+	# Only trigger effects if we're going to chase
+	if will_chase:
+		_trigger_player_effects()
+	
+	# Start staring
+	current_state = State.STARE
+	stare_timer = stare_duration
+
+func _trigger_player_effects():
+	var player = CommonUtils.get_player()
+	if not player:
+		return
+	
+	DebugLogger.log_message("IconoclastAvatar", "Triggering player effects sequence")
+	
+	# Start with blink effect
+	player.trigger_player_vfx("blink", 0.1, 0.3, 0.1)
+	
+	# Wait for blink to reach peak darkness, then start glitch
+	await get_tree().create_timer(0.15).timeout
+	
+	# Play glitch effect
+	var glitch_duration = randf_range(1.0, 2.0)
+	player.trigger_player_vfx("glitch", 0.1, glitch_duration, 0.1)
+	
+	# End with another blink after glitch
+	await get_tree().create_timer(glitch_duration).timeout
+	player.trigger_player_vfx("blink", 0.1, 0.3, 0.1)
+	
+	DebugLogger.log_message("IconoclastAvatar", "Player effects sequence complete")
 
 func _process_stare_state(delta):
 	# Process physics for gravity
@@ -256,8 +313,7 @@ func _catch_player(player: Node3D):
 	DebugLogger.log_message("IconoclastAvatar", "Catching player!")
 	
 	# Stop player movement
-	if player.has_method("is_interacting_with_ui"):
-		player.is_interacting_with_ui = true
+	player.is_interacting_with_ui = true
 	
 	# Play reach out animation
 	if animation_tree:
@@ -321,12 +377,7 @@ func _transition_to_main_menu():
 	DebugLogger.log_message("IconoclastAvatar", "Transitioning to main menu after catch")
 	
 	# Use TransitionManager if available
-	if TransitionManager:
-		# This method handles fade to black, scene change, and fade from black
-		TransitionManager.transition_to_scene(main_menu_path)
-	else:
-		# Direct scene change
-		get_tree().change_scene_to_file(main_menu_path)
+	TransitionManager.transition_to_scene(main_menu_path)
 
 func _check_player_line_of_sight() -> bool:
 	var player = CommonUtils.get_player()
@@ -339,7 +390,6 @@ func _check_player_line_of_sight() -> bool:
 		return false
 	
 	var hit_count = 0
-	DebugLogger.log_message("IconoclastAvatar", "Checking %d raycasts for player visibility" % raycasts.size())
 	
 	# Check each raycast
 	for i in range(raycasts.size()):
@@ -349,10 +399,6 @@ func _check_player_line_of_sight() -> bool:
 			if collider == player:
 				hit_count += 1
 				DebugLogger.log_message("IconoclastAvatar", "Raycast %d (%s) HIT player" % [i, raycast.name])
-			else:
-				DebugLogger.log_message("IconoclastAvatar", "Raycast %d (%s) hit %s instead of player" % [i, raycast.name, collider.name if collider else "null"])
-		else:
-			DebugLogger.log_message("IconoclastAvatar", "Raycast %d (%s) not colliding with anything" % [i, raycast.name])
 	
 	# Check if enough raycasts hit the player
 	var result = hit_count >= min_raycast_hits
@@ -365,6 +411,8 @@ func _check_flashlight_status():
 		is_flashlight_on_monster = false
 		return
 	
+	var was_flashlight_on = is_flashlight_on_monster
+	
 	# Check if flashlight is on and pointing at monster
 	if is_currently_visible and player.flashlight_on:
 		# Simple check - if we're visible and flashlight is on, assume it's on us
@@ -372,16 +420,17 @@ func _check_flashlight_status():
 		is_flashlight_on_monster = true
 	else:
 		is_flashlight_on_monster = false
-
-func _trigger_player_glitch_effect():
-	var player = CommonUtils.get_player()
-	if not player:
-		return
 	
-	# Play glitch effect for 1-2 seconds
-	var glitch_duration = randf_range(1.0, 2.0)
-	player.trigger_player_vfx("glitch", 0.1, glitch_duration, 0.1)
-	DebugLogger.log_message("IconoclastAvatar", "Triggered glitch effect for %.2f seconds" % glitch_duration)
+	# Update animation speed if flashlight status changed
+	if was_flashlight_on != is_flashlight_on_monster and animation_tree:
+		if is_flashlight_on_monster:
+			# Slow down animations when flashlight is on monster
+			animation_tree.set_speed_scale(flashlight_speed_factor)
+			DebugLogger.log_message("IconoclastAvatar", "Flashlight on monster - slowing animations")
+		else:
+			# Reset animation speed when flashlight is off
+			animation_tree.reset_speed_scale()
+			DebugLogger.log_message("IconoclastAvatar", "Flashlight off monster - normal animation speed")
 
 func _start_spawn_sequence():
 	DebugLogger.log_message("IconoclastAvatar", "Starting spawn sequence")
@@ -434,11 +483,21 @@ func _on_spawn_finished():
 	if armature:
 		armature.visible = true
 	
+	# Start particle effect
+	if particle_effect:
+		particle_effect.emitting = true
+		DebugLogger.log_message("IconoclastAvatar", "Started particle effect")
+	
 	has_spawned = true
 
 func _start_despawn_sequence():
 	current_state = State.DESPAWNING
 	DebugLogger.log_message("IconoclastAvatar", "Starting despawn sequence")
+	
+	# Stop particle effect
+	if particle_effect:
+		particle_effect.emitting = false
+		DebugLogger.log_message("IconoclastAvatar", "Stopped particle effect")
 	
 	# Play vanish audio
 	if vanish_audio_player:
@@ -500,11 +559,16 @@ func _on_screen_entered():
 		return
 	
 	if not has_been_seen and current_state == State.IDLE:
-		DebugLogger.log_message("IconoclastAvatar", "Starting visibility check - timer set to %.1f seconds" % visibility_confirmation_time)
+		DebugLogger.log_message("IconoclastAvatar", "Starting visibility check")
 		current_state = State.CHECKING_VISIBILITY
-		visibility_check_timer = visibility_confirmation_time
+		visibility_recheck_timer = 0.0  # Check immediately
 
 func _on_screen_exited():
 	is_currently_visible = false
 	is_flashlight_on_monster = false  # Can't be lit if not visible
 	DebugLogger.log_message("IconoclastAvatar", "Monster exited screen (no longer in camera frustum)")
+	
+	# If we were checking visibility, go back to idle
+	if current_state == State.CHECKING_VISIBILITY and not has_been_seen:
+		DebugLogger.log_message("IconoclastAvatar", "Player looked away during visibility check - returning to idle")
+		current_state = State.IDLE

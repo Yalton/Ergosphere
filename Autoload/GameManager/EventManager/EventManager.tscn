@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://bk1kuand7o7xa"]
+[gd_scene load_steps=44 format=3 uid="uid://bk1kuand7o7xa"]
 
 [ext_resource type="Script" uid="uid://b2evp3vtmha88" path="res://Autoload/GameManager/EventManager/Handlers/event_manager.gd" id="1_nnr1m"]
 [ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="2_he56m"]
@@ -38,6 +38,7 @@
 [ext_resource type="AudioStream" uid="uid://c6gvlm6pggjys" path="res://Assets/Audio/Ambience/AmbientHorror/Confusing/metal_open.ogg" id="34_w2vkq"]
 [ext_resource type="AudioStream" uid="uid://b833mqskbys66" path="res://Assets/Audio/Events/power_up.ogg" id="35_5jpdb"]
 [ext_resource type="Script" uid="uid://bv152s5jlgh17" path="res://Autoload/GameManager/EventManager/Handlers/misc_handler.gd" id="35_5qs84"]
+[ext_resource type="AudioStream" uid="uid://babya7gwhdtfr" path="res://Assets/Audio/warp_sfx.ogg" id="36_xifxp"]
 [ext_resource type="Script" uid="uid://ervl52oyi4xo" path="res://Autoload/GameManager/EventManager/Handlers/major_event_handler.gd" id="38_b8hgc"]
 [ext_resource type="PackedScene" uid="uid://40gjctxfvyyn" path="res://Prefabs/Entities/avatar_iconoclast.tscn" id="38_xr1wj"]
 [ext_resource type="Script" uid="uid://omxpai7js0p2" path="res://Autoload/GameManager/EventManager/Handlers/vfx_event_handler.gd" id="41_wm8la"]
@@ -55,6 +56,7 @@ confusing_horror_sounds = Array[AudioStream]([ExtResource("29_8djds"), ExtResour
 
 [node name="positional_event_handler" type="Node" parent="."]
 script = ExtResource("46_8djds")
+warp_sound = ExtResource("36_xifxp")
 micro_blackhole_scene = ExtResource("23_oj86y")
 dark_fog_scene = ExtResource("24_u7gbo")
 iconoclast_scene = ExtResource("38_xr1wj")

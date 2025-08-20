@@ -100,9 +100,9 @@ func wind_down_phase(time: float) -> void:
 	var effects_to_stop = active_sub_effects.duplicate()
 	effects_to_stop.reverse()
 	
-	for effect_id in effects_to_stop:
-		DebugLogger.debug(module_name, "Stopping sub-effect: %s" % effect_id)
-		vfx_manager.stop_effect(effect_id)
+	for sub_effect_id in effects_to_stop:
+		DebugLogger.debug(module_name, "Stopping sub-effect: %s" % sub_effect_id)
+		vfx_manager.stop_effect(sub_effect_id)
 		
 		if stagger_effects and stagger_delay > 0:
 			await get_tree().create_timer(stagger_delay).timeout
@@ -121,8 +121,8 @@ func _cleanup() -> void:
 	
 	# Stop all active sub-effects immediately
 	if vfx_manager and vfx_manager.has_method("stop_effect"):
-		for effect_id in active_sub_effects:
-			vfx_manager.stop_effect(effect_id)
+		for sub_effect_id in active_sub_effects:
+			vfx_manager.stop_effect(sub_effect_id)
 	
 	active_sub_effects.clear()
 	vfx_manager = null
@@ -130,8 +130,8 @@ func _cleanup() -> void:
 func stop_immediately() -> void:
 	# Stop all sub-effects immediately
 	if vfx_manager and vfx_manager.has_method("stop_effect"):
-		for effect_id in active_sub_effects:
-			vfx_manager.stop_effect(effect_id)
+		for sub_effect_id in active_sub_effects:
+			vfx_manager.stop_effect(sub_effect_id)
 	
 	active_sub_effects.clear()
 	

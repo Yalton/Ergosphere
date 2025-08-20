@@ -11,11 +11,12 @@ var module_name: String = "StateManager"
 const DEFAULT_STATES = {
 	"power": "on",
 	"emergency_mode": false,
+	
 	"lockdown": false,
 	"main_door_open": false,
 	"engine_heatsink_operational": true,
-	"all_daily_tasks_complete": false,
-}
+	"all_daily_tasks_complete": false
+	}
 
 # Game states
 var states: Dictionary = {}

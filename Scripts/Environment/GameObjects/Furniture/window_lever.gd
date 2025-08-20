@@ -18,6 +18,16 @@ var module_name: String = "WindowShutterLever"
 ## Reference to the window_shutters scene
 @export var window_shutters: Node3D
 
+@export_group("Visual Indicators")
+## OmniLight to flash when lever is usable
+@export var indicator_light: OmniLight3D
+## Maximum energy for the flashing light
+@export var light_max_energy: float = 2.0
+## Minimum energy for the flashing light
+@export var light_min_energy: float = 0.5
+## Time for one flash cycle in seconds
+@export var flash_duration: float = 1.0
+
 @export_group("Interaction Settings")
 ## Cooldown time after using lever
 @export var interaction_cooldown: float = 5.0
@@ -30,6 +40,7 @@ var is_interacting: bool = false
 var cooldown_timer: Timer
 var reopen_timer: Timer
 var allowed_task_id: String = ""  # Task that allows interaction
+var light_tween: Tween
 
 func _ready() -> void:
 	super._ready()
@@ -58,6 +69,10 @@ func _ready() -> void:
 		GameManager.task_manager.task_completed.connect(_on_task_completed)
 		DebugLogger.log_message(module_name, "Connected to task manager")
 	
+	# Hide indicator light initially
+	if indicator_light:
+		indicator_light.visible = false
+	
 	# Set initial interaction text
 	_update_interaction_text()
 	
@@ -68,10 +83,12 @@ func _on_task_assigned(task_id: String) -> void:
 	if task_id == "open_shutters" and not shutters_open:
 		allowed_task_id = task_id
 		_update_interaction_text()
+		_start_light_flash()
 		DebugLogger.log_message(module_name, "Open shutters task assigned - lever enabled")
 	elif task_id == "hawking_radiation" and shutters_open:
 		allowed_task_id = task_id
 		_update_interaction_text()
+		_start_light_flash()
 		DebugLogger.log_message(module_name, "Hawking radiation task assigned - lever enabled for closing")
 
 func _on_task_completed(task_id: String) -> void:
@@ -82,10 +99,12 @@ func _on_task_completed(task_id: String) -> void:
 		reopen_timer.start(reopen_delay_after_hawking)
 		allowed_task_id = ""
 		_update_interaction_text()
+		_stop_light_flash()
 	# Clear allowed task if it was completed
 	elif task_id == allowed_task_id:
 		allowed_task_id = ""
 		_update_interaction_text()
+		_stop_light_flash()
 		DebugLogger.log_message(module_name, "Task completed - lever disabled")
 
 func _on_reopen_timer_finished() -> void:
@@ -95,6 +114,40 @@ func _on_reopen_timer_finished() -> void:
 	if GameManager.task_manager:
 		GameManager.task_manager.assign_mandatory_tasks(["open_shutters"])
 		DebugLogger.log_message(module_name, "Assigned open_shutters task after hawking delay")
+
+func _start_light_flash() -> void:
+	if not indicator_light:
+		return
+	
+	# Stop any existing tween
+	if light_tween:
+		light_tween.kill()
+	
+	# Show the light
+	indicator_light.visible = true
+	indicator_light.light_energy = light_min_energy
+	
+	# Create flashing tween
+	light_tween = create_tween()
+	light_tween.set_loops()
+	light_tween.tween_property(indicator_light, "light_energy", light_max_energy, flash_duration * 0.5)
+	light_tween.tween_property(indicator_light, "light_energy", light_min_energy, flash_duration * 0.5)
+	
+	DebugLogger.log_message(module_name, "Started indicator light flashing")
+
+func _stop_light_flash() -> void:
+	if not indicator_light:
+		return
+	
+	# Stop tween
+	if light_tween:
+		light_tween.kill()
+		light_tween = null
+	
+	# Hide the light
+	indicator_light.visible = false
+	
+	DebugLogger.log_message(module_name, "Stopped indicator light flashing")
 
 func interact(_player_interaction: PlayerInteractionComponent) -> void:
 	# Check if interaction is allowed
@@ -154,6 +207,9 @@ func _toggle_shutters() -> void:
 	
 	# Update interaction text
 	_update_interaction_text()
+	
+	# Stop light flash since task is complete
+	_stop_light_flash()
 	
 	# Emit signal
 	shutters_toggled.emit(shutters_open)

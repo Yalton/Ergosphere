@@ -254,13 +254,14 @@ _data = {
 material = ExtResource("16_1msa4")
 size = Vector2(0.4, 0.1)
 
-[node name="window_lever" type="StaticBody3D" node_paths=PackedStringArray("lever_animation_player") groups=["window_lever"]]
+[node name="window_lever" type="StaticBody3D" node_paths=PackedStringArray("lever_animation_player", "indicator_light") groups=["window_lever"]]
 collision_layer = 7
 collision_mask = 7
 script = ExtResource("1_uaw60")
 lever_animation_player = NodePath("AnimationPlayer")
 open_animation = "open_window"
 close_animation = "close_window"
+indicator_light = NodePath("OmniLight3D")
 display_name = "window_lever"
 
 [node name="Cube_342" type="MeshInstance3D" parent="."]
@@ -270,6 +271,8 @@ skeleton = NodePath("")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("5_rytq7")]
 associated_task_id = "shutters"
+
+[node name="StateAwareComponent" parent="." instance=ExtResource("11_m1w8p")]
 
 [node name="PowerAnchorPoint" type="MeshInstance3D" parent="."]
 transform = Transform3D(-9.25483e-08, -0.0896607, -3.0355e-08, -0.201032, 1.16484e-08, 0.224412, -0.224412, 2.65415e-08, -0.201032, 3.90716e-06, 0, 0.112322)
@@ -288,8 +291,6 @@ shape = SubResource("BoxShape3D_pbglq")
 
 [node name="BasicInteraction" parent="." instance=ExtResource("10_60vfs")]
 
-[node name="StateAwareComponent" parent="." instance=ExtResource("11_m1w8p")]
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_v35e1")
@@ -304,3 +305,7 @@ occluder = ExtResource("15_rytq7")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 8.74228e-08, 2.73992e-09, 0.999509, 0.031341, -8.73798e-08, 0.031341, -0.999509, 0, 0.477126, -0.039342)
 mesh = SubResource("QuadMesh_loqbq")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.445707, 0)
+omni_range = 3.0

@@ -40,6 +40,7 @@ var sleep_check_interval: float = 3.0
 # Emergency cleanup tracking
 var emergency_cleanup_timers: Dictionary = {}  # task_id -> Timer for cleanup after completion
 var emergency_cleanup_delay: float = 5.0  # Delay before removing completed emergency tasks from UI
+var emergency_failure_cleanup_delay: float = 3.0  # Delay before removing failed emergency tasks from UI
 
 # Ending path tracking
 var ending_paths: Dictionary = {
@@ -252,7 +253,10 @@ func _on_emergency_timer_expired(task_id: String) -> void:
 			break
 	
 	if expired_task:
-		active_emergency_tasks.erase(expired_task)
+		# Don't remove immediately - schedule for removal after delay
+		_schedule_emergency_failure_cleanup(task_id)
+		
+		# Emit failure signal
 		emergency_task_failed.emit(task_id)
 		
 		# Apply failure consequence if any
@@ -264,6 +268,42 @@ func _on_emergency_timer_expired(task_id: String) -> void:
 	if emergency_timers.has(task_id):
 		emergency_timers[task_id].queue_free()
 		emergency_timers.erase(task_id)
+
+func _schedule_emergency_failure_cleanup(task_id: String) -> void:
+	"""Schedule removal of failed emergency task from UI after delay"""
+	# Check if there's already a cleanup timer for this task
+	if emergency_cleanup_timers.has(task_id):
+		return
+	
+	var cleanup_timer = Timer.new()
+	cleanup_timer.wait_time = emergency_failure_cleanup_delay
+	cleanup_timer.one_shot = true
+	cleanup_timer.timeout.connect(_on_emergency_failure_cleanup_timer_expired.bind(task_id))
+	add_child(cleanup_timer)
+	cleanup_timer.start()
+	emergency_cleanup_timers[task_id] = cleanup_timer
+	
+	DebugLogger.debug(module_name, "Scheduled failed emergency task cleanup for %s in %0.1fs" % [task_id, emergency_failure_cleanup_delay])
+
+func _on_emergency_failure_cleanup_timer_expired(task_id: String) -> void:
+	"""Remove failed emergency task from active list after delay"""
+	# Find and remove the task from active emergency list
+	var task_to_remove: BaseTask = null
+	for task in active_emergency_tasks:
+		if task.task_id == task_id:
+			task_to_remove = task
+			break
+	
+	if task_to_remove:
+		active_emergency_tasks.erase(task_to_remove)
+		# Emit signal so UI can remove it
+		emergency_task_removed.emit(task_id)
+		DebugLogger.info(module_name, "Removed failed emergency task from UI: %s" % task_id)
+	
+	# Clean up the cleanup timer
+	if emergency_cleanup_timers.has(task_id):
+		emergency_cleanup_timers[task_id].queue_free()
+		emergency_cleanup_timers.erase(task_id)
 
 func can_be_completed(task_id: String) -> bool: 
 	# Find the task

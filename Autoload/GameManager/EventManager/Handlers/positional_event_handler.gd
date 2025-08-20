@@ -305,9 +305,6 @@ func _execute_iconoclast_spawn() -> Dictionary:
 	if spawned_instance.has_signal("cleanup_requested"):
 		spawned_instance.cleanup_requested.connect(_on_spawned_object_cleanup_requested.bind(spawned_instance))
 	
-	# Trigger spawn VFX
-	_trigger_spawn_glitch_vfx()
-	
 	DebugLogger.log_message("PositionalEventHandler", "Iconoclast spawned at furthest point from player")
 	
 	return {"success": true, "message": "OK"}
@@ -415,9 +412,6 @@ func _spawn_scene_at_location(scene: PackedScene, spawn_point: Node, event_id: S
 	if not spawned_instance.has_method("handle_own_cleanup"):
 		var cleanup_timer = get_tree().create_timer(30.0)
 		cleanup_timer.timeout.connect(_cleanup_specific_object.bind(spawned_instance))
-	
-	# Trigger glitch VFX when spawning supernatural entities
-	_trigger_spawn_glitch_vfx()
 	
 	return {"success": true, "message": "OK"}
 
@@ -630,31 +624,3 @@ func _trigger_psychic_vfx() -> void:
 		DebugLogger.debug("PositionalEventHandler", "Triggered psychic VFX for %.1fs" % effect_duration)
 	else:
 		DebugLogger.warning("PositionalEventHandler", "No VFX component found for psychic effects")
-
-func _trigger_spawn_glitch_vfx() -> void:
-	"""Trigger glitch effect when spawning supernatural entities"""
-	var player = CommonUtils.get_player()
-	if not player:
-		return
-	
-	# Try to get VFX component (player or global)
-	var vfx_component = player.get_node_or_null("PlayerVFXComponent")
-	if not vfx_component:
-		vfx_component = player.vfx_component if "vfx_component" in player else null
-	if not vfx_component:
-		vfx_component = get_tree().get_first_node_in_group("visual_effects_manager")
-	
-	if vfx_component and vfx_component.has_method("invoke_effect"):
-		# Random duration between 2-6 seconds for reality distortion
-		var effect_duration = randf_range(2.0, 6.0)
-		
-		# Abrupt startup for shocking appearance
-		var startup = 0.1
-		var winddown = 0.5
-		
-		# Trigger glitch effect
-		vfx_component.invoke_effect("glitch", startup, effect_duration, winddown)
-		
-		DebugLogger.debug("PositionalEventHandler", "Triggered spawn glitch VFX for %.1fs" % effect_duration)
-	else:
-		DebugLogger.warning("PositionalEventHandler", "No VFX component found for glitch effect")

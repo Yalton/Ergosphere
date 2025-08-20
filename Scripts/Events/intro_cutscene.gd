@@ -63,6 +63,10 @@ func _ready() -> void:
 	if dialogue_container:
 		dialogue_container.hide()
 	
+	# Enable BBCode on the RichTextLabel
+	if dialogue_label:
+		dialogue_label.bbcode_enabled = true
+	
 	# Start cutscene after a short delay
 	await get_tree().create_timer(0.5).timeout
 	show_intro()
@@ -137,10 +141,11 @@ func _type_next_character() -> void:
 	var current_line = dialogue_lines[current_line_index]
 	
 	if current_char_index < current_line.length():
-		# Add next character
+		# Add next character with green outline
 		if dialogue_label:
-			dialogue_label.text = current_line.substr(0, current_char_index + 1)
-			dialogue_label.visible_characters = current_char_index + 1
+			var text_to_show = current_line.substr(0, current_char_index + 1)
+			dialogue_label.text = "[outline_size=2][outline_color=#00ff00][color=white]" + text_to_show + "[/color][/outline_color][/outline_size]"
+			dialogue_label.visible_characters = -1  # Show all formatted characters
 		
 		# Play typing sound with pitch variation
 		if typing_sound and Audio:
@@ -156,9 +161,9 @@ func _complete_current_line() -> void:
 	is_typing = false
 	is_line_complete = true
 	
-	# Show full line
+	# Show full line with green outline
 	if dialogue_label and current_line_index < dialogue_lines.size():
-		dialogue_label.text = dialogue_lines[current_line_index]
+		dialogue_label.text = "[outline_size=2][outline_color=#00ff00][color=white]" + dialogue_lines[current_line_index] + "[/color][/outline_color][/outline_size]"
 		dialogue_label.visible_characters = -1
 	
 	# Play line complete animation if available

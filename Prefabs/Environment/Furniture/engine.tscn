@@ -934,7 +934,7 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 86.9463, -6)
 occluder = ExtResource("26_xebs7")
 
 [node name="Lubricant Spray" type="Node3D" parent="."]
-transform = Transform3D(-5.95183, 0.232261, -0.722365, 0.656034, -1.29511, -5.82171, -0.381283, -5.85395, 1.25931, 0, 18.058, -4.002)
+transform = Transform3D(-5.95183, 0.232262, -0.722365, 0.656034, -1.29511, -5.82171, -0.381284, -5.85395, 1.25931, 0, 18.058, -4.002)
 rotation_edit_mode = 1
 visible = false
 

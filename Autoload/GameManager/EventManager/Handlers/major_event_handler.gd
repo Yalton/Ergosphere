@@ -3,25 +3,6 @@ class_name MajorEventHandler
 
 ## Handles all major station events: hawking radiation, power outages, oxygen failures, and heatsink failures
 
-# ============== HAWKING RADIATION SETTINGS ==============
-@export_group("Hawking Radiation Settings")
-## Time in seconds player has to close shutters after warning
-@export var warning_duration: float = 15.0
-## Duration of the negative effects if player doesn't close shutters
-@export var effect_duration: float = 5.0
-## Movement speed multiplier when affected (0.5 = half speed)
-@export var movement_slow_factor: float = 0.3
-## Particle effect scene to instantiate when player is affected
-@export var particle_effect_scene: PackedScene
-
-@export_group("Hawking Radiation Audio")
-## Sound to play when warning is issued
-@export var hawking_warning_sound: AudioStream
-## Sound to play when effects start
-@export var effect_start_sound: AudioStream
-## Sound to play when effects end  
-@export var effect_end_sound: AudioStream
-
 # ============== POWER OUTAGE SETTINGS ==============
 @export_group("Power Outage Settings")
 ## Sound to play when power fails
@@ -41,21 +22,6 @@ class_name MajorEventHandler
 ## Sound to play when heatsink fails
 @export var heatsink_failure_sound: AudioStream
 
-# Signals for hawking radiation
-signal warning_started
-signal effects_started
-signal effects_ended
-
-# State tracking for hawking radiation
-var player: Node3D
-var original_walk_speed: float
-var original_crouch_speed: float
-var particle_instance: Node3D
-var is_warning_active: bool = false
-var is_effect_active: bool = false
-var window_lever: Node
-var warning_timer: Timer
-
 # State tracking for heatsink failure
 var failed_heatsink: StationEngine = null
 
@@ -69,6 +35,24 @@ func _ready() -> void:
 	]
 	
 	DebugLogger.register_module("MajorEventHandler")
+	
+	# Initialize default states if they don't exist
+	_initialize_states()
+
+func _initialize_states() -> void:
+	var state_manager = get_state_manager()
+	if not state_manager:
+		return
+	
+	# Initialize states with defaults if they don't exist
+	if state_manager.get_state("power") == null:
+		state_manager.set_state("power", "on")
+	
+	if state_manager.get_state("oxygen_system") == null:
+		state_manager.set_state("oxygen_system", "operational")
+	
+	if state_manager.get_state("engine_heatsink_operational") == null:
+		state_manager.set_state("engine_heatsink_operational", true)
 
 func _can_execute_internal() -> Dictionary:
 	DebugLogger.log_message("MajorEventHandler", "Checking if can execute: " + event_data.id)
@@ -106,7 +90,8 @@ func end() -> void:
 	# Clean up based on event type
 	match event_data.id:
 		"hawking_radiation", "shutter_warning":
-			_end_hawking()
+			# Hawking cleanup is now minimal - consequences are handled by HawkingConsequence
+			pass
 		"power_outage":
 			_end_power_outage()
 		"oxygen_failure":
@@ -121,7 +106,7 @@ func end() -> void:
 
 # ============== HAWKING RADIATION FUNCTIONS ==============
 func _can_execute_hawking() -> Dictionary:
-	window_lever = get_tree().get_first_node_in_group("window_lever")
+	var window_lever = get_tree().get_first_node_in_group("window_lever")
 	if not window_lever:
 		return {"success": false, "message": "No window lever found in scene"}
 	
@@ -132,127 +117,23 @@ func _can_execute_hawking() -> Dictionary:
 	return {"success": true, "message": "OK"}
 
 func _execute_hawking() -> Dictionary:
-	# Simply trigger the emergency task - that's all we do
+	# Simply trigger the emergency task and send warning
+	# All consequence handling is done by HawkingConsequence when task fails
 	trigger_emergency_task("hawking_radiation")
 	
 	CommonUtils.send_player_hint("", "WARNING: Hawking radiation detected! Close the shutters immediately!")
 	
+	DebugLogger.log_message("MajorEventHandler", "Hawking radiation task triggered - consequences handled by HawkingConsequence")
+	
 	return {"success": true, "message": "OK"}
-func _show_hawking_warning() -> void:
-	CommonUtils.send_player_hint("", "WARNING: Close the shutters immediately!")
-	
-	if hawking_warning_sound:
-		play_audio(hawking_warning_sound)
-	
-	warning_started.emit()
-
-func _on_shutters_toggled(open_state: bool) -> void:
-	if not is_warning_active or is_effect_active:
-		return
-	
-	if not open_state:
-		_cancel_warning()
-
-func _on_warning_timeout() -> void:
-	if not is_warning_active:
-		return
-		
-	var shutters_open = true
-	if window_lever and window_lever.shutters_open:
-		shutters_open = window_lever.shutters_open
-	
-	if not shutters_open:
-		_cancel_warning()
-		return
-	
-	_apply_hawking_effects()
-
-func _apply_hawking_effects() -> void:
-	is_warning_active = false
-	is_effect_active = true
-
-	player = CommonUtils.get_player()
-
-	original_walk_speed = player.walk_speed
-	player.walk_speed *= movement_slow_factor
-	original_crouch_speed = player.crouch_speed
-	player.crouch_speed *= movement_slow_factor
-	
-	if particle_effect_scene:
-		particle_instance = particle_effect_scene.instantiate()
-		player.add_child(particle_instance)
-		
-		if particle_instance.has_method("set_emitting"):
-			particle_instance.set_emitting(true)
-	
-	_apply_vision_warp()
-	
-	if effect_start_sound:
-		play_audio(effect_start_sound)
-	
-	CommonUtils.send_player_hint("", "You should have closed the shutters...")
-	
-	get_tree().create_timer(effect_duration).timeout.connect(_on_effect_timeout)
-	effects_started.emit()
-
-func _apply_vision_warp() -> void:
-	var effects_component = player.get_node_or_null("PlayerEffectsComponent")
-	if effects_component and effects_component.has_method("apply_vision_warp"):
-		effects_component.apply_vision_warp()
-
-func _on_effect_timeout() -> void:
-	if is_effect_active:
-		_remove_hawking_effects()
-
-func _remove_hawking_effects() -> void:
-	is_effect_active = false
-	
-	if player:
-		player.walk_speed = original_walk_speed
-		player.crouch_speed = original_crouch_speed
-	
-	if particle_instance:
-		particle_instance.queue_free()
-		particle_instance = null
-	
-	_remove_vision_warp()
-	
-	if effect_end_sound:
-		play_audio(effect_end_sound)
-	
-	effects_ended.emit()
-	
-	if is_active:
-		end()
-
-func _remove_vision_warp() -> void:
-	var effects_component = player.get_node_or_null("PlayerEffectsComponent") 
-	if effects_component and effects_component.has_method("remove_vision_warp"):
-		effects_component.remove_vision_warp()
-
-func _cancel_warning() -> void:
-	is_warning_active = false
-	
-	CommonUtils.send_player_hint("", "Good, the shutters are closed.")
-	
-	if is_active:
-		end()
-
-func _end_hawking() -> void:
-	if is_effect_active:
-		_remove_hawking_effects()
-	
-	is_warning_active = false
-	
-	if warning_timer:
-		warning_timer.queue_free()
-	
-	if window_lever and window_lever.has_signal("shutters_toggled"):
-		if window_lever.shutters_toggled.is_connected(_on_shutters_toggled):
-			window_lever.shutters_toggled.disconnect(_on_shutters_toggled)
 
 # ============== POWER OUTAGE FUNCTIONS ==============
 func _can_execute_power_outage() -> Dictionary:
+	# Initialize state if needed
+	var state_manager = get_state_manager()
+	if state_manager and state_manager.get_state("power") == null:
+		state_manager.set_state("power", "on")
+	
 	if not check_state("power", "on"):
 		return {"success": false, "message": "Power is already off"}
 	
@@ -289,6 +170,11 @@ func _end_power_outage() -> void:
 
 # ============== OXYGEN FAILURE FUNCTIONS ==============
 func _can_execute_oxygen_failure() -> Dictionary:
+	# Initialize state if needed
+	var state_manager = get_state_manager()
+	if state_manager and state_manager.get_state("oxygen_system") == null:
+		state_manager.set_state("oxygen_system", "operational")
+	
 	if not check_state("oxygen_system", "operational"):
 		return {"success": false, "message": "Oxygen system already failed"}
 	
@@ -318,6 +204,11 @@ func _end_oxygen_failure() -> void:
 
 # ============== HEATSINK FAILURE FUNCTIONS ==============
 func _can_execute_heatsink_failure() -> Dictionary:
+	# Initialize state if needed
+	var state_manager = get_state_manager()
+	if state_manager and state_manager.get_state("engine_heatsink_operational") == null:
+		state_manager.set_state("engine_heatsink_operational", true)
+	
 	if not check_state("engine_heatsink_operational", true):
 		return {"success": false, "message": "Engine heatsink already failed"}
 	

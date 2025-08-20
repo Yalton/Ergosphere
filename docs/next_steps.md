@@ -1,24 +1,26 @@
 Make monster work
 
-
 Test game 
 
 Create new build of game
 
 Get feedback 
 
+Write up all the log files 
+
 Test more and polish more 
 
-Write up all the log files 
+Finish polishing, then publish it 
 
 
 ## Misc 
 
 Break up player script, too big 
 
+Add sfx to some of the visual effects 
 
 
-## Bugs
+## Bug
 
-Allign telescope is available before shutters are opened 
+Failed tasks need to be removed from task list and task tree 
 
