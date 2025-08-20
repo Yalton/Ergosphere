@@ -45,8 +45,6 @@ var is_typing: bool = false
 var is_line_complete: bool = false
 var typing_timer: Timer
 var skip_current_line: bool = false
-var line_delay_timer: Timer = null
-var is_waiting_for_next_line: bool = false
 var is_cutscene_active: bool = false
 
 func _ready() -> void:
@@ -87,10 +85,10 @@ func _input(event: InputEvent) -> void:
 			# Currently typing - complete the current line
 			skip_current_line = true
 			DebugLogger.debug(module_name, "Skipping current line typing")
-		elif is_waiting_for_next_line:
-			# Waiting between lines - skip the delay and start next line immediately
-			_skip_line_delay()
-			DebugLogger.debug(module_name, "Skipping line delay")
+		elif is_line_complete:
+			# Line is complete - advance to next line
+			DebugLogger.debug(module_name, "Advancing to next line")
+			_advance_to_next_line()
 
 func show_intro() -> void:
 	is_cutscene_active = true
@@ -121,7 +119,6 @@ func _start_line() -> void:
 	current_char_index = 0
 	is_typing = true
 	is_line_complete = false
-	is_waiting_for_next_line = false
 	skip_current_line = false
 	
 	if dialogue_label:
@@ -170,40 +167,21 @@ func _complete_current_line() -> void:
 	if animation_player and animation_player.has_animation("line_complete"):
 		animation_player.play("line_complete")
 	
+	DebugLogger.debug(module_name, "Line " + str(current_line_index) + " complete, waiting for player input")
+
+func _advance_to_next_line() -> void:
 	current_line_index += 1
 	
-	# Wait before next line
-	if current_line_index < dialogue_lines.size():
-		is_waiting_for_next_line = true
-		line_delay_timer = CommonUtils.create_one_shot_timer(self, line_completion_delay, _start_line)
-	else:
-		# Last line complete, wait before transitioning
-		is_waiting_for_next_line = true
-		line_delay_timer = CommonUtils.create_one_shot_timer(self, final_transition_delay, _finish_cutscene)
-
-func _skip_line_delay() -> void:
-	# Cancel the current delay timer if it exists
-	if line_delay_timer and is_instance_valid(line_delay_timer):
-		line_delay_timer.queue_free()
-		line_delay_timer = null
-	
-	is_waiting_for_next_line = false
-	
-	# Immediately proceed to next action
 	if current_line_index < dialogue_lines.size():
 		_start_line()
 	else:
+		# All lines shown, finish cutscene
 		_finish_cutscene()
 
 func _finish_cutscene() -> void:
 	is_cutscene_active = false
 	is_typing = false
-	is_waiting_for_next_line = false
-	
-	# Clean up any remaining timers
-	if line_delay_timer and is_instance_valid(line_delay_timer):
-		line_delay_timer.queue_free()
-		line_delay_timer = null
+	is_line_complete = false
 	
 	DebugLogger.info(module_name, "Cutscene finished, transitioning to game")
 	

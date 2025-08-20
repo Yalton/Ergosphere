@@ -16,12 +16,16 @@ class_name StorageContainer
 
 @export var item_delivered_audio: AudioStreamPlayer3D
 
+## Omnilight that flashes when container is openable
+@export var flash_light: OmniLight3D
+
 # Container state
 var is_locked: bool = true
 var contained_item: Node3D = null
 var original_emissive_material: Material = null
 var auto_close_timer: Timer
 var interaction_forwarder: Node3D = null
+var light_flash_tween: Tween = null
 
 func _ready() -> void:
 	super._ready()
@@ -75,6 +79,9 @@ func interact(player_interaction: PlayerInteractionComponent) -> void:
 	if is_open:
 		DebugLogger.debug(module_name, "Container already open")
 		return
+	
+	# Stop light flashing when opening
+	_stop_light_flash()
 	
 	# Open the container
 	open_container()
@@ -246,9 +253,48 @@ func set_locked(locked: bool) -> void:
 			emissive_mesh.set_surface_override_material(2, material)
 			DebugLogger.debug(module_name, "Set emission enabled: " + str(not locked))
 	
-	if !locked: 
-		item_delivered_audio.play()
+	# Handle light flashing
+	if not locked:
+		_start_light_flash()
+		if item_delivered_audio:
+			item_delivered_audio.play()
+	else:
+		_stop_light_flash()
+	
 	DebugLogger.debug(module_name, "Container " + ("locked" if locked else "unlocked"))
+
+## Start the omnilight flashing effect
+func _start_light_flash() -> void:
+	if not flash_light:
+		return
+	
+	# Make sure light is visible and store initial energy
+	flash_light.visible = true
+	var max_energy = flash_light.light_energy
+	
+	# Stop any existing tween
+	if light_flash_tween:
+		light_flash_tween.kill()
+	
+	# Create a looping tween for the flashing effect
+	light_flash_tween = create_tween()
+	light_flash_tween.set_loops()
+	
+	# Flash from max energy to 0 and back
+	light_flash_tween.tween_property(flash_light, "light_energy", 0.0, 0.25)
+	light_flash_tween.tween_property(flash_light, "light_energy", max_energy, 0.25)
+	
+	DebugLogger.debug(module_name, "Started light flashing")
+
+## Stop the omnilight flashing effect
+func _stop_light_flash() -> void:
+	if light_flash_tween:
+		light_flash_tween.kill()
+		light_flash_tween = null
+	
+	if flash_light:
+		flash_light.visible = false
+		DebugLogger.debug(module_name, "Stopped light flashing")
 
 ## Override interaction text
 func get_interaction_text() -> String:
@@ -266,6 +312,9 @@ func reset_container() -> void:
 	# Stop any timers
 	auto_close_timer.stop()
 	set_process(false)
+	
+	# Stop light flashing
+	_stop_light_flash()
 	
 	# Remove any remaining item
 	if contained_item:

@@ -12,5 +12,5 @@ disruption_percentage = 20
 min_day = 1
 cooldown = 60.0
 tags = Array[String]([])
-event_type = "NONE"
+event_type = "MISC_DISRUPTIVE"
 metadata/_custom_type_script = "uid://clf1310qk2c05"

@@ -46,12 +46,20 @@ var module_name: String = "EventManager"
 @export var long_delay_min: float = 14.0
 @export var long_delay_max: float = 30.0
 
+@export_group("Type-Based Cooldowns")
+## Base cooldown range for STATION_EMERGENCY events (divided by day number)
+@export var emergency_cooldown_base_min: float = 100.0
+@export var emergency_cooldown_base_max: float = 200.0
+
 # Internal state
 var current_points: float = 0.0
 var current_disruption: int = 0
 var active_events: Dictionary = {} # event_id -> {resource: EventData, handler: EventHandler, start_time: float}
 var event_occurrences: Dictionary = {} # event_id -> int
 var event_cooldowns: Dictionary = {} # event_id -> float (time remaining)
+
+# Type-based cooldowns
+var type_cooldowns: Dictionary = {} # event_type -> float (time remaining)
 
 # Evaluation timing
 var time_since_last_evaluation: float = 0.0
@@ -131,6 +139,7 @@ func _reset_event_system() -> void:
 	active_events.clear()
 	event_occurrences.clear()
 	event_cooldowns.clear()
+	type_cooldowns.clear()  # Clear type cooldowns
 	current_points = 0.0
 	current_disruption = 0
 	time_since_last_evaluation = 0.0
@@ -176,6 +185,13 @@ func _process(delta: float) -> void:
 		event_cooldowns[event_id] -= delta
 		if event_cooldowns[event_id] <= 0:
 			event_cooldowns.erase(event_id)
+	
+	# Update type-based cooldowns
+	for event_type in type_cooldowns.keys():
+		type_cooldowns[event_type] -= delta
+		if type_cooldowns[event_type] <= 0:
+			type_cooldowns.erase(event_type)
+			DebugLogger.debug(module_name, "Type cooldown expired for: " + event_type)
 	
 	# Check for stuck events and clean them up
 	_check_stuck_events()
@@ -238,6 +254,14 @@ func _evaluate_and_trigger_event() -> void:
 				current_points -= modified_cost
 				triggered = true
 				last_successful_event_time = Time.get_ticks_msec() / 1000.0
+				
+				# Apply type-based cooldown if this is a STATION_EMERGENCY
+				if event.event_type == "STATION_EMERGENCY":
+					var current_day = GameManager.get_current_day()
+					var cooldown_time = randf_range(emergency_cooldown_base_min, emergency_cooldown_base_max) / float(current_day)
+					type_cooldowns["STATION_EMERGENCY"] = cooldown_time
+					DebugLogger.info(module_name, "Started STATION_EMERGENCY cooldown: %.1f seconds" % cooldown_time)
+				
 				DebugLogger.info(module_name, "Triggered event: " + event.name + " (cost: " + str(modified_cost) + ")" + " points remaining " + str(current_points))
 				break
 			else:
@@ -256,6 +280,11 @@ func _can_trigger_event(event: EventData) -> bool:
 	
 	# Check cooldown
 	if event_cooldowns.has(event.id):
+		return false
+	
+	# Check type-based cooldown for STATION_EMERGENCY events
+	if event.event_type == "STATION_EMERGENCY" and type_cooldowns.has("STATION_EMERGENCY"):
+		DebugLogger.debug(module_name, "STATION_EMERGENCY on cooldown for %.1f more seconds" % type_cooldowns["STATION_EMERGENCY"])
 		return false
 	
 	# Check day requirement
@@ -302,6 +331,7 @@ func start_new_day(day_number: int) -> void:
 	
 	# Clear all cooldowns for fresh start
 	event_cooldowns.clear()
+	type_cooldowns.clear()  # Clear type cooldowns at day start
 	
 	# Normalize occurrences at day start
 	_normalize_occurrences()
@@ -551,6 +581,13 @@ func trigger_event(event_id: String) -> void:
 				DebugLogger.error(module_name, "Force trigger still failed after reset: " + event_id)
 	else:
 		DebugLogger.info(module_name, "Force triggered event: " + event_id)
+		
+		# Apply type-based cooldown even for forced events if they're STATION_EMERGENCY
+		if event_data.event_type == "STATION_EMERGENCY":
+			var current_day = GameManager.get_current_day()
+			var cooldown_time = randf_range(emergency_cooldown_base_min, emergency_cooldown_base_max) / float(current_day)
+			type_cooldowns["STATION_EMERGENCY"] = cooldown_time
+			DebugLogger.info(module_name, "Started STATION_EMERGENCY cooldown (forced): %.1f seconds" % cooldown_time)
 
 func end_event(event_id: String) -> void:
 	"""End an active event"""
@@ -619,6 +656,7 @@ func get_debug_info() -> Dictionary:
 		"disruption": current_disruption,
 		"active_events": active_events.keys(),
 		"cooldowns": event_cooldowns,
+		"type_cooldowns": type_cooldowns,
 		"occurrences": event_occurrences,
 		"next_evaluation": next_evaluation_time - time_since_last_evaluation,
 		"game_running": game_is_running,

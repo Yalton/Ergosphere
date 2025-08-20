@@ -1,10 +1,9 @@
-Make monster work
-
-Test game 
-
-Create new build of game
 
 Get feedback 
+
+Fix issues 
+
+Get more feedback 
 
 Write up all the log files 
 
@@ -15,29 +14,23 @@ Finish polishing, then publish it
 
 ## Misc 
 
+Fix telescope terminal
+
+### Audio
+
 Add sfx to some of the visual effects 
-
-Dont auto skip in the into, allow player to skip 
-
-~~Chair collision needs work~~
 
 Eating a meal needs an sfx
 
-Emmissive light on storage interface needs to be brighter
+Iconoclast needs audio sting for when it is seen
 
-Emergency events happening this often are annoying
+Needs sting for when it spawns
 
-~~Make tanking the Hawking radiation cause a guanteed iconoclast spawn~~
+Intro cutscene needs audio 
 
 ## Bug
 
-~~Dev terminal prints all messages twice~~
-
-~~Dev terminal shows player admin commands~~
-
-~~Player can collide with carried object~~
-
-~~Carried object causes oclusion~~
+Iconoclast broke after player refactor
 
 Stats screen is broken  Incorrect stats displayed
 
@@ -46,4 +39,3 @@ Ordering system seems broken
 Resolution does nothing in full screen, only windowed 
 
 Oxygen Filter failure is broken
-

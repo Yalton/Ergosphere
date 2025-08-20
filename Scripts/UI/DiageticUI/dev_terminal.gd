@@ -40,7 +40,10 @@ func _ready() -> void:
 	# Clear output on start
 	if output_label:
 		output_label.text = ""
-		
+	
+	# Connect to DevConsoleManager's output signal
+	DevConsoleManager.output_requested.connect(_on_output_requested)
+	
 	# Add welcome message
 	add_line("[color=#%s]Dev Console v1.0[/color]" % system_color.to_html(), false)
 	add_line("[color=#%s]Type 'help' for available commands[/color]" % system_color.to_html(), false)
@@ -109,6 +112,7 @@ func _on_input_submitted(text: String) -> void:
 	# Display the command in console
 	add_line("> " + text)
 	
+	# Set this console UI as active in DevConsoleManager
 	DevConsoleManager.set_console_ui(self, true)
 	
 	# Process the command
@@ -138,6 +142,20 @@ func navigate_history(direction: int) -> void:
 		input_field.caret_column = input_field.text.length()
 	else:
 		input_field.clear()
+
+func _on_output_requested(text: String, type: String) -> void:
+	# Handle output from DevConsoleManager
+	match type:
+		"system":
+			add_system_message(text)
+		"error":
+			add_error_message(text)
+		"warning":
+			add_warning_message(text)
+		_:
+			add_line(text)
+	
+	DebugLogger.debug(module_name, "Output received: [%s] %s" % [type, text])
 
 func add_line(text: String, use_bbcode: bool = true) -> void:
 	if not output_label:

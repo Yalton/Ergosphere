@@ -368,12 +368,13 @@ size = Vector3(3.75, 1.8, 0.05)
 [sub_resource type="BoxShape3D" id="BoxShape3D_fsrny"]
 size = Vector3(4, 2, 2)
 
-[node name="StorageContainer" type="Node3D" node_paths=PackedStringArray("item_spawn_point", "emissive_mesh", "interaction_area", "item_delivered_audio", "animation_player")]
+[node name="StorageContainer" type="Node3D" node_paths=PackedStringArray("item_spawn_point", "emissive_mesh", "interaction_area", "item_delivered_audio", "flash_light", "animation_player")]
 script = ExtResource("1_hgwfn")
 item_spawn_point = NodePath("StorageContainerBody/SpawnLocation")
 emissive_mesh = NodePath("StorageContainerBody/Door/Cube_362")
 interaction_area = NodePath("InteractionForwarder")
 item_delivered_audio = NodePath("ItemDelivered")
+flash_light = NodePath("OmniLight3D")
 animation_player = NodePath("AnimationPlayer")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("2_uxhbg")]
@@ -458,3 +459,8 @@ bus = &"SFX"
 stream = ExtResource("14_eqsrc")
 attenuation_model = 1
 bus = &"SFX"
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.290833, 1.30896)
+visible = false
+light_color = Color(0, 1, 0, 1)

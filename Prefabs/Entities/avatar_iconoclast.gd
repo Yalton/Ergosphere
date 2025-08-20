@@ -413,8 +413,15 @@ func _check_flashlight_status():
 	
 	var was_flashlight_on = is_flashlight_on_monster
 	
+	# Check if flashlight is on through the component
+	var flashlight_component = player.flashlight_component
+	if not flashlight_component:
+		DebugLogger.warning("IconoclastAvatar", "Player has no flashlight component")
+		is_flashlight_on_monster = false
+		return
+	
 	# Check if flashlight is on and pointing at monster
-	if is_currently_visible and player.flashlight_on:
+	if is_currently_visible and flashlight_component.flashlight_on:
 		# Simple check - if we're visible and flashlight is on, assume it's on us
 		# Later you could add more sophisticated directional checking
 		is_flashlight_on_monster = true
