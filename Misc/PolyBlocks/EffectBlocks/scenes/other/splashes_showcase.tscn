@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://d37vvymt438q7"]
 
-[ext_resource type="PackedScene" uid="uid://dgwbuuw8alf2q" path="res://Misc/PolyBlocks/EffectBlocks/assets/splash/blood_splash.tscn" id="1_vfgoe"]
-[ext_resource type="PackedScene" uid="uid://c7nswcktmhieu" path="res://Misc/PolyBlocks/EffectBlocks/assets/splash/slime_splash_2.tscn" id="2_o1806"]
-[ext_resource type="PackedScene" uid="uid://dvl13042jqtk0" path="res://Misc/PolyBlocks/EffectBlocks/assets/splash/slime_splash_1.tscn" id="3_fj0l3"]
+[ext_resource type="PackedScene" uid="uid://dgwbuuw8alf2q" path="res://Assets/VFX/assets/splash/blood_splash.tscn" id="1_vfgoe"]
+[ext_resource type="PackedScene" uid="uid://c7nswcktmhieu" path="res://Assets/VFX/assets/splash/slime_splash_2.tscn" id="2_o1806"]
+[ext_resource type="PackedScene" uid="uid://dvl13042jqtk0" path="res://Assets/VFX/assets/splash/slime_splash_1.tscn" id="3_fj0l3"]
 
 [node name="SplashesShowcase" type="Node3D"]
 

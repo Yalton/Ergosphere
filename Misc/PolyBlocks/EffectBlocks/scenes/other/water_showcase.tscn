@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://dyhj7hi0s188j"]
 
-[ext_resource type="PackedScene" uid="uid://dvgfebuvxk1jv" path="res://Misc/PolyBlocks/EffectBlocks/assets/water/water.tscn" id="1_i6uf6"]
-[ext_resource type="PackedScene" uid="uid://b3w0etcxx56n6" path="res://Misc/PolyBlocks/EffectBlocks/assets/water/water_foam.tscn" id="2_mevgi"]
-[ext_resource type="PackedScene" uid="uid://d1kl2r3k62818" path="res://Misc/PolyBlocks/EffectBlocks/assets/water/water_foam_long.tscn" id="3_1hu60"]
+[ext_resource type="PackedScene" uid="uid://dvgfebuvxk1jv" path="res://Assets/VFX/assets/water/water.tscn" id="1_i6uf6"]
+[ext_resource type="PackedScene" uid="uid://b3w0etcxx56n6" path="res://Assets/VFX/assets/water/water_foam.tscn" id="2_mevgi"]
+[ext_resource type="PackedScene" uid="uid://d1kl2r3k62818" path="res://Assets/VFX/assets/water/water_foam_long.tscn" id="3_1hu60"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8s508"]
 vertex_color_use_as_albedo = true

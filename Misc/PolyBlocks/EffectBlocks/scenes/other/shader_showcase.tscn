@@ -2,13 +2,13 @@
 
 [ext_resource type="Shader" uid="uid://djsciudlntmpw" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/stylized_assets.gdshader" id="1_rjpy8"]
 [ext_resource type="Shader" uid="uid://cvpvc1ytdnfnh" path="res://Misc/PolyBlocks/EffectBlocks/source_files/shaders/hologram.gdshader" id="2_cujgo"]
-[ext_resource type="PackedScene" uid="uid://1b06vhur3mw3" path="res://Misc/PolyBlocks/EffectBlocks/assets/energy/plasma_beam.tscn" id="3_ivfbq"]
-[ext_resource type="PackedScene" uid="uid://c8358n4rj4dg1" path="res://Misc/PolyBlocks/EffectBlocks/assets/energy/electric_waves.tscn" id="4_paqg3"]
-[ext_resource type="PackedScene" uid="uid://b465dgbgga41q" path="res://Misc/PolyBlocks/EffectBlocks/assets/energy/lightning.tscn" id="5_uj820"]
-[ext_resource type="PackedScene" uid="uid://b2mxxtc218bmu" path="res://Misc/PolyBlocks/EffectBlocks/assets/energy/lightning_ball.tscn" id="6_n0205"]
-[ext_resource type="PackedScene" uid="uid://ca0xt7tqp4c1g" path="res://Misc/PolyBlocks/EffectBlocks/assets/energy/electric_sparks_1.tscn" id="7_csyp5"]
-[ext_resource type="PackedScene" uid="uid://cfa73whw1rlnd" path="res://Misc/PolyBlocks/EffectBlocks/assets/energy/electric_sparks_2.tscn" id="8_o3j38"]
-[ext_resource type="PackedScene" uid="uid://d32gtjkub4byi" path="res://Misc/PolyBlocks/EffectBlocks/assets/other/portal.tscn" id="9_61iy4"]
+[ext_resource type="PackedScene" uid="uid://1b06vhur3mw3" path="res://Assets/VFX/assets/energy/plasma_beam.tscn" id="3_ivfbq"]
+[ext_resource type="PackedScene" uid="uid://c8358n4rj4dg1" path="res://Assets/VFX/assets/energy/electric_waves.tscn" id="4_paqg3"]
+[ext_resource type="PackedScene" uid="uid://b465dgbgga41q" path="res://Assets/VFX/assets/energy/lightning.tscn" id="5_uj820"]
+[ext_resource type="PackedScene" uid="uid://b2mxxtc218bmu" path="res://Assets/VFX/assets/energy/lightning_ball.tscn" id="6_n0205"]
+[ext_resource type="PackedScene" uid="uid://ca0xt7tqp4c1g" path="res://Assets/VFX/assets/energy/electric_sparks_1.tscn" id="7_csyp5"]
+[ext_resource type="PackedScene" uid="uid://cfa73whw1rlnd" path="res://Assets/VFX/assets/energy/electric_sparks_2.tscn" id="8_o3j38"]
+[ext_resource type="PackedScene" uid="uid://d32gtjkub4byi" path="res://Assets/VFX/assets/other/portal.tscn" id="9_61iy4"]
 
 [sub_resource type="Gradient" id="Gradient_enxou"]
 offsets = PackedFloat32Array(0)

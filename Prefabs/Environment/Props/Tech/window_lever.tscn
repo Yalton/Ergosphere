@@ -262,6 +262,7 @@ lever_animation_player = NodePath("AnimationPlayer")
 open_animation = "open_window"
 close_animation = "close_window"
 indicator_light = NodePath("OmniLight3D")
+light_min_energy = 0.1
 display_name = "window_lever"
 
 [node name="Cube_342" type="MeshInstance3D" parent="."]
@@ -307,5 +308,5 @@ transform = Transform3D(-1, 0, 8.74228e-08, 2.73992e-09, 0.999509, 0.031341, -8.
 mesh = SubResource("QuadMesh_loqbq")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.445707, 0)
-omni_range = 3.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.445707, -0.224039)
+light_color = Color(0, 1, 0, 1)

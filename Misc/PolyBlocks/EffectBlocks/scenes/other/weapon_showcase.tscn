@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=3 uid="uid://djq2vibkd0x0f"]
 
 [ext_resource type="ArrayMesh" uid="uid://i6rgjl7dtsa5" path="res://Misc/PolyBlocks/EffectBlocks/source_files/meshes/gun.mesh" id="1_pmaih"]
-[ext_resource type="PackedScene" uid="uid://b811lwp060mex" path="res://Misc/PolyBlocks/EffectBlocks/assets/muzzle_flash/muzzle_flash_1.tscn" id="1_xfrjk"]
+[ext_resource type="PackedScene" uid="uid://b811lwp060mex" path="res://Assets/VFX/assets/muzzle_flash/muzzle_flash_1.tscn" id="1_xfrjk"]
 [ext_resource type="Script" uid="uid://c00u8jj8smgv2" path="res://Misc/PolyBlocks/EffectBlocks/source_files/scripts/gun_backfire.gd" id="2_pcb7a"]
-[ext_resource type="PackedScene" uid="uid://b1nee2tr4peu3" path="res://Misc/PolyBlocks/EffectBlocks/assets/muzzle_flash/muzzle_flash_machinegun.tscn" id="3_vas12"]
-[ext_resource type="PackedScene" uid="uid://bw5rix0opmpn2" path="res://Misc/PolyBlocks/EffectBlocks/assets/muzzle_flash/flamethrower.tscn" id="5_0uis1"]
-[ext_resource type="PackedScene" uid="uid://d2w6wo71rufjo" path="res://Misc/PolyBlocks/EffectBlocks/assets/muzzle_flash/muzzle_flash_fps.tscn" id="6_s57h1"]
+[ext_resource type="PackedScene" uid="uid://b1nee2tr4peu3" path="res://Assets/VFX/assets/muzzle_flash/muzzle_flash_machinegun.tscn" id="3_vas12"]
+[ext_resource type="PackedScene" uid="uid://bw5rix0opmpn2" path="res://Assets/VFX/assets/muzzle_flash/flamethrower.tscn" id="5_0uis1"]
+[ext_resource type="PackedScene" uid="uid://d2w6wo71rufjo" path="res://Assets/VFX/assets/muzzle_flash/muzzle_flash_fps.tscn" id="6_s57h1"]
 
 [sub_resource type="Curve" id="Curve_g36yp"]
 _data = [Vector2(0.19403, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

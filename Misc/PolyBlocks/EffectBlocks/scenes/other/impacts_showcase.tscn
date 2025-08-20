@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://bwt5gp78i8a5i"]
 
-[ext_resource type="PackedScene" uid="uid://dy55uu2dsjqa5" path="res://Misc/PolyBlocks/EffectBlocks/assets/impacts/impact_1.tscn" id="1_wa5tw"]
-[ext_resource type="PackedScene" uid="uid://b82knjqmqtsq" path="res://Misc/PolyBlocks/EffectBlocks/assets/impacts/impact_2.tscn" id="2_jqwfk"]
-[ext_resource type="PackedScene" uid="uid://bt54qs0k6qjdm" path="res://Misc/PolyBlocks/EffectBlocks/assets/impacts/impact_3.tscn" id="3_bh42j"]
-[ext_resource type="PackedScene" uid="uid://d2j0uv6bcok6k" path="res://Misc/PolyBlocks/EffectBlocks/assets/impacts/impact_4.tscn" id="4_h5tbe"]
-[ext_resource type="PackedScene" uid="uid://cqaq6i2s7kwfa" path="res://Misc/PolyBlocks/EffectBlocks/assets/impacts/impact_5.tscn" id="5_i6yte"]
-[ext_resource type="PackedScene" uid="uid://bdfdt8mjkoc66" path="res://Misc/PolyBlocks/EffectBlocks/assets/impacts/impact_6.tscn" id="6_vb0y6"]
-[ext_resource type="PackedScene" uid="uid://2rki6j6j0bnu" path="res://Misc/PolyBlocks/EffectBlocks/assets/impacts/impact_7.tscn" id="7_io3qb"]
-[ext_resource type="PackedScene" uid="uid://7frx18ejffbl" path="res://Misc/PolyBlocks/EffectBlocks/assets/impacts/impact_8.tscn" id="8_ewyed"]
+[ext_resource type="PackedScene" uid="uid://dy55uu2dsjqa5" path="res://Assets/VFX/assets/impacts/impact_1.tscn" id="1_wa5tw"]
+[ext_resource type="PackedScene" uid="uid://b82knjqmqtsq" path="res://Assets/VFX/assets/impacts/impact_2.tscn" id="2_jqwfk"]
+[ext_resource type="PackedScene" uid="uid://bt54qs0k6qjdm" path="res://Assets/VFX/assets/impacts/impact_3.tscn" id="3_bh42j"]
+[ext_resource type="PackedScene" uid="uid://d2j0uv6bcok6k" path="res://Assets/VFX/assets/impacts/impact_4.tscn" id="4_h5tbe"]
+[ext_resource type="PackedScene" uid="uid://cqaq6i2s7kwfa" path="res://Assets/VFX/assets/impacts/impact_5.tscn" id="5_i6yte"]
+[ext_resource type="PackedScene" uid="uid://bdfdt8mjkoc66" path="res://Assets/VFX/assets/impacts/impact_6.tscn" id="6_vb0y6"]
+[ext_resource type="PackedScene" uid="uid://2rki6j6j0bnu" path="res://Assets/VFX/assets/impacts/impact_7.tscn" id="7_io3qb"]
+[ext_resource type="PackedScene" uid="uid://7frx18ejffbl" path="res://Assets/VFX/assets/impacts/impact_8.tscn" id="8_ewyed"]
 
 [node name="ImpactsShowcase" type="Node3D"]
 
