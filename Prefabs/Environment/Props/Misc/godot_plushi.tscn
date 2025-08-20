@@ -1,11 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://ds7ixk6l2mkqn"]
+[gd_scene load_steps=8 format=3 uid="uid://ds7ixk6l2mkqn"]
 
 [ext_resource type="PackedScene" uid="uid://cm5jan00lq551" path="res://Assets/Models/Station/Props/godot_plushie/godot_plushie.gltf" id="1_4ha3a"]
+[ext_resource type="Script" uid="uid://mvrkjndrerh3" path="res://Scripts/Environment/GameObjects/Abstract/GameObject.gd" id="1_pcc7i"]
+[ext_resource type="PackedScene" uid="uid://cio4x05ipvslu" path="res://Prefabs/Components/Interactions/CarryableComponent.tscn" id="3_5vyrw"]
+[ext_resource type="PackedScene" uid="uid://bf5nnwarq1u0l" path="res://Prefabs/Components/ImpactSounds.tscn" id="4_s4vyl"]
+[ext_resource type="AudioStream" uid="uid://c2v4h8dhqi6yg" path="res://Assets/Audio/Impacts/soft_1.ogg" id="5_jpifw"]
+[ext_resource type="AudioStream" uid="uid://cycv6ijcvg07b" path="res://Assets/Audio/Impacts/hollow_1.ogg" id="6_5vyrw"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0nw6t"]
 radius = 0.8
 
 [node name="GodotPlushi" type="RigidBody3D"]
+script = ExtResource("1_pcc7i")
 
 [node name="godot_plushie" parent="." instance=ExtResource("1_4ha3a")]
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0)
@@ -13,3 +19,9 @@ transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.50101, 0)
 shape = SubResource("SphereShape3D_0nw6t")
+
+[node name="CarryableComponent" parent="." instance=ExtResource("3_5vyrw")]
+
+[node name="ImpactSounds" parent="." instance=ExtResource("4_s4vyl")]
+impact_sounds = Array[AudioStream]([ExtResource("5_jpifw"), ExtResource("6_5vyrw")])
+min_volume_db = -10.0
