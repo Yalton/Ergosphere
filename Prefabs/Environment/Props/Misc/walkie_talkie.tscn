@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://bhuh44fjonvjm" path="res://Assets/Audio/Impacts/Metal/metal_2.ogg" id="6_dk3jt"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_csmwl"]
-size = Vector3(0.12, 0.12, 0.085)
+size = Vector3(0.36, 0.36, 0.255)
 
 [node name="walkie_talkie" type="RigidBody3D"]
 collision_layer = 3
@@ -17,11 +17,12 @@ script = ExtResource("1_ads4i")
 display_name = "Walkie talkie"
 
 [node name="walkie_talkie" parent="." instance=ExtResource("1_vb0ni")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 
 [node name="CarryableComponent" parent="." instance=ExtResource("3_3srcc")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.062145, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.172903, 0)
 shape = SubResource("BoxShape3D_csmwl")
 
 [node name="ImpactSounds" parent="." instance=ExtResource("4_mx5gu")]

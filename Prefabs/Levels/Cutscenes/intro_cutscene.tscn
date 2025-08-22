@@ -1,10 +1,11 @@
-[gd_scene load_steps=54 format=4 uid="uid://bn1o17c7p8vkj"]
+[gd_scene load_steps=55 format=4 uid="uid://bn1o17c7p8vkj"]
 
 [ext_resource type="Script" uid="uid://cdjhgy0msaylc" path="res://Scripts/Events/intro_cutscene.gd" id="1_n7xyp"]
 [ext_resource type="Shader" uid="uid://sc71vvscj345" path="res://Assets/VFX/Shader/vignette.gdshader" id="1_rvmyu"]
 [ext_resource type="AudioStream" uid="uid://18pkb8xbgll8" path="res://Assets/Audio/text_click.wav" id="2_g2t6w"]
 [ext_resource type="Script" uid="uid://c2lq0mlp6vmir" path="res://Subsystems/PostProcessing/post_process_shader.gd" id="2_n7xyp"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="3_clbkm"]
+[ext_resource type="AudioStream" uid="uid://csx64s7jfh7df" path="res://Assets/Audio/button_click_alt.ogg" id="3_fcbfy"]
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="3_qp47a"]
 [ext_resource type="Texture2D" uid="uid://c38dqajrkajdn" path="res://Assets/Graphics/InputIcons/PC_Input_Sheet.png" id="4_clbkm"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="4_g2t6w"]
@@ -284,6 +285,7 @@ dialogue_lines = Array[String](["The year is 2125, humanity has achieved interst
 letter_typing_time = 0.02
 game_scene_path = "uid://k0irwx2fqi0x"
 typing_sound = ExtResource("2_g2t6w")
+line_advance_sound = ExtResource("3_fcbfy")
 animation_player = NodePath("AnimationPlayer")
 dialogue_label = NodePath("MarginContainer/VBoxContainer/PanelContainer/MarginContainer/RichTextLabel")
 dialogue_container = NodePath("MarginContainer/VBoxContainer/PanelContainer")

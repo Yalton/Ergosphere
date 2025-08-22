@@ -19,11 +19,20 @@ extends Node
 ## Sound to play when typing each letter
 @export var typing_sound: AudioStream
 
+## Sound to play when advancing to next line
+@export var line_advance_sound: AudioStream
+
+## How often to play typing sound (every Nth character)
+@export var typing_sound_frequency: int = 3
+
 ## Minimum pitch variation for typing sound
 @export var typing_pitch_min: float = 0.8
 
 ## Maximum pitch variation for typing sound
 @export var typing_pitch_max: float = 1.2
+
+## Pitch for line advance sound
+@export var line_advance_pitch: float = 1.0
 
 ## Animation player for line animations
 @export var animation_player: AnimationPlayer
@@ -46,6 +55,7 @@ var is_line_complete: bool = false
 var typing_timer: Timer
 var skip_current_line: bool = false
 var is_cutscene_active: bool = false
+var letters_typed_count: int = 0
 
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
@@ -86,7 +96,9 @@ func _input(event: InputEvent) -> void:
 			skip_current_line = true
 			DebugLogger.debug(module_name, "Skipping current line typing")
 		elif is_line_complete:
-			# Line is complete - advance to next line
+			# Line is complete - advance to next line with sound
+			if line_advance_sound:
+				Audio.play_sound(line_advance_sound, true, line_advance_pitch)
 			DebugLogger.debug(module_name, "Advancing to next line")
 			_advance_to_next_line()
 
@@ -120,6 +132,7 @@ func _start_line() -> void:
 	is_typing = true
 	is_line_complete = false
 	skip_current_line = false
+	letters_typed_count = 0
 	
 	if dialogue_label:
 		dialogue_label.text = ""
@@ -144,10 +157,13 @@ func _type_next_character() -> void:
 			dialogue_label.text = "[outline_size=2][outline_color=#00ff00][color=white]" + text_to_show + "[/color][/outline_color][/outline_size]"
 			dialogue_label.visible_characters = -1  # Show all formatted characters
 		
-		# Play typing sound with pitch variation
-		if typing_sound and Audio:
-			var pitch = randf_range(typing_pitch_min, typing_pitch_max)
-			Audio.play_sound(typing_sound, false, pitch)
+		# Only play typing sound every Nth letter (ignoring spaces)
+		var current_char = current_line[current_char_index]
+		if current_char != " ":
+			letters_typed_count += 1
+			if typing_sound and letters_typed_count % typing_sound_frequency == 0:
+				var pitch = randf_range(typing_pitch_min, typing_pitch_max)
+				Audio.play_sound(typing_sound, true, pitch)
 		
 		current_char_index += 1
 		typing_timer.start()

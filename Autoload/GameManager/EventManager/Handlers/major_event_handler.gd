@@ -24,6 +24,8 @@ class_name MajorEventHandler
 
 # State tracking for heatsink failure
 var failed_heatsink: StationEngine = null
+# State tracking for oxygen failure
+var failed_oxygen_filter: OxygenFilter = null
 
 func _ready() -> void:
 	# All events this consolidated handler processes
@@ -178,10 +180,45 @@ func _can_execute_oxygen_failure() -> Dictionary:
 	if not check_state("oxygen_system", "operational"):
 		return {"success": false, "message": "Oxygen system already failed"}
 	
+	# Check if there are any operational oxygen filters
+	var filters = get_tree().get_nodes_in_group("oxygen_filters")
+	var operational_count = 0
+	
+	for filter in filters:
+		if filter is OxygenFilter and filter.can_fail():
+			operational_count += 1
+	
+	if operational_count == 0:
+		return {"success": false, "message": "No operational oxygen filters available to fail"}
+	
 	return {"success": true, "message": "OK"}
 
 func _execute_oxygen_failure() -> Dictionary:
 	set_state("oxygen_system", "failed")
+	
+	# Find and fail a random operational oxygen filter
+	var filters = get_tree().get_nodes_in_group("oxygen_filters")
+	var operational_filters: Array[OxygenFilter] = []
+	
+	for filter in filters:
+		if filter is OxygenFilter and filter.can_fail():
+			operational_filters.append(filter)
+	
+	if operational_filters.is_empty():
+		set_state("oxygen_system", "operational")
+		return {"success": false, "message": "No operational oxygen filters found during execution"}
+	
+	# Select a random filter to fail
+	failed_oxygen_filter = operational_filters[randi() % operational_filters.size()]
+	
+	# Connect to the filter_fixed signal to know when it's repaired
+	if not failed_oxygen_filter.is_connected("filter_fixed", _on_oxygen_filter_fixed):
+		failed_oxygen_filter.filter_fixed.connect(_on_oxygen_filter_fixed)
+	
+	# Trigger the failure on the selected filter
+	failed_oxygen_filter.trigger_failure()
+	
+	DebugLogger.log_message("MajorEventHandler", "Failed oxygen filter: " + failed_oxygen_filter.name)
 	
 	notify_group("oxygen_dependent", "on_oxygen_lost")
 	
@@ -195,12 +232,23 @@ func _execute_oxygen_failure() -> Dictionary:
 	return {"success": true, "message": "OK"}
 
 func _end_oxygen_failure() -> void:
+	# Disconnect from filter if still connected
+	if failed_oxygen_filter and failed_oxygen_filter.is_connected("filter_fixed", _on_oxygen_filter_fixed):
+		failed_oxygen_filter.filter_fixed.disconnect(_on_oxygen_filter_fixed)
+	
+	failed_oxygen_filter = null
+	
 	set_state("oxygen_system", "operational")
 	
 	notify_group("oxygen_dependent", "on_oxygen_restored")
 	
 	if oxygen_restore_sound:
 		play_audio(oxygen_restore_sound)
+
+func _on_oxygen_filter_fixed() -> void:
+	# End the oxygen failure event when the filter is fixed
+	if GameManager and GameManager.event_manager:
+		GameManager.event_manager.end_event("oxygen_failure")
 
 # ============== HEATSINK FAILURE FUNCTIONS ==============
 func _can_execute_heatsink_failure() -> Dictionary:

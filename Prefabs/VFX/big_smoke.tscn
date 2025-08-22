@@ -1,6 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://bvqvla8urmxvc"]
 
 [ext_resource type="Script" uid="uid://dwsdvdmtr885x" path="res://Scripts/VFX/vfx_auto_clean.gd" id="1_gb4gd"]
+[ext_resource type="Script" uid="uid://c8dup3ehdoxb" path="res://Scripts/VFX/VisibleOnScreenTimer3D.gd" id="2_svume"]
 
 [sub_resource type="Gradient" id="Gradient_4xi4w"]
 offsets = PackedFloat32Array(0, 0.988764)
@@ -52,23 +53,18 @@ billboard_mode = 1
 material = SubResource("StandardMaterial3D_mc5ru")
 size = Vector2(4, 4)
 
-[sub_resource type="FogMaterial" id="FogMaterial_svume"]
-density = 0.5
-albedo = Color(0.466181, 0.466181, 0.466181, 1)
-
-[node name="BigSmoke" type="Node3D"]
+[node name="BigSmoke" type="Node3D" node_paths=PackedStringArray("visibility_timer")]
 script = ExtResource("1_gb4gd")
+visibility_timer = NodePath("VisibleOnScreenTimer3D")
 max_lifetime = 20.0
 
 [node name="SmokeBig" type="GPUParticles3D" parent="."]
 amount = 80
-lifetime = 2.2
+lifetime = 3.0
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_1b11i")
 draw_pass_1 = SubResource("QuadMesh_swyrw")
 
-[node name="FogVolume" type="FogVolume" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.795953, 0)
-size = Vector3(4, 4, 4)
-shape = 0
-material = SubResource("FogMaterial_svume")
+[node name="VisibleOnScreenTimer3D" type="VisibleOnScreenNotifier3D" parent="."]
+script = ExtResource("2_svume")
+metadata/_custom_type_script = "uid://c8dup3ehdoxb"

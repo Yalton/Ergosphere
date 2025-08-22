@@ -40,6 +40,7 @@ class_name PositionalEventHandler
 ## Group name for iconoclast spawn points
 @export var iconoclast_spawn_group: String = "iconoclast_spawn"
 
+@export  var iconoclast_spawn_sting: AudioStream
 # ============== LEVITATE SETTINGS ==============
 @export_group("Levitate Settings")
 ## Maximum distance to search for objects to levitate
@@ -292,6 +293,8 @@ func _execute_iconoclast_spawn() -> Dictionary:
 	
 	# Add to scene tree
 	get_tree().current_scene.add_child(spawned_instance)
+	
+	Audio.play_sound(iconoclast_spawn_sting)
 	
 	# Position the iconoclast
 	if spawn_point is Node3D and spawned_instance is Node3D:

@@ -62,6 +62,7 @@ class_name IconoclastAvatar
 
 enum State {
 	IDLE,
+	ROAMING,
 	CHECKING_VISIBILITY,
 	STARE,
 	CHASE,
@@ -86,6 +87,13 @@ var raycasts: Array[RayCast3D] = []
 var has_caught_player: bool = false
 var player_ref: Node3D = null
 var original_camera_fov: float = 75.0
+
+# Roaming state variables
+var idle_timer: float = 0.0
+var idle_duration: float = 0.0
+var roam_timer: float = 0.0
+var roam_target: Vector3 = Vector3.ZERO
+var was_visible_during_roam: bool = false
 
 func _ready():
 	DebugLogger.register_module("IconoclastAvatar")
@@ -119,11 +127,17 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
-	# Always face the player when spawned (unless catching)
+	# Handle facing direction based on state
 	if has_spawned and current_state != State.CATCHING_PLAYER:
-		var player = CommonUtils.get_player()
-		if player:
-			_rotate_towards_player(delta, player)
+		if current_state == State.ROAMING:
+			# Face movement direction when roaming
+			if velocity.length() > 0.1:
+				_rotate_towards_direction(delta, velocity.normalized())
+		else:
+			# Face player in all other states
+			var player = CommonUtils.get_player()
+			if player:
+				_rotate_towards_player(delta, player)
 	
 	# Check flashlight status
 	_check_flashlight_status()
@@ -134,6 +148,8 @@ func _physics_process(delta):
 	match current_state:
 		State.IDLE:
 			_process_idle_state(delta)
+		State.ROAMING:
+			_process_roaming_state(delta)
 		State.CHECKING_VISIBILITY:
 			_process_visibility_check_state(delta)
 		State.STARE:
@@ -150,7 +166,7 @@ func _physics_process(delta):
 		DebugLogger.log_message("IconoclastAvatar", "State changed from %s to %s" % [State.keys()[old_state], State.keys()[current_state]])
 
 func _process_idle_state(delta):
-	# Just waiting to be seen
+	# Just waiting to be seen or start roaming
 	move_and_slide()  # Still process physics for gravity
 	
 	# Don't process visibility until spawn is complete
@@ -164,6 +180,14 @@ func _process_idle_state(delta):
 		if distance <= auto_detect_distance and not has_been_seen:
 			DebugLogger.log_message("IconoclastAvatar", "Player within auto-detect range (%.1f), triggering detection" % distance)
 			_trigger_detection(true)  # Always chase when proximity detected
+			return
+	
+	# Increment idle timer for roaming behavior
+	idle_timer += delta
+	
+	# Check if we should start roaming
+	if idle_timer >= idle_duration:
+		_start_roaming()
 
 func _process_visibility_check_state(delta):
 	move_and_slide()  # Process physics for gravity
@@ -496,6 +520,11 @@ func _on_spawn_finished():
 		DebugLogger.log_message("IconoclastAvatar", "Started particle effect")
 	
 	has_spawned = true
+	
+	# Set initial idle duration
+	idle_duration = randf_range(5.0, 15.0)
+	idle_timer = 0.0
+	DebugLogger.log_message("IconoclastAvatar", "Initial idle duration set to %.1f seconds" % idle_duration)
 
 func _start_despawn_sequence():
 	current_state = State.DESPAWNING
@@ -544,6 +573,127 @@ func _on_collapse_finished():
 	DebugLogger.log_message("IconoclastAvatar", "Collapse animation finished, destroying entity")
 	queue_free()
 
+func _start_roaming():
+	DebugLogger.log_message("IconoclastAvatar", "Starting roaming behavior")
+	
+	# Reset timers
+	idle_timer = 0.0
+	roam_timer = 0.0
+	was_visible_during_roam = false
+	
+	# Determine if we should move near player (10% chance)
+	var move_near_player = randf() < 0.1
+	
+	var player = CommonUtils.get_player()
+	if move_near_player and player:
+		# Pick a random position within 10 units of player
+		var angle = randf() * TAU
+		var distance = randf_range(5.0, 10.0)
+		var offset = Vector3(cos(angle) * distance, 0, sin(angle) * distance)
+		roam_target = player.global_position + offset
+		DebugLogger.log_message("IconoclastAvatar", "Roaming towards player area (distance: %.1f)" % distance)
+	else:
+		# Pick a random position within 20 units of current position
+		var angle = randf() * TAU
+		var distance = randf_range(5.0, 20.0)
+		var offset = Vector3(cos(angle) * distance, 0, sin(angle) * distance)
+		roam_target = global_position + offset
+		DebugLogger.log_message("IconoclastAvatar", "Roaming to random location (distance: %.1f)" % distance)
+	
+	# Set the navigation target
+	navigation_agent.target_position = roam_target
+	
+	# Switch to roaming state
+	current_state = State.ROAMING
+	
+	# Start walk animation
+	if animation_tree:
+		animation_tree.set_to_walk()
+
+func _process_roaming_state(delta):
+	# Check if player can see us - if so, immediately return to idle
+	if is_currently_visible:
+		if not was_visible_during_roam:
+			DebugLogger.log_message("IconoclastAvatar", "Player spotted entity during roam - freezing")
+			was_visible_during_roam = true
+		
+		# Stop moving and go back to idle animation
+		velocity = Vector3.ZERO
+		if animation_tree:
+			animation_tree.set_to_idle()
+		move_and_slide()
+		return
+	else:
+		# If we were visible but now aren't, resume roaming
+		if was_visible_during_roam:
+			DebugLogger.log_message("IconoclastAvatar", "Player looked away - resuming roam")
+			was_visible_during_roam = false
+			if animation_tree:
+				animation_tree.set_to_walk()
+	
+	# Check for proximity detection while roaming
+	var player = CommonUtils.get_player()
+	if player:
+		var distance = global_position.distance_to(player.global_position)
+		if distance <= auto_detect_distance and not has_been_seen:
+			DebugLogger.log_message("IconoclastAvatar", "Player within auto-detect range during roam (%.1f), triggering detection" % distance)
+			_trigger_detection(true)
+			return
+	
+	# Increment roam timer
+	roam_timer += delta
+	
+	# Check if we've been roaming too long (20 seconds contingency)
+	if roam_timer >= 20.0:
+		DebugLogger.log_message("IconoclastAvatar", "Roam timeout - returning to idle")
+		_return_to_idle()
+		return
+	
+	# Check if we've reached our destination
+	if navigation_agent.is_navigation_finished():
+		DebugLogger.log_message("IconoclastAvatar", "Reached roam destination - returning to idle")
+		_return_to_idle()
+		return
+	
+	# Continue moving towards target
+	var next_position = navigation_agent.get_next_path_position()
+	var direction = (next_position - global_position).normalized()
+	
+	# Move at regular speed (not affected by flashlight during roam)
+	velocity = direction * move_speed
+	move_and_slide()
+
+func _return_to_idle():
+	DebugLogger.log_message("IconoclastAvatar", "Returning to idle state")
+	
+	# Stop movement
+	velocity = Vector3.ZERO
+	
+	# Switch to idle animation
+	if animation_tree:
+		animation_tree.set_to_idle()
+	
+	# Reset to idle state
+	current_state = State.IDLE
+	
+	# Set new idle duration
+	idle_duration = randf_range(5.0, 15.0)
+	idle_timer = 0.0
+	
+	DebugLogger.log_message("IconoclastAvatar", "Next idle duration: %.1f seconds" % idle_duration)
+
+func _rotate_towards_direction(delta, direction: Vector3):
+	if direction.length() == 0:
+		return
+	
+	# Keep rotation on horizontal plane
+	direction.y = 0
+	direction = direction.normalized()
+	
+	if direction.length() > 0:
+		var target_transform = transform.looking_at(global_position + direction, Vector3.UP)
+		transform.basis = transform.basis.slerp(target_transform.basis, turn_speed * delta)
+
 func _rotate_towards_player(delta, player):
 	if not player:
 		return
@@ -565,6 +715,11 @@ func _on_screen_entered():
 		DebugLogger.log_message("IconoclastAvatar", "Not reacting - spawn not complete")
 		return
 	
+	# If we're roaming, we don't trigger detection - we just freeze
+	if current_state == State.ROAMING:
+		DebugLogger.log_message("IconoclastAvatar", "Visible during roam - freezing movement")
+		return
+	
 	if not has_been_seen and current_state == State.IDLE:
 		DebugLogger.log_message("IconoclastAvatar", "Starting visibility check")
 		current_state = State.CHECKING_VISIBILITY
@@ -579,3 +734,6 @@ func _on_screen_exited():
 	if current_state == State.CHECKING_VISIBILITY and not has_been_seen:
 		DebugLogger.log_message("IconoclastAvatar", "Player looked away during visibility check - returning to idle")
 		current_state = State.IDLE
+		# Reset idle timer so we don't immediately start roaming
+		idle_timer = 0.0
+		idle_duration = randf_range(5.0, 15.0)

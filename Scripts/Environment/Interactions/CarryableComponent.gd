@@ -143,8 +143,19 @@ func hold() -> void:
 		original_collision_layer = parent_object.collision_layer
 		original_collision_mask = parent_object.collision_mask
 		
-		# Move the object to a layer the player doesn't interact with (layer 10 by default)
-		parent_object.collision_layer = 1 << (carried_object_layer - 1)
+		# Check if object has layer 4 (snappable layer) and preserve it if so
+		var has_snappable_layer = (original_collision_layer & (1 << 3)) != 0  # Layer 4 is bit 3
+		
+		# Start with the carried object layer
+		var new_layer = 1 << (carried_object_layer - 1)
+		
+		# If object was on layer 4 (snappable), add it to the new layer
+		if has_snappable_layer:
+			new_layer = new_layer | (1 << 3)  # Add layer 4
+			DebugLogger.debug(module_name, "Preserving snappable layer 4")
+		
+		# Set the new layer
+		parent_object.collision_layer = new_layer
 		
 		# Keep the collision mask but remove the player's layer
 		var new_mask = original_collision_mask & ~(1 << (player_collision_layer - 1))

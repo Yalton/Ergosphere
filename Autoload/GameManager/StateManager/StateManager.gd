@@ -41,7 +41,17 @@ func set_state(state_name: String, value: Variant) -> void:
 	DebugLogger.debug(module_name, "State changed: " + state_name + " from " + str(old_value) + " to " + str(value))
 	
 	state_changed.emit(state_name, value)
-
+	
+func reset() -> void:
+	# Reset all states to defaults
+	states = DEFAULT_STATES.duplicate()
+	
+	DebugLogger.info(module_name, "StateManager reset to default states")
+	
+	# Emit state changed for all states to notify listeners
+	for state_name in states:
+		state_changed.emit(state_name, states[state_name])
+		
 func get_state(state_name: String) -> Variant:
 	if not states.has(state_name):
 		DebugLogger.warning(module_name, "Unknown state requested: " + state_name)

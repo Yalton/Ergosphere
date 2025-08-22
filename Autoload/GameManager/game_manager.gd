@@ -217,15 +217,18 @@ func reset_game():
 	session_password = ""
 	
 	# Reset all managers
-	if state_manager and state_manager.has_method("reset"):
+	if state_manager:
 		state_manager.reset()
 		
-	if event_manager and event_manager.has_method("reset"):
+	if event_manager:
 		event_manager.reset()
 		
-	if task_manager and task_manager.has_method("reset"):
+	if task_manager:
 		task_manager.reset()
 
+	if storage_manager:
+		storage_manager.reset_state()
+		
 func stop_systems():
 	"""Stop all running systems"""
 	DebugLogger.info("GameManager", "Stopping all systems")

@@ -7,7 +7,7 @@ signal stats_complete
 @export var enable_debug: bool = true
 var module_name: String = "SleepStatsScreen"
 
-## The grid container with 10 labels (2 columns, 5 rows)
+## The grid container with 8 labels (2 columns, 4 rows) - removed score row
 @export var stats_grid: GridContainer
 
 ## Typing speed for filling each label
@@ -40,6 +40,7 @@ var typing_timer: Timer
 var pause_timer: Timer
 
 var is_typing: bool = false
+var stats_day_number: int = -1  # Store the day we're showing stats for
 
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
@@ -83,6 +84,8 @@ func _setup_timers() -> void:
 
 ## Show stats for the specified day
 func show_stats_for_day(day_number: int) -> void:
+	stats_day_number = day_number
+	
 	# Gather stats data
 	_gather_stats_data(day_number)
 	
@@ -100,26 +103,35 @@ func show_stats_for_day(day_number: int) -> void:
 	
 	DebugLogger.info(module_name, "Showing stats for day %d" % day_number)
 
+## Show stats for the day that just ended (before day increment)
+func show_stats_for_completed_day() -> void:
+	# Get the day that just ended (current day - 1 since it was already incremented)
+	var completed_day = GameManager.get_current_day() - 1
+	
+	# Clamp to valid range
+	if completed_day < 1:
+		completed_day = 1
+	
+	show_stats_for_day(completed_day)
+
 func _gather_stats_data(day_number: int) -> void:
 	stats_data.clear()
 	
 	# Gather data
 	var sanity = _get_sanity_level()
+	var sanity_text = _get_sanity_text(sanity)
 	var tasks_completed = _get_completed_tasks()
 	var day_message = _get_day_message(day_number)
-	var score = _calculate_score(tasks_completed, sanity)
 	
-	# Build the stats array in order (label pairs)
+	# Build the stats array in order (label pairs) - removed score
 	stats_data.append("DAY")
 	stats_data.append(str(day_number))
 	stats_data.append("SANITY LEVEL")
-	stats_data.append(str(sanity) + "%")
+	stats_data.append(sanity_text)
 	stats_data.append("TASKS COMPLETED")
 	stats_data.append(str(tasks_completed))
 	stats_data.append("STATUS")
 	stats_data.append(day_message)
-	stats_data.append("SCORE")
-	stats_data.append(str(score))
 	
 	DebugLogger.debug(module_name, "Stats data: %s" % str(stats_data))
 
@@ -137,20 +149,21 @@ func _get_sanity_level() -> int:
 	
 	return 100  # Default
 
+func _get_sanity_text(sanity: int) -> String:
+	if sanity > 75:
+		return "STABLE"
+	elif sanity > 50:
+		return "IMPAIRED"
+	elif sanity > 25:
+		return "UNSTABLE"
+	else:
+		return "CRITICAL"
+
 func _get_completed_tasks() -> int:
 	if GameManager and GameManager.task_manager:
-		var todays_tasks = GameManager.task_manager.get_todays_tasks()
-		var completed_count = 0
-		
-		for task in todays_tasks:
-			if task.task_id == GameManager.task_manager.sleep_task_id:
-				continue
-			if task.is_secret:
-				continue
-			if task.is_completed:
-				completed_count += 1
-		
-		return completed_count
+		# Get the completed tasks count from task_manager
+		# This should represent tasks completed during the day that just ended
+		return GameManager.task_manager.completed_tasks.size()
 	
 	return 0
 
@@ -159,9 +172,6 @@ func _get_day_message(day_number: int) -> String:
 	if day_index >= 0 and day_index < day_messages.size():
 		return day_messages[day_index]
 	return "ANALYSIS COMPLETE"
-
-func _calculate_score(tasks: int, sanity: int) -> int:
-	return (tasks * 100) + (sanity * 2)
 
 func _clear_all_labels() -> void:
 	for label in grid_labels:
@@ -224,6 +234,9 @@ func _finish_stats_display() -> void:
 	
 	# Clear labels
 	_clear_all_labels()
+	
+	# Reset stored day number
+	stats_day_number = -1
 	
 	# Signal completion
 	stats_complete.emit()

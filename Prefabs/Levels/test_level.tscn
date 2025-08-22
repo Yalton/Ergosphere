@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=3 uid="uid://brdutlsgtdsu5"]
+[gd_scene load_steps=73 format=3 uid="uid://brdutlsgtdsu5"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="1_iv3f0"]
 [ext_resource type="Shader" uid="uid://b45nf302sstgn" path="res://Assets/VFX/Shader/Space/black_hole.gdshader" id="2_wb0bh"]
@@ -28,7 +28,6 @@
 [ext_resource type="PackedScene" uid="uid://qr1n21uuq8fa" path="res://Prefabs/Environment/Props/Tech/window_lever.tscn" id="28_eprw8"]
 [ext_resource type="PackedScene" uid="uid://6nnliah25gvx" path="res://Prefabs/Environment/Props/Computer/contact_earth.tscn" id="29_bsk3i"]
 [ext_resource type="PackedScene" uid="uid://cabf6yaqip2ct" path="res://Prefabs/coffee_mug.tscn" id="29_wehjc"]
-[ext_resource type="PackedScene" uid="uid://40gjctxfvyyn" path="res://Prefabs/Entities/avatar_iconoclast.tscn" id="30_0325f"]
 [ext_resource type="PackedScene" uid="uid://di71tyfsvdywh" path="res://Prefabs/Environment/Props/anomaly_scanner.tscn" id="30_wehjc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fno4d"]
@@ -529,6 +528,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3796, 0.984663, -3.24007)
 
 [node name="CoffeeMug" parent="." instance=ExtResource("29_wehjc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.00894, 3.48576, 8.33204)
-
-[node name="AvatarIconoclast" parent="." instance=ExtResource("30_0325f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.47, 0.240425, -56.4806)

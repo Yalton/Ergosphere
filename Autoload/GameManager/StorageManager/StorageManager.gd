@@ -37,6 +37,9 @@ class PendingOrder:
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 	
+	# CRITICAL: Clear any persisted state when ready
+	reset_state()
+	
 	# Find storage walls if not assigned
 	if storage_walls.is_empty():
 		_find_storage_walls()
@@ -48,6 +51,13 @@ func _ready() -> void:
 		create_test_items()
 		
 	DebugLogger.info(module_name, "StorageManager initialized with " + str(storage_walls.size()) + " storage walls")
+
+## Reset all state - call this when starting a new game
+func reset_state() -> void:
+	pending_orders.clear()
+	occupied_containers.clear()
+	current_requisition = 50000
+	DebugLogger.info(module_name, "State reset for new game")
 
 func _register_exported_items() -> void:
 	if shop_catalog.is_empty():
@@ -220,12 +230,13 @@ func order_item(item_id: String) -> bool:
 func _find_empty_container() -> String:
 	var available_containers: Array[String] = []
 	
-	# Collect all possible container locations
+	# Actually check each container's real state
 	for wall in storage_walls:
 		var wall_id = wall.wall_id
 		for i in range(1, 9): # Containers 1-8
 			var location = wall_id + str(i)
-			if not occupied_containers.has(location):
+			# Check both our tracking AND the actual container state
+			if not occupied_containers.has(location) and wall.is_container_empty(i):
 				available_containers.append(location)
 	
 	if available_containers.is_empty():
@@ -269,7 +280,22 @@ func container_emptied(wall_id: String, container_num: int) -> void:
 	if occupied_containers.has(location):
 		var item_id = occupied_containers[location]
 		occupied_containers.erase(location)
-		DebugLogger.debug(module_name, "Container " + location + " emptied of " + item_id)
+		DebugLogger.info(module_name, "Container " + location + " now available (was: " + item_id + ")")
+		DebugLogger.debug(module_name, "Available containers: " + str(get_available_container_count()))
+
+## Get count of available containers
+func get_available_container_count() -> int:
+	var total_containers = 0
+	var occupied_count = 0
+	
+	for wall in storage_walls:
+		total_containers += 8  # Each wall has 8 containers
+		for i in range(1, 9):
+			var location = wall.wall_id + str(i)
+			if occupied_containers.has(location) or not wall.is_container_empty(i):
+				occupied_count += 1
+	
+	return total_containers - occupied_count
 
 ## Called when any storage container is interacted with
 func on_container_closed(container: StorageContainer) -> void:

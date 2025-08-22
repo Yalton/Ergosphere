@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://bk1kuand7o7xa"]
+[gd_scene load_steps=44 format=3 uid="uid://bk1kuand7o7xa"]
 
 [ext_resource type="Script" uid="uid://b2evp3vtmha88" path="res://Autoload/GameManager/EventManager/Handlers/event_manager.gd" id="1_nnr1m"]
 [ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="2_he56m"]
@@ -40,6 +40,7 @@
 [ext_resource type="AudioStream" uid="uid://babya7gwhdtfr" path="res://Assets/Audio/warp_sfx.ogg" id="36_xifxp"]
 [ext_resource type="Script" uid="uid://ervl52oyi4xo" path="res://Autoload/GameManager/EventManager/Handlers/major_event_handler.gd" id="38_b8hgc"]
 [ext_resource type="PackedScene" uid="uid://40gjctxfvyyn" path="res://Prefabs/Entities/avatar_iconoclast.tscn" id="38_xr1wj"]
+[ext_resource type="AudioStream" uid="uid://d2ty8ebgjbvmm" path="res://Assets/Audio/iconoclast_spawn_sting.ogg" id="39_xifxp"]
 [ext_resource type="Script" uid="uid://omxpai7js0p2" path="res://Autoload/GameManager/EventManager/Handlers/vfx_event_handler.gd" id="41_wm8la"]
 [ext_resource type="Script" uid="uid://7x1wa81fdf75" path="res://Autoload/GameManager/EventManager/Handlers/positional_event_handler.gd" id="46_8djds"]
 
@@ -59,6 +60,7 @@ warp_sound = ExtResource("36_xifxp")
 micro_blackhole_scene = ExtResource("23_oj86y")
 dark_fog_scene = ExtResource("24_u7gbo")
 iconoclast_scene = ExtResource("38_xr1wj")
+iconoclast_spawn_sting = ExtResource("39_xifxp")
 levitate_max_search_distance = 30.0
 levitate_sound = ExtResource("33_e8orj")
 
