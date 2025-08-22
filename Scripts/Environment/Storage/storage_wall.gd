@@ -53,6 +53,11 @@ func load_item_in_container(container_number: int, scene_path: String) -> bool:
 		DebugLogger.error(module_name, "Container " + str(container_number) + " not found")
 		return false
 	
+	# Only load if container is actually empty
+	if not container.is_empty():
+		DebugLogger.error(module_name, "Container " + str(container_number) + " is not empty!")
+		return false
+	
 	return container.load_item(scene_path)
 
 ## Get specific container
@@ -68,6 +73,14 @@ func is_container_empty(container_number: int) -> bool:
 		return false
 	return container.is_empty()
 
+## Get count of empty containers
+func get_empty_container_count() -> int:
+	var count = 0
+	for container in containers:
+		if container.is_empty():
+			count += 1
+	return count
+
 ## Get all empty container numbers
 func get_empty_container_numbers() -> Array[int]:
 	var empty: Array[int] = []
@@ -82,10 +95,9 @@ func _on_container_opened(container: StorageContainer) -> void:
 
 func _on_container_closed(container: StorageContainer) -> void:
 	var container_num = containers.find(container) + 1
-	DebugLogger.debug(module_name, "Container " + wall_id + str(container_num) + " closed")
+	var status = "empty" if container.is_empty() else "full"
+	DebugLogger.debug(module_name, "Container " + wall_id + str(container_num) + " closed (" + status + ")")
 	
-	# Notify storage manager if container was emptied
-	if container.is_empty() and GameManager.has_method("get_storage_manager"):
-		var storage_manager = GameManager.get_storage_manager()
-		if storage_manager:
-			storage_manager.container_emptied(wall_id, container_num)
+	# Log current wall status
+	var empty_count = get_empty_container_count()
+	DebugLogger.debug(module_name, "Wall " + wall_id + " now has " + str(empty_count) + " empty containers")

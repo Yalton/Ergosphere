@@ -139,23 +139,3 @@ theme = ExtResource("1_xrrj2")
 theme_override_font_sizes/font_size = 42
 text = "penis mode engaged"
 horizontal_alignment = 1
-
-[node name="Label9" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
-z_index = 1000
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = ExtResource("1_xrrj2")
-theme_override_font_sizes/font_size = 42
-text = "penis mode engaged"
-horizontal_alignment = 1
-
-[node name="Label10" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/GridContainer"]
-z_index = 1000
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = ExtResource("1_xrrj2")
-theme_override_font_sizes/font_size = 42
-text = "penis mode engaged"
-horizontal_alignment = 1

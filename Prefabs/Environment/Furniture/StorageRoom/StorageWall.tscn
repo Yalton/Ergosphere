@@ -1,6 +1,6 @@
 [gd_scene load_steps=24 format=4 uid="uid://bc74vtur5o21t"]
 
-[ext_resource type="Script" uid="uid://bvdyw3fcmj377" path="res://Scripts/Environment/Storage/storage_wall.gd" id="1_5jewd"]
+[ext_resource type="Script" uid="uid://bvdyw3fcmj377" path="res://Scripts/Environment/Storage/storage_wall.gd" id="1_1mtf6"]
 [ext_resource type="PackedScene" uid="uid://bvfpw6v5h8lci" path="res://Prefabs/Environment/Furniture/StorageRoom/storage_container.tscn" id="7_smqay"]
 [ext_resource type="ArrayOccluder3D" uid="uid://cjx0xc1io7n4q" path="res://Assets/Models/Occluders/Walls/StorageWall.occ" id="8_cwyio"]
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="9_epdqm"]
@@ -128,8 +128,7 @@ size = Vector3(16, 2, 2)
 size = Vector3(0.3, 4, 4)
 
 [node name="StorageWall" type="StaticBody3D" node_paths=PackedStringArray("containers")]
-script = ExtResource("1_5jewd")
-enable_debug = null
+script = ExtResource("1_1mtf6")
 containers = [NodePath("Cube_305/StorageContainer"), NodePath("Cube_305/StorageContainer2"), NodePath("Cube_305/StorageContainer3"), NodePath("Cube_305/StorageContainer4"), NodePath("Cube_305/StorageContainer5"), NodePath("Cube_305/StorageContainer6"), NodePath("Cube_305/StorageContainer7"), NodePath("Cube_305/StorageContainer8")]
 
 [node name="Cube_305" type="MeshInstance3D" parent="."]

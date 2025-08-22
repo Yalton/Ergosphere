@@ -155,7 +155,7 @@ func _show_purchase_failed(item_id: String, reason: String = "") -> void:
 	if reason.is_empty():
 		if storage_manager and not storage_manager.can_afford_item(item_id):
 			reason = "Cannot afford item"
-		elif storage_manager and storage_manager.get_occupied_containers().size() >= 24:
+		elif storage_manager and not storage_manager.has_available_containers():
 			reason = "No storage available"
 		else:
 			reason = "Purchase failed"
@@ -168,7 +168,7 @@ func _update_button_state(item_id: String) -> void:
 		return
 	
 	var can_afford = storage_manager.can_afford_item(item_id)
-	var has_space = storage_manager.get_occupied_containers().size() < 24
+	var has_space = storage_manager.has_available_containers()
 	
 	button.disabled = not (can_afford and has_space)
 	button.modulate = Color.WHITE if can_afford else Color(0.5, 0.5, 0.5)

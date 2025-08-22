@@ -10,39 +10,16 @@ signal requisition_spent(amount: int)
 var module_name: String = "StorageManager"
 
 ## Current requisition points
-@export var current_requisition: int = 0
-
-## References to storage walls
-@export var storage_walls: Array[StorageWall] = []
+@export var current_requisition: int = 5000
 
 ## Available items in the shop catalog
 @export var shop_catalog: Array[ShopItem] = []
 
-var delay : int = 10
-
-# Internal tracking
-var pending_orders: Array[PendingOrder] = []
-var occupied_containers: Dictionary = {} # "A1" -> item_id
-
-class PendingOrder:
-	var item_id: String
-	var container_location: String
-	var delivery_time: float
-	
-	func _init(id: String, location: String, time: float):
-		item_id = id
-		container_location = location
-		delivery_time = time
-
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
 	
-	# CRITICAL: Clear any persisted state when ready
+	# Clear any persisted state when ready
 	reset_state()
-	
-	# Find storage walls if not assigned
-	if storage_walls.is_empty():
-		_find_storage_walls()
 	
 	_register_exported_items()
 	
@@ -50,13 +27,11 @@ func _ready() -> void:
 	if shop_catalog.is_empty():
 		create_test_items()
 		
-	DebugLogger.info(module_name, "StorageManager initialized with " + str(storage_walls.size()) + " storage walls")
+	DebugLogger.info(module_name, "StorageManager initialized")
 
 ## Reset all state - call this when starting a new game
 func reset_state() -> void:
-	pending_orders.clear()
-	occupied_containers.clear()
-	current_requisition = 50000
+	current_requisition = 5000
 	DebugLogger.info(module_name, "State reset for new game")
 
 func _register_exported_items() -> void:
@@ -95,32 +70,6 @@ func _register_exported_items() -> void:
 			DebugLogger.debug(module_name, "Registered exported item: " + item.display_name + " (ID: " + item.item_id + ")")
 	
 	DebugLogger.info(module_name, "Registered " + str(registered_count) + " exported items (" + str(duplicate_count) + " duplicates skipped)")
-	
-func _find_storage_walls() -> void:
-	var walls = get_tree().get_nodes_in_group("storage_walls")
-	for wall in walls:
-		if wall is StorageWall:
-			storage_walls.append(wall)
-			DebugLogger.debug(module_name, "Found storage wall: " + wall.name)
-
-func _process(delta: float) -> void:
-	if storage_walls.is_empty():
-		delay = delay - 1
-		if delay > 0: 
-			_find_storage_walls()
-		else: 
-			delay = 10 
-		
-	_process_pending_orders(delta)
-
-func _process_pending_orders(delta: float) -> void:
-	for i in range(pending_orders.size() - 1, -1, -1):
-		var order = pending_orders[i]
-		order.delivery_time -= delta
-		
-		if order.delivery_time <= 0.0:
-			_deliver_order(order)
-			pending_orders.remove_at(i)
 
 ## Add requisition points (called when tasks complete)
 func add_requisition(amount: int) -> void:
@@ -129,16 +78,10 @@ func add_requisition(amount: int) -> void:
 
 ## Check if player can afford an item
 func can_afford_item(item_id: String) -> bool:
-	var item = _find_catalog_item(item_id)
+	var item = get_item_by_id(item_id)
 	if not item:
 		return false
 	return current_requisition >= item.cost
-
-## Custom sort function for items
-func _sort_items(a: ShopItem, b: ShopItem) -> bool:
-	if a.category != b.category:
-		return a.category < b.category
-	return a.display_name < b.display_name
 
 ## Register a single item
 func register_item(item: ShopItem) -> void:
@@ -193,10 +136,10 @@ func get_all_categories() -> Array[String]:
 			categories.append(item.category)
 	categories.sort()
 	return categories
-	
+
 ## Order an item from the catalog
 func order_item(item_id: String) -> bool:
-	var item = _find_catalog_item(item_id)
+	var item = get_item_by_id(item_id)
 	if not item:
 		DebugLogger.warning(module_name, "Item not found in catalog: " + item_id)
 		return false
@@ -205,110 +148,80 @@ func order_item(item_id: String) -> bool:
 		DebugLogger.warning(module_name, "Insufficient requisition for item: " + item_id)
 		return false
 	
-	var container_location = _find_empty_container()
-	if container_location.is_empty():
-		DebugLogger.warning(module_name, "No empty containers available")
+	# Find a wall with empty containers
+	var target = _find_empty_container()
+	if not target.wall:
+		DebugLogger.warning(module_name, "No empty containers available in any storage wall")
 		return false
 	
 	# Deduct cost
 	current_requisition -= item.cost
 	requisition_spent.emit(item.cost)
 	
-	# Create pending order
-	var order = PendingOrder.new(item_id, container_location, item.delivery_time)
-	pending_orders.append(order)
-	
-	# Mark container as occupied
-	occupied_containers[container_location] = item_id
-	
-	DebugLogger.info(module_name, "Ordered " + item_id + " for " + str(item.cost) + " requisition. Delivering to " + container_location)
-	item_ordered.emit(item_id, container_location)
-	
-	return true
+	# Deliver immediately
+	var location = target.wall.wall_id + str(target.container_num)
+	if target.wall.load_item_in_container(target.container_num, item.scene_path):
+		DebugLogger.info(module_name, "Delivered " + item_id + " to " + location + " for " + str(item.cost) + " requisition")
+		item_ordered.emit(item_id, location)
+		item_delivered.emit(item_id, location)
+		return true
+	else:
+		# Refund if delivery failed
+		current_requisition += item.cost
+		DebugLogger.error(module_name, "Failed to deliver item to container, refunding cost")
+		return false
 
-## Find an empty storage container
-func _find_empty_container() -> String:
-	var available_containers: Array[String] = []
+## Find an empty storage container by querying walls dynamically
+func _find_empty_container() -> Dictionary:
+	# Get all storage walls from the scene
+	var walls = get_tree().get_nodes_in_group("storage_walls")
 	
-	# Actually check each container's real state
-	for wall in storage_walls:
-		var wall_id = wall.wall_id
-		for i in range(1, 9): # Containers 1-8
-			var location = wall_id + str(i)
-			# Check both our tracking AND the actual container state
-			if not occupied_containers.has(location) and wall.is_container_empty(i):
-				available_containers.append(location)
+	if walls.is_empty():
+		DebugLogger.warning(module_name, "No storage walls found in scene")
+		return {"wall": null, "container_num": 0}
 	
-	if available_containers.is_empty():
-		return ""
+	# Filter to walls that have empty containers
+	var walls_with_space: Array = []
+	for wall in walls:
+		if wall is StorageWall:
+			var empty_count = wall.get_empty_container_count()
+			if empty_count > 0:
+				walls_with_space.append(wall)
+				DebugLogger.debug(module_name, "Wall " + wall.wall_id + " has " + str(empty_count) + " empty containers")
 	
-	# Pick random empty container
-	var random_index = randi() % available_containers.size()
-	return available_containers[random_index]
+	if walls_with_space.is_empty():
+		DebugLogger.debug(module_name, "No walls have empty containers")
+		return {"wall": null, "container_num": 0}
+	
+	# Pick a random wall from those with space
+	var chosen_wall = walls_with_space[randi() % walls_with_space.size()]
+	
+	# Get empty container numbers from chosen wall
+	var empty_containers = chosen_wall.get_empty_container_numbers()
+	if empty_containers.is_empty():
+		DebugLogger.error(module_name, "Wall reported space but has no empty containers")
+		return {"wall": null, "container_num": 0}
+	
+	# Pick a random empty container
+	var chosen_container = empty_containers[randi() % empty_containers.size()]
+	
+	DebugLogger.debug(module_name, "Selected container " + chosen_wall.wall_id + str(chosen_container))
+	return {"wall": chosen_wall, "container_num": chosen_container}
 
-## Deliver an order to its container
-func _deliver_order(order: PendingOrder) -> void:
-	var wall_id = order.container_location.substr(0, 1) # "A", "B", or "C"
-	var container_num = int(order.container_location.substr(1, 1)) # 1-8
-	
-	# Find the storage wall
-	var target_wall: StorageWall = null
-	for wall in storage_walls:
-		if wall.wall_id == wall_id:
-			target_wall = wall
-			break
-	
-	if not target_wall:
-		DebugLogger.error(module_name, "Storage wall not found: " + wall_id)
-		return
-	
-	# Find catalog item for scene path
-	var item = _find_catalog_item(order.item_id)
-	if not item:
-		DebugLogger.error(module_name, "Catalog item not found: " + order.item_id)
-		return
-	
-	# Command the wall to load the item
-	target_wall.load_item_in_container(container_num, item.scene_path)
-	
-	DebugLogger.info(module_name, "Delivered " + order.item_id + " to " + order.container_location)
-	item_delivered.emit(order.item_id, order.container_location)
-
-## Called when a container is opened and item removed
-func container_emptied(wall_id: String, container_num: int) -> void:
-	var location = wall_id + str(container_num)
-	if occupied_containers.has(location):
-		var item_id = occupied_containers[location]
-		occupied_containers.erase(location)
-		DebugLogger.info(module_name, "Container " + location + " now available (was: " + item_id + ")")
-		DebugLogger.debug(module_name, "Available containers: " + str(get_available_container_count()))
-
-## Get count of available containers
+## Get count of total available containers across all walls
 func get_available_container_count() -> int:
-	var total_containers = 0
-	var occupied_count = 0
+	var total_available = 0
+	var walls = get_tree().get_nodes_in_group("storage_walls")
 	
-	for wall in storage_walls:
-		total_containers += 8  # Each wall has 8 containers
-		for i in range(1, 9):
-			var location = wall.wall_id + str(i)
-			if occupied_containers.has(location) or not wall.is_container_empty(i):
-				occupied_count += 1
+	for wall in walls:
+		if wall is StorageWall:
+			total_available += wall.get_empty_container_count()
 	
-	return total_containers - occupied_count
+	return total_available
 
-## Called when any storage container is interacted with
-func on_container_closed(container: StorageContainer) -> void:
-	# Find which wall and container number this is
-	for wall in storage_walls:
-		for i in range(wall.containers.size()):
-			if wall.containers[i] == container:
-				var location = wall.wall_id + str(i + 1)
-				# If container is empty and was occupied, mark as emptied
-				if container.is_empty() and occupied_containers.has(location):
-					container_emptied(wall.wall_id, i + 1)
-					DebugLogger.debug(module_name, "Container closed and emptied: " + location)
-				return
+## Check if any containers are available
+func has_available_containers() -> bool:
+	return get_available_container_count() > 0
 
 ## Get current requisition amount
 func get_requisition() -> int:
@@ -317,22 +230,6 @@ func get_requisition() -> int:
 ## Get available catalog items
 func get_catalog() -> Array[ShopItem]:
 	return shop_catalog
-
-## Find item in catalog
-func _find_catalog_item(item_id: String) -> ShopItem:
-	for item in shop_catalog:
-		if item.item_id == item_id:
-			return item
-	return null
-
-## Get number of pending orders
-func get_pending_order_count() -> int:
-	return pending_orders.size()
-
-## Get list of occupied container locations
-func get_occupied_containers() -> Array:
-	return occupied_containers.keys()
-
 
 func create_test_items() -> void:
 	shop_catalog.clear()

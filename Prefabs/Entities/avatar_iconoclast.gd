@@ -39,8 +39,8 @@ class_name IconoclastAvatar
 @export var catch_distance: float = 2.0
 ## Duration of the camera forced look at monster
 @export var forced_look_duration: float = 2.0
-## Target FOV when zooming in on monster
-@export var zoom_fov: float = 30.0
+## Target FOV when zooming out to see monster (higher = wider view)
+@export var kill_fov: float = 90.0
 ## Path to main menu scene
 @export_file("*.tscn") var main_menu_path: String = "res://scenes/ui/main_menu.tscn"
 
@@ -49,12 +49,18 @@ class_name IconoclastAvatar
 @export var always_chase: bool = false
 
 @export_group("Audio")
-## Audio player for when entity appears
+## Audio player for when entity appears (positional)
 @export var appear_audio_player: AudioStreamPlayer3D
-## Audio player for when entity vanishes
+## Audio player for when entity vanishes (positional)
 @export var vanish_audio_player: AudioStreamPlayer3D
-## Audio player for when entity captures the player
+## Audio player for when entity captures the player (positional)
 @export var capture_audio_player: AudioStreamPlayer3D
+## Non-positional audio player for global spawn announcement
+@export var spawn_announcement_player: AudioStreamPlayer
+## Non-positional audio player for chase music/ambience
+@export var chase_ambience_player: AudioStreamPlayer
+## Non-positional audio player for chase start sting/sound
+@export var chase_sting_player: AudioStreamPlayer
 
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var visible_on_screen_notifier: VisibleOnScreenNotifier3D = $VisibleOnScreenNotifier3D
@@ -63,7 +69,6 @@ class_name IconoclastAvatar
 enum State {
 	IDLE,
 	ROAMING,
-	CHECKING_VISIBILITY,
 	STARE,
 	CHASE,
 	CATCHING_PLAYER,
@@ -93,7 +98,6 @@ var idle_timer: float = 0.0
 var idle_duration: float = 0.0
 var roam_timer: float = 0.0
 var roam_target: Vector3 = Vector3.ZERO
-var was_visible_during_roam: bool = false
 
 func _ready():
 	DebugLogger.register_module("IconoclastAvatar")
@@ -134,7 +138,7 @@ func _physics_process(delta):
 			if velocity.length() > 0.1:
 				_rotate_towards_direction(delta, velocity.normalized())
 		else:
-			# Face player in all other states
+			# Face player in all other states (except roaming)
 			var player = CommonUtils.get_player()
 			if player:
 				_rotate_towards_player(delta, player)
@@ -150,8 +154,6 @@ func _physics_process(delta):
 			_process_idle_state(delta)
 		State.ROAMING:
 			_process_roaming_state(delta)
-		State.CHECKING_VISIBILITY:
-			_process_visibility_check_state(delta)
 		State.STARE:
 			_process_stare_state(delta)
 		State.CHASE:
@@ -173,14 +175,26 @@ func _process_idle_state(delta):
 	if not has_spawned:
 		return
 	
-	# Check for proximity detection even in idle
 	var player = CommonUtils.get_player()
 	if player:
 		var distance = global_position.distance_to(player.global_position)
+		
+		# Check for proximity detection
 		if distance <= auto_detect_distance and not has_been_seen:
 			DebugLogger.log_message("IconoclastAvatar", "Player within auto-detect range (%.1f), triggering detection" % distance)
 			_trigger_detection(true)  # Always chase when proximity detected
 			return
+		
+		# If we're visible and haven't been seen yet, check line of sight
+		if is_currently_visible and not has_been_seen:
+			visibility_recheck_timer -= delta
+			if visibility_recheck_timer <= 0:
+				visibility_recheck_timer = visibility_recheck_interval
+				var line_of_sight = _check_player_line_of_sight()
+				if line_of_sight:
+					DebugLogger.log_message("IconoclastAvatar", "Player has line of sight during idle!")
+					_trigger_detection(false)  # Use normal chase logic
+					return
 	
 	# Increment idle timer for roaming behavior
 	idle_timer += delta
@@ -188,36 +202,6 @@ func _process_idle_state(delta):
 	# Check if we should start roaming
 	if idle_timer >= idle_duration:
 		_start_roaming()
-
-func _process_visibility_check_state(delta):
-	move_and_slide()  # Process physics for gravity
-	
-	# Decrement the recheck timer
-	visibility_recheck_timer -= delta
-	
-	# Check visibility at intervals
-	if visibility_recheck_timer <= 0:
-		visibility_recheck_timer = visibility_recheck_interval
-		
-		# Check proximity first
-		var player = CommonUtils.get_player()
-		if player:
-			var distance = global_position.distance_to(player.global_position)
-			if distance <= auto_detect_distance:
-				DebugLogger.log_message("IconoclastAvatar", "Player within auto-detect range (%.1f), triggering detection" % distance)
-				_trigger_detection(true)  # Always chase when proximity detected
-				return
-		
-		# Check line of sight if we're visible
-		if is_currently_visible:
-			var line_of_sight = _check_player_line_of_sight()
-			
-			if line_of_sight:
-				# Player has truly seen us
-				DebugLogger.log_message("IconoclastAvatar", "PLAYER HAS LINE OF SIGHT TO MONSTER!")
-				_trigger_detection(false)  # Use normal chase logic
-			else:
-				DebugLogger.log_message("IconoclastAvatar", "Still checking visibility - no line of sight yet")
 
 func _trigger_detection(force_chase: bool):
 	has_been_seen = true
@@ -252,9 +236,17 @@ func _trigger_player_effects():
 	# Wait for blink to reach peak darkness, then start glitch
 	await get_tree().create_timer(0.15).timeout
 	
-	# Play glitch effect
+	# Play chase sting sound at the same time as glitch effect
+	if chase_sting_player:
+		chase_sting_player.play()
+		DebugLogger.log_message("IconoclastAvatar", "Playing chase sting with glitch effect")
+	
+	# Play glitch effect with camera wobble
 	var glitch_duration = randf_range(1.0, 2.0)
 	player.trigger_player_vfx("glitch", 0.1, glitch_duration, 0.1)
+	
+	# Trigger camera wobble effect simultaneously
+	player.trigger_player_vfx("camera_wobble", 0.1, glitch_duration, 0.1)
 	
 	# End with another blink after glitch
 	await get_tree().create_timer(glitch_duration).timeout
@@ -277,6 +269,8 @@ func _process_stare_state(delta):
 			chase_timer = chase_duration
 			# Switch to walk animation
 			animation_tree.set_to_walk()
+			# Start chase ambience (sting is played during glitch effect)
+			_start_chase_ambience()
 		else:
 			DebugLogger.log_message("IconoclastAvatar", "Despawning after stare")
 			_start_despawn_sequence()
@@ -336,6 +330,9 @@ func _catch_player(player: Node3D):
 	
 	DebugLogger.log_message("IconoclastAvatar", "Catching player!")
 	
+	# Stop chase ambience
+	_stop_chase_ambience()
+	
 	# Stop player movement
 	player.is_interacting_with_ui = true
 	
@@ -346,6 +343,10 @@ func _catch_player(player: Node3D):
 	
 	# Force player to look at monster
 	_force_player_look()
+	
+	# Trigger camera shake for the kill
+	player.trigger_player_vfx("camera_wobble", 0.1, forced_look_duration - 0.2, 0.1)
+	DebugLogger.log_message("IconoclastAvatar", "Triggered kill camera shake")
 	
 	# Play capture audio
 	if capture_audio_player:
@@ -371,7 +372,7 @@ func _force_player_look():
 	# Calculate direction from player to monster
 	var direction_to_monster = (global_position - player_ref.global_position).normalized()
 	
-	# Create target transform looking at monster
+	# Create target transform looking at monster's upper body/head area
 	var target_pos = global_position + Vector3(0, 1.5, 0)  # Look at chest/head area
 	
 	# Create tween for smooth camera movement
@@ -392,10 +393,10 @@ func _force_player_look():
 	if head:
 		camera_tween.tween_property(head, "rotation:x", -pitch, 0.5)
 	
-	# Zoom in camera
-	camera_tween.tween_property(camera, "fov", zoom_fov, 0.5)
+	# Zoom OUT camera to see more of the monster
+	camera_tween.tween_property(camera, "fov", kill_fov, 0.5)
 	
-	DebugLogger.log_message("IconoclastAvatar", "Forcing player to look at monster with FOV: %f" % zoom_fov)
+	DebugLogger.log_message("IconoclastAvatar", "Forcing player to look at monster with wider FOV: %f" % kill_fov)
 
 func _transition_to_main_menu():
 	DebugLogger.log_message("IconoclastAvatar", "Transitioning to main menu after catch")
@@ -475,6 +476,11 @@ func _start_spawn_sequence():
 		appear_audio_player.play()
 		DebugLogger.log_message("IconoclastAvatar", "Playing appear audio")
 	
+	# Play non-positional spawn announcement sound
+	if spawn_announcement_player:
+		spawn_announcement_player.play()
+		DebugLogger.log_message("IconoclastAvatar", "Playing global spawn announcement")
+	
 	# Set up and show collapse sphere at full collapse
 	if collapse_sphere and collapse_sphere.material_override:
 		collapse_sphere.visible = true
@@ -530,6 +536,9 @@ func _start_despawn_sequence():
 	current_state = State.DESPAWNING
 	DebugLogger.log_message("IconoclastAvatar", "Starting despawn sequence")
 	
+	# Stop chase ambience if it's playing
+	_stop_chase_ambience()
+	
 	# Stop particle effect
 	if particle_effect:
 		particle_effect.emitting = false
@@ -579,7 +588,6 @@ func _start_roaming():
 	# Reset timers
 	idle_timer = 0.0
 	roam_timer = 0.0
-	was_visible_during_roam = false
 	
 	# Determine if we should move near player (10% chance)
 	var move_near_player = randf() < 0.1
@@ -611,34 +619,13 @@ func _start_roaming():
 		animation_tree.set_to_walk()
 
 func _process_roaming_state(delta):
-	# Check if player can see us - if so, immediately return to idle
-	if is_currently_visible:
-		if not was_visible_during_roam:
-			DebugLogger.log_message("IconoclastAvatar", "Player spotted entity during roam - freezing")
-			was_visible_during_roam = true
-		
-		# Stop moving and go back to idle animation
-		velocity = Vector3.ZERO
-		if animation_tree:
-			animation_tree.set_to_idle()
-		move_and_slide()
-		return
-	else:
-		# If we were visible but now aren't, resume roaming
-		if was_visible_during_roam:
-			DebugLogger.log_message("IconoclastAvatar", "Player looked away - resuming roam")
-			was_visible_during_roam = false
-			if animation_tree:
-				animation_tree.set_to_walk()
-	
 	# Check for proximity detection while roaming
 	var player = CommonUtils.get_player()
 	if player:
 		var distance = global_position.distance_to(player.global_position)
 		if distance <= auto_detect_distance and not has_been_seen:
-			DebugLogger.log_message("IconoclastAvatar", "Player within auto-detect range during roam (%.1f), triggering detection" % distance)
-			_trigger_detection(true)
-			return
+			DebugLogger.log_message("IconoclastAvatar", "Player within auto-detect range during roam (%.1f), but continuing roam" % distance)
+			# Don't trigger detection yet - wait until we reach destination
 	
 	# Increment roam timer
 	roam_timer += delta
@@ -676,6 +663,15 @@ func _return_to_idle():
 	# Reset to idle state
 	current_state = State.IDLE
 	
+	# Check if player is close now that we're in idle
+	var player = CommonUtils.get_player()
+	if player:
+		var distance = global_position.distance_to(player.global_position)
+		if distance <= auto_detect_distance and not has_been_seen:
+			DebugLogger.log_message("IconoclastAvatar", "Player within auto-detect range after roam complete (%.1f), triggering detection" % distance)
+			_trigger_detection(true)
+			return
+	
 	# Set new idle duration
 	idle_duration = randf_range(5.0, 15.0)
 	idle_timer = 0.0
@@ -691,7 +687,8 @@ func _rotate_towards_direction(delta, direction: Vector3):
 	direction = direction.normalized()
 	
 	if direction.length() > 0:
-		var target_transform = transform.looking_at(global_position + direction, Vector3.UP)
+		# Face the direction of movement (not away from it)
+		var target_transform = transform.looking_at(global_position - direction, Vector3.UP)
 		transform.basis = transform.basis.slerp(target_transform.basis, turn_speed * delta)
 
 func _rotate_towards_player(delta, player):
@@ -706,6 +703,22 @@ func _rotate_towards_player(delta, player):
 		var target_transform = transform.looking_at(global_position + target_direction, Vector3.UP)
 		transform.basis = transform.basis.slerp(target_transform.basis, turn_speed * delta)
 
+func _start_chase_ambience():
+	if not chase_ambience_player:
+		return
+	
+	# Stop any existing chase audio just in case
+	_stop_chase_ambience()
+	
+	# Play the chase ambience
+	chase_ambience_player.play()
+	DebugLogger.log_message("IconoclastAvatar", "Started chase ambience")
+
+func _stop_chase_ambience():
+	if chase_ambience_player and chase_ambience_player.playing:
+		chase_ambience_player.stop()
+		DebugLogger.log_message("IconoclastAvatar", "Stopped chase ambience")
+
 func _on_screen_entered():
 	is_currently_visible = true
 	DebugLogger.log_message("IconoclastAvatar", "Monster entered screen (visible to camera frustum)")
@@ -715,25 +728,17 @@ func _on_screen_entered():
 		DebugLogger.log_message("IconoclastAvatar", "Not reacting - spawn not complete")
 		return
 	
-	# If we're roaming, we don't trigger detection - we just freeze
+	# Ignore visibility during roaming - we're uninterruptible
 	if current_state == State.ROAMING:
-		DebugLogger.log_message("IconoclastAvatar", "Visible during roam - freezing movement")
+		DebugLogger.log_message("IconoclastAvatar", "Visible during roam - ignoring")
 		return
 	
-	if not has_been_seen and current_state == State.IDLE:
-		DebugLogger.log_message("IconoclastAvatar", "Starting visibility check")
-		current_state = State.CHECKING_VISIBILITY
+	# Reset visibility check timer when entering screen
+	if current_state == State.IDLE and not has_been_seen:
+		DebugLogger.log_message("IconoclastAvatar", "Visible in idle - will check for line of sight")
 		visibility_recheck_timer = 0.0  # Check immediately
 
 func _on_screen_exited():
 	is_currently_visible = false
 	is_flashlight_on_monster = false  # Can't be lit if not visible
 	DebugLogger.log_message("IconoclastAvatar", "Monster exited screen (no longer in camera frustum)")
-	
-	# If we were checking visibility, go back to idle
-	if current_state == State.CHECKING_VISIBILITY and not has_been_seen:
-		DebugLogger.log_message("IconoclastAvatar", "Player looked away during visibility check - returning to idle")
-		current_state = State.IDLE
-		# Reset idle timer so we don't immediately start roaming
-		idle_timer = 0.0
-		idle_duration = randf_range(5.0, 15.0)

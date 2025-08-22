@@ -32,7 +32,6 @@ script = ExtResource("1_ttbae")
 [node name="TaskManager" parent="." instance=ExtResource("4_554py")]
 
 [node name="StorageManager" parent="." instance=ExtResource("6_k5xqi")]
-current_requisition = 5000
 shop_catalog = Array[ExtResource("8_tpof5")]([ExtResource("21_7p8ko"), ExtResource("22_pcida"), ExtResource("23_i8je7"), ExtResource("24_vvnsy"), ExtResource("25_ypteb"), ExtResource("26_s6rh7"), ExtResource("27_rxn7a"), ExtResource("28_ueve2"), ExtResource("29_r07jx"), ExtResource("30_78fta"), ExtResource("31_nwhts"), ExtResource("32_o3trq"), ExtResource("33_k3nj7")])
 
 [node name="AudioFXManager" parent="." instance=ExtResource("21_ndbpl")]
