@@ -667,7 +667,6 @@ data = PackedVector3Array(-0.1323, 0.0387, -0.0902, -0.1283, -0.045, -0.0844, -0
 
 [node name="ShatteredAnomalyScanner" type="Node3D"]
 script = ExtResource("1_gryal")
-explosion_sound = ExtResource("2_1qjfd")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 collision_layer = 0
@@ -812,3 +811,7 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D12"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.164628, 0.0521884, 0.131097)
 shape = SubResource("ConcavePolygonShape3D_k7x3m")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_1qjfd")
+bus = &"SFX"

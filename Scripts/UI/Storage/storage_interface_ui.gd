@@ -44,7 +44,37 @@ func _ready() -> void:
 	_populate_shop()
 	_update_requisition_display()
 	
+	# Start checking for storage walls availability
+	_start_storage_check()
+	
 	DebugLogger.debug(module_name, "Shop UI Control initialized")
+
+var storage_check_timer: float = 0.0
+var storage_check_complete: bool = false
+
+func _start_storage_check() -> void:
+	# Check every 0.5 seconds for up to 5 seconds for storage walls to appear
+	set_process(true)
+
+func _process(delta: float) -> void:
+	if storage_check_complete:
+		return
+		
+	storage_check_timer += delta
+	
+	# Check every 0.5 seconds
+	if fmod(storage_check_timer, 0.5) < delta:
+		if storage_manager and storage_manager.has_available_containers():
+			# Storage walls found! Update all buttons
+			DebugLogger.info(module_name, "Storage walls detected, enabling shop buttons")
+			_update_all_buttons()
+			storage_check_complete = true
+			set_process(false)
+		elif storage_check_timer > 5.0:
+			# Give up after 5 seconds
+			DebugLogger.warning(module_name, "No storage walls found after 5 seconds")
+			storage_check_complete = true
+			set_process(false)
 
 func _setup_ui() -> void:
 	# Make sure we have the required grids

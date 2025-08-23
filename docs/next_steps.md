@@ -1,10 +1,10 @@
 Fix issues 
 
+Write up all the log files 
+
 Get more feedback 
 
 Look over the task list for all days, even it out a bit 
-
-Write up all the log files 
 
 Test more and polish more 
 
@@ -21,18 +21,23 @@ Finish polishing, then publish it
 
 Fix telescope terminal
 
-### Audio
+Event where objects get thrown around
 
+Fix tabbing and scrolling on dev terminal 
 
-~~Iconoclast needs sting for when it spawns~~
+SFX Broken on reboot
+
+Power lever says open 
+
+Make emergency task failing kill you 
+
+Iconoclast gets stuck in patrol mode 
+
+Warp happens too frequenlty, the sfx need to be balanced a bit 
 
 ## Bug
 
-~~Stats screen is broken  Incorrect stats displayed~~
-
-
-Iconoclast crashes out when I look at him 
-Iconoclast broken in multiple ways 
-
 
 Resolution does nothing in full screen, only windowed 
+
+

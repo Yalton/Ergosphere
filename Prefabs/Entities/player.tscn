@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://bgnqxsxljglaq"]
+[gd_scene load_steps=47 format=3 uid="uid://bgnqxsxljglaq"]
 
 [ext_resource type="Script" uid="uid://idfua8ynd6jj" path="res://Scripts/Entities/player.gd" id="1_23jlx"]
 [ext_resource type="PackedScene" uid="uid://3ioq6sw0jikq" path="res://Prefabs/Components/player_effects_component.tscn" id="2_5ls6m"]
@@ -33,6 +33,7 @@
 [ext_resource type="PackedScene" uid="uid://du67esbe2xmup" path="res://Prefabs/UI/components/ui_hint.tscn" id="16_mtnbr"]
 [ext_resource type="PackedScene" uid="uid://dxkxj4kk30o5b" path="res://Prefabs/UI/DiageticUI/dev_terminal.tscn" id="18_k313v"]
 [ext_resource type="PackedScene" uid="uid://lb2r5qew7tsr" path="res://Prefabs/UI/sleep_stats.tscn" id="18_yls7o"]
+[ext_resource type="Texture2D" uid="uid://cvg4ebf5slhw" path="res://Assets/Graphics/Crosshair.png" id="31_6xyov"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bxc72"]
 
@@ -865,6 +866,20 @@ dev_console_ui = NodePath("DevTerminal")
 flashlight_meter = NodePath("FlashlightMeter/HBoxContainer/FlashlightMeter")
 flashlight_meter_container = NodePath("FlashlightMeter")
 
+[node name="CrossHair" type="CenterContainer" parent="PlayerUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="PlayerUI/CrossHair"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("31_6xyov")
+
 [node name="Interaction Container" type="VBoxContainer" parent="PlayerUI"]
 layout_mode = 1
 anchors_preset = 15
@@ -891,10 +906,9 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.0
 mouse_filter = 2
 
-[node name="GridContainer" type="GridContainer" parent="PlayerUI/Interaction Container/HBoxContainer"]
+[node name="GridContainer" type="HBoxContainer" parent="PlayerUI/Interaction Container/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-columns = 2
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="PlayerUI/Interaction Container/HBoxContainer/GridContainer"]
 layout_mode = 2

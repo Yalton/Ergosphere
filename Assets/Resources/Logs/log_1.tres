@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="TerminalLog" load_steps=2 format=3 uid="uid://d3d877bl0hb1k"]
+
+[ext_resource type="Script" uid="uid://buxd8j4thwumx" path="res://Scripts/Resources/terminal_log.gd" id="1_mfjca"]
+
+[resource]
+script = ExtResource("1_mfjca")
+log_title = "Intro to Thoth Observatory"
+log_content = "Welcome to Thoth Observatory, as the current steward of this station you are entitled to certain information pertaining to this installation. These log files are intended to provide you with information that the machine intelligence of this station may not feel is required to share. "
+is_locked = false
+password_protected = false
+unlock_state_name = ""
+unlock_state_value = true
+locked_message = "Access Denied - Insufficient Clearance"
+log_date = "Test"
+log_author = "Test"
+security_level = "PUBLIC"
+metadata/_custom_type_script = "uid://buxd8j4thwumx"

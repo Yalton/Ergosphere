@@ -3,6 +3,7 @@ extends Control
 class_name SleepStatsScreen
 
 signal stats_complete
+signal stats_screen_closed  # Compatibility signal for DreamSequenceEventHandler
 
 @export var enable_debug: bool = true
 var module_name: String = "SleepStatsScreen"
@@ -82,7 +83,47 @@ func _setup_timers() -> void:
 	pause_timer.timeout.connect(_start_next_label)
 	add_child(pause_timer)
 
-## Show stats for the specified day
+## Show stats with pre-captured data (preferred method)
+func show_stats_with_data(day_number: int, sanity: int, tasks_completed: int) -> void:
+	stats_day_number = day_number
+	
+	# Build stats from provided data
+	_gather_stats_from_data(day_number, sanity, tasks_completed)
+	
+	# Clear all labels
+	_clear_all_labels()
+	
+	# Show the screen
+	show()
+	
+	# Start typing the first label
+	current_label_index = 0
+	current_char_index = 0
+	is_typing = true
+	_start_typing_current_label()
+	
+	DebugLogger.info(module_name, "Showing stats for day %d with provided data" % day_number)
+
+## Build stats from provided data instead of fetching current values
+func _gather_stats_from_data(day_number: int, sanity: int, tasks_completed: int) -> void:
+	stats_data.clear()
+	
+	var sanity_text = _get_sanity_text(sanity)
+	var day_message = _get_day_message(day_number)
+	
+	# Build the stats array in order (label pairs) - removed score
+	stats_data.append("DAY")
+	stats_data.append(str(day_number))
+	stats_data.append("SANITY LEVEL")
+	stats_data.append(sanity_text)
+	stats_data.append("TASKS COMPLETED")
+	stats_data.append(str(tasks_completed))
+	stats_data.append("STATUS")
+	stats_data.append(day_message)
+	
+	DebugLogger.debug(module_name, "Stats data: %s" % str(stats_data))
+
+## Show stats for the specified day (legacy method - tries to fetch current values)
 func show_stats_for_day(day_number: int) -> void:
 	stats_day_number = day_number
 	
@@ -240,6 +281,7 @@ func _finish_stats_display() -> void:
 	
 	# Signal completion
 	stats_complete.emit()
+	stats_screen_closed.emit()  # Also emit compatibility signal
 
 ## Force skip the typing
 func skip_stats() -> void:
@@ -257,3 +299,16 @@ func skip_stats() -> void:
 ## Get current stats data for external use
 func get_current_stats() -> Array[String]:
 	return stats_data
+
+## Compatibility method for existing code that calls show_sleep_stats()
+func show_sleep_stats() -> void:
+	# This is likely being called after the day has already incremented
+	# So we need to show stats for the day that just ended (current - 1)
+	var completed_day = GameManager.get_current_day() - 1
+	
+	# Clamp to valid range
+	if completed_day < 1:
+		completed_day = 1
+	
+	DebugLogger.debug(module_name, "show_sleep_stats called, showing stats for completed day %d" % completed_day)
+	show_stats_for_day(completed_day)

@@ -27,6 +27,9 @@ var current_player: Player = null
 var current_player_interaction: PlayerInteractionComponent = null
 var is_processing_dream: bool = false
 
+# Store stats before day changes
+var stored_day_stats: Dictionary = {}
+
 func _ready() -> void:
 	super._ready()
 	module_name = "Bed"
@@ -85,12 +88,45 @@ func interact(player_interaction: PlayerInteractionComponent) -> void:
 	# Wait for camera transition
 	await get_tree().create_timer(camera_transition_duration).timeout
 	
+	# IMPORTANT: Capture stats BEFORE the day changes
+	_capture_current_day_stats()
+	
 	# Notify GameManager that player is sleeping
 	if GameManager:
 		GameManager.player_sleeping.emit()
 	
 	# Start the full sleep sequence
 	_initiate_sleep_sequence()
+
+func _capture_current_day_stats() -> void:
+	"""Capture stats for the current day before it changes"""
+	var current_day = GameManager.current_day if GameManager else 1
+	
+	# Get sanity level
+	var sanity = 100
+	if current_player:
+		var insanity_comp = null
+		for child in current_player.get_children():
+			if child.has_method("add_insanity"):
+				insanity_comp = child
+				break
+		
+		if insanity_comp:
+			sanity = int(100 - insanity_comp.current_insanity)
+	
+	# Get completed tasks count
+	var tasks_completed = 0
+	if GameManager and GameManager.task_manager:
+		tasks_completed = GameManager.task_manager.completed_tasks.size()
+	
+	# Store the stats
+	stored_day_stats = {
+		"day": current_day,
+		"sanity": sanity,
+		"tasks_completed": tasks_completed
+	}
+	
+	DebugLogger.debug(module_name, "Captured stats for day %d: sanity=%d, tasks=%d" % [current_day, sanity, tasks_completed])
 
 func _initiate_sleep_sequence() -> void:
 	DebugLogger.debug(module_name, "Starting sleep sequence")
@@ -110,14 +146,17 @@ func _initiate_sleep_sequence() -> void:
 	
 	# Show stats screen if available
 	if current_player_interaction.sleep_stats_screen:
-		DebugLogger.debug(module_name, "Showing stats screen")
+		DebugLogger.debug(module_name, "Showing stats screen for captured day %d" % stored_day_stats["day"])
 		
 		# Connect to stats completion signal temporarily
 		current_player_interaction.sleep_stats_screen.stats_complete.connect(_on_stats_complete, CONNECT_ONE_SHOT)
 		
-		# Tell stats screen to show current day stats
-		var current_day = GameManager.current_day if GameManager else 1
-		current_player_interaction.sleep_stats_screen.show_stats_for_day(current_day)
+		# Pass the STORED stats to the stats screen
+		current_player_interaction.sleep_stats_screen.show_stats_with_data(
+			stored_day_stats["day"],
+			stored_day_stats["sanity"], 
+			stored_day_stats["tasks_completed"]
+		)
 		
 		# Wait for stats to complete
 		await current_player_interaction.sleep_stats_screen.stats_complete
@@ -242,6 +281,7 @@ func _finish_sleep_sequence() -> void:
 	# Clear references
 	current_player = null
 	current_player_interaction = null
+	stored_day_stats.clear()
 	
 	DebugLogger.info(module_name, "Sleep sequence completed")
 

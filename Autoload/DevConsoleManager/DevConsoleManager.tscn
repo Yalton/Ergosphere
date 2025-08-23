@@ -1,14 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://ddmnsmsgtxan3"]
+[gd_scene load_steps=9 format=3 uid="uid://ddmnsmsgtxan3"]
 
 [ext_resource type="Script" uid="uid://b5pe1qu81jpft" path="res://Autoload/DevConsoleManager/dev_console_manager.gd" id="1_3q5ym"]
+[ext_resource type="Script" uid="uid://buxd8j4thwumx" path="res://Scripts/Resources/terminal_log.gd" id="2_ai4xp"]
 [ext_resource type="Script" uid="uid://b0qg207abnf52" path="res://Autoload/DevConsoleManager/Handlers/core_commands.gd" id="2_vl7ne"]
 [ext_resource type="Script" uid="uid://dmgebucesdpb3" path="res://Autoload/DevConsoleManager/Handlers/game_commands.gd" id="3_5ovku"]
+[ext_resource type="Resource" uid="uid://d3d877bl0hb1k" path="res://Assets/Resources/Logs/log_1.tres" id="3_bexd0"]
 [ext_resource type="Script" uid="uid://cgeq7vaw5mg54" path="res://Autoload/DevConsoleManager/Handlers/log_commands.gd" id="4_nyrkj"]
 [ext_resource type="Script" uid="uid://4vxh0bs3f2vg" path="res://Autoload/DevConsoleManager/spawn_commands.gd" id="5_rouhl"]
 [ext_resource type="Script" uid="uid://bd2bqmulfqp62" path="res://Autoload/DevConsoleManager/vfx_commands.gd" id="6_5pinr"]
 
 [node name="DevConsoleManager" type="Node"]
 script = ExtResource("1_3q5ym")
+terminal_logs = Array[ExtResource("2_ai4xp")]([ExtResource("3_bexd0")])
 
 [node name="CoreCommands" type="Node" parent="."]
 script = ExtResource("2_vl7ne")
