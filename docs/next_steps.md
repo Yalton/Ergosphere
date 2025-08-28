@@ -1,6 +1,8 @@
 Fix issues 
 
 Write up all the log files 
+- there should be 13 log files 
+
 
 Get more feedback 
 
@@ -19,21 +21,23 @@ Finish polishing, then publish it
 
 ## Misc 
 
-Fix telescope terminal
 
-Event where objects get thrown around
+~~Event where objects get thrown around~~
+
+~~SFX Broken on reboot~~
+
+~~Jarring horror happens to frequently~~
+
+~~Warp happens too frequently, the sfx need to be balanced a bit ~~
+
+~~Fix telescope terminal~~
 
 Fix tabbing and scrolling on dev terminal 
 
-SFX Broken on reboot
-
-Power lever says open 
-
-Make emergency task failing kill you 
-
 Iconoclast gets stuck in patrol mode 
 
-Warp happens too frequenlty, the sfx need to be balanced a bit 
+Make emergency task failing fucking kill you 
+
 
 ## Bug
 

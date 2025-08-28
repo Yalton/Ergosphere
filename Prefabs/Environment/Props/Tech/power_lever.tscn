@@ -320,6 +320,7 @@ state_aware_component = NodePath("StateAwareComponent")
 display_name = "power_lever"
 
 [node name="BasicInteraction" parent="." instance=ExtResource("11_opa3s")]
+interaction_text = "Power Lever"
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("2_eckd2")]
 associated_task_id = "restore_power"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://bk1kuand7o7xa"]
+[gd_scene load_steps=45 format=3 uid="uid://bk1kuand7o7xa"]
 
 [ext_resource type="Script" uid="uid://b2evp3vtmha88" path="res://Autoload/GameManager/EventManager/Handlers/event_manager.gd" id="1_nnr1m"]
 [ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="2_he56m"]
@@ -20,6 +20,7 @@
 [ext_resource type="Resource" uid="uid://boqp5mvjnjqnm" path="res://Assets/Resources/Events/purple_shift.tres" id="18_rdvo6"]
 [ext_resource type="Resource" uid="uid://cjden0bcjx5im" path="res://Assets/Resources/Events/subtle_horror.tres" id="20_foxlv"]
 [ext_resource type="Resource" uid="uid://bh6idp3esp163" path="res://Assets/Resources/Events/warp.tres" id="22_0gtbr"]
+[ext_resource type="Resource" uid="uid://cvuayyb8f42ki" path="res://Assets/Resources/Events/object_displacement.tres" id="22_5p7si"]
 [ext_resource type="Script" uid="uid://bjvec8aiicpdc" path="res://Autoload/GameManager/EventManager/Handlers/spooky_ambience.gd" id="22_awmde"]
 [ext_resource type="Resource" uid="uid://ckto5uf860msc" path="res://Assets/Resources/Events/spawn_iconoclast.tres" id="22_xr1wj"]
 [ext_resource type="PackedScene" uid="uid://bulnd3bpf0oew" path="res://Prefabs/VFX/small_black_hole_effect.tscn" id="23_oj86y"]
@@ -46,7 +47,7 @@
 
 [node name="EventManager" type="Node"]
 script = ExtResource("1_nnr1m")
-event_resources = Array[ExtResource("2_he56m")]([ExtResource("3_8djds"), ExtResource("4_xpt2l"), ExtResource("5_cjofh"), ExtResource("6_awmde"), ExtResource("8_w2vkq"), ExtResource("3_u7gbo"), ExtResource("10_l5acs"), ExtResource("11_yq1if"), ExtResource("12_440ic"), ExtResource("5_nn0bu"), ExtResource("7_he56m"), ExtResource("15_n1n8g"), ExtResource("16_rb45j"), ExtResource("17_pkq12"), ExtResource("18_rdvo6"), ExtResource("20_foxlv"), ExtResource("4_u7gbo"), ExtResource("22_0gtbr"), ExtResource("22_xr1wj")])
+event_resources = Array[ExtResource("2_he56m")]([ExtResource("3_8djds"), ExtResource("4_xpt2l"), ExtResource("5_cjofh"), ExtResource("6_awmde"), ExtResource("8_w2vkq"), ExtResource("3_u7gbo"), ExtResource("10_l5acs"), ExtResource("11_yq1if"), ExtResource("12_440ic"), ExtResource("5_nn0bu"), ExtResource("7_he56m"), ExtResource("15_n1n8g"), ExtResource("16_rb45j"), ExtResource("17_pkq12"), ExtResource("18_rdvo6"), ExtResource("20_foxlv"), ExtResource("4_u7gbo"), ExtResource("22_0gtbr"), ExtResource("22_xr1wj"), ExtResource("22_5p7si")])
 
 [node name="spooky_ambience" type="Node" parent="."]
 script = ExtResource("22_awmde")

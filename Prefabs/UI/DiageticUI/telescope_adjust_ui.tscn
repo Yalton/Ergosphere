@@ -67,7 +67,7 @@ _data = {
 &"spinning": SubResource("Animation_hejy6")
 }
 
-[node name="telescope_adjust_ui" type="Control" node_paths=PackedStringArray("x_slider", "y_slider", "telescope_image", "x_position_label", "y_position_label", "status_label", "progress_bar", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
+[node name="telescope_adjust_ui" type="Control" node_paths=PackedStringArray("telescope_image", "x_position_label", "y_position_label", "status_label", "progress_bar", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -75,8 +75,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_k1e65")
-x_slider = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HScrollBar")
-y_slider = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/VSlider")
 telescope_image = NodePath("MainUI/BlackHoleImage")
 x_position_label = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VboxContainer/x_pos")
 y_position_label = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VboxContainer/y_pos")
@@ -210,21 +208,10 @@ layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_ykrfc")
 
-[node name="HScrollBar" type="HSlider" parent="MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
-z_index = 1
-layout_mode = 2
-size_flags_vertical = 3
-
 [node name="VBoxContainer2" type="VBoxContainer" parent="MainUI/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
-
-[node name="VSlider" type="VSlider" parent="MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
-z_index = 1
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="Control" type="Control" parent="MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2

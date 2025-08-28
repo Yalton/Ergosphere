@@ -5,21 +5,27 @@ extends DiageticUIContent
 signal telescope_position_changed(x_normalized: float, y_normalized: float)
 signal telescope_alligned()
 
-@export var x_slider: HSlider
-@export var y_slider: VSlider
-@export var telescope_image: Control  # The image/element to move around
+## The image/element to move around
+@export var telescope_image: Control
 
-# UI Elements
-@export var x_position_label: Label  # Shows X position
-@export var y_position_label: Label  # Shows Y position
-@export var status_label: Label  # "Telescope Misaligned" etc
-@export var progress_bar: ProgressBar  # Calibration progress
+## Shows X position
+@export var x_position_label: Label
+## Shows Y position  
+@export var y_position_label: Label
+## "Telescope Misaligned" etc
+@export var status_label: Label
+## Calibration progress
+@export var progress_bar: ProgressBar
 
-# Calibration settings
-@export var center_tolerance: float = 20.0  # How close to center counts as "aligned"
-@export var calibration_time: float = 3.0  # Time to calibrate
-
+## How close to center counts as "aligned"
+@export var center_tolerance: float = 20.0
+## Time to calibrate
+@export var calibration_time: float = 3.0
+## Movement tween duration in seconds
+@export var movement_duration: float = 0.5
+## Enable debug logging
 @export var enable_debug: bool = true
+
 var module_name: String = "TelescopeController"
 
 # Movement bounds (will be calculated based on screen size)
@@ -31,24 +37,15 @@ var is_calibrating: bool = false
 var is_aligned: bool = false
 var calibration_timer: float = 0.0
 
+# Movement tween
+var movement_tween: Tween
+
 func _ready() -> void:
 	DebugLogger.register_module(module_name, enable_debug)
-	
-	if not x_slider:
-		DebugLogger.error(module_name, "No X slider assigned!")
-		return
-	
-	if not y_slider:
-		DebugLogger.error(module_name, "No Y slider assigned!")
-		return
 	
 	if not telescope_image:
 		DebugLogger.error(module_name, "No telescope image assigned!")
 		return
-	
-	# Connect slider signals
-	x_slider.value_changed.connect(_on_x_slider_changed)
-	y_slider.value_changed.connect(_on_y_slider_changed)
 	
 	# Wait a frame to ensure sizes are calculated
 	await get_tree().process_frame
@@ -67,8 +64,8 @@ func _ready() -> void:
 	if status_label:
 		status_label.text = "Telescope Misaligned"
 	
-	# Set initial position
-	_update_telescope_position()
+	# Set initial random position
+	_set_random_initial_position()
 	
 	DebugLogger.debug(module_name, "Telescope controller initialized")
 	DebugLogger.debug(module_name, "Image size: " + str(telescope_image.size))
@@ -86,6 +83,15 @@ func _process(delta: float) -> void:
 		# Check if calibration is complete
 		if calibration_timer >= calibration_time:
 			_complete_calibration()
+
+func _input(event: InputEvent) -> void:
+	if not telescope_image or is_aligned:
+		return
+		
+	# Handle mouse clicks
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			_move_telescope_to_position(event.position)
 
 func _calculate_movement_bounds() -> void:
 	var screen_size = get_viewport().get_visible_rect().size
@@ -111,41 +117,52 @@ func _calculate_movement_bounds() -> void:
 	
 	DebugLogger.debug(module_name, "Movement bounds: " + str(movement_bounds))
 
-func _on_x_slider_changed(_value: float) -> void:
-	if not is_aligned:  # Only allow movement if not aligned
-		# Play neutral sound for slider adjustment
-		play_neutral_sound()
-		_update_telescope_position()
+func _move_telescope_to_position(target_pos: Vector2) -> void:
+	# Stop any existing tween
+	if movement_tween and movement_tween.is_valid():
+		movement_tween.kill()
+	
+	# Play neutral sound for movement
+	play_neutral_sound()
+	
+	# Clamp the target position to movement bounds
+	# Account for image center vs top-left position
+	var clamped_center = Vector2(
+		clamp(target_pos.x, movement_bounds.position.x, movement_bounds.position.x + movement_bounds.size.x),
+		clamp(target_pos.y, movement_bounds.position.y, movement_bounds.position.y + movement_bounds.size.y)
+	)
+	
+	# Convert center position to top-left position for the image
+	var target_top_left = clamped_center - image_half_size
+	
+	# Create tween for smooth movement
+	movement_tween = create_tween()
+	movement_tween.set_ease(Tween.EASE_IN_OUT)
+	movement_tween.set_trans(Tween.TRANS_CUBIC)
+	
+	# Use a method tweener to update position info during movement
+	movement_tween.tween_method(_tween_position, telescope_image.position, target_top_left, movement_duration)
+	
+	DebugLogger.debug(module_name, "Moving telescope to: " + str(target_top_left))
 
-func _on_y_slider_changed(_value: float) -> void:
-	if not is_aligned:  # Only allow movement if not aligned
-		# Play neutral sound for slider adjustment
-		play_neutral_sound()
-		_update_telescope_position()
+func _tween_position(new_position: Vector2) -> void:
+	telescope_image.position = new_position
+	_update_position_info()
 
-func _update_telescope_position() -> void:
-	if not telescope_image or not x_slider or not y_slider:
+func _update_position_info() -> void:
+	if not telescope_image:
 		return
 	
-	# Get normalized values (0.0 to 1.0) from sliders
-	var x_normalized = (x_slider.value - x_slider.min_value) / (x_slider.max_value - x_slider.min_value)
-	var y_normalized = (y_slider.value - y_slider.min_value) / (y_slider.max_value - y_slider.min_value)
+	# Get current center position
+	var current_center = telescope_image.position + image_half_size
 	
-	# Invert Y if slider up should mean image up
-	# (depends on your slider setup - adjust if needed)
-	y_normalized = 1.0 - y_normalized
+	# Calculate normalized position (0.0 to 1.0)
+	var x_normalized = (current_center.x - movement_bounds.position.x) / movement_bounds.size.x
+	var y_normalized = (current_center.y - movement_bounds.position.y) / movement_bounds.size.y
 	
-	# Calculate the CENTER position of where the image should be
-	var center_x = movement_bounds.position.x + (x_normalized * movement_bounds.size.x)
-	var center_y = movement_bounds.position.y + (y_normalized * movement_bounds.size.y)
-	
-	# Adjust for the image's anchor point (top-left corner)
-	# The position property sets the top-left corner, not the center
-	var target_x = center_x - image_half_size.x
-	var target_y = center_y - image_half_size.y
-	
-	# Set the position
-	telescope_image.position = Vector2(target_x, target_y)
+	# Clamp to valid range
+	x_normalized = clamp(x_normalized, 0.0, 1.0)
+	y_normalized = clamp(y_normalized, 0.0, 1.0)
 	
 	# Update position labels with normalized values
 	if x_position_label:
@@ -160,11 +177,6 @@ func _update_telescope_position() -> void:
 	
 	# Emit position changed signal
 	telescope_position_changed.emit(x_normalized, y_normalized)
-	
-	# Debug output
-	DebugLogger.debug(module_name, "Slider values - X: %.2f, Y: %.2f (normalized)" % [x_normalized, y_normalized])
-	DebugLogger.debug(module_name, "Center position: (%.1f, %.1f)" % [center_x, center_y])
-	DebugLogger.debug(module_name, "Top-left position: (%.1f, %.1f)" % [target_x, target_y])
 
 func _check_alignment(x_norm: float, y_norm: float) -> void:
 	# Check if we're close to center (0.5, 0.5 in normalized coords)
@@ -222,14 +234,9 @@ func _complete_calibration() -> void:
 	if progress_bar:
 		progress_bar.value = 100.0
 	
-	# Disable sliders
-	if x_slider:
-		x_slider.editable = false
-		x_slider.modulate.a = 0.5  # Make it look disabled
-	
-	if y_slider:
-		y_slider.editable = false
-		y_slider.modulate.a = 0.5  # Make it look disabled
+	# Stop any movement
+	if movement_tween and movement_tween.is_valid():
+		movement_tween.kill()
 	
 	# Play victory sound for successful alignment
 	play_victory_sound()
@@ -240,16 +247,21 @@ func _complete_calibration() -> void:
 ## Call this if screen size changes
 func _on_screen_resized() -> void:
 	_calculate_movement_bounds()
-	_update_telescope_position()
 	DebugLogger.debug(module_name, "Screen resized, recalculated bounds")
 
 ## Helper function to set telescope to specific normalized position
 func set_telescope_position(x_normalized: float, y_normalized: float) -> void:
-	if x_slider and y_slider and not is_aligned:
-		x_slider.value = x_slider.min_value + (x_normalized * (x_slider.max_value - x_slider.min_value))
-		# Invert Y for the slider since we invert it in the position calculation
-		var inverted_y = 1.0 - y_normalized
-		y_slider.value = y_slider.min_value + (inverted_y * (y_slider.max_value - y_slider.min_value))
+	if not is_aligned:
+		# Calculate target center position from normalized values
+		var target_center = Vector2(
+			movement_bounds.position.x + (x_normalized * movement_bounds.size.x),
+			movement_bounds.position.y + (y_normalized * movement_bounds.size.y)
+		)
+		
+		# Convert to top-left position
+		var target_pos = target_center - image_half_size
+		telescope_image.position = target_pos
+		_update_position_info()
 
 ## Reset the telescope alignment (for testing or restarting)
 func reset_alignment() -> void:
@@ -263,19 +275,30 @@ func reset_alignment() -> void:
 	if progress_bar:
 		progress_bar.value = 0.0
 	
-	# Re-enable sliders
-	if x_slider:
-		x_slider.editable = true
-		x_slider.modulate.a = 1.0
-	
-	if y_slider:
-		y_slider.editable = true
-		y_slider.modulate.a = 1.0
-	
 	# Play neutral sound for reset
 	play_neutral_sound()
 	
 	DebugLogger.info(module_name, "Telescope alignment reset")
+
+## Set initial random position avoiding center
+func _set_random_initial_position() -> void:
+	# Pick random position avoiding the center area
+	var x_norm: float
+	var y_norm: float
+	
+	# Pick either lower third or upper third for X, avoiding middle third
+	if randf() < 0.5:
+		x_norm = randf_range(0.0, 0.33)
+	else:
+		x_norm = randf_range(0.67, 1.0)
+	
+	# Pick either lower third or upper third for Y, avoiding middle third
+	if randf() < 0.5:
+		y_norm = randf_range(0.0, 0.33)
+	else:
+		y_norm = randf_range(0.67, 1.0)
+	
+	set_telescope_position(x_norm, y_norm)
 
 ## Test functions to verify positioning
 func test_corners() -> void:
@@ -314,28 +337,4 @@ func is_telescope_aligned() -> bool:
 func reset_ui() -> void:
 	DebugLogger.debug(module_name, "Resetting telescope UI to initial state")
 	reset_alignment()
-	
-	# Reset sliders to random positions avoiding center
-	if x_slider:
-		var center = (x_slider.min_value + x_slider.max_value) * 0.5
-		var range_size = x_slider.max_value - x_slider.min_value
-		# Pick either lower third or upper third, avoiding middle third
-		if randf() < 0.5:
-			# Lower third (0.0 to 0.33)
-			x_slider.value = x_slider.min_value + randf_range(0.0, 0.33) * range_size
-		else:
-			# Upper third (0.67 to 1.0)
-			x_slider.value = x_slider.min_value + randf_range(0.67, 1.0) * range_size
-	
-	if y_slider:
-		var center = (y_slider.min_value + y_slider.max_value) * 0.5
-		var range_size = y_slider.max_value - y_slider.min_value
-		# Pick either lower third or upper third, avoiding middle third
-		if randf() < 0.5:
-			# Lower third (0.0 to 0.33)
-			y_slider.value = y_slider.min_value + randf_range(0.0, 0.33) * range_size
-		else:
-			# Upper third (0.67 to 1.0)
-			y_slider.value = y_slider.min_value + randf_range(0.67, 1.0) * range_size
-	
-	_update_telescope_position()
+	_set_random_initial_position()

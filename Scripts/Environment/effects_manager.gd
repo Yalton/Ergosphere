@@ -33,7 +33,6 @@ signal power_state_changed(is_on: bool)
 ## Duration of brightness boost
 @export var brightness_boost_duration: float = 5.0
 
-var audio_player: AudioStreamPlayer
 var original_light_states: Array = []
 var original_emission_color: Color
 var original_emission_energy: float
@@ -240,10 +239,9 @@ func kill_power(duration: float = 0.0) -> void:
 		GameManager.state_manager.set_state(CommonUtils.STATE_POWER, "off")
 		GameManager.state_manager.set_state(CommonUtils.STATE_EMERGENCY_MODE, true)
 	
-	# Play sound
-	if power_off_sound and audio_player:
-		audio_player.stream = power_off_sound
-		audio_player.play()
+	# Play sound using Audio singleton
+	if power_off_sound:
+		Audio.play_sound(power_off_sound)
 	
 	# Store original states if not already stored
 	if original_light_states.is_empty():
@@ -276,10 +274,9 @@ func restore_power() -> void:
 		GameManager.state_manager.set_state(CommonUtils.STATE_POWER, "on")
 		GameManager.state_manager.set_state(CommonUtils.STATE_EMERGENCY_MODE, false)
 	
-	# Play sound
-	if power_on_sound and audio_player:
-		audio_player.stream = power_on_sound
-		audio_player.play()
+	# Play sound using Audio singleton
+	if power_on_sound:
+		Audio.play_sound(power_on_sound)
 	
 	# Restore lights and materials
 	_restore_lights()

@@ -68,6 +68,15 @@ class_name PositionalEventHandler
 ## Sound to play when object is thrown
 @export var throw_sound: AudioStream
 
+# ============== DISPLACEMENT SETTINGS ==============
+@export_group("Displacement Settings")
+## Minimum impulse force to apply
+@export var displacement_min_force: float = 0.5
+## Maximum impulse force to apply
+@export var displacement_max_force: float = 3.0
+## Sound to play when object is displaced
+@export var displacement_sound: AudioStream
+
 # State tracking for various events
 var spawned_objects: Array[Node] = []
 var levitating_body: RigidBody3D = null
@@ -84,7 +93,8 @@ func _ready() -> void:
 		"micro_blackhole", "dark_fog", "entity_appearance", "scene_spawn",
 		"spawn_iconoclast",
 		"object_levitate",
-		"object_throw", "poltergeist"
+		"object_throw", "poltergeist",
+		"object_displacement"
 	]
 	
 	DebugLogger.register_module("PositionalEventHandler")
@@ -103,6 +113,8 @@ func _can_execute_internal() -> Dictionary:
 			return _can_execute_levitate()
 		"object_throw", "poltergeist":
 			return _can_execute_throw()
+		"object_displacement":
+			return _can_execute_displacement()
 		_:
 			return {"success": false, "message": "Unknown event ID: " + event_data.id}
 
@@ -124,6 +136,8 @@ func _execute_internal() -> Dictionary:
 			return _execute_levitate()
 		"object_throw", "poltergeist":
 			return _execute_throw()
+		"object_displacement":
+			return _execute_displacement()
 		_:
 			return {"success": false, "message": "Unknown event ID: " + event_data.id}
 
@@ -567,6 +581,57 @@ func _throw_object_at_player(body: RigidBody3D, player_pos: Vector3) -> void:
 		audio_player.global_position = object_pos
 		audio_player.play()
 		audio_player.finished.connect(audio_player.queue_free)
+
+# ============== DISPLACEMENT EVENT FUNCTIONS ==============
+func _can_execute_displacement() -> Dictionary:
+	var all_bodies = _find_all_rigidbodies()
+	if all_bodies.is_empty():
+		return {"success": false, "message": "No rigidbodies found on the map"}
+	
+	return {"success": true, "message": "OK"}
+
+func _execute_displacement() -> Dictionary:
+	var all_bodies = _find_all_rigidbodies()
+	if all_bodies.is_empty():
+		return {"success": false, "message": "No rigidbodies found to displace"}
+	
+	# Pick a random body
+	var random_body = all_bodies[randi() % all_bodies.size()]
+	
+	# Generate random impulse direction
+	var random_direction = Vector3(
+		randf_range(-1.0, 1.0),
+		randf_range(-0.5, 1.0),  # Slight upward bias
+		randf_range(-1.0, 1.0)
+	).normalized()
+	
+	# Random force within configured range
+	var force_magnitude = randf_range(displacement_min_force, displacement_max_force)
+	var impulse = random_direction * force_magnitude
+	
+	# Apply the impulse
+	random_body.apply_central_impulse(impulse)
+	
+	# Play sound at object location
+	if displacement_sound:
+		var audio_player = AudioStreamPlayer3D.new()
+		audio_player.stream = displacement_sound
+		audio_player.bus = "SFX"
+		audio_player.max_distance = 20.0
+		get_tree().current_scene.add_child(audio_player)
+		audio_player.global_position = random_body.global_position
+		audio_player.play()
+		audio_player.finished.connect(audio_player.queue_free)
+	
+	DebugLogger.log_message("PositionalEventHandler", "Displaced object with impulse: " + str(impulse))
+	
+	# End event after a short delay
+	get_tree().create_timer(0.5).timeout.connect(func():
+		if is_active:
+			end()
+	)
+	
+	return {"success": true, "message": "OK"}
 
 # ============== SHARED UTILITY FUNCTIONS ==============
 func _find_closest_rigidbody(player_pos: Vector3, max_distance: float) -> RigidBody3D:
