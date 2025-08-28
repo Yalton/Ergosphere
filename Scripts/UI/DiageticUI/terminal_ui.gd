@@ -38,12 +38,15 @@ func _ready() -> void:
 		add_line("=== " + terminal_name + " ===")
 		add_line("Connected to station systems")
 		add_line("")
+		# Make output area focusable for scrolling
+		output_area.focus_mode = Control.FOCUS_ALL
 	
 	# Setup input field
 	if input_field:
 		input_field.text_submitted.connect(_on_text_submitted)
 		input_field.gui_input.connect(_on_input_gui_event)
 		input_field.placeholder_text = "Enter command..."
+		input_field.focus_mode = Control.FOCUS_ALL
 	
 	# Connect to DevConsoleManager output
 	DevConsoleManager.output_requested.connect(_on_dev_console_output)
@@ -54,19 +57,56 @@ func _ready() -> void:
 	DebugLogger.debug(module_name, "Terminal UI initialized with DevConsole integration")
 
 func _input(event: InputEvent) -> void:
-	# Handle mouse wheel scrolling
+	# Handle mouse wheel scrolling - auto-focus output area and scroll
 	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			if output_area and event.pressed:
+		if output_area and event.pressed:
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				# Auto-focus the output area for scrolling
+				if not output_area.has_focus():
+					output_area.grab_focus()
+					DebugLogger.debug(module_name, "Auto-focused output area for scrolling")
+				
 				var scroll_bar = output_area.get_v_scroll_bar()
-				var scroll_speed = 300  # Lines to scroll per wheel tick
+				var line_height = output_area.get_theme_font("normal_font").get_height(output_area.get_theme_font_size("normal_font_size"))
+				var scroll_amount = line_height * 3  # Scroll 3 lines worth
 				
 				if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-					scroll_bar.value -= scroll_speed
+					scroll_bar.value -= scroll_amount
 				else:
-					scroll_bar.value += scroll_speed
+					scroll_bar.value += scroll_amount
 				
-				DebugLogger.debug(module_name, "Scrolled terminal output with mouse wheel")
+				get_viewport().set_input_as_handled()
+				DebugLogger.debug(module_name, "Scrolled output area")
+				return
+	
+	# Auto-focus input field on typing alphanumeric or space
+	if event is InputEventKey and event.pressed:
+		# Check if it's a character we should type with
+		var keycode = event.keycode
+		var is_typing_key = false
+		
+		# Check for letters A-Z
+		if keycode >= KEY_A and keycode <= KEY_Z:
+			is_typing_key = true
+		# Check for numbers 0-9 (both main keyboard and numpad)
+		elif keycode >= KEY_0 and keycode <= KEY_9:
+			is_typing_key = true
+		elif keycode >= KEY_KP_0 and keycode <= KEY_KP_9:
+			is_typing_key = true
+		# Check for space
+		elif keycode == KEY_SPACE:
+			is_typing_key = true
+		# Check for other common typing characters
+		elif keycode in [KEY_PERIOD, KEY_COMMA, KEY_MINUS, KEY_EQUAL, KEY_SLASH, 
+						  KEY_BACKSLASH, KEY_SEMICOLON, KEY_APOSTROPHE, KEY_BRACKETLEFT, 
+						  KEY_BRACKETRIGHT, KEY_QUOTELEFT]:
+			is_typing_key = true
+		
+		if is_typing_key:
+			if input_field and not input_field.has_focus():
+				input_field.grab_focus()
+				DebugLogger.debug(module_name, "Auto-focused input field for typing")
+				# Don't mark as handled - let the character go to the input field
 
 func _force_focus_grab() -> void:
 	if input_field:
@@ -75,6 +115,9 @@ func _force_focus_grab() -> void:
 
 func _on_text_submitted(text: String) -> void:
 	if text.strip_edges() == "":
+		# Even on empty submit, keep focus
+		if input_field:
+			input_field.grab_focus()
 		return
 	
 	# Add to history
@@ -90,10 +133,16 @@ func _on_text_submitted(text: String) -> void:
 	# Process command through DevConsoleManager
 	DevConsoleManager.process_command(text.strip_edges())
 	
-	# Clear input and keep focus
+	# Clear input and FORCE focus back
 	if input_field:
 		input_field.clear()
+		# Use call_deferred to ensure focus happens after all processing
+		call_deferred("_ensure_input_focus")
+
+func _ensure_input_focus() -> void:
+	if input_field:
 		input_field.grab_focus()
+		DebugLogger.debug(module_name, "Re-focused input after command submission")
 
 func _on_input_gui_event(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
@@ -129,19 +178,17 @@ func _on_dev_console_output(text: String, type: String) -> void:
 		"normal", _:
 			add_line(text)
 	
-	# Ensure input field keeps focus after any output
-	if input_field and not input_field.has_focus():
-		call_deferred("_refocus_input")
-
-func _refocus_input() -> void:
-	if input_field:
-		input_field.grab_focus()
-		DebugLogger.debug(module_name, "Refocused input field after console output")
+	# After console output, ensure input field has focus
+	call_deferred("_ensure_input_focus")
 
 # DevConsoleUI compatibility methods
 func add_line(text: String, add_to_history: bool = true) -> void:
 	if not output_area:
 		return
+	
+	# Check if we're at the bottom before adding new text
+	var scroll_bar = output_area.get_v_scroll_bar()
+	var was_at_bottom = scroll_bar.value >= (scroll_bar.max_value - scroll_bar.page - 10)
 	
 	output_area.append_text(text + "\n")
 	
@@ -153,12 +200,9 @@ func add_line(text: String, add_to_history: bool = true) -> void:
 			output_area.clear()
 			output_area.append_text("\n".join(keep_lines))
 	
-	# Scroll to bottom
-	output_area.scroll_to_line(output_area.get_line_count() - 1)
-	
-	# Re-grab focus on input field after adding output
-	if input_field and not input_field.has_focus():
-		call_deferred("_refocus_input")
+	# Only auto-scroll to bottom if we were already at the bottom
+	if was_at_bottom:
+		output_area.scroll_to_line(output_area.get_line_count() - 1)
 
 func add_system_message(text: String) -> void:
 	add_line("[color=#00ff00]" + text + "[/color]")
