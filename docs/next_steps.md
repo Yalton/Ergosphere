@@ -3,8 +3,7 @@ Fix issues
 Write up all the log files 
 - there should be 13 log files 
 
-
-Get more feedback 
+Get more feedback
 
 Look over the task list for all days, even it out a bit 
 
@@ -32,11 +31,13 @@ Finish polishing, then publish it
 
 ~~Fix telescope terminal~~
 
-Fix tabbing and scrolling on dev terminal 
+~~Fix tabbing and scrolling on dev terminal~~
 
-Iconoclast gets stuck in patrol mode 
+~~Iconoclast gets stuck in patrol mode~~
 
 Make emergency task failing fucking kill you 
+
+Get Mac Build working 
 
 
 ## Bug

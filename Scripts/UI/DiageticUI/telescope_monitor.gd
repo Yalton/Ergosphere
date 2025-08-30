@@ -1,13 +1,12 @@
-# TelescopeDiegeticUI.gd
 extends DiegeticUIBase
 
 # Signal that relays telescope position to external systems
 signal telescope_adjusted(x_normalized: float, y_normalized: float)
 signal telescope_aligned()
 
-@export var telescope_ui_control: Control  # Assign the TelescopeController node
+## Assign the TelescopeController node
+@export var telescope_ui_control: Control  
 
-#var task_aware_component: TaskAwareComponent
 var alignment_completed: bool = false
 
 func _ready() -> void:
@@ -15,18 +14,28 @@ func _ready() -> void:
 	module_name = "TelescopeDiegeticUI"
 	DebugLogger.register_module(module_name, enable_debug)
 	
-	# Find task aware component
-	#task_aware_component = get_node_or_null("TaskAwareComponent")
+	# Task aware component is inherited from AwareGameObject parent class
 	
 	# Add to telescope_terminals group for task system
 	add_to_group("telescope_terminals")
 	
-	telescope_ui_control.telescope_alligned.connect(_on_telescope_aligned)
-	# Connect to the telescope controller's signal
+	# Connect to telescope controller signals
 	if telescope_ui_control:
+		# Check for aligned signal (try both spellings in case of typo)
+		if telescope_ui_control.has_signal("telescope_aligned"):
+			telescope_ui_control.telescope_aligned.connect(_on_telescope_aligned)
+			DebugLogger.debug(module_name, "Connected to telescope_aligned signal")
+		elif telescope_ui_control.has_signal("telescope_alligned"):
+			# Handle typo if it exists in the controller
+			telescope_ui_control.telescope_alligned.connect(_on_telescope_aligned)
+			DebugLogger.debug(module_name, "Connected to telescope_alligned signal (typo variant)")
+		else:
+			DebugLogger.warning(module_name, "Telescope controller doesn't have alignment signal")
+		
+		# Connect to position changed signal
 		if telescope_ui_control.has_signal("telescope_position_changed"):
 			telescope_ui_control.telescope_position_changed.connect(_on_telescope_position_changed)
-			DebugLogger.debug(module_name, "Connected to telescope controller signal")
+			DebugLogger.debug(module_name, "Connected to telescope position changed signal")
 		else:
 			DebugLogger.error(module_name, "Telescope controller doesn't have telescope_position_changed signal!")
 	else:
@@ -35,8 +44,6 @@ func _ready() -> void:
 	DebugLogger.debug(module_name, "Telescope Diegetic UI initialized")
 
 func _on_telescope_position_changed(x_normalized: float, y_normalized: float) -> void:
-	#DebugLogger.debug(module_name, "Telescope position changed - X: %.2f, Y: %.2f" % [x_normalized, y_normalized])
-	
 	# Relay the signal to external listeners (like the physical telescope)
 	telescope_adjusted.emit(x_normalized, y_normalized)
 	

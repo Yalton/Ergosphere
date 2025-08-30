@@ -32,14 +32,17 @@ func _ready() -> void:
 	if terminal_label:
 		terminal_label.text = terminal_name
 	
-	# Clear output area
+	# Clear output area and configure for proper scrolling
 	if output_area:
 		output_area.clear()
+		output_area.fit_content = false  # CRITICAL - disable fit content so it doesn't expand
+		output_area.scroll_active = true
+		output_area.scroll_following = true  # Auto-follow new content
+		output_area.focus_mode = Control.FOCUS_ALL
+		
 		add_line("=== " + terminal_name + " ===")
 		add_line("Connected to station systems")
 		add_line("")
-		# Make output area focusable for scrolling
-		output_area.focus_mode = Control.FOCUS_ALL
 	
 	# Setup input field
 	if input_field:
@@ -57,31 +60,33 @@ func _ready() -> void:
 	DebugLogger.debug(module_name, "Terminal UI initialized with DevConsole integration")
 
 func _input(event: InputEvent) -> void:
-	# Handle mouse wheel scrolling - auto-focus output area and scroll
+	# Handle mouse wheel scrolling manually
 	if event is InputEventMouseButton:
 		if output_area and event.pressed:
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				# Auto-focus the output area for scrolling
+				# Focus output area for scrolling if not already focused
 				if not output_area.has_focus():
 					output_area.grab_focus()
 					DebugLogger.debug(module_name, "Auto-focused output area for scrolling")
 				
+				# Manually handle scrolling
 				var scroll_bar = output_area.get_v_scroll_bar()
-				var line_height = output_area.get_theme_font("normal_font").get_height(output_area.get_theme_font_size("normal_font_size"))
-				var scroll_amount = line_height * 3  # Scroll 3 lines worth
+				var scroll_pixels = 50  # Pixels to scroll
 				
 				if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-					scroll_bar.value -= scroll_amount
+					# Scroll up
+					scroll_bar.value = max(0, scroll_bar.value - scroll_pixels)
+					DebugLogger.debug(module_name, "Scrolled up - bar value: %f" % scroll_bar.value)
 				else:
-					scroll_bar.value += scroll_amount
+					# Scroll down  
+					scroll_bar.value = min(scroll_bar.max_value, scroll_bar.value + scroll_pixels)
+					DebugLogger.debug(module_name, "Scrolled down - bar value: %f" % scroll_bar.value)
 				
 				get_viewport().set_input_as_handled()
-				DebugLogger.debug(module_name, "Scrolled output area")
 				return
 	
 	# Auto-focus input field on typing alphanumeric or space
 	if event is InputEventKey and event.pressed:
-		# Check if it's a character we should type with
 		var keycode = event.keycode
 		var is_typing_key = false
 		
@@ -106,7 +111,6 @@ func _input(event: InputEvent) -> void:
 			if input_field and not input_field.has_focus():
 				input_field.grab_focus()
 				DebugLogger.debug(module_name, "Auto-focused input field for typing")
-				# Don't mark as handled - let the character go to the input field
 
 func _force_focus_grab() -> void:
 	if input_field:
@@ -186,10 +190,6 @@ func add_line(text: String, add_to_history: bool = true) -> void:
 	if not output_area:
 		return
 	
-	# Check if we're at the bottom before adding new text
-	var scroll_bar = output_area.get_v_scroll_bar()
-	var was_at_bottom = scroll_bar.value >= (scroll_bar.max_value - scroll_bar.page - 10)
-	
 	output_area.append_text(text + "\n")
 	
 	if add_to_history:
@@ -199,10 +199,6 @@ func add_line(text: String, add_to_history: bool = true) -> void:
 			var keep_lines = lines.slice(-max_history_lines)
 			output_area.clear()
 			output_area.append_text("\n".join(keep_lines))
-	
-	# Only auto-scroll to bottom if we were already at the bottom
-	if was_at_bottom:
-		output_area.scroll_to_line(output_area.get_line_count() - 1)
 
 func add_system_message(text: String) -> void:
 	add_line("[color=#00ff00]" + text + "[/color]")

@@ -114,3 +114,8 @@ shape = SubResource("CylinderShape3D_uk1xt")
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("7_r6n23")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+radius = 7.0
+affect_navigation_mesh = true
+carve_navigation_mesh = true

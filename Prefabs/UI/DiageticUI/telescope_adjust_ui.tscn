@@ -67,7 +67,7 @@ _data = {
 &"spinning": SubResource("Animation_hejy6")
 }
 
-[node name="telescope_adjust_ui" type="Control" node_paths=PackedStringArray("telescope_image", "x_position_label", "y_position_label", "status_label", "progress_bar", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
+[node name="telescope_adjust_ui" type="Control" node_paths=PackedStringArray("main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -75,11 +75,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_k1e65")
-telescope_image = NodePath("MainUI/BlackHoleImage")
-x_position_label = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VboxContainer/x_pos")
-y_position_label = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VboxContainer/y_pos")
-status_label = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/TelescopeAlligned")
-progress_bar = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ProgressBar")
 main_ui = NodePath("MainUI")
 splash_screen = NodePath("ScreenSaver")
 corruption_screen = NodePath("ScreenDistortion")

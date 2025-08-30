@@ -79,3 +79,9 @@ shape = SubResource("CylinderShape3D_hrjjs")
 [node name="Floor2" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.93789, 0)
 shape = SubResource("CylinderShape3D_vvidg")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.73, 0)
+radius = 3.5
+affect_navigation_mesh = true
+carve_navigation_mesh = true
