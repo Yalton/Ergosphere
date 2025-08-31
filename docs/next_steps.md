@@ -1,4 +1,4 @@
-Fix issues 
+~~Fix issues~~
 
 Write up all the log files 
 - there should be 13 log files 
@@ -14,26 +14,7 @@ Finish polishing, then publish it
 
 ## Misc 
 
-
-~~Event where objects get thrown around~~
-
-~~SFX Broken on reboot~~
-
-~~Jarring horror happens to frequently~~
-
-~~Warp happens too frequently, the sfx need to be balanced a bit ~~
-
-~~Fix telescope terminal~~
-
-~~Fix tabbing and scrolling on dev terminal~~
-
-~~Iconoclast gets stuck in patrol mode~~
-
-~~Make emergency task failing fucking kill you~~
-~~Make SFX for it~~
-
 Get Mac Build working
-
 
 ## Bug
 
