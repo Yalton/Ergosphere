@@ -1,7 +1,7 @@
 ~~Fix issues~~
 
 Write up all the log files 
-- there should be 13 log files 
+- there should be 11 log files 
 
 Get more feedback
 
