@@ -38,6 +38,12 @@ class_name ProximityTracker
 ## Path to the shattered scanner scene
 @export var shattered_scanner_scene: PackedScene
 
+## Sound to play on safe completion (day 2)
+@export var safe_completion_sound: AudioStream
+
+## Sound to play on explosion (day 4)
+@export var unsafe_completion_sound: AudioStream
+
 # Internal state
 var target_point: Node3D
 var beep_timer: Timer
@@ -177,19 +183,77 @@ func _complete_tracking() -> void:
 	# Stop beep timer
 	beep_timer.stop()
 	
+	var current_day = GameManager.current_day
+	DebugLogger.info(module_name, "Completing tracking on day: " + str(current_day))
+	
+	# Day 2: Safe completion with blinks
+	if current_day == 2:
+		_safe_completion()
+	# Day 4: Explosive completion
+	elif current_day == 4:
+		_explosive_completion()
+	else:
+		# Default to safe for other days
+		_safe_completion()
+	
+	# Complete task regardless
+	if task_aware_component:
+		task_aware_component.complete_task()
+	
+	DebugLogger.info(module_name, "Tracking completed at target: " + target_point.name)
+
+func _safe_completion() -> void:
+	DebugLogger.info(module_name, "Safe completion - blinking sequence")
+	
+	# Play completion sound
+	if safe_completion_sound:
+		Audio.play_sound(safe_completion_sound)
+	
+	# Create blinking sequence - 6 blinks in 2 seconds
+	var blink_tween = create_tween()
+	var blink_duration = 0.15  # Each blink takes 0.15 seconds
+	var blink_gap = 0.18  # Gap between blinks
+	
+	for i in range(6):
+		# Turn on
+		blink_tween.tween_callback(func():
+			if flash_light:
+				flash_light.visible = true
+			if emissive_material:
+				emissive_material.emission_energy_multiplier = 1.0
+		)
+		
+		# Turn off after blink_duration
+		blink_tween.tween_interval(blink_duration)
+		blink_tween.tween_callback(func():
+			if flash_light:
+				flash_light.visible = false
+			if emissive_material:
+				emissive_material.emission_energy_multiplier = original_emission_energy
+		)
+		
+		# Wait before next blink (except after last one)
+		if i < 5:
+			blink_tween.tween_interval(blink_gap)
+
+func _explosive_completion() -> void:
+	DebugLogger.info(module_name, "Explosive completion - scanner will explode")
+	
 	# Force drop if being carried
 	if carryable_component and carryable_component.is_being_carried:
 		DebugLogger.info(module_name, "Forcing player to drop scanner before explosion")
 		carryable_component.leave()
 	
+	# Play explosion sound
+	if unsafe_completion_sound:
+		Audio.play_sound(unsafe_completion_sound)
+	
+	# Trigger iconoclast spawn event
+	GameManager.event_manager.trigger_event("spawn_iconoclast")
+	DebugLogger.info(module_name, "Triggered iconoclast spawn event")
+	
 	# Spawn shattered scanner and self-destruct
 	_spawn_shattered_scanner()
-	
-	# Complete task
-	if task_aware_component:
-		task_aware_component.complete_task()
-	
-	DebugLogger.info(module_name, "Tracking completed at target: " + target_point.name)
 
 func _spawn_shattered_scanner() -> void:
 	if not shattered_scanner_scene:

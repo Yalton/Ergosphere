@@ -37,6 +37,7 @@ var systems_initialized: bool = false
 ## Audio to play when radiation ends
 @export var radiation_end_audio: AudioStream
 
+var died_to: String = ""  # Tracks which emergency task killed the player for death cutscene
 
 func _ready():
 	DebugLogger.register_module("GameManager")

@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://cni66xver3rkc"]
+
+[ext_resource type="PackedScene" uid="uid://lrkfcfx3n4s4" path="res://Assets/VFX/Explosions/Explosion1.tscn" id="1_3ohl6"]
+[ext_resource type="Script" path="res://Scripts/Explosion.gd" id="1_5wanh"]
+[ext_resource type="AudioStream" uid="uid://b0r43a3enmpl0" path="res://Assets/Audio/explosion.ogg" id="3_81nnm"]
+[ext_resource type="AnimationLibrary" uid="uid://2kt0c4smyyg1" path="res://Assets/Animations/VFX/Explosion.res" id="3_fd66v"]
+[ext_resource type="Script" path="res://Scripts/Components/Sound/DetectableSound.gd" id="4_5qeyw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ajjk7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rf3ti"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_4k2o0"]
+
+[node name="Explosion" type="Node3D"]
+script = ExtResource("1_5wanh")
+explosion_damage = 0.0
+explosion_force = 0.0
+explosion_duration = 2.0
+
+[node name="Explosion_Particle_Effect" parent="." instance=ExtResource("1_3ohl6")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 3, 0)
+
+[node name="DamageSphere" type="Area3D" parent="."]
+transform = Transform3D(6.005, 0, 0, 0, 6.005, 0, 0, 0, 6.005, 0, 0, 0)
+collision_layer = 13
+collision_mask = 13
+collision_priority = 5.0
+priority = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageSphere"]
+shape = SubResource("SphereShape3D_ajjk7")
+
+[node name="DebugSphere" type="MeshInstance3D" parent="DamageSphere"]
+visible = false
+material_override = SubResource("StandardMaterial3D_rf3ti")
+mesh = SubResource("SphereMesh_4k2o0")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_81nnm")
+unit_size = 25.0
+max_db = 6.0
+doppler_tracking = 2
+script = ExtResource("4_5qeyw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"Explosion": ExtResource("3_fd66v")
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -14,6 +14,7 @@ func register_commands() -> void:
 	# Admin commands
 	register_command("assign_task", _cmd_assign_task, "Assigns a task by ID", true)
 	register_command("complete_task", _cmd_complete_task, "Force completes a task by ID", true)
+	register_command("fail_task", _cmd_fail_task, "Force fails an emergency task by ID", true)
 	register_command("next_day", _cmd_next_day, "Instantly starts the next day", true)
 	register_command("no_clip", _cmd_noclip, "Exactly what it sounds like", true)
 	register_command("complete_all_daily", _cmd_complete_all_daily, "Completes all active daily tasks", true)
@@ -48,6 +49,69 @@ func _cmd_assign_task(args: Array) -> void:
 			output_error("Task '%s' not found" % task_id)
 	else:
 		output_error("Task manager not available")
+
+func _cmd_fail_task(args: Array) -> void:
+	if args.is_empty():
+		output_error("Usage: fail_task <task_id>")
+		output("Available fatal tasks: restore_power, replace_heatsink")
+		return
+	
+	var task_id = args[0]
+	
+	if not GameManager.task_manager:
+		output_error("Task manager not available")
+		return
+	
+	output_system("=== Force Failing Task: %s ===" % task_id)
+	
+	# Check if this is a fatal emergency task
+	var fatal_tasks = ["restore_power", "replace_heatsink"]
+	if task_id in fatal_tasks:
+		output_warning("FATAL: This will trigger death cutscene!")
+	
+	# Emit the emergency task failed signal
+	if GameManager.task_manager.has_signal("emergency_task_failed"):
+		GameManager.task_manager.emergency_task_failed.emit(task_id)
+		output("✓ Emergency task failure signal emitted")
+	else:
+		output_error("Emergency task failed signal not found on TaskManager")
+		return
+	
+	# Also mark the task as failed if it exists
+	var task = GameManager.task_manager.get_task(task_id)
+	if task:
+		if task.has_method("fail"):
+			task.fail()
+			output("✓ Task marked as failed")
+		else:
+			output_warning("Task doesn't have fail() method")
+		output("Task Name: %s" % task.task_name)
+	else:
+		output_warning("Task '%s' not found in task system" % task_id)
+		output("Signal was still emitted for testing purposes")
+	
+	# Show what should happen
+	match task_id:
+		"restore_power":
+			output("")
+			output_system("Expected Death Animation:")
+			output("1. Creaking sound plays")
+			output("2. Station model swaps to shattered")
+			output("3. Small impulse applied to pieces")
+			output("4. Pieces fall toward black hole")
+			output("5. Transition to main menu after 5 seconds")
+		"replace_heatsink":
+			output("")
+			output_system("Expected Death Animation:")
+			output("1. Explosion sound plays")
+			output("2. Explosion VFX triggers")
+			output("3. Station model swaps to shattered")
+			output("4. Large impulse applied to pieces")
+			output("5. Pieces fall toward black hole")
+			output("6. Transition to main menu after 5 seconds")
+		_:
+			output("")
+			output_warning("Non-fatal task - check for other consequences")
 
 func _cmd_complete_task(args: Array) -> void:
 	if args.is_empty():

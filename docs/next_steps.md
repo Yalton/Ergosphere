@@ -9,12 +9,6 @@ Look over the task list for all days, even it out a bit
 
 Test more and polish more 
 
-Scan anomaly light 
-- Basically the same as it is now, except it doesent shatter 
-
-Scan Anomaly heavy 
-- Anomaly scanner shatters, and iconoclast spawns 
-
 Finish polishing, then publish it 
 
 
@@ -35,9 +29,10 @@ Finish polishing, then publish it
 
 ~~Iconoclast gets stuck in patrol mode~~
 
-Make emergency task failing fucking kill you 
+~~Make emergency task failing fucking kill you~~
+~~Make SFX for it~~
 
-Get Mac Build working 
+Get Mac Build working
 
 
 ## Bug

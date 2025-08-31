@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("2_i5da2")
 day_number = 2
-task_ids = Array[String](["eat_food", "defragment_memory", "order_heatsink", "reboot_systems"])
+task_ids = Array[String](["eat_food", "defragment_memory", "order_heatsink", "reboot_systems", "sample_anomalies"])
 metadata/_custom_type_script = "uid://8rd0ckvff0d0"

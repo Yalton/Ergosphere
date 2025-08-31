@@ -5,7 +5,7 @@ signal telescope_adjusted(x_normalized: float, y_normalized: float)
 signal telescope_aligned()
 
 ## Assign the TelescopeController node
-@export var telescope_ui_control: Control  
+@export var telescope_ui_control: Control
 
 var alignment_completed: bool = false
 
