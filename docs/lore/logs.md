@@ -18,21 +18,11 @@ Despite its difficulties this is quite possibly one of the most important jobs m
 **## Log 2**
 
 **Title**
-
 The Sejanus Singularity
 
 **Content**
+The Sejanus Singularity, located 847 AU from Earth, was initially catalogued as a standard rotating Kerr black hole formed from a Population III star roughly 2 billion years ago. The Heisenberg probe's approach in 2391 revealed why Sejanus defies classification. Its ergosphere - the region where spacetime is dragged around the black hole - maintains quantum entanglement at scales that should be impossible. Particle pairs entering the boundary don't decohere. They persist in superposition for days, potentially indefinitely, maintaining perfect correlation across distances up to 15 AU.
 
-The Sejanus Singularity represents either humanity's greatest stroke of luck or its most disturbing discovery, depending on your perspective. Located 847 AU from Earth, this stellar mass black hole exhibits quantum phenomena that should not exist according to our understanding of physics. Initial surveys in 2387 flagged it as a standard rotating Kerr black hole, likely formed from a Population III star roughly 2 billion years ago. It wasn't until the Heisenberg probe's close approach in 2391 that we discovered what makes Sejanus unique.
+This phenomenon could be the key to FTL communication. If we can encode information into these preserved quantum states, we could transmit data instantaneously across any distance. The engineering challenges are substantial - equipment must operate within 0.3 AU of the ergosphere to access the effect, but any closer and tidal forces destroy molecular bonds. Thoth Observatory maintains position at exactly 0.31 AU, threading the needle between opportunity and annihilation.
 
-The ergosphere - that region where spacetime itself is dragged around the black hole - maintains quantum entanglement at scales that should be impossible. Particle pairs that enter the ergosphere boundary don't decohere. They don't collapse. They persist in superposition states for hours, days, potentially indefinitely. We've measured entangled pairs maintaining correlation across 15 AU of separation with zero signal degradation. This violates everything we thought we knew about quantum mechanics at macroscopic scales.
-
-The implications for FTL communication are obvious. If we can harness this phenomenon, encode information into these preserved quantum states, we could transmit data instantaneously across any distance. The engineering challenges are substantial - operating equipment within 0.3 AU of the ergosphere boundary requires shielding technologies we're still developing. Too close and tidal forces tear apart anything molecular. Too far and the effect doesn't manifest.
-
-What troubles me more than the engineering problems is the pattern recognition. The quantum states aren't randomly preserved. There's a structure to which entanglements persist and which collapse. Dr. Reeves called it "selective" before her rotation ended. She refused to elaborate in her final reports, just noted that the selection criteria appeared "non-random" and recommended further statistical analysis.
-
-The Thoth Observatory was positioned at exactly 0.31 AU from the ergosphere boundary - close enough to study the phenomenon, far enough to maintain structural integrity. Every two weeks, a new steward arrives to continue gathering data, looking for the key to unlock FTL communication. We tell them about the importance of the work, the technical specifications, the safety protocols. We don't tell them about Reeves' final logs, or why she refused to return to Earth after her rotation. We definitely don't tell them about the patterns she claimed to see in the quantum noise.
-
-After all, pareidolia is a well-documented psychological phenomenon in isolation. The human brain sees patterns where none exist. Faces in clouds. Words in static. 
-
-Messages in quantum states.
+What troubles the research team isn't the danger but the patterns. The quantum preservation isn't random - certain entanglements persist while others collapse according to criteria we can't identify. Dr. Reeves spent her entire rotation analyzing the selection patterns, noting in her final report that they appeared "non-random" and "exhibited structural consistency." She ended her rotation three days early, citing exhaustion. She hasn't responded to follow-up inquiries. Her replacement arrives next week, and we've decided not to share her more speculative notes. Isolation does things to perception. Best to let fresh eyes form their own conclusions.
