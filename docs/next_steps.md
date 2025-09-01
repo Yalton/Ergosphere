@@ -5,11 +5,12 @@ Write up all the log files
 
 Get more feedback
 
-Look over the task list for all days, even it out a bit 
-
 Test more and polish more 
 
 Finish polishing, then publish it 
+
+
+make all purchase free, I dont want to add money 
 
 
 ## Misc 
