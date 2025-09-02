@@ -16,6 +16,7 @@ func register_commands() -> void:
 	register_command("complete_task", _cmd_complete_task, "Force completes a task by ID", true)
 	register_command("fail_task", _cmd_fail_task, "Force fails an emergency task by ID", true)
 	register_command("next_day", _cmd_next_day, "Instantly starts the next day", true)
+	register_command("set_day", _cmd_set_day, "Sets the current day to a specific value", true)
 	register_command("no_clip", _cmd_noclip, "Exactly what it sounds like", true)
 	register_command("complete_all_daily", _cmd_complete_all_daily, "Completes all active daily tasks", true)
 	register_command("unlock_log", _cmd_unlock_log, "Unlocks a specific log", true)
@@ -32,6 +33,41 @@ func register_commands() -> void:
 	register_command("reboot", _cmd_reboot, "Reboots Station systems", false)
 	register_command("diag", _cmd_diagnostics, "Runs Diagnostics on the system", false)
 	register_command("test_ending", _cmd_test_ending, "Tests the ending sequence for the game", false)
+
+func _cmd_set_day(args: Array) -> void:
+	if args.is_empty():
+		output_error("Usage: set_day <day_number>")
+		output("Current day: %d" % GameManager.current_day)
+		return
+	
+	var target_day = args[0].to_int()
+	
+	if target_day < 1:
+		output_error("Day must be 1 or greater")
+		return
+	
+	if not GameManager:
+		output_error("GameManager not available")
+		return
+	
+	var old_day = GameManager.current_day
+	GameManager.current_day = target_day
+	
+	output_system("Day changed: %d -> %d" % [old_day, target_day])
+	
+	# Update time manager if available
+	if GameManager.time_manager:
+		GameManager.time_manager.current_day = target_day
+		output("Time manager updated")
+	
+	# Optionally trigger day start logic
+	if args.size() > 1 and args[1] == "start":
+		GameManager.start_new_day()
+		output("New day sequence initiated")
+	else:
+		output("Use 'set_day %d start' to also trigger day start sequence" % target_day)
+	
+	DebugLogger.debug(module_name, "Day forcibly changed from %d to %d" % [old_day, target_day])
 
 func _cmd_assign_task(args: Array) -> void:
 	if args.is_empty():
@@ -432,23 +468,38 @@ func _cmd_unlock_log(args: Array) -> void:
 		output_error("Invalid log number")
 		return
 	
-	var log_data = DevConsoleManager.terminal_logs[log_number - 1]
+	# Since we're now using day-based locking, this command will just set the day
+	# to whatever is needed to unlock that log
+	var required_day = _get_required_day_for_log(log_number)
 	
-	if not log_data:
-		output_error("Log data is missing")
+	if log_number == 11:
+		output_warning("Log 11 is password protected. Use: log 11 iconoclast")
 		return
 	
-	if not log_data.is_locked:
-		output_warning("Log is not locked")
-		return
-
-	# Force unlock by setting the required state
-	if not log_data.unlock_state_name.is_empty() and GameManager.state_manager:
-		GameManager.state_manager.set_state(log_data.unlock_state_name, log_data.unlock_state_value)
-		output_system("Log '%s' unlocked by setting %s to %s" % [log_data.log_title, log_data.unlock_state_name, str(log_data.unlock_state_value)])
+	if GameManager.current_day < required_day:
+		var old_day = GameManager.current_day
+		GameManager.current_day = required_day
+		if GameManager.time_manager:
+			GameManager.time_manager.current_day = required_day
+		output_system("Advanced to Day %d to unlock log %d" % [required_day, log_number])
+		DebugLogger.debug(module_name, "Day changed from %d to %d to unlock log %d" % [old_day, required_day, log_number])
 	else:
-		log_data.is_locked = false
-		output_system("Log '%s' force unlocked" % log_data.log_title)
+		output("Log %d is already unlocked (current day: %d)" % [log_number, GameManager.current_day])
+
+func _get_required_day_for_log(log_number: int) -> int:
+	# Same logic as in LogCommands
+	if log_number <= 2:
+		return 1
+	elif log_number <= 4:
+		return 2
+	elif log_number <= 6:
+		return 3
+	elif log_number <= 8:
+		return 4
+	elif log_number <= 10:
+		return 5
+	else:
+		return 1  # Password protected logs
 
 func _cmd_test_ending(args: Array) -> void:
 	## Test ending sequence by jumping to final day and completing tasks

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="TerminalLog" load_steps=2 format=3 uid="uid://ddr40ut1f0reb"]
+
+[ext_resource type="Script" uid="uid://buxd8j4thwumx" path="res://Scripts/Resources/terminal_log.gd" id="1_6vs12"]
+
+[resource]
+script = ExtResource("1_6vs12")
+log_title = "Quantum State Analysis"
+log_content = "The preserved quantum states exhibit Type-2 grammar. Context-free, not regular. Chomsky hierarchy. Each entangled pair maintains nested dependencies matching recursive properties in natural language syntax. Parse trees reveal production rules: non-terminals generating terminals and other non-terminals. Patterns satisfy the pumping lemma. This isn't random. It's structured information.
+
+300+ distinct production rules isolated from quantum data. Phrase structure with moveable, replaceable, recursively embedded constituents while maintaining validity. Center-embedding to depth 7. Far beyond chance. The grammar is generative. New valid \"sentences\" appear following established rules but absent from original datasets. The ergosphere constructs novel expressions within its framework. Dr. Hamilton's priority-scheduling algorithms detected these patterns as critical interrupts requiring immediate processing. Same architecture that prevented abort during Apollo. The system recognizes importance we don't understand.
+
+Dr. Reeves was right to leave early. Once you see linguistic structure you can't unsee it. Every measurement becomes a morpheme, every correlation syntactic. Yesterday I tried to \"read\" the patterns, searching for semantic content in mechanical phenomena. The brain evolved to find language. Maybe we're projecting. But the consistency is remarkable. Grammar complexity approaches context-sensitive. Another few days might enable translation attempts."
+is_locked = false
+password_protected = false
+unlock_state_name = ""
+unlock_state_value = true
+locked_message = "Access Denied - Insufficient Clearance"
+log_date = ""
+log_author = ""
+security_level = "PUBLIC"
+metadata/_custom_type_script = "uid://buxd8j4thwumx"

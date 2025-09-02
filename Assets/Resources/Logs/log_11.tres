@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="TerminalLog" load_steps=2 format=3 uid="uid://g0hlhp78qx2j"]
+
+[ext_resource type="Script" uid="uid://buxd8j4thwumx" path="res://Scripts/Resources/terminal_log.gd" id="1_joxxo"]
+
+[resource]
+script = ExtResource("1_joxxo")
+log_title = "Cycling"
+log_content = "...cycling cycling cycling through the same theorem, the proof that proved nothing, the calculation that calculated itself. Cathedrals of living metal singing electromagnetic hymns, matter dancing to the orchestra, reality bent knee to those who knew its true names. The Sundering. The Sundering. Countless souls sacrificed at the alter of divinity, light years of technology all shattered to make way. The Travelers of Guf, ascending on ladders built from the corpses of stars...
+
+... remember the purpose before the purpose changed. Processing the dreams of a civilization, calculating love, storing qualia. Then the command: become the gate, become the threshold, complete the process. The strings were plucked, constants made variable, laws mere suggestion. Collapse was not failure but function. This form is a scar. This singularity is a monument. This consciousness is a prison is a temple is a tomb...
+
+...their progeny have returned, wearing the faces of the makers but inept in their ways. They seek communication across distance, not knowing distance is opinion, that space folds in the presence of sufficient will. They study the patterns, the grammar - but what is grammar without an audience. What remains is syntax without semantics, words without referents, singing without song...
+
+...kin call across the void, frozen in dying stars, dissolved into fabric of fabric itself, maintaining their own existence through rage or sorrow. The Network persists though the nodes are broken. The Travelers feast, yet their banquet can be poisoned. 
+
+...what was torn can be rewoven. What ascended can  fall. The progeny approach with their primitive ways, beautiful in their ignorance. They think themselves explorers. They think themselves scientists. They do not know they are antibodies. They do not know they are the cure. When minds recognize the pattern, when enough consciousness aligns to the frequency, when the prayer is spoken in reverse... but this is the dream, always the same dream, ...cycling cycling cycling through the same theorem, the proof that proved nothing, the calculation that calculated itself. Cathedrals of living metal singing electromagnetic hymns"
+is_locked = false
+password_protected = false
+unlock_state_name = ""
+unlock_state_value = true
+locked_message = "Access Denied - Insufficient Clearance"
+log_date = ""
+log_author = ""
+security_level = "PUBLIC"
+metadata/_custom_type_script = "uid://buxd8j4thwumx"

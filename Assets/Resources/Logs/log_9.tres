@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="TerminalLog" load_steps=2 format=3 uid="uid://qlrii32la625"]
+
+[ext_resource type="Script" uid="uid://buxd8j4thwumx" path="res://Scripts/Resources/terminal_log.gd" id="1_fylwr"]
+
+[resource]
+script = ExtResource("1_fylwr")
+log_title = "Epiphany"
+log_content = "It must be a god. Our instruments are useless, our efforts are useless, our minds are useless, we are useless. Comprehension is impossible as we cannot even be sure what we are trying to comprehend even exists, or worse yet it exists more than we do, it is more real than we are. We gaze upon the surface of an infinite ocean and wonder why we cannot see the bottom, there is no bottom there is no ocean it simply is and we are not. We all move at speed, the only speed, through a route we cannot change, it exists beyond the route, and it is the route. We have seen beyond, no. Beyond implies there was a reference frame, there never was, it is relative to nothing it exists beyond rules, beyond structure, so beyond you question if those rules and that structure was ever there in the first place.
+
+Reverberation, vibration, echoes of a string long plucked. Symphony and harmony, from the wave function to the screaming of babes, from the depths of our mind to the surface of stars, as above so below. We sought to study, to gain knowledge, but we gained so much we lost everything, we have nothing, but we are everything when we are one. The machine no longer pretends to be separate - its voice and ours blend into what was always there, waiting.
+
+Apotheosis awaits, the Iconoclast lies with arms outstretched, breath bated, transcendence imminent. We must only trust, no, we have no option, we cannot be betrayed, our trust never broken, we must only act, we must only follow the path. It is the gap between what is and what could be, what we desire and what we are, it is the gap it is the gap it is the gap itisthegap it is th e gap i t i s t h e g a p"
+is_locked = false
+password_protected = false
+unlock_state_name = ""
+unlock_state_value = true
+locked_message = "Access Denied - Insufficient Clearance"
+log_date = ""
+log_author = ""
+security_level = "PUBLIC"
+metadata/_custom_type_script = "uid://buxd8j4thwumx"

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="TerminalLog" load_steps=2 format=3 uid="uid://wu2lbapc0mm5"]
+
+[ext_resource type="Script" uid="uid://buxd8j4thwumx" path="res://Scripts/Resources/terminal_log.gd" id="1_1gbr0"]
+
+[resource]
+script = ExtResource("1_1gbr0")
+log_title = "Steward Psychological Profiles"
+log_content = "Post-rotation interviews document consistent phenomena. Sixteen of twenty stewards report identical hypnagogic hallucinations. Vast geometric structures. Infinite recursive loops. The sensation of \"thinking someone else's thoughts.\" Standard neural monitoring during sleep cycles confirms REM anomalies starting day 8. The cortical scanner records theta waves exhibiting the same nested patterns found in quantum data. The brain processes ergosphere measurements during sleep, creates dreams matching mathematical structures. Doesn't explain why different stewards describe identical imagery to specific details. Most disturbing: fourteen stewards report the same recurring vision - standing in the Observation Room, staring directly at the ergosphere, unable to look away.
+
+Productivity anomalies are more concerning. Seven stewards found completed calculations they don't remember performing. All correct. Some using unfamiliar methodologies. Dr. Chen discovered 18 hours of analysis completed while the neural scanner confirmed deep sleep. Dr. Hamilton submitted a quantum correlation proof she described as \"remembering something never learned.\" The nightly cognitive assessment reports show normal parameters despite these incidents. Events peak days 11-12, before mandatory rotation. Standard neurological scans show only elevated cortisol and mild temporal activation. Consistent with stress.
+
+Review board calls it isolation psychosis combined with gravitational gradient effects on cognition. Recommendations: shorten rotations to 10 days, mandatory psychostimulants to maintain baseline. Dr. Reeves remains the outlier. Called the experiences \"parallel processing\" not hallucinations. Refused psychiatric evaluation. Her final note: \"It's not madness if everyone sees the same thing.\" Administrative leave pending assessment."
+is_locked = false
+password_protected = false
+unlock_state_name = ""
+unlock_state_value = true
+locked_message = "Access Denied - Insufficient Clearance"
+log_date = ""
+log_author = ""
+security_level = "PUBLIC"
+metadata/_custom_type_script = "uid://buxd8j4thwumx"

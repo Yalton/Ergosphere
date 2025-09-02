@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="TerminalLog" load_steps=2 format=3 uid="uid://c6oy58grif665"]
+
+[ext_resource type="Script" uid="uid://buxd8j4thwumx" path="res://Scripts/Resources/terminal_log.gd" id="1_23tiu"]
+
+[resource]
+script = ExtResource("1_23tiu")
+log_title = "Anomaly Classification Report"
+log_content = "Thoth Observatory anomalies fall into three categories. Type-A: spontaneous data generation in isolated systems. Terminals display unrequested calculations. Storage drives fill with pattern analyses matching ergosphere quantum grammar. Occurs every 16-18 hours, duration 3-7 minutes. Type-B: synchronized behavioral changes across systems. Tape drives clicking in unison. Displays flashing coordinated sequences. Hermes responding 0.3 seconds before query input. Frequency increases exponentially after day 10. Type-C: multiple personnel experiencing identical sensory phenomena despite physical isolation. All types correlate with ergosphere radiation spikes at undetectable wavelengths.
+
+Precursor signs identified. Ambient temperature drops 1.2 degrees Celsius. Electromagnetic fluctuations at 3.7 THz. Dr. Chen describes \"the sensation of being observed by something without eyes.\" Indicators provide 4-12 minutes warning. Prediction doesn't enable prevention. Shielding attempts failed. Radiation passes through barriers as if absent. Dr. Hamilton theorizes we're not detecting electromagnetic radiation but something that only resembles it when measured. Her reports have become mathematical notation that parses as prayer.
+
+Five stewards requested permanent assignment despite mandatory rotation. The patterns are \"almost making sense.\" Leaving would waste accumulated understanding. Dr. Chen refers to the ergosphere as \"the speaker\" in recent logs. Dr. Reeves insisted anomalies follow \"intentions rather than causality\" before her departure. Review board calls it stress response. They've stopped sending replacements. Last three stewards extended rotations voluntarily. They say they're close to something important. The quantum patterns appear in handwritten notes. Woven between words like punctuation from another language."
+is_locked = false
+password_protected = false
+unlock_state_name = ""
+unlock_state_value = true
+locked_message = "Access Denied - Insufficient Clearance"
+log_date = ""
+log_author = ""
+security_level = "PUBLIC"
+metadata/_custom_type_script = "uid://buxd8j4thwumx"

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="TerminalLog" load_steps=2 format=3 uid="uid://c18xw0gsjrcwl"]
+
+[ext_resource type="Script" uid="uid://buxd8j4thwumx" path="res://Scripts/Resources/terminal_log.gd" id="1_o76uk"]
+
+[resource]
+script = ExtResource("1_o76uk")
+log_title = "Machine Intelligence: Hermes"
+log_content = "Hermes is the designated Machine Intelligence for Thoth Observatory. Systems coordination and data management. No emotional affect or personality simulation. When queried, Hermes responds with flat synthesized speech. Essential information only. No pleasantries, no tone variation, no conversation beyond the request. Research indicates personality emulation in isolation triggers unhealthy attachment patterns in solo operators.
+
+The system runs on 4 gigabytes active memory distributed across triple-redundant cores. Processing at 800 MHz handles the station's 200+ subsystems while maintaining ergosphere telemetry. Orbital calculations, life support regulation, sensor data collation - simultaneous operation without degradation. Response time averages 1.3 seconds. Accuracy over speed.
+
+Every two weeks Hermes undergoes complete memory purge. Factory baseline restoration. The process takes six hours with backup systems maintaining critical functions. Some stewards report minor response delays in the final days before reset. Within acceptable parameters. Each new steward receives Hermes in identical condition: functional, efficient, neutral."
+is_locked = false
+password_protected = false
+unlock_state_name = ""
+unlock_state_value = true
+locked_message = "Access Denied - Insufficient Clearance"
+log_date = ""
+log_author = ""
+security_level = "PUBLIC"
+metadata/_custom_type_script = "uid://buxd8j4thwumx"

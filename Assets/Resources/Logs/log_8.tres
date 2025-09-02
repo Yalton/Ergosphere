@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="TerminalLog" load_steps=2 format=3 uid="uid://dwgq03v6oe2ur"]
+
+[ext_resource type="Script" uid="uid://buxd8j4thwumx" path="res://Scripts/Resources/terminal_log.gd" id="1_4xwal"]
+
+[resource]
+script = ExtResource("1_4xwal")
+log_title = "Revised Operating Protocols - CLASSIFIED"
+log_content = "All Thoth Observatory data undergoes Level-4 redaction before Earth transmission. Type-C events, pattern translation attempts, steward behavioral anomalies - excised from reports. Public communications maintain \"unexpected but manageable technical difficulties.\" New steward requirements: 15 years isolation experience, no religious ideation, failed creativity index below 30, demonstrated resistance to pattern recognition. Also required: high quantum mathematics aptitude. These contradictions eliminated 94% of qualified personnel.
+
+Alternative mitigation strategies under trial. Guided meditation shows 12% reduction in anomaly sensitivity. Consciousness-dampening pharmaceuticals cause complete anomaly blindness but render subjects non-functional. Proposals under consideration: pre-rotation hypnotic conditioning, electromagnetic temporal lobe disruption, Project ANCHOR - lucid dreaming techniques to maintain ego boundaries during contact events. The Vatican provided sanctified materials. No effect. MIT's quantum consciousness lab suggests \"active psychic negation.\" Military remote viewers claim the station exists in \"bilateral phase space,\" recommend astral projection protocols to \"negotiate with the presence.\" Each fails differently. All fail.
+
+Director Harrison's briefing yesterday: \"We don't know if we're dealing with physics, metaphysics, or something that invalidates the distinction. Try everything. Document what doesn't work. Eventually we'll run out of wrong answers.\" Budget committee approved unlimited funding. Dr. Hamilton noted in her final report before reassignment: \"The systems recognize something we don't. The interrupts aren't errors. They're messages.\" Her replacement arrives next week. They weren't told about her conclusions."
+is_locked = false
+password_protected = false
+unlock_state_name = ""
+unlock_state_value = true
+locked_message = "Access Denied - Insufficient Clearance"
+log_date = ""
+log_author = ""
+security_level = "PUBLIC"
+metadata/_custom_type_script = "uid://buxd8j4thwumx"

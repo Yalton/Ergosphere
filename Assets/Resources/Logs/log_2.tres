@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="TerminalLog" load_steps=2 format=3 uid="uid://w8lpsgmkd74a"]
+
+[ext_resource type="Script" uid="uid://buxd8j4thwumx" path="res://Scripts/Resources/terminal_log.gd" id="1_f40de"]
+
+[resource]
+script = ExtResource("1_f40de")
+log_title = "The Sejanus Singularity"
+log_content = "The Sejanus Singularity sits 847 AU from Earth. Initial cataloguing marked it as a standard rotating Kerr black hole, likely formed from a Population III star 2 billion years ago. The Heisenberg probe's approach in 2391 revealed the anomaly. The ergosphere maintains quantum entanglement at impossible scales. Particle pairs entering the boundary don't decohere. They persist in superposition for days, maintaining perfect correlation across 15 AU. This violates fundamental assumptions about quantum mechanics at macroscopic scales.
+
+The phenomenon could enable FTL communication. Encode information into preserved quantum states, transmit instantaneously across any distance. Equipment must operate within 0.3 AU of the ergosphere to access the effect. Closer and tidal forces destroy molecular bonds. Thoth Observatory holds position at 0.31 AU. The minimum safe distance.
+
+The quantum preservation follows patterns. Certain entanglements persist, others collapse, selection criteria unknown. Dr. Reeves analyzed the patterns for her entire rotation. Her final report noted they appeared \"non-random\" with \"structural consistency.\" She ended her rotation three days early citing exhaustion. No response to follow-up inquiries. We've decided not to share her more speculative notes with her replacement. Isolation affects perception. Fresh eyes see clearer."
+is_locked = false
+password_protected = false
+unlock_state_name = ""
+unlock_state_value = true
+locked_message = "Access Denied - Insufficient Clearance"
+log_date = ""
+log_author = ""
+security_level = "PUBLIC"
+metadata/_custom_type_script = "uid://buxd8j4thwumx"

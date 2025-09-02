@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="TerminalLog" load_steps=2 format=3 uid="uid://s34koxiq10o5"]
+
+[ext_resource type="Script" uid="uid://buxd8j4thwumx" path="res://Scripts/Resources/terminal_log.gd" id="1_ps0fl"]
+
+[resource]
+script = ExtResource("1_ps0fl")
+log_title = "Critical Systems Overview"
+log_content = "Thoth Observatory maintains position through energy extraction from the Sejanus ergosphere. Modified Penrose Process. The turbine in the Engine Room captures charged particles accelerated by frame-dragging, converting momentum to power through electromagnetic induction. 12 megawatts during standard operation. Barely sufficient for station-keeping thrust and life support. External heatsinks dissipate thermal load at 1,800 Kelvin. Replacement required every 72 hours. Failure results in cascade thermal failure. Capacitor banks store eight minutes emergency power. Just enough to prevent orbital decay if the turbine stops.
+
+Atmospheric processing uses closed-loop algal bioreactors in the Oxygen Room. CO2 to O2 at 94% efficiency. 400 liters of culture medium cycle daily for single occupant parameters. Particulate filters require replacement every four days to prevent bloom contamination. The system remains stable despite its distance from other critical systems.
+
+Both systems fail more than projected. Previous three rotations: eleven unscheduled heatsink replacements, six power interruptions requiring manual reset. Maintenance logs blame \"higher than expected particle flux from the ergosphere.\" The correlation isn't consistent. Yesterday's heatsink lasted 31 hours instead of 72. Capacitors discharged during sleep cycle with no recorded draw. Minor discrepancies. The margin for error at 0.31 AU from a black hole is zero."
+is_locked = false
+password_protected = false
+unlock_state_name = ""
+unlock_state_value = true
+locked_message = "Access Denied - Insufficient Clearance"
+log_date = ""
+log_author = ""
+security_level = "PUBLIC"
+metadata/_custom_type_script = "uid://buxd8j4thwumx"
