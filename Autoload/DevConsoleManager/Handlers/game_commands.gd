@@ -24,15 +24,15 @@ func register_commands() -> void:
 	# Visual Effects commands are now in VFX_Commands.gd
 	
 	# User commands
-	register_command("status", _cmd_status, "Shows current game status", false)
+	register_command("status", _cmd_status, "Shows current game status", true)
 	register_command("tasks", _cmd_tasks, "Lists current active tasks", false)
-	register_command("tension", _cmd_tension, "Show or modify global tension", false)
-	register_command("event_list", _cmd_event_list, "List all events with tension info", false)
+	register_command("tension", _cmd_tension, "Show or modify global tension", true)
+	register_command("event_list", _cmd_event_list, "List all events with tension info", true)
 	register_command("trigger_event", _cmd_trigger_event, "Triggers a game event by ID", true)
 
 	register_command("reboot", _cmd_reboot, "Reboots Station systems", false)
 	register_command("diag", _cmd_diagnostics, "Runs Diagnostics on the system", false)
-	register_command("test_ending", _cmd_test_ending, "Tests the ending sequence for the game", false)
+	register_command("test_ending", _cmd_test_ending, "Tests the ending sequence for the game", true)
 
 func _cmd_set_day(args: Array) -> void:
 	if args.is_empty():

@@ -216,6 +216,21 @@ func _find_valid_warp_destination(player: Node3D) -> Node3D:
 	return valid_destinations[randi() % valid_destinations.size()]
 
 func _warp_player_with_vfx(player: Node3D, destination: Node3D) -> void:
+	# Force-end any UI interactions before warping
+	if player.has_method("end_ui_interaction"):
+		player.end_ui_interaction()
+		DebugLogger.log_message("PositionalEventHandler", "Force-ended UI interaction before warp")
+	
+	# Also end any diegetic UI interactions through the interaction component
+	var interaction_component = player.get_node_or_null("PlayerInteractionComponent")
+	if not interaction_component and "interaction_component" in player:
+		interaction_component = player.interaction_component
+	
+	if interaction_component:
+		if interaction_component.is_interacting_with_ui:
+			interaction_component.diegetic_ui_interaction_ended()
+			DebugLogger.log_message("PositionalEventHandler", "Force-ended diegetic UI interaction before warp")
+	
 	# Play warp sound if available
 	if warp_sound:
 		play_audio(warp_sound)

@@ -10,6 +10,7 @@ signal fade_from_black_finished
 var module_name: String = "TransitionManager"
 
 @onready var color_rect: ColorRect = $ColorRect
+@onready var loading: Control = $Loading
 
 const FADE_DURATION: float = 1.0 # Each fade direction takes 1 second
 
@@ -21,6 +22,10 @@ func _ready() -> void:
 	if color_rect: 
 		# Start with transparent black
 		color_rect.color = Color(0, 0, 0, 0)
+	
+	# Hide loading by default
+	if loading:
+		loading.hide()
 	
 	hide()
 	# Make sure it covers the whole screen
@@ -41,6 +46,42 @@ func fade_from_black() -> void:
 	tween.tween_property(color_rect, "color",
 		Color(0, 0, 0, 0), FADE_DURATION)
 	await tween.finished
+	hide()
+	fade_from_black_finished.emit()
+
+# New loading transition method for long scene changes
+func transition_to_scene_with_loading(next_scene_path: String) -> void:
+	DebugLogger.info(module_name, "Transitioning to scene with loading screen: " + next_scene_path)
+	
+	if transition_audio:
+		transition_audio.play()
+	
+	# Fade to black first
+	show()
+	var tween = create_tween()
+	tween.tween_property(color_rect, "color", Color(0, 0, 0, 1.0), FADE_DURATION)
+	await tween.finished
+	
+	# Show loading screen
+	if loading:
+		loading.show()
+		DebugLogger.debug(module_name, "Loading screen shown")
+	
+	# Small delay to ensure loading UI is visible
+	await get_tree().create_timer(0.1).timeout
+	
+	# Change scene
+	get_tree().change_scene_to_file(next_scene_path)
+	
+	# Hide loading screen
+	if loading:
+		loading.hide()
+		DebugLogger.debug(module_name, "Loading screen hidden")
+	
+	# Fade from black
+	var tween_out = create_tween()
+	tween_out.tween_property(color_rect, "color", Color(0, 0, 0, 0), FADE_DURATION)
+	await tween_out.finished
 	hide()
 	fade_from_black_finished.emit()
 
@@ -144,4 +185,3 @@ func transition_to_scene(next_scene_path: String) -> void:
 	await fade_to_black()
 	get_tree().change_scene_to_file(next_scene_path)
 	await fade_from_black()
-	

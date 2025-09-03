@@ -203,16 +203,16 @@ func _finish_cutscene() -> void:
 	
 	GameManager.start_first_day()
 	
-	# Use TransitionManager if available
+	# Use TransitionManager with loading screen for this long transition
 	if TransitionManager:
 		# Hide dialogue with animation if available
 		if animation_player and animation_player.has_animation("hide"):
 			animation_player.play("hide")
 			await animation_player.animation_finished
 		
-		# Transition to game scene with fade
+		# Use the new loading transition for the long scene change
 		if not game_scene_path.is_empty():
-			await TransitionManager.transition_to_scene(game_scene_path)
+			await TransitionManager.transition_to_scene_with_loading(game_scene_path)
 		else:
 			DebugLogger.error(module_name, "No game scene path configured!")
 	else:

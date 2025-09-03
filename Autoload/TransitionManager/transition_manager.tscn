@@ -1,7 +1,65 @@
-[gd_scene load_steps=3 format=3 uid="uid://bf2fxnpu8fo8h"]
+[gd_scene load_steps=14 format=3 uid="uid://bf2fxnpu8fo8h"]
 
 [ext_resource type="Script" uid="uid://csa8e4a2f16v8" path="res://Autoload/TransitionManager/transition_manager.gd" id="1_ckl2g"]
+[ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="2_18kd6"]
 [ext_resource type="AudioStream" uid="uid://cyb5qjvy3801s" path="res://Assets/Audio/Misc/scene_change.ogg" id="2_yde8v"]
+[ext_resource type="Script" uid="uid://dt8fbwwdkbhww" path="res://Subsystems/PostProcessing/ascii_effect_shader.gd" id="4_ax1u6"]
+[ext_resource type="Script" uid="uid://c16dy1v737jhe" path="res://Scripts/Misc/play_on_load.gd" id="5_aynua"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_hl7lq"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_fnk5m"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("4_ax1u6")
+pixel_size = 2.0
+color_depth = 32.0
+use_ascii = true
+green_monitor = true
+dithering = false
+brightness_boost = 0.2
+metadata/_custom_type_script = "uid://dt8fbwwdkbhww"
+
+[sub_resource type="Compositor" id="Compositor_ugi0o"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_fnk5m")])
+
+[sub_resource type="SphereMesh" id="SphereMesh_j0vak"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_84ogl"]
+inner_radius = 0.729
+
+[sub_resource type="Animation" id="Animation_pw7l2"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewport/BlackHole")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array()
+
+[sub_resource type="Animation" id="Animation_hejy6"]
+resource_name = "spinning"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewport/BlackHole")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.195775, 0, 0, 0.980649, 0.2, 1, 0.138555, 0.693399, -0.138555, 0.693399, 0.4, 1, -8.56508e-09, 0.980615, -0.195946, -4.2864e-08, 0.6, 1, 0.138555, -0.693399, 0.138555, 0.693399)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b8fkf"]
+_data = {
+&"RESET": SubResource("Animation_pw7l2"),
+&"spinning": SubResource("Animation_hejy6")
+}
 
 [node name="TransitionManager" type="Control" node_paths=PackedStringArray("transition_audio")]
 layout_mode = 3
@@ -12,6 +70,36 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ckl2g")
 transition_audio = NodePath("TransitionAudio")
+
+[node name="Loading" type="CenterContainer" parent="."]
+z_index = 105
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Loading"]
+layout_mode = 2
+
+[node name="BlackHoleImage" type="AspectRatioContainer" parent="Loading/VBoxContainer"]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_18kd6")
+
+[node name="TextureRect" type="TextureRect" parent="Loading/VBoxContainer/BlackHoleImage"]
+z_index = 5
+layout_mode = 2
+texture = SubResource("ViewportTexture_hl7lq")
+
+[node name="Label" type="Label" parent="Loading/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_18kd6")
+theme_override_font_sizes/font_size = 32
+text = "Loading...."
+horizontal_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = 100
@@ -27,3 +115,39 @@ color = Color(0, 0, 0, 1)
 
 [node name="TransitionAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_yde8v")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+own_world_3d = true
+transparent_bg = true
+size = Vector2i(256, 256)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0357862)
+cull_mask = 524288
+compositor = SubResource("Compositor_ugi0o")
+fov = 42.2
+
+[node name="BlackHole" type="Node3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.11149)
+rotation_edit_mode = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport/BlackHole"]
+transform = Transform3D(0.994564, 5.96046e-08, 0.104128, 0.0810244, 0.628112, -0.773893, -0.0654041, 0.778123, 0.624698, 0, 0, 0)
+rotation_edit_mode = 1
+layers = 524288
+mesh = SubResource("SphereMesh_j0vak")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewport/BlackHole"]
+rotation_edit_mode = 1
+layers = 524288
+mesh = SubResource("TorusMesh_84ogl")
+skeleton = NodePath("../../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewport"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_b8fkf")
+}
+script = ExtResource("5_aynua")
+animation_name = "spinning"
