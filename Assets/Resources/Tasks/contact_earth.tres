@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BaseTask" load_steps=2 format=3 uid="uid://baidsnbivlh6h"]
+
+[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_k67ro"]
+
+[resource]
+script = ExtResource("1_k67ro")
+task_id = "contact_earth"
+task_name = "Contact Earth"
+task_description = ""
+is_emergency = false
+is_secret = false
+emergency_time_limit = 0.0
+failure_consequence = 0
+dependent_on_tasks = Array[String]([])
+related_object_groups = Array[String]([])
+metadata/_custom_type_script = "uid://bxrho0i2t1mql"

@@ -1,70 +1,68 @@
-# PasswordDiegeticUI.gd
-extends DiageticTextInputUI
+# TetrisDiegeticUI.gd
+extends DiegeticUIBase
 
-## The correct password
-@export var correct_password: String = "admin123"
+## Signal emitted when transmission is completed
+signal tetris_transmission_completed()
 
-var password_control: Control
+## Reference to the DataTetrisControl node
+@export var tetris_control: Control
 
 func _ready() -> void:
+	module_name = "TetrisDiegeticUI"
 	super._ready()
-	module_name = "PasswordDiegeticUI"
 	DebugLogger.register_module(module_name, enable_debug)
 	
-	# Find task aware component
-	task_aware_component = get_node_or_null("TaskAwareComponent")
+	# Set interaction text
+	usable_interaction_text = "Upload Data to Earth"
+	interaction_text = usable_interaction_text
 	
-	# Find password control in SubViewport
-	if sub_viewport and sub_viewport.get_child_count() > 0:
-		password_control = sub_viewport.get_child(0)
-		
-		# Set password on control
-		password_control.set_password(correct_password)
-		password_control.correct_password = correct_password
+	# Find tetris control in SubViewport if not assigned
+	if not tetris_control and sub_viewport and sub_viewport.get_child_count() > 0:
+		tetris_control = sub_viewport.get_child(0)
+		DebugLogger.debug(module_name, "Found tetris control in SubViewport")
 	
-		# Connect to completion signal
-		password_control.login_completed.connect(_on_login_completed)
-		DebugLogger.debug(module_name, "Connected to login completion signal")
-		
-		DebugLogger.debug(module_name, "Found password control, set password")
+	# Connect to tetris game signals
+	if tetris_control:
+		if tetris_control.has_signal("transmission_completed"):
+			tetris_control.transmission_completed.connect(_on_transmission_completed)
+			DebugLogger.debug(module_name, "Connected to transmission completion signal")
+		else:
+			DebugLogger.error(module_name, "Tetris control doesn't have transmission_completed signal!")
+	else:
+		DebugLogger.error(module_name, "No tetris control assigned!")
 	
-	DebugLogger.debug(module_name, "Password diegetic UI initialized")
+	DebugLogger.debug(module_name, "Tetris Diegetic UI initialized")
 
-func _on_login_completed() -> void:
-	DebugLogger.info(module_name, "Login completed - completing task")
-	
-	# Complete the task if we have a task component
-	if task_aware_component:
-		task_aware_component.complete_task()
-
-# Override start_interaction to focus password field and show hint
 func start_interaction() -> void:
 	super.start_interaction()
 	
-	# Focus the password field when interaction starts
-	if password_control and password_control.password_field:
-		DebugLogger.debug(module_name, "Focusing password field")
-		password_control.password_field.grab_focus()
+	# Resume the tetris game when interaction starts
+	if tetris_control:
+		DebugLogger.debug(module_name, "Resuming tetris game")
+		tetris_control.resume_game()
 	
-# Override to handle ESC to exit and TAB navigation
-func _unhandled_input(event: InputEvent) -> void:
-	if !is_player_interacting:
-		return
+	DebugLogger.debug(module_name, "Tetris game interaction started")
+
+func end_interaction() -> void:
+	# Pause the tetris game when interaction ends
+	if tetris_control:
+		DebugLogger.debug(module_name, "Pausing tetris game")
+		tetris_control.pause_game()
 	
-	# ESC to exit
-	if event.is_action_pressed("menu") or event.is_action_pressed("ui_cancel"):
-		DebugLogger.debug(module_name, "ESC pressed, ending interaction")
-		end_interaction()
-		get_viewport().set_input_as_handled()
-		return
+	super.end_interaction()
+	DebugLogger.debug(module_name, "Tetris game interaction ended")
+
+func _on_transmission_completed() -> void:
+	DebugLogger.info(module_name, "Transmission completed - data uploaded to Earth!")
 	
-	# Forward all input events to SubViewport when interacting
-	if sub_viewport:
-		sub_viewport.push_input(event)
-		
-		# Play typing sound for keyboard events
-		if capture_keyboard_input and event is InputEventKey and event.pressed and not event.echo:
-			if typing_audio:
-				typing_audio.play()
+	# Relay the signal to external listeners
+	tetris_transmission_completed.emit()
 	
-	get_viewport().set_input_as_handled()
+	# Complete the task if task-aware component exists
+	if task_aware_component:
+		task_aware_component.complete_task()
+		DebugLogger.debug(module_name, "Task completed via task-aware component")
+	
+	# End interaction after completion
+	await get_tree().create_timer(1.0).timeout
+	end_interaction()

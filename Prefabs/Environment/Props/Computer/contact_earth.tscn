@@ -1,7 +1,6 @@
-[gd_scene load_steps=28 format=4 uid="uid://6nnliah25gvx"]
+[gd_scene load_steps=27 format=4 uid="uid://6nnliah25gvx"]
 
 [ext_resource type="Script" uid="uid://nfcpte5j0e2x" path="res://Scripts/UI/DiageticUI/contact_earth.gd" id="1_vnulx"]
-[ext_resource type="AudioStream" uid="uid://18pkb8xbgll8" path="res://Assets/Audio/text_click.wav" id="2_hxnul"]
 [ext_resource type="Texture2D" uid="uid://be7a8jj6erek0" path="res://Assets/Models/Station/Props/Monitors/Monitor_3/textures/GreyPlastic-Color.png" id="3_hxnul"]
 [ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="3_njcr1"]
 [ext_resource type="PackedScene" uid="uid://eph8nwb45sch" path="res://Prefabs/Components/state_aware_component.tscn" id="4_kiyvs"]
@@ -13,8 +12,8 @@
 [ext_resource type="Script" uid="uid://cnybmo2siij10" path="res://Scripts/Environment/Misc/look_at_player.gd" id="9_xkl2t"]
 [ext_resource type="PackedScene" uid="uid://l61jtpfxu5x5" path="res://Prefabs/Components/Interactions/BasicInteraction.tscn" id="11_yt2s7"]
 [ext_resource type="Script" uid="uid://crdal20vxm57x" path="res://Scripts/UI/sview_diag_aspect_matcher.gd" id="12_ikxdg"]
-[ext_resource type="PackedScene" uid="uid://hiv1lau15tkr" path="res://Prefabs/UI/DiageticUI/comms_upload.tscn" id="12_vnulx"]
 [ext_resource type="ArrayOccluder3D" uid="uid://c65wh3ifjm2up" path="res://Assets/Models/Occluders/Props/Monitors/terminal_monitor.occ" id="13_tjbhr"]
+[ext_resource type="PackedScene" uid="uid://cywn8afdextvi" path="res://Prefabs/UI/DiageticUI/contact_earth_ui.tscn" id="14_o76ef"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_u2o1j"]
 size = Vector2(3.8, 2.8)
@@ -152,21 +151,20 @@ blend_shape_mode = 0
 [sub_resource type="BoxShape3D" id="BoxShape3D_sta57"]
 size = Vector3(4.142, 3.943, 4.589)
 
-[node name="terminal_monitor" type="StaticBody3D" node_paths=PackedStringArray("sub_viewport", "display", "ui_content", "area_3d", "task_aware_component", "state_aware_component")]
+[node name="contact_earth" type="StaticBody3D" node_paths=PackedStringArray("tetris_control", "sub_viewport", "display", "ui_content", "area_3d", "task_aware_component", "state_aware_component")]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_vnulx")
-typing_sound = ExtResource("2_hxnul")
+tetris_control = NodePath("SubViewport/contact_earth")
 sub_viewport = NodePath("SubViewport")
 display = NodePath("Skeleton3D/BoneAttachment3D/Display")
-ui_content = NodePath("SubViewport/CommsUpload")
+ui_content = NodePath("SubViewport/contact_earth")
 area_3d = NodePath("Skeleton3D/BoneAttachment3D/Area3D")
 task_aware_component = NodePath("TaskAwareComponent")
 state_aware_component = NodePath("StateAwareComponent")
 display_name = "contact_earth_monitor"
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("3_njcr1")]
-associated_task_id = "contact_earth"
 
 [node name="StateAwareComponent" parent="." instance=ExtResource("4_kiyvs")]
 
@@ -249,7 +247,7 @@ script = ExtResource("12_ikxdg")
 display_mesh = NodePath("../Skeleton3D/BoneAttachment3D/Display")
 base_width = 960
 
-[node name="CommsUpload" parent="SubViewport" instance=ExtResource("12_vnulx")]
+[node name="contact_earth" parent="SubViewport" instance=ExtResource("14_o76ef")]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.12208, 2.01782)

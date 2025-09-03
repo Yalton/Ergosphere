@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://d132ous748lqb" path="res://Scripts/Tasks/run_diagnostics_task.gd" id="1_ei3bu"]
 [ext_resource type="PackedScene" uid="uid://cvau8bqlvo3cd" path="res://Prefabs/Components/Interactions/TaskAwareComponent.tscn" id="2_qd5dr"]
 
-[node name="RunDiagnosticsTask" type="Node"]
+[node name="RunDiagnosticsTask" type="Node" node_paths=PackedStringArray("task_aware_component")]
 script = ExtResource("1_ei3bu")
+task_aware_component = NodePath("TaskAwareComponent")
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("2_qd5dr")]
 associated_task_id = "run_diagnostics"

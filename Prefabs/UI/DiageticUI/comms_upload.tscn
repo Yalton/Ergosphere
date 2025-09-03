@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://hiv1lau15tkr"]
+[gd_scene load_steps=5 format=3 uid="uid://hiv1lau15tkr"]
 
 [ext_resource type="Theme" uid="uid://cimnyinlx3f0k" path="res://Assets/Main_Theme.tres" id="1_mbrb8"]
 [ext_resource type="Script" uid="uid://d32ocqbt52hv0" path="res://Scripts/Tasks/comms_upload.gd" id="2_v6bwo"]
 [ext_resource type="PackedScene" uid="uid://ckgayfmmr16x" path="res://Prefabs/UI/components/screensaver.tscn" id="3_o0kn3"]
+[ext_resource type="PackedScene" uid="uid://cytw30gd0p7i8" path="res://Prefabs/UI/components/screen_distortion.tscn" id="4_v6bwo"]
 
-[node name="CommsUpload" type="Control" node_paths=PackedStringArray("login_screen", "password_field", "submit_button", "error_label", "status_label", "progress_screen", "progress_bar", "progress_label", "main_ui", "splash_screen") groups=["diegetic_ui"]]
+[node name="CommsUpload" type="Control" node_paths=PackedStringArray("login_screen", "password_field", "submit_button", "error_label", "status_label", "progress_screen", "progress_bar", "progress_label", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,6 +24,7 @@ progress_bar = NodePath("MainUI/PanelContainer/MarginContainer/ProgressScreen/VB
 progress_label = NodePath("MainUI/PanelContainer/MarginContainer/ProgressScreen/VBoxContainer/Label")
 main_ui = NodePath("MainUI")
 splash_screen = NodePath("ScreenSaver")
+corruption_screen = NodePath("ScreenDistortion")
 
 [node name="MainUI" type="Control" parent="."]
 layout_mode = 1
@@ -112,5 +114,9 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="ScreenSaver" parent="." instance=ExtResource("3_o0kn3")]
+visible = false
+layout_mode = 1
+
+[node name="ScreenDistortion" parent="." instance=ExtResource("4_v6bwo")]
 visible = false
 layout_mode = 1

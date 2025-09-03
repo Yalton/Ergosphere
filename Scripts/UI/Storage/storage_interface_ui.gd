@@ -13,7 +13,7 @@ var module_name: String = "ShopUIControl"
 @export var tab_container: TabContainer
 @export var general_grid: GridContainer
 @export var replacement_parts_grid: GridContainer
-@export var requisition_label: Label
+@export var requisition_label: Label  # Keeping but hiding
 
 ## Visual Feedback
 @export_group("Visual Settings")
@@ -39,15 +39,18 @@ func _ready() -> void:
 	else:
 		DebugLogger.error(module_name, "StorageManager not found!")
 	
+	# Hide requisition label since items are free
+	if requisition_label:
+		requisition_label.visible = false
+	
 	# Setup UI
 	_setup_ui()
 	_populate_shop()
-	_update_requisition_display()
 	
 	# Start checking for storage walls availability
 	_start_storage_check()
 	
-	DebugLogger.debug(module_name, "Shop UI Control initialized")
+	DebugLogger.debug(module_name, "Shop UI Control initialized (FREE ITEMS)")
 
 var storage_check_timer: float = 0.0
 var storage_check_complete: bool = false
@@ -136,9 +139,8 @@ func _create_item_button(item: ShopItem, parent_grid: GridContainer) -> void:
 	button.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	button.clip_text = true
 	
-	# Create button text
-	var text = item.display_name + "\n"
-	text += str(item.cost) + " REQ"
+	# Create button text - just the name, no cost
+	var text = item.display_name
 	
 	button.text = text
 	button.add_theme_font_size_override("font_size", button_font_size)
@@ -147,7 +149,7 @@ func _create_item_button(item: ShopItem, parent_grid: GridContainer) -> void:
 	parent_grid.add_child(button)
 	item_buttons[item.item_id] = button
 	
-	# Update button state based on affordability
+	# Update button state based on storage availability only
 	_update_button_state(item.item_id)
 
 func _on_item_button_pressed(item_id: String) -> void:
@@ -158,13 +160,12 @@ func _on_item_button_pressed(item_id: String) -> void:
 		_show_purchase_failed(item_id, "No Storage Manager!")
 		return
 	
-	# Attempt purchase
+	# Attempt purchase (now only checks for storage space)
 	if storage_manager.order_item(item_id):
 		# Play positive sound for successful purchase
 		play_positive_sound()
 		purchase_successful.emit(item_id)
 		_update_all_buttons()
-		_update_requisition_display()
 	else:
 		_show_purchase_failed(item_id, "")
 		purchase_failed.emit(item_id)
@@ -181,11 +182,9 @@ func _show_purchase_failed(item_id: String, reason: String = "") -> void:
 		tween.tween_property(button, "modulate", fail_flash_color, flash_duration * 0.5)
 		tween.tween_property(button, "modulate", original_modulate, flash_duration * 0.5)
 	
-	# Determine failure reason
+	# Determine failure reason - only storage check now
 	if reason.is_empty():
-		if storage_manager and not storage_manager.can_afford_item(item_id):
-			reason = "Cannot afford item"
-		elif storage_manager and not storage_manager.has_available_containers():
+		if storage_manager and not storage_manager.has_available_containers():
 			reason = "No storage available"
 		else:
 			reason = "Purchase failed"
@@ -197,28 +196,27 @@ func _update_button_state(item_id: String) -> void:
 	if not button or not storage_manager:
 		return
 	
-	var can_afford = storage_manager.can_afford_item(item_id)
+	# Only check for storage space now
 	var has_space = storage_manager.has_available_containers()
 	
-	button.disabled = not (can_afford and has_space)
-	button.modulate = Color.WHITE if can_afford else Color(0.5, 0.5, 0.5)
+	button.disabled = not has_space
+	button.modulate = Color.WHITE if has_space else Color(0.5, 0.5, 0.5)
 
 func _update_all_buttons() -> void:
 	for item_id in item_buttons:
 		_update_button_state(item_id)
 
 func _update_requisition_display() -> void:
-	if requisition_label and storage_manager:
-		requisition_label.text = "Requisition: " + str(storage_manager.get_requisition())
+	# No longer needed but keeping for compatibility
+	pass
 
 func _on_requisition_spent(amount: int) -> void:
-	_update_requisition_display()
-	_update_all_buttons()
+	# No longer relevant but keeping for compatibility
+	pass
 
 ## Refresh the shop (useful after day reset)
 func refresh_shop() -> void:
 	_populate_shop()
-	_update_requisition_display()
 	
 	# Play neutral sound for shop refresh
 	play_neutral_sound()

@@ -55,11 +55,6 @@ func _cmd_set_day(args: Array) -> void:
 	
 	output_system("Day changed: %d -> %d" % [old_day, target_day])
 	
-	# Update time manager if available
-	if GameManager.time_manager:
-		GameManager.time_manager.current_day = target_day
-		output("Time manager updated")
-	
 	# Optionally trigger day start logic
 	if args.size() > 1 and args[1] == "start":
 		GameManager.start_new_day()

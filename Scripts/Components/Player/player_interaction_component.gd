@@ -173,6 +173,9 @@ func diegetic_ui_interaction_started(ui_node) -> void:
 	# Hide the interaction prompt when interacting
 	ui_controller.hide_interaction()
 	
+	# Hide the crosshair when interacting with diegetic UI
+	ui_controller.hide_crosshair()
+	
 	# Tell the player to release the mouse
 	var player = get_parent()
 	player.start_ui_interaction()
@@ -186,6 +189,9 @@ func diegetic_ui_interaction_ended() -> void:
 	DebugLogger.debug(module_name, "Ending diegetic UI interaction")
 	is_interacting_with_ui = false
 	current_diegetic_ui = null
+	
+	# Show the crosshair again when leaving diegetic UI
+	ui_controller.show_crosshair()
 	
 	# Tell the player to re-capture the mouse
 	var player = get_parent()

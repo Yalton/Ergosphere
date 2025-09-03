@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://cuykknx82jpa1"]
+[gd_scene load_steps=35 format=3 uid="uid://cuykknx82jpa1"]
 
 [ext_resource type="Script" uid="uid://c88co2uwqhp2x" path="res://Autoload/GameManager/TaskManager/task_manager.gd" id="1_n1gfo"]
 [ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="2_1hfug"]
@@ -8,9 +8,11 @@
 [ext_resource type="Resource" uid="uid://b5n6e78wex8px" path="res://Assets/Resources/Tasks/download_data.tres" id="4_kcc4n"]
 [ext_resource type="Resource" uid="uid://bgt6nrm5tdq3w" path="res://Assets/Resources/Tasks/introduction.tres" id="4_r81fx"]
 [ext_resource type="Resource" uid="uid://ddtsoesvtry7h" path="res://Assets/Resources/DayConfigs/Day_2.tres" id="4_v2vmf"]
+[ext_resource type="Resource" uid="uid://ptpc1c1ijsx0" path="res://Assets/Resources/Tasks/close_shutters.tres" id="5_n4ybm"]
 [ext_resource type="Resource" uid="uid://b1oefka8ym0wq" path="res://Assets/Resources/DayConfigs/Day_3.tres" id="5_y2vsa"]
 [ext_resource type="Resource" uid="uid://bvvtjqi02kncj" path="res://Assets/Resources/DayConfigs/Day_4.tres" id="6_5picg"]
 [ext_resource type="Resource" uid="uid://bsjgiseh0aa2w" path="res://Assets/Resources/Tasks/eat_food.tres" id="6_mchnp"]
+[ext_resource type="Resource" uid="uid://baidsnbivlh6h" path="res://Assets/Resources/Tasks/contact_earth.tres" id="6_rswon"]
 [ext_resource type="Resource" uid="uid://di2dxy6htbc2t" path="res://Assets/Resources/Tasks/upload_data.tres" id="6_y1vve"]
 [ext_resource type="Resource" uid="uid://ca07e1anexpm1" path="res://Assets/Resources/DayConfigs/Day_5.tres" id="7_1pw2o"]
 [ext_resource type="Resource" uid="uid://bssb4fc08w08x" path="res://Assets/Resources/Tasks/sleep.tres" id="7_y1vve"]
@@ -27,7 +29,6 @@
 [ext_resource type="Resource" uid="uid://b4e8scuox2ied" path="res://Assets/Resources/Tasks/sample_oxygen.tres" id="21_k3vok"]
 [ext_resource type="Resource" uid="uid://c3lwcb3xxupi8" path="res://Assets/Resources/Tasks/investigate_anomalies.tres" id="21_ve6o7"]
 [ext_resource type="Resource" uid="uid://b3kjgcrvpxdji" path="res://Assets/Resources/Tasks/sample_anomalies.tres" id="24_qdfmk"]
-[ext_resource type="Resource" uid="uid://b56130urn74y3" path="res://Assets/Resources/Tasks/collapse_inevitable.tres" id="26_kwg2i"]
 [ext_resource type="Resource" uid="uid://cil203xo85tjq" path="res://Assets/Resources/Tasks/hawking_radiation.tres" id="27_k3vok"]
 [ext_resource type="Resource" uid="uid://c8xysuvlvj5ly" path="res://Assets/Resources/Tasks/run_diagnostics.tres" id="27_v2vmf"]
 [ext_resource type="Resource" uid="uid://d4kvf2iu8p4eu" path="res://Assets/Resources/Tasks/oxygen_filter_failure.tres" id="28_y2vsa"]
@@ -36,6 +37,6 @@
 
 [node name="TaskManager" type="Node"]
 script = ExtResource("1_n1gfo")
-all_possible_tasks = Array[ExtResource("2_1hfug")]([ExtResource("3_ah2t3"), ExtResource("20_0k0ho"), ExtResource("11_mchnp"), ExtResource("4_kcc4n"), ExtResource("6_mchnp"), ExtResource("4_r81fx"), ExtResource("21_ve6o7"), ExtResource("18_0k0ho"), ExtResource("9_d82dc"), ExtResource("15_gfe2t"), ExtResource("28_y2vsa"), ExtResource("15_kwg2i"), ExtResource("17_n8qsd"), ExtResource("12_d82dc"), ExtResource("10_ysnsx"), ExtResource("27_v2vmf"), ExtResource("24_qdfmk"), ExtResource("21_k3vok"), ExtResource("7_y1vve"), ExtResource("29_5picg"), ExtResource("16_ngbvm"), ExtResource("6_y1vve"), ExtResource("26_kwg2i"), ExtResource("27_k3vok")])
+all_possible_tasks = Array[ExtResource("2_1hfug")]([ExtResource("3_ah2t3"), ExtResource("20_0k0ho"), ExtResource("5_n4ybm"), ExtResource("6_rswon"), ExtResource("11_mchnp"), ExtResource("4_kcc4n"), ExtResource("6_mchnp"), ExtResource("27_k3vok"), ExtResource("4_r81fx"), ExtResource("21_ve6o7"), ExtResource("18_0k0ho"), ExtResource("9_d82dc"), ExtResource("15_gfe2t"), ExtResource("28_y2vsa"), ExtResource("15_kwg2i"), ExtResource("17_n8qsd"), ExtResource("12_d82dc"), ExtResource("10_ysnsx"), ExtResource("27_v2vmf"), ExtResource("24_qdfmk"), ExtResource("21_k3vok"), ExtResource("7_y1vve"), ExtResource("29_5picg"), ExtResource("16_ngbvm"), ExtResource("6_y1vve")])
 day_configs = Array[ExtResource("2_yrm2m")]([ExtResource("3_qdfmk"), ExtResource("4_v2vmf"), ExtResource("5_y2vsa"), ExtResource("6_5picg"), ExtResource("7_1pw2o")])
 emergency_sfx = ExtResource("33_k3vok")

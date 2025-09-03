@@ -9,6 +9,6 @@ display_name = "Heatsink"
 description = ""
 cost = 50
 delivery_time = 1.0
-category = "General"
+category = "Replacement Parts"
 scene_path = "uid://cs4m32ekifatv"
 metadata/_custom_type_script = "uid://c8uyfv585diig"

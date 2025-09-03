@@ -67,7 +67,7 @@ _data = {
 &"spinning": SubResource("Animation_hejy6")
 }
 
-[node name="telescope_adjust_ui" type="Control" node_paths=PackedStringArray("main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
+[node name="telescope_adjust_ui" type="Control" node_paths=PackedStringArray("telescope_image", "x_position_label", "y_position_label", "status_label", "progress_bar", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -75,6 +75,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_k1e65")
+telescope_image = NodePath("MainUI/BlackHoleImage")
+x_position_label = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VboxContainer/x_pos")
+y_position_label = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VboxContainer/y_pos")
+status_label = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/TelescopeAlligned")
+progress_bar = NodePath("MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/ProgressBar")
 main_ui = NodePath("MainUI")
 splash_screen = NodePath("ScreenSaver")
 corruption_screen = NodePath("ScreenDistortion")
@@ -149,6 +154,7 @@ horizontal_alignment = 1
 z_index = 1
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainUI/PanelContainer/MarginContainer/HBoxContainer"]
 z_index = 1
@@ -161,6 +167,7 @@ z_index = 1
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.8
+mouse_filter = 1
 theme = ExtResource("1_ykrfc")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
@@ -187,6 +194,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.2
+mouse_filter = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -196,11 +204,13 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.2
+mouse_filter = 1
 
 [node name="Control4" type="Control" parent="MainUI/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 z_index = 1
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 theme = ExtResource("1_ykrfc")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MainUI/PanelContainer/MarginContainer/HBoxContainer"]
@@ -212,6 +222,7 @@ size_flags_stretch_ratio = 0.1
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.09
+mouse_filter = 1
 
 [node name="BlackHoleImage" type="AspectRatioContainer" parent="MainUI"]
 layout_mode = 1

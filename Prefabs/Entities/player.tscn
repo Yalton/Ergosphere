@@ -842,7 +842,7 @@ visible = false
 [node name="SleepStats" parent="." instance=ExtResource("18_yls7o")]
 visible = false
 
-[node name="PlayerUI" type="Control" parent="." node_paths=PackedStringArray("message_panel", "message_label", "interaction_panel", "interaction_label", "interaction_icon", "task_tree_ui", "hint_container", "hint_audio", "dev_console_ui", "flashlight_meter", "flashlight_meter_container")]
+[node name="PlayerUI" type="Control" parent="." node_paths=PackedStringArray("message_panel", "message_label", "interaction_panel", "interaction_label", "interaction_icon", "crosshair", "task_tree_ui", "hint_container", "hint_audio", "dev_console_ui", "flashlight_meter", "flashlight_meter_container")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -858,6 +858,7 @@ typing_sound = ExtResource("11_jox8g")
 interaction_panel = NodePath("Interaction Container/HBoxContainer/GridContainer/MarginContainer/InteractionTexturePanel")
 interaction_label = NodePath("Interaction Container/HBoxContainer/GridContainer/MarginContainer/InteractionTexturePanel/InteractionText")
 interaction_icon = NodePath("Interaction Container/HBoxContainer/GridContainer/AspectRatioContainer/InteractionIcon")
+crosshair = NodePath("CrossHair")
 task_tree_ui = NodePath("TaskContainer/VBoxContainer/Tree")
 hint_container = NodePath("HintContainer")
 hint_scene = ExtResource("16_mtnbr")

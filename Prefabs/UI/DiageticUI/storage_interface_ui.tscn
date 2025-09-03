@@ -20,7 +20,7 @@ corner_radius_bottom_left = 84
 bg_color = Color(0, 0, 0, 1)
 draw_center = false
 
-[node name="StorageInterfaceUI" type="Control" node_paths=PackedStringArray("tab_container", "general_grid", "replacement_parts_grid", "requisition_label", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
+[node name="StorageInterfaceUI" type="Control" node_paths=PackedStringArray("tab_container", "general_grid", "replacement_parts_grid", "main_ui", "splash_screen", "corruption_screen") groups=["diegetic_ui"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,7 +32,6 @@ script = ExtResource("2_vhmgj")
 tab_container = NodePath("MainUI/MarginContainer/PanelContainer/VBoxContainer/TabContainer")
 general_grid = NodePath("MainUI/MarginContainer/PanelContainer/VBoxContainer/TabContainer/General/GridContainer")
 replacement_parts_grid = NodePath("MainUI/MarginContainer/PanelContainer/VBoxContainer/TabContainer/Replacement Parts/GridContainer2")
-requisition_label = NodePath("MainUI/MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer/RequisitionLabel")
 main_ui = NodePath("MainUI")
 splash_screen = NodePath("ScreenSaver")
 corruption_screen = NodePath("ScreenDistortion")
@@ -144,13 +143,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.0
 mouse_filter = 2
-
-[node name="RequisitionLabel" type="Label" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer2/HBoxContainer"]
-z_index = 2
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 32
-text = "Requisition: "
 
 [node name="Control" type="Control" parent="MainUI/MarginContainer/PanelContainer/VBoxContainer2"]
 layout_mode = 2

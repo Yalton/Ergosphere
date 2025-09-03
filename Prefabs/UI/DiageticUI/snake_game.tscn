@@ -25,7 +25,7 @@ game_screen = NodePath("MainScreen/GameScreen")
 game_grid = NodePath("MainScreen/GameScreen/PanelContainer/HBoxContainer/MarginContainer/GameArea")
 progress_bar = NodePath("MainScreen/GameScreen/PanelContainer/HBoxContainer/VBoxContainer/ProgressBar")
 length_label = NodePath("MainScreen/GameScreen/PanelContainer/HBoxContainer/VBoxContainer/LengthLabel")
-start_button = NodePath("MainScreen/StartScreen/PanelContainer/VBoxContainer/Button")
+start_button = NodePath("MainScreen/StartScreen/PanelContainer/MarginContainer/VBoxContainer/Button")
 game_over_label = NodePath("MainScreen/GameScreen/PanelContainer/HBoxContainer/VBoxContainer/GameOver")
 main_ui = NodePath("MainScreen")
 splash_screen = NodePath("ScreenSaver")
@@ -60,26 +60,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainScreen/StartScreen/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MainScreen/StartScreen/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_right = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainScreen/StartScreen/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme = ExtResource("1_wjhqc")
 
-[node name="Label" type="Label" parent="MainScreen/StartScreen/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MainScreen/StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_wjhqc")
-text = "Snake Game"
+theme_override_font_sizes/font_size = 48
+text = "Produce Linked List"
 horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="MainScreen/StartScreen/PanelContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="MainScreen/StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="Button" type="Button" parent="MainScreen/StartScreen/PanelContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="MainScreen/StartScreen/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_wjhqc")
-text = "Start Game"
+theme_override_font_sizes/font_size = 32
+text = "Begin"
 
 [node name="GameScreen" type="Control" parent="MainScreen"]
 visible = false

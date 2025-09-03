@@ -18,6 +18,8 @@ signal interaction_changed(available: bool)
 @export var interaction_panel: PanelContainer
 @export var interaction_label: RichTextLabel
 @export var interaction_icon: TextureRect
+## Reference to the crosshair UI element that should be hidden during diegetic UI interaction
+@export var crosshair: Control
 
 # Task UI references
 @export_group("Task System")
@@ -424,7 +426,27 @@ func _on_task_completed(task_id: String) -> void:
 		show_hint("cpl", task.task_name)
 #endregion
 
+#region Crosshair Control
 
+func hide_crosshair() -> void:
+	"""Hide the crosshair (typically when interacting with diegetic UI)"""
+	if crosshair:
+		crosshair.hide()
+		DebugLogger.debug(module_name, "Crosshair hidden")
+
+func show_crosshair() -> void:
+	"""Show the crosshair (typically when exiting diegetic UI interaction)"""
+	if crosshair:
+		crosshair.show()
+		DebugLogger.debug(module_name, "Crosshair shown")
+
+func set_crosshair_visible(visible: bool) -> void:
+	"""Set crosshair visibility directly"""
+	if crosshair:
+		crosshair.visible = visible
+		DebugLogger.debug(module_name, "Crosshair visibility set to: " + str(visible))
+
+#endregion
 
 # Add this new function to update the flashlight meter:
 func update_flashlight_meter(battery_percentage: float, p_show: bool) -> void:

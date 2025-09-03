@@ -9,7 +9,7 @@ signal requisition_spent(amount: int)
 @export var enable_debug: bool = true
 var module_name: String = "StorageManager"
 
-## Current requisition points
+## Current requisition points - keeping variable but not using it
 @export var current_requisition: int = 5000
 
 ## Available items in the shop catalog
@@ -71,17 +71,18 @@ func _register_exported_items() -> void:
 	
 	DebugLogger.info(module_name, "Registered " + str(registered_count) + " exported items (" + str(duplicate_count) + " duplicates skipped)")
 
-## Add requisition points (called when tasks complete)
+## Add requisition points (called when tasks complete) - keeping for compatibility
 func add_requisition(amount: int) -> void:
 	current_requisition += amount
 	DebugLogger.info(module_name, "Added " + str(amount) + " requisition. Total: " + str(current_requisition))
 
-## Check if player can afford an item
+## Check if player can afford an item - ALWAYS RETURNS TRUE NOW
 func can_afford_item(item_id: String) -> bool:
 	var item = get_item_by_id(item_id)
 	if not item:
 		return false
-	return current_requisition >= item.cost
+	# Items are free now!
+	return true
 
 ## Register a single item
 func register_item(item: ShopItem) -> void:
@@ -137,16 +138,14 @@ func get_all_categories() -> Array[String]:
 	categories.sort()
 	return categories
 
-## Order an item from the catalog
+## Order an item from the catalog - NO COST CHECK OR DEDUCTION
 func order_item(item_id: String) -> bool:
 	var item = get_item_by_id(item_id)
 	if not item:
 		DebugLogger.warning(module_name, "Item not found in catalog: " + item_id)
 		return false
 	
-	if not can_afford_item(item_id):
-		DebugLogger.warning(module_name, "Insufficient requisition for item: " + item_id)
-		return false
+	# No cost check needed - items are free!
 	
 	# Find a wall with empty containers
 	var target = _find_empty_container()
@@ -154,21 +153,17 @@ func order_item(item_id: String) -> bool:
 		DebugLogger.warning(module_name, "No empty containers available in any storage wall")
 		return false
 	
-	# Deduct cost
-	current_requisition -= item.cost
-	requisition_spent.emit(item.cost)
+	# No cost deduction - items are free!
 	
 	# Deliver immediately
 	var location = target.wall.wall_id + str(target.container_num)
 	if target.wall.load_item_in_container(target.container_num, item.scene_path):
-		DebugLogger.info(module_name, "Delivered " + item_id + " to " + location + " for " + str(item.cost) + " requisition")
+		DebugLogger.info(module_name, "Delivered " + item_id + " to " + location + " (FREE)")
 		item_ordered.emit(item_id, location)
 		item_delivered.emit(item_id, location)
 		return true
 	else:
-		# Refund if delivery failed
-		current_requisition += item.cost
-		DebugLogger.error(module_name, "Failed to deliver item to container, refunding cost")
+		DebugLogger.error(module_name, "Failed to deliver item to container")
 		return false
 
 ## Find an empty storage container by querying walls dynamically
@@ -239,7 +234,7 @@ func create_test_items() -> void:
 	test_cube.item_id = "test_cube"
 	test_cube.display_name = "Test Cube"
 	test_cube.description = "A simple test cube for storage testing"
-	test_cube.cost = 50
+	test_cube.cost = 0  # FREE
 	test_cube.delivery_time = 1.0
 	test_cube.category = "General"
 	test_cube.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
@@ -249,7 +244,7 @@ func create_test_items() -> void:
 	energy_cell.item_id = "energy_cell"
 	energy_cell.display_name = "Energy Cell"
 	energy_cell.description = "Portable power source for emergency systems"
-	energy_cell.cost = 100
+	energy_cell.cost = 0  # FREE
 	energy_cell.delivery_time = 20.0
 	energy_cell.category = "General"
 	energy_cell.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
@@ -259,7 +254,7 @@ func create_test_items() -> void:
 	oxygen_tank.item_id = "oxygen_tank"
 	oxygen_tank.display_name = "Oxygen Tank"
 	oxygen_tank.description = "Emergency oxygen supply"
-	oxygen_tank.cost = 125
+	oxygen_tank.cost = 0  # FREE
 	oxygen_tank.delivery_time = 25.0
 	oxygen_tank.category = "General"
 	oxygen_tank.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
@@ -269,7 +264,7 @@ func create_test_items() -> void:
 	repair_kit.item_id = "repair_kit"
 	repair_kit.display_name = "Repair Kit"
 	repair_kit.description = "Basic tools for emergency repairs"
-	repair_kit.cost = 150
+	repair_kit.cost = 0  # FREE
 	repair_kit.delivery_time = 30.0
 	repair_kit.category = "General"
 	repair_kit.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
@@ -280,7 +275,7 @@ func create_test_items() -> void:
 	power_module.item_id = "power_module"
 	power_module.display_name = "Power Module"
 	power_module.description = "Replacement power regulation module"
-	power_module.cost = 200
+	power_module.cost = 0  # FREE
 	power_module.delivery_time = 45.0
 	power_module.category = "Replacement Parts"
 	power_module.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
@@ -290,7 +285,7 @@ func create_test_items() -> void:
 	cooling_unit.item_id = "cooling_unit"
 	cooling_unit.display_name = "Cooling Unit"
 	cooling_unit.description = "Replacement cooling system component"
-	cooling_unit.cost = 250
+	cooling_unit.cost = 0  # FREE
 	cooling_unit.delivery_time = 50.0
 	cooling_unit.category = "Replacement Parts"
 	cooling_unit.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
@@ -300,10 +295,10 @@ func create_test_items() -> void:
 	circuit_board.item_id = "circuit_board"
 	circuit_board.display_name = "Circuit Board"
 	circuit_board.description = "Replacement control circuit board"
-	circuit_board.cost = 300
+	circuit_board.cost = 0  # FREE
 	circuit_board.delivery_time = 60.0
 	circuit_board.category = "Replacement Parts"
 	circuit_board.scene_path = "res://Prefabs/Environment/Props/Industrial/lubricant_spray.tscn"
 	register_item(circuit_board)
 	
-	DebugLogger.info(module_name, "Created " + str(shop_catalog.size()) + " test items")
+	DebugLogger.info(module_name, "Created " + str(shop_catalog.size()) + " test items (ALL FREE)")
