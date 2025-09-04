@@ -1,7 +1,4 @@
-
-Get more feedback
-
-Record hermes lines
+Use Stab0Talks lines 
 
 Test more and polish more 
 
@@ -17,9 +14,9 @@ Resolution does nothing in full screen, only windowed
 
 ~~Warp borks the players control if they are interacting with a UI~~
 
-Add a Loading screen 
+~~Add a Loading screen~~
 
-Rework intro dialogue 
+Rework intro cutscene lines 
 
 Add stuff to credits 
 
