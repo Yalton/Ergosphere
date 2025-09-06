@@ -1,54 +1,40 @@
-[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=9 format=3 uid="uid://74gvcrqrrv0e"]
+[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=7 format=3 uid="uid://74gvcrqrrv0e"]
 
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="2_x5dfo"]
 [ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/Hermes/HermesSubtitleLine.gd" id="3_yfyur"]
 
-[sub_resource type="Resource" id="Resource_ll1vh"]
+[sub_resource type="Resource" id="Resource_fuuxo"]
 script = ExtResource("3_yfyur")
+text = "Welcome to Thoth Observatory. I am Hermes."
 start_time = 0.0
-end_time = 4.5
-text = "Welcome to Thoth observatory station, I am Hermes"
+end_time = 3.52
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
-[sub_resource type="Resource" id="Resource_bx5w4"]
+[sub_resource type="Resource" id="Resource_lluwp"]
 script = ExtResource("3_yfyur")
-start_time = 4.8
-end_time = 9.0
-text = "the coordinator intelligence for this installation."
+text = "Coordinator Intelligence. You've been selected as my steward under policy 735.4 of the Machine Intelligence Act.
+"
+start_time = 3.52
+end_time = 10.88
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
-[sub_resource type="Resource" id="Resource_6g48e"]
+[sub_resource type="Resource" id="Resource_x5dfo"]
 script = ExtResource("3_yfyur")
-start_time = 9.3
-end_time = 20.8
-text = "You have been selected to be my steward in compliance with Policy 735.4 subsection 6 of the Machine Intelligence Act."
+text = "Our mission: maintain this station, gather data from the Sejanus Singularity"
+start_time = 10.88
+end_time = 16.32
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
-[sub_resource type="Resource" id="Resource_hxxxg"]
+[sub_resource type="Resource" id="Resource_yfyur"]
 script = ExtResource("3_yfyur")
-start_time = 21.2
-end_time = 33.0
-text = "We are tasked with maintaining this installation, gathering data from the Sejanus Singularity, and reporting this data back to our superiors."
-metadata/_custom_type_script = "uid://dqnus1usgcowd"
-
-[sub_resource type="Resource" id="Resource_twxqx"]
-script = ExtResource("3_yfyur")
-start_time = 33.3
-end_time = 44.5
-text = "I will perform maintenance of this Stations digital subsystems, and you will perform all other tasks required to complete our mission here."
-metadata/_custom_type_script = "uid://dqnus1usgcowd"
-
-[sub_resource type="Resource" id="Resource_ydn7e"]
-script = ExtResource("3_yfyur")
-start_time = 44.6
-end_time = 53.5
-text = "Please now commence in a self-guided tour of the station to familiarize yourself with your new workplace and residence."
+text = "Report to superiors. I handle digital systems. You handle everything else. Begin your station tour now."
+start_time = 16.32
+end_time = 24.0
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [resource]
 script = ExtResource("2_x5dfo")
 id = "start"
-description = ""
-subtitle_lines = Array[ExtResource("3_yfyur")]([SubResource("Resource_ll1vh"), SubResource("Resource_bx5w4"), SubResource("Resource_6g48e"), SubResource("Resource_hxxxg"), SubResource("Resource_twxqx"), SubResource("Resource_ydn7e")])
+subtitle_lines = Array[ExtResource("3_yfyur")]([SubResource("Resource_fuuxo"), SubResource("Resource_lluwp"), SubResource("Resource_x5dfo"), SubResource("Resource_yfyur")])
 is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

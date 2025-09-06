@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d0yo51l4xadp1"]
+[gd_scene load_steps=14 format=3 uid="uid://d0yo51l4xadp1"]
 
 [ext_resource type="Script" uid="uid://d0qnax700j221" path="res://Scripts/Environment/Hermes/hermes_audio.gd" id="1_6aqtr"]
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="3_qula0"]
@@ -13,7 +13,6 @@
 [ext_resource type="Resource" uid="uid://bj4458uh4s023" path="res://Assets/Resources/HermesClips/data_upload.tres" id="12_a6enq"]
 [ext_resource type="Resource" uid="uid://dnr8op5128cd8" path="res://Assets/Resources/HermesClips/authorized_rest.tres" id="13_dkuhe"]
 [ext_resource type="Resource" uid="uid://c4a7n55ih7p1a" path="res://Assets/Resources/HermesClips/fuse_tripped.tres" id="14_wuprw"]
-[ext_resource type="AudioStream" uid="uid://cldijwedf6y0t" path="res://Assets/Audio/HermesLines/Hermes_Intro.ogg" id="30_5nu0m"]
 
 [node name="HermesAudio" type="AudioStreamPlayer"]
 volume_db = -1.0
@@ -21,4 +20,3 @@ bus = &"HermesAudio"
 script = ExtResource("1_6aqtr")
 voice_clips = Array[ExtResource("3_qula0")]([ExtResource("4_rc4kc"), ExtResource("5_8q7kn"), ExtResource("6_uojuc"), ExtResource("7_cr0m2"), ExtResource("8_6sgju"), ExtResource("9_ghmj8"), ExtResource("10_w6x6i"), ExtResource("11_dg0c8"), ExtResource("12_a6enq"), ExtResource("13_dkuhe"), ExtResource("14_wuprw")])
 auto_play_delay = 5.0
-notification_sound = ExtResource("30_5nu0m")
