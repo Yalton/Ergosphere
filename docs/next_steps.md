@@ -1,13 +1,16 @@
-Use Stab0Talks lines 
+Play all hermes lines 
 
-Make hermes work 
+Fix ending - Add a real animation
 
-Citreum Splash screen 
+Make decals appear and dissapear 
 
-Test more and polish more 
+eye particle effect 
+
+Publish  game 
 
 Finish polishing, then publish it 
 
+Add game ending animation 
 
 ## Bug
 
@@ -23,6 +26,5 @@ Resolution does nothing in full screen, only windowed
 ~~Rework intro cutscene lines~~
 
 Add stuff to credits 
-
 
 Localize it into Esperanto 

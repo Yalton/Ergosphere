@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=5 format=3 uid="uid://clj3s54fp6a0k"]
+
+[ext_resource type="AudioStream" uid="uid://d2tjf2uuuhfix" path="res://Assets/Audio/HermesLines/CommsLoss.ogg" id="1_nqjel"]
+[ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="1_qbj7t"]
+[ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/Hermes/HermesSubtitleLine.gd" id="2_nqjel"]
+
+[sub_resource type="Resource" id="Resource_genob"]
+script = ExtResource("2_nqjel")
+text = "Warning. Communication array offline. To speak is to know. We do not know."
+start_time = 0.0
+end_time = 5.6
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[resource]
+script = ExtResource("1_qbj7t")
+id = "comms_loss"
+audio_stream = ExtResource("1_nqjel")
+subtitle_lines = Array[ExtResource("2_nqjel")]([SubResource("Resource_genob")])
+is_repeatable = true
+metadata/_custom_type_script = "uid://cf7k18yawj5tw"

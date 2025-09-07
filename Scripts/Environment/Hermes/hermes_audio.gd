@@ -1,5 +1,5 @@
 class_name HermesAudio
-extends Node
+extends AudioStreamPlayer
 
 ## Main Hermes audio controller that plays voice clips with synchronized subtitles
 ## Handles audio playback and subtitle timing
@@ -22,11 +22,31 @@ extends Node
 ## Name displayed before subtitles
 @export var speaker_name: String = "[Hermes]:"
 
-## Volume adjustment for voice clips in dB
-@export var voice_volume_db: float = 0.0
+## Notification sound played at the start of voice lines
+@export var notification_sound: AudioStream
 
-## Audio bus to use for voice playback
-@export var audio_bus: String = "Voice"
+## Delay after notification before playing voice (seconds)
+@export var notification_delay: float = 0.5
+
+@export_group("Audio Mappings")
+## Mapping of event IDs to audio clip IDs
+@export var event_audio_map: Dictionary = {
+	"power_outage": "fuse_tripped",
+	"heatsink_failure": "heatsink_failure", 
+	"hawking_radiation": "sejanus_radiation",
+	"spawn_iconoclast": "entity_warning"
+}
+
+## Mapping of task IDs to audio clip IDs
+@export var task_audio_map: Dictionary = {
+	"allign_telescope": "allign_telescope",
+	"upload_data": "upload_data",
+	"recalibrate_systems": "valid_crashout",
+	"run_diagnostics": "psyche_warning",
+	"sample_anomalies": "spacetime_warning",
+	"time_anomaly": "snake_game",
+	"contact_earth": "consumption_warning"
+}
 
 # Internal state
 var current_voice_clip: HermesVoiceClip = null
@@ -35,20 +55,16 @@ var current_subtitle: String = ""
 var played_voice_ids: Array[String] = []
 var current_subtitle_index: int = 0
 var subtitle_timer: Timer
-var audio_player: AudioStreamPlayer
 var is_playing: bool = false
 var playback_start_time: float = 0.0
+var waiting_for_notification: bool = false
 
 func _ready() -> void:
 	var module_name = "HermesAudio"
 	DebugLogger.register_module(module_name, true)
 	
-	# Create audio player
-	audio_player = AudioStreamPlayer.new()
-	audio_player.bus = audio_bus
-	audio_player.volume_db = voice_volume_db
-	audio_player.finished.connect(_on_audio_finished)
-	add_child(audio_player)
+	# Connect to our own finished signal
+	finished.connect(_on_audio_finished)
 	
 	# Create subtitle timer
 	subtitle_timer = Timer.new()
@@ -60,6 +76,11 @@ func _ready() -> void:
 	if GameManager and GameManager.task_manager:
 		GameManager.task_manager.task_completed.connect(_on_task_completed)
 		DebugLogger.debug(module_name, "Connected to TaskManager task_completed signal")
+	
+	# Connect to event triggered signal
+	if GameManager and GameManager.event_manager:
+		GameManager.event_manager.event_triggered.connect(_on_event_triggered)
+		DebugLogger.debug(module_name, "Connected to EventManager event_triggered signal")
 	
 	# Set up auto-play if configured
 	if auto_play_id and auto_play_delay > 0 and enabled:
@@ -73,7 +94,7 @@ func _process(_delta: float) -> void:
 		_find_player_ui_controller()
 	
 	# Update subtitle display based on current playback time
-	if is_playing and current_voice_clip and enable_subtitles:
+	if is_playing and current_voice_clip and enable_subtitles and not waiting_for_notification:
 		_update_subtitle_display()
 
 func _find_player_ui_controller() -> void:
@@ -109,7 +130,7 @@ func play_voice_by_id(id: String) -> bool:
 		return false
 	
 	played_voice_ids.append(id)
-	DebugLogger.debug("HermesAudio", "Playing voice ID: " + id + " - " + voice_clip.description)
+	DebugLogger.debug("HermesAudio", "Playing voice ID: " + id)
 	
 	_play_voice_clip(voice_clip)
 	return true
@@ -118,22 +139,67 @@ func _play_voice_clip(voice_clip: HermesVoiceClip) -> void:
 	current_voice_clip = voice_clip
 	current_subtitle_index = 0
 	is_playing = true
+	
+	# Play notification sound first if we have one
+	if notification_sound:
+		waiting_for_notification = true
+		stream = notification_sound
+		play()
+		DebugLogger.debug("HermesAudio", "Playing notification sound before voice clip")
+		# Voice will start after notification finishes
+	else:
+		# No notification, start voice immediately
+		_start_voice_playback()
+
+func _on_audio_finished() -> void:
+	if waiting_for_notification:
+		# Notification just finished, now play the voice
+		waiting_for_notification = false
+		
+		# Add delay after notification if configured
+		if notification_delay > 0:
+			var delay_timer = get_tree().create_timer(notification_delay)
+			delay_timer.timeout.connect(_start_voice_playback)
+		else:
+			_start_voice_playback()
+	else:
+		# Voice clip finished
+		DebugLogger.debug("HermesAudio", "Audio playback finished")
+		
+		# Hide any remaining subtitle
+		if player_ui_controller and current_subtitle != "":
+			_hide_subtitle()
+		
+		is_playing = false
+		current_voice_clip = null
+		current_subtitle = ""
+		current_subtitle_index = 0
+		subtitle_timer.stop()
+
+func _start_voice_playback() -> void:
+	if not current_voice_clip:
+		return
+	
 	playback_start_time = Time.get_ticks_msec() / 1000.0
 	
 	# Play the audio
-	audio_player.stream = voice_clip.audio_stream
-	audio_player.play()
+	stream = current_voice_clip.audio_stream
+	play()
 	
 	# Start subtitle management if enabled
-	if enable_subtitles and voice_clip.subtitle_lines.size() > 0:
+	if enable_subtitles and current_voice_clip.subtitle_lines.size() > 0:
 		if not player_ui_controller:
 			_find_player_ui_controller()
 		
 		# Initialize subtitle display
 		current_subtitle = ""
 		_update_subtitle_display()
+		
+		# Start subtitle checking timer
+		subtitle_timer.wait_time = 0.1
+		subtitle_timer.start()
 	
-	DebugLogger.debug("HermesAudio", "Playing voice clip: " + voice_clip.id)
+	DebugLogger.debug("HermesAudio", "Playing voice clip: " + current_voice_clip.id)
 
 func _update_subtitle_display() -> void:
 	if not current_voice_clip or not player_ui_controller:
@@ -182,24 +248,11 @@ func _hide_subtitle() -> void:
 
 func _check_next_subtitle() -> void:
 	# This is called periodically to update subtitle display
-	if is_playing:
+	if is_playing and not waiting_for_notification:
 		_update_subtitle_display()
 		# Schedule next check
 		subtitle_timer.wait_time = 0.1  # Check every 100ms
 		subtitle_timer.start()
-
-func _on_audio_finished() -> void:
-	DebugLogger.debug("HermesAudio", "Audio playback finished")
-	
-	# Hide any remaining subtitle
-	if player_ui_controller and current_subtitle != "":
-		_hide_subtitle()
-	
-	is_playing = false
-	current_voice_clip = null
-	current_subtitle = ""
-	current_subtitle_index = 0
-	subtitle_timer.stop()
 
 func find_voice_clip(id: String) -> HermesVoiceClip:
 	for clip in voice_clips:
@@ -209,8 +262,8 @@ func find_voice_clip(id: String) -> HermesVoiceClip:
 
 func stop_voice() -> void:
 	# Stop audio playback
-	if audio_player.playing:
-		audio_player.stop()
+	if playing:
+		stop()
 	
 	# Stop subtitle timer
 	subtitle_timer.stop()
@@ -220,6 +273,7 @@ func stop_voice() -> void:
 		_hide_subtitle()
 	
 	is_playing = false
+	waiting_for_notification = false
 	current_voice_clip = null
 	current_subtitle = ""
 	current_subtitle_index = 0
@@ -227,14 +281,29 @@ func stop_voice() -> void:
 	DebugLogger.debug("HermesAudio", "Voice playback stopped")
 
 func _on_task_completed(task_id: String) -> void:
-	# Look for a voice clip with matching ID
+	# First check if we have a direct voice clip match
 	var voice_clip = find_voice_clip(task_id)
-	if not voice_clip:
-		DebugLogger.debug("HermesAudio", "No voice clip found for completed task: " + task_id)
+	if voice_clip:
+		var success = play_voice_by_id(task_id)
+		DebugLogger.debug("HermesAudio", "Task completed trigger - playing voice: " + task_id + " (success: " + str(success) + ")")
 		return
 	
-	var success = play_voice_by_id(task_id)
-	DebugLogger.debug("HermesAudio", "Task completed trigger - playing voice: " + task_id + " (success: " + str(success) + ")")
+	# Check if we have a mapped audio ID for this task
+	if task_audio_map.has(task_id):
+		var audio_id = task_audio_map[task_id]
+		var success = play_voice_by_id(audio_id)
+		DebugLogger.debug("HermesAudio", "Task completed trigger - playing mapped voice: " + task_id + " -> " + audio_id + " (success: " + str(success) + ")")
+	else:
+		DebugLogger.debug("HermesAudio", "No voice clip or mapping found for completed task: " + task_id)
+
+func _on_event_triggered(event_id: String) -> void:
+	# Check if we have a mapped audio ID for this event
+	if event_audio_map.has(event_id):
+		var audio_id = event_audio_map[event_id]
+		var success = play_voice_by_id(audio_id)
+		DebugLogger.debug("HermesAudio", "Event triggered - playing mapped voice: " + event_id + " -> " + audio_id + " (success: " + str(success) + ")")
+	else:
+		DebugLogger.debug("HermesAudio", "No audio mapping found for triggered event: " + event_id)
 
 func is_playing_voice() -> bool:
 	return is_playing

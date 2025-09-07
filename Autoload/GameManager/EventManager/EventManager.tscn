@@ -41,7 +41,7 @@
 [ext_resource type="AudioStream" uid="uid://babya7gwhdtfr" path="res://Assets/Audio/warp_sfx.ogg" id="36_xifxp"]
 [ext_resource type="Script" uid="uid://ervl52oyi4xo" path="res://Autoload/GameManager/EventManager/Handlers/major_event_handler.gd" id="38_b8hgc"]
 [ext_resource type="PackedScene" uid="uid://40gjctxfvyyn" path="res://Prefabs/Entities/avatar_iconoclast.tscn" id="38_xr1wj"]
-[ext_resource type="AudioStream" uid="uid://d2ty8ebgjbvmm" path="res://Assets/Audio/iconoclast_spawn_sting.ogg" id="39_xifxp"]
+[ext_resource type="AudioStream" uid="uid://d2ty8ebgjbvmm" path="res://Assets/Audio/Character/IconoclastAvatar/iconoclast_spawn_sting.ogg" id="39_xifxp"]
 [ext_resource type="Script" uid="uid://omxpai7js0p2" path="res://Autoload/GameManager/EventManager/Handlers/vfx_event_handler.gd" id="41_wm8la"]
 [ext_resource type="Script" uid="uid://7x1wa81fdf75" path="res://Autoload/GameManager/EventManager/Handlers/positional_event_handler.gd" id="46_8djds"]
 

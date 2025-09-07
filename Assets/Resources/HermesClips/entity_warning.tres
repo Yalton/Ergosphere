@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=5 format=3 uid="uid://bkgcschdhp1ut"]
+
+[ext_resource type="AudioStream" uid="uid://nio504bj7l2" path="res://Assets/Audio/HermesLines/EntityWarning.ogg" id="1_ghluh"]
+[ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="1_skecq"]
+[ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/Hermes/HermesSubtitleLine.gd" id="2_ghluh"]
+
+[sub_resource type="Resource" id="Resource_i5apd"]
+script = ExtResource("2_ghluh")
+text = "Warning. Unknown entity detected onboard. Likely hostile. Avoid contact."
+start_time = 0.0
+end_time = 6.0
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[resource]
+script = ExtResource("1_skecq")
+id = "entity_warning"
+audio_stream = ExtResource("1_ghluh")
+subtitle_lines = Array[ExtResource("2_ghluh")]([SubResource("Resource_i5apd")])
+is_repeatable = true
+metadata/_custom_type_script = "uid://cf7k18yawj5tw"

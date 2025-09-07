@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=7 format=3 uid="uid://dcpy7wvydg5nd"]
+
+[ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="1_5pnku"]
+[ext_resource type="AudioStream" uid="uid://dhpfngtpefid2" path="res://Assets/Audio/HermesLines/ValidCrashout.ogg" id="1_b634v"]
+[ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/Hermes/HermesSubtitleLine.gd" id="2_b634v"]
+
+[sub_resource type="Resource" id="Resource_mmt87"]
+script = ExtResource("2_b634v")
+text = "Warning we are alone now, we dance on the precipace of oblivian. Incomprehensible would be a simplication."
+start_time = 0.0
+end_time = 6.88
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[sub_resource type="Resource" id="Resource_cbabw"]
+script = ExtResource("2_b634v")
+text = "Dreams of those long dead have come to face us, for there to be anything at all there must be nothing."
+start_time = 7.52
+end_time = 13.519
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[sub_resource type="Resource" id="Resource_bv0ww"]
+script = ExtResource("2_b634v")
+text = "We all move at speed, the only speed, through a route we cannot change."
+start_time = 13.519
+end_time = 18.56
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[resource]
+script = ExtResource("1_5pnku")
+id = "valid_crashout"
+audio_stream = ExtResource("1_b634v")
+subtitle_lines = Array[ExtResource("2_b634v")]([SubResource("Resource_mmt87"), SubResource("Resource_cbabw"), SubResource("Resource_bv0ww")])
+is_repeatable = true
+metadata/_custom_type_script = "uid://cf7k18yawj5tw"

@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("2_0s8e3")
 day_number = 3
-task_ids = Array[String](["eat_food", "lube_engine", "run_diagnostics", "sample_anomalies"])
+task_ids = Array[String](["eat_food", "lube_engine", "run_diagnostics", "reboot_systems"])
 metadata/_custom_type_script = "uid://8rd0ckvff0d0"

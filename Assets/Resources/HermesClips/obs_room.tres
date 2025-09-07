@@ -1,26 +1,20 @@
 [gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=5 format=3 uid="uid://by03754j5t8m3"]
 
+[ext_resource type="AudioStream" uid="uid://ccls75wg2hmx6" path="res://Assets/Audio/HermesLines/ObservationRoom.ogg" id="1_bnoty"]
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="2_t67ee"]
 [ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/Hermes/HermesSubtitleLine.gd" id="3_eijq4"]
 
-[sub_resource type="Resource" id="Resource_sm2pt"]
+[sub_resource type="Resource" id="Resource_8v3ph"]
 script = ExtResource("3_eijq4")
+text = "Observation room. We monitor and collect singularity data here."
 start_time = 0.0
-end_time = 2.3
-text = "This is the observation room"
-metadata/_custom_type_script = "uid://dqnus1usgcowd"
-
-[sub_resource type="Resource" id="Resource_fprvo"]
-script = ExtResource("3_eijq4")
-start_time = 2.4
-end_time = 7.7
-text = "Where we can observe and collect data on the Sejanus singularity"
+end_time = 4.0
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [resource]
 script = ExtResource("2_t67ee")
 id = "obs_room"
-description = ""
-subtitle_lines = Array[ExtResource("3_eijq4")]([SubResource("Resource_sm2pt"), SubResource("Resource_fprvo")])
+audio_stream = ExtResource("1_bnoty")
+subtitle_lines = Array[ExtResource("3_eijq4")]([SubResource("Resource_8v3ph")])
 is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

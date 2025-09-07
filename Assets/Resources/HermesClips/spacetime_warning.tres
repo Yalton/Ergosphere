@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=5 format=3 uid="uid://dgcs3mid3s226"]
+
+[ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="1_s2bac"]
+[ext_resource type="AudioStream" uid="uid://bvtogg2apr0ta" path="res://Assets/Audio/HermesLines/SpacetimeWarning.ogg" id="1_x2m0j"]
+[ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/Hermes/HermesSubtitleLine.gd" id="2_x2m0j"]
+
+[sub_resource type="Resource" id="Resource_ltwaw"]
+script = ExtResource("2_x2m0j")
+text = "Warning. Local spacetime fluctuations exceed parameters."
+start_time = 0.0
+end_time = 1.0
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[resource]
+script = ExtResource("1_s2bac")
+id = "spacetime_warning"
+audio_stream = ExtResource("1_x2m0j")
+subtitle_lines = Array[ExtResource("2_x2m0j")]([SubResource("Resource_ltwaw")])
+is_repeatable = true
+metadata/_custom_type_script = "uid://cf7k18yawj5tw"

@@ -1,33 +1,20 @@
-[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=6 format=3 uid="uid://5estkpurb6ga"]
+[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=5 format=3 uid="uid://5estkpurb6ga"]
 
+[ext_resource type="AudioStream" uid="uid://bd38nc0ooyc38" path="res://Assets/Audio/HermesLines/EngineRoom.ogg" id="1_qwml4"]
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="2_56284"]
 [ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/Hermes/HermesSubtitleLine.gd" id="3_0ifpy"]
 
-[sub_resource type="Resource" id="Resource_cwhpi"]
+[sub_resource type="Resource" id="Resource_a1nld"]
 script = ExtResource("3_0ifpy")
-start_time = 0.0
-end_time = 2.0
-text = "This is the engine room"
-metadata/_custom_type_script = "uid://dqnus1usgcowd"
-
-[sub_resource type="Resource" id="Resource_6qu0q"]
-script = ExtResource("3_0ifpy")
-start_time = 2.2
-end_time = 8.2
-text = "Steward is advised to remain within this room as infrequently as possible"
-metadata/_custom_type_script = "uid://dqnus1usgcowd"
-
-[sub_resource type="Resource" id="Resource_tqwcb"]
-script = ExtResource("3_0ifpy")
-start_time = 8.2
-end_time = 13.1
-text = "As these critical systems have grown a bit delicate with time"
+text = "Engine room. Critical systems. Delicate. Minimize time here."
+start_time = 4.8
+end_time = 1.0
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [resource]
 script = ExtResource("2_56284")
 id = "eng_room"
-description = ""
-subtitle_lines = Array[ExtResource("3_0ifpy")]([SubResource("Resource_cwhpi"), SubResource("Resource_6qu0q"), SubResource("Resource_tqwcb")])
+audio_stream = ExtResource("1_qwml4")
+subtitle_lines = Array[ExtResource("3_0ifpy")]([SubResource("Resource_a1nld")])
 is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=6 format=3 uid="uid://cu0yblov63rha"]
+
+[ext_resource type="AudioStream" uid="uid://ccir78guw75xb" path="res://Assets/Audio/HermesLines/PsycheWarning.ogg" id="1_00oym"]
+[ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="1_juaga"]
+[ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/Hermes/HermesSubtitleLine.gd" id="2_00oym"]
+
+[sub_resource type="Resource" id="Resource_ohbwc"]
+script = ExtResource("2_00oym")
+text = "Warning. Steward psychological integrity compromised. "
+start_time = 0.0
+end_time = 4.0
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[sub_resource type="Resource" id="Resource_2hque"]
+script = ExtResource("2_00oym")
+text = "Cognitive patterns indicate severe instability."
+start_time = 0.0
+end_time = 7.0
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[resource]
+script = ExtResource("1_juaga")
+id = "psyche_warning"
+audio_stream = ExtResource("1_00oym")
+subtitle_lines = Array[ExtResource("2_00oym")]([SubResource("Resource_ohbwc"), SubResource("Resource_2hque")])
+is_repeatable = true
+metadata/_custom_type_script = "uid://cf7k18yawj5tw"

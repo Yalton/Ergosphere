@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=5 format=3 uid="uid://chmitv7y1orok"]
+
+[ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="1_gr423"]
+[ext_resource type="AudioStream" uid="uid://bd38nc0ooyc38" path="res://Assets/Audio/HermesLines/EngineRoom.ogg" id="1_l4y14"]
+[ext_resource type="Script" uid="uid://dqnus1usgcowd" path="res://Scripts/Resources/Hermes/HermesSubtitleLine.gd" id="2_l4y14"]
+
+[sub_resource type="Resource" id="Resource_868g4"]
+script = ExtResource("2_l4y14")
+text = "Engine heat-sink critical failure. Core temperature rising. Replace immediately."
+start_time = 0.0
+end_time = 4.8
+metadata/_custom_type_script = "uid://dqnus1usgcowd"
+
+[resource]
+script = ExtResource("1_gr423")
+id = "heatsink_failure"
+audio_stream = ExtResource("1_l4y14")
+subtitle_lines = Array[ExtResource("2_l4y14")]([SubResource("Resource_868g4")])
+is_repeatable = true
+metadata/_custom_type_script = "uid://cf7k18yawj5tw"

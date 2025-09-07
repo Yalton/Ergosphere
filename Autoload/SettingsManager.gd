@@ -16,6 +16,7 @@ const DEFAULT_HIGH_QUALITY = true
 const DEFAULT_MASTER_VOLUME = 100.0
 const DEFAULT_MUSIC_VOLUME = 100.0
 const DEFAULT_SFX_VOLUME = 100.0
+const DEFAULT_HERMES_MUTED = false  # Default to not muted
 
 # Video defaults
 const DEFAULT_VSYNC = true
@@ -83,6 +84,12 @@ func load_settings() -> void:
 		AudioServer.set_bus_volume_db(MUSIC_BUS, linear_to_db(music_volume / 100))
 		AudioServer.set_bus_volume_db(SFX_BUS, linear_to_db(sfx_volume / 100))
 		
+		# Load and apply Hermes mute setting
+		var hermes_muted = config.get_value("audio", "hermes_muted", DEFAULT_HERMES_MUTED)
+		is_hermes_muted = hermes_muted
+		AudioServer.set_bus_mute(HERMES_BUS, hermes_muted)
+		DebugLogger.debug(module_name, "Hermes mute loaded and applied: " + str(hermes_muted))
+		
 		# Load and apply quality setting
 		var high_quality = config.get_value("graphics", "high_quality", DEFAULT_HIGH_QUALITY)
 		apply_quality_settings(high_quality)
@@ -104,13 +111,16 @@ func load_settings() -> void:
 			DebugLogger.debug(module_name, "Settings loaded - Master Vol: " + str(master_volume) +
 							  "%, Music Vol: " + str(music_volume) +
 							  "%, SFX Vol: " + str(sfx_volume) +
-							  "%, High Quality: " + str(high_quality))
+							  "%, High Quality: " + str(high_quality) +
+							  ", Hermes Muted: " + str(hermes_muted))
 	else:
 		DebugLogger.warning(module_name, "No settings file found, using defaults")
 		# Set default values
 		AudioServer.set_bus_volume_db(MASTER_BUS, linear_to_db(DEFAULT_MASTER_VOLUME / 100))
 		AudioServer.set_bus_volume_db(MUSIC_BUS, linear_to_db(DEFAULT_MUSIC_VOLUME / 100))
 		AudioServer.set_bus_volume_db(SFX_BUS, linear_to_db(DEFAULT_SFX_VOLUME / 100))
+		AudioServer.set_bus_mute(HERMES_BUS, DEFAULT_HERMES_MUTED)
+		is_hermes_muted = DEFAULT_HERMES_MUTED
 		apply_quality_settings(DEFAULT_HIGH_QUALITY)
 		set_vsync(DEFAULT_VSYNC)
 		set_quality_lighting(DEFAULT_QUALITY_LIGHTING)
@@ -126,6 +136,7 @@ func save_default_settings() -> void:
 	config.set_value("audio", "master_volume", DEFAULT_MASTER_VOLUME)
 	config.set_value("audio", "music_volume", DEFAULT_MUSIC_VOLUME)
 	config.set_value("audio", "sfx_volume", DEFAULT_SFX_VOLUME)
+	config.set_value("audio", "hermes_muted", DEFAULT_HERMES_MUTED)
 	config.set_value("graphics", "high_quality", DEFAULT_HIGH_QUALITY)
 	config.set_value("video", "vsync", DEFAULT_VSYNC)
 	config.set_value("video", "quality_lighting", DEFAULT_QUALITY_LIGHTING)
@@ -252,29 +263,23 @@ func get_resolution_index(resolution: Vector2i) -> int:
 
 ## Check if Hermes voice is muted
 func get_hermes_muted() -> bool:
-	var config = ConfigFile.new()
-	var err = config.load("user://settings.cfg")
-	if err != OK:
-		return false  # Default to not muted
-	return config.get_value("audio", "hermes_muted", false)
+	return is_hermes_muted
 
 ## Set Hermes mute state by controlling the bus volume
 func set_hermes_muted(muted: bool) -> void:
+	is_hermes_muted = muted
 	# Mute/unmute the HermesAudio bus
-	if muted:
-		AudioServer.set_bus_mute(HERMES_BUS, true)
-	else:
-		AudioServer.set_bus_mute(HERMES_BUS, false)
+	AudioServer.set_bus_mute(HERMES_BUS, muted)
 	
 	# Save the setting
 	var config = ConfigFile.new()
 	config.load("user://settings.cfg")  # Load existing settings
 	config.set_value("audio", "hermes_muted", muted)
 	config.save("user://settings.cfg")
-	DebugLogger.debug("SettingsManager", "Hermes mute set to: " + str(muted))
+	DebugLogger.debug(module_name, "Hermes mute set to: " + str(muted))
 
 ## Apply Hermes mute setting on startup
 func apply_hermes_mute_setting() -> void:
 	var muted = get_hermes_muted()
 	AudioServer.set_bus_mute(HERMES_BUS, muted)
-	DebugLogger.debug("SettingsManager", "Applied Hermes mute setting: " + str(muted))
+	DebugLogger.debug(module_name, "Applied Hermes mute setting: " + str(muted))

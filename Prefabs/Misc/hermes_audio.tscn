@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://d0yo51l4xadp1"]
+[gd_scene load_steps=24 format=3 uid="uid://d0yo51l4xadp1"]
 
 [ext_resource type="Script" uid="uid://d0qnax700j221" path="res://Scripts/Environment/Hermes/hermes_audio.gd" id="1_6aqtr"]
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="3_qula0"]
@@ -11,12 +11,23 @@
 [ext_resource type="Resource" uid="uid://cqp2vyungxbob" path="res://Assets/Resources/HermesClips/tour_complete.tres" id="10_w6x6i"]
 [ext_resource type="Resource" uid="uid://rt00rc2e3c0f" path="res://Assets/Resources/HermesClips/telescope_adjustment.tres" id="11_dg0c8"]
 [ext_resource type="Resource" uid="uid://bj4458uh4s023" path="res://Assets/Resources/HermesClips/data_upload.tres" id="12_a6enq"]
-[ext_resource type="Resource" uid="uid://dnr8op5128cd8" path="res://Assets/Resources/HermesClips/authorized_rest.tres" id="13_dkuhe"]
+[ext_resource type="Resource" uid="uid://dcpy7wvydg5nd" path="res://Assets/Resources/HermesClips/valid_crashout.tres" id="13_t0rm4"]
+[ext_resource type="Resource" uid="uid://bkgcschdhp1ut" path="res://Assets/Resources/HermesClips/entity_warning.tres" id="14_308bj"]
 [ext_resource type="Resource" uid="uid://c4a7n55ih7p1a" path="res://Assets/Resources/HermesClips/fuse_tripped.tres" id="14_wuprw"]
+[ext_resource type="Resource" uid="uid://dcpdmkb4oms88" path="res://Assets/Resources/HermesClips/sejanus_radiation.tres" id="15_3e6kd"]
+[ext_resource type="Resource" uid="uid://dgcs3mid3s226" path="res://Assets/Resources/HermesClips/spacetime_warning.tres" id="16_ktlv5"]
+[ext_resource type="Resource" uid="uid://cu0yblov63rha" path="res://Assets/Resources/HermesClips/psyche_warning.tres" id="17_gbddo"]
+[ext_resource type="Resource" uid="uid://chmitv7y1orok" path="res://Assets/Resources/HermesClips/heatsink_failure.tres" id="18_milyv"]
+[ext_resource type="Resource" uid="uid://dnes5i58jqkpg" path="res://Assets/Resources/HermesClips/consumption_warning.tres" id="19_g7q2o"]
+[ext_resource type="Resource" uid="uid://bmymeddmq22og" path="res://Assets/Resources/HermesClips/consumption_warning_2.tres" id="20_v2u2n"]
+[ext_resource type="Resource" uid="uid://chhfbvtk8yn1u" path="res://Assets/Resources/HermesClips/time_anomaly.tres" id="21_g7piw"]
+[ext_resource type="Resource" uid="uid://clj3s54fp6a0k" path="res://Assets/Resources/HermesClips/comms_loss.tres" id="22_20ill"]
+[ext_resource type="AudioStream" uid="uid://byrbaht7jl050" path="res://Assets/Audio/Hermes_Intro.ogg" id="23_ktlv5"]
 
-[node name="HermesAudio" type="AudioStreamPlayer"]
+[node name="HermesAudio" type="AudioStreamPlayer" groups=["hermes"]]
 volume_db = -1.0
 bus = &"HermesAudio"
 script = ExtResource("1_6aqtr")
-voice_clips = Array[ExtResource("3_qula0")]([ExtResource("4_rc4kc"), ExtResource("5_8q7kn"), ExtResource("6_uojuc"), ExtResource("7_cr0m2"), ExtResource("8_6sgju"), ExtResource("9_ghmj8"), ExtResource("10_w6x6i"), ExtResource("11_dg0c8"), ExtResource("12_a6enq"), ExtResource("13_dkuhe"), ExtResource("14_wuprw")])
+voice_clips = Array[ExtResource("3_qula0")]([ExtResource("4_rc4kc"), ExtResource("5_8q7kn"), ExtResource("6_uojuc"), ExtResource("7_cr0m2"), ExtResource("8_6sgju"), ExtResource("9_ghmj8"), ExtResource("10_w6x6i"), ExtResource("11_dg0c8"), ExtResource("12_a6enq"), ExtResource("14_wuprw"), ExtResource("13_t0rm4"), ExtResource("14_308bj"), ExtResource("15_3e6kd"), ExtResource("16_ktlv5"), ExtResource("17_gbddo"), ExtResource("18_milyv"), ExtResource("19_g7q2o"), ExtResource("20_v2u2n"), ExtResource("21_g7piw"), ExtResource("22_20ill")])
 auto_play_delay = 5.0
+notification_sound = ExtResource("23_ktlv5")
