@@ -5,6 +5,7 @@ signal game_ended
 signal day_started(day_number: int)
 signal day_ended(day_number: int)
 signal player_sleeping()
+
 ## Current day number in the game
 @export var current_day: int = 0
 
@@ -16,7 +17,6 @@ var state_manager: StateManager
 var task_manager: TaskManager
 var storage_manager: StorageManager
 var audio_fx_manager: AudioFXManager
-var ending_sequence_manager: EndingSequenceManager
 
 var session_password: String = ""
 var game_is_running: bool = false
@@ -37,7 +37,17 @@ var systems_initialized: bool = false
 ## Audio to play when radiation ends
 @export var radiation_end_audio: AudioStream
 
+# Ending sequence
+@export_group("Ending Configuration")
+## Delay before triggering final emergency task after all tasks complete
+@export var ending_delay: float = 5.0
+## Emergency task ID for the final collapse
+@export var collapse_task_id: String = "collapse_inevitable"
+
 var died_to: String = ""  # Tracks which emergency task killed the player for death cutscene
+var ending_check_timer: float = 0.0
+var ending_check_interval: float = 3.0
+var ending_triggered: bool = false
 
 func _ready():
 	DebugLogger.register_module("GameManager")
@@ -48,9 +58,77 @@ func _ready():
 	task_manager = CommonUtils.safe_get_node(self, "TaskManager") as TaskManager
 	storage_manager = CommonUtils.safe_get_node(self, "StorageManager") as StorageManager
 	audio_fx_manager = CommonUtils.safe_get_node(self, "AudioFXManager") as AudioFXManager
-	ending_sequence_manager = CommonUtils.safe_get_node(self, "EndingSequenceManager") as EndingSequenceManager
 	
 	DebugLogger.info("GameManager", "GameManager ready, waiting for game start")
+	set_process(true)
+
+func _process(delta: float) -> void:
+	if not game_is_running or ending_triggered:
+		return
+		
+	# Check for ending conditions periodically
+	ending_check_timer += delta
+	if ending_check_timer >= ending_check_interval:
+		ending_check_timer = 0.0
+		_check_for_ending_conditions()
+
+func _check_for_ending_conditions() -> void:
+	# Check if this is the final day
+	if current_day != max_days:
+		return
+		
+	# Check if all non-secret daily tasks are completed
+	if not task_manager or not _are_all_daily_tasks_completed():
+		return
+		
+	if ending_triggered:
+		return
+		
+	DebugLogger.info("GameManager", "Final day tasks completed! Starting ending sequence in %.1f seconds..." % ending_delay)
+	
+	# Trigger the ending sequence
+	ending_triggered = true
+	_schedule_ending_sequence()
+
+func _are_all_daily_tasks_completed() -> bool:
+	var todays_tasks = task_manager.get_todays_tasks()
+	
+	for task in todays_tasks:
+		# Skip sleep task
+		if task.task_id == task_manager.sleep_task_id:
+			continue
+			
+		# Skip secret tasks - they don't block the ending
+		if task.is_secret:
+			continue
+			
+		# Check if non-secret task is complete
+		if not task.is_completed:
+			return false
+	
+	return true
+
+func _schedule_ending_sequence() -> void:
+	await get_tree().create_timer(ending_delay).timeout
+	
+	# Double-check we haven't already ended
+	if not ending_triggered:
+		return
+		
+	_start_ending_sequence()
+
+func _start_ending_sequence() -> void:
+	DebugLogger.info("GameManager", "Starting ending sequence!")
+	
+	# Set state for reality collapse
+	if state_manager:
+		state_manager.set_state("reality_collapse", true)
+	
+	# Trigger the collapse emergency task
+	if task_manager:
+		task_manager.trigger_emergency_task(collapse_task_id)
+	
+	# The emergency task will handle the ending when it fails
 
 func initialize_systems():
 	"""Initialize all game systems but don't start the game"""
@@ -68,9 +146,6 @@ func initialize_systems():
 		
 	if task_manager and task_manager.has_method("initialize"):
 		task_manager.initialize(state_manager)
-
-	if ending_sequence_manager and ending_sequence_manager.has_method("initialize"):
-		ending_sequence_manager.initialize(self, task_manager, state_manager)
 
 	# Generate session password
 	session_password = _generate_password()
@@ -155,7 +230,8 @@ func end_day():
 	
 	# Check if we should continue or end game
 	if current_day >= max_days:
-		end_game()
+		# Don't call end_game here - the ending sequence will handle it
+		pass
 	else:
 		# Next day will be started by transition system
 		pass
@@ -173,13 +249,8 @@ func end_game():
 	# Stop all systems
 	stop_systems()
 	
-	# Transition to ending or menu
-	if ending_sequence_manager:
-		ending_sequence_manager.start_ending_sequence()
-	else:
-		# Return to main menu
-		get_tree().change_scene_to_file("res://scenes/ui/main_menu.tscn")
-
+	# Return to main menu - will be handled by death cutscene
+	pass
 
 # Helper method to get dream sequence handler from group
 func get_dream_sequence_handler() -> DreamSequenceEventHandler:
@@ -216,6 +287,8 @@ func reset_game():
 	game_is_running = false
 	systems_initialized = false
 	session_password = ""
+	ending_triggered = false
+	ending_check_timer = 0.0
 	
 	# Reset all managers
 	if state_manager:

@@ -497,92 +497,48 @@ func _get_required_day_for_log(log_number: int) -> int:
 		return 1  # Password protected logs
 
 func _cmd_test_ending(args: Array) -> void:
-	## Test ending sequence by jumping to final day and completing tasks
-	if not GameManager or not GameManager.task_manager or not GameManager.ending_sequence_manager:
+	## Test ending sequence by jumping to final day and triggering collapse
+	if not GameManager or not GameManager.task_manager:
 		output_error("Required managers not available")
 		return
 	
-	# Parse arguments
-	var complete_path_a = false
-	var complete_path_b = false
-	var skip_delay = false
-	
-	for arg in args:
-		match arg.to_lower():
-			"a":
-				complete_path_a = true
-			"b": 
-				complete_path_b = true
-			"both":
-				complete_path_a = true
-				complete_path_b = true
-			"nodelay":
-				skip_delay = true
-			_:
-				output_warning("Unknown argument: " + arg)
-	
 	output_system("=== Testing Ending Sequence ===")
 	
-	# Get final day from EndingSequenceManager
-	var final_day = GameManager.ending_sequence_manager.final_day
-	output("Target day: %d" % final_day)
+	# Jump directly to day 5
+	var final_day = 5
+	output("Jumping to day %d..." % final_day)
+	GameManager.current_day = final_day
 	
-	# Skip to day before final day
-	while GameManager.current_day < final_day - 1:
-		GameManager.current_day += 1
-		output("Skipping to day %d..." % GameManager.current_day)
+	# Clear all existing tasks
+	output("Clearing all tasks...")
+	if GameManager.task_manager.todays_tasks:
+		GameManager.task_manager.todays_tasks.clear()
+	if GameManager.task_manager.active_tasks:
+		GameManager.task_manager.active_tasks.clear()
 	
-	# Start the final day
-	output("Starting final day %d..." % final_day)
-	GameManager.start_new_day()
+	# Set ending_triggered flag to simulate conditions being met
+	GameManager.ending_triggered = true
 	
-	# Wait a moment for day to initialize
-	await get_tree().create_timer(0.5).timeout
+	# Set reality collapse state
+	if GameManager.state_manager:
+		GameManager.state_manager.set_state("reality_collapse", true)
+		output("Reality collapse state activated")
 	
-	# Complete secret tasks if requested
-	if complete_path_a:
-		output("Completing secret path A tasks...")
-		_complete_secret_path("a")
+	output("Waiting 1 second before triggering collapse_inevitable...")
+	await get_tree().create_timer(1.0).timeout
 	
-	if complete_path_b:
-		output("Completing secret path B tasks...")
-		_complete_secret_path("b")
+	# Trigger the collapse emergency task
+	output("Triggering collapse_inevitable emergency task...")
+	if GameManager.task_manager:
+		GameManager.task_manager.trigger_emergency_task(GameManager.collapse_task_id)
+		output("Emergency task '%s' triggered" % GameManager.collapse_task_id)
+		output("Task will fail in 20 seconds, triggering ending cutscene")
 	
-	# Complete all regular daily tasks
-	output("Completing all daily tasks...")
-	var todays_tasks = GameManager.task_manager.get_todays_tasks()
-	var completed_count = 0
-	
-	for task in todays_tasks:
-		# Skip sleep task and secrets
-		if task.task_id == GameManager.task_manager.sleep_task_id or task.is_secret:
-			continue
-			
-		if not task.is_completed:
-			GameManager.task_manager.complete_task(task.task_id)
-			completed_count += 1
-			output("  ✓ " + task.task_name)
-	
-	output("Completed %d daily tasks" % completed_count)
-	
-	# Optionally skip the delay
-	if skip_delay:
-		output("Skipping sequence delay...")
-		GameManager.ending_sequence_manager.sequence_delay = 0.1
-	
-	output_system("=== Ending Test Setup Complete ===")
-	output("Available endings: %s" % str(GameManager.ending_sequence_manager.get_available_endings()))
-	output("Ending sequence will start in %.1f seconds..." % GameManager.ending_sequence_manager.sequence_delay)
-	
-	# Show usage hint
+	output_system("=== Ending Test Active ===")
+	output("The collapse_inevitable task is now running.")
+	output("Wait 20 seconds for it to fail and trigger the ending.")
 	output("")
-	output_system("Usage: test_ending [options]")
-	output("  a       - Complete secret path A")
-	output("  b       - Complete secret path B") 
-	output("  both    - Complete both secret paths")
-	output("  nodelay - Skip the 5 second delay")
-	output("")
-	output("Example: test_ending both nodelay")
+	output("Or use 'fail_task collapse_inevitable' to trigger immediately.")
 
 func _complete_secret_path(path: String) -> void:
 	## Helper to complete all tasks in a secret path

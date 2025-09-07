@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgadnl7eve3w8"]
+
+[ext_resource type="Texture2D" uid="uid://cox3cgcxsacno" path="res://Assets/Graphics/Decals/Seals/Sitri.png" id="1_8suae"]
+[ext_resource type="Texture2D" uid="uid://c7ijbv2hpaeqq" path="res://Assets/Graphics/Decals/Seals/Emission/em_Sitri.png" id="2_47kgu"]
+
+[node name="SitriSeal" type="Decal"]
+texture_albedo = ExtResource("1_8suae")
+texture_emission = ExtResource("2_47kgu")

@@ -33,9 +33,12 @@ func _on_emergency_task_failed(task_id: String) -> void:
 	DebugLogger.info(module_name, "Emergency task failed: %s" % task_id)
 	
 	# Check if this is a fatal emergency task
-	if task_id == "restore_power" or task_id == "replace_heatsink":
+	if task_id == "restore_power" or task_id == "replace_heatsink" or task_id == "collapse_inevitable":
 		# Store which task killed the player
-		GameManager.died_to = task_id
+		if task_id == "collapse_inevitable":
+			GameManager.died_to = "ending"
+		else:
+			GameManager.died_to = task_id
 		
 		# Trigger death cutscene
 		_trigger_death_cutscene()

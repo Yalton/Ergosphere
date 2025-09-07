@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://clfh0tj1ejeca"]
+
+[ext_resource type="Texture2D" uid="uid://ddccypk6e25jp" path="res://Assets/Graphics/Decals/Seals/Orobas.png" id="1_olntt"]
+[ext_resource type="Texture2D" uid="uid://ljd2qu7hyfic" path="res://Assets/Graphics/Decals/Seals/Emission/em_Orobas.png" id="2_olntt"]
+
+[node name="OrobasSeal" type="Decal"]
+texture_albedo = ExtResource("1_olntt")
+texture_emission = ExtResource("2_olntt")

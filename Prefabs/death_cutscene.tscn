@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=4 uid="uid://bs3o6ptalhe68"]
+[gd_scene load_steps=91 format=4 uid="uid://bs3o6ptalhe68"]
 
 [ext_resource type="Shader" uid="uid://bca1fbifyjnlx" path="res://Assets/VFX/Shader/Space/Space.gdshader" id="1_3y2ew"]
 [ext_resource type="Script" uid="uid://b6p52p6qrvdnb" path="res://Scripts/death_cutscene_controller.gd" id="1_64sj1"]
@@ -518,7 +518,65 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_151k6")
 
-[node name="death_cutscene" type="Node3D" node_paths=PackedStringArray("intact_station", "death_camera", "creaking_audio", "power_failure_audio", "explosion_audio", "explosion_vfx", "power_failure_vfx")]
+[sub_resource type="Animation" id="Animation_hhavd"]
+resource_name = "ending"
+length = 3.0
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MiniStation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.5, 1, 11.0517, 0, -7.81099, 1.2, 1, 28.8329, 0, -32.2274, 1.75, 1, 36.5864, 0, -56.4767, 2.26667, 1, 22.2458, 0, -84.9049, 2.83333, 1, -1.08257, 0, -81.5695)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MiniStation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 1, 0, -4.37114e-08, 0.5, 1, 0.177303, 0.979864, -0.0903473, -0.0163481, 1.2, 1, 0.356438, 0.783099, -0.489905, 0.140361, 1.75, 1, -0.166941, -0.463913, 0.812544, 0.310946, 2.25, 1, 0.524134, -0.536983, 0.660593, -0.0234563, 2.83333, 1, 0.105541, 0.425543, 0.819003, -0.370146)
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MiniStation:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_6dw3j"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MiniStation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 1, 0, -4.37114e-08)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MiniStation:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6dw3j"]
+_data = {
+&"RESET": SubResource("Animation_6dw3j"),
+&"ending": SubResource("Animation_hhavd")
+}
+
+[node name="death_cutscene" type="Node3D" node_paths=PackedStringArray("intact_station", "death_camera", "creaking_audio", "power_failure_audio", "explosion_audio", "explosion_vfx", "power_failure_vfx", "ending_animation_player")]
 script = ExtResource("1_64sj1")
 intact_station = NodePath("MiniStation")
 shattered_station_scene = ExtResource("2_54vtr")
@@ -528,10 +586,11 @@ power_failure_audio = NodePath("PowerFailureAudio")
 explosion_audio = NodePath("ExplosionAudio")
 explosion_vfx = NodePath("ExplosionVFX")
 power_failure_vfx = NodePath("PowerFailure")
+ending_animation_player = NodePath("AnimationPlayer")
 main_menu_path = "uid://b2xc4entjfn1n"
 
 [node name="MiniStation" parent="." instance=ExtResource("1_r2xjc")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.529931, 0.229908, -0.816281, -0.02429, 0.96627, 0.256384, 0.847693, -0.116038, 0.517641, -11.7518, 5.04119, 8.65373)
@@ -661,3 +720,8 @@ explosiveness = 0.68
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_ilnxk")
 draw_pass_1 = SubResource("ArrayMesh_hipil")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_6dw3j")
+}

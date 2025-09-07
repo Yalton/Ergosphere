@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BaseTask" load_steps=2 format=3 uid="uid://c4dyr5o76qbt0"]
+
+[ext_resource type="Script" uid="uid://bxrho0i2t1mql" path="res://Scripts/Resources/base_task.gd" id="1_vh52a"]
+
+[resource]
+script = ExtResource("1_vh52a")
+task_id = "collapse_inevitable"
+task_name = "Collapse Inevitable"
+task_description = ""
+is_emergency = true
+is_secret = false
+emergency_time_limit = 20.0
+failure_consequence = 0
+dependent_on_tasks = Array[String]([])
+related_object_groups = Array[String]([])
+metadata/_custom_type_script = "uid://bxrho0i2t1mql"

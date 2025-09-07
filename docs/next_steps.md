@@ -1,10 +1,9 @@
-Play all hermes lines 
+~~Play all hermes lines~~
 
-Fix ending - Add a real animation
+~~Fix ending - Add a real animation~~
 
 Make decals appear and dissapear 
-
-eye particle effect 
+- Make it an event 
 
 Publish  game 
 
@@ -25,6 +24,6 @@ Resolution does nothing in full screen, only windowed
 
 ~~Rework intro cutscene lines~~
 
-Add stuff to credits 
+~~Add stuff to credits~~
 
 Localize it into Esperanto 

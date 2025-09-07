@@ -29,6 +29,9 @@ var module_name: String = "DeathCutscene"
 ## Reference to power failure VFX node (MultiVFXPlayer for subtle effects)
 @export var power_failure_vfx: Node3D
 
+## Animation player for ending animation
+@export var ending_animation_player: AnimationPlayer
+
 ## Time to wait before transitioning to main menu after animation starts
 @export var transition_delay: float = 5.0
 
@@ -67,6 +70,8 @@ func _determine_death_type() -> void:
 			death_type = "power_failure"
 		elif failed_task == "replace_heatsink":
 			death_type = "engine_explosion"
+		elif failed_task == "ending":
+			death_type = "ending"
 		else:
 			# Default to power failure if unknown
 			death_type = "power_failure"
@@ -85,8 +90,8 @@ func _start_death_animation() -> void:
 	animation_started = true
 	DebugLogger.info(module_name, "Starting death animation for: %s" % death_type)
 	
-	# Start playing creaking sound immediately for power failure
-	if death_type == "power_failure" and creaking_audio:
+	# Start playing creaking sound immediately for power failure and ending
+	if (death_type == "power_failure" or death_type == "ending") and creaking_audio:
 		creaking_audio.play()
 		DebugLogger.debug(module_name, "Started creaking sound")
 	
@@ -97,8 +102,33 @@ func _start_death_animation() -> void:
 	# Start appropriate animation based on death type
 	if death_type == "engine_explosion":
 		_play_engine_explosion()
+	elif death_type == "ending":
+		_play_ending()
 	else:
 		_play_power_failure()
+
+func _play_ending() -> void:
+	DebugLogger.info(module_name, "Playing ending animation")
+	
+	# Continue creaking for another moment
+	await get_tree().create_timer(2.0).timeout
+	
+	# Fade out creaking sound
+	if creaking_audio and creaking_audio.playing:
+		var tween = create_tween()
+		tween.tween_property(creaking_audio, "volume_db", -40.0, 0.5)
+		tween.tween_callback(creaking_audio.stop)
+		DebugLogger.debug(module_name, "Fading out creaking sound")
+	
+	# Play ending animation if animation player exists
+	if ending_animation_player:
+		ending_animation_player.play("ending")
+		DebugLogger.debug(module_name, "Playing ending animation")
+	else:
+		DebugLogger.error(module_name, "No ending animation player assigned!")
+	
+	# Start transition timer
+	_start_transition_timer()
 
 func _play_power_failure() -> void:
 	DebugLogger.info(module_name, "Playing power failure animation")
@@ -186,7 +216,7 @@ func _start_transition_timer() -> void:
 func _transition_to_main_menu() -> void:
 	DebugLogger.info(module_name, "Transitioning to main menu")
 	
-	# Restore gravity before leaving
+	# Restore gravity before leaving if we spawned a shattered station
 	if shattered_instance and shattered_instance.has_method("restore_gravity"):
 		shattered_instance.restore_gravity()
 		DebugLogger.debug(module_name, "Restored gravity before transition")

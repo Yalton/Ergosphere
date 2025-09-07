@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctc6lgksu5hq"]
+
+[ext_resource type="Texture2D" uid="uid://cyat6fhl2up8a" path="res://Assets/Graphics/Decals/Seals/Dantalion.png" id="1_r8nqi"]
+[ext_resource type="Texture2D" uid="uid://08ktjo2qd4n0" path="res://Assets/Graphics/Decals/Seals/Emission/em_Dantalion.png" id="2_cxgbf"]
+
+[node name="DantalionSeal" type="Decal"]
+texture_albedo = ExtResource("1_r8nqi")
+texture_emission = ExtResource("2_cxgbf")

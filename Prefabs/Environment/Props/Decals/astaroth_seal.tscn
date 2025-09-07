@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://pbiauiw8ikwr"]
+
+[ext_resource type="Texture2D" uid="uid://bd0e7btf6qu8d" path="res://Assets/Graphics/Decals/Seals/Astaroth.png" id="1_vw82x"]
+[ext_resource type="Texture2D" uid="uid://17qv5ory2edy" path="res://Assets/Graphics/Decals/Seals/Emission/em_Astaroth.png" id="2_gme18"]
+
+[node name="AstarothSeal" type="Decal"]
+texture_albedo = ExtResource("1_vw82x")
+texture_emission = ExtResource("2_gme18")
+emission_energy = 1.5
