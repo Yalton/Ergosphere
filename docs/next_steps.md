@@ -5,6 +5,10 @@
 Make decals appear and dissapear 
 - Make it an event 
 
+Test game once more 
+
+Record gameplay 
+
 Publish  game 
 
 Finish polishing, then publish it 

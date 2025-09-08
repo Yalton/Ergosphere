@@ -1,8 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bamsx3ixwgr14"]
+[gd_scene load_steps=4 format=3 uid="uid://bamsx3ixwgr14"]
 
 [ext_resource type="Texture2D" uid="uid://c5k81dkxo1mdw" path="res://Assets/Graphics/Decals/Seals/FullFull.png" id="1_j6s2h"]
 [ext_resource type="Texture2D" uid="uid://cgeetqkmuf0jj" path="res://Assets/Graphics/Decals/Seals/Emission/em_FullFull.png" id="2_8i3ew"]
+[ext_resource type="Script" uid="uid://ivnjig58xvto" path="res://Scripts/pulsing_seal.gd" id="3_5j82v"]
 
-[node name="FullFullSeal" type="Decal"]
+[node name="FullFullSeal" type="Decal" groups=["seal_decals"]]
 texture_albedo = ExtResource("1_j6s2h")
 texture_emission = ExtResource("2_8i3ew")
+script = ExtResource("3_5j82v")

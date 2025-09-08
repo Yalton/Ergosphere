@@ -1,7 +1,7 @@
 extends EventHandler
 class_name VFXEventHandler
 
-## Handles all visual effects events: morse lights, brief flickers, fog, and glitches
+## Handles all visual effects events: morse lights, brief flickers, fog, glitches, and pulsating decals
 
 # ============== MORSE LIGHT SETTINGS ==============
 @export_group("Morse Settings")
@@ -53,6 +53,13 @@ class_name VFXEventHandler
 ## Group name for diegetic UI elements that can be glitched
 @export var diegetic_ui_group: String = "diegetic_ui"
 
+# ============== DECAL SETTINGS ==============
+@export_group("Decal Settings")
+## How long to display the pulsating decals (seconds)
+@export var decal_display_duration: float = 15.0
+## Group name for pulsating decals
+@export var decals_group: String = "pulsating_decals"
+
 # Morse code dictionary
 var morse_dict = {
 	"A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".", 
@@ -81,19 +88,30 @@ var is_fog_active: bool = false
 var glitched_ui: Node = null
 var glitch_duration: float = 0.0
 
+# State tracking for decals
+var active_decals: Array[PulsatingDecal] = []
+var decal_hide_timer: Timer
+
 func _ready() -> void:
 	# All events this consolidated handler processes
 	handled_event_ids = [
 		"morse_light",
-		"brief_flicker", "brightness_boost",
+		"brief_flicker", "brightness_boost", "purple_shift",
 		"fog", "fog_event",
-		"terminal_glitch"
+		"terminal_glitch",
+		"show_decals", "pulsating_decals"
 	]
 	
 	DebugLogger.register_module("VFXEventHandler")
 	
 	# Find world environment for fog effects
 	_find_world_environment()
+	
+	# Create decal hide timer
+	decal_hide_timer = Timer.new()
+	decal_hide_timer.one_shot = true
+	decal_hide_timer.timeout.connect(_on_decal_hide_timer_timeout)
+	add_child(decal_hide_timer)
 
 func _can_execute_internal() -> Dictionary:
 	DebugLogger.log_message("VFXEventHandler", "Checking if can execute: " + event_data.id)
@@ -107,6 +125,8 @@ func _can_execute_internal() -> Dictionary:
 			return _can_execute_fog()
 		"terminal_glitch":
 			return _can_execute_glitch()
+		"show_decals", "pulsating_decals":
+			return _can_execute_decals()
 		_:
 			return {"success": false, "message": "Unknown event ID: " + event_data.id}
 
@@ -126,6 +146,8 @@ func _execute_internal() -> Dictionary:
 			return _execute_fog()
 		"terminal_glitch":
 			return _execute_glitch()
+		"show_decals", "pulsating_decals":
+			return _execute_decals()
 		_:
 			return {"success": false, "message": "Unknown event ID: " + event_data.id}
 
@@ -140,6 +162,8 @@ func end() -> void:
 			_end_fog()
 		"terminal_glitch":
 			_end_glitch()
+		"show_decals", "pulsating_decals":
+			_end_decals()
 		_:
 			pass
 	
@@ -449,3 +473,55 @@ func _execute_glitch() -> Dictionary:
 
 func _end_glitch() -> void:
 	glitched_ui = null
+
+# ============== DECAL FUNCTIONS ==============
+func _can_execute_decals() -> Dictionary:
+	var decals = get_tree().get_nodes_in_group(decals_group)
+	
+	if decals.is_empty():
+		return {"success": false, "message": "No decals found in group: " + decals_group}
+	
+	# Check if any decals are already active
+	for decal in decals:
+		if decal is PulsatingDecal and decal.is_pulsating:
+			return {"success": false, "message": "Decals are already active"}
+	
+	return {"success": true, "message": "OK"}
+
+func _execute_decals() -> Dictionary:
+	var decals = get_tree().get_nodes_in_group(decals_group)
+	active_decals.clear()
+	
+	# Show all valid decals
+	for decal in decals:
+		if decal is PulsatingDecal:
+			active_decals.append(decal)
+			decal.show_decal()
+	
+	if active_decals.is_empty():
+		return {"success": false, "message": "No valid PulsatingDecal nodes found"}
+	
+	# Start hide timer
+	decal_hide_timer.start(decal_display_duration)
+	
+	DebugLogger.log_message("VFXEventHandler", "Showing " + str(active_decals.size()) + " decals for " + str(decal_display_duration) + " seconds")
+	
+	return {"success": true, "message": "OK"}
+
+func _end_decals() -> void:
+	# Hide all active decals
+	for decal in active_decals:
+		if is_instance_valid(decal):
+			decal.hide_decal()
+	
+	active_decals.clear()
+	
+	# Stop timer
+	if decal_hide_timer:
+		decal_hide_timer.stop()
+
+func _on_decal_hide_timer_timeout() -> void:
+	DebugLogger.log_message("VFXEventHandler", "Decal hide timer expired")
+	
+	if is_active and (event_data.id == "show_decals" or event_data.id == "pulsating_decals"):
+		end()

@@ -1,8 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dd6dgmra0x3g0"]
+[gd_scene load_steps=4 format=3 uid="uid://dd6dgmra0x3g0"]
 
 [ext_resource type="Texture2D" uid="uid://bqy7vftbfxp4h" path="res://Assets/Graphics/Decals/Seals/Stolas.png" id="1_3u885"]
 [ext_resource type="Texture2D" uid="uid://icublmhfhrob" path="res://Assets/Graphics/Decals/Seals/Emission/em_Stolas.png" id="2_1qtub"]
+[ext_resource type="Script" uid="uid://ivnjig58xvto" path="res://Scripts/pulsing_seal.gd" id="3_wiks0"]
 
-[node name="StolasSeal" type="Decal"]
+[node name="StolasSeal" type="Decal" groups=["seal_decals"]]
 texture_albedo = ExtResource("1_3u885")
 texture_emission = ExtResource("2_1qtub")
+script = ExtResource("3_wiks0")
