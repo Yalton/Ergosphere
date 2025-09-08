@@ -165,6 +165,7 @@ state_aware_component = NodePath("StateAwareComponent")
 display_name = "contact_earth_monitor"
 
 [node name="TaskAwareComponent" parent="." instance=ExtResource("3_njcr1")]
+associated_task_id = "contact_earth"
 
 [node name="StateAwareComponent" parent="." instance=ExtResource("4_kiyvs")]
 

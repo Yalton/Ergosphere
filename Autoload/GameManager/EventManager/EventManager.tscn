@@ -23,6 +23,7 @@
 [ext_resource type="Resource" uid="uid://cvuayyb8f42ki" path="res://Assets/Resources/Events/object_displacement.tres" id="22_5p7si"]
 [ext_resource type="Script" uid="uid://bjvec8aiicpdc" path="res://Autoload/GameManager/EventManager/Handlers/spooky_ambience.gd" id="22_awmde"]
 [ext_resource type="Resource" uid="uid://ckto5uf860msc" path="res://Assets/Resources/Events/spawn_iconoclast.tres" id="22_xr1wj"]
+[ext_resource type="Resource" uid="uid://mibsa0gpqafu" path="res://Assets/Resources/Events/pulsating_decals.tres" id="23_ftp8o"]
 [ext_resource type="PackedScene" uid="uid://bulnd3bpf0oew" path="res://Prefabs/VFX/small_black_hole_effect.tscn" id="23_oj86y"]
 [ext_resource type="PackedScene" uid="uid://bvqvla8urmxvc" path="res://Prefabs/VFX/big_smoke.tscn" id="24_u7gbo"]
 [ext_resource type="AudioStream" uid="uid://cqqrcqcmdxomk" path="res://Assets/Audio/Ambience/AmbientHorror/Subtle/ambient_horror_1.ogg" id="24_wm8la"]
@@ -45,22 +46,9 @@
 [ext_resource type="Script" uid="uid://omxpai7js0p2" path="res://Autoload/GameManager/EventManager/Handlers/vfx_event_handler.gd" id="41_wm8la"]
 [ext_resource type="Script" uid="uid://7x1wa81fdf75" path="res://Autoload/GameManager/EventManager/Handlers/positional_event_handler.gd" id="46_8djds"]
 
-[sub_resource type="Resource" id="Resource_5p7si"]
-script = ExtResource("2_he56m")
-id = "pulsating_decals"
-name = "Pulsating Decals"
-description = ""
-cost = 50
-disruption_percentage = 40
-min_day = 4
-cooldown = 80.0
-tags = Array[String]([])
-event_type = "MISC_DISRUPTIVE"
-metadata/_custom_type_script = "uid://clf1310qk2c05"
-
 [node name="EventManager" type="Node"]
 script = ExtResource("1_nnr1m")
-event_resources = Array[ExtResource("2_he56m")]([ExtResource("3_8djds"), ExtResource("4_xpt2l"), ExtResource("5_cjofh"), ExtResource("6_awmde"), ExtResource("8_w2vkq"), ExtResource("3_u7gbo"), ExtResource("10_l5acs"), ExtResource("11_yq1if"), ExtResource("12_440ic"), ExtResource("5_nn0bu"), ExtResource("7_he56m"), ExtResource("15_n1n8g"), ExtResource("16_rb45j"), ExtResource("17_pkq12"), ExtResource("18_rdvo6"), ExtResource("20_foxlv"), ExtResource("4_u7gbo"), ExtResource("22_0gtbr"), ExtResource("22_xr1wj"), ExtResource("22_5p7si"), SubResource("Resource_5p7si")])
+event_resources = Array[ExtResource("2_he56m")]([ExtResource("3_8djds"), ExtResource("4_xpt2l"), ExtResource("5_cjofh"), ExtResource("6_awmde"), ExtResource("8_w2vkq"), ExtResource("3_u7gbo"), ExtResource("10_l5acs"), ExtResource("11_yq1if"), ExtResource("12_440ic"), ExtResource("5_nn0bu"), ExtResource("7_he56m"), ExtResource("15_n1n8g"), ExtResource("16_rb45j"), ExtResource("17_pkq12"), ExtResource("18_rdvo6"), ExtResource("20_foxlv"), ExtResource("4_u7gbo"), ExtResource("22_0gtbr"), ExtResource("22_xr1wj"), ExtResource("22_5p7si"), ExtResource("23_ftp8o")])
 
 [node name="spooky_ambience" type="Node" parent="."]
 script = ExtResource("22_awmde")
@@ -80,6 +68,7 @@ levitate_sound = ExtResource("33_e8orj")
 
 [node name="vfx_event_handler" type="Node" parent="."]
 script = ExtResource("41_wm8la")
+decal_display_duration = 8.0
 
 [node name="major_event_handler" type="Node" parent="."]
 script = ExtResource("38_b8hgc")

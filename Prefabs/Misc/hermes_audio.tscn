@@ -25,7 +25,7 @@
 [ext_resource type="AudioStream" uid="uid://byrbaht7jl050" path="res://Assets/Audio/Hermes_Intro.ogg" id="23_ktlv5"]
 
 [node name="HermesAudio" type="AudioStreamPlayer" groups=["hermes"]]
-volume_db = -1.0
+volume_db = 2.0
 bus = &"HermesAudio"
 script = ExtResource("1_6aqtr")
 voice_clips = Array[ExtResource("3_qula0")]([ExtResource("4_rc4kc"), ExtResource("5_8q7kn"), ExtResource("6_uojuc"), ExtResource("7_cr0m2"), ExtResource("8_6sgju"), ExtResource("9_ghmj8"), ExtResource("10_w6x6i"), ExtResource("11_dg0c8"), ExtResource("12_a6enq"), ExtResource("14_wuprw"), ExtResource("13_t0rm4"), ExtResource("14_308bj"), ExtResource("15_3e6kd"), ExtResource("16_ktlv5"), ExtResource("17_gbddo"), ExtResource("18_milyv"), ExtResource("19_g7q2o"), ExtResource("20_v2u2n"), ExtResource("21_g7piw"), ExtResource("22_20ill")])

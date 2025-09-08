@@ -23,5 +23,5 @@ script = ExtResource("1_juaga")
 id = "psyche_warning"
 audio_stream = ExtResource("1_00oym")
 subtitle_lines = Array[ExtResource("2_00oym")]([SubResource("Resource_ohbwc"), SubResource("Resource_2hque")])
-is_repeatable = true
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

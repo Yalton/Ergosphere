@@ -16,5 +16,5 @@ script = ExtResource("1_s4g7m")
 id = "sejanus_radiation"
 audio_stream = ExtResource("1_41mhx")
 subtitle_lines = Array[ExtResource("2_41mhx")]([SubResource("Resource_swbax")])
-is_repeatable = true
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

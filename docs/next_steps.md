@@ -1,10 +1,3 @@
-~~Play all hermes lines~~
-
-~~Fix ending - Add a real animation~~
-
-Make decals appear and dissapear 
-- Make it an event 
-
 Test game once more 
 
 Record gameplay 
@@ -13,8 +6,6 @@ Publish  game
 
 Finish polishing, then publish it 
 
-Add game ending animation 
-
 ## Bug
 
 Resolution does nothing in full screen, only windowed 
@@ -22,12 +13,17 @@ Resolution does nothing in full screen, only windowed
 
 ## Playtest Notes 
 
-~~Warp borks the players control if they are interacting with a UI~~
+~~Heatsink happens too much~~
 
-~~Add a Loading screen~~
+~~Final Animation looks weird, needs sfx and fix~~
 
-~~Rework intro cutscene lines~~
+~~Reduce memory blocks to defrag~~
 
-~~Add stuff to credits~~
 
-Localize it into Esperanto 
+Make Intro task properly setup for final build
+
+~~Hermes very quiet~~
+
+~~make each voiceline once only~~
+
+Oblivian spelled wrong 

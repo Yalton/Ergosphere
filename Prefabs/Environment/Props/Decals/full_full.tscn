@@ -4,7 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://cgeetqkmuf0jj" path="res://Assets/Graphics/Decals/Seals/Emission/em_FullFull.png" id="2_8i3ew"]
 [ext_resource type="Script" uid="uid://ivnjig58xvto" path="res://Scripts/pulsing_seal.gd" id="3_5j82v"]
 
-[node name="FullFullSeal" type="Decal" groups=["seal_decals"]]
+[node name="FullFullSeal" type="Decal" groups=["pulsating_decals"]]
+size = Vector3(2, 0.25, 2)
 texture_albedo = ExtResource("1_j6s2h")
 texture_emission = ExtResource("2_8i3ew")
 script = ExtResource("3_5j82v")
+pulse_duration = 1.6

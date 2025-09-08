@@ -16,6 +16,8 @@ class_name DevConsoleUI
 ## Enable debug logging for this module
 @export var enable_debug: bool = true
 
+@export var enable_terminal: bool = true
+
 signal console_opened
 signal console_closed
 
@@ -51,10 +53,11 @@ func _ready() -> void:
 	DebugLogger.debug(module_name, "Dev Console UI initialized")
 
 func _input(event: InputEvent) -> void:
-	# Toggle console with backtick
-	if event.is_action_pressed("toggle_dev_console"):
-		toggle_console()
-		get_viewport().set_input_as_handled()
+	if enable_terminal: 
+		# Toggle console with backtick
+		if event.is_action_pressed("toggle_dev_console"):
+			toggle_console()
+			get_viewport().set_input_as_handled()
 
 func toggle_console() -> void:
 	if visible:

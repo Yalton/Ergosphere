@@ -50,6 +50,9 @@ func _ready() -> void:
 	if death_camera:
 		death_camera.current = true
 	
+	
+	intact_station.visible = true
+	
 	# Check what type of death this is from GameManager or passed parameter
 	_determine_death_type()
 	

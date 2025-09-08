@@ -251,6 +251,7 @@ script = ExtResource("8_enhsa")
 display_mesh = NodePath("../Skeleton3D/BoneAttachment3D/Display")
 
 [node name="memory_purge_game" parent="SubViewport" instance=ExtResource("9_14863")]
+blocks_to_win = 7
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
 occluder = ExtResource("13_kodtd")

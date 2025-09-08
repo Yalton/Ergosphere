@@ -4,8 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://17qv5ory2edy" path="res://Assets/Graphics/Decals/Seals/Emission/em_Astaroth.png" id="2_gme18"]
 [ext_resource type="Script" uid="uid://ivnjig58xvto" path="res://Scripts/pulsing_seal.gd" id="3_gcqfx"]
 
-[node name="AstarothSeal" type="Decal" groups=["seal_decals"]]
+[node name="AstarothSeal" type="Decal" groups=["pulsating_decals"]]
+size = Vector3(2, 0.25, 2)
 texture_albedo = ExtResource("1_vw82x")
 texture_emission = ExtResource("2_gme18")
 emission_energy = 1.5
 script = ExtResource("3_gcqfx")
+pulse_duration = 2.0

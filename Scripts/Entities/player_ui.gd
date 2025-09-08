@@ -423,7 +423,10 @@ func _on_task_completed(task_id: String) -> void:
 	"""Adapter function to convert task_id String to BaseTask object"""
 	if GameManager and GameManager.task_manager:
 		var task = GameManager.task_manager.get_task(task_id)
-		show_hint("cpl", task.task_name)
+		if task: 
+			show_hint("cpl", task.task_name)
+		else: 
+			show_hint("cpl", "")
 #endregion
 
 #region Crosshair Control

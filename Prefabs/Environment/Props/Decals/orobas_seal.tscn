@@ -4,7 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://ljd2qu7hyfic" path="res://Assets/Graphics/Decals/Seals/Emission/em_Orobas.png" id="2_olntt"]
 [ext_resource type="Script" uid="uid://ivnjig58xvto" path="res://Scripts/pulsing_seal.gd" id="3_dfw8i"]
 
-[node name="OrobasSeal" type="Decal" groups=["seal_decals"]]
+[node name="OrobasSeal" type="Decal" groups=["pulsating_decals"]]
+size = Vector3(2, 0.25, 2)
 texture_albedo = ExtResource("1_olntt")
 texture_emission = ExtResource("2_olntt")
 script = ExtResource("3_dfw8i")
+pulse_duration = 1.4

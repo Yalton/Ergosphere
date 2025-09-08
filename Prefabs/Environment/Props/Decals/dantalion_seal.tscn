@@ -4,7 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://08ktjo2qd4n0" path="res://Assets/Graphics/Decals/Seals/Emission/em_Dantalion.png" id="2_cxgbf"]
 [ext_resource type="Script" uid="uid://ivnjig58xvto" path="res://Scripts/pulsing_seal.gd" id="3_4vaxb"]
 
-[node name="DantalionSeal" type="Decal" groups=["seal_decals"]]
+[node name="DantalionSeal" type="Decal" groups=["pulsating_decals"]]
+size = Vector3(2, 0.25, 2)
 texture_albedo = ExtResource("1_r8nqi")
 texture_emission = ExtResource("2_cxgbf")
 script = ExtResource("3_4vaxb")
+pulse_duration = 1.8

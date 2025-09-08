@@ -100,19 +100,3 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("8_1eqgs")
-
-[node name="CenterContainer" type="CenterContainer" parent="CRT_Effect/Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("8_1eqgs")
-
-[node name="Label" type="Label" parent="CRT_Effect/Control/CenterContainer"]
-layout_mode = 2
-theme = ExtResource("8_1eqgs")
-theme_override_font_sizes/font_size = 64
-text = "Jehovian 
-Myst"

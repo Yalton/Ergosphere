@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3 uid="uid://mibsa0gpqafu"]
+
+[ext_resource type="Script" uid="uid://clf1310qk2c05" path="res://Scripts/Resources/Event.gd" id="1_nnur4"]
+
+[resource]
+script = ExtResource("1_nnur4")
+id = "pulsating_decals"
+name = "Pulsating Decals"
+description = ""
+cost = 50
+disruption_percentage = 40
+min_day = 4
+cooldown = 80.0
+tags = Array[String]([])
+event_type = "MISC_DISRUPTIVE"
+metadata/_custom_type_script = "uid://clf1310qk2c05"

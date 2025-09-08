@@ -6,7 +6,7 @@
 
 [sub_resource type="Resource" id="Resource_mmt87"]
 script = ExtResource("2_b634v")
-text = "Warning we are alone now, we dance on the precipace of oblivian. Incomprehensible would be a simplication."
+text = "Warning we are alone now, we dance on the precipace of oblivion. Incomprehensible would be a simplication."
 start_time = 0.0
 end_time = 6.88
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
@@ -30,5 +30,5 @@ script = ExtResource("1_5pnku")
 id = "valid_crashout"
 audio_stream = ExtResource("1_b634v")
 subtitle_lines = Array[ExtResource("2_b634v")]([SubResource("Resource_mmt87"), SubResource("Resource_cbabw"), SubResource("Resource_bv0ww")])
-is_repeatable = true
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

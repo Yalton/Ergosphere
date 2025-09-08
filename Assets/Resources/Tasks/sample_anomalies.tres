@@ -5,15 +5,12 @@
 [resource]
 script = ExtResource("1_ipjw8")
 task_id = "sample_anomalies"
-task_name = "Sample Anomalies"
+task_name = "Order and use Anomaly Scanner"
 task_description = ""
 is_emergency = false
 is_secret = false
 emergency_time_limit = 0.0
+failure_consequence = 0
 dependent_on_tasks = Array[String]([])
-required_states = {}
-blocked_by_states = {}
-revealed_under = {}
-reveal_delay = 1.0
 related_object_groups = Array[String]([])
 metadata/_custom_type_script = "uid://bxrho0i2t1mql"

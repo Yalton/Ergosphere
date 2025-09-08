@@ -4,7 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://c7ijbv2hpaeqq" path="res://Assets/Graphics/Decals/Seals/Emission/em_Sitri.png" id="2_47kgu"]
 [ext_resource type="Script" uid="uid://ivnjig58xvto" path="res://Scripts/pulsing_seal.gd" id="3_jmth7"]
 
-[node name="SitriSeal" type="Decal" groups=["seal_decals"]]
+[node name="SitriSeal" type="Decal" groups=["pulsating_decals"]]
+size = Vector3(2, 0.25, 2)
 texture_albedo = ExtResource("1_8suae")
 texture_emission = ExtResource("2_47kgu")
 script = ExtResource("3_jmth7")
+pulse_duration = 1.2

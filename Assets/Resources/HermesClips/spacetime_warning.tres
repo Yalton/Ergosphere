@@ -8,7 +8,7 @@
 script = ExtResource("2_x2m0j")
 text = "Warning. Local spacetime fluctuations exceed parameters."
 start_time = 0.0
-end_time = 1.0
+end_time = 4.32
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [resource]
@@ -16,5 +16,5 @@ script = ExtResource("1_s2bac")
 id = "spacetime_warning"
 audio_stream = ExtResource("1_x2m0j")
 subtitle_lines = Array[ExtResource("2_x2m0j")]([SubResource("Resource_ltwaw")])
-is_repeatable = true
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"

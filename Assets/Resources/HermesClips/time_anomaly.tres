@@ -23,5 +23,5 @@ script = ExtResource("1_al4rv")
 id = "time_anomaly"
 audio_stream = ExtResource("1_qid2d")
 subtitle_lines = Array[ExtResource("2_qid2d")]([SubResource("Resource_swunc"), SubResource("Resource_3hj13")])
-is_repeatable = true
+is_repeatable = false
 metadata/_custom_type_script = "uid://cf7k18yawj5tw"
