@@ -5,13 +5,12 @@
 [resource]
 script = ExtResource("1_tu1bk")
 task_id = "replace_heatsink"
-task_name = "Replace Engine Heatsink"
+task_name = "Replace engine heatsink"
 task_description = ""
 is_emergency = true
 is_secret = false
 emergency_time_limit = 120.0
+failure_consequence = 0
 dependent_on_tasks = Array[String]([])
-required_states = {}
-blocked_by_states = {}
 related_object_groups = Array[String]([])
 metadata/_custom_type_script = "uid://bxrho0i2t1mql"

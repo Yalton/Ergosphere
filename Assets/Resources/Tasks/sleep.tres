@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_3ljf1")
 task_id = "sleep"
-task_name = "Go to Sleep"
+task_name = "Go to sleep"
 task_description = ""
 is_emergency = false
 is_secret = false

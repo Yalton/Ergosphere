@@ -6,7 +6,7 @@ extends Resource
 @export var module_name: String = ""
 
 # Debug settings
-@export var enabled: bool = true
+@export var enabled: bool = false
 
 func _init():
 	# Default initialization

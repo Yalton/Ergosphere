@@ -5,13 +5,12 @@
 [resource]
 script = ExtResource("1_t2vf5")
 task_id = "close_shutters"
-task_name = "Close Station Shutters"
+task_name = "Close station shutters"
 task_description = ""
 is_emergency = true
 is_secret = false
 emergency_time_limit = 120.0
+failure_consequence = 0
 dependent_on_tasks = Array[String]([])
-required_states = {}
-blocked_by_states = {}
 related_object_groups = Array[String]([])
 metadata/_custom_type_script = "uid://bxrho0i2t1mql"

@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_45rbe")
 task_id = "download_data"
-task_name = "Download Data"
+task_name = "Download data"
 task_description = ""
 is_emergency = false
 is_secret = false

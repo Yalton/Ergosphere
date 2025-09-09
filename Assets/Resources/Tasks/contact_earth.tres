@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_k67ro")
 task_id = "contact_earth"
-task_name = "Contact Earth"
+task_name = "Contact earth"
 task_description = ""
 is_emergency = false
 is_secret = false

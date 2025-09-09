@@ -5,13 +5,12 @@
 [resource]
 script = ExtResource("1_c1xpn")
 task_id = "introduction"
-task_name = "Tour the Station"
+task_name = "Tour the station"
 task_description = ""
 is_emergency = false
 is_secret = false
 emergency_time_limit = 0.0
+failure_consequence = 0
 dependent_on_tasks = Array[String]([])
-required_states = {}
-blocked_by_states = {}
 related_object_groups = Array[String]([])
 metadata/_custom_type_script = "uid://bxrho0i2t1mql"

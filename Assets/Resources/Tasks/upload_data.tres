@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_wh350")
 task_id = "upload_data"
-task_name = "Upload Data"
+task_name = "Upload data"
 task_description = ""
 is_emergency = false
 is_secret = false

@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ipjw8")
 task_id = "sample_anomalies"
-task_name = "Order and use Anomaly Scanner"
+task_name = "Order and use anomaly scanner"
 task_description = ""
 is_emergency = false
 is_secret = false

@@ -5,16 +5,12 @@
 [resource]
 script = ExtResource("1_ncq27")
 task_id = "oxygen_filter_failure"
-task_name = "Oxygen Filter Failure"
+task_name = "Oxygen filter failure"
 task_description = ""
 is_emergency = true
 is_secret = false
 emergency_time_limit = 0.0
-failure_consequence = {}
+failure_consequence = 0
 dependent_on_tasks = Array[String]([])
-required_states = {}
-blocked_by_states = {}
-revealed_under = {}
-reveal_delay = 1.0
 related_object_groups = Array[String]([])
 metadata/_custom_type_script = "uid://bxrho0i2t1mql"

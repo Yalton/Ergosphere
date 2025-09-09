@@ -35,12 +35,12 @@ shader_parameter/nebula_complexity = 3.48
 shader_parameter/nebula_speed = 0.03
 shader_parameter/rotation_speed = 0.02
 
-[sub_resource type="Sky" id="Sky_cohot"]
+[sub_resource type="Sky" id="Sky_6dw3j"]
 sky_material = SubResource("ShaderMaterial_jyvbi")
 
 [sub_resource type="Environment" id="Environment_54vtr"]
 background_mode = 2
-sky = SubResource("Sky_cohot")
+sky = SubResource("Sky_6dw3j")
 ambient_light_source = 1
 ambient_light_sky_contribution = 0.0
 ambient_light_energy = 0.0

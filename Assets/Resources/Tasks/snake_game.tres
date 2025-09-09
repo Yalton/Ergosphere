@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_7asvn")
 task_id = "snake_game"
-task_name = "Produce Linked List"
+task_name = "Produce linked list"
 task_description = ""
 is_emergency = false
 is_secret = false

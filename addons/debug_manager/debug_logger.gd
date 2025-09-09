@@ -2,7 +2,7 @@
 extends Node
 
 # Use this to quickly enable/disable all debug output globally
-@export var debug_enabled: bool = true
+@export var debug_enabled: bool = false
 
 # Flag to disable writing files when shipping the game
 @export var disable_file_writing: bool = false
