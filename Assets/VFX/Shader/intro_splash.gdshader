@@ -18,9 +18,9 @@ vec2 random2(vec2 st) {
 float noise(vec2 st) {
     vec2 i = floor(st);
     vec2 f = fract(st);
-    
+
     vec2 u = f * f * (3.0 - 2.0 * f);
-    
+
     return mix(mix(dot(random2(i + vec2(0.0, 0.0)), f - vec2(0.0, 0.0)),
                    dot(random2(i + vec2(1.0, 0.0)), f - vec2(1.0, 0.0)), u.x),
                mix(dot(random2(i + vec2(0.0, 1.0)), f - vec2(0.0, 1.0)),
@@ -30,32 +30,32 @@ float noise(vec2 st) {
 void fragment() {
     vec2 uv = UV;
     vec2 centered_uv = uv - vec2(0.5);
-    
+
     // Create swirling motion
     float angle = atan(centered_uv.y, centered_uv.x);
     float radius = length(centered_uv);
-    
+
     // Add time-based rotation that varies with distance from center
     angle += TIME * time_scale * (1.0 - radius * 0.5);
-    
+
     // Create spiral coordinates
     vec2 spiral_coords = vec2(
         cos(angle) * radius,
         sin(angle) * radius
     );
-    
+
     // Layer multiple noise octaves for complexity
     float n1 = noise(spiral_coords * noise_scale + TIME * 0.1);
     float n2 = noise(spiral_coords * noise_scale * 2.0 - TIME * 0.15);
     float n3 = noise(spiral_coords * noise_scale * 0.5 + TIME * 0.05);
-    
+
     // Combine noise layers with swirl distortion
     float swirl = sin(radius * swirl_intensity + angle * 2.0 + TIME * time_scale);
     float combined = (n1 * 0.5 + n2 * 0.3 + n3 * 0.2) + swirl * 0.3;
-    
+
     // Remap to 0-1 range
     combined = combined * 0.5 + 0.5;
-    
+
     // Create smooth gradient between colors
     vec4 color;
     if (combined < 0.33) {
@@ -65,13 +65,13 @@ void fragment() {
     } else {
         color = mix(color_light, color_mid, (combined - 0.66) * 3.0);
     }
-    
+
     // Add vignette effect
     float vignette = 1.0 - length(centered_uv) * vignette_strength;
     vignette = clamp(vignette, 0.0, 1.0);
-    
+
     // Apply vignette to darken edges
     color.rgb *= vignette;
-    
+
     COLOR = color;
 }
