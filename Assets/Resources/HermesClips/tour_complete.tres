@@ -7,7 +7,6 @@
 [sub_resource type="Resource" id="Resource_1qh3e"]
 script = ExtResource("3_tmwmk")
 text = "Tour complete. Beginning training. I've assigned tasks that simulate your daily responsibilities."
-start_time = 0.0
 end_time = 6.0
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 

@@ -7,14 +7,12 @@
 [sub_resource type="Resource" id="Resource_ohbwc"]
 script = ExtResource("2_00oym")
 text = "Warning. Steward psychological integrity compromised. "
-start_time = 0.0
 end_time = 4.0
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [sub_resource type="Resource" id="Resource_2hque"]
 script = ExtResource("2_00oym")
 text = "Cognitive patterns indicate severe instability."
-start_time = 0.0
 end_time = 7.0
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 

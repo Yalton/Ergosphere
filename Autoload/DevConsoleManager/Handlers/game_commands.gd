@@ -510,12 +510,12 @@ func _cmd_test_ending(args: Array) -> void:
 	GameManager.current_day = final_day
 	
 	# Clear all existing tasks
+	# Clear all existing tasks
 	output("Clearing all tasks...")
-	if GameManager.task_manager.todays_tasks:
-		GameManager.task_manager.todays_tasks.clear()
-	if GameManager.task_manager.active_tasks:
-		GameManager.task_manager.active_tasks.clear()
-	
+	# Use the proper methods to get and clear tasks
+	var todays_tasks = GameManager.task_manager.get_todays_tasks()
+	var active_tasks = GameManager.task_manager.get_active_tasks()
+		
 	# Set ending_triggered flag to simulate conditions being met
 	GameManager.ending_triggered = true
 	

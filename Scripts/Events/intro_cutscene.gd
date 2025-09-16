@@ -1,4 +1,4 @@
-# intro_cutscene.gd
+# cutscene_controller.gd
 extends Node
 
 ## Array of dialogue lines to be typed out
@@ -10,11 +10,11 @@ extends Node
 ## Delay after each line is completed
 @export var line_completion_delay: float = 2.0
 
-## Delay before transitioning to game scene after final line
+## Delay before transitioning to next scene after final line
 @export var final_transition_delay: float = 3.0
 
-## Path to the game scene to load after cutscene
-@export_file("*.tscn") var game_scene_path: String
+## Path to the next scene to load after cutscene
+@export_file("*.tscn") var next_scene_path: String
 
 ## Sound to play when typing each letter
 @export var typing_sound: AudioStream
@@ -43,9 +43,15 @@ extends Node
 ## Panel or container for the dialogue UI
 @export var dialogue_container: Control
 
+## Whether this is an intro cutscene (calls GameManager.start_first_day)
+@export var is_intro_cutscene: bool = false
+
+## Whether to use loading screen transition (for long scene changes)
+@export var use_loading_transition: bool = false
+
 ## Enable debug logging for this module
 @export var enable_debug: bool = true
-var module_name: String = "IntroCutscene"
+var module_name: String = "CutsceneController"
 
 # Internal state
 var current_line_index: int = 0
@@ -77,7 +83,7 @@ func _ready() -> void:
 	
 	# Start cutscene after a short delay
 	await get_tree().create_timer(0.5).timeout
-	show_intro()
+	show_cutscene()
 
 func _input(event: InputEvent) -> void:
 	if not is_cutscene_active:
@@ -102,7 +108,7 @@ func _input(event: InputEvent) -> void:
 			DebugLogger.debug(module_name, "Advancing to next line")
 			_advance_to_next_line()
 
-func show_intro() -> void:
+func show_cutscene() -> void:
 	is_cutscene_active = true
 	if dialogue_container:
 		dialogue_container.show()
@@ -199,22 +205,29 @@ func _finish_cutscene() -> void:
 	is_typing = false
 	is_line_complete = false
 	
-	DebugLogger.info(module_name, "Cutscene finished, transitioning to game")
+	DebugLogger.info(module_name, "Cutscene finished, transitioning to next scene")
 	
-	GameManager.start_first_day()
+	# Only call GameManager.start_first_day() if this is the intro cutscene
+	if is_intro_cutscene:
+		GameManager.start_first_day()
 	
-	# Use TransitionManager with loading screen for this long transition
+	# Transition to next scene
 	if TransitionManager:
 		# Hide dialogue with animation if available
 		if animation_player and animation_player.has_animation("hide"):
 			animation_player.play("hide")
 			await animation_player.animation_finished
 		
-		# Use the new loading transition for the long scene change
-		if not game_scene_path.is_empty():
-			await TransitionManager.transition_to_scene_with_loading(game_scene_path)
+		# Use loading transition if specified and available
+		if not next_scene_path.is_empty():
+			if use_loading_transition:
+				await TransitionManager.transition_to_scene_with_loading(next_scene_path)
+			else:
+				await TransitionManager.fade_to_black()
+				get_tree().change_scene_to_file(next_scene_path)
+				await TransitionManager.fade_from_black()
 		else:
-			DebugLogger.error(module_name, "No game scene path configured!")
+			DebugLogger.error(module_name, "No next scene path configured!")
 	else:
 		# Fallback without transition manager
 		DebugLogger.warning(module_name, "TransitionManager not found, using direct scene change")
@@ -224,11 +237,11 @@ func _finish_cutscene() -> void:
 			animation_player.play("hide")
 			await animation_player.animation_finished
 		
-		# Load game scene directly
-		if not game_scene_path.is_empty():
-			get_tree().change_scene_to_file(game_scene_path)
+		# Load next scene directly
+		if not next_scene_path.is_empty():
+			get_tree().change_scene_to_file(next_scene_path)
 		else:
-			DebugLogger.error(module_name, "No game scene path configured!")
+			DebugLogger.error(module_name, "No next scene path configured!")
 
 func skip_cutscene() -> void:
 	## Public method to skip entire cutscene

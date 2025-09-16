@@ -7,7 +7,6 @@
 [sub_resource type="Resource" id="Resource_swbax"]
 script = ExtResource("2_41mhx")
 text = "Warning. Sejanus emitting anomalous Hawking radiation. Close windows immediately."
-start_time = 0.0
 end_time = 5.44
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 

@@ -7,7 +7,6 @@
 [sub_resource type="Resource" id="Resource_ltwaw"]
 script = ExtResource("2_x2m0j")
 text = "Warning. Local spacetime fluctuations exceed parameters."
-start_time = 0.0
 end_time = 4.32
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 

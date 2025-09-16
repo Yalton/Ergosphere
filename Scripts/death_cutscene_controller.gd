@@ -38,6 +38,9 @@ var module_name: String = "DeathCutscene"
 ## Path to main menu scene
 @export_file("*.tscn") var main_menu_path: String = "res://scenes/main_menu.tscn"
 
+## Path to outro cutscene for ending death
+@export_file("*.tscn") var outro_cutscene_path: String = "res://scenes/outro_cutscene.tscn"
+
 # Internal state
 var death_type: String = ""
 var animation_started: bool = false
@@ -130,7 +133,7 @@ func _play_ending() -> void:
 	else:
 		DebugLogger.error(module_name, "No ending animation player assigned!")
 	
-	# Start transition timer
+	# Start transition timer - goes to outro cutscene instead
 	_start_transition_timer()
 
 func _play_power_failure() -> void:
@@ -214,7 +217,28 @@ func _start_transition_timer() -> void:
 	
 	await get_tree().create_timer(transition_delay).timeout
 	
-	_transition_to_main_menu()
+	# Check death type to determine where to transition
+	if death_type == "ending":
+		_transition_to_outro_cutscene()
+	else:
+		_transition_to_main_menu()
+
+func _transition_to_outro_cutscene() -> void:
+	DebugLogger.info(module_name, "Transitioning to outro cutscene")
+	
+	# Restore gravity before leaving if we spawned a shattered station
+	if shattered_instance and shattered_instance.has_method("restore_gravity"):
+		shattered_instance.restore_gravity()
+		DebugLogger.debug(module_name, "Restored gravity before transition")
+	
+	# Use TransitionManager if available
+	if TransitionManager:
+		await TransitionManager.fade_to_black()
+		get_tree().change_scene_to_file(outro_cutscene_path)
+		await TransitionManager.fade_from_black()
+	else:
+		# Direct scene change as fallback
+		get_tree().change_scene_to_file(outro_cutscene_path)
 
 func _transition_to_main_menu() -> void:
 	DebugLogger.info(module_name, "Transitioning to main menu")

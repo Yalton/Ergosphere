@@ -7,7 +7,6 @@
 [sub_resource type="Resource" id="Resource_qefdq"]
 script = ExtResource("3_gwfpy")
 text = "Warning. Master fuse tripped. Manual reset required in engine room."
-start_time = 0.0
 end_time = 4.96
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 

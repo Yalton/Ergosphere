@@ -7,7 +7,6 @@
 [sub_resource type="Resource" id="Resource_mmt87"]
 script = ExtResource("2_b634v")
 text = "Warning we are alone now, we dance on the precipace of oblivion. Incomprehensible would be a simplication."
-start_time = 0.0
 end_time = 6.88
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 

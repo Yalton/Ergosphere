@@ -6,11 +6,6 @@
 script = ExtResource("1_j8bk8")
 task_id = "hawking_radiation"
 task_name = "Hawking radiation incoming"
-task_description = ""
 is_emergency = true
-is_secret = false
-emergency_time_limit = 15.0
-failure_consequence = 0
-dependent_on_tasks = Array[String]([])
-related_object_groups = Array[String]([])
+emergency_time_limit = 20.0
 metadata/_custom_type_script = "uid://bxrho0i2t1mql"

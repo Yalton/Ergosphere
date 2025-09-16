@@ -7,7 +7,6 @@
 [sub_resource type="Resource" id="Resource_a1nld"]
 script = ExtResource("3_0ifpy")
 text = "Engine room. Critical systems. Delicate. Minimize time here."
-start_time = 0.0
 end_time = 4.8
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 

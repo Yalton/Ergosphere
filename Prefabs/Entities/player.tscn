@@ -1095,7 +1095,6 @@ theme = ExtResource("11_qmfn3")
 [node name="DevTerminal" parent="PlayerUI" instance=ExtResource("18_k313v")]
 visible = false
 layout_mode = 1
-enable_terminal = false
 
 [node name="TaskContainer" type="HBoxContainer" parent="PlayerUI"]
 layout_mode = 1

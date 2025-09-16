@@ -7,8 +7,6 @@
 [sub_resource type="Resource" id="Resource_xkr08"]
 script = ExtResource("3_axipr")
 text = "Telescope parameters acceptable."
-start_time = 0.0
-end_time = 1.0
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
 [resource]

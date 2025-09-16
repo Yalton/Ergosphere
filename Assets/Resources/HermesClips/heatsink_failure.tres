@@ -8,7 +8,6 @@
 script = ExtResource("2_l4y14")
 text = "Engine heatsink critical failure.
 "
-start_time = 0.0
 end_time = 2.52
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 

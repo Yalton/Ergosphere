@@ -7,7 +7,6 @@
 [sub_resource type="Resource" id="Resource_3jeg8"]
 script = ExtResource("3_rawly")
 text = "Data uploaded successfully."
-start_time = 0.0
 end_time = 1.6
 metadata/_custom_type_script = "uid://dqnus1usgcowd"
 
