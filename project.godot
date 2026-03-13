@@ -8,13 +8,17 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Ergosphere"
 config/description="Does this show up in exports?"
 config/version="0.8"
 run/main_scene="uid://drlsj3opsk8kv"
-config/features=PackedStringArray("4.5", "C#", "Forward Plus")
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 run/max_fps=160
 boot_splash/image="uid://cy1a2f1ctbivh"
 config/icon="uid://cn6owvke6ocl1"

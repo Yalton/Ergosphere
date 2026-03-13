@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=6 format=3 uid="uid://chhfbvtk8yn1u"]
+[gd_resource type="Resource" script_class="HermesVoiceClip" format=3 uid="uid://chhfbvtk8yn1u"]
 
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="1_al4rv"]
 [ext_resource type="AudioStream" uid="uid://de0klipeeof2" path="res://Assets/Audio/HermesLines/TimeAnomaly.ogg" id="1_qid2d"]

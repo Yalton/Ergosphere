@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=5 format=3 uid="uid://ipi0wqmhy0gw"]
+[gd_resource type="Resource" script_class="HermesVoiceClip" format=3 uid="uid://ipi0wqmhy0gw"]
 
 [ext_resource type="AudioStream" uid="uid://v4cqw2rt7qhe" path="res://Assets/Audio/HermesLines/StorageRoom.ogg" id="1_cstly"]
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="2_qhnuo"]

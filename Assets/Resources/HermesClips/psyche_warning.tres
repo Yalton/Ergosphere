@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=6 format=3 uid="uid://cu0yblov63rha"]
+[gd_resource type="Resource" script_class="HermesVoiceClip" format=3 uid="uid://cu0yblov63rha"]
 
 [ext_resource type="AudioStream" uid="uid://ccir78guw75xb" path="res://Assets/Audio/HermesLines/PsycheWarning.ogg" id="1_00oym"]
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="1_juaga"]

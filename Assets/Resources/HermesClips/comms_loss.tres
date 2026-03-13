@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=5 format=3 uid="uid://clj3s54fp6a0k"]
+[gd_resource type="Resource" script_class="HermesVoiceClip" format=3 uid="uid://clj3s54fp6a0k"]
 
 [ext_resource type="AudioStream" uid="uid://d2tjf2uuuhfix" path="res://Assets/Audio/HermesLines/CommsLoss.ogg" id="1_nqjel"]
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="1_qbj7t"]

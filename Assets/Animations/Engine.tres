@@ -1,4 +1,4 @@
-[gd_resource type="AnimationLibrary" load_steps=3 format=3 uid="uid://b3noefb2fppf8"]
+[gd_resource type="AnimationLibrary" format=3 uid="uid://b3noefb2fppf8"]
 
 [sub_resource type="Animation" id="Animation_j2bqq"]
 resource_name = "EngineSpinning"

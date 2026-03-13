@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=5 format=3 uid="uid://dcpdmkb4oms88"]
+[gd_resource type="Resource" script_class="HermesVoiceClip" format=3 uid="uid://dcpdmkb4oms88"]
 
 [ext_resource type="AudioStream" uid="uid://cjd765scwv551" path="res://Assets/Audio/HermesLines/SejanusRadiation.ogg" id="1_41mhx"]
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="1_s4g7m"]

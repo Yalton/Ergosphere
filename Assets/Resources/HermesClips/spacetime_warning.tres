@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="HermesVoiceClip" load_steps=5 format=3 uid="uid://dgcs3mid3s226"]
+[gd_resource type="Resource" script_class="HermesVoiceClip" format=3 uid="uid://dgcs3mid3s226"]
 
 [ext_resource type="Script" uid="uid://cf7k18yawj5tw" path="res://Scripts/Resources/Hermes/HermesClip.gd" id="1_s2bac"]
 [ext_resource type="AudioStream" uid="uid://bvtogg2apr0ta" path="res://Assets/Audio/HermesLines/SpacetimeWarning.ogg" id="1_x2m0j"]
